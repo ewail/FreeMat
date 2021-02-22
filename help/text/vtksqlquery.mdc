@@ -1,0 +1,91 @@
+
+ Usage
+
+The abstract superclass of SQL query classes. Instances of
+subclasses of vtkSQLQuery are created using the
+GetQueryInstance() function in vtkSQLDatabase. To implement
+a query connection for a new database type, subclass both
+vtkSQLDatabase and vtkSQLQuery, and implement the required
+functions. For the query class, this involves the following:
+Execute() - Execute the query on the database. No results
+need to be retrieved at this point, unless you are
+performing caching.
+GetNumberOfFields() - After Execute() is performed, returns
+the number of fields in the query results.
+GetFieldName() - The name of the field at an index.
+GetFieldType() - The data type of the field at an index.
+NextRow() - Advances the query results by one row, and
+returns whether there are more rows left in the query.
+DataValue() - Extract a single data value from the current
+row.
+Begin/Rollback/CommitTransaction() - These methods are
+optional but recommended if the database supports
+transactions.
+.SECTION Thanks Thanks to Andrew Wilson from Sandia National
+Laboratories for his work on the database classes.
+To create an instance of class vtkSQLQuery, simply invoke
+its constructor as follows
+
+    obj = vtkSQLQuery
+
+
+
+ Methods
+
+The class vtkSQLQuery has several methods that can be used.
+They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkSQLQuery class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkSQLQuery = obj.NewInstance ()
+* vtkSQLQuery = obj.SafeDownCast (vtkObject o)
+* bool = obj.SetQuery (string query) - The query string to
+  be executed. Since some databases will process the query
+  string as soon as it's set, this method returns a boolean
+  to indicate success or failure.
+* string = obj.GetQuery () - The query string to be
+  executed. Since some databases will process the query
+  string as soon as it's set, this method returns a boolean
+  to indicate success or failure.
+* bool = obj.IsActive () - Execute the query. This must be
+  performed before any field name or data access functions
+  are used.
+* bool = obj.Execute () - Execute the query. This must be
+  performed before any field name or data access functions
+  are used.
+* bool = obj.BeginTransaction () - Begin, commit, or roll
+  back a transaction. If the underlying database does not
+  support transactions these calls will do nothing.
+* bool = obj.CommitTransaction () - Begin, commit, or roll
+  back a transaction. If the underlying database does not
+  support transactions these calls will do nothing.
+* bool = obj.RollbackTransaction () - Return the database
+  associated with the query.
+* vtkSQLDatabase = obj.GetDatabase () - Return the database
+  associated with the query.
+* bool = obj.BindParameter (int index, int value)
+* bool = obj.BindParameter (int index, float value)
+* bool = obj.BindParameter (int index, double value)
+* bool = obj.BindParameter (int index, string stringValue) -
+  Bind a string value &ndash; string must be null-terminated
+* bool = obj.ClearParameterBindings () - Reset all parameter
+  bindings to NULL.
+* string = obj.EscapeString (string src, bool
+  addSurroundingQuotes) - Escape a string for inclusion into
+  an SQL query. This method exists to provide a wrappable
+  version of the method that takes and returns vtkStdString
+  objects. You are responsible for calling delete [] on the
+  character array returned by this method. This method
+  simply calls the vtkStdString variant and thus need not be
+  re-implemented by subclasses.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_IO_Classes
+* Generated on Thu Jul 25 2013 17:18:34 for FreeMat by
+  doxygen_ 1.8.1.1
+

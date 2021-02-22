@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkgraphics_vtkedgesubdivisioncriterion" kind="page">
+    <compoundname>vtkgraphics_vtkedgesubdivisioncriterion</compoundname>
+    <title>vtkEdgeSubdivisionCriterion</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkgraphics_1sec_vtkgraphics" kindref="member">Visualization Toolkit Graphics Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>Descendants of this abstract class are used to decide whether a piecewise linear approximation (triangles, lines, ... ) to some nonlinear geometry should be subdivided. This decision may be based on an absolute error metric (chord error) or on some view-dependent metric (chord error compared to device resolution) or on some abstract metric (color error). Or anything else, really. Just so long as you implement the EvaluateEdge member, all will be well.</para><para>To create an instance of class vtkEdgeSubdivisionCriterion, simply invoke its constructor as follows <verbatim>  obj = vtkEdgeSubdivisionCriterion
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkEdgeSubdivisionCriterion has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkEdgeSubdivisionCriterion class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkEdgeSubdivisionCriterion = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkEdgeSubdivisionCriterion = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>bool = obj.EvaluateEdge (double p0, double p1, double p2, int field_start)</computeroutput> - You must implement this member function in a subclass. It will be called by <computeroutput>vtkStreamingTessellator</computeroutput> for each edge in each primitive that vtkStreamingTessellator generates.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.PassField (int sourceId, int sourceSize, vtkStreamingTessellator t)</computeroutput> - This is a helper routine called by <computeroutput>PassFields()</computeroutput> which you may also call directly; it adds <emphasis>sourceSize</emphasis> to the size of the output vertex field values. The offset of the <emphasis>sourceId</emphasis> field in the output vertex array is returned. -1 is returned if <emphasis>sourceSize</emphasis> would force the output to have more than <emphasis>vtkStreamingTessellator::MaxFieldSize</emphasis> field values per vertex.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ResetFieldList ()</computeroutput> - Don&apos;t pass any field values in the vertex pointer. This is used to reset the list of fields to pass after a successful run of vtkStreamingTessellator.  </para></listitem>
+<listitem>
+<para><computeroutput>bool = obj.DontPassField (int sourceId, vtkStreamingTessellator t)</computeroutput> - This does the opposite of <computeroutput>PassField()</computeroutput>; it removes a field from the output (assuming the field was set to be passed). Returns true if any action was taken, false otherwise.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetOutputField (int fieldId) const</computeroutput> - Return the output ID of an input field. Returns -1 if <emphasis>fieldId</emphasis> is not set to be passed to the output.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetNumberOfFields () const</computeroutput> - Return the number of fields being evaluated at each output vertex. This is the length of the arrays returned by <computeroutput>GetFieldIds()</computeroutput> and <computeroutput>GetFieldOffsets()</computeroutput>.  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,84 @@
+
+ Usage
+
+The threadkill function stops (or attempts to stop)
+execution of the given thread. It works only for functions
+defined in M-files (i.e., not for built in or imported
+functions), and it works by setting a flag that causes the
+thread to stop execution at the next available statement.
+The syntax for this function is
+
+    threadkill(handle)
+
+where handle is the value returned by a threadnew call. Note
+that the threadkill function returns immediately. It is
+still your responsibility to call threadfree to free the
+thread you have halted.
+You cannot kill the main thread (thread id 1).
+
+
+ Example
+
+Here is an example of stopping a runaway thread using
+threadkill. Note that the thread function in this case is an
+M-file function. We start by setting up a free running
+counter, where we can access the counter from the global
+variables.
+
+       freecount.m
+
+
+  function freecount
+    global count
+    if (~exist('count')) count = 0; end  % Initialize the
+  counter
+    while (1)
+      count = count + 1;                 % Update the
+  counter
+    end
+
+We now launch this function in a thread, and use threadkill
+to stop it:
+
+  --> a = threadnew;
+  --> global count                   % register the global
+  variable count
+  --> count = 0;
+  --> threadstart(a,'freecount',0)   % start the thread
+  --> count                          % it is counting
+
+  ans =
+   0
+
+  --> sleep(1)                       % Wait a bit
+  --> count                          % it is still counting
+
+  ans =
+   225458
+
+  --> threadkill(a)                  % kill the counter
+  --> threadwait(a,1000)             % wait for it to finish
+
+  ans =
+   1
+
+  --> count                          % The count will no
+  longer increase
+
+  ans =
+   225497
+
+  --> sleep(1)
+  --> count
+
+  ans =
+   225497
+
+  --> threadfree(a)
+
+
+* FreeMat_Documentation
+* FreeMat_Threads
+* Generated on Thu Jul 25 2013 17:18:29 for FreeMat by
+  doxygen_ 1.8.1.1
+

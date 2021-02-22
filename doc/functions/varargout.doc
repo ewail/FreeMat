@@ -1,0 +1,54 @@
+/*!
+\page functions_varargout VARARGOUT Variable Output Arguments
+
+<p>
+Section: \ref sec_functions "Functions and Scripts"
+\section Usage
+FreeMat functions can return a variable number of output arguments
+by setting the last argument in the argument list to <tt>varargout</tt>.
+This special keyword indicates that the number of return values
+is variable.  The general syntax for a function that returns
+a variable number of outputs is
+\verbatim
+  function [out_1,...,out_M,varargout] = fname(in_1,...,in_M)
+\endverbatim
+The function is responsible for ensuring that <tt>varargout</tt> is
+a cell array that contains the values to assign to the outputs
+beyond <tt>out_M</tt>.  Generally, variable output functions use
+<tt>nargout</tt> to figure out how many outputs have been requested.
+\section Example
+This is a function that returns a varying number of values
+depending on the value of the argument.
+
+\if FILE
+varoutfunc.m
+function [varargout] = varoutfunc
+  switch(nargout)
+    case 1
+      varargout = {'one of one'};
+    case 2
+      varargout = {'one of two','two of two'};
+    case 3
+      varargout = {'one of three','two of three','three of three'};
+  end
+\endif
+\verbatim
+     varoutfunc.m
+\endverbatim
+
+\verbinclude varoutfunc.m
+
+Here are some examples of exercising <tt>varoutfunc</tt>:
+
+\if FRAGMENT
+frag_functions_varargout_000.m
+0
+[c1] = varoutfunc
+[c1,c2] = varoutfunc
+[c1,c2,c3] = varoutfunc
+\endif
+
+
+\verbinclude frag_functions_varargout_000.m.out 
+
+*/

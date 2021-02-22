@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="handle_winlev" kind="page">
+    <compoundname>handle_winlev</compoundname>
+    <title>WINLEV Image Window-Level Function</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_handle_1sec_handle" kindref="member">Handle-Based Graphics</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>Adjusts the data range used to map the current image to the current colormap. The general syntax for its use is <verbatim>  winlev(window,level)
+</verbatim> where <computeroutput>window</computeroutput> is the new window, and <computeroutput>level</computeroutput> is the new level, or <verbatim>  winlev
+</verbatim> in which case it returns a vector containing the current window and level for the active image. </para></sect1>
+<sect1 id="transforms_svd_1Function">
+<title>Internals</title>
+<para>FreeMat deals with scalar images on the range of <computeroutput>[0,1]</computeroutput>, and must therefor map an arbitrary image <computeroutput>x</computeroutput> to this range before it can be displayed. By default, the <computeroutput>image</computeroutput> command chooses <formula id="36">\[ \mathrm{window} = \max x - \min x, \]</formula> and <formula id="37">\[ \mathrm{level} = \frac{\mathrm{window}}{2} \]</formula> This ensures that the entire range of image values in <computeroutput>x</computeroutput> are mapped to the screen. With the <computeroutput>winlev</computeroutput> function, you can change the range of values mapped. In general, before display, a pixel <computeroutput>x</computeroutput> is mapped to <computeroutput>[0,1]</computeroutput> via: <formula id="38">\[ \max\left(0,\min\left(1,\frac{x - \mathrm{level}}{\mathrm{window}} \right)\right) \]</formula> </para></sect1>
+<sect1 id="variables_matrix_1Examples">
+<title>Examples</title>
+<para>The window level function is fairly easy to demonstrate. Consider the following image, which is a Gaussian pulse image that is very narrow:</para><para><verbatim>--&gt; t = linspace(-1,1,256);
+--&gt; xmat = ones(256,1)*t; ymat = xmat&apos;;
+--&gt; A = exp(-(xmat.^2 + ymat.^2)*100);
+--&gt; image(A);
+</verbatim></para><para>The data range of <computeroutput>A</computeroutput> is <computeroutput>[0,1]</computeroutput>, as we can verify numerically:</para><para><verbatim>--&gt; min(A(:))
+
+ans = 
+ 1.3839e-87 
+
+--&gt; max(A(:))
+
+ans = 
+    0.9969 
+</verbatim></para><para>To see the tail behavior, we use the <computeroutput>winlev</computeroutput> command to force FreeMat to map a smaller range of <computeroutput>A</computeroutput> to the colormap.</para><para><verbatim>--&gt; image(A);
+--&gt; winlev(1e-4,0.5e-4)
+</verbatim></para><para>The result is a look at more of the tail behavior of <computeroutput>A</computeroutput>. We can also use the winlev function to find out what the window and level are once set, as in the following example.</para><para><verbatim>--&gt; image(A);
+--&gt; winlev(1e-4,0.5e-4)
+--&gt; winlev
+
+ans = 
+ 1.0000e-04 
+</verbatim> </para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,338 @@
+/*!
+\page vtkfiltering_vtkimagedata vtkImageData
+
+<p>
+Section: \ref sec_vtkfiltering "Visualization Toolkit Filtering Classes"
+\section Usage
+ vtkImageData is a data object that is a concrete implementation of
+ vtkDataSet. vtkImageData represents a geometric structure that is
+ a topological and geometrical regular array of points. Examples include
+ volumes (voxel data) and pixmaps.
+
+To create an instance of class vtkImageData, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkImageData
+\endverbatim
+\section Methods
+The class vtkImageData has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkImageData class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkImageData = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkImageData = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.CopyStructure (vtkDataSet ds)</tt> -  Copy the geometric and topological structure of an input image data
+ object.
+ </LI>
+<LI>  <tt>int = obj.GetDataObjectType ()</tt> -  Return what type of dataset this is.
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetNumberOfCells ()</tt> -  Standard vtkDataSet API methods. See vtkDataSet for more information.
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetNumberOfPoints ()</tt> -  Standard vtkDataSet API methods. See vtkDataSet for more information.
+ </LI>
+<LI>  <tt>double = obj.GetPoint (vtkIdType ptId)</tt> -  Standard vtkDataSet API methods. See vtkDataSet for more information.
+ </LI>
+<LI>  <tt>obj.GetPoint (vtkIdType id, double x[3])</tt> -  Standard vtkDataSet API methods. See vtkDataSet for more information.
+ </LI>
+<LI>  <tt>vtkCell = obj.GetCell (vtkIdType cellId)</tt> -  Standard vtkDataSet API methods. See vtkDataSet for more information.
+ </LI>
+<LI>  <tt>obj.GetCell (vtkIdType cellId, vtkGenericCell cell)</tt> -  Standard vtkDataSet API methods. See vtkDataSet for more information.
+ </LI>
+<LI>  <tt>obj.GetCellBounds (vtkIdType cellId, double bounds[6])</tt> -  Standard vtkDataSet API methods. See vtkDataSet for more information.
+ </LI>
+<LI>  <tt>vtkIdType = obj.FindPoint (double x, double y, double z)</tt> -  Standard vtkDataSet API methods. See vtkDataSet for more information.
+ </LI>
+<LI>  <tt>vtkIdType = obj.FindPoint (double x[3])</tt> -  Standard vtkDataSet API methods. See vtkDataSet for more information.
+ </LI>
+<LI>  <tt>int = obj.GetCellType (vtkIdType cellId)</tt> -  Standard vtkDataSet API methods. See vtkDataSet for more information.
+ </LI>
+<LI>  <tt>obj.GetCellPoints (vtkIdType cellId, vtkIdList ptIds)</tt> -  Standard vtkDataSet API methods. See vtkDataSet for more information.
+ </LI>
+<LI>  <tt>obj.GetPointCells (vtkIdType ptId, vtkIdList cellIds)</tt> -  Standard vtkDataSet API methods. See vtkDataSet for more information.
+ </LI>
+<LI>  <tt>obj.ComputeBounds ()</tt> -  Standard vtkDataSet API methods. See vtkDataSet for more information.
+ </LI>
+<LI>  <tt>int = obj.GetMaxCellSize ()</tt> -  Standard vtkDataSet API methods. See vtkDataSet for more information.
+ </LI>
+<LI>  <tt>obj.Initialize ()</tt> -  Restore data object to initial state,
+ </LI>
+<LI>  <tt>obj.SetDimensions (int i, int j, int k)</tt> -  Pass your way. This is for backward compatibility only.
+ Use SetExtent() instead.
+ Same as SetExtent(0, i-1, 0, j-1, 0, k-1)
+ </LI>
+<LI>  <tt>obj.SetDimensions (int dims[3])</tt> -  Pass your way. This is for backward compatibility only.
+ Use SetExtent() instead.
+ Same as SetExtent(0, dims[0]-1, 0, dims[1]-1, 0, dims[2]-1)
+ </LI>
+<LI>  <tt>int = obj.GetDimensions ()</tt> -  Get dimensions of this structured points dataset.
+ It is the number of points on each axis.
+ Dimensions are computed from Extents during this call.
+ </LI>
+<LI>  <tt>obj.GetDimensions (int dims[3])</tt> -  Get dimensions of this structured points dataset.
+ It is the number of points on each axis.
+ Dimensions are computed from Extents during this call.
+ </LI>
+<LI>  <tt>int = obj.ComputeStructuredCoordinates (double x[3], int ijk[3], double pcoords[3])</tt> -  Convenience function computes the structured coordinates for a point x[3].
+ The voxel is specified by the array ijk[3], and the parametric coordinates
+ in the cell are specified with pcoords[3]. The function returns a 0 if the
+ point x is outside of the volume, and a 1 if inside the volume.
+ </LI>
+<LI>  <tt>obj.GetVoxelGradient (int i, int j, int k, vtkDataArray s, vtkDataArray g)</tt> -  Given structured coordinates (i,j,k) for a voxel cell, compute the eight
+ gradient values for the voxel corners. The order in which the gradient
+ vectors are arranged corresponds to the ordering of the voxel points.
+ Gradient vector is computed by central differences (except on edges of
+ volume where forward difference is used). The scalars s are the scalars
+ from which the gradient is to be computed. This method will treat
+ only 3D structured point datasets (i.e., volumes).
+ </LI>
+<LI>  <tt>obj.GetPointGradient (int i, int j, int k, vtkDataArray s, double g[3])</tt> -  Given structured coordinates (i,j,k) for a point in a structured point
+ dataset, compute the gradient vector from the scalar data at that point.
+ The scalars s are the scalars from which the gradient is to be computed.
+ This method will treat structured point datasets of any dimension.
+ </LI>
+<LI>  <tt>int = obj.GetDataDimension ()</tt> -  Return the dimensionality of the data.
+ </LI>
+<LI>  <tt>vtkIdType = obj.ComputePointId (int ijk[3])</tt> -  Given a location in structured coordinates (i-j-k), return the point id.
+ </LI>
+<LI>  <tt>vtkIdType = obj.ComputeCellId (int ijk[3])</tt> -  Given a location in structured coordinates (i-j-k), return the cell id.
+ </LI>
+<LI>  <tt>obj.SetAxisUpdateExtent (int axis, int min, int max)</tt> -  Set / Get the extent on just one axis
+ </LI>
+<LI>  <tt>obj.UpdateInformation ()</tt> -  Override to copy information from pipeline information to data
+ information for backward compatibility.  See
+ vtkDataObject::UpdateInformation for details.
+ </LI>
+<LI>  <tt>obj.SetExtent (int extent[6])</tt> -  Set/Get the extent. On each axis, the extent is defined by the index
+ of the first point and the index of the last point.  The extent should
+ be set before the "Scalars" are set or allocated.  The Extent is
+ stored in the order (X, Y, Z).
+ The dataset extent does not have to start at (0,0,0). (0,0,0) is just the
+ extent of the origin.
+ The first point (the one with Id=0) is at extent
+ (Extent[0],Extent[2],Extent[4]). As for any dataset, a data array on point
+ data starts at Id=0.
+ </LI>
+<LI>  <tt>obj.SetExtent (int x1, int x2, int y1, int y2, int z1, int z2)</tt> -  Set/Get the extent. On each axis, the extent is defined by the index
+ of the first point and the index of the last point.  The extent should
+ be set before the "Scalars" are set or allocated.  The Extent is
+ stored in the order (X, Y, Z).
+ The dataset extent does not have to start at (0,0,0). (0,0,0) is just the
+ extent of the origin.
+ The first point (the one with Id=0) is at extent
+ (Extent[0],Extent[2],Extent[4]). As for any dataset, a data array on point
+ data starts at Id=0.
+ </LI>
+<LI>  <tt>int = obj. GetExtent ()</tt> -  Set/Get the extent. On each axis, the extent is defined by the index
+ of the first point and the index of the last point.  The extent should
+ be set before the "Scalars" are set or allocated.  The Extent is
+ stored in the order (X, Y, Z).
+ The dataset extent does not have to start at (0,0,0). (0,0,0) is just the
+ extent of the origin.
+ The first point (the one with Id=0) is at extent
+ (Extent[0],Extent[2],Extent[4]). As for any dataset, a data array on point
+ data starts at Id=0.
+ </LI>
+<LI>  <tt>long = obj.GetEstimatedMemorySize ()</tt> -  Get the estimated size of this data object itself. Should be called
+ after UpdateInformation() and PropagateUpdateExtent() have both been
+ called. This estimate should be fairly accurate since this is structured
+ data.
+ </LI>
+<LI>  <tt>double = obj.GetScalarTypeMin ()</tt> -  These returns the minimum and maximum values the ScalarType can hold
+ without overflowing.
+ </LI>
+<LI>  <tt>double = obj.GetScalarTypeMax ()</tt> -  These returns the minimum and maximum values the ScalarType can hold
+ without overflowing.
+ </LI>
+<LI>  <tt>int = obj.GetScalarSize ()</tt> -  Set the size of the scalar type in bytes.
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetIncrements ()</tt> -  Different ways to get the increments for moving around the data.
+ GetIncrements() calls ComputeIncrements() to ensure the increments are
+ up to date.
+ </LI>
+<LI>  <tt>obj.GetIncrements (vtkIdType inc[3])</tt> -  Different ways to get the increments for moving around the data.
+ GetIncrements() calls ComputeIncrements() to ensure the increments are
+ up to date.
+ </LI>
+<LI>  <tt>float = obj.GetScalarComponentAsFloat (int x, int y, int z, int component)</tt> -  For access to data from tcl
+ </LI>
+<LI>  <tt>obj.SetScalarComponentFromFloat (int x, int y, int z, int component, float v)</tt> -  For access to data from tcl
+ </LI>
+<LI>  <tt>double = obj.GetScalarComponentAsDouble (int x, int y, int z, int component)</tt> -  For access to data from tcl
+ </LI>
+<LI>  <tt>obj.SetScalarComponentFromDouble (int x, int y, int z, int component, double v)</tt> -  For access to data from tcl
+ </LI>
+<LI>  <tt>obj.AllocateScalars ()</tt> -  Allocate the vtkScalars object associated with this object.
+ </LI>
+<LI>  <tt>obj.CopyAndCastFrom (vtkImageData inData, int extent[6])</tt> -  This method is passed a input and output region, and executes the filter
+ algorithm to fill the output from the input.
+ It just executes a switch statement to call the correct function for
+ the regions data types.
+ </LI>
+<LI>  <tt>obj.CopyAndCastFrom (vtkImageData inData, int x0, int x1, int y0, int y1, int z0, int z1)</tt> -  Reallocates and copies to set the Extent to the UpdateExtent.
+ This is used internally when the exact extent is requested,
+ and the source generated more than the update extent.
+ </LI>
+<LI>  <tt>obj.Crop ()</tt> -  Reallocates and copies to set the Extent to the UpdateExtent.
+ This is used internally when the exact extent is requested,
+ and the source generated more than the update extent.
+ </LI>
+<LI>  <tt>long = obj.GetActualMemorySize ()</tt> -  Return the actual size of the data in kilobytes. This number
+ is valid only after the pipeline has updated. The memory size
+ returned is guaranteed to be greater than or equal to the
+ memory required to represent the data (e.g., extra space in
+ arrays, etc. are not included in the return value). THIS METHOD
+ IS THREAD SAFE.
+ </LI>
+<LI>  <tt>obj.SetSpacing (double , double , double )</tt> -  Set the spacing (width,height,length) of the cubical cells that
+ compose the data set.
+ </LI>
+<LI>  <tt>obj.SetSpacing (double  a[3])</tt> -  Set the spacing (width,height,length) of the cubical cells that
+ compose the data set.
+ </LI>
+<LI>  <tt>double = obj. GetSpacing ()</tt> -  Set the spacing (width,height,length) of the cubical cells that
+ compose the data set.
+ </LI>
+<LI>  <tt>obj.SetOrigin (double , double , double )</tt> -  Set/Get the origin of the dataset. The origin is the position in world
+ coordinates of the point of extent (0,0,0). This point does not have to be
+ part of the dataset, in other words, the dataset extent does not have to
+ start at (0,0,0) and the origin can be outside of the dataset bounding
+ box.
+ The origin plus spacing determine the position in space of the points.
+ </LI>
+<LI>  <tt>obj.SetOrigin (double  a[3])</tt> -  Set/Get the origin of the dataset. The origin is the position in world
+ coordinates of the point of extent (0,0,0). This point does not have to be
+ part of the dataset, in other words, the dataset extent does not have to
+ start at (0,0,0) and the origin can be outside of the dataset bounding
+ box.
+ The origin plus spacing determine the position in space of the points.
+ </LI>
+<LI>  <tt>double = obj. GetOrigin ()</tt> -  Set/Get the origin of the dataset. The origin is the position in world
+ coordinates of the point of extent (0,0,0). This point does not have to be
+ part of the dataset, in other words, the dataset extent does not have to
+ start at (0,0,0) and the origin can be outside of the dataset bounding
+ box.
+ The origin plus spacing determine the position in space of the points.
+ </LI>
+<LI>  <tt>obj.SetScalarTypeToFloat ()</tt> -  Set/Get the data scalar type (i.e VTK_DOUBLE). Note that these methods
+ are setting and getting the pipeline scalar type. i.e. they are setting
+ the type that the image data will be once it has executed. Until the
+ REQUEST_DATA pass the actual scalars may be of some other type. This is
+ for backwards compatibility
+ </LI>
+<LI>  <tt>obj.SetScalarTypeToDouble ()</tt> -  Set/Get the data scalar type (i.e VTK_DOUBLE). Note that these methods
+ are setting and getting the pipeline scalar type. i.e. they are setting
+ the type that the image data will be once it has executed. Until the
+ REQUEST_DATA pass the actual scalars may be of some other type. This is
+ for backwards compatibility
+ </LI>
+<LI>  <tt>obj.SetScalarTypeToInt ()</tt> -  Set/Get the data scalar type (i.e VTK_DOUBLE). Note that these methods
+ are setting and getting the pipeline scalar type. i.e. they are setting
+ the type that the image data will be once it has executed. Until the
+ REQUEST_DATA pass the actual scalars may be of some other type. This is
+ for backwards compatibility
+ </LI>
+<LI>  <tt>obj.SetScalarTypeToUnsignedInt ()</tt> -  Set/Get the data scalar type (i.e VTK_DOUBLE). Note that these methods
+ are setting and getting the pipeline scalar type. i.e. they are setting
+ the type that the image data will be once it has executed. Until the
+ REQUEST_DATA pass the actual scalars may be of some other type. This is
+ for backwards compatibility
+ </LI>
+<LI>  <tt>obj.SetScalarTypeToLong ()</tt> -  Set/Get the data scalar type (i.e VTK_DOUBLE). Note that these methods
+ are setting and getting the pipeline scalar type. i.e. they are setting
+ the type that the image data will be once it has executed. Until the
+ REQUEST_DATA pass the actual scalars may be of some other type. This is
+ for backwards compatibility
+ </LI>
+<LI>  <tt>obj.SetScalarTypeToUnsignedLong ()</tt> -  Set/Get the data scalar type (i.e VTK_DOUBLE). Note that these methods
+ are setting and getting the pipeline scalar type. i.e. they are setting
+ the type that the image data will be once it has executed. Until the
+ REQUEST_DATA pass the actual scalars may be of some other type. This is
+ for backwards compatibility
+ </LI>
+<LI>  <tt>obj.SetScalarTypeToShort ()</tt> -  Set/Get the data scalar type (i.e VTK_DOUBLE). Note that these methods
+ are setting and getting the pipeline scalar type. i.e. they are setting
+ the type that the image data will be once it has executed. Until the
+ REQUEST_DATA pass the actual scalars may be of some other type. This is
+ for backwards compatibility
+ </LI>
+<LI>  <tt>obj.SetScalarTypeToUnsignedShort ()</tt> -  Set/Get the data scalar type (i.e VTK_DOUBLE). Note that these methods
+ are setting and getting the pipeline scalar type. i.e. they are setting
+ the type that the image data will be once it has executed. Until the
+ REQUEST_DATA pass the actual scalars may be of some other type. This is
+ for backwards compatibility
+ </LI>
+<LI>  <tt>obj.SetScalarTypeToUnsignedChar ()</tt> -  Set/Get the data scalar type (i.e VTK_DOUBLE). Note that these methods
+ are setting and getting the pipeline scalar type. i.e. they are setting
+ the type that the image data will be once it has executed. Until the
+ REQUEST_DATA pass the actual scalars may be of some other type. This is
+ for backwards compatibility
+ </LI>
+<LI>  <tt>obj.SetScalarTypeToSignedChar ()</tt> -  Set/Get the data scalar type (i.e VTK_DOUBLE). Note that these methods
+ are setting and getting the pipeline scalar type. i.e. they are setting
+ the type that the image data will be once it has executed. Until the
+ REQUEST_DATA pass the actual scalars may be of some other type. This is
+ for backwards compatibility
+ </LI>
+<LI>  <tt>obj.SetScalarTypeToChar ()</tt> -  Set/Get the data scalar type (i.e VTK_DOUBLE). Note that these methods
+ are setting and getting the pipeline scalar type. i.e. they are setting
+ the type that the image data will be once it has executed. Until the
+ REQUEST_DATA pass the actual scalars may be of some other type. This is
+ for backwards compatibility
+ </LI>
+<LI>  <tt>obj.SetScalarType (int )</tt> -  Set/Get the data scalar type (i.e VTK_DOUBLE). Note that these methods
+ are setting and getting the pipeline scalar type. i.e. they are setting
+ the type that the image data will be once it has executed. Until the
+ REQUEST_DATA pass the actual scalars may be of some other type. This is
+ for backwards compatibility
+ </LI>
+<LI>  <tt>int = obj.GetScalarType ()</tt> -  Set/Get the data scalar type (i.e VTK_DOUBLE). Note that these methods
+ are setting and getting the pipeline scalar type. i.e. they are setting
+ the type that the image data will be once it has executed. Until the
+ REQUEST_DATA pass the actual scalars may be of some other type. This is
+ for backwards compatibility
+ </LI>
+<LI>  <tt>string = obj.GetScalarTypeAsString ()</tt> -  Set/Get the data scalar type (i.e VTK_DOUBLE). Note that these methods
+ are setting and getting the pipeline scalar type. i.e. they are setting
+ the type that the image data will be once it has executed. Until the
+ REQUEST_DATA pass the actual scalars may be of some other type. This is
+ for backwards compatibility
+ </LI>
+<LI>  <tt>obj.SetNumberOfScalarComponents (int n)</tt> -  Set/Get the number of scalar components for points. As with the
+ SetScalarType method this is setting pipeline info.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfScalarComponents ()</tt> -  Set/Get the number of scalar components for points. As with the
+ SetScalarType method this is setting pipeline info.
+ </LI>
+<LI>  <tt>obj.CopyTypeSpecificInformation (vtkDataObject image)</tt>
+ </LI>
+<LI>  <tt>obj.CopyInformationToPipeline (vtkInformation request, vtkInformation input, vtkInformation output, int forceCopy)</tt> -  Override these to handle origin, spacing, scalar type, and scalar
+ number of components.  See vtkDataObject for details.
+ </LI>
+<LI>  <tt>obj.CopyInformationFromPipeline (vtkInformation request)</tt> -  Override these to handle origin, spacing, scalar type, and scalar
+ number of components.  See vtkDataObject for details.
+ </LI>
+<LI>  <tt>obj.PrepareForNewData ()</tt> -  make the output data ready for new data to be inserted. For most
+ objects we just call Initialize. But for image data we leave the old
+ data in case the memory can be reused.
+ </LI>
+<LI>  <tt>obj.ShallowCopy (vtkDataObject src)</tt> -  Shallow and Deep copy.
+ </LI>
+<LI>  <tt>obj.DeepCopy (vtkDataObject src)</tt> -  Shallow and Deep copy.
+ </LI>
+<LI>  <tt>obj.ComputeInternalExtent (int intExt, int tgtExt, int bnds)</tt> -  Given how many pixel are required on a side for bounrary conditions (in
+ bnds), the target extent to traverse, compute the internal extent (the
+ extent for this ImageData that does nto suffer from any boundary
+ conditions) and place it in intExt
+ </LI>
+<LI>  <tt>int = obj.GetExtentType ()</tt> -  The extent type is a 3D extent
+ </LI>
+</UL>
+*/

@@ -1,0 +1,136 @@
+/*!
+\page vtkgraphics_vtktessellatorfilter vtkTessellatorFilter
+
+<p>
+Section: \ref sec_vtkgraphics "Visualization Toolkit Graphics Classes"
+\section Usage
+ This class approximates nonlinear FEM elements with linear simplices.
+
+ <b>Warning</b>: This class is temporary and will go away at some point
+ after ParaView 1.4.0.
+
+ This filter rifles through all the cells in an input vtkDataSet. It
+ tesselates each cell and uses the vtkStreamingTessellator and
+ vtkDataSetEdgeSubdivisionCriterion classes to generate simplices that
+ approximate the nonlinear mesh using some approximation metric (encoded
+ in the particular vtkDataSetEdgeSubdivisionCriterion::EvaluateEdge
+ implementation). The simplices are placed into the filter's output
+ vtkDataSet object by the callback routines AddATetrahedron,
+ AddATriangle, and AddALine, which are registered with the triangulator.
+
+ The output mesh will have geometry and any fields specified as
+ attributes in the input mesh's point data.  The attribute's copy flags
+ are honored, except for normals.
+
+ .SECTION Internals
+
+ The filter's main member function is RequestData(). This function first
+ calls SetupOutput() which allocates arrays and some temporary variables
+ for the primitive callbacks (OutputTriangle and OutputLine which are
+ called by AddATriangle and AddALine, respectively).  Each cell is given
+ an initial tesselation, which results in one or more calls to
+ OutputTetrahedron, OutputTriangle or OutputLine to add elements to the
+ OutputMesh. Finally, Teardown() is called to free the filter's working
+ space.
+
+
+To create an instance of class vtkTessellatorFilter, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkTessellatorFilter
+\endverbatim
+\section Methods
+The class vtkTessellatorFilter has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkTessellatorFilter class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkTessellatorFilter = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkTessellatorFilter = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetTessellator (vtkStreamingTessellator )</tt>
+ </LI>
+<LI>  <tt>vtkStreamingTessellator = obj.GetTessellator ()</tt>
+ </LI>
+<LI>  <tt>obj.SetSubdivider (vtkDataSetEdgeSubdivisionCriterion )</tt>
+ </LI>
+<LI>  <tt>vtkDataSetEdgeSubdivisionCriterion = obj.GetSubdivider ()</tt>
+ </LI>
+<LI>  <tt>long = obj.GetMTime ()</tt>
+ </LI>
+<LI>  <tt>obj.SetOutputDimension (int )</tt> -  Set the dimension of the output tessellation.
+ Cells in dimensions higher than the given value will have
+ their boundaries of dimension \a OutputDimension tessellated.
+ For example, if \a OutputDimension is 2, a hexahedron's
+ quadrilateral faces would be tessellated rather than its
+ interior.
+ </LI>
+<LI>  <tt>int = obj.GetOutputDimensionMinValue ()</tt> -  Set the dimension of the output tessellation.
+ Cells in dimensions higher than the given value will have
+ their boundaries of dimension \a OutputDimension tessellated.
+ For example, if \a OutputDimension is 2, a hexahedron's
+ quadrilateral faces would be tessellated rather than its
+ interior.
+ </LI>
+<LI>  <tt>int = obj.GetOutputDimensionMaxValue ()</tt> -  Set the dimension of the output tessellation.
+ Cells in dimensions higher than the given value will have
+ their boundaries of dimension \a OutputDimension tessellated.
+ For example, if \a OutputDimension is 2, a hexahedron's
+ quadrilateral faces would be tessellated rather than its
+ interior.
+ </LI>
+<LI>  <tt>int = obj.GetOutputDimension ()</tt> -  Set the dimension of the output tessellation.
+ Cells in dimensions higher than the given value will have
+ their boundaries of dimension \a OutputDimension tessellated.
+ For example, if \a OutputDimension is 2, a hexahedron's
+ quadrilateral faces would be tessellated rather than its
+ interior.
+ </LI>
+<LI>  <tt>obj.SetMaximumNumberOfSubdivisions (int num_subdiv_in)</tt> -  These are convenience routines for setting properties maintained by the
+ tessellator and subdivider. They are implemented here for ParaView's
+ sake.
+ </LI>
+<LI>  <tt>int = obj.GetMaximumNumberOfSubdivisions ()</tt> -  These are convenience routines for setting properties maintained by the
+ tessellator and subdivider. They are implemented here for ParaView's
+ sake.
+ </LI>
+<LI>  <tt>obj.SetChordError (double ce)</tt> -  These are convenience routines for setting properties maintained by the
+ tessellator and subdivider. They are implemented here for ParaView's
+ sake.
+ </LI>
+<LI>  <tt>double = obj.GetChordError ()</tt> -  These are convenience routines for setting properties maintained by the
+ tessellator and subdivider. They are implemented here for ParaView's
+ sake.
+ </LI>
+<LI>  <tt>obj.ResetFieldCriteria ()</tt> -  These methods are for the ParaView client.
+ </LI>
+<LI>  <tt>obj.SetFieldCriterion (int field, double chord)</tt> -  These methods are for the ParaView client.
+ </LI>
+<LI>  <tt>int = obj.GetMergePoints ()</tt> -  The adaptive tessellation will output vertices that are not shared
+ among cells, even where they should be. This can be corrected to
+ some extents with a vtkMergeFilter.
+ By default, the filter is off and vertices will not be shared.
+ </LI>
+<LI>  <tt>obj.SetMergePoints (int )</tt> -  The adaptive tessellation will output vertices that are not shared
+ among cells, even where they should be. This can be corrected to
+ some extents with a vtkMergeFilter.
+ By default, the filter is off and vertices will not be shared.
+ </LI>
+<LI>  <tt>obj.MergePointsOn ()</tt> -  The adaptive tessellation will output vertices that are not shared
+ among cells, even where they should be. This can be corrected to
+ some extents with a vtkMergeFilter.
+ By default, the filter is off and vertices will not be shared.
+ </LI>
+<LI>  <tt>obj.MergePointsOff ()</tt> -  The adaptive tessellation will output vertices that are not shared
+ among cells, even where they should be. This can be corrected to
+ some extents with a vtkMergeFilter.
+ By default, the filter is off and vertices will not be shared.
+ </LI>
+</UL>
+*/

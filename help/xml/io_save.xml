@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="io_save" kind="page">
+    <compoundname>io_save</compoundname>
+    <title>SAVE Save Variables To A File</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_io_1sec_io" kindref="member">Input/Ouput Functions</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>Saves a set of variables to a file in a machine independent format. There are two formats for the function call. The first is the explicit form, in which a list of variables are provided to write to the file: <verbatim>  save filename a1 a2 ...
+</verbatim> In the second form, <verbatim>  save filename
+</verbatim> all variables in the current context are written to the file. The format of the file is a simple binary encoding (raw) of the data with enough information to restore the variables with the <computeroutput>load</computeroutput> command. The endianness of the machine is encoded in the file, and the resulting file should be portable between machines of similar types (in particular, machines that support IEEE floating point representation).</para><para>You can also specify both the filename as a string, in which case you also have to specify the names of the variables to save. In particular <verbatim>   save(&apos;filename&apos;,&apos;a1&apos;,&apos;a2&apos;)
+</verbatim> will save variables <computeroutput>a1</computeroutput> and <computeroutput>a2</computeroutput> to the file.</para><para>Starting with version 2.0, FreeMat can also read and write MAT files (the file format used by MATLAB) thanks to substantial work by Thomas Beutlich. Support for MAT files in version 2.1 has improved over previous versions. In particular, classes should be saved properly, as well as a broader range of sparse matrices. Compression is supported for both reading and writing to MAT files. MAT file support is still in the alpha stages, so please be cautious with using it to store critical data. The file format is triggered by the extension. To save files with a MAT format, simply use a filename with a &quot;.mat&quot; ending.</para><para>The <computeroutput>save</computeroutput> function also supports ASCII output. This is a very limited form of the save command - it can only save numeric arrays that are 2-dimensional. This form of the <computeroutput>save</computeroutput> command is triggered using <verbatim>   save -ascii filename var1 var 2
+</verbatim> although where <computeroutput>-ascii</computeroutput> appears on the command line is arbitrary (provided it comes after the <computeroutput>save</computeroutput> command, of course). Be default, the <computeroutput>save</computeroutput> command uses an 8-digit exponential format notation to save the values to the file. You can specify that you want 16-digits using the <verbatim>   save -ascii -double filename var1 var2
+</verbatim> form of the command. Also, by default, <computeroutput>save</computeroutput> uses spaces as the delimiters between the entries in the matrix. If you want tabs instead, you can use <verbatim>   save -ascii -tabs filename var1 var2
+</verbatim> (you can also use both the <computeroutput>-tabs</computeroutput> and <computeroutput>-double</computeroutput> flags simultaneously).</para><para>Finally, you can specify that <computeroutput>save</computeroutput> should only save variables that match a particular regular expression. Any of the above forms can be combined with the <computeroutput>-regexp</computeroutput> flag: <verbatim>   save filename -regexp pattern1 pattern2
+</verbatim> in which case variables that match any of the patterns will be saved. </para></sect1>
+<sect1 id="variables_struct_1Example">
+<title>Example</title>
+<para>Here is a simple example of <computeroutput>save</computeroutput>/<computeroutput>load</computeroutput>. First, we save some variables to a file.</para><para><verbatim>--&gt; D = {1,5,&apos;hello&apos;};
+--&gt; s = &apos;test string&apos;;
+--&gt; x = randn(512,1);
+--&gt; z = zeros(512);
+--&gt; who
+  Variable Name       Type   Flags             Size
+              D      cell                    [1x3]
+              s      char                    [1x11]
+              x    double                    [512x1]
+              z    double                    [512x512]
+--&gt; save loadsave.dat
+</verbatim></para><para>Next, we clear the variables, and then load them back from the file.</para><para><verbatim>--&gt; clear D s x z
+--&gt; who
+  Variable Name       Type   Flags             Size
+            ans    double                    [0x0]
+--&gt; load loadsave.dat
+--&gt; who
+  Variable Name       Type   Flags             Size
+              D      cell                    [1x3]
+            ans    double                    [0x0]
+              s      char                    [1x11]
+              x    double                    [512x1]
+              z    double                    [512x512]
+</verbatim> </para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,213 @@
+
+\begin{DoxyItemize}
+\item \hyperlink{external_cenum}{C\-E\-N\-U\-M Lookup Enumerated C Type}  
+\item \hyperlink{external_ctypecast}{C\-T\-Y\-P\-E\-C\-A\-S\-T Cast Free\-Mat Structure to C Structure}  
+\item \hyperlink{external_ctypedefine}{C\-T\-Y\-P\-E\-D\-E\-F\-I\-N\-E Define C Type}  
+\item \hyperlink{external_ctypefreeze}{C\-T\-Y\-P\-E\-F\-R\-E\-E\-Z\-E Convert Free\-Mat Structure to C Type}  
+\item \hyperlink{external_ctypenew}{C\-T\-Y\-P\-E\-N\-E\-W Create New Instance of C Structure}  
+\item \hyperlink{external_ctypeprint}{C\-T\-Y\-P\-E\-P\-R\-I\-N\-T Print C Type}  
+\item \hyperlink{external_ctyperead}{C\-T\-Y\-P\-E\-R\-E\-A\-D Read a C Structure From File}  
+\item \hyperlink{external_ctypesize}{C\-T\-Y\-P\-E\-S\-I\-Z\-E Compute Size of C Struct}  
+\item \hyperlink{external_ctypethaw}{C\-T\-Y\-P\-E\-T\-H\-A\-W Convert C Struct to Free\-Mat Structure}  
+\item \hyperlink{external_ctypewrite}{C\-T\-Y\-P\-E\-W\-R\-I\-T\-E Write a C Typedef To File}  
+\item \hyperlink{external_import}{I\-M\-P\-O\-R\-T Foreign Function Import}  
+\item \hyperlink{external_loadlib}{L\-O\-A\-D\-L\-I\-B Load Library Function}  
+\end{DoxyItemize}\hypertarget{external_cenum}{}\section{C\-E\-N\-U\-M Lookup Enumerated C Type}\label{external_cenum}
+Section\-: \hyperlink{sec_external}{Free\-Mat External Interface} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+The {\ttfamily cenum} function allows you to use the textual strings of C enumerated types (that have been defined using {\ttfamily ctypedefine}) in your Free\-Mat scripts isntead of the hardcoded numerical values. The general syntax for its use is \begin{DoxyVerb}  enum_int = cenum(enum_type,enum_string)
+\end{DoxyVerb}
+ which looks up the integer value of the enumerated type based on the string. You can also supply an integer argument, in which case {\ttfamily cenum} will find the matching string \begin{DoxyVerb}  enum_string = cenum(enum_type,enum_int)
+\end{DoxyVerb}
+ \hypertarget{external_ctypecast}{}\section{C\-T\-Y\-P\-E\-C\-A\-S\-T Cast Free\-Mat Structure to C Structure}\label{external_ctypecast}
+Section\-: \hyperlink{sec_external}{Free\-Mat External Interface} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+The {\ttfamily ctypecast} function is a convenience function for ensuring that a Free\-Mat structure fits the definition of a C struct (as defined via {\ttfamily ctypedefine}. It does so by encoding the structure to a byte array using {\ttfamily ctypefreeze} and then recovering it using the {\ttfamily ctypethaw} function. The usage is simply \begin{DoxyVerb}   s = ctypecast(s,typename)
+\end{DoxyVerb}
+ where {\ttfamily s} is the structure and {\ttfamily typename} is the name of the C structure that describes the desired layout and types for elements of {\ttfamily s}. This function is equivalent to calling {\ttfamily ctypefreeze} and {\ttfamily ctypethaw} in succession on a Free\-Mat structure. \hypertarget{external_ctypedefine}{}\section{C\-T\-Y\-P\-E\-D\-E\-F\-I\-N\-E Define C Type}\label{external_ctypedefine}
+Section\-: \hyperlink{sec_external}{Free\-Mat External Interface} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+The {\ttfamily ctypedefine} function allows you to define C types for use with Free\-Mat. Three variants of C types can be used. You can use structures, enumerations, and aliases (typedefs). All three are defined through a single function {\ttfamily ctypedefine}. The general syntax for its use is \begin{DoxyVerb}  ctypedefine(typeclass,typename,...)
+\end{DoxyVerb}
+ where {\ttfamily typeclass} is the variant of the type (legal values are {\ttfamily 'struct'}, {\ttfamily 'alias'}, {\ttfamily 'enum'}). The second argument is the name of the C type. The remaining arguments depend on what the class of the typedef is.
+
+To define a C structure, use the {\ttfamily 'struct'} type class. The usage in this case is\-: \begin{DoxyVerb}  ctypedefine('struct',typename,field1,type1,field2,type2,...)
+\end{DoxyVerb}
+ The argument {\ttfamily typename} must be a valid identifier string. Each of of the {\ttfamily field} arguments is also a valid identifier string that describe in order, the elements of the C structure. The {\ttfamily type} arguments are {\ttfamily typespecs}. They can be of three types\-: 
+\begin{DoxyItemize}
+\item Built in types, e.\-g. {\ttfamily 'uint8'} or {\ttfamily 'double'} to name a couple of examples.  
+\item C types that have previously been defined with a call to {\ttfamily ctypedefine}, e.\-g. {\ttfamily 'mytype'} where {\ttfamily 'mytype'} has already been defined through a call to {\ttfamily ctypedefine}.  
+\item Arrays of either built in types or previously defined C types with the length of the array coded as an integer in square brackets, for example\-: {\ttfamily 'uint8\mbox{[}10\mbox{]}'} or {\ttfamily 'double\mbox{[}1000\mbox{]}'}.  
+\end{DoxyItemize}
+
+To define a C enumeration, use the {\ttfamily 'enum'} type class. The usage in this case is\-: ctypedefine('enum',typename,name1,value1,name2,value2,...) @\mbox{]} The argument {\ttfamily typename} must be a valid identifier string. Each of the {\ttfamily name} arguments must also be valid identifier strings that describe the possible values that the enumeration can take an, and their corresponding integer values. Note that the names should be unique. The behavior of the various {\ttfamily cenum} functions is undefined if the names are not unique.
+
+To define a C alias (or typedef), use the following form of {\ttfamily ctypedefine}\-: \begin{DoxyVerb}  ctypedefine('alias',typename,aliased_typename)
+\end{DoxyVerb}
+ where {\ttfamily aliased\-\_\-typename} is the type that is being aliased to. \hypertarget{external_ctypefreeze}{}\section{C\-T\-Y\-P\-E\-F\-R\-E\-E\-Z\-E Convert Free\-Mat Structure to C Type}\label{external_ctypefreeze}
+Section\-: \hyperlink{sec_external}{Free\-Mat External Interface} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+The {\ttfamily ctypefreeze} function is used to convert a Free\-Mat structure into a C struct as defined by a C structure typedef. To use the {\ttfamily cstructfreeze} function, you must first define the type of the C structure using the {\ttfamily ctypedefine} function. The {\ttfamily ctypefreeze} function then serializes a Free\-Mat structure to a set of bytes, and returns it as an array. The usage for {\ttfamily ctypefreeze} is \begin{DoxyVerb}  byte_array = ctypefreeze(mystruct, 'typename')
+\end{DoxyVerb}
+ where {\ttfamily mystruct} is the array we want to 'freeze' to a memory array, and {\ttfamily typename} is the name of the C type that we want the resulting byte array to conform to. \hypertarget{external_ctypenew}{}\section{C\-T\-Y\-P\-E\-N\-E\-W Create New Instance of C Structure}\label{external_ctypenew}
+Section\-: \hyperlink{sec_external}{Free\-Mat External Interface} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+The {\ttfamily ctypenew} function is a convenience function for creating a Free\-Mat structure that corresponds to a C structure. The entire structure is initialized with zeros. This has some negative implications, because if the structure definition uses {\ttfamily cenums}, they may come out as {\ttfamily 'unknown'} values if there are no enumerations corresponding to zero. The use of the function is \begin{DoxyVerb}   a = ctypenew('typename')
+\end{DoxyVerb}
+ which creates a single structure of C structure type {\ttfamily 'typename'}. To create an array of structures, we can provide a second argument \begin{DoxyVerb}   a = ctypenew('typename',count)
+\end{DoxyVerb}
+ where {\ttfamily count} is the number of elements in the structure array. \hypertarget{external_ctypeprint}{}\section{C\-T\-Y\-P\-E\-P\-R\-I\-N\-T Print C Type}\label{external_ctypeprint}
+Section\-: \hyperlink{sec_external}{Free\-Mat External Interface} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+The {\ttfamily ctypeprint} function prints a C type on the console. The usage is \begin{DoxyVerb}  ctypeprint(typename)
+\end{DoxyVerb}
+ where {\ttfamily typename} is a string containing the name of the C type to print. Depending on the class of the C type (e.\-g., structure, alias or enumeration) the {\ttfamily ctypeprint} function will dump information about the type definition. \hypertarget{external_ctyperead}{}\section{C\-T\-Y\-P\-E\-R\-E\-A\-D Read a C Structure From File}\label{external_ctyperead}
+Section\-: \hyperlink{sec_external}{Free\-Mat External Interface} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+The {\ttfamily ctyperead} function is a convenience function for reading a C structure from a file. This is generally a very bad idea, as direct writing of C structures to files is notoriously unportable. Consider yourself warned. The syntax for this function is \begin{DoxyVerb}   a = ctyperead(fid,'typename')
+\end{DoxyVerb}
+ where {\ttfamily 'typename'} is a string containing the name of the C structure as defined using {\ttfamily ctypedefine}, and {\ttfamily fid} is the file handle returned by the {\ttfamily fopen} command. Note that this form will read a single structure from the file. If you want to read multiple structures into an array, use the following form \begin{DoxyVerb}   a = ctyperead(fid,'typename',count)
+\end{DoxyVerb}
+ Note that the way this function works is by using {\ttfamily ctypesize} to compute the size of the structure, reading that many bytes from the file, and then calling {\ttfamily ctypethaw} on the resulting buffer. A consequence of this behavior is that the byte-\/endian corrective behavior of Free\-Mat does not work. \hypertarget{external_ctypesize}{}\section{C\-T\-Y\-P\-E\-S\-I\-Z\-E Compute Size of C Struct}\label{external_ctypesize}
+Section\-: \hyperlink{sec_external}{Free\-Mat External Interface} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+The {\ttfamily ctypesize} function is used to compute the size of a C structure that is defined using the {\ttfamily ctypedefine} function. The usage of {\ttfamily ctypesize} is \begin{DoxyVerb}   size = ctypesize('typename')
+\end{DoxyVerb}
+ where {\ttfamily typename} is the name of the C structure you want to compute the size of. The returned count is measured in bytes. Note that as indicated in the help for {\ttfamily ctypedefine} that Free\-Mat does not automatically pad the entries of the structure to match the particulars of your C compiler. Instead, the assumption is that you have adequate padding entries in your structure to align the Free\-Mat members with the C ones. See {\ttfamily ctypedefine} for more details. You can also specify an optional count parameter if you want to determine how large multiple structures are \begin{DoxyVerb}   size = ctypesize('typename',count)
+\end{DoxyVerb}
+ \hypertarget{external_ctypethaw}{}\section{C\-T\-Y\-P\-E\-T\-H\-A\-W Convert C Struct to Free\-Mat Structure}\label{external_ctypethaw}
+Section\-: \hyperlink{sec_external}{Free\-Mat External Interface} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+The {\ttfamily ctypethaw} function is used to convert a C structure that is encoded in a byte array into a Free\-Mat structure using a C structure typedef. To use the {\ttfamily ctypethaw} function, you must first define the type of the C structure using the {\ttfamily ctypedefine} function. The usage of {\ttfamily ctypethaw} is \begin{DoxyVerb}  mystruct = ctypethaw(byte_array, 'typename')
+\end{DoxyVerb}
+ where {\ttfamily byte\-\_\-array} is a {\ttfamily uint8} array containing the bytes that encode the C structure, and {\ttfamily typename} is a string that contains the type description as registered with {\ttfamily ctypedefine}. If you want to retrieve multiple structures from a single byte array, you can specify a count as \begin{DoxyVerb}  mystruct = ctypethaw(byte_array, 'typename', count)
+\end{DoxyVerb}
+ where {\ttfamily count} is an integer containing the number of structures to retrieve. Sometimes it is also useful to retrieve only part of the structure from a byte array, and then (based on the contents of the structure) retrieve more data. In this case, you can retrieve the residual byte array using the optional second output argument of {\ttfamily ctypethaw}\-: \begin{DoxyVerb}  [mystruct,byte_array_remaining] = ctypethaw(byte_array, 'typename',...)
+\end{DoxyVerb}
+ \hypertarget{external_ctypewrite}{}\section{C\-T\-Y\-P\-E\-W\-R\-I\-T\-E Write a C Typedef To File}\label{external_ctypewrite}
+Section\-: \hyperlink{sec_external}{Free\-Mat External Interface} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+The {\ttfamily ctypewrite} function is a convenience function for writing a C typedef to a file. This is generally a very bad idea, as writing of C typedefs to files is notoriously unportable. Consider yourself warned. The syntax for this function is \begin{DoxyVerb}  ctypewrite(fid,a,'typename')
+\end{DoxyVerb}
+ where {\ttfamily a} is the Free\-Mat typedef to write, {\ttfamily 'typename'} is a string containing the name of the C typedef to use when writing the typedef to the file (previously defined using {\ttfamily ctypedefine}), and {\ttfamily fid} is the file handle returned by {\ttfamily fopen}. \hypertarget{external_import}{}\section{I\-M\-P\-O\-R\-T Foreign Function Import}\label{external_import}
+Section\-: \hyperlink{sec_external}{Free\-Mat External Interface} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+The import function allows you to call functions that are compiled into shared libraries, as if they were Free\-Mat functions. The usage is \begin{DoxyVerb}  import(libraryname,symbol,function,return,arguments)
+\end{DoxyVerb}
+ The argument {\ttfamily libraryname} is the name of the library (as a string) to import the function from. The second argument {\ttfamily symbol} (also a string), is the name of the symbol to import from the library. The third argument {\ttfamily function} is the the name of the function after its been imported into Freemat. The fourth argument is a string that specifies the return type of the function. It can take on one of the following types\-: 
+\begin{DoxyItemize}
+\item 'uint8' for an unsigned, 8-\/bit integer.  
+\item 'int8' for a signed, 8-\/bit integer.  
+\item 'uint16' an unsigned, 16-\/bit integer.  
+\item 'int16' a signed, 16-\/bit integer.  
+\item 'uint32' for an unsigned, 32-\/bit integer.  
+\item 'int32' for a signed, 32-\/bit integer.  
+\item 'single' for a 32-\/bit floating point.  
+\item 'double' for a 64-\/bit floating point.  
+\item 'void' for no return type.  
+\end{DoxyItemize}The fourth argument is more complicated. It encodes the arguments of the imported function using a special syntax. In general, the argument list is a string consisting of entries of the form\-:
+
+\begin{DoxyVerb}  type[optional bounds check] {optional &}name
+\end{DoxyVerb}
+
+
+Here is a list of various scenarios (expressed in 'C'), and the corresponding entries, along with snippets of code.
+
+\subsection*{Scalar variable passed by value}
+
+Suppose a function is defined in the library as \begin{DoxyVerb}  int fooFunction(float t),
+\end{DoxyVerb}
+ i.\-e., it takes a scalar value (or a string) that is passed by value. Then the corresponding argument string would be \begin{DoxyVerb}  'float t'
+\end{DoxyVerb}
+ For a C-\/string, which corresponds to a function prototype of \begin{DoxyVerb}  int fooFunction(const char *t),
+\end{DoxyVerb}
+ the corresponding argument string would be \begin{DoxyVerb}  'string t'
+\end{DoxyVerb}
+ Other types are as listed above. Note that Free\-Mat will automatically promote the type of scalar variables to the type expected by the {\ttfamily C} function. For example, if we call a function expecting a {\ttfamily float} with a {\ttfamily double} or {\ttfamily int16} argument, then Free\-Mat will automatically apply type promotion rules prior to calling the function.
+
+\subsection*{Scalar variable passed by reference\-:}
+
+Suppose a function is defined in the library as \begin{DoxyVerb}  int fooFunction(float *t),
+\end{DoxyVerb}
+ i.\-e., it takes a scalar value (or a string) that is passed as a pointer. Then the corresponding argument string would be \begin{DoxyVerb}  'float &t'
+\end{DoxyVerb}
+ If the function {\ttfamily foo\-Function} modifies {\ttfamily t}, then the argument passed in Free\-Mat will also be modified.
+
+\subsection*{Array variable passed by value\-:}
+
+In {\ttfamily C}, it is impossible to distinguish an array being passed from a simple pointer being passed. More often than not, another argument indicates the length of the array. Free\-Mat has the ability to perform bounds-\/checking on array values. For example, suppose we have a function of the form \begin{DoxyVerb}  int sum_onehundred_ints(int *t),
+\end{DoxyVerb}
+ where {\ttfamily sum\-\_\-onehundred\-\_\-ints} assumes that {\ttfamily t} is a length {\ttfamily 100} vector. Then the corresponding Free\-Mat argument is \begin{DoxyVerb}  'float32[100] t'.
+\end{DoxyVerb}
+ Note that because the argument is marked as not being passed by reference, that if {\ttfamily sub\-\_\-onehundred\-\_\-ints} modifies the array {\ttfamily t}, this will not affect the Free\-Mat argument. Note that the bounds-\/check expression can be any legal scalar expression that evaluates to an integer, and can be a function of the arguments. For example to pass a square $N \times N$ matrix to the following function\-: \begin{DoxyVerb}  float determinantmatrix(int N, float *A),
+\end{DoxyVerb}
+ we can use the following argument to {\ttfamily import}\-: \begin{DoxyVerb}  'int32 N, float[N*N] t'.
+\end{DoxyVerb}
+
+
+\subsection*{Array variable passed by reference\-:}
+
+If the function in {\ttfamily C} modifies an array, and we wish this to be reflected in the Free\-Mat side, we must pass that argument by reference. Hence, consider the following hypothetical function that squares the elements of an array (functionally equivalent to $x.^2$)\-: \begin{DoxyVerb}  void squarearray(int N, float *A)
+\end{DoxyVerb}
+ we can use the following argument to {\ttfamily import}\-: \begin{DoxyVerb}  'int32 N, float[N] &A'.
+\end{DoxyVerb}
+ Note that to avoid problems with memory allocation, external functions are not allowed to return pointers. As a result, as a general operating mechanism, the Free\-Mat code must allocate the proper arrays, and then pass them by reference to the external function.
+
+\subsection*{Sending text to the Free\-Mat console\-:}
+
+Starting with Free\-Mat 4.\-0, it is possible for external code that is called using the {\ttfamily import} statement to send text to the Free\-Mat console. To do so, you must define in each library that wants to send text a function with the name {\ttfamily freemat\-\_\-io\-\_\-handler} that captures its argument (a function pointer), and stores it for use by functions in the library. That function pointer takes a standard C string argument. Here is a snippet of code to demonstrate how this works\-: \begin{DoxyVerb}  /* just to make it readable */
+  typedef void (*strfunc)(const char*); 
+
+  /* The name we want to use for the function */
+  strfunc FreeMatText;                  
+
+  /* this name is case sensitive and must not be mangled (i.e., use extern "C") */
+  void freemat_io_handler(strfunc printFunc) {
+     FreeMatText = printFunc;
+  }
+
+  double SomeImportedFunction(double t) {
+     FreeMatText("I am going to double that argument!\n");
+     return (t*2);
+  }
+\end{DoxyVerb}
+ In this case, once {\ttfamily Some\-Imported\-Function} is called from within Free\-Mat, the text {\ttfamily \char`\"{}\-I am going to double that argument\char`\"{}} will appear in the Free\-Mat console.
+
+Your {\ttfamily freemat\-\_\-io\-\_\-handler} function is automatically called when your library is loaded by Free\-Mat, which happens with the first {\ttfamily import} statement that references it.
+
+Repeating {\ttfamily import} calls to import the same function name will be ignored, except the first call. In order to refresh the function without restarting Free\-Mat, you have to first clear all imported libraries via\-: \begin{DoxyVerb}   clear 'libs'
+\end{DoxyVerb}
+\hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+Here is a complete example. We have a {\ttfamily C} function that adds two float vectors of the same length, and stores the result in a third array that is modified by the function. First, the {\ttfamily C} code\-:
+
+\begin{DoxyVerb}     addArrays.c
+\end{DoxyVerb}
+
+
+
+\begin{DoxyVerbInclude}
+void addArrays(int N, float *a, float *b, float *c) {
+  int i;
+ 
+  for (i=0;i<N;i++)
+   c[i] = a[i] + b[i];
+}
+\end{DoxyVerbInclude}
+
+
+We then compile this into a dynamic library, say, {\ttfamily add.\-so}. The import command would then be\-: \begin{DoxyVerb}  import('add.so','addArrays','addArrays','void', ...
+         'int32 N, float[N] a, float[N] b, float[N] &c');
+\end{DoxyVerb}
+ We could then exercise the function exactly as if it had been written in Free\-Mat. The following only works on systems using the G\-N\-U C Compiler\-:
+
+
+\begin{DoxyVerbInclude}
+--> if (strcmp(computer,'MAC')) system('gcc -bundle -flat_namespace -undefined suppress -o add.so addArrays.c'); end;
+--> if (~strcmp(computer,'MAC')) system('gcc -shared -fPIC -o add.so addArrays.c'); end;
+--> import('add.so','addArrays','addArrays','void','int32 N, float[N] a, float[N] b, float[N] &c');
+--> a = [3,2,3,1];
+--> b = [5,6,0,2]; 
+--> c = [0,0,0,0];
+--> addArrays(length(a),a,b,c)
+
+ans = 
+  []
+--> c
+
+ans = 
+ 8 8 3 3 
+\end{DoxyVerbInclude}
+ \hypertarget{external_loadlib}{}\section{L\-O\-A\-D\-L\-I\-B Load Library Function}\label{external_loadlib}
+Section\-: \hyperlink{sec_external}{Free\-Mat External Interface} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+The {\ttfamily loadlib} function allows a function in an external library to be added to Free\-Mat dynamically. This interface is generally to be used as last resort, as the form of the function being called is assumed to match the internal implementation. In short, this is not the interface mechanism of choice. For all but very complicated functions, the {\ttfamily import} function is the preferred approach. Thus, only a very brief summary of it is presented here. The syntax for {\ttfamily loadlib} is \begin{DoxyVerb}  loadlib(libfile, symbolname, functionname, nargin, nargout)
+\end{DoxyVerb}
+ where {\ttfamily libfile} is the complete path to the library to use, {\ttfamily symbolname} is the name of the symbol in the library, {\ttfamily functionname} is the name of the function after it is imported into Free\-Mat (this is optional, it defaults to the {\ttfamily symbolname}), {\ttfamily nargin} is the number of input arguments (defaults to 0), and {\ttfamily nargout} is the number of output arguments (defaults to 0). If the number of (input or output) arguments is variable then set the corresponding argument to {\ttfamily -\/1}. 

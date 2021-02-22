@@ -1,0 +1,55 @@
+/*!
+\page mathfunctions_atan2 ATAN2 Inverse Trigonometric 4-Quadrant Arctangent Function
+
+<p>
+Section: \ref sec_mathfunctions "Mathematical Functions"
+\section Usage
+Computes the <tt>atan2</tt> function for its argument.  The general
+syntax for its use is
+\verbatim
+  z = atan2(y,x)
+\endverbatim
+where <tt>x</tt> and <tt>y</tt> are <tt>n</tt>-dimensional arrays of numerical type.
+Integer types are promoted to the <tt>double</tt> type prior to
+calculation of the <tt>atan2</tt> function. The size of the output depends
+on the size of <tt>x</tt> and <tt>y</tt>.  If <tt>x</tt> is a scalar, then <tt>z</tt>
+is the same size as <tt>y</tt>, and if <tt>y</tt> is a scalar, then <tt>z</tt>
+is the same size as <tt>x</tt>.  The type of the output is equal to the type of
+|y/x|.  
+\section Function Internals
+The function is defined (for real values) to return an 
+angle between <tt>-pi</tt> and <tt>pi</tt>.  The signs of <tt>x</tt> and <tt>y</tt>
+are used to find the correct quadrant for the solution.  For complex
+arguments, the two-argument arctangent is computed via
+\f[
+  \mathrm{atan2}(y,x) \equiv -i \log\left(\frac{x+i y}{\sqrt{x^2+y^2}} \right)
+\f]
+For real valued arguments <tt>x,y</tt>, the function is computed directly using 
+the standard C library's numerical <tt>atan2</tt> function. For both 
+real and complex arguments <tt>x</tt>, note that generally
+\f[
+  \mathrm{atan2}(\sin(x),\cos(x)) \neq x,
+\f]
+due to the periodicities of  <tt>cos(x)</tt> and <tt>sin(x)</tt>.
+\section Example
+The following code demonstates the difference between the <tt>atan2</tt> 
+function and the <tt>atan</tt> function over the range <tt>[-pi,pi]</tt>.
+
+\if FRAGMENT
+frag_mathfunctions_atan2_000.m
+0
+x = linspace(-pi,pi);
+sx = sin(x); cx = cos(x);
+plot(x,atan(sx./cx),x,atan2(sx,cx))
+mprint('atan2plot');
+\endif
+
+
+\verbinclude frag_mathfunctions_atan2_000.m.out 
+
+\image html atan2plot.png
+\image latex atan2plot.eps "atan2plot" width=12cm
+Note how the two-argument <tt>atan2</tt> function (green line) 
+correctly ``unwraps'' the phase of the angle, while the <tt>atan</tt> 
+function (red line) wraps the angle to the interval \f$[-\pi/2,\pi/2]\f$.
+*/

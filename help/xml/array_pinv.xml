@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="array_pinv" kind="page">
+    <compoundname>array_pinv</compoundname>
+    <title>PINV Moore-Penrose Pseudoinverse</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_array_1sec_array" kindref="member">Array Generation and Manipulations</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>Calculates the Moore-Penrose pseudoinverse of a matrix. The general syntax for its use is <verbatim>   y = pinv(A,tol)
+</verbatim> or for a default specification of the tolerance <computeroutput>tol</computeroutput>, <verbatim>   y = pinv(A)
+</verbatim> For any <computeroutput>m x n</computeroutput> matrix <computeroutput>A</computeroutput>, the Moore-Penrose pseudoinverse is the unique <computeroutput>n x m</computeroutput> matrix <computeroutput>B</computeroutput> that satisfies the following four conditions <itemizedlist>
+<listitem>
+<para><computeroutput>A B A = A</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>B A B = B</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>(A B)&apos; = A B</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>(B A)&apos; = B A</computeroutput>  </para></listitem>
+</itemizedlist>
+Also, it is true that <computeroutput>B y</computeroutput> is the minimum norm, least squares solution to <computeroutput>A x = y</computeroutput>. The Moore-Penrose pseudoinverse is computed from the singular value decomposition of <computeroutput>A</computeroutput>, with singular values smaller than <computeroutput>tol</computeroutput> being treated as zeros. If <computeroutput>tol</computeroutput> is not specified then it is chosen as <verbatim>  tol = max(size(A)) * norm(A) * teps(A).
+</verbatim> </para></sect1>
+<sect1 id="transforms_svd_1Function">
+<title>Internals</title>
+<para>The calculation of the MP pseudo-inverse is almost trivial once the svd of the matrix is available. First, for a real, diagonal matrix with positive entries, the pseudo-inverse is simply <formula id="5">\[ \left(\Sigma^{+}\right)_{ii} = \begin{cases} 1/\sigma_{ii} &amp; \sigma_{ii} &gt; 0 \\ 0 &amp; \mathrm{else} \end{cases} \]</formula> One can quickly verify that this choice of matrix satisfies the four properties of the pseudoinverse. Then, the pseudoinverse of a general matrix <computeroutput>A = U S V&apos;</computeroutput> is defined as <formula id="6">\[ A^{+} = V S^{+} U&apos; \]</formula> and again, using the facts that <computeroutput>U&apos; U = I</computeroutput> and <computeroutput>V V&apos; = I</computeroutput>, one can quickly verify that this choice of pseudoinverse satisfies the four defining properties of the MP pseudoinverse. Note that in practice, the diagonal pseudoinverse <computeroutput>S^{+}</computeroutput> is computed with a threshold (the <computeroutput>tol</computeroutput> argument to <computeroutput>pinv</computeroutput>) so that singular values smaller than <computeroutput>tol</computeroutput> are treated like zeros. </para></sect1>
+<sect1 id="variables_matrix_1Examples">
+<title>Examples</title>
+<para>Consider a simple <computeroutput>1 x 2</computeroutput> matrix example, and note the various Moore-Penrose conditions:</para><para><verbatim>--&gt; A = float(rand(1,2))
+
+A = 
+    0.4840    0.0187 
+
+--&gt; B = pinv(A)
+
+B = 
+    2.0630 
+    0.0796 
+
+--&gt; A*B*A
+
+ans = 
+    0.4840    0.0187 
+
+--&gt; B*A*B
+
+ans = 
+    2.0630 
+    0.0796 
+
+--&gt; A*B
+
+ans = 
+    1.0000 
+
+--&gt; B*A
+
+ans = 
+    0.9985    0.0385 
+    0.0385    0.0015 
+</verbatim></para><para>To demonstrate that <computeroutput>pinv</computeroutput> returns the least squares solution, consider the following very simple case</para><para><verbatim>--&gt; A = float([1;1;1;1])
+
+A = 
+ 1 
+ 1 
+ 1 
+ 1 
+</verbatim></para><para>The least squares solution to <computeroutput>A x = b</computeroutput> is just <computeroutput>x = mean(b)</computeroutput>, and computing the <computeroutput>pinv</computeroutput> of <computeroutput>A</computeroutput> demonstrates this</para><para><verbatim>--&gt; pinv(A)
+
+ans = 
+    0.2500    0.2500    0.2500    0.2500 
+</verbatim></para><para>Similarly, we can demonstrate the minimum norm solution with the following simple case</para><para><verbatim>--&gt; A = float([1,1])
+
+A = 
+ 1 1 
+</verbatim></para><para>The solutions of <computeroutput>A x = 5</computeroutput> are those <computeroutput>x_1</computeroutput> and <computeroutput>x_2</computeroutput> such that <computeroutput>x_1 + x_2 = 5</computeroutput>. The norm of <computeroutput>x</computeroutput> is <computeroutput>x_1^ + x_2^2</computeroutput>, which is <computeroutput>x_1^2 + (5-x_1)^2</computeroutput>, which is minimized for <computeroutput>x_1 = x_2 = 2.5</computeroutput>:</para><para><verbatim>--&gt; pinv(A) * 5.0
+
+ans = 
+    2.5000 
+    2.5000 
+</verbatim> </para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

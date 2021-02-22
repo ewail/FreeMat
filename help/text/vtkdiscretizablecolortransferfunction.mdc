@@ -1,0 +1,98 @@
+
+ Usage
+
+This is a cross between a vtkColorTransferFunction and a
+vtkLookupTable selectively combiniting the functionality of
+both. NOTE: One must call Build() after making any changes
+to the points in the ColorTransferFunction to ensure that
+the discrete and non-discrete version match up.
+To create an instance of class
+vtkDiscretizableColorTransferFunction, simply invoke its
+constructor as follows
+
+    obj = vtkDiscretizableColorTransferFunction
+
+
+
+ Methods
+
+The class vtkDiscretizableColorTransferFunction has several
+methods that can be used. They are listed below. Note that
+the documentation is translated automatically from the VTK
+sources, and may not be completely intelligible. When in
+doubt, consult the VTK website. In the methods listed below,
+obj is an instance of the
+vtkDiscretizableColorTransferFunction class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkDiscretizableColorTransferFunction = obj.NewInstance ()
+* vtkDiscretizableColorTransferFunction = obj.SafeDownCast
+  (vtkObject o)
+* obj.Build () - Generate discretized lookup table, if
+  applicable. This method must be called after changes to
+  the ColorTransferFunction otherwise the discretized
+  version will be inconsitent with the non-discretized one.
+* obj.SetDiscretize (int ) - Set if the values are to mapped
+  after discretization. The number of discrete values is set
+  by using SetNumberOfValues(). Not set by default, i.e.
+  color value is determined by interpolating at the scalar
+  value.
+* int = obj.GetDiscretize () - Set if the values are to
+  mapped after discretization. The number of discrete values
+  is set by using SetNumberOfValues(). Not set by default,
+  i.e. color value is determined by interpolating at the
+  scalar value.
+* obj.DiscretizeOn () - Set if the values are to mapped
+  after discretization. The number of discrete values is set
+  by using SetNumberOfValues(). Not set by default, i.e.
+  color value is determined by interpolating at the scalar
+  value.
+* obj.DiscretizeOff () - Set if the values are to mapped
+  after discretization. The number of discrete values is set
+  by using SetNumberOfValues(). Not set by default, i.e.
+  color value is determined by interpolating at the scalar
+  value.
+* obj.SetUseLogScale (int useLogScale) - Get/Set if log
+  scale must be used while mapping scalars to colors. The
+  default is 0.
+* int = obj.GetUseLogScale () - Get/Set if log scale must be
+  used while mapping scalars to colors. The default is 0.
+* obj.SetNumberOfValues (vtkIdType number) - Set the number
+  of values i.e. colors to be generated in the discrete
+  lookup table. This has no effect if Discretize is off. The
+  default is 256.
+* vtkIdType = obj.GetNumberOfValues () - Set the number of
+  values i.e. colors to be generated in the discrete lookup
+  table. This has no effect if Discretize is off. The
+  default is 256.
+* obj.GetColor (double v, double rgb[3]) - Map one value
+  through the lookup table and return the color as an RGB
+  array of doubles between 0 and 1.
+* vtkUnsignedCharArray = obj.MapScalars (vtkDataArray
+  scalars, int colorMode, int component) - An internal
+  method maps a data array into a 4-component, unsigned char
+  RGBA array. The color mode determines the behavior of
+  mapping. If VTK_COLOR_MODE_DEFAULT is set, then unsigned
+  char data arrays are treated as colors (and converted to
+  RGBA if necessary); otherwise, the data is mapped through
+  this instance of ScalarsToColors. The offset is used for
+  data arrays with more than one component; it indicates
+  which component to use to do the blending. When the
+  component argument is -1, then the this object uses its
+  own selected technique to change a vector into a scalar to
+  map.
+* obj.SetAlpha (double alpha) - Specify an additional
+  opacity (alpha) value to blend with. Values != 1 modify
+  the resulting color consistent with the requested form of
+  the output. This is typically used by an actor in order to
+  blend its opacity. Overridden to pass the alpha to the
+  internal vtkLookupTable.
+* int = obj.UsingLogScale ()
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Filtering_Classes
+* Generated on Thu Jul 25 2013 17:18:30 for FreeMat by
+  doxygen_ 1.8.1.1
+

@@ -1,0 +1,145 @@
+/*!
+\page vtkwidgets_vtk3dwidget vtk3DWidget
+
+<p>
+Section: \ref sec_vtkwidgets "Visualization Toolkit Widget Classes"
+\section Usage
+ vtk3DWidget is an abstract superclass for 3D interactor observers. These
+ 3D widgets represent themselves in the scene, and have special callbacks
+ associated with them that allows interactive manipulation of the widget.
+ Inparticular, the difference between a vtk3DWidget and its abstract
+ superclass vtkInteractorObserver is that vtk3DWidgets are "placed" in 3D
+ space.  vtkInteractorObservers have no notion of where they are placed,
+ and may not exist in 3D space at all.  3D widgets also provide auxiliary
+ functions like producing a transformation, creating polydata (for seeding
+ streamlines, probes, etc.) or creating implicit functions. See the
+ concrete subclasses for particulars.
+
+ Typically the widget is used by specifying a vtkProp3D or VTK dataset as
+ input, and then invoking the "On" method to activate it. (You can also
+ specify a bounding box to help position the widget.) Prior to invoking the
+ On() method, the user may also wish to use the PlaceWidget() to initially
+ position it. The 'i' (for "interactor") keypresses also can be used to
+ turn the widgets on and off (methods exist to change the key value
+ and enable keypress activiation).
+ 
+ To support interactive manipulation of objects, this class (and
+ subclasses) invoke the events StartInteractionEvent, InteractionEvent, and
+ EndInteractionEvent.  These events are invoked when the vtk3DWidget enters
+ a state where rapid response is desired: mouse motion, etc. The events can
+ be used, for example, to set the desired update frame rate
+ (StartInteractionEvent), operate on the vtkProp3D or other object
+ (InteractionEvent), and set the desired frame rate back to normal values
+ (EndInteractionEvent).
+
+ Note that the Priority attribute inherited from vtkInteractorObserver has
+ a new default value which is now 0.5 so that all 3D widgets have a higher
+ priority than the usual interactor styles.
+
+
+To create an instance of class vtk3DWidget, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtk3DWidget
+\endverbatim
+\section Methods
+The class vtk3DWidget has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtk3DWidget class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtk3DWidget = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtk3DWidget = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.PlaceWidget (double bounds[6])</tt> -  This method is used to initially place the widget.  The placement of the
+ widget depends on whether a Prop3D or input dataset is provided. If one
+ of these two is provided, they will be used to obtain a bounding box,
+ around which the widget is placed. Otherwise, you can manually specify a
+ bounds with the PlaceWidget(bounds) method. Note: PlaceWidget(bounds)
+ is required by all subclasses; the other methods are provided as
+ convenience methods.
+ </LI>
+<LI>  <tt>obj.PlaceWidget ()</tt> -  This method is used to initially place the widget.  The placement of the
+ widget depends on whether a Prop3D or input dataset is provided. If one
+ of these two is provided, they will be used to obtain a bounding box,
+ around which the widget is placed. Otherwise, you can manually specify a
+ bounds with the PlaceWidget(bounds) method. Note: PlaceWidget(bounds)
+ is required by all subclasses; the other methods are provided as
+ convenience methods.
+ </LI>
+<LI>  <tt>obj.PlaceWidget (double xmin, double xmax, double ymin, double ymax, double zmin, double zmax)</tt> -  This method is used to initially place the widget.  The placement of the
+ widget depends on whether a Prop3D or input dataset is provided. If one
+ of these two is provided, they will be used to obtain a bounding box,
+ around which the widget is placed. Otherwise, you can manually specify a
+ bounds with the PlaceWidget(bounds) method. Note: PlaceWidget(bounds)
+ is required by all subclasses; the other methods are provided as
+ convenience methods.
+ </LI>
+<LI>  <tt>obj.SetProp3D (vtkProp3D )</tt> -  Specify a vtkProp3D around which to place the widget. This 
+ is not required, but if supplied, it is used to initially 
+ position the widget.
+ </LI>
+<LI>  <tt>vtkProp3D = obj.GetProp3D ()</tt> -  Specify a vtkProp3D around which to place the widget. This 
+ is not required, but if supplied, it is used to initially 
+ position the widget.
+ </LI>
+<LI>  <tt>obj.SetInput (vtkDataSet )</tt> -  Specify the input dataset. This is not required, but if supplied,
+ and no vtkProp3D is specified, it is used to initially position 
+ the widget.
+ </LI>
+<LI>  <tt>vtkDataSet = obj.GetInput ()</tt> -  Specify the input dataset. This is not required, but if supplied,
+ and no vtkProp3D is specified, it is used to initially position 
+ the widget.
+ </LI>
+<LI>  <tt>obj.SetPlaceFactor (double )</tt> -  Set/Get a factor representing the scaling of the widget upon placement
+ (via the PlaceWidget() method). Normally the widget is placed so that
+ it just fits within the bounding box defined in PlaceWidget(bounds).
+ The PlaceFactor will make the widget larger (PlaceFactor > 1) or smaller
+ (PlaceFactor < 1). By default, PlaceFactor is set to 0.5.
+ </LI>
+<LI>  <tt>double = obj.GetPlaceFactorMinValue ()</tt> -  Set/Get a factor representing the scaling of the widget upon placement
+ (via the PlaceWidget() method). Normally the widget is placed so that
+ it just fits within the bounding box defined in PlaceWidget(bounds).
+ The PlaceFactor will make the widget larger (PlaceFactor > 1) or smaller
+ (PlaceFactor < 1). By default, PlaceFactor is set to 0.5.
+ </LI>
+<LI>  <tt>double = obj.GetPlaceFactorMaxValue ()</tt> -  Set/Get a factor representing the scaling of the widget upon placement
+ (via the PlaceWidget() method). Normally the widget is placed so that
+ it just fits within the bounding box defined in PlaceWidget(bounds).
+ The PlaceFactor will make the widget larger (PlaceFactor > 1) or smaller
+ (PlaceFactor < 1). By default, PlaceFactor is set to 0.5.
+ </LI>
+<LI>  <tt>double = obj.GetPlaceFactor ()</tt> -  Set/Get a factor representing the scaling of the widget upon placement
+ (via the PlaceWidget() method). Normally the widget is placed so that
+ it just fits within the bounding box defined in PlaceWidget(bounds).
+ The PlaceFactor will make the widget larger (PlaceFactor > 1) or smaller
+ (PlaceFactor < 1). By default, PlaceFactor is set to 0.5.
+ </LI>
+<LI>  <tt>obj.SetHandleSize (double )</tt> -  Set/Get the factor that controls the size of the handles that
+ appear as part of the widget. These handles (like spheres, etc.)
+ are used to manipulate the widget, and are sized as a fraction of
+ the screen diagonal.
+ </LI>
+<LI>  <tt>double = obj.GetHandleSizeMinValue ()</tt> -  Set/Get the factor that controls the size of the handles that
+ appear as part of the widget. These handles (like spheres, etc.)
+ are used to manipulate the widget, and are sized as a fraction of
+ the screen diagonal.
+ </LI>
+<LI>  <tt>double = obj.GetHandleSizeMaxValue ()</tt> -  Set/Get the factor that controls the size of the handles that
+ appear as part of the widget. These handles (like spheres, etc.)
+ are used to manipulate the widget, and are sized as a fraction of
+ the screen diagonal.
+ </LI>
+<LI>  <tt>double = obj.GetHandleSize ()</tt> -  Set/Get the factor that controls the size of the handles that
+ appear as part of the widget. These handles (like spheres, etc.)
+ are used to manipulate the widget, and are sized as a fraction of
+ the screen diagonal.
+ </LI>
+</UL>
+*/

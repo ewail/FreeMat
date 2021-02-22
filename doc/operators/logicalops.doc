@@ -1,0 +1,100 @@
+/*!
+\page operators_logicalops LOGICALOPS Logical Array Operators
+
+<p>
+Section: \ref sec_operators "Mathematical Operators"
+\section Usage
+There are three Boolean operators available in FreeMat.  The syntax for their use is:
+\verbatim
+  y = ~x
+  y = a & b
+  y = a | b
+\endverbatim
+where <tt>x</tt>, <tt>a</tt> and <tt>b</tt> are <tt>logical</tt> arrays.  The operators are
+<UL>
+<LI>  NOT (<tt>~</tt>) - output <tt>y</tt> is true if the corresponding element of <tt>x</tt> is false, and ouput <tt>y</tt> is false if the corresponding element of <tt>x</tt> is true.
+ </LI>
+<LI>  OR (<tt></tt>|) - output <tt>y</tt> is true if corresponding element of <tt>a</tt> is true or if corresponding element of <tt>b</tt> is true (or if both are true).
+ </LI>
+<LI>  AND (<tt>\&</tt>) - output <tt>y</tt> is true only if both the corresponding elements of <tt>a</tt> and <tt>b</tt> are both true.
+ </LI>
+</UL>
+The binary operators AND and OR can take scalar arguments as well as vector arguments, in which case, the scalar is operated on with each element of the vector.
+As of version 1.10, FreeMat supports <tt>shortcut</tt> evaluation.  This means that
+if we have two expressions
+\verbatim
+  if (expr1 & expr2)
+\endverbatim
+then if <tt>expr1</tt> evaluates to <tt>false</tt>, then <tt>expr2</tt> is not evaluated at all.
+Similarly, for the expression
+\verbatim
+  if (expr1 | expr2)
+\endverbatim
+then if <tt>expr1</tt> evaluates to <tt>true</tt>, then <tt>expr2</tt> is not evaluated at all.
+Shortcut evaluation is useful for doing a sequence of tests, each of which is
+not valid unless the prior test is successful.  For example,
+\verbatim
+  if isa(p,'string') & strcmp(p,'fro')
+\endverbatim
+is not valid without shortcut evaluation (if <tt>p</tt> is an integer, for example,
+the first test returns false, and an attempt to evaluate the second expression
+would lead to an error).  Note that shortcut evaluation only works with scalar
+expressions.
+\section Examples
+Some simple examples of logical operators.  Suppose we want to calculate the exclusive-or (XOR) of two vectors of logical variables.  First, we create a pair of vectors to perform the XOR operation on:
+
+\if FRAGMENT
+frag_operators_logicalops_000.m
+0
+a = (randn(1,6)>0)
+b = (randn(1,6)>0)
+\endif
+
+
+\verbinclude frag_operators_logicalops_000.m.out 
+
+Next, we can compute the OR of <tt>a</tt> and <tt>b</tt>:
+
+\if FRAGMENT
+frag_operators_logicalops_001.m
+0
+c = a | b
+\endif
+
+
+\verbinclude frag_operators_logicalops_001.m.out 
+
+However, the XOR and OR operations differ on the fifth entry - the XOR would be false, since it is true if and only if exactly one of the two inputs is true.  To isolate this case, we can AND the two vectors, to find exactly those entries that appear as true in both <tt>a</tt> and <tt>b</tt>:
+
+\if FRAGMENT
+frag_operators_logicalops_002.m
+0
+d = a & b
+\endif
+
+
+\verbinclude frag_operators_logicalops_002.m.out 
+
+At this point, we can modify the contents of <tt>c</tt> in two ways -- the Boolean way is to AND \f$\sim d\f$ with <tt>c</tt>, like so
+
+\if FRAGMENT
+frag_operators_logicalops_003.m
+0
+xor = c & (~d)
+\endif
+
+
+\verbinclude frag_operators_logicalops_003.m.out 
+
+The other way to do this is simply force <tt>c(d) = 0</tt>, which uses the logical indexing mode of FreeMat (see the chapter on indexing for more details).  This, however, will cause <tt>c</tt> to become an <tt>int32</tt> type, as opposed to a logical type.
+
+\if FRAGMENT
+frag_operators_logicalops_004.m
+0
+c(d) = 0
+\endif
+
+
+\verbinclude frag_operators_logicalops_004.m.out 
+
+*/

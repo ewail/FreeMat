@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkgeovis_vtkgeosource" kind="page">
+    <compoundname>vtkgeovis_vtkgeosource</compoundname>
+    <title>vtkGeoSource</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkgeovis_1sec_vtkgeovis" kindref="member">Visualization Toolkit Geo Vis Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>vtkGeoSource is an abstract superclass for all multi-resolution data sources shown in a geographic view like vtkGeoView or vtkGeoView2D. vtkGeoSource subclasses need to implement the FetchRoot() method, which fills a vtkGeoTreeNode with the low-res data at the root, and FetchChild(), which produces a refinement of a parent node. Other geovis classes such as vtkGeoTerrain, vtkGeoTerrain2D, and vtkGeoAlignedImageSource use a vtkGeoSource subclass to build their geometry or image caches which are stored in trees. The source itself does not maintain the tree, but simply provides a mechanism for generating refined tree nodes.</para><para>Sources are multi-threaded. Each source may have one or more worker threads associated with it, which this superclass manages. It is essential that the FetchChild() method is thread-safe, since it may be called from multiple workers simultaneously.</para><para>To create an instance of class vtkGeoSource, simply invoke its constructor as follows <verbatim>  obj = vtkGeoSource
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkGeoSource has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkGeoSource class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkGeoSource = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkGeoSource = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkGeoSource = obj.()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>~vtkGeoSource = obj.()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>bool = obj.FetchRoot (vtkGeoTreeNode root)</computeroutput> - Blocking access methods to be implemented in subclasses.  </para></listitem>
+<listitem>
+<para><computeroutput>bool = obj.FetchChild (vtkGeoTreeNode node, int index, vtkGeoTreeNode child)</computeroutput> - Blocking access methods to be implemented in subclasses.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.RequestChildren (vtkGeoTreeNode node)</computeroutput> - Non-blocking methods for to use from the main application. After calling RequestChildren() for a certain node, GetRequestedNodes() will after a certain period of time return a non-null pointer to a collection of four vtkGeoTreeNode objects, which are the four children of the requested node. The collection is reference counted, so you need to eventually call Delete() on the returned collection pointer (if it is non-null).  </para></listitem>
+<listitem>
+<para><computeroutput>vtkCollection = obj.GetRequestedNodes (vtkGeoTreeNode node)</computeroutput> - Non-blocking methods for to use from the main application. After calling RequestChildren() for a certain node, GetRequestedNodes() will after a certain period of time return a non-null pointer to a collection of four vtkGeoTreeNode objects, which are the four children of the requested node. The collection is reference counted, so you need to eventually call Delete() on the returned collection pointer (if it is non-null).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.Initialize (int numThreads)</computeroutput> - Spawn worker threads.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ShutDown ()</computeroutput> - Shut down the source. This terminates the thread and releases memory.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.WorkerThread ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkAbstractTransform = obj.GetTransform ()</computeroutput>  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

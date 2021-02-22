@@ -1,0 +1,125 @@
+/*!
+\page array_pinv PINV Moore-Penrose Pseudoinverse
+
+<p>
+Section: \ref sec_array "Array Generation and Manipulations"
+\section Usage
+Calculates the Moore-Penrose pseudoinverse of a matrix.
+The general syntax for its use is
+\verbatim
+   y = pinv(A,tol)
+\endverbatim
+or for a default specification of the tolerance <tt>tol</tt>,
+\verbatim
+   y = pinv(A)
+\endverbatim
+For any <tt>m x n</tt> matrix <tt>A</tt>, the Moore-Penrose pseudoinverse
+is the unique <tt>n x m</tt> matrix <tt>B</tt> that satisfies the following
+four conditions
+<UL>
+<LI>  <tt>A B A = A</tt>
+ </LI>
+<LI>  <tt>B A B = B</tt>
+ </LI>
+<LI>  <tt>(A B)' = A B</tt>
+ </LI>
+<LI>  <tt>(B A)' = B A</tt>
+ </LI>
+</UL>
+Also, it is true that <tt>B y</tt> is the minimum norm, least squares
+solution to <tt>A x = y</tt>.  The Moore-Penrose pseudoinverse is computed
+from the singular value decomposition of <tt>A</tt>, with singular values
+smaller than <tt>tol</tt> being treated as zeros.  If <tt>tol</tt> is not specified
+then it is chosen as
+\verbatim
+  tol = max(size(A)) * norm(A) * teps(A).
+\endverbatim
+\section Function Internals
+The calculation of the MP pseudo-inverse is almost trivial once the
+svd of the matrix is available.  First, for a real, diagonal matrix
+with positive entries, the pseudo-inverse is simply
+\f[
+  \left(\Sigma^{+}\right)_{ii} = \begin{cases}
+             1/\sigma_{ii} & \sigma_{ii} > 0 \\
+             0             & \mathrm{else} \end{cases}
+\f]
+One can quickly verify that this choice of matrix satisfies the
+four properties of the pseudoinverse.  Then, the pseudoinverse
+of a general matrix <tt>A = U S V'</tt> is defined as
+\f[
+   A^{+} = V S^{+} U'
+\f]
+and again, using the facts that <tt>U' U = I</tt> and <tt>V V' = I</tt>, one
+can quickly verify that this choice of pseudoinverse satisfies the
+four defining properties of the MP pseudoinverse.  Note that in
+practice, the diagonal pseudoinverse <tt>S^{+}</tt> is computed with
+a threshold (the <tt>tol</tt> argument to <tt>pinv</tt>) so that singular
+values smaller than <tt>tol</tt> are treated like zeros.
+\section Examples
+Consider a simple <tt>1 x 2</tt> matrix example, and note the various
+Moore-Penrose conditions:
+
+\if FRAGMENT
+frag_array_pinv_000.m
+0
+A = float(rand(1,2))
+B = pinv(A)
+A*B*A
+B*A*B
+A*B
+B*A
+\endif
+
+
+\verbinclude frag_array_pinv_000.m.out 
+
+To demonstrate that <tt>pinv</tt> returns the least squares solution,
+consider the following very simple case
+
+\if FRAGMENT
+frag_array_pinv_001.m
+0
+A = float([1;1;1;1])
+\endif
+
+
+\verbinclude frag_array_pinv_001.m.out 
+
+The least squares solution to <tt>A x = b</tt> is just <tt>x = mean(b)</tt>,
+and computing the <tt>pinv</tt> of <tt>A</tt> demonstrates this
+
+\if FRAGMENT
+frag_array_pinv_002.m
+0
+pinv(A)
+\endif
+
+
+\verbinclude frag_array_pinv_002.m.out 
+
+Similarly, we can demonstrate the minimum norm solution with
+the following simple case
+
+\if FRAGMENT
+frag_array_pinv_003.m
+0
+A = float([1,1])
+\endif
+
+
+\verbinclude frag_array_pinv_003.m.out 
+
+The solutions of <tt>A x = 5</tt> are those <tt>x_1</tt> and <tt>x_2</tt> such that
+<tt>x_1 + x_2 = 5</tt>.  The norm of <tt>x</tt> is <tt>x_1^ + x_2^2</tt>, which is
+<tt>x_1^2 + (5-x_1)^2</tt>, which is minimized for <tt>x_1 = x_2 = 2.5</tt>:
+
+\if FRAGMENT
+frag_array_pinv_004.m
+0
+pinv(A) * 5.0
+\endif
+
+
+\verbinclude frag_array_pinv_004.m.out 
+
+*/

@@ -1,0 +1,278 @@
+
+ Usage
+
+vtkLODProp3D is a class to support level of detail rendering
+for Prop3D. Any number of mapper/property/texture items can
+be added to this object. Render time will be measured, and
+will be used to select a LOD based on the
+AllocatedRenderTime of this Prop3D. Depending on the type of
+the mapper/property, a vtkActor or a vtkVolume will be
+created behind the scenes.
+To create an instance of class vtkLODProp3D, simply invoke
+its constructor as follows
+
+    obj = vtkLODProp3D
+
+
+
+ Methods
+
+The class vtkLODProp3D has several methods that can be used.
+They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkLODProp3D class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkLODProp3D = obj.NewInstance ()
+* vtkLODProp3D = obj.SafeDownCast (vtkObject o)
+* double = obj.GetBounds () - Standard vtkProp method to get
+  3D bounds of a 3D prop
+* obj.GetBounds (double bounds[6]) - Standard vtkProp method
+  to get 3D bounds of a 3D prop
+* int = obj.AddLOD (vtkMapper m, vtkProperty p, vtkProperty
+  back, vtkTexture t, double time) - Add a level of detail
+  with a given mapper, property, backface property, texture,
+  and guess of rendering time. The property and texture
+  fields can be set to NULL (the other methods are included
+  for script access where null variables are not allowed).
+  The time field can be set to 0.0 indicating that no
+  initial guess for rendering time is being supplied. The
+  returned integer value is an ID that can be used later to
+  delete this LOD, or set it as the selected LOD.
+* int = obj.AddLOD (vtkMapper m, vtkProperty p, vtkTexture
+  t, double time) - Add a level of detail with a given
+  mapper, property, backface property, texture, and guess of
+  rendering time. The property and texture fields can be set
+  to NULL (the other methods are included for script access
+  where null variables are not allowed). The time field can
+  be set to 0.0 indicating that no initial guess for
+  rendering time is being supplied. The returned integer
+  value is an ID that can be used later to delete this LOD,
+  or set it as the selected LOD.
+* int = obj.AddLOD (vtkMapper m, vtkProperty p, vtkProperty
+  back, double time) - Add a level of detail with a given
+  mapper, property, backface property, texture, and guess of
+  rendering time. The property and texture fields can be set
+  to NULL (the other methods are included for script access
+  where null variables are not allowed). The time field can
+  be set to 0.0 indicating that no initial guess for
+  rendering time is being supplied. The returned integer
+  value is an ID that can be used later to delete this LOD,
+  or set it as the selected LOD.
+* int = obj.AddLOD (vtkMapper m, vtkProperty p, double time)
+  - Add a level of detail with a given mapper, property,
+  backface property, texture, and guess of rendering time.
+  The property and texture fields can be set to NULL (the
+  other methods are included for script access where null
+  variables are not allowed). The time field can be set to
+  0.0 indicating that no initial guess for rendering time is
+  being supplied. The returned integer value is an ID that
+  can be used later to delete this LOD, or set it as the
+  selected LOD.
+* int = obj.AddLOD (vtkMapper m, vtkTexture t, double time)
+  - Add a level of detail with a given mapper, property,
+  backface property, texture, and guess of rendering time.
+  The property and texture fields can be set to NULL (the
+  other methods are included for script access where null
+  variables are not allowed). The time field can be set to
+  0.0 indicating that no initial guess for rendering time is
+  being supplied. The returned integer value is an ID that
+  can be used later to delete this LOD, or set it as the
+  selected LOD.
+* int = obj.AddLOD (vtkMapper m, double time) - Add a level
+  of detail with a given mapper, property, backface
+  property, texture, and guess of rendering time. The
+  property and texture fields can be set to NULL (the other
+  methods are included for script access where null
+  variables are not allowed). The time field can be set to
+  0.0 indicating that no initial guess for rendering time is
+  being supplied. The returned integer value is an ID that
+  can be used later to delete this LOD, or set it as the
+  selected LOD.
+* int = obj.AddLOD (vtkAbstractVolumeMapper m,
+  vtkVolumeProperty p, double time) - Add a level of detail
+  with a given mapper, property, backface property, texture,
+  and guess of rendering time. The property and texture
+  fields can be set to NULL (the other methods are included
+  for script access where null variables are not allowed).
+  The time field can be set to 0.0 indicating that no
+  initial guess for rendering time is being supplied. The
+  returned integer value is an ID that can be used later to
+  delete this LOD, or set it as the selected LOD.
+* int = obj.AddLOD (vtkAbstractVolumeMapper m, double time)
+  - Add a level of detail with a given mapper, property,
+  backface property, texture, and guess of rendering time.
+  The property and texture fields can be set to NULL (the
+  other methods are included for script access where null
+  variables are not allowed). The time field can be set to
+  0.0 indicating that no initial guess for rendering time is
+  being supplied. The returned integer value is an ID that
+  can be used later to delete this LOD, or set it as the
+  selected LOD.
+* int = obj.GetNumberOfLODs () - Get the current number of
+  LODs.
+* int = obj.GetCurrentIndex () - Get the current index, used
+  to determine the ID of the next LOD that is added. Useful
+  for guessing what IDs have been used (with NumberOfLODs,
+  without depending on the constructor initialization to
+  1000.
+* obj.RemoveLOD (int id) - Delete a level of detail given an
+  ID. This is the ID returned by the AddLOD method
+* obj.SetLODProperty (int id, vtkProperty p) - Methods to
+  set / get the property of an LOD. Since the LOD could be a
+  volume or an actor, you have to pass in the pointer to the
+  property to get it. The returned property will be NULL if
+  the id is not valid, or the property is of the wrong type
+  for the corresponding Prop3D.
+* obj.SetLODProperty (int id, vtkVolumeProperty p) - Methods
+  to set / get the property of an LOD. Since the LOD could
+  be a volume or an actor, you have to pass in the pointer
+  to the property to get it. The returned property will be
+  NULL if the id is not valid, or the property is of the
+  wrong type for the corresponding Prop3D.
+* obj.SetLODMapper (int id, vtkMapper m) - Methods to set /
+  get the mapper of an LOD. Since the LOD could be a volume
+  or an actor, you have to pass in the pointer to the mapper
+  to get it. The returned mapper will be NULL if the id is
+  not valid, or the mapper is of the wrong type for the
+  corresponding Prop3D.
+* obj.SetLODMapper (int id, vtkAbstractVolumeMapper m) -
+  Methods to set / get the mapper of an LOD. Since the LOD
+  could be a volume or an actor, you have to pass in the
+  pointer to the mapper to get it. The returned mapper will
+  be NULL if the id is not valid, or the mapper is of the
+  wrong type for the corresponding Prop3D.
+* vtkAbstractMapper3D = obj.GetLODMapper (int id) - Get the
+  LODMapper as an vtkAbstractMapper3D. It is the user's
+  respondibility to safe down cast this to a vtkMapper or
+  vtkVolumeMapper as appropriate.
+* obj.SetLODBackfaceProperty (int id, vtkProperty t) -
+  Methods to set / get the backface property of an LOD. This
+  method is only valid for LOD ids that are Actors (not
+  Volumes)
+* obj.SetLODTexture (int id, vtkTexture t) - Methods to set
+  / get the texture of an LOD. This method is only valid for
+  LOD ids that are Actors (not Volumes)
+* obj.EnableLOD (int id) - Enable / disable a particular
+  LOD. If it is disabled, it will not be used during
+  automatic selection, but can be selected as the LOD if
+  automatic LOD selection is off.
+* obj.DisableLOD (int id) - Enable / disable a particular
+  LOD. If it is disabled, it will not be used during
+  automatic selection, but can be selected as the LOD if
+  automatic LOD selection is off.
+* int = obj.IsLODEnabled (int id) - Enable / disable a
+  particular LOD. If it is disabled, it will not be used
+  during automatic selection, but can be selected as the LOD
+  if automatic LOD selection is off.
+* obj.SetLODLevel (int id, double level) - Set the level of
+  a particular LOD. When a LOD is selected for rendering
+  because it has the largest render time that fits within
+  the allocated time, all LOD are then checked to see if any
+  one can render faster but has a lower (more resolution/
+  better) level. This quantity is a double to ensure that a
+  level can be inserted between 2 and 3.
+* double = obj.GetLODLevel (int id) - Set the level of a
+  particular LOD. When a LOD is selected for rendering
+  because it has the largest render time that fits within
+  the allocated time, all LOD are then checked to see if any
+  one can render faster but has a lower (more resolution/
+  better) level. This quantity is a double to ensure that a
+  level can be inserted between 2 and 3.
+* double = obj.GetLODIndexLevel (int index) - Set the level
+  of a particular LOD. When a LOD is selected for rendering
+  because it has the largest render time that fits within
+  the allocated time, all LOD are then checked to see if any
+  one can render faster but has a lower (more resolution/
+  better) level. This quantity is a double to ensure that a
+  level can be inserted between 2 and 3.
+* double = obj.GetLODEstimatedRenderTime (int id) - Access
+  method that can be used to find out the estimated render
+  time (the thing used to select an LOD) for a given LOD ID
+  or index. Value is returned in seconds.
+* double = obj.GetLODIndexEstimatedRenderTime (int index) -
+  Access method that can be used to find out the estimated
+  render time (the thing used to select an LOD) for a given
+  LOD ID or index. Value is returned in seconds.
+* obj.SetAutomaticLODSelection (int ) - Turn on / off
+  automatic selection of LOD. This is on by default. If it
+  is off, then the SelectedLODID is rendered regardless of
+  rendering time or desired update rate.
+* int = obj.GetAutomaticLODSelectionMinValue () - Turn on /
+  off automatic selection of LOD. This is on by default. If
+  it is off, then the SelectedLODID is rendered regardless
+  of rendering time or desired update rate.
+* int = obj.GetAutomaticLODSelectionMaxValue () - Turn on /
+  off automatic selection of LOD. This is on by default. If
+  it is off, then the SelectedLODID is rendered regardless
+  of rendering time or desired update rate.
+* int = obj.GetAutomaticLODSelection () - Turn on / off
+  automatic selection of LOD. This is on by default. If it
+  is off, then the SelectedLODID is rendered regardless of
+  rendering time or desired update rate.
+* obj.AutomaticLODSelectionOn () - Turn on / off automatic
+  selection of LOD. This is on by default. If it is off,
+  then the SelectedLODID is rendered regardless of rendering
+  time or desired update rate.
+* obj.AutomaticLODSelectionOff () - Turn on / off automatic
+  selection of LOD. This is on by default. If it is off,
+  then the SelectedLODID is rendered regardless of rendering
+  time or desired update rate.
+* obj.SetSelectedLODID (int ) - Set the id of the LOD that
+  is to be drawn when automatic LOD selection is turned off.
+* int = obj.GetSelectedLODID () - Set the id of the LOD that
+  is to be drawn when automatic LOD selection is turned off.
+* int = obj.GetLastRenderedLODID () - Get the ID of the
+  previously (during the last render) selected LOD index
+* int = obj.GetPickLODID (void ) - Get the ID of the
+  appropriate pick LOD index
+* obj.GetActors (vtkPropCollection ) - For some exporters
+  and other other operations we must be able to collect all
+  the actors or volumes. These methods are used in that
+  process.
+* obj.GetVolumes (vtkPropCollection ) - For some exporters
+  and other other operations we must be able to collect all
+  the actors or volumes. These methods are used in that
+  process.
+* obj.SetSelectedPickLODID (int id) - Set the id of the LOD
+  that is to be used for picking when automatic LOD pick
+  selection is turned off.
+* int = obj.GetSelectedPickLODID () - Set the id of the LOD
+  that is to be used for picking when automatic LOD pick
+  selection is turned off.
+* obj.SetAutomaticPickLODSelection (int ) - Turn on / off
+  automatic selection of picking LOD. This is on by default.
+  If it is off, then the SelectedLODID is rendered
+  regardless of rendering time or desired update rate.
+* int = obj.GetAutomaticPickLODSelectionMinValue () - Turn
+  on / off automatic selection of picking LOD. This is on by
+  default. If it is off, then the SelectedLODID is rendered
+  regardless of rendering time or desired update rate.
+* int = obj.GetAutomaticPickLODSelectionMaxValue () - Turn
+  on / off automatic selection of picking LOD. This is on by
+  default. If it is off, then the SelectedLODID is rendered
+  regardless of rendering time or desired update rate.
+* int = obj.GetAutomaticPickLODSelection () - Turn on / off
+  automatic selection of picking LOD. This is on by default.
+  If it is off, then the SelectedLODID is rendered
+  regardless of rendering time or desired update rate.
+* obj.AutomaticPickLODSelectionOn () - Turn on / off
+  automatic selection of picking LOD. This is on by default.
+  If it is off, then the SelectedLODID is rendered
+  regardless of rendering time or desired update rate.
+* obj.AutomaticPickLODSelectionOff () - Turn on / off
+  automatic selection of picking LOD. This is on by default.
+  If it is off, then the SelectedLODID is rendered
+  regardless of rendering time or desired update rate.
+* obj.ShallowCopy (vtkProp prop) - Shallow copy of this
+  vtkLODProp3D.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Rendering_Classes
+* Generated on Thu Jul 25 2013 17:18:35 for FreeMat by
+  doxygen_ 1.8.1.1
+

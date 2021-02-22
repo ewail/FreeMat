@@ -1,0 +1,280 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkwidgets_vtkimageplanewidget" kind="page">
+    <compoundname>vtkwidgets_vtkimageplanewidget</compoundname>
+    <title>vtkImagePlaneWidget</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkwidgets_1sec_vtkwidgets" kindref="member">Visualization Toolkit Widget Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>This 3D widget defines a plane that can be interactively placed in an image volume. A nice feature of the object is that the vtkImagePlaneWidget, like any 3D widget, will work with the current interactor style. That is, if vtkImagePlaneWidget does not handle an event, then all other registered observers (including the interactor style) have an opportunity to process the event. Otherwise, the vtkImagePlaneWidget will terminate the processing of the event that it handles.</para><para>The core functionality of the widget is provided by a vtkImageReslice object which passes its output onto a texture mapping pipeline for fast slicing through volumetric data. See the key methods: GenerateTexturePlane() and UpdatePlane() for implementation details.</para><para>To use this object, just invoke SetInteractor() with the argument of the method a vtkRenderWindowInteractor. You may also wish to invoke &quot;PlaceWidget()&quot; to initially position the widget. If the &quot;i&quot; key (for &quot;interactor&quot;) is pressed, the vtkImagePlaneWidget will appear. (See superclass documentation for information about changing this behavior.)</para><para>Selecting the widget with the middle mouse button with and without holding the shift or control keys enables complex reslicing capablilites. To facilitate use, a set of &apos;margins&apos; (left, right, top, bottom) are shown as a set of plane-axes aligned lines, the properties of which can be changed as a group. Without keyboard modifiers: selecting in the middle of the margins enables translation of the plane along its normal. Selecting one of the corners within the margins enables spinning around the plane&apos;s normal at its center. Selecting within a margin allows rotating about the center of the plane around an axis aligned with the margin (i.e., selecting left margin enables rotating around the plane&apos;s local y-prime axis). With control key modifier: margin selection enables edge translation (i.e., a constrained form of scaling). Selecting within the margins enables translation of the entire plane. With shift key modifier: uniform plane scaling is enabled. Moving the mouse up enlarges the plane while downward movement shrinks it.</para><para>Window-level is achieved by using the right mouse button. Window-level values can be reset by shift + &apos;r&apos; or control + &apos;r&apos; while regular reset camera is maintained with &apos;r&apos; or &apos;R&apos;. The left mouse button can be used to query the underlying image data with a snap-to cross-hair cursor. Currently, the nearest point in the input image data to the mouse cursor generates the cross-hairs. With oblique slicing, this behaviour may appear unsatisfactory. Text display of window-level and image coordinates/data values are provided by a text actor/mapper pair.</para><para>Events that occur outside of the widget (i.e., no part of the widget is picked) are propagated to any other registered obsevers (such as the interaction style). Turn off the widget by pressing the &quot;i&quot; key again (or invoke the Off() method). To support interactive manipulation of objects, this class invokes the events StartInteractionEvent, InteractionEvent, and EndInteractionEvent as well as StartWindowLevelEvent, WindowLevelEvent, EndWindowLevelEvent and ResetWindowLevelEvent.</para><para>The vtkImagePlaneWidget has several methods that can be used in conjunction with other VTK objects. The GetPolyData() method can be used to get the polygonal representation of the plane and can be used as input for other VTK objects. Typical usage of the widget is to make use of the StartInteractionEvent, InteractionEvent, and EndInteractionEvent events. The InteractionEvent is called on mouse motion; the other two events are called on button down and button up (either left or right button).</para><para>Some additional features of this class include the ability to control the properties of the widget. You can set the properties of: the selected and unselected representations of the plane&apos;s outline; the text actor via its vtkTextProperty; the cross-hair cursor. In addition there are methods to constrain the plane so that it is aligned along the x-y-z axes. Finally, one can specify the degree of interpolation (vtkImageReslice): nearest neighbour, linear, and cubic.</para><para>To create an instance of class vtkImagePlaneWidget, simply invoke its constructor as follows <verbatim>  obj = vtkImagePlaneWidget
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkImagePlaneWidget has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkImagePlaneWidget class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkImagePlaneWidget = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkImagePlaneWidget = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetEnabled (int )</computeroutput> - Methods that satisfy the superclass&apos; API.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.PlaceWidget (double bounds[6])</computeroutput> - Methods that satisfy the superclass&apos; API.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.PlaceWidget ()</computeroutput> - Methods that satisfy the superclass&apos; API.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.PlaceWidget (double xmin, double xmax, double ymin, double ymax, double zmin, double zmax)</computeroutput> - Set the vtkImageData* input for the vtkImageReslice.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetInput (vtkDataSet input)</computeroutput> - Set the vtkImageData* input for the vtkImageReslice.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetOrigin (double x, double y, double z)</computeroutput> - Set/Get the origin of the plane.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetOrigin (double xyz[3])</computeroutput> - Set/Get the origin of the plane.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetOrigin ()</computeroutput> - Set/Get the origin of the plane.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GetOrigin (double xyz[3])</computeroutput> - Set/Get the origin of the plane.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetPoint1 (double x, double y, double z)</computeroutput> - Set/Get the position of the point defining the first axis of the plane.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetPoint1 (double xyz[3])</computeroutput> - Set/Get the position of the point defining the first axis of the plane.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetPoint1 ()</computeroutput> - Set/Get the position of the point defining the first axis of the plane.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GetPoint1 (double xyz[3])</computeroutput> - Set/Get the position of the point defining the first axis of the plane.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetPoint2 (double x, double y, double z)</computeroutput> - Set/Get the position of the point defining the second axis of the plane.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetPoint2 (double xyz[3])</computeroutput> - Set/Get the position of the point defining the second axis of the plane.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetPoint2 ()</computeroutput> - Set/Get the position of the point defining the second axis of the plane.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GetPoint2 (double xyz[3])</computeroutput> - Set/Get the position of the point defining the second axis of the plane.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetCenter ()</computeroutput> - Get the center of the plane.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GetCenter (double xyz[3])</computeroutput> - Get the center of the plane.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetNormal ()</computeroutput> - Get the normal to the plane.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GetNormal (double xyz[3])</computeroutput> - Get the normal to the plane.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GetVector1 (double v1[3])</computeroutput> - Get the vector from the plane origin to point1.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GetVector2 (double v2[3])</computeroutput> - Get the vector from the plane origin to point2.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetSliceIndex ()</computeroutput> - Get the slice position in terms of the data extent.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetSliceIndex (int index)</computeroutput> - Set the slice position in terms of the data extent.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetSlicePosition ()</computeroutput> - Get the position of the slice along its normal.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetSlicePosition (double position)</computeroutput> - Set the position of the slice along its normal.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetResliceInterpolate (int )</computeroutput> - Set the interpolation to use when texturing the plane.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetResliceInterpolate ()</computeroutput> - Set the interpolation to use when texturing the plane.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetResliceInterpolateToNearestNeighbour ()</computeroutput> - Set the interpolation to use when texturing the plane.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetResliceInterpolateToLinear ()</computeroutput> - Set the interpolation to use when texturing the plane.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetResliceInterpolateToCubic ()</computeroutput> - Convenience method to get the vtkImageReslice output.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkImageData = obj.GetResliceOutput ()</computeroutput> - Convenience method to get the vtkImageReslice output.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetRestrictPlaneToVolume (int )</computeroutput> - Make sure that the plane remains within the volume. Default is On.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetRestrictPlaneToVolume ()</computeroutput> - Make sure that the plane remains within the volume. Default is On.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.RestrictPlaneToVolumeOn ()</computeroutput> - Make sure that the plane remains within the volume. Default is On.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.RestrictPlaneToVolumeOff ()</computeroutput> - Make sure that the plane remains within the volume. Default is On.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetUserControlledLookupTable (int )</computeroutput> - Let the user control the lookup table. NOTE: apply this method BEFORE applying the SetLookupTable method. Default is Off.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetUserControlledLookupTable ()</computeroutput> - Let the user control the lookup table. NOTE: apply this method BEFORE applying the SetLookupTable method. Default is Off.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.UserControlledLookupTableOn ()</computeroutput> - Let the user control the lookup table. NOTE: apply this method BEFORE applying the SetLookupTable method. Default is Off.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.UserControlledLookupTableOff ()</computeroutput> - Let the user control the lookup table. NOTE: apply this method BEFORE applying the SetLookupTable method. Default is Off.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetTextureInterpolate (int )</computeroutput> - Specify whether to interpolate the texture or not. When off, the reslice interpolation is nearest neighbour regardless of how the interpolation is set through the API. Set before setting the vtkImageData input. Default is On.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetTextureInterpolate ()</computeroutput> - Specify whether to interpolate the texture or not. When off, the reslice interpolation is nearest neighbour regardless of how the interpolation is set through the API. Set before setting the vtkImageData input. Default is On.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.TextureInterpolateOn ()</computeroutput> - Specify whether to interpolate the texture or not. When off, the reslice interpolation is nearest neighbour regardless of how the interpolation is set through the API. Set before setting the vtkImageData input. Default is On.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.TextureInterpolateOff ()</computeroutput> - Specify whether to interpolate the texture or not. When off, the reslice interpolation is nearest neighbour regardless of how the interpolation is set through the API. Set before setting the vtkImageData input. Default is On.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetTextureVisibility (int )</computeroutput> - Control the visibility of the actual texture mapped reformatted plane. in some cases you may only want the plane outline for example.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetTextureVisibility ()</computeroutput> - Control the visibility of the actual texture mapped reformatted plane. in some cases you may only want the plane outline for example.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.TextureVisibilityOn ()</computeroutput> - Control the visibility of the actual texture mapped reformatted plane. in some cases you may only want the plane outline for example.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.TextureVisibilityOff ()</computeroutput> - Control the visibility of the actual texture mapped reformatted plane. in some cases you may only want the plane outline for example.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GetPolyData (vtkPolyData pd)</computeroutput> - Grab the polydata (including points) that defines the plane. The polydata consists of (res+1)*(res+1) points, and res*res quadrilateral polygons, where res is the resolution of the plane. These point values are guaranteed to be up-to-date when either the InteractionEvent or EndInteraction events are invoked. The user provides the vtkPolyData and the points and polygons are added to it.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkPolyDataAlgorithm = obj.GetPolyDataAlgorithm ()</computeroutput> - Satisfies superclass API. This returns a pointer to the underlying vtkPolyData. Make changes to this before calling the initial PlaceWidget() to have the initial placement follow suit. Or, make changes after the widget has been initialised and call UpdatePlacement() to realise.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.UpdatePlacement (void )</computeroutput> - Satisfies superclass API. This will change the state of the widget to match changes that have been made to the underlying vtkPolyDataSource  </para></listitem>
+<listitem>
+<para><computeroutput>vtkTexture = obj.GetTexture ()</computeroutput> - Convenience method to get the texture used by this widget. This can be used in external slice viewers.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkImageMapToColors = obj.GetColorMap ()</computeroutput> - Convenience method to get the vtkImageMapToColors filter used by this widget. The user can properly render other transparent actors in a scene by calling the filter&apos;s SetOutputFormatToRGB and PassAlphaToOutputOff.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetColorMap (vtkImageMapToColors )</computeroutput> - Convenience method to get the vtkImageMapToColors filter used by this widget. The user can properly render other transparent actors in a scene by calling the filter&apos;s SetOutputFormatToRGB and PassAlphaToOutputOff.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetPlaneProperty (vtkProperty )</computeroutput> - Set/Get the plane&apos;s outline properties. The properties of the plane&apos;s outline when selected and unselected can be manipulated.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkProperty = obj.GetPlaneProperty ()</computeroutput> - Set/Get the plane&apos;s outline properties. The properties of the plane&apos;s outline when selected and unselected can be manipulated.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetSelectedPlaneProperty (vtkProperty )</computeroutput> - Set/Get the plane&apos;s outline properties. The properties of the plane&apos;s outline when selected and unselected can be manipulated.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkProperty = obj.GetSelectedPlaneProperty ()</computeroutput> - Set/Get the plane&apos;s outline properties. The properties of the plane&apos;s outline when selected and unselected can be manipulated.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetPlaneOrientation (int )</computeroutput> - Convenience method sets the plane orientation normal to the x, y, or z axes. Default is XAxes (0).  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetPlaneOrientation ()</computeroutput> - Convenience method sets the plane orientation normal to the x, y, or z axes. Default is XAxes (0).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetPlaneOrientationToXAxes ()</computeroutput> - Convenience method sets the plane orientation normal to the x, y, or z axes. Default is XAxes (0).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetPlaneOrientationToYAxes ()</computeroutput> - Convenience method sets the plane orientation normal to the x, y, or z axes. Default is XAxes (0).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetPlaneOrientationToZAxes ()</computeroutput> - Set the internal picker to one defined by the user. In this way, a set of three orthogonal planes can share the same picker so that picking is performed correctly. The default internal picker can be re-set/allocated by setting to 0 (NULL).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetPicker (vtkAbstractPropPicker )</computeroutput> - Set the internal picker to one defined by the user. In this way, a set of three orthogonal planes can share the same picker so that picking is performed correctly. The default internal picker can be re-set/allocated by setting to 0 (NULL).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetLookupTable (vtkLookupTable )</computeroutput> - Set/Get the internal lookuptable (lut) to one defined by the user, or, alternatively, to the lut of another vtkImgePlaneWidget. In this way, a set of three orthogonal planes can share the same lut so that window-levelling is performed uniformly among planes. The default internal lut can be re- set/allocated by setting to 0 (NULL).  </para></listitem>
+<listitem>
+<para><computeroutput>vtkLookupTable = obj.GetLookupTable ()</computeroutput> - Set/Get the internal lookuptable (lut) to one defined by the user, or, alternatively, to the lut of another vtkImgePlaneWidget. In this way, a set of three orthogonal planes can share the same lut so that window-levelling is performed uniformly among planes. The default internal lut can be re- set/allocated by setting to 0 (NULL).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetDisplayText (int )</computeroutput> - Enable/disable text display of window-level, image coordinates and scalar values in a render window.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetDisplayText ()</computeroutput> - Enable/disable text display of window-level, image coordinates and scalar values in a render window.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.DisplayTextOn ()</computeroutput> - Enable/disable text display of window-level, image coordinates and scalar values in a render window.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.DisplayTextOff ()</computeroutput> - Enable/disable text display of window-level, image coordinates and scalar values in a render window.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetCursorProperty (vtkProperty )</computeroutput> - Set the properties of the cross-hair cursor.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkProperty = obj.GetCursorProperty ()</computeroutput> - Set the properties of the cross-hair cursor.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetMarginProperty (vtkProperty )</computeroutput> - Set the properties of the margins.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkProperty = obj.GetMarginProperty ()</computeroutput> - Set the properties of the margins.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetMarginSizeX (double )</computeroutput> - Set the size of the margins based on a percentage of the plane&apos;s width and height, limited between 0 and 50%.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetMarginSizeXMinValue ()</computeroutput> - Set the size of the margins based on a percentage of the plane&apos;s width and height, limited between 0 and 50%.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetMarginSizeXMaxValue ()</computeroutput> - Set the size of the margins based on a percentage of the plane&apos;s width and height, limited between 0 and 50%.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetMarginSizeX ()</computeroutput> - Set the size of the margins based on a percentage of the plane&apos;s width and height, limited between 0 and 50%.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetMarginSizeY (double )</computeroutput> - Set the size of the margins based on a percentage of the plane&apos;s width and height, limited between 0 and 50%.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetMarginSizeYMinValue ()</computeroutput> - Set the size of the margins based on a percentage of the plane&apos;s width and height, limited between 0 and 50%.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetMarginSizeYMaxValue ()</computeroutput> - Set the size of the margins based on a percentage of the plane&apos;s width and height, limited between 0 and 50%.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetMarginSizeY ()</computeroutput> - Set the size of the margins based on a percentage of the plane&apos;s width and height, limited between 0 and 50%.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetTextProperty (vtkTextProperty tprop)</computeroutput> - Set/Get the text property for the image data and window-level annotation.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkTextProperty = obj.GetTextProperty ()</computeroutput> - Set/Get the text property for the image data and window-level annotation.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetTexturePlaneProperty (vtkProperty )</computeroutput> - Set/Get the property for the resliced image.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkProperty = obj.GetTexturePlaneProperty ()</computeroutput> - Set/Get the property for the resliced image.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetWindowLevel (double window, double level, int copy)</computeroutput> - Set/Get the current window and level values. SetWindowLevel should only be called after SetInput. If a shared lookup table is being used, a callback is required to update the window level values without having to update the lookup table again.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GetWindowLevel (double wl[2])</computeroutput> - Set/Get the current window and level values. SetWindowLevel should only be called after SetInput. If a shared lookup table is being used, a callback is required to update the window level values without having to update the lookup table again.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetWindow ()</computeroutput> - Set/Get the current window and level values. SetWindowLevel should only be called after SetInput. If a shared lookup table is being used, a callback is required to update the window level values without having to update the lookup table again.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetLevel ()</computeroutput> - Get the image coordinate position and voxel value. Currently only supports single component image data.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetCursorData (double xyzv[4])</computeroutput> - Get the image coordinate position and voxel value. Currently only supports single component image data.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetCursorDataStatus ()</computeroutput> - Get the status of the cursor data. If this returns 1 the CurrentCursorPosition and CurrentImageValue will have current data. If it returns 0, these values are invalid.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj. GetCurrentCursorPosition ()</computeroutput> - Get the current cursor position. To be used in conjunction with GetCursorDataStatus.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetCurrentImageValue ()</computeroutput> - Get the current image value at the current cursor position. To be used in conjunction with GetCursorDataStatus. The value is VTK_DOUBLE_MAX when the data is invalid.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetUseContinuousCursor (int )</computeroutput> - Choose between voxel centered or continuous cursor probing. With voxel centered probing, the cursor snaps to the nearest voxel and the reported cursor coordinates are extent based. With continuous probing, voxel data is interpolated using vtkDataSetAttributes&apos; InterpolatePoint method and the reported coordinates are 3D spatial continuous.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetUseContinuousCursor ()</computeroutput> - Choose between voxel centered or continuous cursor probing. With voxel centered probing, the cursor snaps to the nearest voxel and the reported cursor coordinates are extent based. With continuous probing, voxel data is interpolated using vtkDataSetAttributes&apos; InterpolatePoint method and the reported coordinates are 3D spatial continuous.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.UseContinuousCursorOn ()</computeroutput> - Choose between voxel centered or continuous cursor probing. With voxel centered probing, the cursor snaps to the nearest voxel and the reported cursor coordinates are extent based. With continuous probing, voxel data is interpolated using vtkDataSetAttributes&apos; InterpolatePoint method and the reported coordinates are 3D spatial continuous.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.UseContinuousCursorOff ()</computeroutput> - Choose between voxel centered or continuous cursor probing. With voxel centered probing, the cursor snaps to the nearest voxel and the reported cursor coordinates are extent based. With continuous probing, voxel data is interpolated using vtkDataSetAttributes&apos; InterpolatePoint method and the reported coordinates are 3D spatial continuous.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetInteraction (int interact)</computeroutput> - Enable/disable mouse interaction so the widget remains on display.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetInteraction ()</computeroutput> - Enable/disable mouse interaction so the widget remains on display.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.InteractionOn ()</computeroutput> - Enable/disable mouse interaction so the widget remains on display.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.InteractionOff ()</computeroutput> - Enable/disable mouse interaction so the widget remains on display.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetLeftButtonAction (int )</computeroutput> - Set action associated to buttons.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetLeftButtonActionMinValue ()</computeroutput> - Set action associated to buttons.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetLeftButtonActionMaxValue ()</computeroutput> - Set action associated to buttons.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetLeftButtonAction ()</computeroutput> - Set action associated to buttons.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetMiddleButtonAction (int )</computeroutput> - Set action associated to buttons.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetMiddleButtonActionMinValue ()</computeroutput> - Set action associated to buttons.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetMiddleButtonActionMaxValue ()</computeroutput> - Set action associated to buttons.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetMiddleButtonAction ()</computeroutput> - Set action associated to buttons.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetRightButtonAction (int )</computeroutput> - Set action associated to buttons.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetRightButtonActionMinValue ()</computeroutput> - Set action associated to buttons.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetRightButtonActionMaxValue ()</computeroutput> - Set action associated to buttons.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetRightButtonAction ()</computeroutput> - Set action associated to buttons.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetLeftButtonAutoModifier (int )</computeroutput> - Set the auto-modifiers associated to buttons. This allows users to bind some buttons to actions that are usually triggered by a key modifier. For example, if you do not need cursoring, you can bind the left button action to VTK_SLICE_MOTION_ACTION (see above) and the left button auto modifier to VTK_CONTROL_MODIFIER: you end up with the left button controling panning without pressing a key.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetLeftButtonAutoModifierMinValue ()</computeroutput> - Set the auto-modifiers associated to buttons. This allows users to bind some buttons to actions that are usually triggered by a key modifier. For example, if you do not need cursoring, you can bind the left button action to VTK_SLICE_MOTION_ACTION (see above) and the left button auto modifier to VTK_CONTROL_MODIFIER: you end up with the left button controling panning without pressing a key.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetLeftButtonAutoModifierMaxValue ()</computeroutput> - Set the auto-modifiers associated to buttons. This allows users to bind some buttons to actions that are usually triggered by a key modifier. For example, if you do not need cursoring, you can bind the left button action to VTK_SLICE_MOTION_ACTION (see above) and the left button auto modifier to VTK_CONTROL_MODIFIER: you end up with the left button controling panning without pressing a key.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetLeftButtonAutoModifier ()</computeroutput> - Set the auto-modifiers associated to buttons. This allows users to bind some buttons to actions that are usually triggered by a key modifier. For example, if you do not need cursoring, you can bind the left button action to VTK_SLICE_MOTION_ACTION (see above) and the left button auto modifier to VTK_CONTROL_MODIFIER: you end up with the left button controling panning without pressing a key.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetMiddleButtonAutoModifier (int )</computeroutput> - Set the auto-modifiers associated to buttons. This allows users to bind some buttons to actions that are usually triggered by a key modifier. For example, if you do not need cursoring, you can bind the left button action to VTK_SLICE_MOTION_ACTION (see above) and the left button auto modifier to VTK_CONTROL_MODIFIER: you end up with the left button controling panning without pressing a key.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetMiddleButtonAutoModifierMinValue ()</computeroutput> - Set the auto-modifiers associated to buttons. This allows users to bind some buttons to actions that are usually triggered by a key modifier. For example, if you do not need cursoring, you can bind the left button action to VTK_SLICE_MOTION_ACTION (see above) and the left button auto modifier to VTK_CONTROL_MODIFIER: you end up with the left button controling panning without pressing a key.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetMiddleButtonAutoModifierMaxValue ()</computeroutput> - Set the auto-modifiers associated to buttons. This allows users to bind some buttons to actions that are usually triggered by a key modifier. For example, if you do not need cursoring, you can bind the left button action to VTK_SLICE_MOTION_ACTION (see above) and the left button auto modifier to VTK_CONTROL_MODIFIER: you end up with the left button controling panning without pressing a key.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetMiddleButtonAutoModifier ()</computeroutput> - Set the auto-modifiers associated to buttons. This allows users to bind some buttons to actions that are usually triggered by a key modifier. For example, if you do not need cursoring, you can bind the left button action to VTK_SLICE_MOTION_ACTION (see above) and the left button auto modifier to VTK_CONTROL_MODIFIER: you end up with the left button controling panning without pressing a key.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetRightButtonAutoModifier (int )</computeroutput> - Set the auto-modifiers associated to buttons. This allows users to bind some buttons to actions that are usually triggered by a key modifier. For example, if you do not need cursoring, you can bind the left button action to VTK_SLICE_MOTION_ACTION (see above) and the left button auto modifier to VTK_CONTROL_MODIFIER: you end up with the left button controling panning without pressing a key.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetRightButtonAutoModifierMinValue ()</computeroutput> - Set the auto-modifiers associated to buttons. This allows users to bind some buttons to actions that are usually triggered by a key modifier. For example, if you do not need cursoring, you can bind the left button action to VTK_SLICE_MOTION_ACTION (see above) and the left button auto modifier to VTK_CONTROL_MODIFIER: you end up with the left button controling panning without pressing a key.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetRightButtonAutoModifierMaxValue ()</computeroutput> - Set the auto-modifiers associated to buttons. This allows users to bind some buttons to actions that are usually triggered by a key modifier. For example, if you do not need cursoring, you can bind the left button action to VTK_SLICE_MOTION_ACTION (see above) and the left button auto modifier to VTK_CONTROL_MODIFIER: you end up with the left button controling panning without pressing a key.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetRightButtonAutoModifier ()</computeroutput> - Set the auto-modifiers associated to buttons. This allows users to bind some buttons to actions that are usually triggered by a key modifier. For example, if you do not need cursoring, you can bind the left button action to VTK_SLICE_MOTION_ACTION (see above) and the left button auto modifier to VTK_CONTROL_MODIFIER: you end up with the left button controling panning without pressing a key.  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

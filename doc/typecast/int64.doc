@@ -1,0 +1,89 @@
+/*!
+\page typecast_int64 INT64 Convert to Signed 64-bit Integer
+
+<p>
+Section: \ref sec_typecast "Type Conversion Functions"
+\section Usage
+Converts the argument to an signed 64-bit Integer.  The syntax
+for its use is
+\verbatim
+   y = int64(x)
+\endverbatim
+where <tt>x</tt> is an <tt>n</tt>-dimensional numerical array.  Conversion
+follows the saturation rules (e.g., if <tt>x</tt> is outside the normal
+range for a signed 64-bit integer of <tt>[-2^63+1,2^63-1]</tt>, it is
+truncated to that range).  Note that both <tt>NaN</tt> and <tt>Inf</tt> both map to 0.
+\section Example
+The following piece of code demonstrates several uses of <tt>int64</tt>.  First, the routine uses
+
+\if FRAGMENT
+frag_typecast_int64_000.m
+0
+int64(100)
+int64(-100)
+\endif
+
+
+\verbinclude frag_typecast_int64_000.m.out 
+
+In the next example, an integer outside the range  of the type is passed in.  
+The result is truncated to the range of the data type.
+
+\if FRAGMENT
+frag_typecast_int64_001.m
+0
+int64(40e9)
+\endif
+
+
+\verbinclude frag_typecast_int64_001.m.out 
+
+In the next example, a positive double precision argument is passed in.  The 
+result is the signed integer that is closest to the argument.
+
+\if FRAGMENT
+frag_typecast_int64_002.m
+0
+int64(pi)
+\endif
+
+
+\verbinclude frag_typecast_int64_002.m.out 
+
+In the next example, a complex argument is passed in.  The result is the 
+complex signed integer that is closest to the argument.
+
+\if FRAGMENT
+frag_typecast_int64_003.m
+0
+int64(5+2*i)
+\endif
+
+
+\verbinclude frag_typecast_int64_003.m.out 
+
+In the next example, a string argument is passed in.  The string argument is 
+converted into an integer array corresponding to the ASCII values of each character.
+
+\if FRAGMENT
+frag_typecast_int64_004.m
+0
+int64('helo')
+\endif
+
+
+\verbinclude frag_typecast_int64_004.m.out 
+
+In the last example, a cell-array is passed in.  For cell-arrays and structure 
+arrays, the result is an error.
+
+\if FRAGMENT
+frag_typecast_int64_005.m
+1
+int64({4})
+\endif
+
+
+\verbinclude frag_typecast_int64_005.m.out 
+
+*/

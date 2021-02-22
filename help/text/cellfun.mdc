@@ -1,0 +1,54 @@
+
+ Usage
+
+The cellfun function is used to apply a function handle (or
+anonymous function) to each element of a cell array and to
+collect the outputs into an array. The general syntax for
+its use is
+
+     y = cellfun(fun, x)
+
+where x is an N-dimensional array. In this case, each
+element of the output y_i is defined as fun(x{i}). You can
+also supply multiple arguments to cellfun, provided all of
+the arguments are the same size
+
+     y = cellfun(fun, x, z, ...)
+
+in which case each output y_i is defined as fun(x{i},z
+{i},...). Note that unlike arrayfun, the cellfun function
+will allow for different types (if there are overloaded
+versions of the function fun) for each element.
+If the function returns multiple outputs, then arrayfun can
+be called with multiple outputs, in which case each output
+goes to a separate array output
+
+     [y1,y2,...] = cellfun(fun, x, z, ...)
+
+The assumption is that the output types for each call to fun
+is the same across the inputs.
+Finally, some hints can be provided to cellfun using the
+syntax
+
+     [y1,y2,...] = cellfun(fun, x, z, ..., 'param', value,
+  'param', value)
+
+where param and value take on the following possible values:
+
+* 'UniformOutput' - if the value is true then each output of
+  fun must be a scalar, and the outputs are concatenated
+  into an array the same size as the input arrays. If the
+  value is false then the outputs are encapsulated into a
+  cell array, with each entry in the cell array containing
+  the call to fun(x_i,z_i,...).
+* 'ErrorHandler' - in this case value is a function handle
+  that gets called when fun throws an error. If
+  'ErrorHandler' is not specified, then arrayfun allows the
+  error to propogate (i.e., and exception is thrown).
+
+
+* FreeMat_Documentation
+* Array_Generation_and_Manipulations
+* Generated on Thu Jul 25 2013 17:17:13 for FreeMat by
+  doxygen_ 1.8.1.1
+

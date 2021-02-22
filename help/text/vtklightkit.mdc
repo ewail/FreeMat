@@ -1,0 +1,330 @@
+
+ Usage
+
+vtkLightKit is designed to make general purpose lighting of
+vtk scenes simple, flexible, and attractive (or at least not
+horribly ugly without significant effort). Use a LightKit
+when you want more control over your lighting than you can
+get with the default vtk light, which is a headlight located
+at the camera. (HeadLights are very simple to use, but they
+don't show the shape of objects very well, don't give a good
+sense of "up" and "down", and don't evenly light the
+object.)
+A LightKit consists of three lights, a key light, a fill
+light, and a headlight. The main light is the key light. It
+is usually positioned so that it appears like an overhead
+light (like the sun, or a ceiling light). It is generally
+positioned to shine down on the scene from about a 45 degree
+angle vertically and at least a little offset side to side.
+The key light usually at least about twice as bright as the
+total of all other lights in the scene to provide good
+modeling of object features.
+The other lights in the kit (the fill light, headlight, and
+a pair of back lights) are weaker sources that provide extra
+illumination to fill in the spots that the key light misses.
+The fill light is usually positioned across from or opposite
+from the key light (though still on the same side of the
+object as the camera) in order to simulate diffuse
+reflections from other objects in the scene. The headlight,
+always located at the position of the camera, reduces the
+contrast between areas lit by the key and fill light. The
+two back lights, one on the left of the object as seen from
+the observer and one on the right, fill on the high-contrast
+areas behind the object. To enforce the relationship between
+the different lights, the intensity of the fill, back and
+headlights are set as a ratio to the key light brightness.
+Thus, the brightness of all the lights in the scene can be
+changed by changing the key light intensity.
+All lights are directional lights (infinitely far away with
+no falloff). Lights move with the camera.
+For simplicity, the position of lights in the LightKit can
+only be specified using angles: the elevation (latitude) and
+azimuth (longitude) of each light with respect to the
+camera, expressed in degrees. (Lights always shine on the
+camera's lookat point.) For example, a light at
+(elevation=0, azimuth=0) is located at the camera (a
+headlight). A light at (elevation=90, azimuth=0) is above
+the lookat point, shining down. Negative azimuth values move
+the lights clockwise as seen above, positive values counter-
+clockwise. So, a light at (elevation=45, azimuth=-20) is
+above and in front of the object and shining slightly from
+the left side.
+vtkLightKit limits the colors that can be assigned to any
+light to those of incandescent sources such as light bulbs
+and sunlight. It defines a special color spectrum called
+"warmth" from which light colors can be chosen, where 0 is
+cold blue, 0.5 is neutral white, and 1 is deep sunset red.
+Colors close to 0.5 are "cool whites" and "warm whites,"
+respectively.
+Since colors far from white on the warmth scale appear less
+bright, key-to-fill and key-to-headlight ratios are skewed
+by key, fill, and headlight colors. If the flag
+MaintainLuminance is set, vtkLightKit will attempt to
+compensate for these perceptual differences by increasing
+the brightness of more saturated colors.
+A LightKit is not explicitly part of the vtk pipeline.
+Rather, it is a composite object that controls the behavior
+of lights using a unified user interface. Every time a
+parameter of vtkLightKit is adjusted, the properties of its
+lights are modified.
+.SECTION Credits vtkLightKit was originally written and
+contributed to vtk by Michael Halle
+(mhall.nosp@m.e@bw.nosp@m.h.har.nosp@m.vard.nosp@m..edu) at
+the Surgical Planning Lab, Brigham and Women's Hospital.
+To create an instance of class vtkLightKit, simply invoke
+its constructor as follows
+
+    obj = vtkLightKit
+
+
+
+ Methods
+
+The class vtkLightKit has several methods that can be used.
+They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkLightKit class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkLightKit = obj.NewInstance ()
+* vtkLightKit = obj.SafeDownCast (vtkObject o)
+* obj.SetKeyLightIntensity (double ) - Set/Get the intensity
+  of the key light. The key light is the brightest light in
+  the scene. The intensities of the other two lights are
+  ratios of the key light's intensity.
+* double = obj.GetKeyLightIntensity () - Set/Get the
+  intensity of the key light. The key light is the brightest
+  light in the scene. The intensities of the other two
+  lights are ratios of the key light's intensity.
+* obj.SetKeyToFillRatio (double ) - Set/Get the key-to-fill
+  ratio. This ratio controls how bright the fill light is
+  compared to the key light: larger values correspond to a
+  dimmer fill light. The purpose of the fill light is to
+  light parts of the object not lit by the key light, while
+  still maintaining constrast. This type of lighting may
+  correspond to indirect illumination from the key light,
+  bounced off a wall, floor, or other object. The fill light
+  should never be brighter than the key light: a good range
+  for the key-to-fill ratio is between 2 and 10.
+* double = obj.GetKeyToFillRatioMinValue () - Set/Get the
+  key-to-fill ratio. This ratio controls how bright the fill
+  light is compared to the key light: larger values
+  correspond to a dimmer fill light. The purpose of the fill
+  light is to light parts of the object not lit by the key
+  light, while still maintaining constrast. This type of
+  lighting may correspond to indirect illumination from the
+  key light, bounced off a wall, floor, or other object. The
+  fill light should never be brighter than the key light: a
+  good range for the key-to-fill ratio is between 2 and 10.
+* double = obj.GetKeyToFillRatioMaxValue () - Set/Get the
+  key-to-fill ratio. This ratio controls how bright the fill
+  light is compared to the key light: larger values
+  correspond to a dimmer fill light. The purpose of the fill
+  light is to light parts of the object not lit by the key
+  light, while still maintaining constrast. This type of
+  lighting may correspond to indirect illumination from the
+  key light, bounced off a wall, floor, or other object. The
+  fill light should never be brighter than the key light: a
+  good range for the key-to-fill ratio is between 2 and 10.
+* double = obj.GetKeyToFillRatio () - Set/Get the key-to-
+  fill ratio. This ratio controls how bright the fill light
+  is compared to the key light: larger values correspond to
+  a dimmer fill light. The purpose of the fill light is to
+  light parts of the object not lit by the key light, while
+  still maintaining constrast. This type of lighting may
+  correspond to indirect illumination from the key light,
+  bounced off a wall, floor, or other object. The fill light
+  should never be brighter than the key light: a good range
+  for the key-to-fill ratio is between 2 and 10.
+* obj.SetKeyToHeadRatio (double ) - Set/Get the key-to-
+  headlight ratio. Similar to the key-to-fill ratio, this
+  ratio controls how bright the headlight light is compared
+  to the key light: larger values correspond to a dimmer
+  headlight light. The headlight is special kind of fill
+  light, lighting only the parts of the object that the
+  camera can see. As such, a headlight tends to reduce the
+  contrast of a scene. It can be used to fill in "shadows"
+  of the object missed by the key and fill lights. The
+  headlight should always be significantly dimmer than the
+  key light: ratios of 2 to 15 are typical.
+* double = obj.GetKeyToHeadRatioMinValue () - Set/Get the
+  key-to-headlight ratio. Similar to the key-to-fill ratio,
+  this ratio controls how bright the headlight light is
+  compared to the key light: larger values correspond to a
+  dimmer headlight light. The headlight is special kind of
+  fill light, lighting only the parts of the object that the
+  camera can see. As such, a headlight tends to reduce the
+  contrast of a scene. It can be used to fill in "shadows"
+  of the object missed by the key and fill lights. The
+  headlight should always be significantly dimmer than the
+  key light: ratios of 2 to 15 are typical.
+* double = obj.GetKeyToHeadRatioMaxValue () - Set/Get the
+  key-to-headlight ratio. Similar to the key-to-fill ratio,
+  this ratio controls how bright the headlight light is
+  compared to the key light: larger values correspond to a
+  dimmer headlight light. The headlight is special kind of
+  fill light, lighting only the parts of the object that the
+  camera can see. As such, a headlight tends to reduce the
+  contrast of a scene. It can be used to fill in "shadows"
+  of the object missed by the key and fill lights. The
+  headlight should always be significantly dimmer than the
+  key light: ratios of 2 to 15 are typical.
+* double = obj.GetKeyToHeadRatio () - Set/Get the key-to-
+  headlight ratio. Similar to the key-to-fill ratio, this
+  ratio controls how bright the headlight light is compared
+  to the key light: larger values correspond to a dimmer
+  headlight light. The headlight is special kind of fill
+  light, lighting only the parts of the object that the
+  camera can see. As such, a headlight tends to reduce the
+  contrast of a scene. It can be used to fill in "shadows"
+  of the object missed by the key and fill lights. The
+  headlight should always be significantly dimmer than the
+  key light: ratios of 2 to 15 are typical.
+* obj.SetKeyToBackRatio (double ) - Set/Get the key-to-back
+  light ratio. This ratio controls how bright the back
+  lights are compared to the key light: larger values
+  correspond to dimmer back lights. The back lights fill in
+  the remaining high-contrast regions behind the object.
+  Values between 2 and 10 are good.
+* double = obj.GetKeyToBackRatioMinValue () - Set/Get the
+  key-to-back light ratio. This ratio controls how bright
+  the back lights are compared to the key light: larger
+  values correspond to dimmer back lights. The back lights
+  fill in the remaining high-contrast regions behind the
+  object. Values between 2 and 10 are good.
+* double = obj.GetKeyToBackRatioMaxValue () - Set/Get the
+  key-to-back light ratio. This ratio controls how bright
+  the back lights are compared to the key light: larger
+  values correspond to dimmer back lights. The back lights
+  fill in the remaining high-contrast regions behind the
+  object. Values between 2 and 10 are good.
+* double = obj.GetKeyToBackRatio () - Set/Get the key-to-
+  back light ratio. This ratio controls how bright the back
+  lights are compared to the key light: larger values
+  correspond to dimmer back lights. The back lights fill in
+  the remaining high-contrast regions behind the object.
+  Values between 2 and 10 are good.
+* obj.SetKeyLightWarmth (double ) - Set the warmth of each
+  the lights. Warmth is a parameter that varies from 0 to 1,
+  where 0 is "cold" (looks icy or lit by a very blue sky), 1
+  is "warm" (the red of a very red sunset, or the embers of
+  a campfire), and 0.5 is a neutral white. The warmth scale
+  is non-linear. Warmth values close to 0.5 are subtly
+  "warmer" or "cooler," much like a warmer tungsten
+  incandescent bulb, a cooler halogen, or daylight (cooler
+  still). Moving further away from 0.5, colors become more
+  quickly varying towards blues and reds. With regards to
+  aesthetics, extremes of warmth should be used sparingly.
+* double = obj.GetKeyLightWarmth () - Set the warmth of each
+  the lights. Warmth is a parameter that varies from 0 to 1,
+  where 0 is "cold" (looks icy or lit by a very blue sky), 1
+  is "warm" (the red of a very red sunset, or the embers of
+  a campfire), and 0.5 is a neutral white. The warmth scale
+  is non-linear. Warmth values close to 0.5 are subtly
+  "warmer" or "cooler," much like a warmer tungsten
+  incandescent bulb, a cooler halogen, or daylight (cooler
+  still). Moving further away from 0.5, colors become more
+  quickly varying towards blues and reds. With regards to
+  aesthetics, extremes of warmth should be used sparingly.
+* obj.SetFillLightWarmth (double )
+* double = obj.GetFillLightWarmth ()
+* obj.SetHeadLightWarmth (double )
+* double = obj.GetHeadLightWarmth ()
+* obj.SetBackLightWarmth (double )
+* double = obj.GetBackLightWarmth ()
+* double = obj. GetKeyLightColor () - Returns the floating-
+  point RGB values of each of the light's color.
+* double = obj. GetFillLightColor () - Returns the floating-
+  point RGB values of each of the light's color.
+* double = obj. GetHeadLightColor () - Returns the floating-
+  point RGB values of each of the light's color.
+* double = obj. GetBackLightColor () - Returns the floating-
+  point RGB values of each of the light's color.
+* obj.SetHeadlightWarmth (double v) - To maintain a
+  deprecation API:
+* double = obj.GetHeadlightWarmth () - To maintain a
+  deprecation API:
+* obj.GetHeadlightColor (double color) - To maintain a
+  deprecation API:
+* obj.MaintainLuminanceOn () - If MaintainLuminance is set,
+  the LightKit will attempt to maintain the apparent
+  intensity of lights based on their perceptual
+  brightnesses. By default, MaintainLuminance is off.
+* obj.MaintainLuminanceOff () - If MaintainLuminance is set,
+  the LightKit will attempt to maintain the apparent
+  intensity of lights based on their perceptual
+  brightnesses. By default, MaintainLuminance is off.
+* int = obj.GetMaintainLuminance () - If MaintainLuminance
+  is set, the LightKit will attempt to maintain the apparent
+  intensity of lights based on their perceptual
+  brightnesses. By default, MaintainLuminance is off.
+* obj.SetMaintainLuminance (int ) - If MaintainLuminance is
+  set, the LightKit will attempt to maintain the apparent
+  intensity of lights based on their perceptual
+  brightnesses. By default, MaintainLuminance is off.
+* obj.SetKeyLightAngle (double elevation, double azimuth) -
+  Get/Set the position of the key, fill, and back lights
+  using angular methods. Elevation corresponds to latitude,
+  azimuth to longitude. It is recommended that the key light
+  always be on the viewer's side of the object and above the
+  object, while the fill light generally lights the part of
+  the object not lit by the fill light. The headlight, which
+  is always located at the viewer, can then be used to
+  reduce the contrast in the image. There are a pair of back
+  lights. They are located at the same elevation and at
+  opposing azimuths (ie, one to the left, and one to the
+  right). They are generally set at the equator (elevation =
+  0), and at approximately 120 degrees (lighting from each
+  side and behind).
+* obj.SetKeyLightAngle (double angle[2]) - Get/Set the
+  position of the key, fill, and back lights using angular
+  methods. Elevation corresponds to latitude, azimuth to
+  longitude. It is recommended that the key light always be
+  on the viewer's side of the object and above the object,
+  while the fill light generally lights the part of the
+  object not lit by the fill light. The headlight, which is
+  always located at the viewer, can then be used to reduce
+  the contrast in the image. There are a pair of back
+  lights. They are located at the same elevation and at
+  opposing azimuths (ie, one to the left, and one to the
+  right). They are generally set at the equator (elevation =
+  0), and at approximately 120 degrees (lighting from each
+  side and behind).
+* obj.SetKeyLightElevation (double x)
+* obj.SetKeyLightAzimuth (double x)
+* double = obj. GetKeyLightAngle ()
+* double = obj.GetKeyLightElevation ()
+* double = obj.GetKeyLightAzimuth ()
+* obj.SetFillLightAngle (double elevation, double azimuth)
+* obj.SetFillLightAngle (double angle[2])
+* obj.SetFillLightElevation (double x)
+* obj.SetFillLightAzimuth (double x)
+* double = obj. GetFillLightAngle ()
+* double = obj.GetFillLightElevation ()
+* double = obj.GetFillLightAzimuth ()
+* obj.SetBackLightAngle (double elevation, double azimuth)
+* obj.SetBackLightAngle (double angle[2])
+* obj.SetBackLightElevation (double x)
+* obj.SetBackLightAzimuth (double x)
+* double = obj. GetBackLightAngle ()
+* double = obj.GetBackLightElevation ()
+* double = obj.GetBackLightAzimuth ()
+* obj.AddLightsToRenderer (vtkRenderer renderer) - Add
+  lights to, or remove lights from, a renderer. Lights may
+  be added to more than one renderer, if desired.
+* obj.RemoveLightsFromRenderer (vtkRenderer renderer) - Add
+  lights to, or remove lights from, a renderer. Lights may
+  be added to more than one renderer, if desired.
+* obj.DeepCopy (vtkLightKit kit)
+* obj.Modified ()
+* obj.Update ()
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Rendering_Classes
+* Generated on Thu Jul 25 2013 17:18:35 for FreeMat by
+  doxygen_ 1.8.1.1
+

@@ -1,0 +1,35 @@
+#!/bin/sh
+# Script to deploy the mac bundle created by cpack -- I am sure 
+# that the process can be automated, but I can't seem to figure
+# out how.
+#
+echo "Preparing $1.dmg for deployment..."
+echo "Mounting DMG"
+hdiutil attach $1.dmg
+echo "Erasing current app"
+rm -rf FreeMat.app
+echo "Copying app from DMG"
+cp -R /Volumes/$1/FreeMat.app .
+echo "Cleaning up app"
+rm -rf FreeMat.app/Contents/Resources/bin/FreeMat
+echo "Running QT deployment tool"
+/Developer/Tools/Qt/macdeployqt FreeMat.app
+echo "Unmounting Source DMG"
+hdiutil detach /Volumes/$1
+echo "Creating new DMG"
+hdiutil create -size 150m -fs HFS+ -volname $2 $2Uncompressed.dmg
+echo "Mounting new DMG"
+DEVS=$(hdiutil attach $2Uncompressed.dmg | cut -f 1)
+DEV=$(echo $DEVS | cut -f 1 -d ' ')
+VOLUME=$(mount |grep ${DEV} | cut -f 3 -d ' ')
+echo "Installing FreeMat"
+cp FreeMat.app/Contents/Resources/bin/blas.ini FreeMat.app/Contents/MacOS/.
+cp -Rp FreeMat.app ${VOLUME}/.
+ln -s /Applications/ ${VOLUME}/Applications
+cp FreeMat.app/Contents/Resources/help/pdf/*.pdf ${VOLUME}/.
+echo "Unmounting DMG"
+hdiutil detach $DEV
+echo "Compressing DMG"
+hdiutil convert $2Uncompressed.dmg -format UDBZ -o $2.dmg
+rm -rf $2Uncompressed.dmg
+rm -rf FreeMat.app

@@ -1,0 +1,204 @@
+
+ Usage
+
+vtkXMLDataElement is used by vtkXMLDataParser to represent
+an XML element. It provides methods to access the element's
+attributes and nested elements in a convenient manner. This
+allows easy traversal of an input XML file by vtkXMLReader
+and its subclasses.
+To create an instance of class vtkXMLDataElement, simply
+invoke its constructor as follows
+
+    obj = vtkXMLDataElement
+
+
+
+ Methods
+
+The class vtkXMLDataElement has several methods that can be
+used. They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkXMLDataElement class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkXMLDataElement = obj.NewInstance ()
+* vtkXMLDataElement = obj.SafeDownCast (vtkObject o)
+* string = obj.GetName () - Set/Get the name of the element.
+  This is its XML tag.
+* obj.SetName (string _arg) - Set/Get the name of the
+  element. This is its XML tag.
+* string = obj.GetId () - Set/Get the value of the id
+  attribute of the element, if any.
+* obj.SetId (string ) - Set/Get the value of the id
+  attribute of the element, if any.
+* string = obj.GetAttribute (string name) - Get the
+  attribute with the given name. If it doesn't exist,
+  returns 0.
+* obj.SetAttribute (string name, string value) - Set the
+  attribute with the given name and value. If it doesn't
+  exist, adds it.
+* obj.SetCharacterData (string c, int length) - Set/Get the
+  character data between XML start/end tags.
+* string = obj.GetCharacterData () - Set/Get the character
+  data between XML start/end tags.
+* obj.SetIntAttribute (string name, int value) - Set the
+  attribute with the given name. We can not use the same
+  GetScalarAttribute() construct since the compiler will not
+  be able to resolve between SetAttribute(..., int) and
+  SetAttribute(..., unsigned long).
+* obj.SetFloatAttribute (string name, float value) - Set the
+  attribute with the given name. We can not use the same
+  GetScalarAttribute() construct since the compiler will not
+  be able to resolve between SetAttribute(..., int) and
+  SetAttribute(..., unsigned long).
+* obj.SetDoubleAttribute (string name, double value) - Set
+  the attribute with the given name. We can not use the same
+  GetScalarAttribute() construct since the compiler will not
+  be able to resolve between SetAttribute(..., int) and
+  SetAttribute(..., unsigned long).
+* obj.SetUnsignedLongAttribute (string name, long value) -
+  Set the attribute with the given name. We can not use the
+  same GetScalarAttribute() construct since the compiler
+  will not be able to resolve between SetAttribute(..., int)
+  and SetAttribute(..., unsigned long).
+* int = obj.GetVectorAttribute (string name, int length, int
+  value) - Get the attribute with the given name and
+  converted to a scalar value. Returns length of vector
+  read.
+* int = obj.GetVectorAttribute (string name, int length,
+  float value) - Get the attribute with the given name and
+  converted to a scalar value. Returns length of vector
+  read.
+* int = obj.GetVectorAttribute (string name, int length,
+  double value) - Get the attribute with the given name and
+  converted to a scalar value. Returns length of vector
+  read.
+* int = obj.GetVectorAttribute (string name, int length,
+  long value) - Get the attribute with the given name and
+  converted to a scalar value. Returns length of vector
+  read.
+* obj.SetVectorAttribute (string name, int length, int
+  value) - Set the attribute with the given name.
+* obj.SetVectorAttribute (string name, int length, float
+  value) - Set the attribute with the given name.
+* obj.SetVectorAttribute (string name, int length, double
+  value) - Set the attribute with the given name.
+* obj.SetVectorAttribute (string name, int length, long
+  value) - Set the attribute with the given name.
+* int = obj.GetNumberOfAttributes () - Get the number of
+  attributes.
+* string = obj.GetAttributeName (int idx) - Get the n-th
+  attribute name. Returns 0 if there is no such attribute.
+* string = obj.GetAttributeValue (int idx) - Get the n-th
+  attribute value. Returns 0 if there is no such attribute.
+* obj.RemoveAttribute (string name) - Remove one or all
+  attributes.
+* obj.RemoveAllAttributes () - Remove one or all attributes.
+* vtkXMLDataElement = obj.GetParent () - Set/Get the parent
+  of this element.
+* obj.SetParent (vtkXMLDataElement parent) - Set/Get the
+  parent of this element.
+* vtkXMLDataElement = obj.GetRoot () - Get root of the XML
+  tree this element is part of.
+* int = obj.GetNumberOfNestedElements () - Get the number of
+  elements nested in this one.
+* vtkXMLDataElement = obj.GetNestedElement (int index) - Get
+  the element nested in this one at the given index.
+* obj.AddNestedElement (vtkXMLDataElement element) - Add
+  nested element
+* obj.RemoveNestedElement (vtkXMLDataElement ) - Remove
+  nested element.
+* obj.RemoveAllNestedElements () - Remove all nested
+  elements.
+* vtkXMLDataElement = obj.FindNestedElement (string id) -
+  Find the first nested element with the given id, given
+  name, or given name and id. WARNING: the search is only
+  performed on the children, not the grand-children.
+* vtkXMLDataElement = obj.FindNestedElementWithName (string
+  name) - Find the first nested element with the given id,
+  given name, or given name and id. WARNING: the search is
+  only performed on the children, not the grand-children.
+* vtkXMLDataElement = obj.FindNestedElementWithNameAndId
+  (string name, string id) - Find the first nested element
+  with the given id, given name, or given name and id.
+  WARNING: the search is only performed on the children, not
+  the grand-children.
+* vtkXMLDataElement =
+  obj.FindNestedElementWithNameAndAttribute (string name,
+  string att_name, string att_value) - Find the first nested
+  element with the given id, given name, or given name and
+  id. WARNING: the search is only performed on the children,
+  not the grand-children.
+* vtkXMLDataElement = obj.LookupElementWithName (string
+  name) - Find the first nested element with given name.
+  WARNING: the search is performed on the whole XML tree.
+* vtkXMLDataElement = obj.LookupElement (string id) - Lookup
+  the element with the given id, starting at this scope.
+* long = obj.GetXMLByteIndex () - Set/Get the offset from
+  the beginning of the XML document to this element.
+* obj.SetXMLByteIndex (long ) - Set/Get the offset from the
+  beginning of the XML document to this element.
+* int = obj.IsEqualTo (vtkXMLDataElement elem) - Check if
+  the instance has the same name, attributes, character data
+  and nested elements contents than the given element (this
+  method is applied recursively on the nested elements, and
+  they must be stored in the same order). Warning: Id,
+  Parent, XMLByteIndex are ignored.
+* obj.DeepCopy (vtkXMLDataElement elem) - Copy this element
+  from another of the same type (elem), recursively. Old
+  attributes and nested elements are removed, new ones are
+  created given the contents of 'elem'. Warning: Parent is
+  ignored.
+* obj.SetAttributeEncoding (int ) - Get/Set the internal
+  character encoding of the attributes. Default type is
+  VTK_ENCODING_UTF_8. Note that a vtkXMLDataParser has its
+  own AttributesEncoding ivar. If this ivar is set to
+  something other than VTK_ENCODING_NONE, it will be used to
+  set the attribute encoding of each vtkXMLDataElement
+  created by this vtkXMLDataParser.
+* int = obj.GetAttributeEncodingMinValue () - Get/Set the
+  internal character encoding of the attributes. Default
+  type is VTK_ENCODING_UTF_8. Note that a vtkXMLDataParser
+  has its own AttributesEncoding ivar. If this ivar is set
+  to something other than VTK_ENCODING_NONE, it will be used
+  to set the attribute encoding of each vtkXMLDataElement
+  created by this vtkXMLDataParser.
+* int = obj.GetAttributeEncodingMaxValue () - Get/Set the
+  internal character encoding of the attributes. Default
+  type is VTK_ENCODING_UTF_8. Note that a vtkXMLDataParser
+  has its own AttributesEncoding ivar. If this ivar is set
+  to something other than VTK_ENCODING_NONE, it will be used
+  to set the attribute encoding of each vtkXMLDataElement
+  created by this vtkXMLDataParser.
+* int = obj.GetAttributeEncoding () - Get/Set the internal
+  character encoding of the attributes. Default type is
+  VTK_ENCODING_UTF_8. Note that a vtkXMLDataParser has its
+  own AttributesEncoding ivar. If this ivar is set to
+  something other than VTK_ENCODING_NONE, it will be used to
+  set the attribute encoding of each vtkXMLDataElement
+  created by this vtkXMLDataParser.
+* obj.PrintXML (string fname) - Prints element tree as XML.
+* int = obj.GetCharacterDataWidth () - Get/Set the width (in
+  number of fields) that character data (that between open
+  and closing tags ie. <X> ... </X>) is printed. If the
+  width is less than one the tag's character data is printed
+  all on one line. If it is greater than one the character
+  data is streamed insterting line feeds every width number
+  of fields. See PrintXML.
+* obj.SetCharacterDataWidth (int ) - Get/Set the width (in
+  number of fields) that character data (that between open
+  and closing tags ie. <X> ... </X>) is printed. If the
+  width is less than one the tag's character data is printed
+  all on one line. If it is greater than one the character
+  data is streamed insterting line feeds every width number
+  of fields. See PrintXML.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Common_Classes
+* Generated on Thu Jul 25 2013 17:18:30 for FreeMat by
+  doxygen_ 1.8.1.1
+

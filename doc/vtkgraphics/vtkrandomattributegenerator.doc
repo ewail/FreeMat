@@ -1,0 +1,324 @@
+/*!
+\page vtkgraphics_vtkrandomattributegenerator vtkRandomAttributeGenerator
+
+<p>
+Section: \ref sec_vtkgraphics "Visualization Toolkit Graphics Classes"
+\section Usage
+ vtkRandomAttributeGenerator is a filter that creates random attributes
+ including scalars, vectors, normals, tensors, texture coordinates and/or
+ general data arrays. These attributes can be generated as point data, cell
+ data or general field data. The generation of each component is normalized
+ between a user-specified minimum and maximum value.
+
+ This filter provides that capability to specify the data type of the
+ attributes, the range for each of the components, and the number of
+ components. Note, however, that this flexibility only goes so far because
+ some attributes (e.g., normals, vectors and tensors) are fixed in the
+ number of components, and in the case of normals and tensors, are
+ constrained in the values that some of the components can take (i.e., 
+ normals have magnitude one, and tensors are symmetric).
+
+To create an instance of class vtkRandomAttributeGenerator, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkRandomAttributeGenerator
+\endverbatim
+\section Methods
+The class vtkRandomAttributeGenerator has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkRandomAttributeGenerator class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkRandomAttributeGenerator = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkRandomAttributeGenerator = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetDataType (int )</tt> -  Specify the type of array to create (all components of this array are of this
+ type). This holds true for all arrays that are created.
+ </LI>
+<LI>  <tt>obj.SetDataTypeToBit ()</tt> -  Specify the type of array to create (all components of this array are of this
+ type). This holds true for all arrays that are created.
+ </LI>
+<LI>  <tt>obj.SetDataTypeToChar ()</tt> -  Specify the type of array to create (all components of this array are of this
+ type). This holds true for all arrays that are created.
+ </LI>
+<LI>  <tt>obj.SetDataTypeToUnsignedChar ()</tt> -  Specify the type of array to create (all components of this array are of this
+ type). This holds true for all arrays that are created.
+ </LI>
+<LI>  <tt>obj.SetDataTypeToShort ()</tt> -  Specify the type of array to create (all components of this array are of this
+ type). This holds true for all arrays that are created.
+ </LI>
+<LI>  <tt>obj.SetDataTypeToUnsignedShort ()</tt> -  Specify the type of array to create (all components of this array are of this
+ type). This holds true for all arrays that are created.
+ </LI>
+<LI>  <tt>obj.SetDataTypeToInt ()</tt> -  Specify the type of array to create (all components of this array are of this
+ type). This holds true for all arrays that are created.
+ </LI>
+<LI>  <tt>obj.SetDataTypeToUnsignedInt ()</tt> -  Specify the type of array to create (all components of this array are of this
+ type). This holds true for all arrays that are created.
+ </LI>
+<LI>  <tt>obj.SetDataTypeToLong ()</tt> -  Specify the type of array to create (all components of this array are of this
+ type). This holds true for all arrays that are created.
+ </LI>
+<LI>  <tt>obj.SetDataTypeToUnsignedLong ()</tt> -  Specify the type of array to create (all components of this array are of this
+ type). This holds true for all arrays that are created.
+ </LI>
+<LI>  <tt>obj.SetDataTypeToFloat ()</tt> -  Specify the type of array to create (all components of this array are of this
+ type). This holds true for all arrays that are created.
+ </LI>
+<LI>  <tt>obj.SetDataTypeToDouble ()</tt> -  Specify the type of array to create (all components of this array are of this
+ type). This holds true for all arrays that are created.
+ </LI>
+<LI>  <tt>int = obj.GetDataType ()</tt> -  Specify the type of array to create (all components of this array are of this
+ type). This holds true for all arrays that are created.
+ </LI>
+<LI>  <tt>obj.SetNumberOfComponents (int )</tt> -  Specify the number of components to generate. This value only applies to those
+ attribute types that take a variable number of components. For example, a vector
+ is only three components so the number of components is not applicable; whereas
+ a scalar may support multiple, varying number of components.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfComponentsMinValue ()</tt> -  Specify the number of components to generate. This value only applies to those
+ attribute types that take a variable number of components. For example, a vector
+ is only three components so the number of components is not applicable; whereas
+ a scalar may support multiple, varying number of components.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfComponentsMaxValue ()</tt> -  Specify the number of components to generate. This value only applies to those
+ attribute types that take a variable number of components. For example, a vector
+ is only three components so the number of components is not applicable; whereas
+ a scalar may support multiple, varying number of components.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfComponents ()</tt> -  Specify the number of components to generate. This value only applies to those
+ attribute types that take a variable number of components. For example, a vector
+ is only three components so the number of components is not applicable; whereas
+ a scalar may support multiple, varying number of components.
+ </LI>
+<LI>  <tt>obj.SetMinimumComponentValue (double )</tt> -  Set the minimum component value. This applies to all data that is generated, 
+ although normals and tensors have internal constraints that must be 
+ observed.
+ </LI>
+<LI>  <tt>double = obj.GetMinimumComponentValue ()</tt> -  Set the minimum component value. This applies to all data that is generated, 
+ although normals and tensors have internal constraints that must be 
+ observed.
+ </LI>
+<LI>  <tt>obj.SetMaximumComponentValue (double )</tt> -  Set the maximum component value. This applies to all data that is generated, 
+ although normals and tensors have internal constraints that must be 
+ observed.
+ </LI>
+<LI>  <tt>double = obj.GetMaximumComponentValue ()</tt> -  Set the maximum component value. This applies to all data that is generated, 
+ although normals and tensors have internal constraints that must be 
+ observed.
+ </LI>
+<LI>  <tt>obj.SetNumberOfTuples (vtkIdType )</tt> -  Specify the number of tuples to generate. This value only applies when creating
+ general field data. In all other cases (i.e., point data or cell data), the number
+ of tuples is controlled by the number of points and cells, respectively.
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetNumberOfTuplesMinValue ()</tt> -  Specify the number of tuples to generate. This value only applies when creating
+ general field data. In all other cases (i.e., point data or cell data), the number
+ of tuples is controlled by the number of points and cells, respectively.
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetNumberOfTuplesMaxValue ()</tt> -  Specify the number of tuples to generate. This value only applies when creating
+ general field data. In all other cases (i.e., point data or cell data), the number
+ of tuples is controlled by the number of points and cells, respectively.
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetNumberOfTuples ()</tt> -  Specify the number of tuples to generate. This value only applies when creating
+ general field data. In all other cases (i.e., point data or cell data), the number
+ of tuples is controlled by the number of points and cells, respectively.
+ </LI>
+<LI>  <tt>obj.SetGeneratePointScalars (int )</tt> -  Indicate that point scalars are to be generated. Note that the specified
+ number of components is used to create the scalar.
+ </LI>
+<LI>  <tt>int = obj.GetGeneratePointScalars ()</tt> -  Indicate that point scalars are to be generated. Note that the specified
+ number of components is used to create the scalar.
+ </LI>
+<LI>  <tt>obj.GeneratePointScalarsOn ()</tt> -  Indicate that point scalars are to be generated. Note that the specified
+ number of components is used to create the scalar.
+ </LI>
+<LI>  <tt>obj.GeneratePointScalarsOff ()</tt> -  Indicate that point scalars are to be generated. Note that the specified
+ number of components is used to create the scalar.
+ </LI>
+<LI>  <tt>obj.SetGeneratePointVectors (int )</tt> -  Indicate that point vectors are to be generated. Note that the 
+ number of components is always equal to three.
+ </LI>
+<LI>  <tt>int = obj.GetGeneratePointVectors ()</tt> -  Indicate that point vectors are to be generated. Note that the 
+ number of components is always equal to three.
+ </LI>
+<LI>  <tt>obj.GeneratePointVectorsOn ()</tt> -  Indicate that point vectors are to be generated. Note that the 
+ number of components is always equal to three.
+ </LI>
+<LI>  <tt>obj.GeneratePointVectorsOff ()</tt> -  Indicate that point vectors are to be generated. Note that the 
+ number of components is always equal to three.
+ </LI>
+<LI>  <tt>obj.SetGeneratePointNormals (int )</tt> -  Indicate that point normals are to be generated. Note that the
+ number of components is always equal to three.
+ </LI>
+<LI>  <tt>int = obj.GetGeneratePointNormals ()</tt> -  Indicate that point normals are to be generated. Note that the
+ number of components is always equal to three.
+ </LI>
+<LI>  <tt>obj.GeneratePointNormalsOn ()</tt> -  Indicate that point normals are to be generated. Note that the
+ number of components is always equal to three.
+ </LI>
+<LI>  <tt>obj.GeneratePointNormalsOff ()</tt> -  Indicate that point normals are to be generated. Note that the
+ number of components is always equal to three.
+ </LI>
+<LI>  <tt>obj.SetGeneratePointTensors (int )</tt> -  Indicate that point tensors are to be generated. Note that the
+ number of components is always equal to nine.
+ </LI>
+<LI>  <tt>int = obj.GetGeneratePointTensors ()</tt> -  Indicate that point tensors are to be generated. Note that the
+ number of components is always equal to nine.
+ </LI>
+<LI>  <tt>obj.GeneratePointTensorsOn ()</tt> -  Indicate that point tensors are to be generated. Note that the
+ number of components is always equal to nine.
+ </LI>
+<LI>  <tt>obj.GeneratePointTensorsOff ()</tt> -  Indicate that point tensors are to be generated. Note that the
+ number of components is always equal to nine.
+ </LI>
+<LI>  <tt>obj.SetGeneratePointTCoords (int )</tt> -  Indicate that point texture coordinates are to be generated. Note that
+ the specified number of components is used to create the texture
+ coordinates (but must range between one and three).
+ </LI>
+<LI>  <tt>int = obj.GetGeneratePointTCoords ()</tt> -  Indicate that point texture coordinates are to be generated. Note that
+ the specified number of components is used to create the texture
+ coordinates (but must range between one and three).
+ </LI>
+<LI>  <tt>obj.GeneratePointTCoordsOn ()</tt> -  Indicate that point texture coordinates are to be generated. Note that
+ the specified number of components is used to create the texture
+ coordinates (but must range between one and three).
+ </LI>
+<LI>  <tt>obj.GeneratePointTCoordsOff ()</tt> -  Indicate that point texture coordinates are to be generated. Note that
+ the specified number of components is used to create the texture
+ coordinates (but must range between one and three).
+ </LI>
+<LI>  <tt>obj.SetGeneratePointArray (int )</tt> -  Indicate that an arbitrary point array is to be generated. Note that the
+ specified number of components is used to create the array.
+ </LI>
+<LI>  <tt>int = obj.GetGeneratePointArray ()</tt> -  Indicate that an arbitrary point array is to be generated. Note that the
+ specified number of components is used to create the array.
+ </LI>
+<LI>  <tt>obj.GeneratePointArrayOn ()</tt> -  Indicate that an arbitrary point array is to be generated. Note that the
+ specified number of components is used to create the array.
+ </LI>
+<LI>  <tt>obj.GeneratePointArrayOff ()</tt> -  Indicate that an arbitrary point array is to be generated. Note that the
+ specified number of components is used to create the array.
+ </LI>
+<LI>  <tt>obj.SetGenerateCellScalars (int )</tt> -  Indicate that cell scalars are to be generated. Note that the specified
+ number of components is used to create the scalar.
+ </LI>
+<LI>  <tt>int = obj.GetGenerateCellScalars ()</tt> -  Indicate that cell scalars are to be generated. Note that the specified
+ number of components is used to create the scalar.
+ </LI>
+<LI>  <tt>obj.GenerateCellScalarsOn ()</tt> -  Indicate that cell scalars are to be generated. Note that the specified
+ number of components is used to create the scalar.
+ </LI>
+<LI>  <tt>obj.GenerateCellScalarsOff ()</tt> -  Indicate that cell scalars are to be generated. Note that the specified
+ number of components is used to create the scalar.
+ </LI>
+<LI>  <tt>obj.SetGenerateCellVectors (int )</tt> -  Indicate that cell vectors are to be generated. Note that the 
+ number of components is always equal to three.
+ </LI>
+<LI>  <tt>int = obj.GetGenerateCellVectors ()</tt> -  Indicate that cell vectors are to be generated. Note that the 
+ number of components is always equal to three.
+ </LI>
+<LI>  <tt>obj.GenerateCellVectorsOn ()</tt> -  Indicate that cell vectors are to be generated. Note that the 
+ number of components is always equal to three.
+ </LI>
+<LI>  <tt>obj.GenerateCellVectorsOff ()</tt> -  Indicate that cell vectors are to be generated. Note that the 
+ number of components is always equal to three.
+ </LI>
+<LI>  <tt>obj.SetGenerateCellNormals (int )</tt> -  Indicate that cell normals are to be generated. Note that the
+ number of components is always equal to three.
+ </LI>
+<LI>  <tt>int = obj.GetGenerateCellNormals ()</tt> -  Indicate that cell normals are to be generated. Note that the
+ number of components is always equal to three.
+ </LI>
+<LI>  <tt>obj.GenerateCellNormalsOn ()</tt> -  Indicate that cell normals are to be generated. Note that the
+ number of components is always equal to three.
+ </LI>
+<LI>  <tt>obj.GenerateCellNormalsOff ()</tt> -  Indicate that cell normals are to be generated. Note that the
+ number of components is always equal to three.
+ </LI>
+<LI>  <tt>obj.SetGenerateCellTensors (int )</tt> -  Indicate that cell tensors are to be generated. Note that the
+ number of components is always equal to nine.
+ </LI>
+<LI>  <tt>int = obj.GetGenerateCellTensors ()</tt> -  Indicate that cell tensors are to be generated. Note that the
+ number of components is always equal to nine.
+ </LI>
+<LI>  <tt>obj.GenerateCellTensorsOn ()</tt> -  Indicate that cell tensors are to be generated. Note that the
+ number of components is always equal to nine.
+ </LI>
+<LI>  <tt>obj.GenerateCellTensorsOff ()</tt> -  Indicate that cell tensors are to be generated. Note that the
+ number of components is always equal to nine.
+ </LI>
+<LI>  <tt>obj.SetGenerateCellTCoords (int )</tt> -  Indicate that cell texture coordinates are to be generated. Note that
+ the specified number of components is used to create the texture
+ coordinates (but must range between one and three).
+ </LI>
+<LI>  <tt>int = obj.GetGenerateCellTCoords ()</tt> -  Indicate that cell texture coordinates are to be generated. Note that
+ the specified number of components is used to create the texture
+ coordinates (but must range between one and three).
+ </LI>
+<LI>  <tt>obj.GenerateCellTCoordsOn ()</tt> -  Indicate that cell texture coordinates are to be generated. Note that
+ the specified number of components is used to create the texture
+ coordinates (but must range between one and three).
+ </LI>
+<LI>  <tt>obj.GenerateCellTCoordsOff ()</tt> -  Indicate that cell texture coordinates are to be generated. Note that
+ the specified number of components is used to create the texture
+ coordinates (but must range between one and three).
+ </LI>
+<LI>  <tt>obj.SetGenerateCellArray (int )</tt> -  Indicate that an arbitrary cell array is to be generated. Note that the
+ specified number of components is used to create the array.
+ </LI>
+<LI>  <tt>int = obj.GetGenerateCellArray ()</tt> -  Indicate that an arbitrary cell array is to be generated. Note that the
+ specified number of components is used to create the array.
+ </LI>
+<LI>  <tt>obj.GenerateCellArrayOn ()</tt> -  Indicate that an arbitrary cell array is to be generated. Note that the
+ specified number of components is used to create the array.
+ </LI>
+<LI>  <tt>obj.GenerateCellArrayOff ()</tt> -  Indicate that an arbitrary cell array is to be generated. Note that the
+ specified number of components is used to create the array.
+ </LI>
+<LI>  <tt>obj.SetGenerateFieldArray (int )</tt> -  Indicate that an arbitrary field data array is to be generated. Note
+ that the specified number of components is used to create the scalar.
+ </LI>
+<LI>  <tt>int = obj.GetGenerateFieldArray ()</tt> -  Indicate that an arbitrary field data array is to be generated. Note
+ that the specified number of components is used to create the scalar.
+ </LI>
+<LI>  <tt>obj.GenerateFieldArrayOn ()</tt> -  Indicate that an arbitrary field data array is to be generated. Note
+ that the specified number of components is used to create the scalar.
+ </LI>
+<LI>  <tt>obj.GenerateFieldArrayOff ()</tt> -  Indicate that an arbitrary field data array is to be generated. Note
+ that the specified number of components is used to create the scalar.
+ </LI>
+<LI>  <tt>obj.GenerateAllPointDataOn ()</tt> -  Convenience methods for generating data: all data, all point data, or all cell data.
+ For example, if all data is enabled, then all point, cell and field data is generated.
+ If all point data is enabled, then point scalars, vectors, normals, tensors, tcoords,
+ and a data array are produced.
+ </LI>
+<LI>  <tt>obj.GenerateAllPointDataOff ()</tt> -  Convenience methods for generating data: all data, all point data, or all cell data.
+ For example, if all data is enabled, then all point, cell and field data is generated.
+ If all point data is enabled, then point scalars, vectors, normals, tensors, tcoords,
+ and a data array are produced.
+ </LI>
+<LI>  <tt>obj.GenerateAllCellDataOn ()</tt> -  Convenience methods for generating data: all data, all point data, or all cell data.
+ For example, if all data is enabled, then all point, cell and field data is generated.
+ If all point data is enabled, then point scalars, vectors, normals, tensors, tcoords,
+ and a data array are produced.
+ </LI>
+<LI>  <tt>obj.GenerateAllCellDataOff ()</tt> -  Convenience methods for generating data: all data, all point data, or all cell data.
+ For example, if all data is enabled, then all point, cell and field data is generated.
+ If all point data is enabled, then point scalars, vectors, normals, tensors, tcoords,
+ and a data array are produced.
+ </LI>
+<LI>  <tt>obj.GenerateAllDataOn ()</tt> -  Convenience methods for generating data: all data, all point data, or all cell data.
+ For example, if all data is enabled, then all point, cell and field data is generated.
+ If all point data is enabled, then point scalars, vectors, normals, tensors, tcoords,
+ and a data array are produced.
+ </LI>
+<LI>  <tt>obj.GenerateAllDataOff ()</tt>
+ </LI>
+</UL>
+*/

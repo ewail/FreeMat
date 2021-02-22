@@ -1,0 +1,53 @@
+/*!
+\page vtkparallel_vtkmpiimagereader vtkMPIImageReader
+
+<p>
+Section: \ref sec_vtkparallel "Visualization Toolkit Parallel Classes"
+\section Usage
+
+ vtkMPIImageReader provides the mechanism to read a brick of bytes (or shorts,
+ or ints, or floats, or doubles, ...) from a file or series of files.  You can
+ use it to read raw image data from files.  You may also be able to subclass
+ this to read simple file formats.
+
+ What distinguishes this class from vtkImageReader and vtkImageReader2 is that
+ it performs synchronized parallel I/O using the MPIIO layer.  This can make a
+ huge difference in file read times, especially when reading in parallel from
+ a parallel file system.
+
+ Dispite the name of this class, vtkMPIImageReader will work even if MPI is
+ not available.  If MPI is not available or MPIIO is not available or the
+ given Controller is not a vtkMPIController (or NULL), then this class will
+ silently work exactly like its superclass.  The point is that you can safely
+ use this class in applications that may or may not be compiled with MPI (or
+ may or may not actually be run with MPI).
+
+
+To create an instance of class vtkMPIImageReader, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkMPIImageReader
+\endverbatim
+\section Methods
+The class vtkMPIImageReader has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkMPIImageReader class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkMPIImageReader = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkMPIImageReader = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>vtkMultiProcessController = obj.GetController ()</tt> -  Get/set the multi process controller to use for coordinated reads.  By
+ default, set to the global controller.
+ </LI>
+<LI>  <tt>obj.SetController (vtkMultiProcessController )</tt> -  Get/set the multi process controller to use for coordinated reads.  By
+ default, set to the global controller.
+ </LI>
+</UL>
+*/

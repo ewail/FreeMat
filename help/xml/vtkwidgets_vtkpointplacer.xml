@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkwidgets_vtkpointplacer" kind="page">
+    <compoundname>vtkwidgets_vtkpointplacer</compoundname>
+    <title>vtkPointPlacer</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkwidgets_1sec_vtkwidgets" kindref="member">Visualization Toolkit Widget Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>Most widgets in VTK have a need to translate of 2D display coordinates (as reported by the RenderWindowInteractor) to 3D world coordinates. This class is an abstraction of this functionality. A few subclasses are listed below: </para><para>1) vtkFocalPlanePointPlacer: This class converts 2D display positions to world positions such that they lie on the focal plane. </para><para>2) vtkPolygonalSurfacePointPlacer: Converts 2D display positions to world positions such that they lie on the surface of one or more specified polydatas. </para><para>3) vtkImageActorPointPlacer: Converts 2D display positions to world positions such that they lie on an ImageActor </para><para>4) vtkBoundedPlanePointPlacer: Converts 2D display positions to world positions such that they lie within a set of specified bounding planes. </para><para>5) vtkTerrainDataPointPlacer: Converts 2D display positions to world positions such that they lie on a height field. </para><para>Point placers provide an extensible framework to specify constraints on points. The methods ComputeWorldPosition, ValidateDisplayPosition and ValidateWorldPosition may be overridden to dictate whether a world or display position is allowed. These classes are currently used by the HandleWidget and the ContourWidget to allow various constraints to be enforced on the placement of their handles.</para><para>To create an instance of class vtkPointPlacer, simply invoke its constructor as follows <verbatim>  obj = vtkPointPlacer
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkPointPlacer has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkPointPlacer class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput> - Standard methods for instances of this class.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput> - Standard methods for instances of this class.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkPointPlacer = obj.NewInstance ()</computeroutput> - Standard methods for instances of this class.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkPointPlacer = obj.SafeDownCast (vtkObject o)</computeroutput> - Standard methods for instances of this class.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.ComputeWorldPosition (vtkRenderer ren, double displayPos[2], double worldPos[3], double worldOrient[9])</computeroutput> - Given a renderer and a display position in pixel coordinates, compute the world position and orientation where this point will be placed. This method is typically used by the representation to place the point initially. A return value of 1 indicates that constraints of the placer are met.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.ComputeWorldPosition (vtkRenderer ren, double displayPos[2], double refWorldPos[3], double worldPos[3], double worldOrient[9])</computeroutput> - Given a renderer, a display position, and a reference world position, compute the new world position and orientation of this point. This method is typically used by the representation to move the point. A return value of 1 indicates that constraints of the placer are met.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.ValidateWorldPosition (double worldPos[3])</computeroutput> - Given a world position check the validity of this position according to the constraints of the placer.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.ValidateDisplayPosition (vtkRenderer , double displayPos[2])</computeroutput> - Given a display position, check the validity of this position.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.ValidateWorldPosition (double worldPos[3], double worldOrient[9])</computeroutput> - Given a world position and a world orientation, validate it according to the constraints of the placer.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.UpdateWorldPosition (vtkRenderer ren, double worldPos[3], double worldOrient[9])</computeroutput> - Given a current renderer, world position and orientation, update them according to the constraints of the placer. This method is typically used when UpdateContour is called on the representation, which must be called after changes are made to the constraints in the placer. A return value of 1 indicates that the point has been updated. A return value of 0 indicates that the point could not be updated and was left alone. By default this is a no-op - leaving the point as is.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.UpdateInternalState ()</computeroutput> - Set/get the tolerance used when performing computations in display coordinates.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetPixelTolerance (int )</computeroutput> - Set/get the tolerance used when performing computations in display coordinates.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetPixelToleranceMinValue ()</computeroutput> - Set/get the tolerance used when performing computations in display coordinates.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetPixelToleranceMaxValue ()</computeroutput> - Set/get the tolerance used when performing computations in display coordinates.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetPixelTolerance ()</computeroutput> - Set/get the tolerance used when performing computations in display coordinates.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetWorldTolerance (double )</computeroutput> - Set/get the tolerance used when performing computations in world coordinates.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetWorldToleranceMinValue ()</computeroutput> - Set/get the tolerance used when performing computations in world coordinates.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetWorldToleranceMaxValue ()</computeroutput> - Set/get the tolerance used when performing computations in world coordinates.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetWorldTolerance ()</computeroutput> - Set/get the tolerance used when performing computations in world coordinates.  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

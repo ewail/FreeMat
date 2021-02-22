@@ -1,0 +1,85 @@
+/*!
+\page freemat_eval EVAL Evaluate a String
+
+<p>
+Section: \ref sec_freemat "FreeMat Functions"
+\section Usage
+The <tt>eval</tt> function evaluates a string.  The general syntax
+for its use is
+\verbatim
+   eval(s)
+\endverbatim
+where <tt>s</tt> is the string to evaluate.  If <tt>s</tt> is an expression
+(instead of a set of statements), you can assign the output
+of the <tt>eval</tt> call to one or more variables, via
+\verbatim
+   x = eval(s)
+   [x,y,z] = eval(s)
+\endverbatim
+
+Another form of <tt>eval</tt> allows you to specify an expression or
+set of statements to execute if an error occurs.  In this 
+form, the syntax for <tt>eval</tt> is
+\verbatim
+   eval(try_clause,catch_clause),
+\endverbatim
+or with return values,
+\verbatim
+   x = eval(try_clause,catch_clause)
+   [x,y,z] = eval(try_clause,catch_clause)
+\endverbatim
+These later forms are useful for specifying defaults.  Note that
+both the <tt>try_clause</tt> and <tt>catch_clause</tt> must be expressions,
+as the equivalent code is
+\verbatim
+  try
+    [x,y,z] = try_clause
+  catch
+    [x,y,z] = catch_clause
+  end
+\endverbatim
+so that the assignment must make sense in both cases.
+\section Example
+Here are some examples of <tt>eval</tt> being used.
+
+\if FRAGMENT
+frag_freemat_eval_000.m
+0
+eval('a = 32')
+b = eval('a')
+\endif
+
+
+\verbinclude frag_freemat_eval_000.m.out 
+
+The primary use of the <tt>eval</tt> statement is to enable construction
+of expressions at run time.
+
+\if FRAGMENT
+frag_freemat_eval_001.m
+0
+s = ['b = a' ' + 2']
+eval(s)
+\endif
+
+
+\verbinclude frag_freemat_eval_001.m.out 
+
+Here we demonstrate the use of the catch-clause to provide a 
+default value
+
+\if FRAGMENT
+frag_freemat_eval_002.m
+0
+a = 32
+b = eval('a','1')
+b = eval('z','a+1')
+\endif
+
+
+\verbinclude frag_freemat_eval_002.m.out 
+
+Note that in the second case, <tt>b</tt> takes the value of 33, indicating
+that the evaluation of the first expression failed (because <tt>z</tt> is
+not defined).
+*/

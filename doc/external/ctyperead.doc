@@ -1,0 +1,29 @@
+/*!
+\page external_ctyperead CTYPEREAD Read a C Structure From File
+
+<p>
+Section: \ref sec_external "FreeMat External Interface"
+\section Usage
+The <tt>ctyperead</tt> function is a convenience function for
+reading a C structure from a file.  This is generally a
+very bad idea, as direct writing of C structures to files
+is notoriously unportable.  Consider yourself warned.  The
+syntax for this function is
+\verbatim
+   a = ctyperead(fid,'typename')
+\endverbatim
+where <tt>'typename'</tt> is a string containing the name of the
+C structure as defined using <tt>ctypedefine</tt>, and <tt>fid</tt>
+is the file handle returned by the <tt>fopen</tt> command.  Note
+that this form will read a single structure from the file.
+If you want to read multiple structures into an array, 
+use the following form
+\verbatim
+   a = ctyperead(fid,'typename',count)
+\endverbatim
+Note that the way this function works is by using <tt>ctypesize</tt>
+to compute the size of the structure, reading that many bytes
+from the file, and then calling <tt>ctypethaw</tt> on the resulting
+buffer.  A consequence of this behavior is that the byte-endian
+corrective behavior of FreeMat does not work.
+*/

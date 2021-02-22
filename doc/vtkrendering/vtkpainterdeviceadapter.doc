@@ -1,0 +1,101 @@
+/*!
+\page vtkrendering_vtkpainterdeviceadapter vtkPainterDeviceAdapter
+
+<p>
+Section: \ref sec_vtkrendering "Visualization Toolkit Rendering Classes"
+\section Usage
+
+ This class is an adapter between a vtkPainter and a rendering device (such
+ as an OpenGL machine).  Having an abstract adapter allows vtkPainters
+ to be re-used for any rendering system.
+
+ Although VTK really only uses OpenGL right now, there are reasons to
+ swap out the rendering functions.  Sometimes MESA with mangled names
+ is used.  Also, different shader extensions use different functions.
+ Furthermore, Cg also has its own interface.
+
+ The interface for this class should be familier to anyone experienced
+ with OpenGL.
+
+
+To create an instance of class vtkPainterDeviceAdapter, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkPainterDeviceAdapter
+\endverbatim
+\section Methods
+The class vtkPainterDeviceAdapter has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkPainterDeviceAdapter class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkPainterDeviceAdapter = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkPainterDeviceAdapter = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.BeginPrimitive (int mode)</tt> -  Signals the start of sending a primitive to the graphics card.  The
+ mode is one of VTK_VERTEX, VTK_POLY_VERTEX, VTK_LINE, VTK_POLY_LINE,
+ VTK_TRIANGLE, VTK_TRIANGLE_STRIP, VTK_POLYGON, or VTK_QUAD.  The
+ primitive is defined by the attributes sent between the calls to
+ BeginPrimitive and EndPrimitive.  You do not need to call
+ EndPrimitive/BeginPrimitive between primitives that have a constant
+ number of points (i.e. VTK_VERTEX, VTK_LINE, VTK_TRIANGLE, and
+ VTK_QUAD).
+ </LI>
+<LI>  <tt>obj.EndPrimitive ()</tt> -  Signals the end of sending a primitive to the graphics card.
+ </LI>
+<LI>  <tt>int = obj.IsAttributesSupported (int attribute)</tt> -  Returns if the given attribute type is supported by the device.
+ Returns 1 is supported, 0 otherwise.
+ </LI>
+<LI>  <tt>obj.SetAttributePointer (int index, vtkDataArray attributeArray)</tt> -  Sets an array of attributes.  This allows you to send all the data for
+ a particular attribute with one call, thus greatly reducing function
+ call overhead.  Once set, the array is enabled with
+ EnableAttributeArray, and the data is sent with a call to DrawArrays
+ DrawElements.
+ </LI>
+<LI>  <tt>obj.EnableAttributeArray (int index)</tt> -  Enable/disable the attribute array set with SetAttributePointer.
+ </LI>
+<LI>  <tt>obj.DisableAttributeArray (int index)</tt> -  Enable/disable the attribute array set with SetAttributePointer.
+ </LI>
+<LI>  <tt>obj.DrawArrays (int mode, vtkIdType first, vtkIdType count)</tt> -  Send a section of the enabled attribute pointers to the graphics card
+ to define a primitive.  The mode is one of VTK_VERTEX,
+ VTK_POLY_VERTEX, VTK_LINE, VTK_POLY_LINE, VTK_TRIANGLE,
+ VTK_TRIANGLE_STRIP, VTK_POLYGON, or VTK_QUAD.  It identifies which
+ type of primitive the attribute data is defining.  The parameters
+ first and count identify what part of the attribute arrays define the
+ given primitive.  If mode is a primitive that has a constant number of
+ points (i.e. VTK_VERTEX, VTK_LINE, VTK_TRIANGLE, and VTK_QUAD), you
+ may draw multiple primitives with one call to DrawArrays.
+ </LI>
+<LI>  <tt>int = obj.Compatible (vtkRenderer renderer)</tt> -  Returns true if this device adapter is compatable with the given
+ vtkRenderer.
+ </LI>
+<LI>  <tt>obj.MakeLighting (int mode)</tt> -  Turns lighting on and off.
+ </LI>
+<LI>  <tt>int = obj.QueryLighting ()</tt> -  Returns current lighting setting.
+ </LI>
+<LI>  <tt>obj.MakeMultisampling (int mode)</tt> -  Turns antialiasing on and off.
+ </LI>
+<LI>  <tt>int = obj.QueryMultisampling ()</tt> -  Returns current antialiasing setting.
+ </LI>
+<LI>  <tt>obj.MakeBlending (int mode)</tt> -  Turns blending on and off.
+ </LI>
+<LI>  <tt>int = obj.QueryBlending ()</tt> -  Returns current blending setting.
+ </LI>
+<LI>  <tt>obj.MakeVertexEmphasis (bool mode)</tt> -  Turns emphasis of vertices on or off for vertex selection.
+ </LI>
+<LI>  <tt>obj.MakeVertexEmphasisWithStencilCheck (int )</tt> -  @deprecated
+ </LI>
+<LI>  <tt>obj.Stencil (int on)</tt> -  Control use of the stencil buffer (for vertex selection).
+ </LI>
+<LI>  <tt>obj.WriteStencil (vtkIdType value)</tt> -  Control use of the stencil buffer (for vertex selection).
+ </LI>
+<LI>  <tt>obj.TestStencil (vtkIdType value)</tt> -  Control use of the stencil buffer (for vertex selection).
+ </LI>
+</UL>
+*/

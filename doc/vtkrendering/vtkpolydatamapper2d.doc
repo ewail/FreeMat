@@ -1,0 +1,240 @@
+/*!
+\page vtkrendering_vtkpolydatamapper2d vtkPolyDataMapper2D
+
+<p>
+Section: \ref sec_vtkrendering "Visualization Toolkit Rendering Classes"
+\section Usage
+ vtkPolyDataMapper2D is a mapper that renders 3D polygonal data 
+ (vtkPolyData) onto the 2D image plane (i.e., the renderer's viewport).
+ By default, the 3D data is transformed into 2D data by ignoring the 
+ z-coordinate of the 3D points in vtkPolyData, and taking the x-y values 
+ as local display values (i.e., pixel coordinates). Alternatively, you
+ can provide a vtkCoordinate object that will transform the data into
+ local display coordinates (use the vtkCoordinate::SetCoordinateSystem()
+ methods to indicate which coordinate system you are transforming the
+ data from).
+
+To create an instance of class vtkPolyDataMapper2D, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkPolyDataMapper2D
+\endverbatim
+\section Methods
+The class vtkPolyDataMapper2D has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkPolyDataMapper2D class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkPolyDataMapper2D = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkPolyDataMapper2D = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetInput (vtkPolyData in)</tt> -  Set the input to the mapper.  
+ </LI>
+<LI>  <tt>vtkPolyData = obj.GetInput ()</tt> -  Set the input to the mapper.  
+ </LI>
+<LI>  <tt>obj.SetLookupTable (vtkScalarsToColors lut)</tt> -  Specify a lookup table for the mapper to use.
+ </LI>
+<LI>  <tt>vtkScalarsToColors = obj.GetLookupTable ()</tt> -  Specify a lookup table for the mapper to use.
+ </LI>
+<LI>  <tt>obj.CreateDefaultLookupTable ()</tt> -  Create default lookup table. Generally used to create one when none
+ is available with the scalar data.
+ </LI>
+<LI>  <tt>obj.SetScalarVisibility (int )</tt> -  Turn on/off flag to control whether scalar data is used to color objects.
+ </LI>
+<LI>  <tt>int = obj.GetScalarVisibility ()</tt> -  Turn on/off flag to control whether scalar data is used to color objects.
+ </LI>
+<LI>  <tt>obj.ScalarVisibilityOn ()</tt> -  Turn on/off flag to control whether scalar data is used to color objects.
+ </LI>
+<LI>  <tt>obj.ScalarVisibilityOff ()</tt> -  Turn on/off flag to control whether scalar data is used to color objects.
+ </LI>
+<LI>  <tt>obj.SetColorMode (int )</tt> -  Control how the scalar data is mapped to colors.  By default
+ (ColorModeToDefault), unsigned char scalars are treated as colors, and
+ NOT mapped through the lookup table, while everything else is. Setting
+ ColorModeToMapScalars means that all scalar data will be mapped through
+ the lookup table.  (Note that for multi-component scalars, the
+ particular component to use for mapping can be specified using the
+ ColorByArrayComponent() method.)
+ </LI>
+<LI>  <tt>int = obj.GetColorMode ()</tt> -  Control how the scalar data is mapped to colors.  By default
+ (ColorModeToDefault), unsigned char scalars are treated as colors, and
+ NOT mapped through the lookup table, while everything else is. Setting
+ ColorModeToMapScalars means that all scalar data will be mapped through
+ the lookup table.  (Note that for multi-component scalars, the
+ particular component to use for mapping can be specified using the
+ ColorByArrayComponent() method.)
+ </LI>
+<LI>  <tt>obj.SetColorModeToDefault ()</tt> -  Control how the scalar data is mapped to colors.  By default
+ (ColorModeToDefault), unsigned char scalars are treated as colors, and
+ NOT mapped through the lookup table, while everything else is. Setting
+ ColorModeToMapScalars means that all scalar data will be mapped through
+ the lookup table.  (Note that for multi-component scalars, the
+ particular component to use for mapping can be specified using the
+ ColorByArrayComponent() method.)
+ </LI>
+<LI>  <tt>obj.SetColorModeToMapScalars ()</tt> -  Control how the scalar data is mapped to colors.  By default
+ (ColorModeToDefault), unsigned char scalars are treated as colors, and
+ NOT mapped through the lookup table, while everything else is. Setting
+ ColorModeToMapScalars means that all scalar data will be mapped through
+ the lookup table.  (Note that for multi-component scalars, the
+ particular component to use for mapping can be specified using the
+ ColorByArrayComponent() method.)
+ </LI>
+<LI>  <tt>string = obj.GetColorModeAsString ()</tt> -  Return the method of coloring scalar data.
+ </LI>
+<LI>  <tt>obj.SetUseLookupTableScalarRange (int )</tt> -  Control whether the mapper sets the lookuptable range based on its
+ own ScalarRange, or whether it will use the LookupTable ScalarRange
+ regardless of it's own setting. By default the Mapper is allowed to set
+ the LookupTable range, but users who are sharing LookupTables between
+ mappers/actors will probably wish to force the mapper to use the
+ LookupTable unchanged.
+ </LI>
+<LI>  <tt>int = obj.GetUseLookupTableScalarRange ()</tt> -  Control whether the mapper sets the lookuptable range based on its
+ own ScalarRange, or whether it will use the LookupTable ScalarRange
+ regardless of it's own setting. By default the Mapper is allowed to set
+ the LookupTable range, but users who are sharing LookupTables between
+ mappers/actors will probably wish to force the mapper to use the
+ LookupTable unchanged.
+ </LI>
+<LI>  <tt>obj.UseLookupTableScalarRangeOn ()</tt> -  Control whether the mapper sets the lookuptable range based on its
+ own ScalarRange, or whether it will use the LookupTable ScalarRange
+ regardless of it's own setting. By default the Mapper is allowed to set
+ the LookupTable range, but users who are sharing LookupTables between
+ mappers/actors will probably wish to force the mapper to use the
+ LookupTable unchanged.
+ </LI>
+<LI>  <tt>obj.UseLookupTableScalarRangeOff ()</tt> -  Control whether the mapper sets the lookuptable range based on its
+ own ScalarRange, or whether it will use the LookupTable ScalarRange
+ regardless of it's own setting. By default the Mapper is allowed to set
+ the LookupTable range, but users who are sharing LookupTables between
+ mappers/actors will probably wish to force the mapper to use the
+ LookupTable unchanged.
+ </LI>
+<LI>  <tt>obj.SetScalarRange (double , double )</tt> -  Specify range in terms of scalar minimum and maximum (smin,smax). These
+ values are used to map scalars into lookup table. Has no effect when
+ UseLookupTableScalarRange is true.
+ </LI>
+<LI>  <tt>obj.SetScalarRange (double  a[2])</tt> -  Specify range in terms of scalar minimum and maximum (smin,smax). These
+ values are used to map scalars into lookup table. Has no effect when
+ UseLookupTableScalarRange is true.
+ </LI>
+<LI>  <tt>double = obj. GetScalarRange ()</tt> -  Specify range in terms of scalar minimum and maximum (smin,smax). These
+ values are used to map scalars into lookup table. Has no effect when
+ UseLookupTableScalarRange is true.
+ </LI>
+<LI>  <tt>obj.SetScalarMode (int )</tt> -  Control how the filter works with scalar point data and cell attribute
+ data.  By default (ScalarModeToDefault), the filter will use point data,
+ and if no point data is available, then cell data is used. Alternatively
+ you can explicitly set the filter to use point data
+ (ScalarModeToUsePointData) or cell data (ScalarModeToUseCellData).
+ You can also choose to get the scalars from an array in point field
+ data (ScalarModeToUsePointFieldData) or cell field data
+ (ScalarModeToUseCellFieldData).  If scalars are coming from a field
+ data array, you must call ColorByArrayComponent before you call
+ GetColors.
+ </LI>
+<LI>  <tt>int = obj.GetScalarMode ()</tt> -  Control how the filter works with scalar point data and cell attribute
+ data.  By default (ScalarModeToDefault), the filter will use point data,
+ and if no point data is available, then cell data is used. Alternatively
+ you can explicitly set the filter to use point data
+ (ScalarModeToUsePointData) or cell data (ScalarModeToUseCellData).
+ You can also choose to get the scalars from an array in point field
+ data (ScalarModeToUsePointFieldData) or cell field data
+ (ScalarModeToUseCellFieldData).  If scalars are coming from a field
+ data array, you must call ColorByArrayComponent before you call
+ GetColors.
+ </LI>
+<LI>  <tt>obj.SetScalarModeToDefault ()</tt> -  Control how the filter works with scalar point data and cell attribute
+ data.  By default (ScalarModeToDefault), the filter will use point data,
+ and if no point data is available, then cell data is used. Alternatively
+ you can explicitly set the filter to use point data
+ (ScalarModeToUsePointData) or cell data (ScalarModeToUseCellData).
+ You can also choose to get the scalars from an array in point field
+ data (ScalarModeToUsePointFieldData) or cell field data
+ (ScalarModeToUseCellFieldData).  If scalars are coming from a field
+ data array, you must call ColorByArrayComponent before you call
+ GetColors.
+ </LI>
+<LI>  <tt>obj.SetScalarModeToUsePointData ()</tt> -  Control how the filter works with scalar point data and cell attribute
+ data.  By default (ScalarModeToDefault), the filter will use point data,
+ and if no point data is available, then cell data is used. Alternatively
+ you can explicitly set the filter to use point data
+ (ScalarModeToUsePointData) or cell data (ScalarModeToUseCellData).
+ You can also choose to get the scalars from an array in point field
+ data (ScalarModeToUsePointFieldData) or cell field data
+ (ScalarModeToUseCellFieldData).  If scalars are coming from a field
+ data array, you must call ColorByArrayComponent before you call
+ GetColors.
+ </LI>
+<LI>  <tt>obj.SetScalarModeToUseCellData ()</tt> -  Control how the filter works with scalar point data and cell attribute
+ data.  By default (ScalarModeToDefault), the filter will use point data,
+ and if no point data is available, then cell data is used. Alternatively
+ you can explicitly set the filter to use point data
+ (ScalarModeToUsePointData) or cell data (ScalarModeToUseCellData).
+ You can also choose to get the scalars from an array in point field
+ data (ScalarModeToUsePointFieldData) or cell field data
+ (ScalarModeToUseCellFieldData).  If scalars are coming from a field
+ data array, you must call ColorByArrayComponent before you call
+ GetColors.
+ </LI>
+<LI>  <tt>obj.SetScalarModeToUsePointFieldData ()</tt> -  Control how the filter works with scalar point data and cell attribute
+ data.  By default (ScalarModeToDefault), the filter will use point data,
+ and if no point data is available, then cell data is used. Alternatively
+ you can explicitly set the filter to use point data
+ (ScalarModeToUsePointData) or cell data (ScalarModeToUseCellData).
+ You can also choose to get the scalars from an array in point field
+ data (ScalarModeToUsePointFieldData) or cell field data
+ (ScalarModeToUseCellFieldData).  If scalars are coming from a field
+ data array, you must call ColorByArrayComponent before you call
+ GetColors.
+ </LI>
+<LI>  <tt>obj.SetScalarModeToUseCellFieldData ()</tt> -  Control how the filter works with scalar point data and cell attribute
+ data.  By default (ScalarModeToDefault), the filter will use point data,
+ and if no point data is available, then cell data is used. Alternatively
+ you can explicitly set the filter to use point data
+ (ScalarModeToUsePointData) or cell data (ScalarModeToUseCellData).
+ You can also choose to get the scalars from an array in point field
+ data (ScalarModeToUsePointFieldData) or cell field data
+ (ScalarModeToUseCellFieldData).  If scalars are coming from a field
+ data array, you must call ColorByArrayComponent before you call
+ GetColors.
+ </LI>
+<LI>  <tt>obj.ColorByArrayComponent (int arrayNum, int component)</tt> -  Choose which component of which field data array to color by.
+ </LI>
+<LI>  <tt>obj.ColorByArrayComponent (string arrayName, int component)</tt> -  Choose which component of which field data array to color by.
+ </LI>
+<LI>  <tt>string = obj.GetArrayName ()</tt> -  Get the array name or number and component to color by.
+ </LI>
+<LI>  <tt>int = obj.GetArrayId ()</tt> -  Get the array name or number and component to color by.
+ </LI>
+<LI>  <tt>int = obj.GetArrayAccessMode ()</tt> -  Get the array name or number and component to color by.
+ </LI>
+<LI>  <tt>int = obj.GetArrayComponent ()</tt> -  Overload standard modified time function. If lookup table is modified,
+ then this object is modified as well.
+ </LI>
+<LI>  <tt>long = obj.GetMTime ()</tt> -  Overload standard modified time function. If lookup table is modified,
+ then this object is modified as well.
+ </LI>
+<LI>  <tt>obj.SetTransformCoordinate (vtkCoordinate )</tt> -  Specify a vtkCoordinate object to be used to transform the vtkPolyData
+ point coordinates. By default (no vtkCoordinate specified), the point 
+ coordinates are taken as local display coordinates.
+ </LI>
+<LI>  <tt>vtkCoordinate = obj.GetTransformCoordinate ()</tt> -  Specify a vtkCoordinate object to be used to transform the vtkPolyData
+ point coordinates. By default (no vtkCoordinate specified), the point 
+ coordinates are taken as local display coordinates.
+ </LI>
+<LI>  <tt>vtkUnsignedCharArray = obj.MapScalars (double alpha)</tt> -  Map the scalars (if there are any scalars and ScalarVisibility is on)
+ through the lookup table, returning an unsigned char RGBA array. This is
+ typically done as part of the rendering process. The alpha parameter 
+ allows the blending of the scalars with an additional alpha (typically
+ which comes from a vtkActor, etc.)
+ </LI>
+<LI>  <tt>obj.ShallowCopy (vtkAbstractMapper m)</tt> -  Make a shallow copy of this mapper.
+ </LI>
+</UL>
+*/

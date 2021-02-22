@@ -1,0 +1,105 @@
+/*!
+\page vtkinfovis_vtkpassarrays vtkPassArrays
+
+<p>
+Section: \ref sec_vtkinfovis "Visualization Toolkit Infovis Classes"
+\section Usage
+ This filter preserves all the topology of the input, but only a subset of
+ arrays are passed to the output. Add an array to be passed to the output
+ data object with AddArray(). If RemoveArrays is on, the specified arrays will
+ be the ones that are removed instead of the ones that are kept.
+
+ Arrays with special attributes (scalars, pedigree ids, etc.) will retain those
+ attributes in the output.
+
+ By default, only those field types with at least one array specified through
+ AddArray will be processed. If instead UseFieldTypes
+ is turned on, you explicitly set which field types to process with AddFieldType.
+
+ Example 1:
+
+ <pre>
+ passArray->AddArray(vtkDataObject::POINT, "velocity");
+ </pre>
+
+ The output will have only that one array "velocity" in the
+ point data, but cell and field data will be untouched.
+
+ Example 2:
+
+ <pre>
+ passArray->AddArray(vtkDataObject::POINT, "velocity");
+ passArray->UseFieldTypesOn();
+ passArray->AddFieldType(vtkDataObject::POINT);
+ passArray->AddFieldType(vtkDataObject::CELL);
+ </pre>
+
+ The point data would still contain the single array, but the cell data
+ would be cleared since you did not specify any arrays to pass. Field data would
+ still be untouched.
+
+To create an instance of class vtkPassArrays, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkPassArrays
+\endverbatim
+\section Methods
+The class vtkPassArrays has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkPassArrays class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkPassArrays = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkPassArrays = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.AddArray (int fieldType, string name)</tt> -  Adds an array to pass through.
+ fieldType where the array that should be passed (point data, cell data, etc.).
+ It should be one of the constants defined in the vtkDataObject::AttributeTypes
+ enumeration.
+ </LI>
+<LI>  <tt>obj.ClearArrays ()</tt> -  Clear all arrays to pass through.
+ </LI>
+<LI>  <tt>obj.SetRemoveArrays (bool )</tt> -  Instead of passing only the specified arrays, remove the specified arrays
+ and keep all other arrays. Default is off.
+ </LI>
+<LI>  <tt>bool = obj.GetRemoveArrays ()</tt> -  Instead of passing only the specified arrays, remove the specified arrays
+ and keep all other arrays. Default is off.
+ </LI>
+<LI>  <tt>obj.RemoveArraysOn ()</tt> -  Instead of passing only the specified arrays, remove the specified arrays
+ and keep all other arrays. Default is off.
+ </LI>
+<LI>  <tt>obj.RemoveArraysOff ()</tt> -  Instead of passing only the specified arrays, remove the specified arrays
+ and keep all other arrays. Default is off.
+ </LI>
+<LI>  <tt>obj.SetUseFieldTypes (bool )</tt> -  Process only those field types explicitly specified with AddFieldType.
+ Otherwise, processes field types associated with at least one specified
+ array. Default is off.
+ </LI>
+<LI>  <tt>bool = obj.GetUseFieldTypes ()</tt> -  Process only those field types explicitly specified with AddFieldType.
+ Otherwise, processes field types associated with at least one specified
+ array. Default is off.
+ </LI>
+<LI>  <tt>obj.UseFieldTypesOn ()</tt> -  Process only those field types explicitly specified with AddFieldType.
+ Otherwise, processes field types associated with at least one specified
+ array. Default is off.
+ </LI>
+<LI>  <tt>obj.UseFieldTypesOff ()</tt> -  Process only those field types explicitly specified with AddFieldType.
+ Otherwise, processes field types associated with at least one specified
+ array. Default is off.
+ </LI>
+<LI>  <tt>obj.AddFieldType (int fieldType)</tt> -  Add a field type to process.
+ fieldType where the array that should be passed (point data, cell data, etc.).
+ It should be one of the constants defined in the vtkDataObject::AttributeTypes
+ enumeration.
+ NOTE: These are only used if UseFieldType is turned on.
+ </LI>
+<LI>  <tt>obj.ClearFieldTypes ()</tt> -  Clear all field types to process.
+ </LI>
+</UL>
+*/

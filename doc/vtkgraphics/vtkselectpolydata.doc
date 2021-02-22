@@ -1,0 +1,151 @@
+/*!
+\page vtkgraphics_vtkselectpolydata vtkSelectPolyData
+
+<p>
+Section: \ref sec_vtkgraphics "Visualization Toolkit Graphics Classes"
+\section Usage
+ vtkSelectPolyData is a filter that selects polygonal data based on
+ defining a "loop" and indicating the region inside of the loop. The
+ mesh within the loop consists of complete cells (the cells are not
+ cut). Alternatively, this filter can be used to generate scalars.
+ These scalar values, which are a distance measure to the loop, can
+ be used to clip, contour. or extract data (i.e., anything that an
+ implicit function can do). 
+
+ The loop is defined by an array of x-y-z point coordinates.
+ (Coordinates should be in the same coordinate space as the input
+ polygonal data.) The loop can be concave and non-planar, but not
+ self-intersecting. The input to the filter is a polygonal mesh
+ (only surface primitives such as triangle strips and polygons); the
+ output is either a) a portion of the original mesh laying within
+ the selection loop (GenerateSelectionScalarsOff); or b) the same
+ polygonal mesh with the addition of scalar values
+ (GenerateSelectionScalarsOn).
+
+ The algorithm works as follows. For each point coordinate in the
+ loop, the closest point in the mesh is found. The result is a loop
+ of closest point ids from the mesh. Then, the edges in the mesh
+ connecting the closest points (and laying along the lines forming
+ the loop) are found. A greedy edge tracking procedure is used as
+ follows. At the current point, the mesh edge oriented in the
+ direction of and whose end point is closest to the line is
+ chosen. The edge is followed to the new end point, and the
+ procedure is repeated. This process continues until the entire loop
+ has been created. 
+ 
+ To determine what portion of the mesh is inside and outside of the
+ loop, three options are possible. 1) the smallest connected region,
+ 2) the largest connected region, and 3) the connected region
+ closest to a user specified point. (Set the ivar SelectionMode.)
+ 
+ Once the loop is computed as above, the GenerateSelectionScalars
+ controls the output of the filter. If on, then scalar values are
+ generated based on distance to the loop lines. Otherwise, the cells
+ laying inside the selection loop are output. By default, the mesh
+ lying within the loop is output; however, if InsideOut is on, then
+ the portion of the mesh lying outside of the loop is output.
+
+ The filter can be configured to generate the unselected portions of
+ the mesh as output by setting GenerateUnselectedOutput. Use the
+ method GetUnselectedOutput to access this output. (Note: this flag
+ is pertinent only when GenerateSelectionScalars is off.)
+
+To create an instance of class vtkSelectPolyData, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkSelectPolyData
+\endverbatim
+\section Methods
+The class vtkSelectPolyData has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkSelectPolyData class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkSelectPolyData = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkSelectPolyData = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetGenerateSelectionScalars (int )</tt> -  Set/Get the flag to control behavior of the filter. If
+ GenerateSelectionScalars is on, then the output of the filter
+ is the same as the input, except that scalars are generated.
+ If off, the filter outputs the cells laying inside the loop, and
+ does not generate scalars.
+ </LI>
+<LI>  <tt>int = obj.GetGenerateSelectionScalars ()</tt> -  Set/Get the flag to control behavior of the filter. If
+ GenerateSelectionScalars is on, then the output of the filter
+ is the same as the input, except that scalars are generated.
+ If off, the filter outputs the cells laying inside the loop, and
+ does not generate scalars.
+ </LI>
+<LI>  <tt>obj.GenerateSelectionScalarsOn ()</tt> -  Set/Get the flag to control behavior of the filter. If
+ GenerateSelectionScalars is on, then the output of the filter
+ is the same as the input, except that scalars are generated.
+ If off, the filter outputs the cells laying inside the loop, and
+ does not generate scalars.
+ </LI>
+<LI>  <tt>obj.GenerateSelectionScalarsOff ()</tt> -  Set/Get the flag to control behavior of the filter. If
+ GenerateSelectionScalars is on, then the output of the filter
+ is the same as the input, except that scalars are generated.
+ If off, the filter outputs the cells laying inside the loop, and
+ does not generate scalars.
+ </LI>
+<LI>  <tt>obj.SetInsideOut (int )</tt> -  Set/Get the InsideOut flag. When off, the mesh within the loop is
+ extracted. When on, the mesh outside the loop is extracted.
+ </LI>
+<LI>  <tt>int = obj.GetInsideOut ()</tt> -  Set/Get the InsideOut flag. When off, the mesh within the loop is
+ extracted. When on, the mesh outside the loop is extracted.
+ </LI>
+<LI>  <tt>obj.InsideOutOn ()</tt> -  Set/Get the InsideOut flag. When off, the mesh within the loop is
+ extracted. When on, the mesh outside the loop is extracted.
+ </LI>
+<LI>  <tt>obj.InsideOutOff ()</tt> -  Set/Get the InsideOut flag. When off, the mesh within the loop is
+ extracted. When on, the mesh outside the loop is extracted.
+ </LI>
+<LI>  <tt>obj.SetLoop (vtkPoints )</tt> -  Set/Get the array of point coordinates defining the loop. There must
+ be at least three points used to define a loop.
+ </LI>
+<LI>  <tt>vtkPoints = obj.GetLoop ()</tt> -  Set/Get the array of point coordinates defining the loop. There must
+ be at least three points used to define a loop.
+ </LI>
+<LI>  <tt>obj.SetSelectionMode (int )</tt> -  Control how inside/outside of loop is defined.
+ </LI>
+<LI>  <tt>int = obj.GetSelectionModeMinValue ()</tt> -  Control how inside/outside of loop is defined.
+ </LI>
+<LI>  <tt>int = obj.GetSelectionModeMaxValue ()</tt> -  Control how inside/outside of loop is defined.
+ </LI>
+<LI>  <tt>int = obj.GetSelectionMode ()</tt> -  Control how inside/outside of loop is defined.
+ </LI>
+<LI>  <tt>obj.SetSelectionModeToSmallestRegion ()</tt> -  Control how inside/outside of loop is defined.
+ </LI>
+<LI>  <tt>obj.SetSelectionModeToLargestRegion ()</tt> -  Control how inside/outside of loop is defined.
+ </LI>
+<LI>  <tt>obj.SetSelectionModeToClosestPointRegion ()</tt> -  Control how inside/outside of loop is defined.
+ </LI>
+<LI>  <tt>string = obj.GetSelectionModeAsString ()</tt> -  Control how inside/outside of loop is defined.
+ </LI>
+<LI>  <tt>obj.SetGenerateUnselectedOutput (int )</tt> -  Control whether a second output is generated. The second output
+ contains the polygonal data that's not been selected.
+ </LI>
+<LI>  <tt>int = obj.GetGenerateUnselectedOutput ()</tt> -  Control whether a second output is generated. The second output
+ contains the polygonal data that's not been selected.
+ </LI>
+<LI>  <tt>obj.GenerateUnselectedOutputOn ()</tt> -  Control whether a second output is generated. The second output
+ contains the polygonal data that's not been selected.
+ </LI>
+<LI>  <tt>obj.GenerateUnselectedOutputOff ()</tt> -  Control whether a second output is generated. The second output
+ contains the polygonal data that's not been selected.
+ </LI>
+<LI>  <tt>vtkPolyData = obj.GetUnselectedOutput ()</tt> -  Return output that hasn't been selected (if GenreateUnselectedOutput is
+ enabled).
+ </LI>
+<LI>  <tt>vtkPolyData = obj.GetSelectionEdges ()</tt> -  Return the (mesh) edges of the selection region.
+ </LI>
+<LI>  <tt>long = obj.GetMTime ()</tt>
+ </LI>
+</UL>
+*/

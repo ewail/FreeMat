@@ -1,0 +1,176 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkimaging_vtkimagereslice" kind="page">
+    <compoundname>vtkimaging_vtkimagereslice</compoundname>
+    <title>vtkImageReslice</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkimaging_1sec_vtkimaging" kindref="member">Visualization Toolkit Imaging Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>vtkImageReslice is the swiss-army-knife of image geometry filters: It can permute, rotate, flip, scale, resample, deform, and pad image data in any combination with reasonably high efficiency. Simple operations such as permutation, resampling and padding are done with similar efficiently to the specialized vtkImagePermute, vtkImageResample, and vtkImagePad filters. There are a number of tasks that vtkImageReslice is well suited for: </para><para>1) Application of simple rotations, scales, and translations to an image. It is often a good idea to use vtkImageChangeInformation to center the image first, so that scales and rotations occur around the center rather than around the lower-left corner of the image. </para><para>2) Resampling of one data set to match the voxel sampling of a second data set via the SetInformationInput() method, e.g. for the purpose of comparing two images or combining two images. A transformation, either linear or nonlinear, can be applied at the same time via the SetResliceTransform method if the two images are not in the same coordinate space. </para><para>3) Extraction of slices from an image volume. The most convenient way to do this is to use SetResliceAxesDirectionCosines() to specify the orientation of the slice. The direction cosines give the x, y, and z axes for the output volume. The method SetOutputDimensionality(2) is used to specify that want to output a slice rather than a volume. The SetResliceAxesOrigin() command is used to provide an (x,y,z) point that the slice will pass through. You can use both the ResliceAxes and the ResliceTransform at the same time, in order to extract slices from a volume that you have applied a transformation to.</para><para>To create an instance of class vtkImageReslice, simply invoke its constructor as follows <verbatim>  obj = vtkImageReslice
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkImageReslice has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkImageReslice class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkImageReslice = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkImageReslice = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetResliceAxes (vtkMatrix4x4 )</computeroutput> - This method is used to set up the axes for the output voxels. The output Spacing, Origin, and Extent specify the locations of the voxels within the coordinate system defined by the axes. The ResliceAxes are used most often to permute the data, e.g. to extract ZY or XZ slices of a volume as 2D XY images. </para><para>The first column of the matrix specifies the x-axis vector (the fourth element must be set to zero), the second column specifies the y-axis, and the third column the z-axis. The fourth column is the origin of the axes (the fourth element must be set to one). </para><para>An alternative to SetResliceAxes() is to use SetResliceAxesDirectionCosines() to set the directions of the axes and SetResliceAxesOrigin() to set the origin of the axes.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkMatrix4x4 = obj.GetResliceAxes ()</computeroutput> - This method is used to set up the axes for the output voxels. The output Spacing, Origin, and Extent specify the locations of the voxels within the coordinate system defined by the axes. The ResliceAxes are used most often to permute the data, e.g. to extract ZY or XZ slices of a volume as 2D XY images. </para><para>The first column of the matrix specifies the x-axis vector (the fourth element must be set to zero), the second column specifies the y-axis, and the third column the z-axis. The fourth column is the origin of the axes (the fourth element must be set to one). </para><para>An alternative to SetResliceAxes() is to use SetResliceAxesDirectionCosines() to set the directions of the axes and SetResliceAxesOrigin() to set the origin of the axes.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetResliceAxesDirectionCosines (double x0, double x1, double x2, double y0, double y1, double y2, double z0, double z1, double z2)</computeroutput> - Specify the direction cosines for the ResliceAxes (i.e. the first three elements of each of the first three columns of the ResliceAxes matrix). This will modify the current ResliceAxes matrix, or create a new matrix if none exists.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetResliceAxesDirectionCosines (double x[3], double y[3], double z[3])</computeroutput> - Specify the direction cosines for the ResliceAxes (i.e. the first three elements of each of the first three columns of the ResliceAxes matrix). This will modify the current ResliceAxes matrix, or create a new matrix if none exists.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetResliceAxesDirectionCosines (double xyz[9])</computeroutput> - Specify the direction cosines for the ResliceAxes (i.e. the first three elements of each of the first three columns of the ResliceAxes matrix). This will modify the current ResliceAxes matrix, or create a new matrix if none exists.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GetResliceAxesDirectionCosines (double x[3], double y[3], double z[3])</computeroutput> - Specify the direction cosines for the ResliceAxes (i.e. the first three elements of each of the first three columns of the ResliceAxes matrix). This will modify the current ResliceAxes matrix, or create a new matrix if none exists.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GetResliceAxesDirectionCosines (double xyz[9])</computeroutput> - Specify the direction cosines for the ResliceAxes (i.e. the first three elements of each of the first three columns of the ResliceAxes matrix). This will modify the current ResliceAxes matrix, or create a new matrix if none exists.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetResliceAxesDirectionCosines ()</computeroutput> - Specify the direction cosines for the ResliceAxes (i.e. the first three elements of each of the first three columns of the ResliceAxes matrix). This will modify the current ResliceAxes matrix, or create a new matrix if none exists.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetResliceAxesOrigin (double x, double y, double z)</computeroutput> - Specify the origin for the ResliceAxes (i.e. the first three elements of the final column of the ResliceAxes matrix). This will modify the current ResliceAxes matrix, or create new matrix if none exists.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetResliceAxesOrigin (double xyz[3])</computeroutput> - Specify the origin for the ResliceAxes (i.e. the first three elements of the final column of the ResliceAxes matrix). This will modify the current ResliceAxes matrix, or create new matrix if none exists.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GetResliceAxesOrigin (double xyz[3])</computeroutput> - Specify the origin for the ResliceAxes (i.e. the first three elements of the final column of the ResliceAxes matrix). This will modify the current ResliceAxes matrix, or create new matrix if none exists.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetResliceAxesOrigin ()</computeroutput> - Specify the origin for the ResliceAxes (i.e. the first three elements of the final column of the ResliceAxes matrix). This will modify the current ResliceAxes matrix, or create new matrix if none exists.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetResliceTransform (vtkAbstractTransform )</computeroutput> - Set a transform to be applied to the resampling grid that has been defined via the ResliceAxes and the output Origin, Spacing and Extent. Note that applying a transform to the resampling grid (which lies in the output coordinate system) is equivalent to applying the inverse of that transform to the input volume. Nonlinear transforms such as vtkGridTransform and vtkThinPlateSplineTransform can be used here.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkAbstractTransform = obj.GetResliceTransform ()</computeroutput> - Set a transform to be applied to the resampling grid that has been defined via the ResliceAxes and the output Origin, Spacing and Extent. Note that applying a transform to the resampling grid (which lies in the output coordinate system) is equivalent to applying the inverse of that transform to the input volume. Nonlinear transforms such as vtkGridTransform and vtkThinPlateSplineTransform can be used here.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetInformationInput (vtkImageData )</computeroutput> - Set a vtkImageData from which the default Spacing, Origin, and WholeExtent of the output will be copied. The spacing, origin, and extent will be permuted according to the ResliceAxes. Any values set via SetOutputSpacing, SetOutputOrigin, and SetOutputExtent will override these values. By default, the Spacing, Origin, and WholeExtent of the Input are used.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkImageData = obj.GetInformationInput ()</computeroutput> - Set a vtkImageData from which the default Spacing, Origin, and WholeExtent of the output will be copied. The spacing, origin, and extent will be permuted according to the ResliceAxes. Any values set via SetOutputSpacing, SetOutputOrigin, and SetOutputExtent will override these values. By default, the Spacing, Origin, and WholeExtent of the Input are used.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetTransformInputSampling (int )</computeroutput> - Specify whether to transform the spacing, origin and extent of the Input (or the InformationInput) according to the direction cosines and origin of the ResliceAxes before applying them as the default output spacing, origin and extent (default: On).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.TransformInputSamplingOn ()</computeroutput> - Specify whether to transform the spacing, origin and extent of the Input (or the InformationInput) according to the direction cosines and origin of the ResliceAxes before applying them as the default output spacing, origin and extent (default: On).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.TransformInputSamplingOff ()</computeroutput> - Specify whether to transform the spacing, origin and extent of the Input (or the InformationInput) according to the direction cosines and origin of the ResliceAxes before applying them as the default output spacing, origin and extent (default: On).  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetTransformInputSampling ()</computeroutput> - Specify whether to transform the spacing, origin and extent of the Input (or the InformationInput) according to the direction cosines and origin of the ResliceAxes before applying them as the default output spacing, origin and extent (default: On).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetAutoCropOutput (int )</computeroutput> - Turn this on if you want to guarantee that the extent of the output will be large enough to ensure that none of the data will be cropped (default: Off).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.AutoCropOutputOn ()</computeroutput> - Turn this on if you want to guarantee that the extent of the output will be large enough to ensure that none of the data will be cropped (default: Off).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.AutoCropOutputOff ()</computeroutput> - Turn this on if you want to guarantee that the extent of the output will be large enough to ensure that none of the data will be cropped (default: Off).  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetAutoCropOutput ()</computeroutput> - Turn this on if you want to guarantee that the extent of the output will be large enough to ensure that none of the data will be cropped (default: Off).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetWrap (int )</computeroutput> - Turn on wrap-pad feature (default: Off).  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetWrap ()</computeroutput> - Turn on wrap-pad feature (default: Off).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.WrapOn ()</computeroutput> - Turn on wrap-pad feature (default: Off).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.WrapOff ()</computeroutput> - Turn on wrap-pad feature (default: Off).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetMirror (int )</computeroutput> - Turn on mirror-pad feature (default: Off). This will override the wrap-pad.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetMirror ()</computeroutput> - Turn on mirror-pad feature (default: Off). This will override the wrap-pad.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.MirrorOn ()</computeroutput> - Turn on mirror-pad feature (default: Off). This will override the wrap-pad.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.MirrorOff ()</computeroutput> - Turn on mirror-pad feature (default: Off). This will override the wrap-pad.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetBorder (int )</computeroutput> - Extend the apparent input border by a half voxel (default: On). This changes how interpolation is handled at the borders of the input image: if the center of an output voxel is beyond the edge of the input image, but is within a half voxel width of the edge (using the input voxel width), then the value of the output voxel is calculated as if the input&apos;s edge voxels were duplicated past the edges of the input. This has no effect if Mirror or Wrap are on.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetBorder ()</computeroutput> - Extend the apparent input border by a half voxel (default: On). This changes how interpolation is handled at the borders of the input image: if the center of an output voxel is beyond the edge of the input image, but is within a half voxel width of the edge (using the input voxel width), then the value of the output voxel is calculated as if the input&apos;s edge voxels were duplicated past the edges of the input. This has no effect if Mirror or Wrap are on.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.BorderOn ()</computeroutput> - Extend the apparent input border by a half voxel (default: On). This changes how interpolation is handled at the borders of the input image: if the center of an output voxel is beyond the edge of the input image, but is within a half voxel width of the edge (using the input voxel width), then the value of the output voxel is calculated as if the input&apos;s edge voxels were duplicated past the edges of the input. This has no effect if Mirror or Wrap are on.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.BorderOff ()</computeroutput> - Extend the apparent input border by a half voxel (default: On). This changes how interpolation is handled at the borders of the input image: if the center of an output voxel is beyond the edge of the input image, but is within a half voxel width of the edge (using the input voxel width), then the value of the output voxel is calculated as if the input&apos;s edge voxels were duplicated past the edges of the input. This has no effect if Mirror or Wrap are on.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetInterpolationMode (int )</computeroutput> - Set interpolation mode (default: nearest neighbor).  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetInterpolationModeMinValue ()</computeroutput> - Set interpolation mode (default: nearest neighbor).  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetInterpolationModeMaxValue ()</computeroutput> - Set interpolation mode (default: nearest neighbor).  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetInterpolationMode ()</computeroutput> - Set interpolation mode (default: nearest neighbor).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetInterpolationModeToNearestNeighbor ()</computeroutput> - Set interpolation mode (default: nearest neighbor).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetInterpolationModeToLinear ()</computeroutput> - Set interpolation mode (default: nearest neighbor).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetInterpolationModeToCubic ()</computeroutput> - Set interpolation mode (default: nearest neighbor).  </para></listitem>
+<listitem>
+<para><computeroutput>string = obj.GetInterpolationModeAsString ()</computeroutput> - Set interpolation mode (default: nearest neighbor).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetOptimization (int )</computeroutput> - Turn on and off optimizations (default on, they should only be turned off for testing purposes).  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetOptimization ()</computeroutput> - Turn on and off optimizations (default on, they should only be turned off for testing purposes).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.OptimizationOn ()</computeroutput> - Turn on and off optimizations (default on, they should only be turned off for testing purposes).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.OptimizationOff ()</computeroutput> - Turn on and off optimizations (default on, they should only be turned off for testing purposes).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetBackgroundColor (double , double , double , double )</computeroutput> - Set the background color (for multi-component images).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetBackgroundColor (double a[4])</computeroutput> - Set the background color (for multi-component images).  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj. GetBackgroundColor ()</computeroutput> - Set the background color (for multi-component images).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetBackgroundLevel (double v)</computeroutput> - Set background grey level (for single-component images).  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetBackgroundLevel ()</computeroutput> - Set background grey level (for single-component images).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetOutputSpacing (double , double , double )</computeroutput> - Set the voxel spacing for the output data. The default output spacing is the input spacing permuted through the ResliceAxes.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetOutputSpacing (double a[3])</computeroutput> - Set the voxel spacing for the output data. The default output spacing is the input spacing permuted through the ResliceAxes.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj. GetOutputSpacing ()</computeroutput> - Set the voxel spacing for the output data. The default output spacing is the input spacing permuted through the ResliceAxes.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetOutputSpacingToDefault ()</computeroutput> - Set the voxel spacing for the output data. The default output spacing is the input spacing permuted through the ResliceAxes.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetOutputOrigin (double , double , double )</computeroutput> - Set the origin for the output data. The default output origin is the input origin permuted through the ResliceAxes.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetOutputOrigin (double a[3])</computeroutput> - Set the origin for the output data. The default output origin is the input origin permuted through the ResliceAxes.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj. GetOutputOrigin ()</computeroutput> - Set the origin for the output data. The default output origin is the input origin permuted through the ResliceAxes.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetOutputOriginToDefault ()</computeroutput> - Set the origin for the output data. The default output origin is the input origin permuted through the ResliceAxes.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetOutputExtent (int , int , int , int , int , int )</computeroutput> - Set the extent for the output data. The default output extent is the input extent permuted through the ResliceAxes.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetOutputExtent (int a[6])</computeroutput> - Set the extent for the output data. The default output extent is the input extent permuted through the ResliceAxes.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj. GetOutputExtent ()</computeroutput> - Set the extent for the output data. The default output extent is the input extent permuted through the ResliceAxes.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetOutputExtentToDefault ()</computeroutput> - Set the extent for the output data. The default output extent is the input extent permuted through the ResliceAxes.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetOutputDimensionality (int )</computeroutput> - Force the dimensionality of the output to either 1, 2, 3 or 0 (default: 3). If the dimensionality is 2D, then the Z extent of the output is forced to (0,0) and the Z origin of the output is forced to 0.0 (i.e. the output extent is confined to the xy plane). If the dimensionality is 1D, the output extent is confined to the x axis. For 0D, the output extent consists of a single voxel at (0,0,0).  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetOutputDimensionality ()</computeroutput> - Force the dimensionality of the output to either 1, 2, 3 or 0 (default: 3). If the dimensionality is 2D, then the Z extent of the output is forced to (0,0) and the Z origin of the output is forced to 0.0 (i.e. the output extent is confined to the xy plane). If the dimensionality is 1D, the output extent is confined to the x axis. For 0D, the output extent consists of a single voxel at (0,0,0).  </para></listitem>
+<listitem>
+<para><computeroutput>long = obj.GetMTime ()</computeroutput> - When determining the modified time of the filter, this check the modified time of the transform and matrix.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ReportReferences (vtkGarbageCollector )</computeroutput> - Report object referenced by instances of this class.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetInterpolate (int t)</computeroutput> - Convenient methods for switching between nearest-neighbor and linear interpolation. InterpolateOn() is equivalent to SetInterpolationModeToLinear() and InterpolateOff() is equivalent to SetInterpolationModeToNearestNeighbor(). You should not use these methods if you use the SetInterpolationMode methods.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.InterpolateOn ()</computeroutput> - Convenient methods for switching between nearest-neighbor and linear interpolation. InterpolateOn() is equivalent to SetInterpolationModeToLinear() and InterpolateOff() is equivalent to SetInterpolationModeToNearestNeighbor(). You should not use these methods if you use the SetInterpolationMode methods.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.InterpolateOff ()</computeroutput> - Convenient methods for switching between nearest-neighbor and linear interpolation. InterpolateOn() is equivalent to SetInterpolationModeToLinear() and InterpolateOff() is equivalent to SetInterpolationModeToNearestNeighbor(). You should not use these methods if you use the SetInterpolationMode methods.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetInterpolate ()</computeroutput> - Convenient methods for switching between nearest-neighbor and linear interpolation. InterpolateOn() is equivalent to SetInterpolationModeToLinear() and InterpolateOff() is equivalent to SetInterpolationModeToNearestNeighbor(). You should not use these methods if you use the SetInterpolationMode methods.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetStencil (vtkImageStencilData stencil)</computeroutput> - Use a stencil to limit the calculations to a specific region of the output. Portions of the output that are &apos;outside&apos; the stencil will be cleared to the background color.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkImageStencilData = obj.GetStencil ()</computeroutput> - Use a stencil to limit the calculations to a specific region of the output. Portions of the output that are &apos;outside&apos; the stencil will be cleared to the background color.  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,108 @@
+
+ Usage
+
+Render the translucent polygonal geometry of a scene without
+sorting polygons in the view direction.
+This pass expects an initialized depth buffer and color
+buffer. Initialized buffers means they have been cleared
+with farest z-value and background color/gradient/
+transparent color. An opaque pass may have been performed
+right after the initialization.
+The depth peeling algorithm works by rendering the
+translucent polygonal geometry multiple times (once for each
+peel). The actually rendering of the translucent polygonal
+geometry is peformed by its delegate TranslucentPass. This
+delegate is therefore used multiple times.
+Its delegate is usually set to a vtkTranslucentPass.
+To create an instance of class vtkDepthPeelingPass, simply
+invoke its constructor as follows
+
+    obj = vtkDepthPeelingPass
+
+
+
+ Methods
+
+The class vtkDepthPeelingPass has several methods that can
+be used. They are listed below. Note that the documentation
+is translated automatically from the VTK sources, and may
+not be completely intelligible. When in doubt, consult the
+VTK website. In the methods listed below, obj is an instance
+of the vtkDepthPeelingPass class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkDepthPeelingPass = obj.NewInstance ()
+* vtkDepthPeelingPass = obj.SafeDownCast (vtkObject o)
+* obj.ReleaseGraphicsResources (vtkWindow w) - Release
+  graphics resources and ask components to release their own
+  resources.
+
+
+    Precondition:
+        w_exists: w!=0
+
+* vtkRenderPass = obj.GetTranslucentPass () - Delegate for
+  rendering the translucent polygonal geometry. If it is
+  NULL, nothing will be rendered and a warning will be
+  emitted. It is usually set to a vtkTranslucentPass.
+  Initial value is a NULL pointer.
+* obj.SetTranslucentPass (vtkRenderPass translucentPass) -
+  Delegate for rendering the translucent polygonal geometry.
+  If it is NULL, nothing will be rendered and a warning will
+  be emitted. It is usually set to a vtkTranslucentPass.
+  Initial value is a NULL pointer.
+* obj.SetOcclusionRatio (double ) - In case of use of depth
+  peeling technique for rendering translucent material,
+  define the threshold under which the algorithm stops to
+  iterate over peel layers. This is the ratio of the number
+  of pixels that have been touched by the last layer over
+  the total number of pixels of the viewport area. Initial
+  value is 0.0, meaning rendering have to be exact. Greater
+  values may speed-up the rendering with small impact on the
+  quality.
+* double = obj.GetOcclusionRatioMinValue () - In case of use
+  of depth peeling technique for rendering translucent
+  material, define the threshold under which the algorithm
+  stops to iterate over peel layers. This is the ratio of
+  the number of pixels that have been touched by the last
+  layer over the total number of pixels of the viewport
+  area. Initial value is 0.0, meaning rendering have to be
+  exact. Greater values may speed-up the rendering with
+  small impact on the quality.
+* double = obj.GetOcclusionRatioMaxValue () - In case of use
+  of depth peeling technique for rendering translucent
+  material, define the threshold under which the algorithm
+  stops to iterate over peel layers. This is the ratio of
+  the number of pixels that have been touched by the last
+  layer over the total number of pixels of the viewport
+  area. Initial value is 0.0, meaning rendering have to be
+  exact. Greater values may speed-up the rendering with
+  small impact on the quality.
+* double = obj.GetOcclusionRatio () - In case of use of
+  depth peeling technique for rendering translucent
+  material, define the threshold under which the algorithm
+  stops to iterate over peel layers. This is the ratio of
+  the number of pixels that have been touched by the last
+  layer over the total number of pixels of the viewport
+  area. Initial value is 0.0, meaning rendering have to be
+  exact. Greater values may speed-up the rendering with
+  small impact on the quality.
+* obj.SetMaximumNumberOfPeels (int ) - In case of depth
+  peeling, define the maximum number of peeling layers.
+  Initial value is 4. A special value of 0 means no maximum
+  limit. It has to be a positive value.
+* int = obj.GetMaximumNumberOfPeels () - In case of depth
+  peeling, define the maximum number of peeling layers.
+  Initial value is 4. A special value of 0 means no maximum
+  limit. It has to be a positive value.
+* bool = obj.GetLastRenderingUsedDepthPeeling () - Tells if
+  the last time this pass was executed, the depth peeling
+  algorithm was actually used. Initial value is false.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Rendering_Classes
+* Generated on Thu Jul 25 2013 17:18:35 for FreeMat by
+  doxygen_ 1.8.1.1
+

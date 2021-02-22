@@ -1,0 +1,37 @@
+/*!
+\page class_constructors CONSTRUCTORS Class Constructors
+
+<p>
+Section: \ref sec_class "Object Oriented Programming"
+\section Usage
+When designing a constructor for a FreeMat class, you should
+design the constructor to take a certain form.  The following
+is the code for the sample <tt>mat</tt> object 
+\verbatim
+function p = mat(a)
+  if (nargin == 0)
+    p.c = [];
+    p = class(p,'mat');
+  elseif isa(a,'mat')
+    p = a;
+  else
+    p.c = a;
+    p = class(p,'mat');
+  end
+\endverbatim
+Generally speaking when it is provided with zero arguments, the
+constructor returns a default version of the class using a template
+structure with the right fields populated with default values.  If
+the constructor is given a single argument that matches the class
+we are trying to construct, the constructor passes through the
+argument.  This form of the constructor is used for type conversion.
+In particular, 
+\verbatim
+   p = mat(a)
+\endverbatim
+guarantees that <tt>p</tt> is an array of class <tt>mat</tt>.  The last form
+of the constructor builds a class object given the input.  The
+meaning of this form depends on what makes sense for your class.
+For example, for a polynomial class, you may want to pass in the
+coefficients of the polynomial.
+*/

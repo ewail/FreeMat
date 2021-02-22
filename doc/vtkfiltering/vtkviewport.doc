@@ -1,0 +1,248 @@
+/*!
+\page vtkfiltering_vtkviewport vtkViewport
+
+<p>
+Section: \ref sec_vtkfiltering "Visualization Toolkit Filtering Classes"
+\section Usage
+ vtkViewport provides an abstract specification for Viewports. A Viewport
+ is an object that controls the rendering process for objects. Rendering
+ is the process of converting geometry, a specification for lights, and
+ a camera view into an image. vtkViewport also performs coordinate
+ transformation between world coordinates, view coordinates (the computer
+ graphics rendering coordinate system), and display coordinates (the
+ actual screen coordinates on the display device). Certain advanced
+ rendering features such as two-sided lighting can also be controlled.
+
+To create an instance of class vtkViewport, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkViewport
+\endverbatim
+\section Methods
+The class vtkViewport has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkViewport class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkViewport = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkViewport = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.AddViewProp (vtkProp )</tt> -  Add a prop to the list of props. Prop is the superclass of all
+ actors, volumes, 2D actors, composite props etc.
+ </LI>
+<LI>  <tt>vtkPropCollection = obj.GetViewProps ()</tt> -  Return any props in this viewport.
+ </LI>
+<LI>  <tt>int = obj.HasViewProp (vtkProp )</tt> -  Query if a prop is in the list of props.
+ </LI>
+<LI>  <tt>obj.RemoveViewProp (vtkProp )</tt> -  Remove an actor from the list of actors.
+ </LI>
+<LI>  <tt>obj.RemoveAllViewProps (void )</tt> -  Remove all actors from the list of actors.
+ </LI>
+<LI>  <tt>obj.AddActor2D (vtkProp p)</tt> -  Add/Remove different types of props to the renderer.
+ These methods are all synonyms to AddViewProp and RemoveViewProp.
+ They are here for convenience and backwards compatibility.
+ </LI>
+<LI>  <tt>obj.RemoveActor2D (vtkProp p)</tt> -  Add/Remove different types of props to the renderer.
+ These methods are all synonyms to AddViewProp and RemoveViewProp.
+ They are here for convenience and backwards compatibility.
+ </LI>
+<LI>  <tt>vtkActor2DCollection = obj.GetActors2D ()</tt> -  Add/Remove different types of props to the renderer.
+ These methods are all synonyms to AddViewProp and RemoveViewProp.
+ They are here for convenience and backwards compatibility.
+ </LI>
+<LI>  <tt>obj.SetBackground (double , double , double )</tt> -  Set/Get the background color of the rendering screen using an rgb color
+ specification.
+ </LI>
+<LI>  <tt>obj.SetBackground (double  a[3])</tt> -  Set/Get the background color of the rendering screen using an rgb color
+ specification.
+ </LI>
+<LI>  <tt>double = obj. GetBackground ()</tt> -  Set/Get the background color of the rendering screen using an rgb color
+ specification.
+ </LI>
+<LI>  <tt>obj.SetBackground2 (double , double , double )</tt> -  Set/Get the second background color of the rendering screen
+ for gradient backgrounds using an rgb color specification.
+ </LI>
+<LI>  <tt>obj.SetBackground2 (double  a[3])</tt> -  Set/Get the second background color of the rendering screen
+ for gradient backgrounds using an rgb color specification.
+ </LI>
+<LI>  <tt>double = obj. GetBackground2 ()</tt> -  Set/Get the second background color of the rendering screen
+ for gradient backgrounds using an rgb color specification.
+ </LI>
+<LI>  <tt>obj.SetGradientBackground (bool )</tt> -  Set/Get whether this viewport should have a gradient background
+ using the Background (top) and Background2 (bottom) colors.
+ Default is off.
+ </LI>
+<LI>  <tt>bool = obj.GetGradientBackground ()</tt> -  Set/Get whether this viewport should have a gradient background
+ using the Background (top) and Background2 (bottom) colors.
+ Default is off.
+ </LI>
+<LI>  <tt>obj.GradientBackgroundOn ()</tt> -  Set/Get whether this viewport should have a gradient background
+ using the Background (top) and Background2 (bottom) colors.
+ Default is off.
+ </LI>
+<LI>  <tt>obj.GradientBackgroundOff ()</tt> -  Set/Get whether this viewport should have a gradient background
+ using the Background (top) and Background2 (bottom) colors.
+ Default is off.
+ </LI>
+<LI>  <tt>obj.SetAspect (double , double )</tt> -  Set the aspect ratio of the rendered image. This is computed
+ automatically and should not be set by the user.
+ </LI>
+<LI>  <tt>obj.SetAspect (double  a[2])</tt> -  Set the aspect ratio of the rendered image. This is computed
+ automatically and should not be set by the user.
+ </LI>
+<LI>  <tt>double = obj. GetAspect ()</tt> -  Set the aspect ratio of the rendered image. This is computed
+ automatically and should not be set by the user.
+ </LI>
+<LI>  <tt>obj.ComputeAspect ()</tt> -  Set the aspect ratio of the rendered image. This is computed
+ automatically and should not be set by the user.
+ </LI>
+<LI>  <tt>obj.SetPixelAspect (double , double )</tt> -  Set the aspect ratio of a pixel in the rendered image.
+ This factor permits the image to rendered anisotropically
+ (i.e., stretched in one direction or the other).
+ </LI>
+<LI>  <tt>obj.SetPixelAspect (double  a[2])</tt> -  Set the aspect ratio of a pixel in the rendered image.
+ This factor permits the image to rendered anisotropically
+ (i.e., stretched in one direction or the other).
+ </LI>
+<LI>  <tt>double = obj. GetPixelAspect ()</tt> -  Set the aspect ratio of a pixel in the rendered image.
+ This factor permits the image to rendered anisotropically
+ (i.e., stretched in one direction or the other).
+ </LI>
+<LI>  <tt>obj.SetViewport (double , double , double , double )</tt> -  Specify the viewport for the Viewport to draw in the rendering window.
+ Coordinates are expressed as (xmin,ymin,xmax,ymax), where each
+ coordinate is 0 <= coordinate <= 1.0.
+ </LI>
+<LI>  <tt>obj.SetViewport (double  a[4])</tt> -  Specify the viewport for the Viewport to draw in the rendering window.
+ Coordinates are expressed as (xmin,ymin,xmax,ymax), where each
+ coordinate is 0 <= coordinate <= 1.0.
+ </LI>
+<LI>  <tt>double = obj. GetViewport ()</tt> -  Specify the viewport for the Viewport to draw in the rendering window.
+ Coordinates are expressed as (xmin,ymin,xmax,ymax), where each
+ coordinate is 0 <= coordinate <= 1.0.
+ </LI>
+<LI>  <tt>obj.SetDisplayPoint (double , double , double )</tt> -  Set/get a point location in display (or screen) coordinates.
+ The lower left corner of the window is the origin and y increases
+ as you go up the screen.
+ </LI>
+<LI>  <tt>obj.SetDisplayPoint (double  a[3])</tt> -  Set/get a point location in display (or screen) coordinates.
+ The lower left corner of the window is the origin and y increases
+ as you go up the screen.
+ </LI>
+<LI>  <tt>double = obj. GetDisplayPoint ()</tt> -  Set/get a point location in display (or screen) coordinates.
+ The lower left corner of the window is the origin and y increases
+ as you go up the screen.
+ </LI>
+<LI>  <tt>obj.SetViewPoint (double , double , double )</tt> -  Specify a point location in view coordinates. The origin is in the
+ middle of the viewport and it extends from -1 to 1 in all three
+ dimensions.
+ </LI>
+<LI>  <tt>obj.SetViewPoint (double  a[3])</tt> -  Specify a point location in view coordinates. The origin is in the
+ middle of the viewport and it extends from -1 to 1 in all three
+ dimensions.
+ </LI>
+<LI>  <tt>double = obj. GetViewPoint ()</tt> -  Specify a point location in view coordinates. The origin is in the
+ middle of the viewport and it extends from -1 to 1 in all three
+ dimensions.
+ </LI>
+<LI>  <tt>obj.SetWorldPoint (double , double , double , double )</tt> -  Specify a point location in world coordinates. This method takes
+ homogeneous coordinates.
+ </LI>
+<LI>  <tt>obj.SetWorldPoint (double  a[4])</tt> -  Specify a point location in world coordinates. This method takes
+ homogeneous coordinates.
+ </LI>
+<LI>  <tt>double = obj. GetWorldPoint ()</tt> -  Specify a point location in world coordinates. This method takes
+ homogeneous coordinates.
+ </LI>
+<LI>  <tt>double = obj.GetCenter ()</tt> -  Return the center of this viewport in display coordinates.
+ </LI>
+<LI>  <tt>int = obj.IsInViewport (int x, int y)</tt> -  Is a given display point in this Viewport's viewport.
+ </LI>
+<LI>  <tt>vtkWindow = obj.GetVTKWindow ()</tt> -  Return the vtkWindow that owns this vtkViewport.
+ </LI>
+<LI>  <tt>obj.DisplayToView ()</tt> -  Convert display coordinates to view coordinates.
+ </LI>
+<LI>  <tt>obj.ViewToDisplay ()</tt> -  Convert view coordinates to display coordinates.
+ </LI>
+<LI>  <tt>obj.WorldToView ()</tt> -  Convert world point coordinates to view coordinates.
+ </LI>
+<LI>  <tt>obj.ViewToWorld ()</tt> -  Convert view point coordinates to world coordinates.
+ </LI>
+<LI>  <tt>obj.DisplayToWorld ()</tt> -  Convert display (or screen) coordinates to world coordinates.
+ </LI>
+<LI>  <tt>obj.WorldToDisplay ()</tt> -  Convert world point coordinates to display (or screen) coordinates.
+ </LI>
+<LI>  <tt>int = obj.GetSize ()</tt> -  Get the size and origin of the viewport in display coordinates. Note:
+ if the window has not yet been realized, GetSize() and GetOrigin()
+ return (0,0).
+ </LI>
+<LI>  <tt>int = obj.GetOrigin ()</tt> -  Get the size and origin of the viewport in display coordinates. Note:
+ if the window has not yet been realized, GetSize() and GetOrigin()
+ return (0,0).
+ </LI>
+<LI>  <tt>obj.GetTiledSize (int width, int height)</tt> -  Get the size and origin of the viewport in display coordinates. Note:
+ if the window has not yet been realized, GetSize() and GetOrigin()
+ return (0,0).
+ </LI>
+<LI>  <tt>obj.GetTiledSizeAndOrigin (int width, int height, int lowerLeftX, int lowerLeftY)</tt> -  Get the size and origin of the viewport in display coordinates. Note:
+ if the window has not yet been realized, GetSize() and GetOrigin()
+ return (0,0).
+ </LI>
+<LI>  <tt>vtkAssemblyPath = obj.PickProp (double selectionX, double selectionY)</tt> -  Return the Prop that has the highest z value at the given x, y position
+ in the viewport.  Basically, the top most prop that renders the pixel at
+ selectionX, selectionY will be returned.  If no Props are there NULL is
+ returned.  This method selects from the Viewports Prop list.
+ </LI>
+<LI>  <tt>vtkAssemblyPath = obj.PickPropFrom (double selectionX, double selectionY, vtkPropCollection )</tt> -  Same as PickProp with two arguments, but selects from the given
+ collection of Props instead of the Renderers props.  Make sure
+ the Props in the collection are in this renderer.
+ </LI>
+<LI>  <tt>double = obj.GetPickX () const</tt> -  Methods used to return the pick (x,y) in local display coordinates (i.e.,
+ it's that same as selectionX and selectionY).
+ </LI>
+<LI>  <tt>double = obj.GetPickY () const</tt> -  Methods used to return the pick (x,y) in local display coordinates (i.e.,
+ it's that same as selectionX and selectionY).
+ </LI>
+<LI>  <tt>double = obj.GetPickWidth () const</tt> -  Methods used to return the pick (x,y) in local display coordinates (i.e.,
+ it's that same as selectionX and selectionY).
+ </LI>
+<LI>  <tt>double = obj.GetPickHeight () const</tt> -  Methods used to return the pick (x,y) in local display coordinates (i.e.,
+ it's that same as selectionX and selectionY).
+ </LI>
+<LI>  <tt>double = obj.GetPickX1 () const</tt> -  Methods used to return the pick (x,y) in local display coordinates (i.e.,
+ it's that same as selectionX and selectionY).
+ </LI>
+<LI>  <tt>double = obj.GetPickY1 () const</tt> -  Methods used to return the pick (x,y) in local display coordinates (i.e.,
+ it's that same as selectionX and selectionY).
+ </LI>
+<LI>  <tt>double = obj.GetPickX2 () const</tt> -  Methods used to return the pick (x,y) in local display coordinates (i.e.,
+ it's that same as selectionX and selectionY).
+ </LI>
+<LI>  <tt>double = obj.GetPickY2 () const</tt> -  Methods used to return the pick (x,y) in local display coordinates (i.e.,
+ it's that same as selectionX and selectionY).
+ </LI>
+<LI>  <tt>int = obj.GetIsPicking ()</tt> -  Methods used to return the pick (x,y) in local display coordinates (i.e.,
+ it's that same as selectionX and selectionY).
+ </LI>
+<LI>  <tt>vtkPropCollection = obj.GetPickResultProps ()</tt> -  Methods used to return the pick (x,y) in local display coordinates (i.e.,
+ it's that same as selectionX and selectionY).
+ </LI>
+<LI>  <tt>double = obj.GetPickedZ ()</tt> -  Return the Z value for the last picked Prop.
+ </LI>
+<LI>  <tt>obj.RemoveProp (vtkProp )</tt> -  @deprecated Replaced by vtkViewport::RemoveViewProp() as of VTK 5.0.
+ </LI>
+<LI>  <tt>obj.AddProp (vtkProp )</tt> -  @deprecated Replaced by vtkViewport::AddViewProp() as of VTK 5.0.
+ </LI>
+<LI>  <tt>vtkPropCollection = obj.GetProps ()</tt> -  @deprecated Replaced by vtkViewport::GetViewProps() as of VTK 5.0.
+ </LI>
+<LI>  <tt>int = obj.HasProp (vtkProp )</tt> -  @deprecated Replaced by vtkViewport::HasViewProp() as of VTK 5.0.
+ </LI>
+<LI>  <tt>obj.RemoveAllProps ()</tt> -  @deprecated Replaced by vtkViewport::RemoveAllViewProps() as of VTK 5.0.
+ </LI>
+</UL>
+*/

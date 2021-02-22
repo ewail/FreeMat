@@ -1,0 +1,348 @@
+
+ Usage
+
+vtkInteractorStyle is a base class implementing the majority
+of motion control routines and defines an event driven
+interface to support vtkRenderWindowInteractor.
+vtkRenderWindowInteractor implements platform dependent key/
+mouse routing and timer control, which forwards events in a
+neutral form to vtkInteractorStyle.
+vtkInteractorStyle implements the "joystick" style of
+interaction. That is, holding down the mouse keys generates
+a stream of events that cause continuous actions (e.g.,
+rotate, translate, pan, zoom). (The class
+vtkInteractorStyleTrackball implements a grab and move
+style.) The event bindings for this class include the
+following:
+
+* Keypress j / Keypress t: toggle between joystick (position
+  sensitive) and trackball (motion sensitive) styles. In
+  joystick style, motion occurs continuously as long as a
+  mouse button is pressed. In trackball style, motion occurs
+  when the mouse button is pressed and the mouse pointer
+  moves.
+* Keypress c / Keypress a: toggle between camera and actor
+  modes. In camera mode, mouse events affect the camera
+  position and focal point. In actor mode, mouse events
+  affect the actor that is under the mouse pointer.
+* Button 1: rotate the camera around its focal point (if
+  camera mode) or rotate the actor around its origin (if
+  actor mode). The rotation is in the direction defined from
+  the center of the renderer's viewport towards the mouse
+  position. In joystick mode, the magnitude of the rotation
+  is determined by the distance the mouse is from the center
+  of the render window.
+* Button 2: pan the camera (if camera mode) or translate the
+  actor (if actor mode). In joystick mode, the direction of
+  pan or translation is from the center of the viewport
+  towards the mouse position. In trackball mode, the
+  direction of motion is the direction the mouse moves.
+  (Note: with 2-button mice, pan is defined as <Shift>-
+  Button 1.)
+* Button 3: zoom the camera (if camera mode) or scale the
+  actor (if actor mode). Zoom in/increase scale if the mouse
+  position is in the top half of the viewport; zoom out/
+  decrease scale if the mouse position is in the bottom
+  half. In joystick mode, the amount of zoom is controlled
+  by the distance of the mouse pointer from the horizontal
+  centerline of the window.
+* Keypress 3: toggle the render window into and out of
+  stereo mode. By default, red-blue stereo pairs are
+  created. Some systems support Crystal Eyes LCD stereo
+  glasses; you have to invoke SetStereoTypeToCrystalEyes()
+  on the rendering window.
+* Keypress e: exit the application.
+* Keypress f: fly to the picked point
+* Keypress p: perform a pick operation. The render window
+  interactor has an internal instance of vtkCellPicker that
+  it uses to pick.
+* Keypress r: reset the camera view along the current view
+  direction. Centers the actors and moves the camera so that
+  all actors are visible.
+* Keypress s: modify the representation of all actors so
+  that they are surfaces.
+* Keypress u: invoke the user-defined function. Typically,
+  this keypress will bring up an interactor that you can
+  type commands in. Typing u calls UserCallBack() on the
+  vtkRenderWindowInteractor, which invokes a vtkCommand::
+  UserEvent. In other words, to define a user-defined
+  callback, just add an observer to the vtkCommand::
+  UserEvent on the vtkRenderWindowInteractor object.
+* Keypress w: modify the representation of all actors so
+  that they are wireframe.
+
+vtkInteractorStyle can be subclassed to provide new
+interaction styles and a facility to override any of the
+default mouse/key operations which currently handle
+trackball or joystick styles is provided. Note that this
+class will fire a variety of events that can be watched
+using an observer, such as LeftButtonPressEvent,
+LeftButtonReleaseEvent, MiddleButtonPressEvent,
+MiddleButtonReleaseEvent, RightButtonPressEvent,
+RightButtonReleaseEvent, EnterEvent, LeaveEvent,
+KeyPressEvent, KeyReleaseEvent, CharEvent, ExposeEvent,
+ConfigureEvent, TimerEvent, MouseMoveEvent,
+To create an instance of class vtkInteractorStyle, simply
+invoke its constructor as follows
+
+    obj = vtkInteractorStyle
+
+
+
+ Methods
+
+The class vtkInteractorStyle has several methods that can be
+used. They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkInteractorStyle class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkInteractorStyle = obj.NewInstance ()
+* vtkInteractorStyle = obj.SafeDownCast (vtkObject o)
+* obj.SetInteractor (vtkRenderWindowInteractor interactor) -
+  Set/Get the Interactor wrapper being controlled by this
+  object. (Satisfy superclass API.)
+* obj.SetEnabled (int ) - Turn on/off this interactor.
+  Interactor styles operate a little bit differently than
+  other types of interactor observers. When the
+  SetInteractor() method is invoked, the automatically
+  enable themselves. This is a legacy requirement, and
+  convenient for the user.
+* obj.SetAutoAdjustCameraClippingRange (int ) - If
+  AutoAdjustCameraClippingRange is on, then before each
+  render the camera clipping range will be adjusted to "fit"
+  the whole scene. Clipping will still occur if objects in
+  the scene are behind the camera or come very close. If
+  AutoAdjustCameraClippingRange is off, no adjustment will
+  be made per render, but the camera clipping range will
+  still be reset when the camera is reset.
+* int = obj.GetAutoAdjustCameraClippingRangeMinValue () - If
+  AutoAdjustCameraClippingRange is on, then before each
+  render the camera clipping range will be adjusted to "fit"
+  the whole scene. Clipping will still occur if objects in
+  the scene are behind the camera or come very close. If
+  AutoAdjustCameraClippingRange is off, no adjustment will
+  be made per render, but the camera clipping range will
+  still be reset when the camera is reset.
+* int = obj.GetAutoAdjustCameraClippingRangeMaxValue () - If
+  AutoAdjustCameraClippingRange is on, then before each
+  render the camera clipping range will be adjusted to "fit"
+  the whole scene. Clipping will still occur if objects in
+  the scene are behind the camera or come very close. If
+  AutoAdjustCameraClippingRange is off, no adjustment will
+  be made per render, but the camera clipping range will
+  still be reset when the camera is reset.
+* int = obj.GetAutoAdjustCameraClippingRange () - If
+  AutoAdjustCameraClippingRange is on, then before each
+  render the camera clipping range will be adjusted to "fit"
+  the whole scene. Clipping will still occur if objects in
+  the scene are behind the camera or come very close. If
+  AutoAdjustCameraClippingRange is off, no adjustment will
+  be made per render, but the camera clipping range will
+  still be reset when the camera is reset.
+* obj.AutoAdjustCameraClippingRangeOn () - If
+  AutoAdjustCameraClippingRange is on, then before each
+  render the camera clipping range will be adjusted to "fit"
+  the whole scene. Clipping will still occur if objects in
+  the scene are behind the camera or come very close. If
+  AutoAdjustCameraClippingRange is off, no adjustment will
+  be made per render, but the camera clipping range will
+  still be reset when the camera is reset.
+* obj.AutoAdjustCameraClippingRangeOff () - If
+  AutoAdjustCameraClippingRange is on, then before each
+  render the camera clipping range will be adjusted to "fit"
+  the whole scene. Clipping will still occur if objects in
+  the scene are behind the camera or come very close. If
+  AutoAdjustCameraClippingRange is off, no adjustment will
+  be made per render, but the camera clipping range will
+  still be reset when the camera is reset.
+* obj.FindPokedRenderer (int , int ) - When an event occurs,
+  we must determine which Renderer the event occurred
+  within, since one RenderWindow may contain multiple
+  renderers.
+* int = obj.GetState () - Some useful information for
+  interaction
+* int = obj.GetUseTimers () - Set/Get timer hint
+* obj.SetUseTimers (int ) - Set/Get timer hint
+* obj.UseTimersOn () - Set/Get timer hint
+* obj.UseTimersOff () - Set/Get timer hint
+* obj.SetTimerDuration (long ) - If using timers, specify
+  the default timer interval (in milliseconds). Care must be
+  taken when adjusting the timer interval from the default
+  value of 10 milliseconds&ndash;it may adversely affect the
+  interactors.
+* GetTimerDurationMinValue = obj.() - If using timers,
+  specify the default timer interval (in milliseconds). Care
+  must be taken when adjusting the timer interval from the
+  default value of 10 milliseconds&ndash;it may adversely
+  affect the interactors.
+* GetTimerDurationMaxValue = obj.() - If using timers,
+  specify the default timer interval (in milliseconds). Care
+  must be taken when adjusting the timer interval from the
+  default value of 10 milliseconds&ndash;it may adversely
+  affect the interactors.
+* long = obj.GetTimerDuration () - If using timers, specify
+  the default timer interval (in milliseconds). Care must be
+  taken when adjusting the timer interval from the default
+  value of 10 milliseconds&ndash;it may adversely affect the
+  interactors.
+* obj.SetHandleObservers (int ) - Does ProcessEvents handle
+  observers on this class or not
+* int = obj.GetHandleObservers () - Does ProcessEvents
+  handle observers on this class or not
+* obj.HandleObserversOn () - Does ProcessEvents handle
+  observers on this class or not
+* obj.HandleObserversOff () - Does ProcessEvents handle
+  observers on this class or not
+* obj.OnMouseMove () - Generic event bindings can be
+  overridden in subclasses
+* obj.OnLeftButtonDown () - Generic event bindings can be
+  overridden in subclasses
+* obj.OnLeftButtonUp () - Generic event bindings can be
+  overridden in subclasses
+* obj.OnMiddleButtonDown () - Generic event bindings can be
+  overridden in subclasses
+* obj.OnMiddleButtonUp () - Generic event bindings can be
+  overridden in subclasses
+* obj.OnRightButtonDown () - Generic event bindings can be
+  overridden in subclasses
+* obj.OnRightButtonUp () - Generic event bindings can be
+  overridden in subclasses
+* obj.OnMouseWheelForward () - Generic event bindings can be
+  overridden in subclasses
+* obj.OnMouseWheelBackward () - Generic event bindings can
+  be overridden in subclasses
+* obj.OnChar () - OnChar is triggered when an ASCII key is
+  pressed. Some basic key presses are handled here ('q' for
+  Quit, 'p' for Pick, etc)
+* obj.OnKeyDown ()
+* obj.OnKeyUp ()
+* obj.OnKeyPress ()
+* obj.OnKeyRelease ()
+* obj.OnExpose () - These are more esoteric events, but are
+  useful in some cases.
+* obj.OnConfigure () - These are more esoteric events, but
+  are useful in some cases.
+* obj.OnEnter () - These are more esoteric events, but are
+  useful in some cases.
+* obj.OnLeave () - These are more esoteric events, but are
+  useful in some cases.
+* obj.OnTimer () - OnTimer calls Rotate, Rotate etc which
+  should be overridden by style subclasses.
+* obj.Rotate () - These methods for the different
+  interactions in different modes are overridden in
+  subclasses to perform the correct motion. Since they might
+  be called from OnTimer, they do not have mouse coord
+  parameters (use interactor's GetEventPosition and
+  GetLastEventPosition)
+* obj.Spin () - These methods for the different interactions
+  in different modes are overridden in subclasses to perform
+  the correct motion. Since they might be called from
+  OnTimer, they do not have mouse coord parameters (use
+  interactor's GetEventPosition and GetLastEventPosition)
+* obj.Pan () - These methods for the different interactions
+  in different modes are overridden in subclasses to perform
+  the correct motion. Since they might be called from
+  OnTimer, they do not have mouse coord parameters (use
+  interactor's GetEventPosition and GetLastEventPosition)
+* obj.Dolly () - These methods for the different
+  interactions in different modes are overridden in
+  subclasses to perform the correct motion. Since they might
+  be called from OnTimer, they do not have mouse coord
+  parameters (use interactor's GetEventPosition and
+  GetLastEventPosition)
+* obj.Zoom () - These methods for the different interactions
+  in different modes are overridden in subclasses to perform
+  the correct motion. Since they might be called from
+  OnTimer, they do not have mouse coord parameters (use
+  interactor's GetEventPosition and GetLastEventPosition)
+* obj.UniformScale () - These methods for the different
+  interactions in different modes are overridden in
+  subclasses to perform the correct motion. Since they might
+  be called from OnTimer, they do not have mouse coord
+  parameters (use interactor's GetEventPosition and
+  GetLastEventPosition)
+* obj.StartState (int newstate) - utility routines used by
+  state changes
+* obj.StopState () - utility routines used by state changes
+* obj.StartAnimate () - Interaction mode entry points used
+  internally.
+* obj.StopAnimate () - Interaction mode entry points used
+  internally.
+* obj.StartRotate () - Interaction mode entry points used
+  internally.
+* obj.EndRotate () - Interaction mode entry points used
+  internally.
+* obj.StartZoom () - Interaction mode entry points used
+  internally.
+* obj.EndZoom () - Interaction mode entry points used
+  internally.
+* obj.StartPan () - Interaction mode entry points used
+  internally.
+* obj.EndPan () - Interaction mode entry points used
+  internally.
+* obj.StartSpin () - Interaction mode entry points used
+  internally.
+* obj.EndSpin () - Interaction mode entry points used
+  internally.
+* obj.StartDolly () - Interaction mode entry points used
+  internally.
+* obj.EndDolly () - Interaction mode entry points used
+  internally.
+* obj.StartUniformScale () - Interaction mode entry points
+  used internally.
+* obj.EndUniformScale () - Interaction mode entry points
+  used internally.
+* obj.StartTimer () - Interaction mode entry points used
+  internally.
+* obj.EndTimer () - Interaction mode entry points used
+  internally.
+* obj.HighlightProp (vtkProp prop) - When picking
+  successfully selects an actor, this method highlights the
+  picked prop appropriately. Currently this is done by
+  placing a bounding box around a picked vtkProp3D, and
+  using the PickColor to highlight a vtkProp2D.
+* obj.HighlightActor2D (vtkActor2D actor2D) - When picking
+  successfully selects an actor, this method highlights the
+  picked prop appropriately. Currently this is done by
+  placing a bounding box around a picked vtkProp3D, and
+  using the PickColor to highlight a vtkProp2D.
+* obj.HighlightProp3D (vtkProp3D prop3D) - When picking
+  successfully selects an actor, this method highlights the
+  picked prop appropriately. Currently this is done by
+  placing a bounding box around a picked vtkProp3D, and
+  using the PickColor to highlight a vtkProp2D.
+* obj.SetPickColor (double , double , double ) - Set/Get the
+  pick color (used by default to color vtkActor2D's). The
+  color is expressed as red/green/blue values between
+  (0.0,1.0).
+* obj.SetPickColor (double a[3]) - Set/Get the pick color
+  (used by default to color vtkActor2D's). The color is
+  expressed as red/green/blue values between (0.0,1.0).
+* double = obj. GetPickColor () - Set/Get the pick color
+  (used by default to color vtkActor2D's). The color is
+  expressed as red/green/blue values between (0.0,1.0).
+* obj.SetMouseWheelMotionFactor (double ) - Set/Get the
+  mouse wheel motion factor. Default to 1.0. Set it to a
+  different value to emphasize or de-emphasize the action
+  triggered by mouse wheel motion.
+* double = obj.GetMouseWheelMotionFactor () - Set/Get the
+  mouse wheel motion factor. Default to 1.0. Set it to a
+  different value to emphasize or de-emphasize the action
+  triggered by mouse wheel motion.
+* vtkTDxInteractorStyle = obj.GetTDxStyle () - 3Dconnexion
+  device interactor style. Initial value is a pointer to an
+  object of class vtkTdxInteractorStyleCamera.
+* obj.SetTDxStyle (vtkTDxInteractorStyle tdxStyle) -
+  3Dconnexion device interactor style. Initial value is a
+  pointer to an object of class vtkTdxInteractorStyleCamera.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Rendering_Classes
+* Generated on Thu Jul 25 2013 17:18:35 for FreeMat by
+  doxygen_ 1.8.1.1
+

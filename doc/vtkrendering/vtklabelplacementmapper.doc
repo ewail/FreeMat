@@ -1,0 +1,190 @@
+/*!
+\page vtkrendering_vtklabelplacementmapper vtkLabelPlacementMapper
+
+<p>
+Section: \ref sec_vtkrendering "Visualization Toolkit Rendering Classes"
+\section Usage
+ To use this mapper, first send your data through vtkPointSetToLabelHierarchy,
+ which takes a set of points, associates special arrays to the points (label,
+ priority, etc.), and produces a prioritized spatial tree of labels.
+
+ This mapper then takes that hierarchy (or hierarchies) as input, and every
+ frame will decide which labels and/or icons to place in order of priority,
+ and will render only those labels/icons. A label render strategy is used to
+ render the labels, and can use e.g. FreeType or Qt for rendering.
+
+To create an instance of class vtkLabelPlacementMapper, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkLabelPlacementMapper
+\endverbatim
+\section Methods
+The class vtkLabelPlacementMapper has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkLabelPlacementMapper class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkLabelPlacementMapper = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkLabelPlacementMapper = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.RenderOverlay (vtkViewport viewport, vtkActor2D actor)</tt> -  Draw non-overlapping labels to the screen.
+ </LI>
+<LI>  <tt>obj.SetRenderStrategy (vtkLabelRenderStrategy s)</tt> -  Set the label rendering strategy.
+ </LI>
+<LI>  <tt>vtkLabelRenderStrategy = obj.GetRenderStrategy ()</tt> -  Set the label rendering strategy.
+ </LI>
+<LI>  <tt>obj.SetMaximumLabelFraction (double )</tt> -  The maximum fraction of the screen that the labels may cover.
+ Label placement stops when this fraction is reached.
+ </LI>
+<LI>  <tt>double = obj.GetMaximumLabelFractionMinValue ()</tt> -  The maximum fraction of the screen that the labels may cover.
+ Label placement stops when this fraction is reached.
+ </LI>
+<LI>  <tt>double = obj.GetMaximumLabelFractionMaxValue ()</tt> -  The maximum fraction of the screen that the labels may cover.
+ Label placement stops when this fraction is reached.
+ </LI>
+<LI>  <tt>double = obj.GetMaximumLabelFraction ()</tt> -  The maximum fraction of the screen that the labels may cover.
+ Label placement stops when this fraction is reached.
+ </LI>
+<LI>  <tt>obj.SetIteratorType (int )</tt> -  The type of iterator used when traversing the labels.
+ May be vtkLabelHierarchy::FRUSTUM or vtkLabelHierarchy::FULL_SORT
+ </LI>
+<LI>  <tt>int = obj.GetIteratorType ()</tt> -  The type of iterator used when traversing the labels.
+ May be vtkLabelHierarchy::FRUSTUM or vtkLabelHierarchy::FULL_SORT
+ </LI>
+<LI>  <tt>obj.SetUseUnicodeStrings (bool )</tt> -  Set whether, or not, to use unicode strings.
+ </LI>
+<LI>  <tt>bool = obj.GetUseUnicodeStrings ()</tt> -  Set whether, or not, to use unicode strings.
+ </LI>
+<LI>  <tt>obj.UseUnicodeStringsOn ()</tt> -  Set whether, or not, to use unicode strings.
+ </LI>
+<LI>  <tt>obj.UseUnicodeStringsOff ()</tt> -  Set whether, or not, to use unicode strings.
+ </LI>
+<LI>  <tt>bool = obj.GetPositionsAsNormals ()</tt> -  Use label anchor point coordinates as normal vectors and eliminate those
+ pointing away from the camera. Valid only when points are on a sphere
+ centered at the origin (such as a 3D geographic view). Off by default.
+ </LI>
+<LI>  <tt>obj.SetPositionsAsNormals (bool )</tt> -  Use label anchor point coordinates as normal vectors and eliminate those
+ pointing away from the camera. Valid only when points are on a sphere
+ centered at the origin (such as a 3D geographic view). Off by default.
+ </LI>
+<LI>  <tt>obj.PositionsAsNormalsOn ()</tt> -  Use label anchor point coordinates as normal vectors and eliminate those
+ pointing away from the camera. Valid only when points are on a sphere
+ centered at the origin (such as a 3D geographic view). Off by default.
+ </LI>
+<LI>  <tt>obj.PositionsAsNormalsOff ()</tt> -  Use label anchor point coordinates as normal vectors and eliminate those
+ pointing away from the camera. Valid only when points are on a sphere
+ centered at the origin (such as a 3D geographic view). Off by default.
+ </LI>
+<LI>  <tt>bool = obj.GetGeneratePerturbedLabelSpokes ()</tt> -  Enable drawing spokes (lines) to anchor point coordinates that were perturbed
+ for being coincident with other anchor point coordinates.
+ </LI>
+<LI>  <tt>obj.SetGeneratePerturbedLabelSpokes (bool )</tt> -  Enable drawing spokes (lines) to anchor point coordinates that were perturbed
+ for being coincident with other anchor point coordinates.
+ </LI>
+<LI>  <tt>obj.GeneratePerturbedLabelSpokesOn ()</tt> -  Enable drawing spokes (lines) to anchor point coordinates that were perturbed
+ for being coincident with other anchor point coordinates.
+ </LI>
+<LI>  <tt>obj.GeneratePerturbedLabelSpokesOff ()</tt> -  Enable drawing spokes (lines) to anchor point coordinates that were perturbed
+ for being coincident with other anchor point coordinates.
+ </LI>
+<LI>  <tt>bool = obj.GetUseDepthBuffer ()</tt> -  Use the depth buffer to test each label to see if it should not be displayed if
+ it would be occluded by other objects in the scene. Off by default.
+ </LI>
+<LI>  <tt>obj.SetUseDepthBuffer (bool )</tt> -  Use the depth buffer to test each label to see if it should not be displayed if
+ it would be occluded by other objects in the scene. Off by default.
+ </LI>
+<LI>  <tt>obj.UseDepthBufferOn ()</tt> -  Use the depth buffer to test each label to see if it should not be displayed if
+ it would be occluded by other objects in the scene. Off by default.
+ </LI>
+<LI>  <tt>obj.UseDepthBufferOff ()</tt> -  Use the depth buffer to test each label to see if it should not be displayed if
+ it would be occluded by other objects in the scene. Off by default.
+ </LI>
+<LI>  <tt>obj.SetPlaceAllLabels (bool )</tt> -  Tells the placer to place every label regardless of overlap.
+ Off by default.
+ </LI>
+<LI>  <tt>bool = obj.GetPlaceAllLabels ()</tt> -  Tells the placer to place every label regardless of overlap.
+ Off by default.
+ </LI>
+<LI>  <tt>obj.PlaceAllLabelsOn ()</tt> -  Tells the placer to place every label regardless of overlap.
+ Off by default.
+ </LI>
+<LI>  <tt>obj.PlaceAllLabelsOff ()</tt> -  Tells the placer to place every label regardless of overlap.
+ Off by default.
+ </LI>
+<LI>  <tt>obj.SetOutputTraversedBounds (bool )</tt> -  Whether to render traversed bounds. Off by default.
+ </LI>
+<LI>  <tt>bool = obj.GetOutputTraversedBounds ()</tt> -  Whether to render traversed bounds. Off by default.
+ </LI>
+<LI>  <tt>obj.OutputTraversedBoundsOn ()</tt> -  Whether to render traversed bounds. Off by default.
+ </LI>
+<LI>  <tt>obj.OutputTraversedBoundsOff ()</tt> -  Whether to render traversed bounds. Off by default.
+ </LI>
+<LI>  <tt>obj.SetShape (int )</tt> -  The shape of the label background, should be one of the
+ values in the LabelShape enumeration.
+ </LI>
+<LI>  <tt>int = obj.GetShapeMinValue ()</tt> -  The shape of the label background, should be one of the
+ values in the LabelShape enumeration.
+ </LI>
+<LI>  <tt>int = obj.GetShapeMaxValue ()</tt> -  The shape of the label background, should be one of the
+ values in the LabelShape enumeration.
+ </LI>
+<LI>  <tt>int = obj.GetShape ()</tt> -  The shape of the label background, should be one of the
+ values in the LabelShape enumeration.
+ </LI>
+<LI>  <tt>obj.SetShapeToNone ()</tt> -  The shape of the label background, should be one of the
+ values in the LabelShape enumeration.
+ </LI>
+<LI>  <tt>obj.SetShapeToRect ()</tt> -  The shape of the label background, should be one of the
+ values in the LabelShape enumeration.
+ </LI>
+<LI>  <tt>obj.SetShapeToRoundedRect ()</tt> -  The style of the label background shape, should be one of the
+ values in the LabelStyle enumeration.
+ </LI>
+<LI>  <tt>obj.SetStyle (int )</tt> -  The style of the label background shape, should be one of the
+ values in the LabelStyle enumeration.
+ </LI>
+<LI>  <tt>int = obj.GetStyleMinValue ()</tt> -  The style of the label background shape, should be one of the
+ values in the LabelStyle enumeration.
+ </LI>
+<LI>  <tt>int = obj.GetStyleMaxValue ()</tt> -  The style of the label background shape, should be one of the
+ values in the LabelStyle enumeration.
+ </LI>
+<LI>  <tt>int = obj.GetStyle ()</tt> -  The style of the label background shape, should be one of the
+ values in the LabelStyle enumeration.
+ </LI>
+<LI>  <tt>obj.SetStyleToFilled ()</tt> -  The style of the label background shape, should be one of the
+ values in the LabelStyle enumeration.
+ </LI>
+<LI>  <tt>obj.SetStyleToOutline ()</tt> -  The size of the margin on the label background shape.
+ Default is 5.
+ </LI>
+<LI>  <tt>obj.SetMargin (double )</tt> -  The size of the margin on the label background shape.
+ Default is 5.
+ </LI>
+<LI>  <tt>double = obj.GetMargin ()</tt> -  The size of the margin on the label background shape.
+ Default is 5.
+ </LI>
+<LI>  <tt>obj.SetBackgroundColor (double , double , double )</tt> -  The color of the background shape.
+ </LI>
+<LI>  <tt>obj.SetBackgroundColor (double  a[3])</tt> -  The color of the background shape.
+ </LI>
+<LI>  <tt>double = obj. GetBackgroundColor ()</tt> -  The color of the background shape.
+ </LI>
+<LI>  <tt>obj.SetBackgroundOpacity (double )</tt> -  The opacity of the background shape.
+ </LI>
+<LI>  <tt>double = obj.GetBackgroundOpacityMinValue ()</tt> -  The opacity of the background shape.
+ </LI>
+<LI>  <tt>double = obj.GetBackgroundOpacityMaxValue ()</tt> -  The opacity of the background shape.
+ </LI>
+<LI>  <tt>double = obj.GetBackgroundOpacity ()</tt> -  The opacity of the background shape.
+ </LI>
+<LI>  <tt>vtkCoordinate = obj.GetAnchorTransform ()</tt> -  Get the transform for the anchor points.
+ </LI>
+</UL>
+*/

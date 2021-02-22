@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkgraphics_vtkcurvatures" kind="page">
+    <compoundname>vtkgraphics_vtkcurvatures</compoundname>
+    <title>vtkCurvatures</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkgraphics_1sec_vtkgraphics" kindref="member">Visualization Toolkit Graphics Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>vtkCurvatures takes a polydata input and computes the curvature of the mesh at each point. Four possible methods of computation are available :</para><para>Gauss Curvature discrete Gauss curvature (K) computation, <formula id="170">$K(vertex v) = 2*PI-\sum_{facet neighbs f of v} (angle_f at v)$</formula> The contribution of every facet is for the moment weighted by <formula id="171">$Area(facet)/3$</formula> The units of Gaussian Curvature are <formula id="172">$[1/m^2]$</formula></para><para>Mean Curvature <formula id="173">$H(vertex v) = average over edges neighbs e of H(e)$</formula> <formula id="174">$H(edge e) = length(e)*dihedral_angle(e)$</formula> NB: dihedral_angle is the ORIENTED angle between -PI and PI, this means that the surface is assumed to be orientable the computation creates the orientation The units of Mean Curvature are [1/m]</para><para>Maximum ( <formula id="175">$k_max$</formula>) and Minimum ( <formula id="176">$k_min$</formula>) Principal Curvatures <formula id="177">$k_max = H + sqrt(H^2 - K)$</formula> <formula id="178">$k_min = H - sqrt(H^2 - K)$</formula> Excepting spherical and planar surfaces which have equal principal curvatures, the curvature at a point on a surface varies with the direction one &quot;sets off&quot; from the point. For all directions, the curvature will pass through two extrema: a minimum ( <formula id="176">$k_min$</formula>) and a maximum ( <formula id="175">$k_max$</formula>) which occur at mutually orthogonal directions to each other.</para><para>NB. The sign of the Gauss curvature is a geometric ivariant, it should be +ve when the surface looks like a sphere, -ve when it looks like a saddle, however, the sign of the Mean curvature is not, it depends on the convention for normals - This code assumes that normals point outwards (ie from the surface of a sphere outwards). If a given mesh produces curvatures of opposite senses then the flag InvertMeanCurvature can be set and the Curvature reported by the Mean calculation will be inverted.</para><para>.SECTION Thanks Philip Batchelor <ulink url="mailto:philipp.batchelor@kcl.ac.uk">philipp.batchelor@kcl.ac.uk</ulink> for creating and contributing the class and Andrew Maclean <ulink url="mailto:a.maclean@acfr.usyd.edu.au">a.maclean@acfr.usyd.edu.au</ulink> for cleanups and fixes. Thanks also to Goodwin Lawlor for contributing patch to calculate principal curvatures</para><para>To create an instance of class vtkCurvatures, simply invoke its constructor as follows <verbatim>  obj = vtkCurvatures
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkCurvatures has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkCurvatures class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkCurvatures = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkCurvatures = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetCurvatureType (int )</computeroutput> - Set/Get Curvature type VTK_CURVATURE_GAUSS: Gaussian curvature, stored as DataArray &quot;Gauss_Curvature&quot; VTK_CURVATURE_MEAN : Mean curvature, stored as DataArray &quot;Mean_Curvature&quot;  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetCurvatureType ()</computeroutput> - Set/Get Curvature type VTK_CURVATURE_GAUSS: Gaussian curvature, stored as DataArray &quot;Gauss_Curvature&quot; VTK_CURVATURE_MEAN : Mean curvature, stored as DataArray &quot;Mean_Curvature&quot;  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetCurvatureTypeToGaussian ()</computeroutput> - Set/Get Curvature type VTK_CURVATURE_GAUSS: Gaussian curvature, stored as DataArray &quot;Gauss_Curvature&quot; VTK_CURVATURE_MEAN : Mean curvature, stored as DataArray &quot;Mean_Curvature&quot;  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetCurvatureTypeToMean ()</computeroutput> - Set/Get Curvature type VTK_CURVATURE_GAUSS: Gaussian curvature, stored as DataArray &quot;Gauss_Curvature&quot; VTK_CURVATURE_MEAN : Mean curvature, stored as DataArray &quot;Mean_Curvature&quot;  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetCurvatureTypeToMaximum ()</computeroutput> - Set/Get Curvature type VTK_CURVATURE_GAUSS: Gaussian curvature, stored as DataArray &quot;Gauss_Curvature&quot; VTK_CURVATURE_MEAN : Mean curvature, stored as DataArray &quot;Mean_Curvature&quot;  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetCurvatureTypeToMinimum ()</computeroutput> - Set/Get the flag which inverts the mean curvature calculation for meshes with inward pointing normals (default false)  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetInvertMeanCurvature (int )</computeroutput> - Set/Get the flag which inverts the mean curvature calculation for meshes with inward pointing normals (default false)  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetInvertMeanCurvature ()</computeroutput> - Set/Get the flag which inverts the mean curvature calculation for meshes with inward pointing normals (default false)  </para></listitem>
+<listitem>
+<para><computeroutput>obj.InvertMeanCurvatureOn ()</computeroutput> - Set/Get the flag which inverts the mean curvature calculation for meshes with inward pointing normals (default false)  </para></listitem>
+<listitem>
+<para><computeroutput>obj.InvertMeanCurvatureOff ()</computeroutput> - Set/Get the flag which inverts the mean curvature calculation for meshes with inward pointing normals (default false)  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

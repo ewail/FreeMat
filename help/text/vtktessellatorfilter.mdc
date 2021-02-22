@@ -1,0 +1,127 @@
+
+ Usage
+
+This class approximates nonlinear FEM elements with linear
+simplices.
+Warning: This class is temporary and will go away at some
+point after ParaView 1.4.0.
+This filter rifles through all the cells in an input
+vtkDataSet. It tesselates each cell and uses the
+vtkStreamingTessellator and
+vtkDataSetEdgeSubdivisionCriterion classes to generate
+simplices that approximate the nonlinear mesh using some
+approximation metric (encoded in the particular
+vtkDataSetEdgeSubdivisionCriterion::EvaluateEdge
+implementation). The simplices are placed into the filter's
+output vtkDataSet object by the callback routines
+AddATetrahedron, AddATriangle, and AddALine, which are
+registered with the triangulator.
+The output mesh will have geometry and any fields specified
+as attributes in the input mesh's point data. The
+attribute's copy flags are honored, except for normals.
+.SECTION Internals
+The filter's main member function is RequestData(). This
+function first calls SetupOutput() which allocates arrays
+and some temporary variables for the primitive callbacks
+(OutputTriangle and OutputLine which are called by
+AddATriangle and AddALine, respectively). Each cell is given
+an initial tesselation, which results in one or more calls
+to OutputTetrahedron, OutputTriangle or OutputLine to add
+elements to the OutputMesh. Finally, Teardown() is called to
+free the filter's working space.
+To create an instance of class vtkTessellatorFilter, simply
+invoke its constructor as follows
+
+    obj = vtkTessellatorFilter
+
+
+
+ Methods
+
+The class vtkTessellatorFilter has several methods that can
+be used. They are listed below. Note that the documentation
+is translated automatically from the VTK sources, and may
+not be completely intelligible. When in doubt, consult the
+VTK website. In the methods listed below, obj is an instance
+of the vtkTessellatorFilter class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkTessellatorFilter = obj.NewInstance ()
+* vtkTessellatorFilter = obj.SafeDownCast (vtkObject o)
+* obj.SetTessellator (vtkStreamingTessellator )
+* vtkStreamingTessellator = obj.GetTessellator ()
+* obj.SetSubdivider (vtkDataSetEdgeSubdivisionCriterion )
+* vtkDataSetEdgeSubdivisionCriterion = obj.GetSubdivider ()
+* long = obj.GetMTime ()
+* obj.SetOutputDimension (int ) - Set the dimension of the
+  output tessellation. Cells in dimensions higher than the
+  given value will have their boundaries of dimension
+  OutputDimension tessellated. For example, if
+  OutputDimension is 2, a hexahedron's quadrilateral faces
+  would be tessellated rather than its interior.
+* int = obj.GetOutputDimensionMinValue () - Set the
+  dimension of the output tessellation. Cells in dimensions
+  higher than the given value will have their boundaries of
+  dimension OutputDimension tessellated. For example, if
+  OutputDimension is 2, a hexahedron's quadrilateral faces
+  would be tessellated rather than its interior.
+* int = obj.GetOutputDimensionMaxValue () - Set the
+  dimension of the output tessellation. Cells in dimensions
+  higher than the given value will have their boundaries of
+  dimension OutputDimension tessellated. For example, if
+  OutputDimension is 2, a hexahedron's quadrilateral faces
+  would be tessellated rather than its interior.
+* int = obj.GetOutputDimension () - Set the dimension of the
+  output tessellation. Cells in dimensions higher than the
+  given value will have their boundaries of dimension
+  OutputDimension tessellated. For example, if
+  OutputDimension is 2, a hexahedron's quadrilateral faces
+  would be tessellated rather than its interior.
+* obj.SetMaximumNumberOfSubdivisions (int num_subdiv_in) -
+  These are convenience routines for setting properties
+  maintained by the tessellator and subdivider. They are
+  implemented here for ParaView's sake.
+* int = obj.GetMaximumNumberOfSubdivisions () - These are
+  convenience routines for setting properties maintained by
+  the tessellator and subdivider. They are implemented here
+  for ParaView's sake.
+* obj.SetChordError (double ce) - These are convenience
+  routines for setting properties maintained by the
+  tessellator and subdivider. They are implemented here for
+  ParaView's sake.
+* double = obj.GetChordError () - These are convenience
+  routines for setting properties maintained by the
+  tessellator and subdivider. They are implemented here for
+  ParaView's sake.
+* obj.ResetFieldCriteria () - These methods are for the
+  ParaView client.
+* obj.SetFieldCriterion (int field, double chord) - These
+  methods are for the ParaView client.
+* int = obj.GetMergePoints () - The adaptive tessellation
+  will output vertices that are not shared among cells, even
+  where they should be. This can be corrected to some
+  extents with a vtkMergeFilter. By default, the filter is
+  off and vertices will not be shared.
+* obj.SetMergePoints (int ) - The adaptive tessellation will
+  output vertices that are not shared among cells, even
+  where they should be. This can be corrected to some
+  extents with a vtkMergeFilter. By default, the filter is
+  off and vertices will not be shared.
+* obj.MergePointsOn () - The adaptive tessellation will
+  output vertices that are not shared among cells, even
+  where they should be. This can be corrected to some
+  extents with a vtkMergeFilter. By default, the filter is
+  off and vertices will not be shared.
+* obj.MergePointsOff () - The adaptive tessellation will
+  output vertices that are not shared among cells, even
+  where they should be. This can be corrected to some
+  extents with a vtkMergeFilter. By default, the filter is
+  off and vertices will not be shared.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Graphics_Classes
+* Generated on Thu Jul 25 2013 17:18:32 for FreeMat by
+  doxygen_ 1.8.1.1
+

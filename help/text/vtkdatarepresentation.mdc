@@ -1,0 +1,177 @@
+
+ Usage
+
+vtkDataRepresentation the superclass for representations of
+data objects. This class itself may be instantiated and used
+as a representation that simply holds a connection to a
+pipeline.
+If there are multiple representations present in a view, you
+should use a subclass of vtkDataRepresentation. The
+representation is responsible for taking the input pipeline
+connection and converting it to an object usable by a view.
+In the most common case, the representation will contain the
+pipeline necessary to convert a data object into an actor or
+set of actors.
+The representation has a concept of a selection. If the user
+performs a selection operation on the view, the view
+forwards this on to its representations. The representation
+is responsible for displaying that selection in an
+appropriate way.
+Representation selections may also be linked. The
+representation shares the selection by converting it into a
+view-independent format, then setting the selection on its
+vtkAnnotationLink. Other representations sharing the same
+selection link instance will get the same selection from the
+selection link when the view is updated. The application is
+responsible for linking representations as appropriate by
+setting the same vtkAnnotationLink on each linked
+representation.
+To create an instance of class vtkDataRepresentation, simply
+invoke its constructor as follows
+
+    obj = vtkDataRepresentation
+
+
+
+ Methods
+
+The class vtkDataRepresentation has several methods that can
+be used. They are listed below. Note that the documentation
+is translated automatically from the VTK sources, and may
+not be completely intelligible. When in doubt, consult the
+VTK website. In the methods listed below, obj is an instance
+of the vtkDataRepresentation class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkDataRepresentation = obj.NewInstance ()
+* vtkDataRepresentation = obj.SafeDownCast (vtkObject o)
+* vtkAlgorithmOutput = obj.GetInputConnection (int port, int
+  index) - The annotation link for this representation. To
+  link annotations, set the same vtkAnnotationLink object in
+  multiple representations.
+* vtkAnnotationLink = obj.GetAnnotationLink () - The
+  annotation link for this representation. To link
+  annotations, set the same vtkAnnotationLink object in
+  multiple representations.
+* obj.SetAnnotationLink (vtkAnnotationLink link) - The
+  annotation link for this representation. To link
+  annotations, set the same vtkAnnotationLink object in
+  multiple representations.
+* obj.ApplyViewTheme (vtkViewTheme ) - The view calls this
+  method when a selection occurs. The representation takes
+  this selection and converts it into a selection on its
+  data by calling ConvertSelection, then calls
+  UpdateSelection with the converted selection. Subclasses
+  should not overrride this method, but should instead
+  override ConvertSelection. The optional third argument
+  specifies whether the selection should be added to the
+  previous selection on this representation.
+* obj.Select (vtkView view, vtkSelection selection) - The
+  view calls this method when a selection occurs. The
+  representation takes this selection and converts it into a
+  selection on its data by calling ConvertSelection, then
+  calls UpdateSelection with the converted selection.
+  Subclasses should not overrride this method, but should
+  instead override ConvertSelection. The optional third
+  argument specifies whether the selection should be added
+  to the previous selection on this representation.
+* obj.Select (vtkView view, vtkSelection selection, bool
+  extend) - The view calls this method when a selection
+  occurs. The representation takes this selection and
+  converts it into a selection on its data by calling
+  ConvertSelection, then calls UpdateSelection with the
+  converted selection. Subclasses should not overrride this
+  method, but should instead override ConvertSelection. The
+  optional third argument specifies whether the selection
+  should be added to the previous selection on this
+  representation.
+* obj.SetSelectable (bool ) - Whether this representation is
+  able to handle a selection. Default is true.
+* bool = obj.GetSelectable () - Whether this representation
+  is able to handle a selection. Default is true.
+* obj.SelectableOn () - Whether this representation is able
+  to handle a selection. Default is true.
+* obj.SelectableOff () - Whether this representation is able
+  to handle a selection. Default is true.
+* obj.UpdateSelection (vtkSelection selection) - Updates the
+  selection in the selection link and fires a selection
+  change event. Subclasses should not overrride this method,
+  but should instead override ConvertSelection. The optional
+  second argument specifies whether the selection should be
+  added to the previous selection on this representation.
+* obj.UpdateSelection (vtkSelection selection, bool extend)
+  - Updates the selection in the selection link and fires a
+  selection change event. Subclasses should not overrride
+  this method, but should instead override ConvertSelection.
+  The optional second argument specifies whether the
+  selection should be added to the previous selection on
+  this representation.
+* vtkAlgorithmOutput = obj.GetInternalAnnotationOutputPort
+  () - The output port that contains the annotations whose
+  selections are localized for a particular input data
+  object. This should be used when connecting the internal
+  pipelines.
+* vtkAlgorithmOutput = obj.GetInternalAnnotationOutputPort
+  (int port) - The output port that contains the annotations
+  whose selections are localized for a particular input data
+  object. This should be used when connecting the internal
+  pipelines.
+* vtkAlgorithmOutput = obj.GetInternalAnnotationOutputPort
+  (int port, int conn) - The output port that contains the
+  annotations whose selections are localized for a
+  particular input data object. This should be used when
+  connecting the internal pipelines.
+* vtkAlgorithmOutput = obj.GetInternalSelectionOutputPort ()
+  - The output port that contains the selection associated
+  with the current annotation (normally the interactive
+  selection). This should be used when connecting the
+  internal pipelines.
+* vtkAlgorithmOutput = obj.GetInternalSelectionOutputPort
+  (int port) - The output port that contains the selection
+  associated with the current annotation (normally the
+  interactive selection). This should be used when
+  connecting the internal pipelines.
+* vtkAlgorithmOutput = obj.GetInternalSelectionOutputPort
+  (int port, int conn) - The output port that contains the
+  selection associated with the current annotation (normally
+  the interactive selection). This should be used when
+  connecting the internal pipelines.
+* vtkAlgorithmOutput = obj.GetInternalOutputPort () -
+  Retrieves an output port for the input data object at the
+  specified port and connection index. This may be connected
+  to the representation's internal pipeline.
+* vtkAlgorithmOutput = obj.GetInternalOutputPort (int port)
+  - Retrieves an output port for the input data object at
+  the specified port and connection index. This may be
+  connected to the representation's internal pipeline.
+* vtkAlgorithmOutput = obj.GetInternalOutputPort (int port,
+  int conn) - Retrieves an output port for the input data
+  object at the specified port and connection index. This
+  may be connected to the representation's internal
+  pipeline.
+* obj.SetSelectionType (int ) - Set the selection type
+  produced by this view. This should be one of the content
+  type constants defined in vtkSelectionNode.h. Common
+  values are vtkSelectionNode::INDICES vtkSelectionNode::
+  PEDIGREEIDS vtkSelectionNode::VALUES
+* int = obj.GetSelectionType () - Set the selection type
+  produced by this view. This should be one of the content
+  type constants defined in vtkSelectionNode.h. Common
+  values are vtkSelectionNode::INDICES vtkSelectionNode::
+  PEDIGREEIDS vtkSelectionNode::VALUES
+* obj.SetSelectionArrayNames (vtkStringArray names) - If a
+  VALUES selection, the arrays used to produce a selection.
+* vtkStringArray = obj.GetSelectionArrayNames () - If a
+  VALUES selection, the arrays used to produce a selection.
+* obj.SetSelectionArrayName (string name) - If a VALUES
+  selection, the array used to produce a selection.
+* string = obj.GetSelectionArrayName () - If a VALUES
+  selection, the array used to produce a selection.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_View_Classes
+* Generated on Thu Jul 25 2013 17:18:36 for FreeMat by
+  doxygen_ 1.8.1.1
+

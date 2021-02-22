@@ -1,0 +1,88 @@
+/*!
+\page io_csvread CSVREAD Read Comma Separated Value (CSV) File
+
+<p>
+Section: \ref sec_io "Input/Ouput Functions"
+\section Usage
+The <tt>csvread</tt> function reads a text file containing comma
+separated values (CSV), and returns the resulting numeric
+matrix (2D).  The function supports multiple syntaxes.  The
+first syntax for <tt>csvread</tt> is 
+\verbatim
+   x = csvread('filename')
+\endverbatim
+which attempts to read the entire CSV file into array <tt>x</tt>.
+The file can contain only numeric values.  Each entry in the
+file should be separated from other entries by a comma.  However,
+FreeMat will attempt to make sense of the entries if the comma
+is missing (e.g., a space separated file will also parse correctly).
+For complex values, you must be careful with the spaces).  The second
+form of <tt>csvread</tt> allows you to specify the first row and column 
+(zero-based index)
+\verbatim
+  x = csvread('filename',firstrow,firstcol)
+\endverbatim
+The last form allows you to specify the range to read also.  This form
+is
+\verbatim
+  x = csvread('filename',firstrow,firstcol,readrange)
+\endverbatim
+where <tt>readrange</tt> is either a 4-vector of the form <tt>[R1,C1,R2,C2]</tt>,
+where <tt>R1,C1</tt> is the first row and column to use, and <tt>R2,C2</tt> is the
+last row and column to use.  You can also specify the <tt>readrange</tt> as
+a spreadsheet range <tt>B12..C34</tt>, in which case the index for the
+range is 1-based (as in a typical spreadsheet), so that <tt>A1</tt> is the
+first cell in the upper left corner. Note also that <tt>csvread</tt> is
+somewhat limited. 
+\section Example
+Here is an example of a CSV file that we wish to read in
+
+\if FILE
+sample_data.csv
+10, 12, 13, 00, 45, 16
+09, 11, 52, 93, 05, 06
+01, 03, 04, 04, 90, -3
+14, 17, 13, 67, 30, 43
+21, 33, 14, 44, 01, 00
+\endif
+\verbatim
+     sample_data.csv
+\endverbatim
+
+\verbinclude sample_data.csv
+
+We start by reading the entire file
+
+\if FRAGMENT
+frag_io_csvread_000.m
+0
+csvread('sample_data.csv')
+\endif
+
+
+\verbinclude frag_io_csvread_000.m.out 
+
+Next, we read everything starting with the second row, and third column
+
+\if FRAGMENT
+frag_io_csvread_001.m
+0
+csvread('sample_data.csv',1,2)
+\endif
+
+
+\verbinclude frag_io_csvread_001.m.out 
+
+Finally, we specify that we only want the <tt>3 x 3</tt> submatrix starting
+with the second row, and third column
+
+\if FRAGMENT
+frag_io_csvread_002.m
+0
+csvread('sample_data.csv',1,2,[1,2,3,4])
+\endif
+
+
+\verbinclude frag_io_csvread_002.m.out 
+
+*/

@@ -1,0 +1,91 @@
+/*!
+\page vtkinfovis_vtkspantreelayoutstrategy vtkSpanTreeLayoutStrategy
+
+<p>
+Section: \ref sec_vtkinfovis "Visualization Toolkit Infovis Classes"
+\section Usage
+ vtkSpanTreeLayout is a strategy for drawing directed graphs that
+ works by first extracting a spanning tree (more accurately, a 
+ spanning forest), and using this both to position graph vertices
+ and to plan the placement of non-tree edges.  The latter are drawn
+ with the aid of edge points to produce a tidy drawing.
+
+ The approach is best suited to "quasi-trees", graphs where the number
+ of edges is of the same order as the number of nodes; it is less well
+ suited to denser graphs.  The boolean flag DepthFirstSpanningTree
+ determines whether a depth-first or breadth-first strategy is used to
+ construct the underlying forest, and the choice of strategy affects
+ the output layout significantly.  Informal experiments suggest that
+ the breadth-first strategy is better for denser graphs.
+
+ Different layouts could also be produced by plugging in alternative
+ tree layout strategies.  To work with the method of routing non-tree
+ edges, any strategy should draw a tree so that levels are equally
+ spaced along the z-axis, precluding for example the use of a radial
+ or balloon layout.
+
+ vtkSpanTreeLayout is based on an approach to 3D graph layout first 
+ developed as part of the "tulip" tool by Dr. David Auber at LaBRI, 
+ U.Bordeaux: see www.tulip-software.org   
+
+ This implementation departs from the original version in that:
+ (a) it is reconstructed to use Titan/VTK data structures;
+ (b) it uses a faster method for dealing with non-tree edges,
+     requiring at most two edge points per edge
+ (c) allows for plugging in different tree layout methods
+ (d) allows selection of two different strategies for building
+     the underlying layout tree, which can yield significantly
+     different results depending on the data.
+
+ .SECTION Thanks
+ Thanks to David Duke from the University of Leeds for providing this 
+ implementation.
+
+To create an instance of class vtkSpanTreeLayoutStrategy, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkSpanTreeLayoutStrategy
+\endverbatim
+\section Methods
+The class vtkSpanTreeLayoutStrategy has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkSpanTreeLayoutStrategy class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkSpanTreeLayoutStrategy = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkSpanTreeLayoutStrategy = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetDepthFirstSpanningTree (bool )</tt> -  If set, base the layout on a depth-first spanning tree,
+ rather than the default breadth-first spanning tree.
+ Switching between DFT and BFT may significantly change
+ the layout, and choice must be made on a per-graph basis.
+ Default value is off.
+ </LI>
+<LI>  <tt>bool = obj.GetDepthFirstSpanningTree ()</tt> -  If set, base the layout on a depth-first spanning tree,
+ rather than the default breadth-first spanning tree.
+ Switching between DFT and BFT may significantly change
+ the layout, and choice must be made on a per-graph basis.
+ Default value is off.
+ </LI>
+<LI>  <tt>obj.DepthFirstSpanningTreeOn ()</tt> -  If set, base the layout on a depth-first spanning tree,
+ rather than the default breadth-first spanning tree.
+ Switching between DFT and BFT may significantly change
+ the layout, and choice must be made on a per-graph basis.
+ Default value is off.
+ </LI>
+<LI>  <tt>obj.DepthFirstSpanningTreeOff ()</tt> -  If set, base the layout on a depth-first spanning tree,
+ rather than the default breadth-first spanning tree.
+ Switching between DFT and BFT may significantly change
+ the layout, and choice must be made on a per-graph basis.
+ Default value is off.
+ </LI>
+<LI>  <tt>obj.Layout ()</tt> -  Perform the layout.
+ </LI>
+</UL>
+*/

@@ -1,0 +1,62 @@
+/*!
+\page flow_retall RETALL Return From All Keyboard Sessions
+
+<p>
+Section: \ref sec_flow "Flow Control"
+\section Usage
+The <tt>retall</tt> statement is used to return to the base workspace
+from a nested <tt>keyboard</tt> session.  It is equivalent to forcing
+execution to return to the main prompt, regardless of the level
+of nesting of <tt>keyboard</tt> sessions, or which functions are
+running.  The syntax is simple
+\verbatim
+   retall
+\endverbatim
+The <tt>retall</tt> is a convenient way to stop debugging.  In the
+process of debugging a complex program or set of functions,
+you may find yourself 5 function calls down into the program
+only to discover the problem.  After fixing it, issueing
+a <tt>retall</tt> effectively forces FreeMat to exit your program
+and return to the interactive prompt.
+\section Example
+Here we demonstrate an extreme example of <tt>retall</tt>.  We
+are debugging a recursive function <tt>self</tt> to calculate the sum
+of the first N integers.  When the function is called,
+a <tt>keyboard</tt> session is initiated after the function
+has called itself N times.  At this <tt>keyboard</tt> prompt,
+we issue another call to <tt>self</tt> and get another <tt>keyboard</tt>
+prompt, this time with a depth of 2.  A <tt>retall</tt> statement
+returns us to the top level without executing the remainder
+of either the first or second call to <tt>self</tt>:
+
+\if FILE
+self.m
+function y = self(n)
+  if (n>1)
+    y = n + self(n-1);
+    printf('y is %d\n',y);
+  else
+    y = 1;
+    printf('y is initialized to one\n');
+    keyboard
+  end
+\endif
+\verbatim
+     self.m
+\endverbatim
+
+\verbinclude self.m
+
+
+\if FRAGMENT
+frag_flow_retall_000.m
+0
+self(4)
+self(6)
+retall
+\endif
+
+
+\verbinclude frag_flow_retall_000.m.out 
+
+*/

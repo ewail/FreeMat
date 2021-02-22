@@ -1,0 +1,34 @@
+/*!
+\page io_ftell FTELL File Position Function
+
+<p>
+Section: \ref sec_io "Input/Ouput Functions"
+\section Usage
+Returns the current file position for a valid file handle.
+The general use of this function is
+\verbatim
+  n = ftell(handle)
+\endverbatim
+The <tt>handle</tt> argument must be a valid and active file handle.  The
+return is the offset into the file relative to the start of the
+file (in bytes).
+\section Example
+Here is an example of using <tt>ftell</tt> to determine the current file 
+position.  We read 512 4-byte floats, which results in the file 
+pointer being at position 512*4 = 2048.
+
+\if FRAGMENT
+frag_io_ftell_000.m
+0
+fp = fopen('test.dat','wb');
+fwrite(fp,randn(512,1));
+fclose(fp);
+fp = fopen('test.dat','rb');
+x = fread(fp,[512,1],'float');
+ftell(fp)
+\endif
+
+
+\verbinclude frag_io_ftell_000.m.out 
+
+*/

@@ -1,0 +1,394 @@
+/*!
+\page vtkfiltering_vtkkdtree vtkKdTree
+
+<p>
+Section: \ref sec_vtkfiltering "Visualization Toolkit Filtering Classes"
+\section Usage
+     Given one or more vtkDataSets, create a load balancing
+     k-d tree decomposition of the points at the center of the cells.
+     Or, create a k-d tree point locator from a list of points.
+
+     This class can also generate a PolyData representation of
+     the boundaries of the spatial regions in the decomposition.
+
+     It can sort the regions with respect to a viewing direction,
+     and it can decompose a list of regions into subsets, each
+     of which represent a convex spatial region (since many algorithms
+     require a convex region).  
+
+     If the points were derived from cells, vtkKdTree
+     can create a list of cell Ids for each region for each data set.  
+     Two lists are available - all cells with centroid in the region, 
+     and all cells that intersect the region but whose centroid lies 
+     in another region.
+
+     For the purpose of removing duplicate points quickly from large
+     data sets, or for finding nearby points, we added another mode for 
+     building the locator.  BuildLocatorFromPoints will build a k-d tree
+     from one or more vtkPoints objects.  This can be followed by
+     BuildMapForDuplicatePoints which returns a mapping from the original
+     ids to a subset of the ids that is unique within a supplied
+     tolerance, or you can use FindPoint and FindClosestPoint to
+     locate points in the original set that the tree was built from.
+
+
+To create an instance of class vtkKdTree, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkKdTree
+\endverbatim
+\section Methods
+The class vtkKdTree has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkKdTree class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkKdTree = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkKdTree = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.TimingOn ()</tt> -   Turn on timing of the k-d tree build
+ </LI>
+<LI>  <tt>obj.TimingOff ()</tt> -   Turn on timing of the k-d tree build
+ </LI>
+<LI>  <tt>obj.SetTiming (int )</tt> -   Turn on timing of the k-d tree build
+ </LI>
+<LI>  <tt>int = obj.GetTiming ()</tt> -   Turn on timing of the k-d tree build
+ </LI>
+<LI>  <tt>obj.SetMinCells (int )</tt> -   Minimum number of cells per spatial region.  Default is 100.
+ </LI>
+<LI>  <tt>int = obj.GetMinCells ()</tt> -   Minimum number of cells per spatial region.  Default is 100.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfRegionsOrLess ()</tt>
+ </LI>
+<LI>  <tt>obj.SetNumberOfRegionsOrLess (int )</tt>
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfRegionsOrMore ()</tt>
+ </LI>
+<LI>  <tt>obj.SetNumberOfRegionsOrMore (int )</tt>
+ </LI>
+<LI>  <tt>double = obj.GetFudgeFactor ()</tt>
+ </LI>
+<LI>  <tt>obj.SetFudgeFactor (double )</tt>
+ </LI>
+<LI>  <tt>vtkBSPCuts = obj.GetCuts ()</tt>
+ </LI>
+<LI>  <tt>obj.SetCuts (vtkBSPCuts cuts)</tt>
+ </LI>
+<LI>  <tt>obj.OmitXPartitioning ()</tt> -     Omit partitions along the X axis, yielding shafts in the X direction
+ </LI>
+<LI>  <tt>obj.OmitYPartitioning ()</tt> -     Omit partitions along the Y axis, yielding shafts in the Y direction
+ </LI>
+<LI>  <tt>obj.OmitZPartitioning ()</tt> -     Omit partitions along the Z axis, yielding shafts in the Z direction
+ </LI>
+<LI>  <tt>obj.OmitXYPartitioning ()</tt> -     Omit partitions along the X and Y axes, yielding slabs along Z
+ </LI>
+<LI>  <tt>obj.OmitYZPartitioning ()</tt> -     Omit partitions along the Y and Z axes, yielding slabs along X
+ </LI>
+<LI>  <tt>obj.OmitZXPartitioning ()</tt> -     Omit partitions along the Z and X axes, yielding slabs along Y
+ </LI>
+<LI>  <tt>obj.OmitNoPartitioning ()</tt> -     Partition along all three axes - this is the default
+ </LI>
+<LI>  <tt>obj.SetDataSet (vtkDataSet set)</tt> -  Clear out all data sets and replace with single data set.  For backward
+ compatibility with superclass.
+ </LI>
+<LI>  <tt>obj.AddDataSet (vtkDataSet set)</tt> -  This class can compute a spatial decomposition based on the cells in a list
+ of one or more input data sets.  Add them one at a time with this method.
+ </LI>
+<LI>  <tt>obj.RemoveDataSet (int index)</tt> -  Remove the given data set.
+ </LI>
+<LI>  <tt>obj.RemoveDataSet (vtkDataSet set)</tt> -  Remove the given data set.
+ </LI>
+<LI>  <tt>obj.RemoveAllDataSets ()</tt> -  Remove the given data set.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfDataSets ()</tt> -    Get the number of data sets included in spatial paritioning
+ </LI>
+<LI>  <tt>vtkDataSet = obj.GetDataSet (int n)</tt> -  Return the n'th data set.
+ </LI>
+<LI>  <tt>vtkDataSet = obj.GetDataSet ()</tt> -  Return a collection of all the data sets.
+ </LI>
+<LI>  <tt>vtkDataSetCollection = obj.GetDataSets ()</tt> -  Return a collection of all the data sets.
+ </LI>
+<LI>  <tt>int = obj.GetDataSetIndex (vtkDataSet set)</tt> -  Return the index of the given data set.  Returns -1 if that data
+ set does not exist.
+ </LI>
+<LI>  <tt>obj.GetBounds (double bounds)</tt> -    Get the spatial bounds of the entire k-d tree space. Sets
+    bounds array to xmin, xmax, ymin, ymax, zmin, zmax.
+ </LI>
+<LI>  <tt>obj.SetNewBounds (double bounds)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfRegions ()</tt> -    The number of leaf nodes of the tree, the spatial regions
+ </LI>
+<LI>  <tt>obj.GetRegionBounds (int regionID, double bounds[6])</tt> -    Get the spatial bounds of k-d tree region
+ </LI>
+<LI>  <tt>obj.GetRegionDataBounds (int regionID, double bounds[6])</tt> -     Get the bounds of the data within the k-d tree region
+ </LI>
+<LI>  <tt>obj.PrintTree ()</tt> -     Print out nodes of kd tree
+ </LI>
+<LI>  <tt>obj.PrintVerboseTree ()</tt> -     Print out nodes of kd tree
+ </LI>
+<LI>  <tt>obj.PrintRegion (int id)</tt> -     Print out leaf node data for given id
+ </LI>
+<LI>  <tt>obj.CreateCellLists (int dataSetIndex, int regionReqList, int reqListSize)</tt>
+ </LI>
+<LI>  <tt>obj.CreateCellLists (vtkDataSet set, int regionReqList, int reqListSize)</tt>
+ </LI>
+<LI>  <tt>obj.CreateCellLists (int regionReqList, int listSize)</tt>
+ </LI>
+<LI>  <tt>obj.CreateCellLists ()</tt>
+ </LI>
+<LI>  <tt>obj.SetIncludeRegionBoundaryCells (int )</tt> -    If IncludeRegionBoundaryCells is ON,
+   CreateCellLists() will also create a list of cells which
+   intersect a given region, but are not assigned
+   to the region.  These lists are obtained with 
+   GetBoundaryCellList().  Default is OFF.
+ </LI>
+<LI>  <tt>int = obj.GetIncludeRegionBoundaryCells ()</tt> -    If IncludeRegionBoundaryCells is ON,
+   CreateCellLists() will also create a list of cells which
+   intersect a given region, but are not assigned
+   to the region.  These lists are obtained with 
+   GetBoundaryCellList().  Default is OFF.
+ </LI>
+<LI>  <tt>obj.IncludeRegionBoundaryCellsOn ()</tt> -    If IncludeRegionBoundaryCells is ON,
+   CreateCellLists() will also create a list of cells which
+   intersect a given region, but are not assigned
+   to the region.  These lists are obtained with 
+   GetBoundaryCellList().  Default is OFF.
+ </LI>
+<LI>  <tt>obj.IncludeRegionBoundaryCellsOff ()</tt> -    If IncludeRegionBoundaryCells is ON,
+   CreateCellLists() will also create a list of cells which
+   intersect a given region, but are not assigned
+   to the region.  These lists are obtained with 
+   GetBoundaryCellList().  Default is OFF.
+ </LI>
+<LI>  <tt>obj.DeleteCellLists ()</tt> -     Free the memory used by the cell lists.
+ </LI>
+<LI>  <tt>vtkIdList = obj.GetCellList (int regionID)</tt> -     Get the cell list for a region.  This returns a pointer
+    to vtkKdTree's memory, so don't free it.
+ </LI>
+<LI>  <tt>vtkIdList = obj.GetBoundaryCellList (int regionID)</tt> -     The cell list obtained with GetCellList is the list
+    of all cells such that their centroid is contained in
+    the spatial region.  It may also be desirable to get
+    a list of all cells intersecting a spatial region,
+    but with centroid in some other region.  This is that
+    list.  This list is computed in CreateCellLists() if
+    and only if IncludeRegionBoundaryCells is ON.  This
+    returns a pointer to KdTree's memory, so don't free it.
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetCellLists (vtkIntArray regions, int set, vtkIdList inRegionCells, vtkIdList onBoundaryCells)</tt> -    
+   For a list of regions, get two cell lists.  The first lists
+   the IDs  all cells whose centroids lie in one of the regions.
+   The second lists the IDs of all cells that intersect the regions,
+   but whose centroid lies in a region not on the list.
+
+   The total number of cell IDs written to both lists is returned.
+   Either list pointer passed in can be NULL, and it will be ignored.
+   If there are multiple data sets, you must specify which data set
+   you wish cell IDs for.
+
+   The caller should delete these two lists when done.  This method
+   uses the cell lists created in CreateCellLists().
+   If the cell list for any of the requested regions does not
+   exist, then this method will call CreateCellLists() to create
+   cell lists for *every* region of the k-d tree.  You must remember 
+   to DeleteCellLists() when done with all calls to this method, as 
+   cell lists can require a great deal of memory.
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetCellLists (vtkIntArray regions, vtkDataSet set, vtkIdList inRegionCells, vtkIdList onBoundaryCells)</tt> -    
+   For a list of regions, get two cell lists.  The first lists
+   the IDs  all cells whose centroids lie in one of the regions.
+   The second lists the IDs of all cells that intersect the regions,
+   but whose centroid lies in a region not on the list.
+
+   The total number of cell IDs written to both lists is returned.
+   Either list pointer passed in can be NULL, and it will be ignored.
+   If there are multiple data sets, you must specify which data set
+   you wish cell IDs for.
+
+   The caller should delete these two lists when done.  This method
+   uses the cell lists created in CreateCellLists().
+   If the cell list for any of the requested regions does not
+   exist, then this method will call CreateCellLists() to create
+   cell lists for *every* region of the k-d tree.  You must remember 
+   to DeleteCellLists() when done with all calls to this method, as 
+   cell lists can require a great deal of memory.
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetCellLists (vtkIntArray regions, vtkIdList inRegionCells, vtkIdList onBoundaryCells)</tt> -    
+   For a list of regions, get two cell lists.  The first lists
+   the IDs  all cells whose centroids lie in one of the regions.
+   The second lists the IDs of all cells that intersect the regions,
+   but whose centroid lies in a region not on the list.
+
+   The total number of cell IDs written to both lists is returned.
+   Either list pointer passed in can be NULL, and it will be ignored.
+   If there are multiple data sets, you must specify which data set
+   you wish cell IDs for.
+
+   The caller should delete these two lists when done.  This method
+   uses the cell lists created in CreateCellLists().
+   If the cell list for any of the requested regions does not
+   exist, then this method will call CreateCellLists() to create
+   cell lists for *every* region of the k-d tree.  You must remember 
+   to DeleteCellLists() when done with all calls to this method, as 
+   cell lists can require a great deal of memory.
+ </LI>
+<LI>  <tt>int = obj.GetRegionContainingCell (vtkDataSet set, vtkIdType cellID)</tt> -     Get the id of the region containing the cell centroid.  If
+    no DataSet is specified, assume DataSet 0.  If you need the
+    region ID for every cell, use AllGetRegionContainingCell
+    instead.  It is more efficient.
+ </LI>
+<LI>  <tt>int = obj.GetRegionContainingCell (int set, vtkIdType cellID)</tt> -     Get the id of the region containing the cell centroid.  If
+    no DataSet is specified, assume DataSet 0.  If you need the
+    region ID for every cell, use AllGetRegionContainingCell
+    instead.  It is more efficient.
+ </LI>
+<LI>  <tt>int = obj.GetRegionContainingCell (vtkIdType cellID)</tt> -     Get the id of the region containing the cell centroid.  If
+    no DataSet is specified, assume DataSet 0.  If you need the
+    region ID for every cell, use AllGetRegionContainingCell
+    instead.  It is more efficient.
+ </LI>
+<LI>  <tt>int = obj.GetRegionContainingPoint (double x, double y, double z)</tt> -     Get the id of the region containing the specified location.
+ </LI>
+<LI>  <tt>obj.BuildLocator ()</tt> -  Create the k-d tree decomposition of the cells of the data set
+ or data sets.  Cells are assigned to k-d tree spatial regions
+ based on the location of their centroids.
+ </LI>
+<LI>  <tt>int = obj.DepthOrderAllRegions (double dop, vtkIntArray orderedList)</tt> -  DO NOT CALL.  Depricated in VTK 5.2.  Use ViewOrderAllRegionsInDirection
+ or ViewOrderAllRegionsFromPosition.
+ </LI>
+<LI>  <tt>int = obj.DepthOrderRegions (vtkIntArray regionIds, double dop, vtkIntArray orderedList)</tt> -  DO NOT CALL.  Depricated in VTK 5.2.  Use ViewOrderRegionsInDirection
+ or ViewOrderRegionsFromPosition.
+ </LI>
+<LI>  <tt>int = obj.ViewOrderAllRegionsInDirection (double directionOfProjection[3], vtkIntArray orderedList)</tt> -  Given a direction of projection (typically obtained with
+ vtkCamera::GetDirectionOfProjection()), this method, creates a list of the
+ k-d tree region IDs in order from front to back with respect to that
+ direction.  The number of ordered regions is returned.  Use this method to
+ view order regions for cameras that use parallel projection.
+ </LI>
+<LI>  <tt>int = obj.ViewOrderRegionsInDirection (vtkIntArray regionIds, double directionOfProjection[3], vtkIntArray orderedList)</tt> -  Given a direction of projection and a list of k-d tree region IDs, this
+ method, creates a list of the k-d tree region IDs in order from front to
+ back with respect to that direction.  The number of ordered regions is
+ returned.  Use this method to view order regions for cameras that use
+ parallel projection.
+ </LI>
+<LI>  <tt>int = obj.ViewOrderAllRegionsFromPosition (double directionOfProjection[3], vtkIntArray orderedList)</tt> -  Given a camera position (typically obtained with vtkCamera::GetPosition()),
+ this method, creates a list of the k-d tree region IDs in order from front
+ to back with respect to that direction.  The number of ordered regions is
+ returned.  Use this method to view order regions for cameras that use
+ perspective projection.
+ </LI>
+<LI>  <tt>int = obj.ViewOrderRegionsFromPosition (vtkIntArray regionIds, double directionOfProjection[3], vtkIntArray orderedList)</tt> -  Given a camera position and a list of k-d tree region IDs, this method,
+ creates a list of the k-d tree region IDs in order from front to back with
+ respect to that direction.  The number of ordered regions is returned.  Use
+ this method to view order regions for cameras that use perspective
+ projection.
+ </LI>
+<LI>  <tt>obj.BuildLocatorFromPoints (vtkPointSet pointset)</tt> -  This is a special purpose locator that builds a k-d tree to 
+ find duplicate and near-by points.  It builds the tree from 
+ one or more vtkPoints objects instead of from the cells of
+ a vtkDataSet.  This build would normally be followed by
+ BuildMapForDuplicatePoints, FindPoint, or FindClosestPoint.
+ Since this will build a normal k-d tree, all the region intersection
+ queries will still work, as will most other calls except those that
+ have "Cell" in the name.
+
+ This method works most efficiently when the point arrays are
+ float arrays.
+ </LI>
+<LI>  <tt>obj.BuildLocatorFromPoints (vtkPoints ptArray)</tt> -  This is a special purpose locator that builds a k-d tree to 
+ find duplicate and near-by points.  It builds the tree from 
+ one or more vtkPoints objects instead of from the cells of
+ a vtkDataSet.  This build would normally be followed by
+ BuildMapForDuplicatePoints, FindPoint, or FindClosestPoint.
+ Since this will build a normal k-d tree, all the region intersection
+ queries will still work, as will most other calls except those that
+ have "Cell" in the name.
+
+ This method works most efficiently when the point arrays are
+ float arrays.
+ </LI>
+<LI>  <tt>vtkIdTypeArray = obj.BuildMapForDuplicatePoints (float tolerance)</tt> -  This call returns a mapping from the original point IDs supplied
+ to BuildLocatorFromPoints to a subset of those IDs that is unique 
+ within the specified tolerance.  
+ If points 2, 5, and 12 are the same, then 
+ IdMap[2] = IdMap[5] = IdMap[12] = 2 (or 5 or 12).
+
+ "original point IDs" - For point IDs we start at 0 for the first
+ point in the first vtkPoints object, and increase by 1 for subsequent
+ points and subsequent vtkPoints objects.
+
+ You must have called BuildLocatorFromPoints() before calling this.
+ You are responsible for deleting the returned array.
+ </LI>
+<LI>  <tt>vtkIdType = obj.FindPoint (double x)</tt> -  Find the Id of the point that was previously supplied
+ to BuildLocatorFromPoints().  Returns -1 if the point
+ was not in the original array.
+ </LI>
+<LI>  <tt>vtkIdType = obj.FindPoint (double x, double y, double z)</tt> -  Find the Id of the point that was previously supplied
+ to BuildLocatorFromPoints().  Returns -1 if the point
+ was not in the original array.
+ </LI>
+<LI>  <tt>obj.FindPointsWithinRadius (double R, double x[3], vtkIdList result)</tt> -  Find all points within a specified radius R of position x.
+ The result is not sorted in any specific manner.
+ These methods are thread safe if BuildLocator() is directly or
+ indirectly called from a single thread first.
+ </LI>
+<LI>  <tt>obj.FindClosestNPoints (int N, double x[3], vtkIdList result)</tt> -  Find the closest N points to a position. This returns the closest
+ N points to a position. A faster method could be created that returned
+ N close points to a position, but necessarily the exact N closest.
+ The returned points are sorted from closest to farthest.
+ These methods are thread safe if BuildLocator() is directly or
+ indirectly called from a single thread first.
+ </LI>
+<LI>  <tt>vtkIdTypeArray = obj.GetPointsInRegion (int regionId)</tt> -  Get a list of the original IDs of all points in a region.  You
+ must have called BuildLocatorFromPoints before calling this.
+ </LI>
+<LI>  <tt>obj.FreeSearchStructure ()</tt> -  Delete the k-d tree data structure. Also delete any
+ cell lists that were computed with CreateCellLists().
+ </LI>
+<LI>  <tt>obj.GenerateRepresentation (int level, vtkPolyData pd)</tt> -  Create a polydata representation of the boundaries of
+ the k-d tree regions.  If level equals GetLevel(), the
+ leaf nodes are represented.
+ </LI>
+<LI>  <tt>obj.GenerateRepresentation (int regionList, int len, vtkPolyData pd)</tt> -     Generate a polygonal representation of a list of regions.
+    Only leaf nodes have region IDs, so these will be leaf nodes.
+ </LI>
+<LI>  <tt>obj.GenerateRepresentationUsingDataBoundsOn ()</tt> -     The polydata representation of the k-d tree shows the boundaries
+    of the k-d tree decomposition spatial regions.  The data inside
+    the regions may not occupy the entire space.  To draw just the
+    bounds of the data in the regions, set this variable ON.
+ </LI>
+<LI>  <tt>obj.GenerateRepresentationUsingDataBoundsOff ()</tt> -     The polydata representation of the k-d tree shows the boundaries
+    of the k-d tree decomposition spatial regions.  The data inside
+    the regions may not occupy the entire space.  To draw just the
+    bounds of the data in the regions, set this variable ON.
+ </LI>
+<LI>  <tt>obj.SetGenerateRepresentationUsingDataBounds (int )</tt> -     The polydata representation of the k-d tree shows the boundaries
+    of the k-d tree decomposition spatial regions.  The data inside
+    the regions may not occupy the entire space.  To draw just the
+    bounds of the data in the regions, set this variable ON.
+ </LI>
+<LI>  <tt>int = obj.GetGenerateRepresentationUsingDataBounds ()</tt> -     The polydata representation of the k-d tree shows the boundaries
+    of the k-d tree decomposition spatial regions.  The data inside
+    the regions may not occupy the entire space.  To draw just the
+    bounds of the data in the regions, set this variable ON.
+ </LI>
+<LI>  <tt>int = obj.NewGeometry ()</tt> -     Return 1 if the geometry of the input data sets
+    has changed since the last time the k-d tree was built.
+ </LI>
+<LI>  <tt>obj.InvalidateGeometry ()</tt> -  Forget about the last geometry used.  The next call to NewGeometry will
+ return 1.  A new k-d tree will be built the next time BuildLocator is
+ called.
+ </LI>
+<LI>  <tt>obj.FindPointsInArea (double area, vtkIdTypeArray ids, bool clearArraytrue)</tt> -  Fill ids with points found in area.  The area is a 6-tuple containing
+ (xmin, xmax, ymin, ymax, zmin, zmax).
+ This method will clear the array by default.  To append ids to an array,
+ set clearArray to false.
+ </LI>
+</UL>
+*/

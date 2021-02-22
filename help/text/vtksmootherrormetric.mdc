@@ -1,0 +1,99 @@
+
+ Usage
+
+It is a concrete error metric, based on a geometric
+criterium: a max angle between the chord passing through the
+midpoint and one of the endpoints and the other chord
+passing through the midpoint and the other endpoint of the
+edge. It is related to the flatness of an edge.
+To create an instance of class vtkSmoothErrorMetric, simply
+invoke its constructor as follows
+
+    obj = vtkSmoothErrorMetric
+
+
+
+ Methods
+
+The class vtkSmoothErrorMetric has several methods that can
+be used. They are listed below. Note that the documentation
+is translated automatically from the VTK sources, and may
+not be completely intelligible. When in doubt, consult the
+VTK website. In the methods listed below, obj is an instance
+of the vtkSmoothErrorMetric class.
+
+* string = obj.GetClassName () - Standard VTK type and error
+  macros.
+* int = obj.IsA (string name) - Standard VTK type and error
+  macros.
+* vtkSmoothErrorMetric = obj.NewInstance () - Standard VTK
+  type and error macros.
+* vtkSmoothErrorMetric = obj.SafeDownCast (vtkObject o) -
+  Standard VTK type and error macros.
+* double = obj.GetAngleTolerance () - Return the flatness
+  threshold.
+
+
+    Postcondition:
+        positive_result: result>90 &amp;&amp; result<180
+
+* obj.SetAngleTolerance (double value) - Set the flatness
+  threshold with an angle in degrees. Internally compute the
+  cosine. value is supposed to be in ]90,180[, if not it is
+  clamped in [90.1,179.9]. For instance 178 will give better
+  result than 150.
+* int = obj.RequiresEdgeSubdivision (double leftPoint,
+  double midPoint, double rightPoint, double alpha) - Does
+  the edge need to be subdivided according to the cosine
+  between the two chords passing through the mid-point and
+  the endpoints? The edge is defined by its `leftPoint' and
+  its `rightPoint'. `leftPoint', `midPoint' and `rightPoint'
+  have to be initialized before calling
+  RequiresEdgeSubdivision(). Their format is global
+  coordinates, parametric coordinates and point centered
+  attributes: xyx rst abc de... `alpha' is the normalized
+  abscissa of the midpoint along the edge. (close to 0 means
+  close to the left point, close to 1 means close to the
+  right point)
+
+
+    Precondition:
+        leftPoint_exists: leftPoint!=0
+        midPoint_exists: midPoint!=0
+        rightPoint_exists: rightPoint!=0
+        clamped_alpha: alpha>0 &amp;&amp; alpha<1
+        valid_size: sizeof(leftPoint)=sizeof
+        (midPoint)=sizeof(rightPoint)
+        =GetAttributeCollection()-
+        >GetNumberOfPointCenteredComponents()+6
+
+* double = obj.GetError (double leftPoint, double midPoint,
+  double rightPoint, double alpha) - Return the error at the
+  mid-point. It will return an error relative to the
+  bounding box size if GetRelative() is true, a square
+  absolute error otherwise. See RequiresEdgeSubdivision()
+  for a description of the arguments.
+
+
+    Precondition:
+        leftPoint_exists: leftPoint!=0
+        midPoint_exists: midPoint!=0
+        rightPoint_exists: rightPoint!=0
+        clamped_alpha: alpha>0 &amp;&amp; alpha<1
+        valid_size: sizeof(leftPoint)=sizeof
+        (midPoint)=sizeof(rightPoint)
+        =GetAttributeCollection()-
+        >GetNumberOfPointCenteredComponents()+6
+
+
+
+    Postcondition:
+        positive_result: result>=0
+
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Filtering_Classes
+* Generated on Thu Jul 25 2013 17:18:31 for FreeMat by
+  doxygen_ 1.8.1.1
+

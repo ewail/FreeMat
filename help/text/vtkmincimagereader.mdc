@@ -1,0 +1,95 @@
+
+ Usage
+
+MINC is a NetCDF-based medical image file format that was
+developed at the Montreal Neurological Institute in 1992.
+This class will read a MINC file into VTK, rearranging the
+data to match the VTK x, y, and z dimensions, and optionally
+rescaling real-valued data to VTK_FLOAT if
+RescaleRealValuesOn() is set. If RescaleRealValues is off,
+then the data will be stored in its original data type and
+the GetRescaleSlope(), GetRescaleIntercept() method can be
+used to retrieve global rescaling parameters. If the
+original file had a time dimension, the SetTimeStep() method
+can be used to specify a time step to read. All of the
+original header information can be accessed though the
+GetImageAttributes() method.
+To create an instance of class vtkMINCImageReader, simply
+invoke its constructor as follows
+
+    obj = vtkMINCImageReader
+
+
+
+ Methods
+
+The class vtkMINCImageReader has several methods that can be
+used. They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkMINCImageReader class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkMINCImageReader = obj.NewInstance ()
+* vtkMINCImageReader = obj.SafeDownCast (vtkObject o)
+* obj.SetFileName (string name) - Set the file name.
+* string = obj.GetFileExtensions () - Get the name of this
+  file format.
+* string = obj.GetDescriptiveName () - Test whether the
+  specified file can be read.
+* int = obj.CanReadFile (string name) - Test whether the
+  specified file can be read.
+* vtkMatrix4x4 = obj.GetDirectionCosines () - Get a matrix
+  that describes the orientation of the data. The three
+  columns of the matrix are the direction cosines for the x,
+  y and z dimensions respectively.
+* double = obj.GetRescaleSlope () - Get the slope and
+  intercept for rescaling the scalar values to real data
+  values. To convert scalar values to real values, use the
+  equation y = x*RescaleSlope + RescaleIntercept.
+* double = obj.GetRescaleIntercept () - Get the slope and
+  intercept for rescaling the scalar values to real data
+  values. To convert scalar values to real values, use the
+  equation y = x*RescaleSlope + RescaleIntercept.
+* obj.SetRescaleRealValues (int ) - Rescale real data values
+  to float. If this is done, the RescaleSlope and
+  RescaleIntercept will be set to 1 and 0 respectively. This
+  is off by default.
+* obj.RescaleRealValuesOn () - Rescale real data values to
+  float. If this is done, the RescaleSlope and
+  RescaleIntercept will be set to 1 and 0 respectively. This
+  is off by default.
+* obj.RescaleRealValuesOff () - Rescale real data values to
+  float. If this is done, the RescaleSlope and
+  RescaleIntercept will be set to 1 and 0 respectively. This
+  is off by default.
+* int = obj.GetRescaleRealValues () - Rescale real data
+  values to float. If this is done, the RescaleSlope and
+  RescaleIntercept will be set to 1 and 0 respectively. This
+  is off by default.
+* double = obj.GetDataRange () - Get the scalar range of the
+  output from the information in the file header. This is
+  more efficient that computing the scalar range, but in
+  some cases the MINC file stores an incorrect valid_range
+  and the DataRange will be incorrect.
+* obj.GetDataRange (double range[2]) - Get the scalar range
+  of the output from the information in the file header.
+  This is more efficient that computing the scalar range,
+  but in some cases the MINC file stores an incorrect
+  valid_range and the DataRange will be incorrect.
+* int = obj.GetNumberOfTimeSteps () - Get the number of time
+  steps in the file.
+* obj.SetTimeStep (int ) - Set the time step to read.
+* int = obj.GetTimeStep () - Set the time step to read.
+* vtkMINCImageAttributes = obj.GetImageAttributes () - Get
+  the image attributes, which contain patient information
+  and other useful metadata.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_IO_Classes
+* Generated on Thu Jul 25 2013 17:18:34 for FreeMat by
+  doxygen_ 1.8.1.1
+

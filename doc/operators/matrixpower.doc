@@ -1,0 +1,76 @@
+/*!
+\page operators_matrixpower MATRIXPOWER Matrix Power Operator
+
+<p>
+Section: \ref sec_operators "Mathematical Operators"
+\section Usage
+The power operator for scalars and square matrices.  This operator is really a 
+combination of two operators, both of which have the same general syntax:
+\verbatim
+  y = a ^ b
+\endverbatim
+The exact action taken by this operator, and the size and type of the output, 
+depends on which of the two configurations of <tt>a</tt> and <tt>b</tt> is present:
+<OL>
+  <LI> <tt>a</tt> is a scalar, <tt>b</tt> is a square matrix
+</LI>
+  <LI> <tt>a</tt> is a square matrix, <tt>b</tt> is a scalar
+</LI>
+</OL>
+\section Function Internals
+In the first case that <tt>a</tt> is a scalar, and <tt>b</tt> is a square matrix, the matrix power is defined in terms of the eigenvalue decomposition of <tt>b</tt>.  Let <tt>b</tt> have the following eigen-decomposition (problems arise with non-symmetric matrices <tt>b</tt>, so let us assume that <tt>b</tt> is symmetric):
+\f[
+  b = E \begin{bmatrix} \lambda_1 & 0          & \cdots  & 0 \\                            0   & \lambda_2  &  \ddots & \vdots \\                                         \vdots & \ddots & \ddots & 0 \\                                                 0   & \hdots & 0 & \lambda_n \end{bmatrix}
+      E^{-1}
+\f]
+Then <tt>a</tt> raised to the power <tt>b</tt> is defined as
+\f[
+  a^{b} = E \begin{bmatrix} a^{\lambda_1} & 0          & \cdots  & 0 \\                                0   & a^{\lambda_2}  &  \ddots & \vdots \\                                    \vdots & \ddots & \ddots & 0 \\                                             0   & \hdots & 0 & a^{\lambda_n} \end{bmatrix}
+      E^{-1}
+\f]
+Similarly, if <tt>a</tt> is a square matrix, then <tt>a</tt> has the following eigen-decomposition (again, suppose <tt>a</tt> is symmetric):
+\f[
+  a = E \begin{bmatrix} \lambda_1 & 0          & \cdots  & 0 \\                                0   & \lambda_2  &  \ddots & \vdots \\                                         \vdots & \ddots & \ddots & 0 \\                                          0   & \hdots & 0 & \lambda_n \end{bmatrix}
+      E^{-1}
+\f]
+Then <tt>a</tt> raised to the power <tt>b</tt> is defined as
+\f[
+  a^{b} = E \begin{bmatrix} \lambda_1^b & 0          & \cdots  & 0 \\                              0   & \lambda_2^b  &  \ddots & \vdots \\                              \vdots & \ddots & \ddots & 0 \\                              0   & \hdots & 0 & \lambda_n^b \end{bmatrix}
+      E^{-1}
+\f]
+\section Examples
+We first define a simple <tt>2 x 2</tt> symmetric matrix
+
+\if FRAGMENT
+frag_operators_matrixpower_000.m
+0
+A = 1.5
+B = [1,.2;.2,1]
+\endif
+
+
+\verbinclude frag_operators_matrixpower_000.m.out 
+
+First, we raise <tt>B</tt> to the (scalar power) <tt>A</tt>:
+
+\if FRAGMENT
+frag_operators_matrixpower_001.m
+0
+C = B^A
+\endif
+
+
+\verbinclude frag_operators_matrixpower_001.m.out 
+
+Next, we raise <tt>A</tt> to the matrix power <tt>B</tt>:
+
+\if FRAGMENT
+frag_operators_matrixpower_002.m
+0
+C = A^B
+\endif
+
+
+\verbinclude frag_operators_matrixpower_002.m.out 
+
+*/

@@ -1,0 +1,181 @@
+/*!
+\page vtkvolumerendering_vtkencodedgradientestimator vtkEncodedGradientEstimator
+
+<p>
+Section: \ref sec_vtkvolumerendering "Visualization Toolkit Volume Rendering Classes"
+\section Usage
+ vtkEncodedGradientEstimator is an abstract superclass for gradient 
+ estimation. It takes a scalar input of vtkImageData, computes
+ a gradient value for every point, and encodes this value into a 
+ three byte value (2 for direction, 1 for magnitude) using the 
+ vtkDirectionEncoder. The direction encoder is defaulted to a
+ vtkRecursiveSphereDirectionEncoder, but can be overridden with the
+ SetDirectionEncoder method. The scale and the bias values for the gradient
+ magnitude are used to convert it into a one byte value according to
+ v = m*scale + bias where m is the magnitude and v is the resulting
+ one byte value.
+
+To create an instance of class vtkEncodedGradientEstimator, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkEncodedGradientEstimator
+\endverbatim
+\section Methods
+The class vtkEncodedGradientEstimator has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkEncodedGradientEstimator class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkEncodedGradientEstimator = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkEncodedGradientEstimator = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetInput (vtkImageData )</tt> -  Set/Get the scalar input for which the normals will be 
+ calculated
+ </LI>
+<LI>  <tt>vtkImageData = obj.GetInput ()</tt> -  Set/Get the scalar input for which the normals will be 
+ calculated
+ </LI>
+<LI>  <tt>obj.SetGradientMagnitudeScale (float )</tt> -  Set/Get the scale and bias for the gradient magnitude
+ </LI>
+<LI>  <tt>float = obj.GetGradientMagnitudeScale ()</tt> -  Set/Get the scale and bias for the gradient magnitude
+ </LI>
+<LI>  <tt>obj.SetGradientMagnitudeBias (float )</tt> -  Set/Get the scale and bias for the gradient magnitude
+ </LI>
+<LI>  <tt>float = obj.GetGradientMagnitudeBias ()</tt> -  Set/Get the scale and bias for the gradient magnitude
+ </LI>
+<LI>  <tt>obj.SetBoundsClip (int )</tt> -  Turn on / off the bounding of the normal computation by
+ the this->Bounds bounding box
+ </LI>
+<LI>  <tt>int = obj.GetBoundsClipMinValue ()</tt> -  Turn on / off the bounding of the normal computation by
+ the this->Bounds bounding box
+ </LI>
+<LI>  <tt>int = obj.GetBoundsClipMaxValue ()</tt> -  Turn on / off the bounding of the normal computation by
+ the this->Bounds bounding box
+ </LI>
+<LI>  <tt>int = obj.GetBoundsClip ()</tt> -  Turn on / off the bounding of the normal computation by
+ the this->Bounds bounding box
+ </LI>
+<LI>  <tt>obj.BoundsClipOn ()</tt> -  Turn on / off the bounding of the normal computation by
+ the this->Bounds bounding box
+ </LI>
+<LI>  <tt>obj.BoundsClipOff ()</tt> -  Turn on / off the bounding of the normal computation by
+ the this->Bounds bounding box
+ </LI>
+<LI>  <tt>obj.SetBounds (int , int , int , int , int , int )</tt> -  Set / Get the bounds of the computation (used if 
+ this->ComputationBounds is 1.) The bounds are specified
+ xmin, xmax, ymin, ymax, zmin, zmax.
+ </LI>
+<LI>  <tt>obj.SetBounds (int  a[6])</tt> -  Set / Get the bounds of the computation (used if 
+ this->ComputationBounds is 1.) The bounds are specified
+ xmin, xmax, ymin, ymax, zmin, zmax.
+ </LI>
+<LI>  <tt>int = obj. GetBounds ()</tt> -  Set / Get the bounds of the computation (used if 
+ this->ComputationBounds is 1.) The bounds are specified
+ xmin, xmax, ymin, ymax, zmin, zmax.
+ </LI>
+<LI>  <tt>obj.Update (void )</tt> -  Recompute the encoded normals and gradient magnitudes.
+ </LI>
+<LI>  <tt>int = obj.GetEncodedNormalIndex (int xyz_index)</tt> -  Get the encoded normal at an x,y,z location in the volume
+ </LI>
+<LI>  <tt>int = obj.GetEncodedNormalIndex (int x_index, int y_index, int z_index)</tt> -  Get the encoded normal at an x,y,z location in the volume
+ </LI>
+<LI>  <tt>obj.SetNumberOfThreads (int )</tt> -  Get/Set the number of threads to create when encoding normals
+ This defaults to the number of available processors on the machine
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfThreadsMinValue ()</tt> -  Get/Set the number of threads to create when encoding normals
+ This defaults to the number of available processors on the machine
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfThreadsMaxValue ()</tt> -  Get/Set the number of threads to create when encoding normals
+ This defaults to the number of available processors on the machine
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfThreads ()</tt> -  Get/Set the number of threads to create when encoding normals
+ This defaults to the number of available processors on the machine
+ </LI>
+<LI>  <tt>obj.SetDirectionEncoder (vtkDirectionEncoder direnc)</tt> -  Set / Get the direction encoder used to encode normal directions
+ to fit within two bytes
+ </LI>
+<LI>  <tt>vtkDirectionEncoder = obj.GetDirectionEncoder ()</tt> -  Set / Get the direction encoder used to encode normal directions
+ to fit within two bytes
+ </LI>
+<LI>  <tt>obj.SetComputeGradientMagnitudes (int )</tt> -  If you don't want to compute gradient magnitudes (but you
+ do want normals for shading) this can be used. Be careful - if
+ if you a non-constant gradient magnitude transfer function and
+ you turn this on, it may crash
+ </LI>
+<LI>  <tt>int = obj.GetComputeGradientMagnitudes ()</tt> -  If you don't want to compute gradient magnitudes (but you
+ do want normals for shading) this can be used. Be careful - if
+ if you a non-constant gradient magnitude transfer function and
+ you turn this on, it may crash
+ </LI>
+<LI>  <tt>obj.ComputeGradientMagnitudesOn ()</tt> -  If you don't want to compute gradient magnitudes (but you
+ do want normals for shading) this can be used. Be careful - if
+ if you a non-constant gradient magnitude transfer function and
+ you turn this on, it may crash
+ </LI>
+<LI>  <tt>obj.ComputeGradientMagnitudesOff ()</tt> -  If you don't want to compute gradient magnitudes (but you
+ do want normals for shading) this can be used. Be careful - if
+ if you a non-constant gradient magnitude transfer function and
+ you turn this on, it may crash
+ </LI>
+<LI>  <tt>obj.SetCylinderClip (int )</tt> -  If the data in each slice is only contained within a circle circumscribed
+ within the slice, and the slice is square, then don't compute anything
+ outside the circle. This circle through the slices forms a cylinder.
+ </LI>
+<LI>  <tt>int = obj.GetCylinderClip ()</tt> -  If the data in each slice is only contained within a circle circumscribed
+ within the slice, and the slice is square, then don't compute anything
+ outside the circle. This circle through the slices forms a cylinder.
+ </LI>
+<LI>  <tt>obj.CylinderClipOn ()</tt> -  If the data in each slice is only contained within a circle circumscribed
+ within the slice, and the slice is square, then don't compute anything
+ outside the circle. This circle through the slices forms a cylinder.
+ </LI>
+<LI>  <tt>obj.CylinderClipOff ()</tt> -  If the data in each slice is only contained within a circle circumscribed
+ within the slice, and the slice is square, then don't compute anything
+ outside the circle. This circle through the slices forms a cylinder.
+ </LI>
+<LI>  <tt>float = obj.GetLastUpdateTimeInSeconds ()</tt> -  Get the time required for the last update in seconds or cpu seconds
+ </LI>
+<LI>  <tt>float = obj.GetLastUpdateTimeInCPUSeconds ()</tt> -  Get the time required for the last update in seconds or cpu seconds
+ </LI>
+<LI>  <tt>int = obj.GetUseCylinderClip ()</tt>
+ </LI>
+<LI>  <tt>obj.SetZeroNormalThreshold (float v)</tt> -  Set / Get the ZeroNormalThreshold - this defines the minimum magnitude 
+ of a gradient that is considered sufficient to define a 
+ direction. Gradients with magnitudes at or less than this value are given
+ a "zero normal" index. These are handled specially in the shader, 
+ and you can set the intensity of light for these zero normals in
+ the gradient shader.
+ </LI>
+<LI>  <tt>float = obj.GetZeroNormalThreshold ()</tt> -  Set / Get the ZeroNormalThreshold - this defines the minimum magnitude 
+ of a gradient that is considered sufficient to define a 
+ direction. Gradients with magnitudes at or less than this value are given
+ a "zero normal" index. These are handled specially in the shader, 
+ and you can set the intensity of light for these zero normals in
+ the gradient shader.
+ </LI>
+<LI>  <tt>obj.SetZeroPad (int )</tt> -  Assume that the data value outside the volume is zero when
+ computing normals.
+ </LI>
+<LI>  <tt>int = obj.GetZeroPadMinValue ()</tt> -  Assume that the data value outside the volume is zero when
+ computing normals.
+ </LI>
+<LI>  <tt>int = obj.GetZeroPadMaxValue ()</tt> -  Assume that the data value outside the volume is zero when
+ computing normals.
+ </LI>
+<LI>  <tt>int = obj.GetZeroPad ()</tt> -  Assume that the data value outside the volume is zero when
+ computing normals.
+ </LI>
+<LI>  <tt>obj.ZeroPadOn ()</tt> -  Assume that the data value outside the volume is zero when
+ computing normals.
+ </LI>
+<LI>  <tt>obj.ZeroPadOff ()</tt> -  Assume that the data value outside the volume is zero when
+ computing normals.
+ </LI>
+</UL>
+*/

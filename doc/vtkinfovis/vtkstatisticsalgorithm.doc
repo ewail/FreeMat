@@ -1,0 +1,130 @@
+/*!
+\page vtkinfovis_vtkstatisticsalgorithm vtkStatisticsAlgorithm
+
+<p>
+Section: \ref sec_vtkinfovis "Visualization Toolkit Infovis Classes"
+\section Usage
+ All statistics algorithms can conceptually be operated with several options:
+ * Learn: given an input data set, calculate a minimal statistical model (e.g., 
+   sums, raw moments, joint probabilities).
+ * Derive: given an input minimal statistical model, derive the full model 
+   (e.g., descriptive statistics, quantiles, correlations, conditional
+    probabilities).
+   NB: It may be, or not be, a problem that a full model was not derived. For
+   instance, when doing parallel calculations, one only wants to derive the full
+   model after all partial calculations have completed. On the other hand, one
+   can also directly provide a full model, that was previously calculated or
+   guessed, and not derive a new one.
+ * Assess: given an input data set, input statistics, and some form of 
+   threshold, assess a subset of the data set.
+ * Test: perform at least one statistical test.
+ Therefore, a vtkStatisticsAlgorithm has the following vtkTable ports
+ * 3 input ports:
+   * Data (mandatory)
+   * Parameters to the learn phase (optional)
+   * Input model (optional) 
+ * 3 output port (called Output):
+   * Data (annotated with assessments when the Assess option is ON).
+   * Output model (identical to the the input model when Learn option is OFF).
+   * Meta information about the model and/or the overall fit of the data to the
+     model; is filled only when the Assess option is ON.
+
+ .SECTION Thanks
+ Thanks to Philippe Pebay and David Thompson from Sandia National Laboratories 
+ for implementing this class.
+
+To create an instance of class vtkStatisticsAlgorithm, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkStatisticsAlgorithm
+\endverbatim
+\section Methods
+The class vtkStatisticsAlgorithm has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkStatisticsAlgorithm class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkStatisticsAlgorithm = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkStatisticsAlgorithm = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetLearnOptionParameterConnection (vtkAlgorithmOutput params)</tt> -  A convenience method for setting learn input parameters (if one is expected or allowed).
+ It is equivalent to calling SetInput( 1, params );
+ </LI>
+<LI>  <tt>obj.SetLearnOptionParameters (vtkDataObject params)</tt> -  A convenience method for setting the input model (if one is expected or allowed).
+ It is equivalent to calling SetInputConnection( 2, model );
+ </LI>
+<LI>  <tt>obj.SetInputModelConnection (vtkAlgorithmOutput model)</tt> - // \item <tt>obj.SetInputModel (vtkDataObject model)</tt> -  Set/Get the Learn option.
+ </LI>
+<LI>  <tt>obj.SetLearnOption (bool )</tt> -  Set/Get the Learn option.
+ </LI>
+<LI>  <tt>bool = obj.GetLearnOption ()</tt> -  Set/Get the Learn option.
+ </LI>
+<LI>  <tt>obj.SetDeriveOption (bool )</tt> -  Set/Get the Derive option.
+ </LI>
+<LI>  <tt>bool = obj.GetDeriveOption ()</tt> -  Set/Get the Derive option.
+ </LI>
+<LI>  <tt>obj.SetAssessOption (bool )</tt> -  Set/Get the Assess option.
+ </LI>
+<LI>  <tt>bool = obj.GetAssessOption ()</tt> -  Set/Get the Assess option.
+ </LI>
+<LI>  <tt>obj.SetTestOption (bool )</tt> -  Set/Get the Test option.
+ </LI>
+<LI>  <tt>bool = obj.GetTestOption ()</tt> -  Set/Get the Test option.
+ </LI>
+<LI>  <tt>obj.SetAssessParameters (vtkStringArray )</tt> -  Set/get assessment parameters.
+ </LI>
+<LI>  <tt>vtkStringArray = obj.GetAssessParameters ()</tt> -  Set/get assessment parameters.
+ </LI>
+<LI>  <tt>obj.SetAssessNames (vtkStringArray )</tt> -  Set/get assessment names.
+ </LI>
+<LI>  <tt>vtkStringArray = obj.GetAssessNames ()</tt> -  Set/get assessment names.
+ </LI>
+<LI>  <tt>obj.SetColumnStatus (string namCol, int status)</tt> -  Add or remove a column from the current analysis request.
+ Once all the column status values are set, call RequestSelectedColumns()
+ before selecting another set of columns for a different analysis request.
+ The way that columns selections are used varies from algorithm to algorithm.
+
+ Note: the set of selected columns is maintained in vtkStatisticsAlgorithmPrivate::Buffer
+ until RequestSelectedColumns() is called, at which point the set is appended
+ to vtkStatisticsAlgorithmPrivate::Requests.
+ If there are any columns in vtkStatisticsAlgorithmPrivate::Buffer at the time
+ RequestData() is called, RequestSelectedColumns() will be called and the
+ selection added to the list of requests.
+ </LI>
+<LI>  <tt>obj.ResetAllColumnStates ()</tt> -  Set the the status of each and every column in the current request to OFF (0).
+ </LI>
+<LI>  <tt>int = obj.RequestSelectedColumns ()</tt> -  Use the current column status values to produce a new request for statistics
+ to be produced when RequestData() is called. See SetColumnStatus() for more information.
+ </LI>
+<LI>  <tt>obj.ResetRequests ()</tt> -  Empty the list of current requests.
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetNumberOfRequests ()</tt> -  Return the number of requests.
+ This does not include any request that is in the column-status buffer
+ but for which RequestSelectedColumns() has not yet been called (even though
+ it is possible this request will be honored when the filter is run -- see SetColumnStatus()
+ for more information).
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetNumberOfColumnsForRequest (vtkIdType request)</tt> -  Return the number of columns for a given request.
+ </LI>
+<LI>  <tt>string = obj.GetColumnForRequest (vtkIdType r, vtkIdType c)</tt> -  Provide the name of the \a c-th column for the \a r-th request.
+
+ For the version of this routine that returns an integer,
+ if the request or column does not exist because \a r or \a c is out of bounds,
+ this routine returns 0 and the value of \a columnName is unspecified.
+ Otherwise, it returns 1 and the value of \a columnName is set.
+
+ For the version of this routine that returns const char*,
+ if the request or column does not exist because \a r or \a c is out of bounds,
+ the routine returns NULL. Otherwise it returns the column name.
+ This version is not thread-safe.
+ </LI>
+<LI>  <tt>obj.Aggregate (vtkDataObjectCollection , vtkDataObject )</tt> -  Given a collection of models, calculate aggregate model
+ </LI>
+</UL>
+*/

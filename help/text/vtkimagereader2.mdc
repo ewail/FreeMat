@@ -1,0 +1,256 @@
+
+ Usage
+
+vtkImageReader2 is the parent class for vtkImageReader. It
+is a good super class for streaming readers that do not
+require a mask or transform on the data. vtkImageReader was
+implemented before vtkImageReader2, vtkImageReader2 is
+intended to have a simpler interface.
+To create an instance of class vtkImageReader2, simply
+invoke its constructor as follows
+
+    obj = vtkImageReader2
+
+
+
+ Methods
+
+The class vtkImageReader2 has several methods that can be
+used. They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkImageReader2 class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkImageReader2 = obj.NewInstance ()
+* vtkImageReader2 = obj.SafeDownCast (vtkObject o)
+* obj.SetFileName (string ) - Specify file name for the
+  image file. If the data is stored in multiple files, then
+  use SetFileNames or SetFilePrefix instead.
+* string = obj.GetFileName () - Specify file name for the
+  image file. If the data is stored in multiple files, then
+  use SetFileNames or SetFilePrefix instead.
+* obj.SetFileNames (vtkStringArray ) - Specify a list of
+  file names. Each file must be a single slice, and each
+  slice must be of the same size. The files must be in the
+  correct order. Use SetFileName when reading a volume
+  (multiple slice), since DataExtent will be modified after
+  a SetFileNames call.
+* vtkStringArray = obj.GetFileNames () - Specify a list of
+  file names. Each file must be a single slice, and each
+  slice must be of the same size. The files must be in the
+  correct order. Use SetFileName when reading a volume
+  (multiple slice), since DataExtent will be modified after
+  a SetFileNames call.
+* obj.SetFilePrefix (string ) - Specify file prefix for the
+  image file or files. This can be used in place of
+  SetFileName or SetFileNames if the filenames follow a
+  specific naming pattern, but you must explicitly set the
+  DataExtent so that the reader will know what range of
+  slices to load.
+* string = obj.GetFilePrefix () - Specify file prefix for
+  the image file or files. This can be used in place of
+  SetFileName or SetFileNames if the filenames follow a
+  specific naming pattern, but you must explicitly set the
+  DataExtent so that the reader will know what range of
+  slices to load.
+* obj.SetFilePattern (string ) - The sprintf-style format
+  string used to build filename from FilePrefix and slice
+  number.
+* string = obj.GetFilePattern () - The sprintf-style format
+  string used to build filename from FilePrefix and slice
+  number.
+* obj.SetDataScalarType (int type) - Set the data type of
+  pixels in the file. If you want the output scalar type to
+  have a different value, set it after this method is
+  called.
+* obj.SetDataScalarTypeToFloat () - Set the data type of
+  pixels in the file. If you want the output scalar type to
+  have a different value, set it after this method is
+  called.
+* obj.SetDataScalarTypeToDouble () - Set the data type of
+  pixels in the file. If you want the output scalar type to
+  have a different value, set it after this method is
+  called.
+* obj.SetDataScalarTypeToInt () - Set the data type of
+  pixels in the file. If you want the output scalar type to
+  have a different value, set it after this method is
+  called.
+* obj.SetDataScalarTypeToUnsignedInt () - Set the data type
+  of pixels in the file. If you want the output scalar type
+  to have a different value, set it after this method is
+  called.
+* obj.SetDataScalarTypeToShort () - Set the data type of
+  pixels in the file. If you want the output scalar type to
+  have a different value, set it after this method is
+  called.
+* obj.SetDataScalarTypeToUnsignedShort () - Set the data
+  type of pixels in the file. If you want the output scalar
+  type to have a different value, set it after this method
+  is called.
+* obj.SetDataScalarTypeToChar () - Set the data type of
+  pixels in the file. If you want the output scalar type to
+  have a different value, set it after this method is
+  called.
+* obj.SetDataScalarTypeToSignedChar () - Set the data type
+  of pixels in the file. If you want the output scalar type
+  to have a different value, set it after this method is
+  called.
+* obj.SetDataScalarTypeToUnsignedChar () - Get the file
+  format. Pixels are this type in the file.
+* int = obj.GetDataScalarType () - Get the file format.
+  Pixels are this type in the file.
+* obj.SetNumberOfScalarComponents (int ) - Set/Get the
+  number of scalar components
+* int = obj.GetNumberOfScalarComponents () - Set/Get the
+  number of scalar components
+* obj.SetDataExtent (int , int , int , int , int , int ) -
+  Get/Set the extent of the data on disk.
+* obj.SetDataExtent (int a[6]) - Get/Set the extent of the
+  data on disk.
+* int = obj. GetDataExtent () - Get/Set the extent of the
+  data on disk.
+* obj.SetFileDimensionality (int ) - The number of
+  dimensions stored in a file. This defaults to two.
+* int = obj.GetFileDimensionality () - Set/Get the spacing
+  of the data in the file.
+* obj.SetDataSpacing (double , double , double ) - Set/Get
+  the spacing of the data in the file.
+* obj.SetDataSpacing (double a[3]) - Set/Get the spacing of
+  the data in the file.
+* double = obj. GetDataSpacing () - Set/Get the spacing of
+  the data in the file.
+* obj.SetDataOrigin (double , double , double ) - Set/Get
+  the origin of the data (location of first pixel in the
+  file).
+* obj.SetDataOrigin (double a[3]) - Set/Get the origin of
+  the data (location of first pixel in the file).
+* double = obj. GetDataOrigin () - Set/Get the origin of the
+  data (location of first pixel in the file).
+* long = obj.GetHeaderSize () - Get the size of the header
+  computed by this object.
+* long = obj.GetHeaderSize (long slice) - Get the size of
+  the header computed by this object.
+* obj.SetHeaderSize (long size) - If there is a tail on the
+  file, you want to explicitly set the header size.
+* obj.SetDataByteOrderToBigEndian () - These methods should
+  be used instead of the SwapBytes methods. They indicate
+  the byte ordering of the file you are trying to read in.
+  These methods will then either swap or not swap the bytes
+  depending on the byte ordering of the machine it is being
+  run on. For example, reading in a BigEndian file on a
+  BigEndian machine will result in no swapping. Trying to
+  read the same file on a LittleEndian machine will result
+  in swapping. As a quick note most UNIX machines are
+  BigEndian while PC's and VAX tend to be LittleEndian. So
+  if the file you are reading in was generated on a VAX or
+  PC, SetDataByteOrderToLittleEndian otherwise
+  SetDataByteOrderToBigEndian.
+* obj.SetDataByteOrderToLittleEndian () - These methods
+  should be used instead of the SwapBytes methods. They
+  indicate the byte ordering of the file you are trying to
+  read in. These methods will then either swap or not swap
+  the bytes depending on the byte ordering of the machine it
+  is being run on. For example, reading in a BigEndian file
+  on a BigEndian machine will result in no swapping. Trying
+  to read the same file on a LittleEndian machine will
+  result in swapping. As a quick note most UNIX machines are
+  BigEndian while PC's and VAX tend to be LittleEndian. So
+  if the file you are reading in was generated on a VAX or
+  PC, SetDataByteOrderToLittleEndian otherwise
+  SetDataByteOrderToBigEndian.
+* int = obj.GetDataByteOrder () - These methods should be
+  used instead of the SwapBytes methods. They indicate the
+  byte ordering of the file you are trying to read in. These
+  methods will then either swap or not swap the bytes
+  depending on the byte ordering of the machine it is being
+  run on. For example, reading in a BigEndian file on a
+  BigEndian machine will result in no swapping. Trying to
+  read the same file on a LittleEndian machine will result
+  in swapping. As a quick note most UNIX machines are
+  BigEndian while PC's and VAX tend to be LittleEndian. So
+  if the file you are reading in was generated on a VAX or
+  PC, SetDataByteOrderToLittleEndian otherwise
+  SetDataByteOrderToBigEndian.
+* obj.SetDataByteOrder (int ) - These methods should be used
+  instead of the SwapBytes methods. They indicate the byte
+  ordering of the file you are trying to read in. These
+  methods will then either swap or not swap the bytes
+  depending on the byte ordering of the machine it is being
+  run on. For example, reading in a BigEndian file on a
+  BigEndian machine will result in no swapping. Trying to
+  read the same file on a LittleEndian machine will result
+  in swapping. As a quick note most UNIX machines are
+  BigEndian while PC's and VAX tend to be LittleEndian. So
+  if the file you are reading in was generated on a VAX or
+  PC, SetDataByteOrderToLittleEndian otherwise
+  SetDataByteOrderToBigEndian.
+* string = obj.GetDataByteOrderAsString () - These methods
+  should be used instead of the SwapBytes methods. They
+  indicate the byte ordering of the file you are trying to
+  read in. These methods will then either swap or not swap
+  the bytes depending on the byte ordering of the machine it
+  is being run on. For example, reading in a BigEndian file
+  on a BigEndian machine will result in no swapping. Trying
+  to read the same file on a LittleEndian machine will
+  result in swapping. As a quick note most UNIX machines are
+  BigEndian while PC's and VAX tend to be LittleEndian. So
+  if the file you are reading in was generated on a VAX or
+  PC, SetDataByteOrderToLittleEndian otherwise
+  SetDataByteOrderToBigEndian.
+* obj.SetFileNameSliceOffset (int ) - When reading files
+  which start at an unusual index, this can be added to the
+  slice number when generating the file name (default = 0)
+* int = obj.GetFileNameSliceOffset () - When reading files
+  which start at an unusual index, this can be added to the
+  slice number when generating the file name (default = 0)
+* obj.SetFileNameSliceSpacing (int ) - When reading files
+  which have regular, but non contiguous slices (eg
+  filename.1,filename.3,filename.5) a spacing can be
+  specified to skip missing files (default = 1)
+* int = obj.GetFileNameSliceSpacing () - When reading files
+  which have regular, but non contiguous slices (eg
+  filename.1,filename.3,filename.5) a spacing can be
+  specified to skip missing files (default = 1)
+* obj.SetSwapBytes (int ) - Set/Get the byte swapping to
+  explicitly swap the bytes of a file.
+* int = obj.GetSwapBytes () - Set/Get the byte swapping to
+  explicitly swap the bytes of a file.
+* obj.SwapBytesOn () - Set/Get the byte swapping to
+  explicitly swap the bytes of a file.
+* obj.SwapBytesOff () - Set/Get the byte swapping to
+  explicitly swap the bytes of a file.
+* int = obj.OpenFile ()
+* obj.SeekFile (int i, int j, int k)
+* obj.FileLowerLeftOn () - Set/Get whether the data comes
+  from the file starting in the lower left corner or upper
+  left corner.
+* obj.FileLowerLeftOff () - Set/Get whether the data comes
+  from the file starting in the lower left corner or upper
+  left corner.
+* int = obj.GetFileLowerLeft () - Set/Get whether the data
+  comes from the file starting in the lower left corner or
+  upper left corner.
+* obj.SetFileLowerLeft (int ) - Set/Get whether the data
+  comes from the file starting in the lower left corner or
+  upper left corner.
+* obj.ComputeInternalFileName (int slice) - Set/Get the
+  internal file name
+* string = obj.GetInternalFileName () - Set/Get the internal
+  file name
+* int = obj.CanReadFile (string ) - Get the file extensions
+  for this format. Returns a string with a space separated
+  list of extensions in the format .extension
+* string = obj.GetFileExtensions () - Return a descriptive
+  name for the file format that might be useful in a GUI.
+* string = obj.GetDescriptiveName () - Return a descriptive
+  name for the file format that might be useful in a GUI.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_IO_Classes
+* Generated on Thu Jul 25 2013 17:18:34 for FreeMat by
+  doxygen_ 1.8.1.1
+

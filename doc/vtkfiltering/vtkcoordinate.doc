@@ -1,0 +1,133 @@
+/*!
+\page vtkfiltering_vtkcoordinate vtkCoordinate
+
+<p>
+Section: \ref sec_vtkfiltering "Visualization Toolkit Filtering Classes"
+\section Usage
+ vtkCoordinate represents position in a variety of coordinate systems, and
+ converts position to other coordinate systems. It also supports relative
+ positioning, so you can create a cascade of vtkCoordinate objects (no loops
+ please!) that refer to each other. The typical usage of this object is
+ to set the coordinate system in which to represent a position (e.g., 
+ SetCoordinateSystemToNormalizedDisplay()), set the value of the coordinate
+ (e.g., SetValue()), and then invoke the appropriate method to convert to 
+ another coordinate system (e.g., GetComputedWorldValue()).
+ 
+ The coordinate systems in vtk are as follows:
+<PRE>
+  DISPLAY -             x-y pixel values in window
+  NORMALIZED DISPLAY -  x-y (0,1) normalized values
+  VIEWPORT -            x-y pixel values in viewport
+  NORMALIZED VIEWPORT - x-y (0,1) normalized value in viewport
+  VIEW -                x-y-z (-1,1) values in camera coordinates. (z is depth)
+  WORLD -               x-y-z global coordinate values
+  USERDEFINED -         x-y-z in User defined space
+</PRE>
+
+ If you cascade vtkCoordinate objects, you refer to another vtkCoordinate
+ object which in turn can refer to others, and so on. This allows you to
+ create composite groups of things like vtkActor2D that are positioned
+ relative to one another. Note that in cascaded sequences, each
+ vtkCoordinate object may be specified in different coordinate systems!
+
+To create an instance of class vtkCoordinate, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkCoordinate
+\endverbatim
+\section Methods
+The class vtkCoordinate has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkCoordinate class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkCoordinate = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkCoordinate = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetCoordinateSystem (int )</tt> -  Set/get the coordinate system which this coordinate
+ is defined in. The options are Display, Normalized Display,
+ Viewport, Normalized Viewport, View, and World.
+ </LI>
+<LI>  <tt>int = obj.GetCoordinateSystem ()</tt> -  Set/get the coordinate system which this coordinate
+ is defined in. The options are Display, Normalized Display,
+ Viewport, Normalized Viewport, View, and World.
+ </LI>
+<LI>  <tt>obj.SetCoordinateSystemToDisplay ()</tt> -  Set/get the coordinate system which this coordinate
+ is defined in. The options are Display, Normalized Display,
+ Viewport, Normalized Viewport, View, and World.
+ </LI>
+<LI>  <tt>obj.SetCoordinateSystemToNormalizedDisplay ()</tt> -  Set/get the coordinate system which this coordinate
+ is defined in. The options are Display, Normalized Display,
+ Viewport, Normalized Viewport, View, and World.
+ </LI>
+<LI>  <tt>obj.SetCoordinateSystemToViewport ()</tt> -  Set/get the coordinate system which this coordinate
+ is defined in. The options are Display, Normalized Display,
+ Viewport, Normalized Viewport, View, and World.
+ </LI>
+<LI>  <tt>obj.SetCoordinateSystemToNormalizedViewport ()</tt> -  Set/get the coordinate system which this coordinate
+ is defined in. The options are Display, Normalized Display,
+ Viewport, Normalized Viewport, View, and World.
+ </LI>
+<LI>  <tt>obj.SetCoordinateSystemToView ()</tt> -  Set/get the coordinate system which this coordinate
+ is defined in. The options are Display, Normalized Display,
+ Viewport, Normalized Viewport, View, and World.
+ </LI>
+<LI>  <tt>obj.SetCoordinateSystemToWorld ()</tt>
+ </LI>
+<LI>  <tt>string = obj.GetCoordinateSystemAsString ()</tt>
+ </LI>
+<LI>  <tt>obj.SetValue (double , double , double )</tt> -  Set/get the value of this coordinate. This can be thought of as
+ the position of this coordinate in its coordinate system.
+ </LI>
+<LI>  <tt>obj.SetValue (double  a[3])</tt> -  Set/get the value of this coordinate. This can be thought of as
+ the position of this coordinate in its coordinate system.
+ </LI>
+<LI>  <tt>double = obj. GetValue ()</tt> -  Set/get the value of this coordinate. This can be thought of as
+ the position of this coordinate in its coordinate system.
+ </LI>
+<LI>  <tt>obj.SetValue (double a, double b)</tt> -  If this coordinate is relative to another coordinate,
+ then specify that coordinate as the ReferenceCoordinate.
+ If this is NULL the coordinate is assumed to be absolute.
+ </LI>
+<LI>  <tt>obj.SetReferenceCoordinate (vtkCoordinate )</tt> -  If this coordinate is relative to another coordinate,
+ then specify that coordinate as the ReferenceCoordinate.
+ If this is NULL the coordinate is assumed to be absolute.
+ </LI>
+<LI>  <tt>vtkCoordinate = obj.GetReferenceCoordinate ()</tt> -  If this coordinate is relative to another coordinate,
+ then specify that coordinate as the ReferenceCoordinate.
+ If this is NULL the coordinate is assumed to be absolute.
+ </LI>
+<LI>  <tt>obj.SetViewport (vtkViewport viewport)</tt> -  If you want this coordinate to be relative to a specific
+ vtkViewport (vtkRenderer) then you can specify
+ that here.
+ NOTE: this is a raw pointer, not a weak pointer not a reference counted
+ object to avoid reference cycle loop between rendering classes and filter
+ classes.
+ </LI>
+<LI>  <tt>vtkViewport = obj.GetViewport ()</tt> -  If you want this coordinate to be relative to a specific
+ vtkViewport (vtkRenderer) then you can specify
+ that here.
+ NOTE: this is a raw pointer, not a weak pointer not a reference counted
+ object to avoid reference cycle loop between rendering classes and filter
+ classes.
+ </LI>
+<LI>  <tt>double = obj.GetComputedWorldValue (vtkViewport )</tt> -  Return the computed value in a specified coordinate system.
+ </LI>
+<LI>  <tt>int = obj.GetComputedViewportValue (vtkViewport )</tt> -  Return the computed value in a specified coordinate system.
+ </LI>
+<LI>  <tt>int = obj.GetComputedDisplayValue (vtkViewport )</tt> -  Return the computed value in a specified coordinate system.
+ </LI>
+<LI>  <tt>int = obj.GetComputedLocalDisplayValue (vtkViewport )</tt> -  Return the computed value in a specified coordinate system.
+ </LI>
+<LI>  <tt>double = obj.GetComputedDoubleViewportValue (vtkViewport )</tt>
+ </LI>
+<LI>  <tt>double = obj.GetComputedDoubleDisplayValue (vtkViewport )</tt>
+ </LI>
+</UL>
+*/

@@ -1,0 +1,6 @@
+ENABLE_TESTING()
+ADD_TEST(wbtest_conv_1 ${FreeMat_Loc} "-e" "-nogui" "-t" "-nogreet" "-p" "${CMAKE_SOURCE_DIR}/tests/signal" "-f" "wb_test('@$near#y1=conv(x1,x2)#(any(loopi==[50:52])||any(loopj==[50:52]))','wbtest_conv_1','${CMAKE_SOURCE_DIR}/tests/reference')")
+ADD_TEST(wbtest_conv2_1 ${FreeMat_Loc} "-e" "-nogui" "-t" "-nogreet" "-p" "${CMAKE_SOURCE_DIR}/tests/signal" "-f" "wb_test('@$near#y1=conv2(x1,x2)#(any(loopi==[50:52])||any(loopj==[50:52]))','wbtest_conv2_1','${CMAKE_SOURCE_DIR}/tests/reference')")
+ADD_TEST(wbtest_conv2_2 ${FreeMat_Loc} "-e" "-nogui" "-t" "-nogreet" "-p" "${CMAKE_SOURCE_DIR}/tests/signal" "-f" "wb_test('@$near#y1=conv2(x1,x2,''same'')#(any(loopi==[50:52])||any(loopj==[50:52]))','wbtest_conv2_2','${CMAKE_SOURCE_DIR}/tests/reference')")
+ADD_TEST(wbtest_conv2_3 ${FreeMat_Loc} "-e" "-nogui" "-t" "-nogreet" "-p" "${CMAKE_SOURCE_DIR}/tests/signal" "-f" "wb_test('@$near#y1=conv2(x1,x2,''valid'')#(any(loopi==[50:52])||any(loopj==[50:52]))','wbtest_conv2_3','${CMAKE_SOURCE_DIR}/tests/reference')")
+ADD_TEST(test_conv2_1 ${FreeMat_Loc} "-e" "-nogui" "-t" "-nogreet" "-p" "${CMAKE_SOURCE_DIR}/tests/signal" "-f" "wrap_test('test_conv2_1')")

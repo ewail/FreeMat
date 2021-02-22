@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkimaging_vtkimageeuclideandistance" kind="page">
+    <compoundname>vtkimaging_vtkimageeuclideandistance</compoundname>
+    <title>vtkImageEuclideanDistance</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkimaging_1sec_vtkimaging" kindref="member">Visualization Toolkit Imaging Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>vtkImageEuclideanDistance implements the Euclidean DT using Saito&apos;s algorithm. The distance map produced contains the square of the Euclidean distance values.</para><para>The algorithm has a o(n^(D+1)) complexity over nxnx...xn images in D dimensions. It is very efficient on relatively small images. Cuisenaire&apos;s algorithms should be used instead if n &gt;&gt; 500. These are not implemented yet.</para><para>For the special case of images where the slice-size is a multiple of 2^N with a large N (typically for 256x256 slices), Saito&apos;s algorithm encounters a lot of cache conflicts during the 3rd iteration which can slow it very significantly. In that case, one should use ::SetAlgorithmToSaitoCached() instead for better performance.</para><para>References:</para><para>T. Saito and J.I. Toriwaki. New algorithms for Euclidean distance transformations of an n-dimensional digitised picture with applications. Pattern Recognition, 27(11). pp. 1551<ndash/>1565, 1994.</para><para>O. Cuisenaire. Distance Transformation: fast algorithms and applications to medical image processing. PhD Thesis, Universite catholique de Louvain, October 1999. <ulink url="http://ltswww.epfl.ch/~cuisenai/papers/oc_thesis.pdf">http://ltswww.epfl.ch/~cuisenai/papers/oc_thesis.pdf</ulink></para><para>To create an instance of class vtkImageEuclideanDistance, simply invoke its constructor as follows <verbatim>  obj = vtkImageEuclideanDistance
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkImageEuclideanDistance has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkImageEuclideanDistance class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkImageEuclideanDistance = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkImageEuclideanDistance = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.SplitExtent (int splitExt[6], int startExt[6], int num, int total)</computeroutput> - Used internally for streaming and threads. Splits output update extent into num pieces. This method needs to be called num times. Results must not overlap for consistent starting extent. Subclass can override this method. This method returns the number of peices resulting from a successful split. This can be from 1 to &quot;total&quot;. If 1 is returned, the extent cannot be split.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetInitialize (int )</computeroutput> - Used to set all non-zero voxels to MaximumDistance before starting the distance transformation. Setting Initialize off keeps the current value in the input image as starting point. This allows to superimpose several distance maps.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetInitialize ()</computeroutput> - Used to set all non-zero voxels to MaximumDistance before starting the distance transformation. Setting Initialize off keeps the current value in the input image as starting point. This allows to superimpose several distance maps.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.InitializeOn ()</computeroutput> - Used to set all non-zero voxels to MaximumDistance before starting the distance transformation. Setting Initialize off keeps the current value in the input image as starting point. This allows to superimpose several distance maps.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.InitializeOff ()</computeroutput> - Used to set all non-zero voxels to MaximumDistance before starting the distance transformation. Setting Initialize off keeps the current value in the input image as starting point. This allows to superimpose several distance maps.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetConsiderAnisotropy (int )</computeroutput> - Used to define whether Spacing should be used in the computation of the distances  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetConsiderAnisotropy ()</computeroutput> - Used to define whether Spacing should be used in the computation of the distances  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ConsiderAnisotropyOn ()</computeroutput> - Used to define whether Spacing should be used in the computation of the distances  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ConsiderAnisotropyOff ()</computeroutput> - Used to define whether Spacing should be used in the computation of the distances  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetMaximumDistance (double )</computeroutput> - Any distance bigger than this-&gt;MaximumDistance will not ne computed but set to this-&gt;MaximumDistance instead.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetMaximumDistance ()</computeroutput> - Any distance bigger than this-&gt;MaximumDistance will not ne computed but set to this-&gt;MaximumDistance instead.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetAlgorithm (int )</computeroutput> - Selects a Euclidean DT algorithm.<orderedlist>
+<listitem><para>Saito</para></listitem><listitem><para>Saito-cached More algorithms will be added later on.  </para></listitem></orderedlist>
+</para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetAlgorithm ()</computeroutput> - Selects a Euclidean DT algorithm.<orderedlist>
+<listitem><para>Saito</para></listitem><listitem><para>Saito-cached More algorithms will be added later on.  </para></listitem></orderedlist>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.SetAlgorithmToSaito ()</computeroutput> - Selects a Euclidean DT algorithm.<orderedlist>
+<listitem><para>Saito</para></listitem><listitem><para>Saito-cached More algorithms will be added later on.  </para></listitem></orderedlist>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.SetAlgorithmToSaitoCached ()</computeroutput>  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

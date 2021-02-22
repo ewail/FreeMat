@@ -1,0 +1,138 @@
+
+ Usage
+
+Opens a file and returns a handle which can be used for
+subsequent file manipulations. The general syntax for its
+use is
+
+    fp = fopen(fname,mode,byteorder)
+
+Here fname is a string containing the name of the file to be
+opened. mode is the mode string for the file open command.
+The first character of the mode string is one of the
+following:
+
+* 'r' Open file for reading. The file pointer is placed at
+  the beginning of the file. The file can be read from, but
+  not written to.
+* 'r+' Open for reading and writing. The file pointer is
+  placed at the beginning of the file. The file can be read
+  from and written to, but must exist at the outset.
+* 'w' Open file for writing. If the file already exists, it
+  is truncated to zero length. Otherwise, a new file is
+  created. The file pointer is placed at the beginning of
+  the file.
+* 'w+' Open for reading and writing. The file is created if
+  it does not exist, otherwise it is truncated to zero
+  length. The file pointer placed at the beginning of the
+  file.
+* 'a' Open for appending (writing at end of file). The file
+  is created if it does not exist. The file pointer is
+  placed at the end of the file.
+* 'a+' Open for reading and appending (writing at end of
+  file). The file is created if it does not exist. The file
+  pointer is placed at the end of the file.
+
+Starting with FreeMat 4, all files are treated as binary
+files by default. To invoke the operating systems 'CR/LF <-
+> CR' translation (on Win32) add a 't' to the mode string,
+as in 'rt+'.
+Also, you can supply a second argument to fopen to retrieve
+error messages if the fopen fails.
+
+    [fp,messages] = fopen(fname,mode,byteorder)
+
+Finally, FreeMat has the ability to read and write files of
+any byte-sex (endian). The third (optional) input indicates
+the byte-endianness of the file. If it is omitted, the
+native endian-ness of the machine running FreeMat is used.
+Otherwise, the third argument should be one of the following
+strings:
+
+* 'le','ieee-le','little-
+  endian','littleEndian','little','l','ieee-le.l64','s'
+* 'be','ieee-be','big-endian','bigEndian','big','b','ieee-
+  be.l64','a'
+
+If the file cannot be opened, or the file mode is illegal,
+then an error occurs. Otherwise, a file handle is returned
+(which is an integer). This file handle can then be used
+with fread, fwrite, or fclose for file access.
+Note that three handles are assigned at initialization time:
+
+* Handle 0 - is assigned to standard input
+* Handle 1 - is assigned to standard output
+* Handle 2 - is assigned to standard error
+
+These handles cannot be closed, so that user created file
+handles start at 3.
+
+
+ Examples
+
+Here are some examples of how to use fopen. First, we create
+a new file, which we want to be little-endian, regardless of
+the type of the machine. We also use the fwrite function to
+write some floating point data to the file.
+
+  --> fp = fopen('test.dat','w','ieee-le')
+
+  fp =
+   4
+
+  --> fwrite(fp,float([1.2,4.3,2.1]))
+
+  ans =
+   12
+
+  --> fclose(fp)
+
+Next, we open the file and read the data back
+
+  --> fp = fopen('test.dat','r','ieee-le')
+
+  fp =
+   4
+
+  --> fread(fp,[1,3],'float')
+
+  ans =
+      1.2000    4.3000    2.1000
+
+  --> fclose(fp)
+
+Now, we re-open the file in append mode and add two
+additional floats to the file.
+
+  --> fp = fopen('test.dat','a+','le')
+
+  fp =
+   4
+
+  --> fwrite(fp,float([pi,e]))
+
+  ans =
+   8
+
+  --> fclose(fp)
+
+Finally, we read all 5 float values from the file
+
+  --> fp = fopen('test.dat','r','ieee-le')
+
+  fp =
+   4
+
+  --> fread(fp,[1,5],'float')
+
+  ans =
+      1.2000    4.3000    2.1000    3.1416    2.7183
+
+  --> fclose(fp)
+
+
+* FreeMat_Documentation
+* Input/Ouput_Functions
+* Generated on Thu Jul 25 2013 17:17:38 for FreeMat by
+  doxygen_ 1.8.1.1
+

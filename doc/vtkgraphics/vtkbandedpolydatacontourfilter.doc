@@ -1,0 +1,157 @@
+/*!
+\page vtkgraphics_vtkbandedpolydatacontourfilter vtkBandedPolyDataContourFilter
+
+<p>
+Section: \ref sec_vtkgraphics "Visualization Toolkit Graphics Classes"
+\section Usage
+ vtkBandedPolyDataContourFilter is a filter that takes as input vtkPolyData
+ and produces as output filled contours (also represented as vtkPolyData).
+ Filled contours are bands of cells that all have the same cell scalar
+ value, and can therefore be colored the same. The method is also referred
+ to as filled contour generation.
+
+ To use this filter you must specify one or more contour values.  You can
+ either use the method SetValue() to specify each contour value, or use
+ GenerateValues() to generate a series of evenly spaced contours.  Each
+ contour value divides (or clips) the data into two pieces, values below
+ the contour value, and values above it. The scalar values of each
+ band correspond to the specified contour value.  Note that if the first and
+ last contour values are not the minimum/maximum contour range, then two
+ extra contour values are added corresponding to the minimum and maximum
+ range values. These extra contour bands can be prevented from being output
+ by turning clipping on.
+
+
+To create an instance of class vtkBandedPolyDataContourFilter, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkBandedPolyDataContourFilter
+\endverbatim
+\section Methods
+The class vtkBandedPolyDataContourFilter has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkBandedPolyDataContourFilter class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkBandedPolyDataContourFilter = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkBandedPolyDataContourFilter = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetValue (int i, double value)</tt> -  Methods to set / get contour values. A single value at a time can be
+ set with SetValue(). Multiple contour values can be set with
+ GenerateValues(). Note that GenerateValues() generates n values
+ inclusive of the start and end range values.
+ </LI>
+<LI>  <tt>double = obj.GetValue (int i)</tt> -  Methods to set / get contour values. A single value at a time can be
+ set with SetValue(). Multiple contour values can be set with
+ GenerateValues(). Note that GenerateValues() generates n values
+ inclusive of the start and end range values.
+ </LI>
+<LI>  <tt>obj.GetValues (double contourValues)</tt> -  Methods to set / get contour values. A single value at a time can be
+ set with SetValue(). Multiple contour values can be set with
+ GenerateValues(). Note that GenerateValues() generates n values
+ inclusive of the start and end range values.
+ </LI>
+<LI>  <tt>obj.SetNumberOfContours (int number)</tt> -  Methods to set / get contour values. A single value at a time can be
+ set with SetValue(). Multiple contour values can be set with
+ GenerateValues(). Note that GenerateValues() generates n values
+ inclusive of the start and end range values.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfContours ()</tt> -  Methods to set / get contour values. A single value at a time can be
+ set with SetValue(). Multiple contour values can be set with
+ GenerateValues(). Note that GenerateValues() generates n values
+ inclusive of the start and end range values.
+ </LI>
+<LI>  <tt>obj.GenerateValues (int numContours, double range[2])</tt> -  Methods to set / get contour values. A single value at a time can be
+ set with SetValue(). Multiple contour values can be set with
+ GenerateValues(). Note that GenerateValues() generates n values
+ inclusive of the start and end range values.
+ </LI>
+<LI>  <tt>obj.GenerateValues (int numContours, double rangeStart, double rangeEnd)</tt> -  Methods to set / get contour values. A single value at a time can be
+ set with SetValue(). Multiple contour values can be set with
+ GenerateValues(). Note that GenerateValues() generates n values
+ inclusive of the start and end range values.
+ </LI>
+<LI>  <tt>obj.SetClipping (int )</tt> -  Indicate whether to clip outside the range specified by the user.
+ (The range is contour value[0] to contour value[numContours-1].)
+ Clipping means all cells outside of the range specified are not
+ sent to the output.
+ </LI>
+<LI>  <tt>int = obj.GetClipping ()</tt> -  Indicate whether to clip outside the range specified by the user.
+ (The range is contour value[0] to contour value[numContours-1].)
+ Clipping means all cells outside of the range specified are not
+ sent to the output.
+ </LI>
+<LI>  <tt>obj.ClippingOn ()</tt> -  Indicate whether to clip outside the range specified by the user.
+ (The range is contour value[0] to contour value[numContours-1].)
+ Clipping means all cells outside of the range specified are not
+ sent to the output.
+ </LI>
+<LI>  <tt>obj.ClippingOff ()</tt> -  Indicate whether to clip outside the range specified by the user.
+ (The range is contour value[0] to contour value[numContours-1].)
+ Clipping means all cells outside of the range specified are not
+ sent to the output.
+ </LI>
+<LI>  <tt>obj.SetScalarMode (int )</tt> -  Control whether the cell scalars are output as an integer index or
+ a scalar value. If an index, the index refers to the bands produced
+ by the clipping range. If a value, then a scalar value which is a 
+ value between clip values is used.
+ </LI>
+<LI>  <tt>int = obj.GetScalarModeMinValue ()</tt> -  Control whether the cell scalars are output as an integer index or
+ a scalar value. If an index, the index refers to the bands produced
+ by the clipping range. If a value, then a scalar value which is a 
+ value between clip values is used.
+ </LI>
+<LI>  <tt>int = obj.GetScalarModeMaxValue ()</tt> -  Control whether the cell scalars are output as an integer index or
+ a scalar value. If an index, the index refers to the bands produced
+ by the clipping range. If a value, then a scalar value which is a 
+ value between clip values is used.
+ </LI>
+<LI>  <tt>int = obj.GetScalarMode ()</tt> -  Control whether the cell scalars are output as an integer index or
+ a scalar value. If an index, the index refers to the bands produced
+ by the clipping range. If a value, then a scalar value which is a 
+ value between clip values is used.
+ </LI>
+<LI>  <tt>obj.SetScalarModeToIndex ()</tt> -  Control whether the cell scalars are output as an integer index or
+ a scalar value. If an index, the index refers to the bands produced
+ by the clipping range. If a value, then a scalar value which is a 
+ value between clip values is used.
+ </LI>
+<LI>  <tt>obj.SetScalarModeToValue ()</tt> -  Turn on/off a flag to control whether contour edges are generated.
+ Contour edges are the edges between bands. If enabled, they are 
+ generated from polygons/triangle strips and placed into the second
+ output (the ContourEdgesOutput).
+ </LI>
+<LI>  <tt>obj.SetGenerateContourEdges (int )</tt> -  Turn on/off a flag to control whether contour edges are generated.
+ Contour edges are the edges between bands. If enabled, they are 
+ generated from polygons/triangle strips and placed into the second
+ output (the ContourEdgesOutput).
+ </LI>
+<LI>  <tt>int = obj.GetGenerateContourEdges ()</tt> -  Turn on/off a flag to control whether contour edges are generated.
+ Contour edges are the edges between bands. If enabled, they are 
+ generated from polygons/triangle strips and placed into the second
+ output (the ContourEdgesOutput).
+ </LI>
+<LI>  <tt>obj.GenerateContourEdgesOn ()</tt> -  Turn on/off a flag to control whether contour edges are generated.
+ Contour edges are the edges between bands. If enabled, they are 
+ generated from polygons/triangle strips and placed into the second
+ output (the ContourEdgesOutput).
+ </LI>
+<LI>  <tt>obj.GenerateContourEdgesOff ()</tt> -  Turn on/off a flag to control whether contour edges are generated.
+ Contour edges are the edges between bands. If enabled, they are 
+ generated from polygons/triangle strips and placed into the second
+ output (the ContourEdgesOutput).
+ </LI>
+<LI>  <tt>vtkPolyData = obj.GetContourEdgesOutput ()</tt> -  Get the second output which contains the edges dividing the contour 
+ bands. This output is empty unless GenerateContourEdges is enabled.
+ </LI>
+<LI>  <tt>long = obj.GetMTime ()</tt> -  Overload GetMTime because we delegate to vtkContourValues so its
+ modified time must be taken into account.
+ </LI>
+</UL>
+*/

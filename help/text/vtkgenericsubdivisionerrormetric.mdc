@@ -1,0 +1,104 @@
+
+ Usage
+
+Objects of that class answer the following question during
+the cell subdivision: "does the edge need to be subdivided?"
+through RequiresEdgeSubdivision(). The answer depends on the
+criterium actually used in the subclass of this abstract
+class: a geometric-based error metric (variation of edge
+from a straight line), an attribute-based error metric
+(variation of the active attribute/component value from a
+linear ramp) , a view-depend error metric, ... Cell
+subdivision is performed in the context of the adaptor
+framework: higher-order, or complex cells, are automatically
+tessellated into simplices so that they can be processed
+with conventional visualization algorithms.
+To create an instance of class
+vtkGenericSubdivisionErrorMetric, simply invoke its
+constructor as follows
+
+    obj = vtkGenericSubdivisionErrorMetric
+
+
+
+ Methods
+
+The class vtkGenericSubdivisionErrorMetric has several
+methods that can be used. They are listed below. Note that
+the documentation is translated automatically from the VTK
+sources, and may not be completely intelligible. When in
+doubt, consult the VTK website. In the methods listed below,
+obj is an instance of the vtkGenericSubdivisionErrorMetric
+class.
+
+* string = obj.GetClassName () - Standard VTK type and error
+  macros.
+* int = obj.IsA (string name) - Standard VTK type and error
+  macros.
+* vtkGenericSubdivisionErrorMetric = obj.NewInstance () -
+  Standard VTK type and error macros.
+* vtkGenericSubdivisionErrorMetric = obj.SafeDownCast
+  (vtkObject o) - Standard VTK type and error macros.
+* int = obj.RequiresEdgeSubdivision (double leftPoint,
+  double midPoint, double rightPoint, double alpha) - Does
+  the edge need to be subdivided according to the
+  implemented computation? The edge is defined by its
+  `leftPoint' and its `rightPoint'. `leftPoint', `midPoint'
+  and `rightPoint' have to be initialized before calling
+  RequiresEdgeSubdivision(). Their format is global
+  coordinates, parametric coordinates and point centered
+  attributes: xyx rst abc de... `alpha' is the normalized
+  abscissa of the midpoint along the edge. (close to 0 means
+  close to the left point, close to 1 means close to the
+  right point)
+
+
+    Precondition:
+        leftPoint_exists: leftPoint!=0
+        midPoint_exists: midPoint!=0
+        rightPoint_exists: rightPoint!=0
+        clamped_alpha: alpha>0 &amp;&amp; alpha<1
+        valid_size: sizeof(leftPoint)=sizeof
+        (midPoint)=sizeof(rightPoint)
+        =GetAttributeCollection()-
+        >GetNumberOfPointCenteredComponents()+6
+
+* double = obj.GetError (double leftPoint, double midPoint,
+  double rightPoint, double alpha) - Return the error at the
+  mid-point. The type of error depends on the state of the
+  concrete error metric. For instance, it can return an
+  absolute or relative error metric. See
+  RequiresEdgeSubdivision() for a description of the
+  arguments.
+
+
+    Precondition:
+        leftPoint_exists: leftPoint!=0
+        midPoint_exists: midPoint!=0
+        rightPoint_exists: rightPoint!=0
+        clamped_alpha: alpha>0 &amp;&amp; alpha<1
+        valid_size: sizeof(leftPoint)=sizeof
+        (midPoint)=sizeof(rightPoint)
+        =GetAttributeCollection()-
+        >GetNumberOfPointCenteredComponents()+6
+
+
+
+    Postcondition:
+        positive_result: result>=0
+
+* obj.SetGenericCell (vtkGenericAdaptorCell cell) - The cell
+  that the edge belongs to.
+* vtkGenericAdaptorCell = obj.GetGenericCell () - The cell
+  that the edge belongs to.
+* obj.SetDataSet (vtkGenericDataSet ds) - Set/Get the
+  dataset to be tessellated.
+* vtkGenericDataSet = obj.GetDataSet () - Set/Get the
+  dataset to be tessellated.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Filtering_Classes
+* Generated on Thu Jul 25 2013 17:18:30 for FreeMat by
+  doxygen_ 1.8.1.1
+

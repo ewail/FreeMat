@@ -1,0 +1,70 @@
+
+ Usage
+
+vtkRenderPass is a deferred class with a simple deferred
+method Render. This method performs a rendering pass of the
+scene described in vtkRenderState. Subclasses define what
+really happens during rendering.
+Directions to write a subclass of vtkRenderPass: It is up to
+the subclass to decide if it needs to delegate part of its
+job to some other vtkRenderPass objects ("delegates").
+
+* The subclass has to define ivar to set/get its delegates.
+* The documentation of the subclass has to describe:
+
+  o what each delegate is supposed to perform
+  o if a delegate is supposed to be used once or multiple
+    times
+  o what it expects to have in the framebuffer before
+    starting (status of colorbuffers, depth buffer, stencil
+    buffer)
+  o what it will change in the framebuffer.
+
+* A pass cannot modify the vtkRenderState where it will
+  perform but it can build a new vtkRenderState (it can
+  change the FrameBuffer, change the prop array, changed the
+  required prop properties keys (usually adding some to a
+  copy of the existing list) but it has to keep the same
+  vtkRenderer object), make it current and pass it to its
+  delegate.
+* at the end of the execution of Render, the pass has to
+  ensure the current vtkRenderState is the one it has in
+  argument.
+
+To create an instance of class vtkRenderPass, simply invoke
+its constructor as follows
+
+    obj = vtkRenderPass
+
+
+
+ Methods
+
+The class vtkRenderPass has several methods that can be
+used. They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkRenderPass class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkRenderPass = obj.NewInstance ()
+* vtkRenderPass = obj.SafeDownCast (vtkObject o)
+* int = obj.GetNumberOfRenderedProps () - Number of props
+  rendered at the last Render call.
+* obj.ReleaseGraphicsResources (vtkWindow w) - Release
+  graphics resources and ask components to release their own
+  resources. Default implementation is empty.
+
+
+    Precondition:
+        w_exists: w!=0
+
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Rendering_Classes
+* Generated on Thu Jul 25 2013 17:18:35 for FreeMat by
+  doxygen_ 1.8.1.1
+

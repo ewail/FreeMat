@@ -1,0 +1,215 @@
+/*!
+\page functions_function FUNCTION Function Declarations
+
+<p>
+Section: \ref sec_functions "Functions and Scripts"
+\section Usage
+There are several forms for function declarations in FreeMat.
+The most general syntax for a function declaration is the
+following:
+\verbatim
+  function [out_1,...,out_M,varargout] = fname(in_1,...,in_N,varargin)
+\endverbatim
+where <tt>out_i</tt> are the output parameters, <tt>in_i</tt> are the input
+parameters, and <tt>varargout</tt> and <tt>varargin</tt> are special keywords
+used for functions that have variable inputs or outputs.  For
+functions with a fixed number of input or output parameters, the
+syntax is somewhat simpler:
+\verbatim
+  function [out_1,...,out_M] = fname(in_1,...,in_N)
+\endverbatim
+Note that functions that have no return arguments can omit
+the return argument list (of <tt>out_i</tt>) and the equals sign:
+\verbatim
+  function fname(in_1,...,in_N)
+\endverbatim
+Likewise, a function with no arguments can eliminate the list
+of parameters in the declaration:
+\verbatim
+  function [out_1,...,out_M] = fname
+\endverbatim
+Functions that return only a single value can omit the brackets
+\verbatim
+  function out_1 = fname(in_1,...,in_N)
+\endverbatim
+
+In the body of the function <tt>in_i</tt> are initialized with the
+values passed when the function is called.  Also, the function
+must assign values for <tt>out_i</tt> to pass values to the caller.
+Note that by default, FreeMat passes arguments by value, meaning
+that if we modify the contents of <tt>in_i</tt> inside the function,
+it has no effect on any variables used by the caller.  Arguments
+can be passed by reference by prepending an ampersand <tt>&</tt>
+before the name of the input, e.g.
+\verbatim
+  function [out1,...,out_M] = fname(in_1,&in_2,in_3,...,in_N)
+\endverbatim
+in which case <tt>in_2</tt> is passed by reference and not by value.
+Also, FreeMat works like <tt>C</tt> in that the caller does not have
+to supply the full list of arguments.  Also, when <tt>keywords</tt>
+(see help <tt>keywords</tt>) are used, an arbitrary subset of the
+parameters may be unspecified. To assist in deciphering
+the exact parameters that were passed,
+FreeMat also defines two variables inside the function context:
+<tt>nargin</tt> and <tt>nargout</tt>, which provide the number of input
+and output parameters of the caller, respectively. See help for
+<tt>nargin</tt> and <tt>nargout</tt> for more details.  In some
+circumstances, it is necessary to have functions that
+take a variable number of arguments, or that return a variable
+number of results.  In these cases, the last argument to the
+parameter list is the special argument <tt>varargin</tt>.  Inside
+the function, <tt>varargin</tt> is a cell-array that contains
+all arguments passed to the function that have not already
+been accounted for.  Similarly, the function can create a
+cell array named <tt>varargout</tt> for variable length output lists.
+See help <tt>varargin</tt> and <tt>varargout</tt> for more details.
+
+The function name <tt>fname</tt> can be any legal FreeMat identifier.
+Functions are stored in files with the <tt>.m</tt> extension.  Note
+that the name of the file (and not the function name <tt>fname</tt>
+used in the declaration) is how the function appears in FreeMat.
+So, for example, if the file is named <tt>foo.m</tt>, but the declaration
+uses <tt>bar</tt> for the name of the function, in FreeMat, it will
+still appear as function <tt>foo</tt>.  Note that this is only true
+for the first function that appears in a <tt>.m</tt> file.  Additional
+functions that appear after the first function are known as
+<tt>helper functions</tt> or <tt>local</tt> functions.  These are functions that
+can only be called by other functions in the same <tt>.m</tt> file.  Furthermore
+the names of these helper functions are determined by their declaration
+and not by the name of the <tt>.m</tt> file.  An example of using
+helper functions is included in the examples.
+
+Another important feature of functions, as opposed to, say <tt>scripts</tt>,
+is that they have their own <tt>scope</tt>.  That means that variables
+defined or modified inside a function do not affect the scope of the
+caller.  That means that a function can freely define and use variables
+without unintentionally using a variable name reserved elsewhere.  The
+flip side of this fact is that functions are harder to debug than
+scripts without using the <tt>keyboard</tt> function, because the intermediate
+calculations used in the function are not available once the function
+exits.
+\section Examples
+Here is an example of a trivial function that adds its
+first argument to twice its second argument:
+
+\if FILE
+addtest.m
+function c = addtest(a,b)
+  c = a + 2*b;
+\endif
+\verbatim
+     addtest.m
+\endverbatim
+
+\verbinclude addtest.m
+
+
+\if FRAGMENT
+frag_functions_function_000.m
+0
+addtest(1,3)
+addtest(3,0)
+\endif
+
+
+\verbinclude frag_functions_function_000.m.out 
+
+Suppose, however, we want to replace the value of the first
+argument by the computed sum.  A first attempt at doing so
+has no effect:
+
+\if FILE
+addtest2.m
+function addtest2(a,b)
+  a = a + 2*b;
+\endif
+\verbatim
+     addtest2.m
+\endverbatim
+
+\verbinclude addtest2.m
+
+
+\if FRAGMENT
+frag_functions_function_001.m
+0
+arg1 = 1
+arg2 = 3
+addtest2(arg1,arg2)
+arg1
+arg2
+\endif
+
+
+\verbinclude frag_functions_function_001.m.out 
+
+The values of <tt>arg1</tt> and <tt>arg2</tt> are unchanged, because they are
+passed by value, so that any changes to <tt>a</tt> and <tt>b</tt> inside
+the function do not affect <tt>arg1</tt> and <tt>arg2</tt>.  We can change
+that by passing the first argument by reference:
+
+\if FILE
+addtest3.m
+function addtest3(&a,b)
+  a = a + 2*b
+\endif
+\verbatim
+     addtest3.m
+\endverbatim
+
+\verbinclude addtest3.m
+
+Note that it is now illegal to pass a literal value for <tt>a</tt> when
+calling <tt>addtest3</tt>:
+
+\if FRAGMENT
+frag_functions_function_002.m
+1
+addtest3(3,4)
+addtest3(arg1,arg2)
+arg1
+arg2
+\endif
+
+
+\verbinclude frag_functions_function_002.m.out 
+
+The first example fails because we cannot pass a literal like the
+number <tt>3</tt> by reference.  However, the second call succeeds, and
+note that <tt>arg1</tt> has now changed.  Note: please be careful when
+passing by reference - this feature is not available in MATLAB
+and you must be clear that you are using it.
+
+As variable argument and return functions are covered elsewhere,
+as are keywords, we include one final example that demonstrates
+the use of helper functions, or local functions, where
+multiple function declarations occur in the same file.
+
+\if FILE
+euclidlength.m
+function y = foo(x,y)
+  square_me(x);
+  square_me(y);
+  y = sqrt(x+y);
+
+function square_me(&t)
+  t = t^2;
+\endif
+\verbatim
+     euclidlength.m
+\endverbatim
+
+\verbinclude euclidlength.m
+
+
+\if FRAGMENT
+frag_functions_function_003.m
+0
+euclidlength(3,4)
+euclidlength(2,0)
+\endif
+
+
+\verbinclude frag_functions_function_003.m.out 
+
+*/

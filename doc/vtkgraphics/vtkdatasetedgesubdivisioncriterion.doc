@@ -1,0 +1,87 @@
+/*!
+\page vtkgraphics_vtkdatasetedgesubdivisioncriterion vtkDataSetEdgeSubdivisionCriterion
+
+<p>
+Section: \ref sec_vtkgraphics "Visualization Toolkit Graphics Classes"
+\section Usage
+ This is a subclass of vtkEdgeSubdivisionCriterion that is used for
+ tessellating cells of a vtkDataSet, particularly nonlinear
+ cells.
+
+ It provides functions for setting the current cell being tessellated and a
+ convenience routine, \a EvaluateFields() to evaluate field values at a
+ point. You should call \a EvaluateFields() from inside \a EvaluateEdge()
+ whenever the result of \a EvaluateEdge() will be true. Otherwise, do
+ not call \a EvaluateFields() as the midpoint is about to be discarded.
+ (<i>Implementor's note</i>: This isn't true if UGLY_ASPECT_RATIO_HACK
+ has been defined. But in that case, we don't want the exact field values;
+ we need the linearly interpolated ones at the midpoint for continuity.)
+
+
+To create an instance of class vtkDataSetEdgeSubdivisionCriterion, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkDataSetEdgeSubdivisionCriterion
+\endverbatim
+\section Methods
+The class vtkDataSetEdgeSubdivisionCriterion has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkDataSetEdgeSubdivisionCriterion class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkDataSetEdgeSubdivisionCriterion = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkDataSetEdgeSubdivisionCriterion = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetMesh (vtkDataSet )</tt>
+ </LI>
+<LI>  <tt>vtkDataSet = obj.GetMesh ()</tt>
+ </LI>
+<LI>  <tt>obj.SetCellId (vtkIdType cell)</tt>
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetCellId () const</tt>
+ </LI>
+<LI>  <tt>vtkCell = obj.GetCell ()</tt>
+ </LI>
+<LI>  <tt>bool = obj.EvaluateEdge (double p0, double midpt, double p1, int field_start)</tt>
+ </LI>
+<LI>  <tt>obj.EvaluatePointDataField (double result, double weights, int field)</tt> -  Evaluate either a cell or nodal field.
+ This exists because of the funky way that Exodus data will be handled.
+ Sure, it's a hack, but what are ya gonna do?
+ </LI>
+<LI>  <tt>obj.EvaluateCellDataField (double result, double weights, int field)</tt> -  Evaluate either a cell or nodal field.
+ This exists because of the funky way that Exodus data will be handled.
+ Sure, it's a hack, but what are ya gonna do?
+ </LI>
+<LI>  <tt>obj.SetChordError2 (double )</tt> -  Get/Set the square of the allowable chord error at any edge's midpoint.
+ This value is used by EvaluateEdge.
+ </LI>
+<LI>  <tt>double = obj.GetChordError2 ()</tt> -  Get/Set the square of the allowable chord error at any edge's midpoint.
+ This value is used by EvaluateEdge.
+ </LI>
+<LI>  <tt>obj.SetFieldError2 (int s, double err)</tt> -  Get/Set the square of the allowable error magnitude for the
+ scalar field \a s at any edge's midpoint.
+ A value less than or equal to 0 indicates that the field
+ should not be used as a criterion for subdivision.
+ </LI>
+<LI>  <tt>double = obj.GetFieldError2 (int s) const</tt> -  Get/Set the square of the allowable error magnitude for the
+ scalar field \a s at any edge's midpoint.
+ A value less than or equal to 0 indicates that the field
+ should not be used as a criterion for subdivision.
+ </LI>
+<LI>  <tt>obj.ResetFieldError2 ()</tt> -  Tell the subdivider not to use any field values as subdivision criteria.
+ Effectively calls SetFieldError2( a, -1. ) for all fields.
+ </LI>
+<LI>  <tt>int = obj.GetActiveFieldCriteria ()</tt> -  Return a bitfield specifying which FieldError2 criteria are positive (i.e., actively
+ used to decide edge subdivisions).
+ This is stored as separate state to make subdivisions go faster.
+ </LI>
+<LI>  <tt>int = obj.GetActiveFieldCriteria () const</tt>
+ </LI>
+</UL>
+*/

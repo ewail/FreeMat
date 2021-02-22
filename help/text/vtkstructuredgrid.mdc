@@ -1,0 +1,192 @@
+
+ Usage
+
+vtkStructuredGrid is a data object that is a concrete
+implementation of vtkDataSet. vtkStructuredGrid represents a
+geometric structure that is a topologically regular array of
+points. The topology is that of a cube that has been
+subdivided into a regular array of smaller cubes. Each
+point/cell can be addressed with i-j-k indices. Examples
+include finite difference grids.
+The order and number of points must match that specified by
+the dimensions of the grid. The point order increases in i
+fastest (from 0<=i<dims[0]), then j (0<=j<dims[1]), then k
+(0<=k<dims[2]) where dims[] are the dimensions of the grid
+in the i-j-k topological directions. The number of points is
+dims[0]*dims[1]*dims[2]. The same is true for the cells of
+the grid. The order and number of cells must match that
+specified by the dimensions of the grid. The cell order
+increases in i fastest (from 0<=i<(dims[0]-1)), then j
+(0<=j<(dims[1]-1)), then k (0<=k<(dims[2]-1)) The number of
+cells is (dims[0]-1)*(dims[1]-1)*(dims[2]-1).
+A unusual feature of vtkStructuredGrid is the ability to
+blank, or "turn-off" points and cells in the dataset. This
+is controlled by defining a "blanking array" whose values
+(0,1) specify whether a point should be blanked or not.
+To create an instance of class vtkStructuredGrid, simply
+invoke its constructor as follows
+
+    obj = vtkStructuredGrid
+
+
+
+ Methods
+
+The class vtkStructuredGrid has several methods that can be
+used. They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkStructuredGrid class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkStructuredGrid = obj.NewInstance ()
+* vtkStructuredGrid = obj.SafeDownCast (vtkObject o)
+* int = obj.GetDataObjectType () - Copy the geometric and
+  topological structure of an input poly data object.
+* obj.CopyStructure (vtkDataSet ds) - Copy the geometric and
+  topological structure of an input poly data object.
+* vtkIdType = obj.GetNumberOfPoints () - Standard vtkDataSet
+  API methods. See vtkDataSet for more information.
+* double = obj.GetPoint (vtkIdType ptId) - Standard
+  vtkDataSet API methods. See vtkDataSet for more
+  information.
+* obj.GetPoint (vtkIdType ptId, double p[3]) - Standard
+  vtkDataSet API methods. See vtkDataSet for more
+  information.
+* vtkCell = obj.GetCell (vtkIdType cellId) - Standard
+  vtkDataSet API methods. See vtkDataSet for more
+  information.
+* obj.GetCell (vtkIdType cellId, vtkGenericCell cell) -
+  Standard vtkDataSet API methods. See vtkDataSet for more
+  information.
+* obj.GetCellBounds (vtkIdType cellId, double bounds[6]) -
+  Standard vtkDataSet API methods. See vtkDataSet for more
+  information.
+* int = obj.GetCellType (vtkIdType cellId) - Standard
+  vtkDataSet API methods. See vtkDataSet for more
+  information.
+* vtkIdType = obj.GetNumberOfCells () - Standard vtkDataSet
+  API methods. See vtkDataSet for more information.
+* obj.GetCellPoints (vtkIdType cellId, vtkIdList ptIds) -
+  Standard vtkDataSet API methods. See vtkDataSet for more
+  information.
+* obj.GetPointCells (vtkIdType ptId, vtkIdList cellIds) -
+  Standard vtkDataSet API methods. See vtkDataSet for more
+  information.
+* obj.Initialize () - Standard vtkDataSet API methods. See
+  vtkDataSet for more information.
+* int = obj.GetMaxCellSize () - Standard vtkDataSet API
+  methods. See vtkDataSet for more information.
+* obj.GetCellNeighbors (vtkIdType cellId, vtkIdList ptIds,
+  vtkIdList cellIds) - Standard vtkDataSet API methods. See
+  vtkDataSet for more information.
+* obj.GetScalarRange (double range[2]) - Standard vtkDataSet
+  API methods. See vtkDataSet for more information.
+* double = obj.GetScalarRange () - following methods are
+  specific to structured grid
+* obj.SetDimensions (int i, int j, int k) - following
+  methods are specific to structured grid
+* obj.SetDimensions (int dim[3]) - following methods are
+  specific to structured grid
+* int = obj.GetDimensions () - Get dimensions of this
+  structured points dataset.
+* obj.GetDimensions (int dim[3]) - Get dimensions of this
+  structured points dataset.
+* int = obj.GetDataDimension () - Return the dimensionality
+  of the data.
+* obj.SetExtent (int extent[6]) - Different ways to set the
+  extent of the data array. The extent should be set before
+  the "Scalars" are set or allocated. The Extent is stored
+  in the order (X, Y, Z).
+* obj.SetExtent (int x1, int x2, int y1, int y2, int z1, int
+  z2) - Different ways to set the extent of the data array.
+  The extent should be set before the "Scalars" are set or
+  allocated. The Extent is stored in the order (X, Y, Z).
+* int = obj. GetExtent () - Different ways to set the extent
+  of the data array. The extent should be set before the
+  "Scalars" are set or allocated. The Extent is stored in
+  the order (X, Y, Z).
+* long = obj.GetActualMemorySize () - Return the actual size
+  of the data in kilobytes. This number is valid only after
+  the pipeline has updated. The memory size returned is
+  guaranteed to be greater than or equal to the memory
+  required to represent the data (e.g., extra space in
+  arrays, etc. are not included in the return value). THIS
+  METHOD IS THREAD SAFE.
+* obj.ShallowCopy (vtkDataObject src) - Shallow and Deep
+  copy.
+* obj.DeepCopy (vtkDataObject src) - Shallow and Deep copy.
+* int = obj.GetExtentType () - Methods for supporting
+  blanking of cells. Blanking turns on or off points in the
+  structured grid, and hence the cells connected to them.
+  These methods should be called only after the dimensions
+  of the grid are set.
+* obj.BlankPoint (vtkIdType ptId) - Methods for supporting
+  blanking of cells. Blanking turns on or off points in the
+  structured grid, and hence the cells connected to them.
+  These methods should be called only after the dimensions
+  of the grid are set.
+* obj.UnBlankPoint (vtkIdType ptId) - Methods for supporting
+  blanking of cells. Blanking turns on or off points in the
+  structured grid, and hence the cells connected to them.
+  These methods should be called only after the dimensions
+  of the grid are set.
+* obj.BlankCell (vtkIdType ptId) - Methods for supporting
+  blanking of cells. Blanking turns on or off cells in the
+  structured grid, and hence the cells connected to them.
+  These methods should be called only after the dimensions
+  of the grid are set.
+* obj.UnBlankCell (vtkIdType ptId) - Methods for supporting
+  blanking of cells. Blanking turns on or off cells in the
+  structured grid, and hence the cells connected to them.
+  These methods should be called only after the dimensions
+  of the grid are set.
+* vtkUnsignedCharArray = obj.GetPointVisibilityArray () -
+  Get the array that defines the blanking (visibility) of
+  each point.
+* obj.SetPointVisibilityArray (vtkUnsignedCharArray
+  pointVisibility) - Set an array that defines the
+  (blanking) visibility of the points in the grid. Make sure
+  that length of the visibility array matches the number of
+  points in the grid.
+* vtkUnsignedCharArray = obj.GetCellVisibilityArray () - Get
+  the array that defines the blanking (visibility) of each
+  cell.
+* obj.SetCellVisibilityArray (vtkUnsignedCharArray
+  pointVisibility) - Set an array that defines the
+  (blanking) visibility of the cells in the grid. Make sure
+  that length of the visibility array matches the number of
+  points in the grid.
+* char = obj.IsPointVisible (vtkIdType ptId) - Return non-
+  zero value if specified point is visible. These methods
+  should be called only after the dimensions of the grid are
+  set.
+* char = obj.IsCellVisible (vtkIdType cellId) - Return non-
+  zero value if specified point is visible. These methods
+  should be called only after the dimensions of the grid are
+  set.
+* char = obj.GetPointBlanking () - Returns 1 if there is any
+  visibility constraint on the points, 0 otherwise.
+* char = obj.GetCellBlanking () - Returns 1 if there is any
+  visibility constraint on the cells, 0 otherwise.
+* obj.Crop () - Reallocates and copies to set the Extent to
+  the UpdateExtent. This is used internally when the exact
+  extent is requested, and the source generated more than
+  the update extent.
+* obj.GetPoint (int i, int j, int k, double p[3], bool
+  adjustForExtenttrue) - Get a point in the grid. If
+  adjustForExtent is true, (i,j,k) is interpreted as a
+  position relative to the beginning of the extent. If
+  adjustForExtent is false, (i,j,k) is interpreted literally
+  and the (i,j,k) point of the grid is returned regardless
+  of the extent beginning. The point coordinate is returned
+  in 'p'. The default adjustForExtent is true.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Filtering_Classes
+* Generated on Thu Jul 25 2013 17:18:31 for FreeMat by
+  doxygen_ 1.8.1.1
+

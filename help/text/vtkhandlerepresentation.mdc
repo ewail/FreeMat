@@ -1,0 +1,207 @@
+
+ Usage
+
+This class defines an API for widget handle representations.
+These representations interact with vtkHandleWidget. Various
+representations can be used depending on the nature of the
+handle. The basic functionality of the handle representation
+is to maintain a position. The position is represented via a
+vtkCoordinate, meaning that the position can be easily
+obtained in a variety of coordinate systems.
+Optional features for this representation include an active
+mode (the widget appears only when the mouse pointer is
+close to it). The active distance is expressed in pixels and
+represents a circle in display space.
+The class may be subclassed so that alternative
+representations can be created. The class defines an API and
+a default implementation that the vtkHandleWidget interacts
+with to render itself in the scene.
+To create an instance of class vtkHandleRepresentation,
+simply invoke its constructor as follows
+
+    obj = vtkHandleRepresentation
+
+
+
+ Methods
+
+The class vtkHandleRepresentation has several methods that
+can be used. They are listed below. Note that the
+documentation is translated automatically from the VTK
+sources, and may not be completely intelligible. When in
+doubt, consult the VTK website. In the methods listed below,
+obj is an instance of the vtkHandleRepresentation class.
+
+* string = obj.GetClassName () - Standard methods for
+  instances of this class.
+* int = obj.IsA (string name) - Standard methods for
+  instances of this class.
+* vtkHandleRepresentation = obj.NewInstance () - Standard
+  methods for instances of this class.
+* vtkHandleRepresentation = obj.SafeDownCast (vtkObject o) -
+  Standard methods for instances of this class.
+* obj.SetDisplayPosition (double pos[3]) - Handles usually
+  have their coordinates set in display coordinates
+  (generally by an associated widget) and internally
+  maintain the position in world coordinates. (Using world
+  coordinates insures that handles are rendered in the right
+  position when the camera view changes.) These methods are
+  often subclassed because special constraint operations can
+  be used to control the actual positioning.
+* obj.GetDisplayPosition (double pos[3]) - Handles usually
+  have their coordinates set in display coordinates
+  (generally by an associated widget) and internally
+  maintain the position in world coordinates. (Using world
+  coordinates insures that handles are rendered in the right
+  position when the camera view changes.) These methods are
+  often subclassed because special constraint operations can
+  be used to control the actual positioning.
+* double = obj.GetDisplayPosition () - Handles usually have
+  their coordinates set in display coordinates (generally by
+  an associated widget) and internally maintain the position
+  in world coordinates. (Using world coordinates insures
+  that handles are rendered in the right position when the
+  camera view changes.) These methods are often subclassed
+  because special constraint operations can be used to
+  control the actual positioning.
+* obj.SetWorldPosition (double pos[3]) - Handles usually
+  have their coordinates set in display coordinates
+  (generally by an associated widget) and internally
+  maintain the position in world coordinates. (Using world
+  coordinates insures that handles are rendered in the right
+  position when the camera view changes.) These methods are
+  often subclassed because special constraint operations can
+  be used to control the actual positioning.
+* obj.GetWorldPosition (double pos[3]) - Handles usually
+  have their coordinates set in display coordinates
+  (generally by an associated widget) and internally
+  maintain the position in world coordinates. (Using world
+  coordinates insures that handles are rendered in the right
+  position when the camera view changes.) These methods are
+  often subclassed because special constraint operations can
+  be used to control the actual positioning.
+* double = obj.GetWorldPosition () - Handles usually have
+  their coordinates set in display coordinates (generally by
+  an associated widget) and internally maintain the position
+  in world coordinates. (Using world coordinates insures
+  that handles are rendered in the right position when the
+  camera view changes.) These methods are often subclassed
+  because special constraint operations can be used to
+  control the actual positioning.
+* obj.SetTolerance (int ) - The tolerance representing the
+  distance to the widget (in pixels) in which the cursor is
+  considered near enough to the widget to be active.
+* int = obj.GetToleranceMinValue () - The tolerance
+  representing the distance to the widget (in pixels) in
+  which the cursor is considered near enough to the widget
+  to be active.
+* int = obj.GetToleranceMaxValue () - The tolerance
+  representing the distance to the widget (in pixels) in
+  which the cursor is considered near enough to the widget
+  to be active.
+* int = obj.GetTolerance () - The tolerance representing the
+  distance to the widget (in pixels) in which the cursor is
+  considered near enough to the widget to be active.
+* obj.SetActiveRepresentation (int ) - Flag controls whether
+  the widget becomes visible when the mouse pointer moves
+  close to it (i.e., the widget becomes active). By default,
+  ActiveRepresentation is off and the representation is
+  always visible.
+* int = obj.GetActiveRepresentation () - Flag controls
+  whether the widget becomes visible when the mouse pointer
+  moves close to it (i.e., the widget becomes active). By
+  default, ActiveRepresentation is off and the
+  representation is always visible.
+* obj.ActiveRepresentationOn () - Flag controls whether the
+  widget becomes visible when the mouse pointer moves close
+  to it (i.e., the widget becomes active). By default,
+  ActiveRepresentation is off and the representation is
+  always visible.
+* obj.ActiveRepresentationOff () - Flag controls whether the
+  widget becomes visible when the mouse pointer moves close
+  to it (i.e., the widget becomes active). By default,
+  ActiveRepresentation is off and the representation is
+  always visible.
+* obj.SetInteractionState (int ) - The interaction state may
+  be set from a widget (e.g., HandleWidget) or other object.
+  This controls how the interaction with the widget
+  proceeds. Normally this method is used as part of a
+  handshaking processwith the widget: First
+  ComputeInteractionState() is invoked that returns a state
+  based on geometric considerations (i.e., cursor near a
+  widget feature), then based on events, the widget may
+  modify this further.
+* int = obj.GetInteractionStateMinValue () - The interaction
+  state may be set from a widget (e.g., HandleWidget) or
+  other object. This controls how the interaction with the
+  widget proceeds. Normally this method is used as part of a
+  handshaking processwith the widget: First
+  ComputeInteractionState() is invoked that returns a state
+  based on geometric considerations (i.e., cursor near a
+  widget feature), then based on events, the widget may
+  modify this further.
+* int = obj.GetInteractionStateMaxValue () - The interaction
+  state may be set from a widget (e.g., HandleWidget) or
+  other object. This controls how the interaction with the
+  widget proceeds. Normally this method is used as part of a
+  handshaking processwith the widget: First
+  ComputeInteractionState() is invoked that returns a state
+  based on geometric considerations (i.e., cursor near a
+  widget feature), then based on events, the widget may
+  modify this further.
+* obj.SetConstrained (int ) - Specify whether any motions
+  (such as scale, translate, etc.) are constrained in some
+  way (along an axis, etc.) Widgets can use this to control
+  the resulting motion.
+* int = obj.GetConstrained () - Specify whether any motions
+  (such as scale, translate, etc.) are constrained in some
+  way (along an axis, etc.) Widgets can use this to control
+  the resulting motion.
+* obj.ConstrainedOn () - Specify whether any motions (such
+  as scale, translate, etc.) are constrained in some way
+  (along an axis, etc.) Widgets can use this to control the
+  resulting motion.
+* obj.ConstrainedOff () - Specify whether any motions (such
+  as scale, translate, etc.) are constrained in some way
+  (along an axis, etc.) Widgets can use this to control the
+  resulting motion.
+* int = obj.CheckConstraint (vtkRenderer renderer, double
+  pos[2]) - Method has to be overridden in the subclasses
+  which has constraints on placing the handle (Ex.
+  vtkConstrainedPointHandleRepresentation). It should return
+  1 if the position is within the constraint, else it should
+  return 0. By default it returns 1.
+* obj.ShallowCopy (vtkProp prop) - Methods to make this
+  class properly act like a vtkWidgetRepresentation.
+* obj.DeepCopy (vtkProp prop) - Methods to make this class
+  properly act like a vtkWidgetRepresentation.
+* obj.SetRenderer (vtkRenderer ren) - Methods to make this
+  class properly act like a vtkWidgetRepresentation.
+* long = obj.GetMTime () - Overload the superclasses'
+  GetMTime() because the internal vtkCoordinates are used to
+  keep the state of the representation.
+* obj.SetPointPlacer (vtkPointPlacer ) - Set/Get the point
+  placer. Point placers can be used to dictate constraints
+  on the placement of handles. As an example, see
+  vtkBoundedPlanePointPlacer (constrains the placement of
+  handles to a set of bounded planes)
+  vtkFocalPlanePointPlacer (constrains placement on the
+  focal plane) etc. The default point placer is
+  vtkPointPlacer (which does not apply any constraints, so
+  the handles are free to move anywhere).
+* vtkPointPlacer = obj.GetPointPlacer () - Set/Get the point
+  placer. Point placers can be used to dictate constraints
+  on the placement of handles. As an example, see
+  vtkBoundedPlanePointPlacer (constrains the placement of
+  handles to a set of bounded planes)
+  vtkFocalPlanePointPlacer (constrains placement on the
+  focal plane) etc. The default point placer is
+  vtkPointPlacer (which does not apply any constraints, so
+  the handles are free to move anywhere).
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Widget_Classes
+* Generated on Thu Jul 25 2013 17:18:36 for FreeMat by
+  doxygen_ 1.8.1.1
+

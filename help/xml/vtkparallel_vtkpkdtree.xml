@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkparallel_vtkpkdtree" kind="page">
+    <compoundname>vtkparallel_vtkpkdtree</compoundname>
+    <title>vtkPKdTree</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkparallel_1sec_vtkparallel" kindref="member">Visualization Toolkit Parallel Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>Build, in parallel, a k-d tree decomposition of one or more vtkDataSets distributed across processors. We assume each process has read in one portion of a large distributed data set. When done, each process has access to the k-d tree structure, can obtain information about which process contains data for each spatial region, and can depth sort the spatial regions.</para><para>This class can also assign spatial regions to processors, based on one of several region assignment schemes. By default a contiguous, convex region is assigned to each process. Several queries return information about how many and what cells I have that lie in a region assigned to another process.</para><para>To create an instance of class vtkPKdTree, simply invoke its constructor as follows <verbatim>  obj = vtkPKdTree
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkPKdTree has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkPKdTree class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkPKdTree = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkPKdTree = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.BuildLocator ()</computeroutput> - Build the spatial decomposition. Call this explicitly after changing any parameters affecting the build of the tree. It must be called by all processes in the parallel application, or it will hang.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkIdType = obj.GetTotalNumberOfCells ()</computeroutput> - Create tables of counts of cells per process per region. These tables can be accessed with queries like &quot;HasData&quot;, &quot;GetProcessCellCountForRegion&quot;, and so on. You must have called BuildLocator() beforehand. This method must be called by all processes or it will hang. Returns 1 on error, 0 when no error.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.CreateProcessCellCountData ()</computeroutput> - Create tables of counts of cells per process per region. These tables can be accessed with queries like &quot;HasData&quot;, &quot;GetProcessCellCountForRegion&quot;, and so on. You must have called BuildLocator() beforehand. This method must be called by all processes or it will hang. Returns 1 on error, 0 when no error.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.CreateGlobalDataArrayBounds ()</computeroutput> - A convenience function which compiles the global bounds of the data arrays across processes. These bounds can be accessed with &quot;GetCellArrayGlobalRange&quot; and &quot;GetPointArrayGlobalRange&quot;. This method must be called by all processes or it will hang. Returns 1 on error, 0 when no error.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetController (vtkMultiProcessController c)</computeroutput> - Set/Get the communicator object  </para></listitem>
+<listitem>
+<para><computeroutput>vtkMultiProcessController = obj.GetController ()</computeroutput> - Set/Get the communicator object  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetRegionAssignment ()</computeroutput> - The PKdTree class can assign spatial regions to processors after building the k-d tree, using one of several partitioning criteria. These functions Set/Get whether this assignment is computed. The default is &quot;Off&quot;, no assignment is computed. If &quot;On&quot;, and no assignment scheme is specified, contiguous assignment will be computed. Specifying an assignment scheme (with AssignRegions*()) automatically turns on RegionAssignment.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.AssignRegions (int map, int numRegions)</computeroutput> - Assign spatial regions to processes via a user defined map. The user-supplied map is indexed by region ID, and provides a process ID for each region.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.AssignRegionsRoundRobin ()</computeroutput> - Let the PKdTree class assign a process to each region in a round robin fashion. If the k-d tree has not yet been built, the regions will be assigned after BuildLocator executes.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.AssignRegionsContiguous ()</computeroutput> - Let the PKdTree class assign a process to each region by assigning contiguous sets of spatial regions to each process. The set of regions assigned to each process will always have a union that is a convex space (a box). If the k-d tree has not yet been built, the regions will be assigned after BuildLocator executes.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetRegionAssignmentList (int procId, vtkIntArray list)</computeroutput> - Writes the list of region IDs assigned to the specified process. Regions IDs start at 0 and increase by 1 from there. Returns the number of regions in the list.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GetAllProcessesBorderingOnPoint (float x, float y, float z, vtkIntArray list)</computeroutput> - The k-d tree spatial regions have been assigned to processes. Given a point on the boundary of one of the regions, this method creates a list of all processes whose region boundaries include that point. This may be required when looking for processes that have cells adjacent to the cells of a given process.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetProcessAssignedToRegion (int regionId)</computeroutput> - Returns the ID of the process assigned to the region.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.HasData (int processId, int regionId)</computeroutput> - Returns 1 if the process has data for the given region, 0 otherwise.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetProcessCellCountForRegion (int processId, int regionId)</computeroutput> - Returns the number of cells the specified process has in the specified region.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetTotalProcessesInRegion (int regionId)</computeroutput> - Returns the total number of processes that have data falling within this spatial region.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetProcessListForRegion (int regionId, vtkIntArray processes)</computeroutput> - Adds the list of processes having data for the given region to the supplied list, returns the number of processes added.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetProcessesCellCountForRegion (int regionId, int count, int len)</computeroutput> - Writes the number of cells each process has for the region to the supplied list of length len. Returns the number of cell counts written. The order of the cell counts corresponds to the order of process IDs in the process list returned by GetProcessListForRegion.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetTotalRegionsForProcess (int processId)</computeroutput> - Returns the total number of spatial regions that a given process has data for.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetRegionListForProcess (int processId, vtkIntArray regions)</computeroutput> - Adds the region IDs for which this process has data to the supplied vtkIntArray. Retruns the number of regions.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetRegionsCellCountForProcess (int ProcessId, int count, int len)</computeroutput> - Writes to the supplied integer array the number of cells this process has for each region. Returns the number of cell counts written. The order of the cell counts corresponds to the order of region IDs in the region list returned by GetRegionListForProcess.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkIdType = obj.GetCellListsForProcessRegions (int ProcessId, int set, vtkIdList inRegionCells, vtkIdList onBoundaryCells)</computeroutput> - After regions have been assigned to processes, I may want to know which cells I have that are in the regions assigned to a particular process.</para><para>This method takes a process ID and two vtkIdLists. It writes to the first list the IDs of the cells contained in the process&apos; regions. (That is, their cell centroid is contained in the region.) To the second list it write the IDs of the cells which intersect the process&apos; regions but whose cell centroid lies elsewhere.</para><para>The total number of cell IDs written to both lists is returned. Either list pointer passed in can be NULL, and it will be ignored. If there are multiple data sets, you must specify which data set you wish cell IDs for.</para><para>The caller should delete these two lists when done. This method uses the cell lists created in vtkKdTree::CreateCellLists(). If the cell lists for the process&apos; regions do not exist, this method will first build the cell lists for all regions by calling CreateCellLists(). You must remember to DeleteCellLists() when done with all calls to this method, as cell lists can require a great deal of memory.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkIdType = obj.GetCellListsForProcessRegions (int ProcessId, vtkDataSet set, vtkIdList inRegionCells, vtkIdList onBoundaryCells)</computeroutput> - After regions have been assigned to processes, I may want to know which cells I have that are in the regions assigned to a particular process.</para><para>This method takes a process ID and two vtkIdLists. It writes to the first list the IDs of the cells contained in the process&apos; regions. (That is, their cell centroid is contained in the region.) To the second list it write the IDs of the cells which intersect the process&apos; regions but whose cell centroid lies elsewhere.</para><para>The total number of cell IDs written to both lists is returned. Either list pointer passed in can be NULL, and it will be ignored. If there are multiple data sets, you must specify which data set you wish cell IDs for.</para><para>The caller should delete these two lists when done. This method uses the cell lists created in vtkKdTree::CreateCellLists(). If the cell lists for the process&apos; regions do not exist, this method will first build the cell lists for all regions by calling CreateCellLists(). You must remember to DeleteCellLists() when done with all calls to this method, as cell lists can require a great deal of memory.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkIdType = obj.GetCellListsForProcessRegions (int ProcessId, vtkIdList inRegionCells, vtkIdList onBoundaryCells)</computeroutput> - After regions have been assigned to processes, I may want to know which cells I have that are in the regions assigned to a particular process.</para><para>This method takes a process ID and two vtkIdLists. It writes to the first list the IDs of the cells contained in the process&apos; regions. (That is, their cell centroid is contained in the region.) To the second list it write the IDs of the cells which intersect the process&apos; regions but whose cell centroid lies elsewhere.</para><para>The total number of cell IDs written to both lists is returned. Either list pointer passed in can be NULL, and it will be ignored. If there are multiple data sets, you must specify which data set you wish cell IDs for.</para><para>The caller should delete these two lists when done. This method uses the cell lists created in vtkKdTree::CreateCellLists(). If the cell lists for the process&apos; regions do not exist, this method will first build the cell lists for all regions by calling CreateCellLists(). You must remember to DeleteCellLists() when done with all calls to this method, as cell lists can require a great deal of memory.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.DepthOrderAllProcesses (double directionOfProjection, vtkIntArray orderedList)</computeroutput> - DO NOT CALL. Deprecated in VTK 5.2. Use ViewOrderAllProcessesInDirection or ViewOrderAllProcessesFromPosition.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.ViewOrderAllProcessesInDirection (double directionOfProjection[3], vtkIntArray orderedList)</computeroutput> - Return a list of all processes in order from front to back given a vector direction of projection. Use this to do visibility sorts in parallel projection mode. `orderedList&apos; will be resized to the number of processes. The return value is the number of processes. <simplesect kind="pre"><para>orderedList_exists: orderedList!=0  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>int = obj.ViewOrderAllProcessesFromPosition (double cameraPosition[3], vtkIntArray orderedList)</computeroutput> - Return a list of all processes in order from front to back given a camera position. Use this to do visibility sorts in perspective projection mode. `orderedList&apos; will be resized to the number of processes. The return value is the number of processes. <simplesect kind="pre"><para>orderedList_exists: orderedList!=0  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetCellArrayGlobalRange (string name, float range[2])</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetPointArrayGlobalRange (string name, float range[2])</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetCellArrayGlobalRange (string name, double range[2])</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetPointArrayGlobalRange (string name, double range[2])</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetCellArrayGlobalRange (int arrayIndex, double range[2])</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetPointArrayGlobalRange (int arrayIndex, double range[2])</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetCellArrayGlobalRange (int arrayIndex, float range[2])</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetPointArrayGlobalRange (int arrayIndex, float range[2])</computeroutput>  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,72 @@
+/*!
+\page vtkcommon_vtkparametricroman vtkParametricRoman
+
+<p>
+Section: \ref sec_vtkcommon "Visualization Toolkit Common Classes"
+\section Usage
+ vtkParametricRoman generates Steiner's Roman Surface.
+
+ For further information about this surface, please consult the 
+ technical description "Parametric surfaces" in http://www.vtk.org/documents.php 
+ in the "VTK Technical Documents" section in the VTk.org web pages.
+
+ .SECTION Thanks
+ Andrew Maclean a.maclean@cas.edu.au for 
+ creating and contributing the class.
+
+
+To create an instance of class vtkParametricRoman, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkParametricRoman
+\endverbatim
+\section Methods
+The class vtkParametricRoman has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkParametricRoman class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkParametricRoman = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkParametricRoman = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetDimension ()</tt> -  Construct Steiner's Roman Surface with the following parameters:
+ MinimumU = 0, MaximumU = Pi,
+ MinimumV = 0, MaximumV = Pi, 
+ JoinU = 1, JoinV = 1,
+ TwistU = 1, TwistV = 0; 
+ ClockwiseOrdering = 1, 
+ DerivativesAvailable = 1,
+ Radius = 1
+ </LI>
+<LI>  <tt>obj.SetRadius (double )</tt> -  Set/Get the radius.
+ </LI>
+<LI>  <tt>double = obj.GetRadius ()</tt> -  Set/Get the radius.
+ </LI>
+<LI>  <tt>obj.Evaluate (double uvw[3], double Pt[3], double Duvw[9])</tt> -  Steiner's Roman Surface
+
+ This function performs the mapping \f$f(u,v) \rightarrow (x,y,x)\f$, returning it
+ as Pt. It also returns the partial derivatives Du and Dv.
+ \f$Pt = (x, y, z), Du = (dx/du, dy/du, dz/du), Dv = (dx/dv, dy/dv, dz/dv)\f$ .
+ Then the normal is \f$N = Du X Dv\f$ .
+ </LI>
+<LI>  <tt>double = obj.EvaluateScalar (double uvw[3], double Pt[3], double Duvw[9])</tt> -  Calculate a user defined scalar using one or all of uvw, Pt, Duvw.
+
+ uvw are the parameters with Pt being the the Cartesian point, 
+ Duvw are the derivatives of this point with respect to u, v and w.
+ Pt, Duvw are obtained from Evaluate().
+
+ This function is only called if the ScalarMode has the value
+ vtkParametricFunctionSource::SCALAR_FUNCTION_DEFINED
+
+ If the user does not need to calculate a scalar, then the 
+ instantiated function should return zero. 
+
+ </LI>
+</UL>
+*/

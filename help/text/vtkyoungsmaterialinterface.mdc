@@ -1,0 +1,185 @@
+
+ Usage
+
+Reconstructs material interfaces from a mesh containing
+mixed cells (where several materials are mixed) this
+implementation is based on the youngs algorithm, generalized
+to arbitrary cell types and works on both 2D and 3D meshes.
+the main advantage of the youngs algorithm is it guarantees
+the material volume correctness. for 2D meshes, the
+AxisSymetric flag allows to switch between a pure 2D
+(plannar) algorithm and an axis symetric 2D algorithm
+handling volumes of revolution.
+.SECTION Thanks This file is part of the generalized Youngs
+material interface reconstruction algorithm contributed by
+CEA/DIF - Commissariat a l'Energie Atomique, Centre DAM Ile-
+De-France
+BP12, F-91297 Arpajon, France.
+Implementation by Thierry Carrard
+(thier.nosp@m.ry.c.nosp@m.arrar.nosp@m.d@ce.nosp@m.a.fr)
+To create an instance of class vtkYoungsMaterialInterface,
+simply invoke its constructor as follows
+
+    obj = vtkYoungsMaterialInterface
+
+
+
+ Methods
+
+The class vtkYoungsMaterialInterface has several methods
+that can be used. They are listed below. Note that the
+documentation is translated automatically from the VTK
+sources, and may not be completely intelligible. When in
+doubt, consult the VTK website. In the methods listed below,
+obj is an instance of the vtkYoungsMaterialInterface class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkYoungsMaterialInterface = obj.NewInstance ()
+* vtkYoungsMaterialInterface = obj.SafeDownCast (vtkObject
+  o)
+* obj.SetInverseNormal (int ) - Set/Get wether the normal
+  vector has to be flipped.
+* int = obj.GetInverseNormal () - Set/Get wether the normal
+  vector has to be flipped.
+* obj.InverseNormalOn () - Set/Get wether the normal vector
+  has to be flipped.
+* obj.InverseNormalOff () - Set/Get wether the normal vector
+  has to be flipped.
+* obj.SetReverseMaterialOrder (int ) - If this flag is on,
+  material order in reversed. Otherwise, materials are
+  sorted in ascending order depending on the given ordering
+  array.
+* int = obj.GetReverseMaterialOrder () - If this flag is on,
+  material order in reversed. Otherwise, materials are
+  sorted in ascending order depending on the given ordering
+  array.
+* obj.ReverseMaterialOrderOn () - If this flag is on,
+  material order in reversed. Otherwise, materials are
+  sorted in ascending order depending on the given ordering
+  array.
+* obj.ReverseMaterialOrderOff () - If this flag is on,
+  material order in reversed. Otherwise, materials are
+  sorted in ascending order depending on the given ordering
+  array.
+* obj.SetOnionPeel (int ) - Set/Get OnionPeel flag. if this
+  flag is on, the normal vector of the first material (which
+  depends on material ordering) is used for all materials.
+* int = obj.GetOnionPeel () - Set/Get OnionPeel flag. if
+  this flag is on, the normal vector of the first material
+  (which depends on material ordering) is used for all
+  materials.
+* obj.OnionPeelOn () - Set/Get OnionPeel flag. if this flag
+  is on, the normal vector of the first material (which
+  depends on material ordering) is used for all materials.
+* obj.OnionPeelOff () - Set/Get OnionPeel flag. if this flag
+  is on, the normal vector of the first material (which
+  depends on material ordering) is used for all materials.
+* obj.SetAxisSymetric (int ) - Turns on/off AxisSymetric
+  computation of 2D interfaces. in axis symetric mode, 2D
+  meshes are understood as volumes of revolution.
+* int = obj.GetAxisSymetric () - Turns on/off AxisSymetric
+  computation of 2D interfaces. in axis symetric mode, 2D
+  meshes are understood as volumes of revolution.
+* obj.AxisSymetricOn () - Turns on/off AxisSymetric
+  computation of 2D interfaces. in axis symetric mode, 2D
+  meshes are understood as volumes of revolution.
+* obj.AxisSymetricOff () - Turns on/off AxisSymetric
+  computation of 2D interfaces. in axis symetric mode, 2D
+  meshes are understood as volumes of revolution.
+* obj.SetUseFractionAsDistance (int ) - when
+  UseFractionAsDistance is true, the volume fraction is
+  interpreted as the distance of the cutting plane from the
+  origin. in axis symetric mode, 2D meshes are understood as
+  volumes of revolution.
+* int = obj.GetUseFractionAsDistance () - when
+  UseFractionAsDistance is true, the volume fraction is
+  interpreted as the distance of the cutting plane from the
+  origin. in axis symetric mode, 2D meshes are understood as
+  volumes of revolution.
+* obj.UseFractionAsDistanceOn () - when
+  UseFractionAsDistance is true, the volume fraction is
+  interpreted as the distance of the cutting plane from the
+  origin. in axis symetric mode, 2D meshes are understood as
+  volumes of revolution.
+* obj.UseFractionAsDistanceOff () - when
+  UseFractionAsDistance is true, the volume fraction is
+  interpreted as the distance of the cutting plane from the
+  origin. in axis symetric mode, 2D meshes are understood as
+  volumes of revolution.
+* obj.SetFillMaterial (int ) - When FillMaterial is set to
+  1, the volume containing material is output and not only
+  the interface surface.
+* int = obj.GetFillMaterial () - When FillMaterial is set to
+  1, the volume containing material is output and not only
+  the interface surface.
+* obj.FillMaterialOn () - When FillMaterial is set to 1, the
+  volume containing material is output and not only the
+  interface surface.
+* obj.FillMaterialOff () - When FillMaterial is set to 1,
+  the volume containing material is output and not only the
+  interface surface.
+* obj.SetTwoMaterialsOptimization (int ) - Triggers some
+  additional optimizations for cells containing only two
+  materials. This option might produce different result than
+  expected if the sum of volume fractions is not 1.
+* int = obj.GetTwoMaterialsOptimization () - Triggers some
+  additional optimizations for cells containing only two
+  materials. This option might produce different result than
+  expected if the sum of volume fractions is not 1.
+* obj.TwoMaterialsOptimizationOn () - Triggers some
+  additional optimizations for cells containing only two
+  materials. This option might produce different result than
+  expected if the sum of volume fractions is not 1.
+* obj.TwoMaterialsOptimizationOff () - Triggers some
+  additional optimizations for cells containing only two
+  materials. This option might produce different result than
+  expected if the sum of volume fractions is not 1.
+* obj.SetVolumeFractionRange (double , double ) - Set/Get
+  minimum and maximum volume fraction value. if a material
+  fills a volume above the minimum value, the material is
+  considered to be void. if a material fills a volume
+  fraction beyond the maximum value it is considered as
+  filling the whole volume.
+* obj.SetVolumeFractionRange (double a[2]) - Set/Get minimum
+  and maximum volume fraction value. if a material fills a
+  volume above the minimum value, the material is considered
+  to be void. if a material fills a volume fraction beyond
+  the maximum value it is considered as filling the whole
+  volume.
+* double = obj. GetVolumeFractionRange () - Set/Get minimum
+  and maximum volume fraction value. if a material fills a
+  volume above the minimum value, the material is considered
+  to be void. if a material fills a volume fraction beyond
+  the maximum value it is considered as filling the whole
+  volume.
+* obj.SetNumberOfMaterials (int n) - Sets/Gets the number of
+  materials.
+* int = obj.GetNumberOfMaterials () - Sets/Gets the number
+  of materials.
+* obj.SetMaterialArrays (int i, string volumeFraction,
+  string interfaceNormal, string materialOrdering) - Set ith
+  Material arrays to be used as volume fraction, interface
+  normal and material ordering. Each parameter name a cell
+  array.
+* obj.SetMaterialVolumeFractionArray (int i, string volume)
+  - Set ith Material arrays to be used as volume fraction,
+  interface normal and material ordering. Each parameter
+  name a cell array.
+* obj.SetMaterialNormalArray (int i, string normal) - Set
+  ith Material arrays to be used as volume fraction,
+  interface normal and material ordering. Each parameter
+  name a cell array.
+* obj.SetMaterialOrderingArray (int i, string ordering) -
+  Set ith Material arrays to be used as volume fraction,
+  interface normal and material ordering. Each parameter
+  name a cell array.
+* obj.RemoveAllMaterials () - Removes all meterials
+  previously added.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Graphics_Classes
+* Generated on Thu Jul 25 2013 17:18:32 for FreeMat by
+  doxygen_ 1.8.1.1
+

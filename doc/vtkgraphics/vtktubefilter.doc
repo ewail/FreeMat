@@ -1,0 +1,226 @@
+/*!
+\page vtkgraphics_vtktubefilter vtkTubeFilter
+
+<p>
+Section: \ref sec_vtkgraphics "Visualization Toolkit Graphics Classes"
+\section Usage
+ vtkTubeFilter is a filter that generates a tube around each input line. 
+ The tubes are made up of triangle strips and rotate around the tube with
+ the rotation of the line normals. (If no normals are present, they are
+ computed automatically.) The radius of the tube can be set to vary with 
+ scalar or vector value. If the radius varies with scalar value the radius
+ is linearly adjusted. If the radius varies with vector value, a mass
+ flux preserving variation is used. The number of sides for the tube also 
+ can be specified. You can also specify which of the sides are visible. This
+ is useful for generating interesting striping effects. Other options
+ include the ability to cap the tube and generate texture coordinates.
+ Texture coordinates can be used with an associated texture map to create
+ interesting effects such as marking the tube with stripes corresponding
+ to length or time.
+
+ This filter is typically used to create thick or dramatic lines. Another
+ common use is to combine this filter with vtkStreamLine to generate
+ streamtubes.
+
+To create an instance of class vtkTubeFilter, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkTubeFilter
+\endverbatim
+\section Methods
+The class vtkTubeFilter has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkTubeFilter class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkTubeFilter = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkTubeFilter = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetRadius (double )</tt> -  Set the minimum tube radius (minimum because the tube radius may vary).
+ </LI>
+<LI>  <tt>double = obj.GetRadiusMinValue ()</tt> -  Set the minimum tube radius (minimum because the tube radius may vary).
+ </LI>
+<LI>  <tt>double = obj.GetRadiusMaxValue ()</tt> -  Set the minimum tube radius (minimum because the tube radius may vary).
+ </LI>
+<LI>  <tt>double = obj.GetRadius ()</tt> -  Set the minimum tube radius (minimum because the tube radius may vary).
+ </LI>
+<LI>  <tt>obj.SetVaryRadius (int )</tt> -  Turn on/off the variation of tube radius with scalar value.
+ </LI>
+<LI>  <tt>int = obj.GetVaryRadiusMinValue ()</tt> -  Turn on/off the variation of tube radius with scalar value.
+ </LI>
+<LI>  <tt>int = obj.GetVaryRadiusMaxValue ()</tt> -  Turn on/off the variation of tube radius with scalar value.
+ </LI>
+<LI>  <tt>int = obj.GetVaryRadius ()</tt> -  Turn on/off the variation of tube radius with scalar value.
+ </LI>
+<LI>  <tt>obj.SetVaryRadiusToVaryRadiusOff ()</tt> -  Turn on/off the variation of tube radius with scalar value.
+ </LI>
+<LI>  <tt>obj.SetVaryRadiusToVaryRadiusByScalar ()</tt> -  Turn on/off the variation of tube radius with scalar value.
+ </LI>
+<LI>  <tt>obj.SetVaryRadiusToVaryRadiusByVector ()</tt> -  Turn on/off the variation of tube radius with scalar value.
+ </LI>
+<LI>  <tt>obj.SetVaryRadiusToVaryRadiusByAbsoluteScalar ()</tt> -  Turn on/off the variation of tube radius with scalar value.
+ </LI>
+<LI>  <tt>string = obj.GetVaryRadiusAsString ()</tt> -  Turn on/off the variation of tube radius with scalar value.
+ </LI>
+<LI>  <tt>obj.SetNumberOfSides (int )</tt> -  Set the number of sides for the tube. At a minimum, number of sides is 3.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfSidesMinValue ()</tt> -  Set the number of sides for the tube. At a minimum, number of sides is 3.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfSidesMaxValue ()</tt> -  Set the number of sides for the tube. At a minimum, number of sides is 3.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfSides ()</tt> -  Set the number of sides for the tube. At a minimum, number of sides is 3.
+ </LI>
+<LI>  <tt>obj.SetRadiusFactor (double )</tt> -  Set the maximum tube radius in terms of a multiple of the minimum radius.
+ </LI>
+<LI>  <tt>double = obj.GetRadiusFactor ()</tt> -  Set the maximum tube radius in terms of a multiple of the minimum radius.
+ </LI>
+<LI>  <tt>obj.SetDefaultNormal (double , double , double )</tt> -  Set the default normal to use if no normals are supplied, and the
+ DefaultNormalOn is set.
+ </LI>
+<LI>  <tt>obj.SetDefaultNormal (double  a[3])</tt> -  Set the default normal to use if no normals are supplied, and the
+ DefaultNormalOn is set.
+ </LI>
+<LI>  <tt>double = obj. GetDefaultNormal ()</tt> -  Set the default normal to use if no normals are supplied, and the
+ DefaultNormalOn is set.
+ </LI>
+<LI>  <tt>obj.SetUseDefaultNormal (int )</tt> -  Set a boolean to control whether to use default normals.
+ DefaultNormalOn is set.
+ </LI>
+<LI>  <tt>int = obj.GetUseDefaultNormal ()</tt> -  Set a boolean to control whether to use default normals.
+ DefaultNormalOn is set.
+ </LI>
+<LI>  <tt>obj.UseDefaultNormalOn ()</tt> -  Set a boolean to control whether to use default normals.
+ DefaultNormalOn is set.
+ </LI>
+<LI>  <tt>obj.UseDefaultNormalOff ()</tt> -  Set a boolean to control whether to use default normals.
+ DefaultNormalOn is set.
+ </LI>
+<LI>  <tt>obj.SetSidesShareVertices (int )</tt> -  Set a boolean to control whether tube sides should share vertices.
+ This creates independent strips, with constant normals so the
+ tube is always faceted in appearance.
+ </LI>
+<LI>  <tt>int = obj.GetSidesShareVertices ()</tt> -  Set a boolean to control whether tube sides should share vertices.
+ This creates independent strips, with constant normals so the
+ tube is always faceted in appearance.
+ </LI>
+<LI>  <tt>obj.SidesShareVerticesOn ()</tt> -  Set a boolean to control whether tube sides should share vertices.
+ This creates independent strips, with constant normals so the
+ tube is always faceted in appearance.
+ </LI>
+<LI>  <tt>obj.SidesShareVerticesOff ()</tt> -  Set a boolean to control whether tube sides should share vertices.
+ This creates independent strips, with constant normals so the
+ tube is always faceted in appearance.
+ </LI>
+<LI>  <tt>obj.SetCapping (int )</tt> -  Turn on/off whether to cap the ends with polygons.
+ </LI>
+<LI>  <tt>int = obj.GetCapping ()</tt> -  Turn on/off whether to cap the ends with polygons.
+ </LI>
+<LI>  <tt>obj.CappingOn ()</tt> -  Turn on/off whether to cap the ends with polygons.
+ </LI>
+<LI>  <tt>obj.CappingOff ()</tt> -  Turn on/off whether to cap the ends with polygons.
+ </LI>
+<LI>  <tt>obj.SetOnRatio (int )</tt> -  Control the striping of the tubes. If OnRatio is greater than 1,
+ then every nth tube side is turned on, beginning with the Offset
+ side.
+ </LI>
+<LI>  <tt>int = obj.GetOnRatioMinValue ()</tt> -  Control the striping of the tubes. If OnRatio is greater than 1,
+ then every nth tube side is turned on, beginning with the Offset
+ side.
+ </LI>
+<LI>  <tt>int = obj.GetOnRatioMaxValue ()</tt> -  Control the striping of the tubes. If OnRatio is greater than 1,
+ then every nth tube side is turned on, beginning with the Offset
+ side.
+ </LI>
+<LI>  <tt>int = obj.GetOnRatio ()</tt> -  Control the striping of the tubes. If OnRatio is greater than 1,
+ then every nth tube side is turned on, beginning with the Offset
+ side.
+ </LI>
+<LI>  <tt>obj.SetOffset (int )</tt> -  Control the striping of the tubes. The offset sets the
+ first tube side that is visible. Offset is generally used with
+ OnRatio to create nifty striping effects.
+ </LI>
+<LI>  <tt>int = obj.GetOffsetMinValue ()</tt> -  Control the striping of the tubes. The offset sets the
+ first tube side that is visible. Offset is generally used with
+ OnRatio to create nifty striping effects.
+ </LI>
+<LI>  <tt>int = obj.GetOffsetMaxValue ()</tt> -  Control the striping of the tubes. The offset sets the
+ first tube side that is visible. Offset is generally used with
+ OnRatio to create nifty striping effects.
+ </LI>
+<LI>  <tt>int = obj.GetOffset ()</tt> -  Control the striping of the tubes. The offset sets the
+ first tube side that is visible. Offset is generally used with
+ OnRatio to create nifty striping effects.
+ </LI>
+<LI>  <tt>obj.SetGenerateTCoords (int )</tt> -  Control whether and how texture coordinates are produced. This is
+ useful for striping the tube with length textures, etc. If you
+ use scalars to create the texture, the scalars are assumed to be
+ monotonically increasing (or decreasing).
+ </LI>
+<LI>  <tt>int = obj.GetGenerateTCoordsMinValue ()</tt> -  Control whether and how texture coordinates are produced. This is
+ useful for striping the tube with length textures, etc. If you
+ use scalars to create the texture, the scalars are assumed to be
+ monotonically increasing (or decreasing).
+ </LI>
+<LI>  <tt>int = obj.GetGenerateTCoordsMaxValue ()</tt> -  Control whether and how texture coordinates are produced. This is
+ useful for striping the tube with length textures, etc. If you
+ use scalars to create the texture, the scalars are assumed to be
+ monotonically increasing (or decreasing).
+ </LI>
+<LI>  <tt>int = obj.GetGenerateTCoords ()</tt> -  Control whether and how texture coordinates are produced. This is
+ useful for striping the tube with length textures, etc. If you
+ use scalars to create the texture, the scalars are assumed to be
+ monotonically increasing (or decreasing).
+ </LI>
+<LI>  <tt>obj.SetGenerateTCoordsToOff ()</tt> -  Control whether and how texture coordinates are produced. This is
+ useful for striping the tube with length textures, etc. If you
+ use scalars to create the texture, the scalars are assumed to be
+ monotonically increasing (or decreasing).
+ </LI>
+<LI>  <tt>obj.SetGenerateTCoordsToNormalizedLength ()</tt> -  Control whether and how texture coordinates are produced. This is
+ useful for striping the tube with length textures, etc. If you
+ use scalars to create the texture, the scalars are assumed to be
+ monotonically increasing (or decreasing).
+ </LI>
+<LI>  <tt>obj.SetGenerateTCoordsToUseLength ()</tt> -  Control whether and how texture coordinates are produced. This is
+ useful for striping the tube with length textures, etc. If you
+ use scalars to create the texture, the scalars are assumed to be
+ monotonically increasing (or decreasing).
+ </LI>
+<LI>  <tt>obj.SetGenerateTCoordsToUseScalars ()</tt> -  Control whether and how texture coordinates are produced. This is
+ useful for striping the tube with length textures, etc. If you
+ use scalars to create the texture, the scalars are assumed to be
+ monotonically increasing (or decreasing).
+ </LI>
+<LI>  <tt>string = obj.GetGenerateTCoordsAsString ()</tt> -  Control whether and how texture coordinates are produced. This is
+ useful for striping the tube with length textures, etc. If you
+ use scalars to create the texture, the scalars are assumed to be
+ monotonically increasing (or decreasing).
+ </LI>
+<LI>  <tt>obj.SetTextureLength (double )</tt> -  Control the conversion of units during the texture coordinates
+ calculation. The TextureLength indicates what length (whether 
+ calculated from scalars or length) is mapped to the [0,1)
+ texture space.
+ </LI>
+<LI>  <tt>double = obj.GetTextureLengthMinValue ()</tt> -  Control the conversion of units during the texture coordinates
+ calculation. The TextureLength indicates what length (whether 
+ calculated from scalars or length) is mapped to the [0,1)
+ texture space.
+ </LI>
+<LI>  <tt>double = obj.GetTextureLengthMaxValue ()</tt> -  Control the conversion of units during the texture coordinates
+ calculation. The TextureLength indicates what length (whether 
+ calculated from scalars or length) is mapped to the [0,1)
+ texture space.
+ </LI>
+<LI>  <tt>double = obj.GetTextureLength ()</tt> -  Control the conversion of units during the texture coordinates
+ calculation. The TextureLength indicates what length (whether 
+ calculated from scalars or length) is mapped to the [0,1)
+ texture space.
+ </LI>
+</UL>
+*/

@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="curvefit_gausfit" kind="page">
+    <compoundname>curvefit_gausfit</compoundname>
+    <title>GAUSFIT Gaussian Curve Fit</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_curvefit_1sec_curvefit" kindref="member">Optimization and Curve Fitting</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>The <computeroutput>gausfit</computeroutput> routine has the following syntax <verbatim>  [mu,sigma,dc,gain,yhat] = gausfit(t,y,w,mug,sigmag,dcg,gaing).
+</verbatim> where the required inputs are <itemizedlist>
+<listitem>
+<para><computeroutput>t</computeroutput> - the values of the independant variable (e.g., time samples)  </para></listitem>
+<listitem>
+<para><computeroutput>y</computeroutput> - the values of the dependant variable (e.g., f(t))  </para></listitem>
+</itemizedlist>
+The following inputs are all optional, and default values are available for each of them. <itemizedlist>
+<listitem>
+<para><computeroutput>w</computeroutput> - the weights to use in the fitting (set to ones if omitted)  </para></listitem>
+<listitem>
+<para><computeroutput>mug</computeroutput> - initial estimate of the mean  </para></listitem>
+<listitem>
+<para><computeroutput>sigmag</computeroutput> - initial estimate of the sigma (standard deviation)  </para></listitem>
+<listitem>
+<para><computeroutput>dcg</computeroutput> - initial estimate of the DC value  </para></listitem>
+<listitem>
+<para><computeroutput>gaing</computeroutput> - initial estimate of the gain  </para></listitem>
+</itemizedlist>
+The fit is of the form <computeroutput>yhat=gain*exp((t-mu).^2/(2*sigma^2))+dc</computeroutput>. The outputs are <itemizedlist>
+<listitem>
+<para><computeroutput>mu</computeroutput> - the mean of the fit  </para></listitem>
+<listitem>
+<para><computeroutput>sigma</computeroutput> - the sigma of the fit  </para></listitem>
+<listitem>
+<para><computeroutput>dc</computeroutput> - the dc term of the fit  </para></listitem>
+<listitem>
+<para><computeroutput>gain</computeroutput> - the gain of the gaussian fit  </para></listitem>
+<listitem>
+<para><computeroutput>yhat</computeroutput> - the output samples (the Gaussian fits)  </para></listitem>
+</itemizedlist>
+Because the fit is nonlinear, a good initial guess is critical to convergence of the solution. Thus, you can supply initial guesses for each of the parameters using the <computeroutput>mug</computeroutput>, <computeroutput>sigmag</computeroutput>, <computeroutput>dcg</computeroutput>, <computeroutput>gaing</computeroutput> arguments. Any arguments not supplied are estimated using a simple algorithm. In particular, the DC value is estimated by taking the minimum value from the vector <computeroutput>y</computeroutput>. The gain is estimated from the range of <computeroutput>y</computeroutput>. The mean and standard deviation are estimated using the first and second order moments of <computeroutput>y</computeroutput>. This function uses <computeroutput>fitfun</computeroutput>. </para></sect1>
+<sect1 id="variables_struct_1Example">
+<title>Example</title>
+<para>Suppose we want to fit a cycle of a cosine using a Gaussian shape.</para><para><verbatim>--&gt; t = linspace(-pi,pi); 
+--&gt; y = cos(t);
+--&gt; [mu,sigma,dc,gain,yhat] = gausfit(t,y);
+--&gt; plot(t,y,&apos;rx&apos;,t,yhat,&apos;g-&apos;);
+</verbatim></para><para>Which results in the following plot <image type="html" name="gausfit1.png"></image>
+ <image type="latex" name="gausfit1" width="12cm">gausfit1</image>
+ </para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

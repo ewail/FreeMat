@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkimaging_vtkimagestencildata" kind="page">
+    <compoundname>vtkimaging_vtkimagestencildata</compoundname>
+    <title>vtkImageStencilData</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkimaging_1sec_vtkimaging" kindref="member">Visualization Toolkit Imaging Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>vtkImageStencilData describes an image stencil in a manner which is efficient both in terms of speed and storage space. The stencil extents are stored for each x-row across the image (multiple extents per row if necessary) and can be retrieved via the GetNextExtent() method.</para><para>To create an instance of class vtkImageStencilData, simply invoke its constructor as follows <verbatim>  obj = vtkImageStencilData
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkImageStencilData has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkImageStencilData class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkImageStencilData = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkImageStencilData = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.Initialize ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.DeepCopy (vtkDataObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ShallowCopy (vtkDataObject f)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.InternalImageStencilDataCopy (vtkImageStencilData s)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetDataObjectType ()</computeroutput> - The extent type is 3D, just like vtkImageData.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetExtentType ()</computeroutput> - The extent type is 3D, just like vtkImageData.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.InsertNextExtent (int r1, int r2, int yIdx, int zIdx)</computeroutput> - This method is used by vtkImageStencilDataSource to add an x sub extent [r1,r2] for the x row (yIdx,zIdx). The specified sub extent must not intersect any other sub extents along the same x row. As well, r1 and r2 must both be within the total x extent [Extent[0],Extent[1]].  </para></listitem>
+<listitem>
+<para><computeroutput>obj.InsertAndMergeExtent (int r1, int r2, int yIdx, int zIdx)</computeroutput> - Similar to InsertNextExtent, except that the extent (r1,r2) at yIdx, zIdx is merged with other extents, (if any) on that row. So a unique extent may not necessarily be added. For instance, if an extent [5,11] already exists adding an extent, [7,9] will not affect the stencil. Likewise adding [10, 13] will replace the existing extent with [5,13].  </para></listitem>
+<listitem>
+<para><computeroutput>obj.RemoveExtent (int r1, int r2, int yIdx, int zIdx)</computeroutput> - Remove the extent from (r1,r2) at yIdx, zIdx  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetSpacing (double , double , double )</computeroutput> - Set the desired spacing for the stencil. This must be called before the stencil is Updated, ideally in the ExecuteInformation method of the imaging filter that is using the stencil.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetSpacing (double a[3])</computeroutput> - Set the desired spacing for the stencil. This must be called before the stencil is Updated, ideally in the ExecuteInformation method of the imaging filter that is using the stencil.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj. GetSpacing ()</computeroutput> - Set the desired spacing for the stencil. This must be called before the stencil is Updated, ideally in the ExecuteInformation method of the imaging filter that is using the stencil.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetOrigin (double , double , double )</computeroutput> - Set the desired origin for the stencil. This must be called before the stencil is Updated, ideally in the ExecuteInformation method of the imaging filter that is using the stencil.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetOrigin (double a[3])</computeroutput> - Set the desired origin for the stencil. This must be called before the stencil is Updated, ideally in the ExecuteInformation method of the imaging filter that is using the stencil.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj. GetOrigin ()</computeroutput> - Set the desired origin for the stencil. This must be called before the stencil is Updated, ideally in the ExecuteInformation method of the imaging filter that is using the stencil.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetExtent (int extent[6])</computeroutput> - Set the extent of the data. This is should be called only by vtkImageStencilSource, as it is part of the basic pipeline functionality.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetExtent (int x1, int x2, int y1, int y2, int z1, int z2)</computeroutput> - Set the extent of the data. This is should be called only by vtkImageStencilSource, as it is part of the basic pipeline functionality.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj. GetExtent ()</computeroutput> - Set the extent of the data. This is should be called only by vtkImageStencilSource, as it is part of the basic pipeline functionality.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.AllocateExtents ()</computeroutput> - Allocate space for the sub-extents. This is called by vtkImageStencilSource.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.Fill ()</computeroutput> - Fill the sub-extents.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.CopyInformationToPipeline (vtkInformation request, vtkInformation input, vtkInformation output, int forceCopy)</computeroutput> - Override these to handle origin, spacing, scalar type, and scalar number of components. See vtkDataObject for details.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.CopyInformationFromPipeline (vtkInformation request)</computeroutput> - Override these to handle origin, spacing, scalar type, and scalar number of components. See vtkDataObject for details.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.Add (vtkImageStencilData )</computeroutput> - Add merges the stencil supplied as argument into Self.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.Subtract (vtkImageStencilData )</computeroutput> - Subtract removes the portion of the stencil, supplied as argument, that lies within Self from Self.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.Replace (vtkImageStencilData )</computeroutput> - Replaces the portion of the stencil, supplied as argument, that lies within Self from Self.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.Clip (int extent[6])</computeroutput> - Clip the stencil with the supplied extents. In other words, discard data outside the specified extents. Return 1 if something changed.  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

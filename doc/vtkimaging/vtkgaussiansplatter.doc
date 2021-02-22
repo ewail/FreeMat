@@ -1,0 +1,246 @@
+/*!
+\page vtkimaging_vtkgaussiansplatter vtkGaussianSplatter
+
+<p>
+Section: \ref sec_vtkimaging "Visualization Toolkit Imaging Classes"
+\section Usage
+ vtkGaussianSplatter is a filter that injects input points into a
+ structured points (volume) dataset. As each point is injected, it "splats"
+ or distributes values to nearby voxels. Data is distributed using an
+ elliptical, Gaussian distribution function. The distribution function is
+ modified using scalar values (expands distribution) or normals
+ (creates ellipsoidal distribution rather than spherical).
+
+ In general, the Gaussian distribution function f(x) around a given
+ splat point p is given by
+
+     f(x) = ScaleFactor * exp( ExponentFactor*((r/Radius)**2) )
+
+ where x is the current voxel sample point; r is the distance |x-p|
+ ExponentFactor <= 0.0, and ScaleFactor can be multiplied by the scalar 
+ value of the point p that is currently being splatted.
+
+ If points normals are present (and NormalWarping is on), then the splat 
+ function becomes elliptical (as compared to the spherical one described
+ by the previous equation). The Gaussian distribution function then
+ becomes:
+ 
+     f(x) = ScaleFactor * 
+               exp( ExponentFactor*( ((rxy/E)**2 + z**2)/R**2) )
+
+ where E is a user-defined eccentricity factor that controls the elliptical
+ shape of the splat; z is the distance of the current voxel sample point
+ along normal N; and rxy is the distance of x in the direction
+ prependicular to N.
+
+ This class is typically used to convert point-valued distributions into
+ a volume representation. The volume is then usually iso-surfaced or
+ volume rendered to generate a visualization. It can be used to create
+ surfaces from point distributions, or to create structure (i.e.,
+ topology) when none exists.
+
+To create an instance of class vtkGaussianSplatter, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkGaussianSplatter
+\endverbatim
+\section Methods
+The class vtkGaussianSplatter has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkGaussianSplatter class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkGaussianSplatter = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkGaussianSplatter = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetSampleDimensions (int i, int j, int k)</tt> -  Set / get the dimensions of the sampling structured point set. Higher
+ values produce better results but are much slower.
+ </LI>
+<LI>  <tt>obj.SetSampleDimensions (int dim[3])</tt> -  Set / get the dimensions of the sampling structured point set. Higher
+ values produce better results but are much slower.
+ </LI>
+<LI>  <tt>int = obj. GetSampleDimensions ()</tt> -  Set / get the dimensions of the sampling structured point set. Higher
+ values produce better results but are much slower.
+ </LI>
+<LI>  <tt>obj.SetModelBounds (double , double , double , double , double , double )</tt> -  Set / get the (xmin,xmax, ymin,ymax, zmin,zmax) bounding box in which
+ the sampling is performed. If any of the (min,max) bounds values are
+ min >= max, then the bounds will be computed automatically from the input
+ data. Otherwise, the user-specified bounds will be used.
+ </LI>
+<LI>  <tt>obj.SetModelBounds (double  a[6])</tt> -  Set / get the (xmin,xmax, ymin,ymax, zmin,zmax) bounding box in which
+ the sampling is performed. If any of the (min,max) bounds values are
+ min >= max, then the bounds will be computed automatically from the input
+ data. Otherwise, the user-specified bounds will be used.
+ </LI>
+<LI>  <tt>double = obj. GetModelBounds ()</tt> -  Set / get the (xmin,xmax, ymin,ymax, zmin,zmax) bounding box in which
+ the sampling is performed. If any of the (min,max) bounds values are
+ min >= max, then the bounds will be computed automatically from the input
+ data. Otherwise, the user-specified bounds will be used.
+ </LI>
+<LI>  <tt>obj.SetRadius (double )</tt> -  Set / get the radius of propagation of the splat. This value is expressed
+ as a percentage of the length of the longest side of the sampling
+ volume. Smaller numbers greatly reduce execution time.
+ </LI>
+<LI>  <tt>double = obj.GetRadiusMinValue ()</tt> -  Set / get the radius of propagation of the splat. This value is expressed
+ as a percentage of the length of the longest side of the sampling
+ volume. Smaller numbers greatly reduce execution time.
+ </LI>
+<LI>  <tt>double = obj.GetRadiusMaxValue ()</tt> -  Set / get the radius of propagation of the splat. This value is expressed
+ as a percentage of the length of the longest side of the sampling
+ volume. Smaller numbers greatly reduce execution time.
+ </LI>
+<LI>  <tt>double = obj.GetRadius ()</tt> -  Set / get the radius of propagation of the splat. This value is expressed
+ as a percentage of the length of the longest side of the sampling
+ volume. Smaller numbers greatly reduce execution time.
+ </LI>
+<LI>  <tt>obj.SetScaleFactor (double )</tt> -  Multiply Gaussian splat distribution by this value. If ScalarWarping
+ is on, then the Scalar value will be multiplied by the ScaleFactor
+ times the Gaussian function.
+ </LI>
+<LI>  <tt>double = obj.GetScaleFactorMinValue ()</tt> -  Multiply Gaussian splat distribution by this value. If ScalarWarping
+ is on, then the Scalar value will be multiplied by the ScaleFactor
+ times the Gaussian function.
+ </LI>
+<LI>  <tt>double = obj.GetScaleFactorMaxValue ()</tt> -  Multiply Gaussian splat distribution by this value. If ScalarWarping
+ is on, then the Scalar value will be multiplied by the ScaleFactor
+ times the Gaussian function.
+ </LI>
+<LI>  <tt>double = obj.GetScaleFactor ()</tt> -  Multiply Gaussian splat distribution by this value. If ScalarWarping
+ is on, then the Scalar value will be multiplied by the ScaleFactor
+ times the Gaussian function.
+ </LI>
+<LI>  <tt>obj.SetExponentFactor (double )</tt> -  Set / get the sharpness of decay of the splats. This is the
+ exponent constant in the Gaussian equation. Normally this is
+ a negative value.
+ </LI>
+<LI>  <tt>double = obj.GetExponentFactor ()</tt> -  Set / get the sharpness of decay of the splats. This is the
+ exponent constant in the Gaussian equation. Normally this is
+ a negative value.
+ </LI>
+<LI>  <tt>obj.SetNormalWarping (int )</tt> -  Turn on/off the generation of elliptical splats. If normal warping is
+ on, then the input normals affect the distribution of the splat. This
+ boolean is used in combination with the Eccentricity ivar.
+ </LI>
+<LI>  <tt>int = obj.GetNormalWarping ()</tt> -  Turn on/off the generation of elliptical splats. If normal warping is
+ on, then the input normals affect the distribution of the splat. This
+ boolean is used in combination with the Eccentricity ivar.
+ </LI>
+<LI>  <tt>obj.NormalWarpingOn ()</tt> -  Turn on/off the generation of elliptical splats. If normal warping is
+ on, then the input normals affect the distribution of the splat. This
+ boolean is used in combination with the Eccentricity ivar.
+ </LI>
+<LI>  <tt>obj.NormalWarpingOff ()</tt> -  Turn on/off the generation of elliptical splats. If normal warping is
+ on, then the input normals affect the distribution of the splat. This
+ boolean is used in combination with the Eccentricity ivar.
+ </LI>
+<LI>  <tt>obj.SetEccentricity (double )</tt> -  Control the shape of elliptical splatting. Eccentricity is the ratio
+ of the major axis (aligned along normal) to the minor (axes) aligned
+ along other two axes. So Eccentricity > 1 creates needles with the
+ long axis in the direction of the normal; Eccentricity<1 creates
+ pancakes perpendicular to the normal vector.
+ </LI>
+<LI>  <tt>double = obj.GetEccentricityMinValue ()</tt> -  Control the shape of elliptical splatting. Eccentricity is the ratio
+ of the major axis (aligned along normal) to the minor (axes) aligned
+ along other two axes. So Eccentricity > 1 creates needles with the
+ long axis in the direction of the normal; Eccentricity<1 creates
+ pancakes perpendicular to the normal vector.
+ </LI>
+<LI>  <tt>double = obj.GetEccentricityMaxValue ()</tt> -  Control the shape of elliptical splatting. Eccentricity is the ratio
+ of the major axis (aligned along normal) to the minor (axes) aligned
+ along other two axes. So Eccentricity > 1 creates needles with the
+ long axis in the direction of the normal; Eccentricity<1 creates
+ pancakes perpendicular to the normal vector.
+ </LI>
+<LI>  <tt>double = obj.GetEccentricity ()</tt> -  Control the shape of elliptical splatting. Eccentricity is the ratio
+ of the major axis (aligned along normal) to the minor (axes) aligned
+ along other two axes. So Eccentricity > 1 creates needles with the
+ long axis in the direction of the normal; Eccentricity<1 creates
+ pancakes perpendicular to the normal vector.
+ </LI>
+<LI>  <tt>obj.SetScalarWarping (int )</tt> -  Turn on/off the scaling of splats by scalar value.
+ </LI>
+<LI>  <tt>int = obj.GetScalarWarping ()</tt> -  Turn on/off the scaling of splats by scalar value.
+ </LI>
+<LI>  <tt>obj.ScalarWarpingOn ()</tt> -  Turn on/off the scaling of splats by scalar value.
+ </LI>
+<LI>  <tt>obj.ScalarWarpingOff ()</tt> -  Turn on/off the scaling of splats by scalar value.
+ </LI>
+<LI>  <tt>obj.SetCapping (int )</tt> -  Turn on/off the capping of the outer boundary of the volume
+ to a specified cap value. This can be used to close surfaces
+ (after iso-surfacing) and create other effects.
+ </LI>
+<LI>  <tt>int = obj.GetCapping ()</tt> -  Turn on/off the capping of the outer boundary of the volume
+ to a specified cap value. This can be used to close surfaces
+ (after iso-surfacing) and create other effects.
+ </LI>
+<LI>  <tt>obj.CappingOn ()</tt> -  Turn on/off the capping of the outer boundary of the volume
+ to a specified cap value. This can be used to close surfaces
+ (after iso-surfacing) and create other effects.
+ </LI>
+<LI>  <tt>obj.CappingOff ()</tt> -  Turn on/off the capping of the outer boundary of the volume
+ to a specified cap value. This can be used to close surfaces
+ (after iso-surfacing) and create other effects.
+ </LI>
+<LI>  <tt>obj.SetCapValue (double )</tt> -  Specify the cap value to use. (This instance variable only has effect 
+ if the ivar Capping is on.)
+ </LI>
+<LI>  <tt>double = obj.GetCapValue ()</tt> -  Specify the cap value to use. (This instance variable only has effect 
+ if the ivar Capping is on.)
+ </LI>
+<LI>  <tt>obj.SetAccumulationMode (int )</tt> -  Specify the scalar accumulation mode. This mode expresses how scalar
+ values are combined when splats are overlapped. The Max mode acts
+ like a set union operation and is the most commonly used; the Min
+ mode acts like a set intersection, and the sum is just weird.
+ </LI>
+<LI>  <tt>int = obj.GetAccumulationModeMinValue ()</tt> -  Specify the scalar accumulation mode. This mode expresses how scalar
+ values are combined when splats are overlapped. The Max mode acts
+ like a set union operation and is the most commonly used; the Min
+ mode acts like a set intersection, and the sum is just weird.
+ </LI>
+<LI>  <tt>int = obj.GetAccumulationModeMaxValue ()</tt> -  Specify the scalar accumulation mode. This mode expresses how scalar
+ values are combined when splats are overlapped. The Max mode acts
+ like a set union operation and is the most commonly used; the Min
+ mode acts like a set intersection, and the sum is just weird.
+ </LI>
+<LI>  <tt>int = obj.GetAccumulationMode ()</tt> -  Specify the scalar accumulation mode. This mode expresses how scalar
+ values are combined when splats are overlapped. The Max mode acts
+ like a set union operation and is the most commonly used; the Min
+ mode acts like a set intersection, and the sum is just weird.
+ </LI>
+<LI>  <tt>obj.SetAccumulationModeToMin ()</tt> -  Specify the scalar accumulation mode. This mode expresses how scalar
+ values are combined when splats are overlapped. The Max mode acts
+ like a set union operation and is the most commonly used; the Min
+ mode acts like a set intersection, and the sum is just weird.
+ </LI>
+<LI>  <tt>obj.SetAccumulationModeToMax ()</tt> -  Specify the scalar accumulation mode. This mode expresses how scalar
+ values are combined when splats are overlapped. The Max mode acts
+ like a set union operation and is the most commonly used; the Min
+ mode acts like a set intersection, and the sum is just weird.
+ </LI>
+<LI>  <tt>obj.SetAccumulationModeToSum ()</tt> -  Specify the scalar accumulation mode. This mode expresses how scalar
+ values are combined when splats are overlapped. The Max mode acts
+ like a set union operation and is the most commonly used; the Min
+ mode acts like a set intersection, and the sum is just weird.
+ </LI>
+<LI>  <tt>string = obj.GetAccumulationModeAsString ()</tt> -  Specify the scalar accumulation mode. This mode expresses how scalar
+ values are combined when splats are overlapped. The Max mode acts
+ like a set union operation and is the most commonly used; the Min
+ mode acts like a set intersection, and the sum is just weird.
+ </LI>
+<LI>  <tt>obj.SetNullValue (double )</tt> -  Set the Null value for output points not receiving a contribution from the
+ input points. (This is the initial value of the voxel samples.)
+ </LI>
+<LI>  <tt>double = obj.GetNullValue ()</tt> -  Set the Null value for output points not receiving a contribution from the
+ input points. (This is the initial value of the voxel samples.)
+ </LI>
+<LI>  <tt>obj.ComputeModelBounds (vtkDataSet input, vtkImageData output, vtkInformation outInfo)</tt> -  Compute the size of the sample bounding box automatically from the
+ input data. This is an internal helper function.
+ </LI>
+</UL>
+*/

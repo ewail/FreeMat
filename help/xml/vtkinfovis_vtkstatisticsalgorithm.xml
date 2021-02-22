@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkinfovis_vtkstatisticsalgorithm" kind="page">
+    <compoundname>vtkinfovis_vtkstatisticsalgorithm</compoundname>
+    <title>vtkStatisticsAlgorithm</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkinfovis_1sec_vtkinfovis" kindref="member">Visualization Toolkit Infovis Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>All statistics algorithms can conceptually be operated with several options: Learn: given an input data set, calculate a minimal statistical model (e.g., sums, raw moments, joint probabilities). Derive: given an input minimal statistical model, derive the full model (e.g., descriptive statistics, quantiles, correlations, conditional probabilities). NB: It may be, or not be, a problem that a full model was not derived. For instance, when doing parallel calculations, one only wants to derive the full model after all partial calculations have completed. On the other hand, one can also directly provide a full model, that was previously calculated or guessed, and not derive a new one. Assess: given an input data set, input statistics, and some form of threshold, assess a subset of the data set. Test: perform at least one statistical test. Therefore, a vtkStatisticsAlgorithm has the following vtkTable ports 3 input ports: Data (mandatory) Parameters to the learn phase (optional) Input model (optional) 3 output port (called Output): Data (annotated with assessments when the Assess option is ON). Output model (identical to the the input model when Learn option is OFF). Meta information about the model and/or the overall fit of the data to the model; is filled only when the Assess option is ON.</para><para>.SECTION Thanks Thanks to Philippe Pebay and David Thompson from Sandia National Laboratories for implementing this class.</para><para>To create an instance of class vtkStatisticsAlgorithm, simply invoke its constructor as follows <verbatim>  obj = vtkStatisticsAlgorithm
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkStatisticsAlgorithm has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkStatisticsAlgorithm class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkStatisticsAlgorithm = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkStatisticsAlgorithm = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetLearnOptionParameterConnection (vtkAlgorithmOutput params)</computeroutput> - A convenience method for setting learn input parameters (if one is expected or allowed). It is equivalent to calling SetInput( 1, params );  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetLearnOptionParameters (vtkDataObject params)</computeroutput> - A convenience method for setting the input model (if one is expected or allowed). It is equivalent to calling SetInputConnection( 2, model );  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetInputModelConnection (vtkAlgorithmOutput model)</computeroutput> - //  <computeroutput>obj.SetInputModel (vtkDataObject model)</computeroutput> - Set/Get the Learn option.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetLearnOption (bool )</computeroutput> - Set/Get the Learn option.  </para></listitem>
+<listitem>
+<para><computeroutput>bool = obj.GetLearnOption ()</computeroutput> - Set/Get the Learn option.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetDeriveOption (bool )</computeroutput> - Set/Get the Derive option.  </para></listitem>
+<listitem>
+<para><computeroutput>bool = obj.GetDeriveOption ()</computeroutput> - Set/Get the Derive option.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetAssessOption (bool )</computeroutput> - Set/Get the Assess option.  </para></listitem>
+<listitem>
+<para><computeroutput>bool = obj.GetAssessOption ()</computeroutput> - Set/Get the Assess option.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetTestOption (bool )</computeroutput> - Set/Get the Test option.  </para></listitem>
+<listitem>
+<para><computeroutput>bool = obj.GetTestOption ()</computeroutput> - Set/Get the Test option.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetAssessParameters (vtkStringArray )</computeroutput> - Set/get assessment parameters.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkStringArray = obj.GetAssessParameters ()</computeroutput> - Set/get assessment parameters.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetAssessNames (vtkStringArray )</computeroutput> - Set/get assessment names.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkStringArray = obj.GetAssessNames ()</computeroutput> - Set/get assessment names.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetColumnStatus (string namCol, int status)</computeroutput> - Add or remove a column from the current analysis request. Once all the column status values are set, call RequestSelectedColumns() before selecting another set of columns for a different analysis request. The way that columns selections are used varies from algorithm to algorithm.</para><para>Note: the set of selected columns is maintained in vtkStatisticsAlgorithmPrivate::Buffer until RequestSelectedColumns() is called, at which point the set is appended to vtkStatisticsAlgorithmPrivate::Requests. If there are any columns in vtkStatisticsAlgorithmPrivate::Buffer at the time RequestData() is called, RequestSelectedColumns() will be called and the selection added to the list of requests.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ResetAllColumnStates ()</computeroutput> - Set the the status of each and every column in the current request to OFF (0).  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.RequestSelectedColumns ()</computeroutput> - Use the current column status values to produce a new request for statistics to be produced when RequestData() is called. See SetColumnStatus() for more information.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ResetRequests ()</computeroutput> - Empty the list of current requests.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkIdType = obj.GetNumberOfRequests ()</computeroutput> - Return the number of requests. This does not include any request that is in the column-status buffer but for which RequestSelectedColumns() has not yet been called (even though it is possible this request will be honored when the filter is run <ndash/> see SetColumnStatus() for more information).  </para></listitem>
+<listitem>
+<para><computeroutput>vtkIdType = obj.GetNumberOfColumnsForRequest (vtkIdType request)</computeroutput> - Return the number of columns for a given request.  </para></listitem>
+<listitem>
+<para><computeroutput>string = obj.GetColumnForRequest (vtkIdType r, vtkIdType c)</computeroutput> - Provide the name of the <emphasis>c-th</emphasis> column for the <emphasis>r-th</emphasis> request.</para><para>For the version of this routine that returns an integer, if the request or column does not exist because <emphasis>r</emphasis> or <emphasis>c</emphasis> is out of bounds, this routine returns 0 and the value of <emphasis>columnName</emphasis> is unspecified. Otherwise, it returns 1 and the value of <emphasis>columnName</emphasis> is set.</para><para>For the version of this routine that returns const char*, if the request or column does not exist because <emphasis>r</emphasis> or <emphasis>c</emphasis> is out of bounds, the routine returns NULL. Otherwise it returns the column name. This version is not thread-safe.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.Aggregate (vtkDataObjectCollection , vtkDataObject )</computeroutput> - Given a collection of models, calculate aggregate model  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

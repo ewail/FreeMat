@@ -1,0 +1,65 @@
+
+ Usage
+
+The divide operator / is really a combination of three
+operators, all of which have the same general syntax:
+
+    Y = A / B
+
+where A and B are arrays of numerical type. The result Y
+depends on which of the following three situations applies
+to the arguments A and B:
+
+  1. A is a scalar, B is an arbitrary n-dimensional
+     numerical array, in which case the output is the scalar
+     A divided into each element of B.
+  2. B is a scalar, A is an arbitrary n-dimensional
+     numerical array, in which case the output is each
+     element of A divided by the scalar B.
+  3. A,B are matrices with the same number of columns, i.e.,
+     A is of size K x M, and B is of size L x M, in which
+     case the output is of size K x L.
+
+The output follows the standard type promotion rules,
+although in the first two cases, if A and B are integers,
+the output is an integer also, while in the third case if A
+and B are integers, the output is of type double.
+
+
+ Internals
+
+There are three formulae for the times operator. For the
+first form
+ \[ Y(m_1,\ldots,m_d) = \frac{A}{B(m_1,\ldots,m_d)}, \]
+and the second form
+ \[ Y(m_1,\ldots,m_d) = \frac{A(m_1,\ldots,m_d)}{B}. \]
+In the third form, the output is defined as:
+ \[ Y = (B' \backslash A')' \]
+and is used in the equation Y B = A.
+
+
+ Examples
+
+The right-divide operator is much less frequently used than
+the left-divide operator, but the concepts are similar. It
+can be used to find least-squares and minimum norm
+solutions. It can also be used to solve systems of equations
+in much the same way. Here's a simple example:
+
+  --> B = [1,1;0,1];
+  --> A = [4,5]
+
+  A =
+   4 5
+
+  --> A/B
+
+  ans =
+   4 1
+
+
+* FreeMat_Documentation
+* Mathematical_Operators
+* Generated on Thu Jul 25 2013 17:17:45 for FreeMat by
+  doxygen_ 1.8.1.1
+

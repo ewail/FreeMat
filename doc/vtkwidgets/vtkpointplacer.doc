@@ -1,0 +1,106 @@
+/*!
+\page vtkwidgets_vtkpointplacer vtkPointPlacer
+
+<p>
+Section: \ref sec_vtkwidgets "Visualization Toolkit Widget Classes"
+\section Usage
+ Most widgets in VTK have a need to translate of 2D display coordinates (as
+ reported by the RenderWindowInteractor) to 3D world coordinates. This class
+ is an abstraction of this functionality. A few subclasses are listed below:
+ <p>1) vtkFocalPlanePointPlacer: This class converts 2D display positions to 
+ world positions such that they lie on the focal plane.
+ <p>2) vtkPolygonalSurfacePointPlacer: Converts 2D display positions to 
+ world positions such that they lie on the surface of one or more specified 
+ polydatas.
+ <p>3) vtkImageActorPointPlacer: Converts 2D display positions to world 
+ positions such that they lie on an ImageActor
+ <p>4) vtkBoundedPlanePointPlacer: Converts 2D display positions to world 
+ positions such that they lie within a set of specified bounding planes.
+ <p>5) vtkTerrainDataPointPlacer: Converts 2D display positions to world 
+ positions such that they lie on a height field.
+ <p> Point placers provide an extensible framework to specify constraints on 
+ points. The methods ComputeWorldPosition, ValidateDisplayPosition and
+ ValidateWorldPosition may be overridden to dictate whether a world or
+ display position is allowed. These classes are currently used by the
+ HandleWidget and the ContourWidget to allow various constraints to be 
+ enforced on the placement of their handles.
+
+To create an instance of class vtkPointPlacer, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkPointPlacer
+\endverbatim
+\section Methods
+The class vtkPointPlacer has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkPointPlacer class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt> -  Standard methods for instances of this class.
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt> -  Standard methods for instances of this class.
+ </LI>
+<LI>  <tt>vtkPointPlacer = obj.NewInstance ()</tt> -  Standard methods for instances of this class.
+ </LI>
+<LI>  <tt>vtkPointPlacer = obj.SafeDownCast (vtkObject o)</tt> -  Standard methods for instances of this class.
+ </LI>
+<LI>  <tt>int = obj.ComputeWorldPosition (vtkRenderer ren, double displayPos[2], double worldPos[3], double worldOrient[9])</tt> -  Given a renderer and a display position in pixel coordinates,
+ compute the world position and orientation where this point
+ will be placed. This method is typically used by the
+ representation to place the point initially. A return value of 1
+ indicates that constraints of the placer are met.
+ </LI>
+<LI>  <tt>int = obj.ComputeWorldPosition (vtkRenderer ren, double displayPos[2], double refWorldPos[3], double worldPos[3], double worldOrient[9])</tt> -  Given a renderer, a display position, and a reference world
+ position, compute the new world position and orientation 
+ of this point. This method is typically used by the 
+ representation to move the point. A return value of 1 indicates that 
+ constraints of the placer are met.
+ </LI>
+<LI>  <tt>int = obj.ValidateWorldPosition (double worldPos[3])</tt> -  Given a world position check the validity of this 
+ position according to the constraints of the placer.
+ </LI>
+<LI>  <tt>int = obj.ValidateDisplayPosition (vtkRenderer , double displayPos[2])</tt> -  Given a display position, check the validity of this position.
+ </LI>
+<LI>  <tt>int = obj.ValidateWorldPosition (double worldPos[3], double worldOrient[9])</tt> -  Given a world position and a world orientation,
+ validate it according to the constraints of the placer.
+ </LI>
+<LI>  <tt>int = obj.UpdateWorldPosition (vtkRenderer ren, double worldPos[3], double worldOrient[9])</tt> -  Given a current renderer, world position and orientation,
+ update them according to the constraints of the placer.
+ This method is typically used when UpdateContour is called
+ on the representation, which must be called after changes
+ are made to the constraints in the placer. A return 
+ value of 1 indicates that the point has been updated. A
+ return value of 0 indicates that the point could not
+ be updated and was left alone. By default this is a no-op - 
+ leaving the point as is.
+ </LI>
+<LI>  <tt>int = obj.UpdateInternalState ()</tt> -  Set/get the tolerance used when performing computations
+ in display coordinates.
+ </LI>
+<LI>  <tt>obj.SetPixelTolerance (int )</tt> -  Set/get the tolerance used when performing computations
+ in display coordinates.
+ </LI>
+<LI>  <tt>int = obj.GetPixelToleranceMinValue ()</tt> -  Set/get the tolerance used when performing computations
+ in display coordinates.
+ </LI>
+<LI>  <tt>int = obj.GetPixelToleranceMaxValue ()</tt> -  Set/get the tolerance used when performing computations
+ in display coordinates.
+ </LI>
+<LI>  <tt>int = obj.GetPixelTolerance ()</tt> -  Set/get the tolerance used when performing computations
+ in display coordinates.
+ </LI>
+<LI>  <tt>obj.SetWorldTolerance (double )</tt> -  Set/get the tolerance used when performing computations
+ in world coordinates.
+ </LI>
+<LI>  <tt>double = obj.GetWorldToleranceMinValue ()</tt> -  Set/get the tolerance used when performing computations
+ in world coordinates.
+ </LI>
+<LI>  <tt>double = obj.GetWorldToleranceMaxValue ()</tt> -  Set/get the tolerance used when performing computations
+ in world coordinates.
+ </LI>
+<LI>  <tt>double = obj.GetWorldTolerance ()</tt> -  Set/get the tolerance used when performing computations
+ in world coordinates.
+ </LI>
+</UL>
+*/

@@ -1,0 +1,204 @@
+
+ Usage
+
+The class vtkGenericEnSightReader allows the user to read an
+EnSight data set without a priori knowledge of what type of
+EnSight data set it is.
+To create an instance of class vtkGenericEnSightReader,
+simply invoke its constructor as follows
+
+    obj = vtkGenericEnSightReader
+
+
+
+ Methods
+
+The class vtkGenericEnSightReader has several methods that
+can be used. They are listed below. Note that the
+documentation is translated automatically from the VTK
+sources, and may not be completely intelligible. When in
+doubt, consult the VTK website. In the methods listed below,
+obj is an instance of the vtkGenericEnSightReader class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkGenericEnSightReader = obj.NewInstance ()
+* vtkGenericEnSightReader = obj.SafeDownCast (vtkObject o)
+* obj.SetCaseFileName (string fileName) - Set/Get the Case
+  file name.
+* string = obj.GetCaseFileName () - Set/Get the Case file
+  name.
+* obj.SetFilePath (string ) - Set/Get the file path.
+* string = obj.GetFilePath () - Set/Get the file path.
+* int = obj.GetNumberOfVariables () - Get the number of
+  variables listed in the case file.
+* int = obj.GetNumberOfComplexVariables () - Get the number
+  of variables listed in the case file.
+* int = obj.GetNumberOfVariables (int type) - Get the number
+  of variables of a particular type.
+* int = obj.GetNumberOfScalarsPerNode () - Get the number of
+  variables of a particular type.
+* int = obj.GetNumberOfVectorsPerNode () - Get the number of
+  variables of a particular type.
+* int = obj.GetNumberOfTensorsSymmPerNode () - Get the
+  number of variables of a particular type.
+* int = obj.GetNumberOfScalarsPerElement () - Get the number
+  of variables of a particular type.
+* int = obj.GetNumberOfVectorsPerElement () - Get the number
+  of variables of a particular type.
+* int = obj.GetNumberOfTensorsSymmPerElement () - Get the
+  number of variables of a particular type.
+* int = obj.GetNumberOfScalarsPerMeasuredNode () - Get the
+  number of variables of a particular type.
+* int = obj.GetNumberOfVectorsPerMeasuredNode () - Get the
+  number of variables of a particular type.
+* int = obj.GetNumberOfComplexScalarsPerNode () - Get the
+  number of variables of a particular type.
+* int = obj.GetNumberOfComplexVectorsPerNode () - Get the
+  number of variables of a particular type.
+* int = obj.GetNumberOfComplexScalarsPerElement () - Get the
+  number of variables of a particular type.
+* int = obj.GetNumberOfComplexVectorsPerElement () - Get the
+  number of variables of a particular type.
+* string = obj.GetDescription (int n) - Get the nth
+  description for a non-complex variable.
+* string = obj.GetComplexDescription (int n) - Get the nth
+  description for a complex variable.
+* string = obj.GetDescription (int n, int type) - Get the
+  nth description of a particular variable type. Returns
+  NULL if no variable of this type exists in this data set.
+  SCALAR_PER_NODE = 0; VECTOR_PER_NODE = 1;
+  TENSOR_SYMM_PER_NODE = 2; SCALAR_PER_ELEMENT = 3;
+  VECTOR_PER_ELEMENT = 4; TENSOR_SYMM_PER_ELEMENT = 5;
+  SCALAR_PER_MEASURED_NODE = 6; VECTOR_PER_MEASURED_NODE =
+  7; COMPLEX_SCALAR_PER_NODE = 8; COMPLEX_VECTOR_PER_NODE 9;
+  COMPLEX_SCALAR_PER_ELEMENT = 10;
+  COMPLEX_VECTOR_PER_ELEMENT = 11
+* int = obj.GetVariableType (int n) - Get the variable type
+  of variable n.
+* int = obj.GetComplexVariableType (int n) - Get the
+  variable type of variable n.
+* obj.SetTimeValue (float value) - Set/Get the time value at
+  which to get the value.
+* float = obj.GetTimeValue () - Set/Get the time value at
+  which to get the value.
+* float = obj.GetMinimumTimeValue () - Get the minimum or
+  maximum time value for this data set.
+* float = obj.GetMaximumTimeValue () - Get the minimum or
+  maximum time value for this data set.
+* vtkDataArrayCollection = obj.GetTimeSets () - Get the time
+  values per time set
+* int = obj.DetermineEnSightVersion (int quiet) - Reads the
+  FORMAT part of the case file to determine whether this is
+  an EnSight6 or EnSightGold data set. Returns an identifier
+  listed in the FileTypes enum or -1 if an error occurred or
+  the file could not be indentified as any EnSight type.
+* obj.ReadAllVariablesOn () - Set/get the flag for whether
+  to read all the variables
+* obj.ReadAllVariablesOff () - Set/get the flag for whether
+  to read all the variables
+* obj.SetReadAllVariables (int ) - Set/get the flag for
+  whether to read all the variables
+* int = obj.GetReadAllVariables () - Set/get the flag for
+  whether to read all the variables
+* vtkDataArraySelection = obj.GetPointDataArraySelection ()
+  - Get the data array selection tables used to configure
+  which data arrays are loaded by the reader.
+* vtkDataArraySelection = obj.GetCellDataArraySelection () -
+  Get the data array selection tables used to configure
+  which data arrays are loaded by the reader.
+* int = obj.GetNumberOfPointArrays () - Get the number of
+  point or cell arrays available in the input.
+* int = obj.GetNumberOfCellArrays () - Get the number of
+  point or cell arrays available in the input.
+* string = obj.GetPointArrayName (int index) - Get the name
+  of the point or cell array with the given index in the
+  input.
+* string = obj.GetCellArrayName (int index) - Get the name
+  of the point or cell array with the given index in the
+  input.
+* int = obj.GetPointArrayStatus (string name) - Get/Set
+  whether the point or cell array with the given name is to
+  be read.
+* int = obj.GetCellArrayStatus (string name) - Get/Set
+  whether the point or cell array with the given name is to
+  be read.
+* obj.SetPointArrayStatus (string name, int status) - Get/
+  Set whether the point or cell array with the given name is
+  to be read.
+* obj.SetCellArrayStatus (string name, int status) - Get/Set
+  whether the point or cell array with the given name is to
+  be read.
+* obj.SetByteOrderToBigEndian () - Set the byte order of the
+  file (remember, more Unix workstations write big endian
+  whereas PCs write little endian). Default is big endian
+  (since most older PLOT3D files were written by
+  workstations).
+* obj.SetByteOrderToLittleEndian () - Set the byte order of
+  the file (remember, more Unix workstations write big
+  endian whereas PCs write little endian). Default is big
+  endian (since most older PLOT3D files were written by
+  workstations).
+* obj.SetByteOrder (int ) - Set the byte order of the file
+  (remember, more Unix workstations write big endian whereas
+  PCs write little endian). Default is big endian (since
+  most older PLOT3D files were written by workstations).
+* int = obj.GetByteOrder () - Set the byte order of the file
+  (remember, more Unix workstations write big endian whereas
+  PCs write little endian). Default is big endian (since
+  most older PLOT3D files were written by workstations).
+* string = obj.GetByteOrderAsString () - Set the byte order
+  of the file (remember, more Unix workstations write big
+  endian whereas PCs write little endian). Default is big
+  endian (since most older PLOT3D files were written by
+  workstations).
+* string = obj.GetGeometryFileName () - Get the Geometry
+  file name. Made public to allow access from apps requiring
+  detailed info about the Data contents
+* obj.SetParticleCoordinatesByIndex (int ) - The
+  MeasuredGeometryFile should list particle coordinates from
+  0->N-1. If a file is loaded where point Ids are listed
+  from 1-N the Id to points reference will be wrong and the
+  data will be generated incorrectly. Setting
+  ParticleCoordinatesByIndex to true will force all Id's to
+  increment from 0->N-1 (relative to their order in the
+  file) and regardless of the actual Id of of the point.
+  Warning, if the Points are listed in non sequential order
+  then setting this flag will reorder them.
+* int = obj.GetParticleCoordinatesByIndex () - The
+  MeasuredGeometryFile should list particle coordinates from
+  0->N-1. If a file is loaded where point Ids are listed
+  from 1-N the Id to points reference will be wrong and the
+  data will be generated incorrectly. Setting
+  ParticleCoordinatesByIndex to true will force all Id's to
+  increment from 0->N-1 (relative to their order in the
+  file) and regardless of the actual Id of of the point.
+  Warning, if the Points are listed in non sequential order
+  then setting this flag will reorder them.
+* obj.ParticleCoordinatesByIndexOn () - The
+  MeasuredGeometryFile should list particle coordinates from
+  0->N-1. If a file is loaded where point Ids are listed
+  from 1-N the Id to points reference will be wrong and the
+  data will be generated incorrectly. Setting
+  ParticleCoordinatesByIndex to true will force all Id's to
+  increment from 0->N-1 (relative to their order in the
+  file) and regardless of the actual Id of of the point.
+  Warning, if the Points are listed in non sequential order
+  then setting this flag will reorder them.
+* obj.ParticleCoordinatesByIndexOff () - The
+  MeasuredGeometryFile should list particle coordinates from
+  0->N-1. If a file is loaded where point Ids are listed
+  from 1-N the Id to points reference will be wrong and the
+  data will be generated incorrectly. Setting
+  ParticleCoordinatesByIndex to true will force all Id's to
+  increment from 0->N-1 (relative to their order in the
+  file) and regardless of the actual Id of of the point.
+  Warning, if the Points are listed in non sequential order
+  then setting this flag will reorder them.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_IO_Classes
+* Generated on Thu Jul 25 2013 17:18:34 for FreeMat by
+  doxygen_ 1.8.1.1
+

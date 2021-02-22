@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkrendering_vtktransforminterpolator" kind="page">
+    <compoundname>vtkrendering_vtktransforminterpolator</compoundname>
+    <title>vtkTransformInterpolator</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkrendering_1sec_vtkrendering" kindref="member">Visualization Toolkit Rendering Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>This class is used to interpolate a series of 4x4 transformation matrices. Position, scale and orientation (i.e., rotations) are interpolated separately, and can be interpolated linearly or with a spline function. Note that orientation is interpolated using quaternions via SLERP (spherical linear interpolation) or the special vtkQuaternionSpline class.</para><para>To use this class, specify at least two pairs of (t,transformation matrix) with the AddTransform() method. Then interpolated the transforms with the InterpolateTransform(t,transform) method, where &quot;t&quot; must be in the range of (min,max) times specified by the AddTransform() method.</para><para>By default, spline interpolation is used for the interpolation of the transformation matrices. The position, scale and orientation of the matrices are interpolated with instances of the classes vtkTupleInterpolator (position,scale) and vtkQuaternionInterpolator (rotation). The user can override the interpolation behavior by gaining access to these separate interpolation classes. These interpolator classes (vtkTupleInterpolator and vtkQuaternionInterpolator) can be modified to perform linear versus spline interpolation, and/or different spline basis functions can be specified.</para><para>To create an instance of class vtkTransformInterpolator, simply invoke its constructor as follows <verbatim>  obj = vtkTransformInterpolator
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkTransformInterpolator has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkTransformInterpolator class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkTransformInterpolator = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkTransformInterpolator = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetNumberOfTransforms ()</computeroutput> - Return the number of transforms in the list of transforms.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetMinimumT ()</computeroutput> - Obtain some information about the interpolation range. The numbers returned (corresponding to parameter t, usually thought of as time) are undefined if the list of transforms is empty.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetMaximumT ()</computeroutput> - Obtain some information about the interpolation range. The numbers returned (corresponding to parameter t, usually thought of as time) are undefined if the list of transforms is empty.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.Initialize ()</computeroutput> - Clear the list of transforms.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.AddTransform (double t, vtkTransform xform)</computeroutput> - Add another transform to the list of transformations defining the transform function. Note that using the same time t value more than once replaces the previous transform value at t. At least two transforms must be added to define a function. There are variants to this method depending on whether you are adding a vtkTransform, vtkMaxtirx4x4, and/or vtkProp3D.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.AddTransform (double t, vtkMatrix4x4 matrix)</computeroutput> - Add another transform to the list of transformations defining the transform function. Note that using the same time t value more than once replaces the previous transform value at t. At least two transforms must be added to define a function. There are variants to this method depending on whether you are adding a vtkTransform, vtkMaxtirx4x4, and/or vtkProp3D.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.AddTransform (double t, vtkProp3D prop3D)</computeroutput> - Add another transform to the list of transformations defining the transform function. Note that using the same time t value more than once replaces the previous transform value at t. At least two transforms must be added to define a function. There are variants to this method depending on whether you are adding a vtkTransform, vtkMaxtirx4x4, and/or vtkProp3D.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.RemoveTransform (double t)</computeroutput> - Delete the transform at a particular parameter t. If there is no transform defined at location t, then the method does nothing.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.InterpolateTransform (double t, vtkTransform xform)</computeroutput> - Interpolate the list of transforms and determine a new transform (i.e., fill in the transformation provided). If t is outside the range of (min,max) values, then t is clamped.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetInterpolationType (int )</computeroutput> - These are convenience methods to switch between linear and spline interpolation. The methods simply forward the request for linear or spline interpolation to the position, scale and orientation interpolators. Note that if the InterpolationType is set to &quot;Manual&quot;, then the interpolators are expected to be directly manipulated and this class does not forward the request for interpolation type to its interpolators.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetInterpolationTypeMinValue ()</computeroutput> - These are convenience methods to switch between linear and spline interpolation. The methods simply forward the request for linear or spline interpolation to the position, scale and orientation interpolators. Note that if the InterpolationType is set to &quot;Manual&quot;, then the interpolators are expected to be directly manipulated and this class does not forward the request for interpolation type to its interpolators.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetInterpolationTypeMaxValue ()</computeroutput> - These are convenience methods to switch between linear and spline interpolation. The methods simply forward the request for linear or spline interpolation to the position, scale and orientation interpolators. Note that if the InterpolationType is set to &quot;Manual&quot;, then the interpolators are expected to be directly manipulated and this class does not forward the request for interpolation type to its interpolators.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetInterpolationType ()</computeroutput> - These are convenience methods to switch between linear and spline interpolation. The methods simply forward the request for linear or spline interpolation to the position, scale and orientation interpolators. Note that if the InterpolationType is set to &quot;Manual&quot;, then the interpolators are expected to be directly manipulated and this class does not forward the request for interpolation type to its interpolators.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetInterpolationTypeToLinear ()</computeroutput> - These are convenience methods to switch between linear and spline interpolation. The methods simply forward the request for linear or spline interpolation to the position, scale and orientation interpolators. Note that if the InterpolationType is set to &quot;Manual&quot;, then the interpolators are expected to be directly manipulated and this class does not forward the request for interpolation type to its interpolators.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetInterpolationTypeToSpline ()</computeroutput> - These are convenience methods to switch between linear and spline interpolation. The methods simply forward the request for linear or spline interpolation to the position, scale and orientation interpolators. Note that if the InterpolationType is set to &quot;Manual&quot;, then the interpolators are expected to be directly manipulated and this class does not forward the request for interpolation type to its interpolators.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetInterpolationTypeToManual ()</computeroutput> - Set/Get the tuple interpolator used to interpolate the position portion of the transformation matrix. Note that you can modify the behavior of the interpolator (linear vs spline interpolation; change spline basis) by manipulating the interpolator instances.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetPositionInterpolator (vtkTupleInterpolator )</computeroutput> - Set/Get the tuple interpolator used to interpolate the position portion of the transformation matrix. Note that you can modify the behavior of the interpolator (linear vs spline interpolation; change spline basis) by manipulating the interpolator instances.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkTupleInterpolator = obj.GetPositionInterpolator ()</computeroutput> - Set/Get the tuple interpolator used to interpolate the position portion of the transformation matrix. Note that you can modify the behavior of the interpolator (linear vs spline interpolation; change spline basis) by manipulating the interpolator instances.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetScaleInterpolator (vtkTupleInterpolator )</computeroutput> - Set/Get the tuple interpolator used to interpolate the scale portion of the transformation matrix. Note that you can modify the behavior of the interpolator (linear vs spline interpolation; change spline basis) by manipulating the interpolator instances.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkTupleInterpolator = obj.GetScaleInterpolator ()</computeroutput> - Set/Get the tuple interpolator used to interpolate the scale portion of the transformation matrix. Note that you can modify the behavior of the interpolator (linear vs spline interpolation; change spline basis) by manipulating the interpolator instances.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetRotationInterpolator (vtkQuaternionInterpolator )</computeroutput> - Set/Get the tuple interpolator used to interpolate the orientation portion of the transformation matrix. Note that you can modify the behavior of the interpolator (linear vs spline interpolation; change spline basis) by manipulating the interpolator instances.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkQuaternionInterpolator = obj.GetRotationInterpolator ()</computeroutput> - Set/Get the tuple interpolator used to interpolate the orientation portion of the transformation matrix. Note that you can modify the behavior of the interpolator (linear vs spline interpolation; change spline basis) by manipulating the interpolator instances.  </para></listitem>
+<listitem>
+<para><computeroutput>long = obj.GetMTime ()</computeroutput> - Override GetMTime() because we depend on the interpolators which may be modified outside of this class.  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,80 @@
+/*!
+\page vtkparallel_vtkprocessgroup vtkProcessGroup
+
+<p>
+Section: \ref sec_vtkparallel "Visualization Toolkit Parallel Classes"
+\section Usage
+
+ This class is used for creating groups of processes.  A vtkProcessGroup is
+ initialized by passing the controller or communicator on which the group is
+ based off of.  You can then use the group to subset and reorder the the
+ processes.  Eventually, you can pass the group object to the
+ CreateSubController method of vtkMultiProcessController to create a
+ controller for the defined group of processes.  You must use the same
+ controller (or attached communicator) from which this group was initialized
+ with.
+
+
+To create an instance of class vtkProcessGroup, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkProcessGroup
+\endverbatim
+\section Methods
+The class vtkProcessGroup has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkProcessGroup class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkProcessGroup = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkProcessGroup = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.Initialize (vtkMultiProcessController controller)</tt> -  Initialize the group to the given controller or communicator.  The group
+ will be set to contain all of the processes in the controller/communicator
+ in the same order.
+ </LI>
+<LI>  <tt>obj.Initialize (vtkCommunicator communicator)</tt> -  Initialize the group to the given controller or communicator.  The group
+ will be set to contain all of the processes in the controller/communicator
+ in the same order.
+ </LI>
+<LI>  <tt>vtkCommunicator = obj.GetCommunicator ()</tt> -  Get the communicator on which this group is based on.
+ </LI>
+<LI>  <tt>obj.SetCommunicator (vtkCommunicator communicator)</tt> -  Set the communicator.  This has the same effect as Initialize except that
+ the contents of the group will not be modified (although they may be
+ truncated if the new communicator is smaller than the current group).
+ Note that this can lead to an invalid group if there are values in the
+ group that are not valid in the new communicator.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfProcessIds ()</tt> -  Returns the size of this group (the number of processes defined in it).
+ </LI>
+<LI>  <tt>int = obj.GetProcessId (int pos)</tt> -  Get the process id for the local process (as defined by the group's
+ communicator).  Returns -1 if the local process is not in the group.
+ </LI>
+<LI>  <tt>int = obj.GetLocalProcessId ()</tt> -  Get the process id for the local process (as defined by the group's
+ communicator).  Returns -1 if the local process is not in the group.
+ </LI>
+<LI>  <tt>int = obj.FindProcessId (int processId)</tt> -  Given a process id in the communicator, this method returns its location in
+ the group or -1 if it is not in the group.  For example, if this group
+ contains {6, 2, 8, 1}, then FindProcessId(2) will return 1 and
+ FindProcessId(3) will return -1.
+ </LI>
+<LI>  <tt>int = obj.AddProcessId (int processId)</tt> -  Add a process id to the end of the group (if it is not already in the
+ group).  Returns the location where the id was stored.
+ </LI>
+<LI>  <tt>int = obj.RemoveProcessId (int processId)</tt> -  Remove the given process id from the group (assuming it is in the group).
+ All ids to the "right" of the removed id are shifted over.  Returns 1
+ if the process id was removed, 0 if the process id was not in the group
+ in the first place.
+ </LI>
+<LI>  <tt>obj.RemoveAllProcessIds ()</tt> -  Removes all the processes ids from the group, leaving the group empty.
+ </LI>
+<LI>  <tt>obj.Copy (vtkProcessGroup group)</tt> -  Copies the given group's communicator and process ids.
+ </LI>
+</UL>
+*/

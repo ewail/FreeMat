@@ -1,0 +1,64 @@
+/*!
+\page vtkgraphics_vtkvoxelcontourstosurfacefilter vtkVoxelContoursToSurfaceFilter
+
+<p>
+Section: \ref sec_vtkgraphics "Visualization Toolkit Graphics Classes"
+\section Usage
+ vtkVoxelContoursToSurfaceFilter is a filter that takes contours and
+ produces surfaces. There are some restrictions for the contours:
+
+   - The contours are input as vtkPolyData, with the contours being
+     polys in the vtkPolyData.
+   - The contours lie on XY planes - each contour has a constant Z
+   - The contours are ordered in the polys of the vtkPolyData such 
+     that all contours on the first (lowest) XY plane are first, then
+     continuing in order of increasing Z value. 
+   - The X, Y and Z coordinates are all integer values.
+   - The desired sampling of the contour data is 1x1x1 - Aspect can
+     be used to control the aspect ratio in the output polygonal
+     dataset.
+
+ This filter takes the contours and produces a structured points
+ dataset of signed floating point number indicating distance from
+ a contour. A contouring filter is then applied to generate 3D
+ surfaces from a stack of 2D contour distance slices. This is 
+ done in a streaming fashion so as not to use to much memory.
+
+To create an instance of class vtkVoxelContoursToSurfaceFilter, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkVoxelContoursToSurfaceFilter
+\endverbatim
+\section Methods
+The class vtkVoxelContoursToSurfaceFilter has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkVoxelContoursToSurfaceFilter class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkVoxelContoursToSurfaceFilter = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkVoxelContoursToSurfaceFilter = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetMemoryLimitInBytes (int )</tt> -  Set / Get the memory limit in bytes for this filter. This is the limit
+ of the size of the structured points data set that is created for
+ intermediate processing. The data will be streamed through this volume
+ in as many pieces as necessary.
+ </LI>
+<LI>  <tt>int = obj.GetMemoryLimitInBytes ()</tt> -  Set / Get the memory limit in bytes for this filter. This is the limit
+ of the size of the structured points data set that is created for
+ intermediate processing. The data will be streamed through this volume
+ in as many pieces as necessary.
+ </LI>
+<LI>  <tt>obj.SetSpacing (double , double , double )</tt>
+ </LI>
+<LI>  <tt>obj.SetSpacing (double  a[3])</tt>
+ </LI>
+<LI>  <tt>double = obj. GetSpacing ()</tt>
+ </LI>
+</UL>
+*/

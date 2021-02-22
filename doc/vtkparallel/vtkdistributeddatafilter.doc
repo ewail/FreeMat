@@ -1,0 +1,161 @@
+/*!
+\page vtkparallel_vtkdistributeddatafilter vtkDistributedDataFilter
+
+<p>
+Section: \ref sec_vtkparallel "Visualization Toolkit Parallel Classes"
+\section Usage
+ This filter redistributes data among processors in a parallel
+ application into spatially contiguous vtkUnstructuredGrids.
+ The execution model anticipated is that all processes read in
+ part of a large vtkDataSet. Each process sets the input of
+ filter to be that DataSet. When executed, this filter builds
+ in parallel a k-d tree, decomposing the space occupied by the
+ distributed DataSet into spatial regions.  It assigns each
+ spatial region to a processor.  The data is then redistributed
+ and the output is a single vtkUnstructuredGrid containing the
+ cells in the process' assigned regions.
+
+ This filter is sometimes called "D3" for "distributed data decomposition".
+
+ Enhancement: You can set the k-d tree decomposition, rather than
+ have D3 compute it.  This allows you to divide a dataset using
+ the decomposition computed for another dataset.  Obtain a description
+ of the k-d tree cuts this way:
+
+    vtkBSPCuts *cuts = D3Object1->GetCuts()
+
+ And set it this way:
+
+    D3Object2->SetCuts(cuts) 
+
+    It is desirable to have a field array of global node IDs
+    for two reasons:
+
+    1. When merging together sub grids that were distributed
+    across processors, global node IDs can be used to remove
+    duplicate points and significantly reduce the size of the
+    resulting output grid.  If no such array is available,
+    D3 will use a tolerance to merge points, which is much
+    slower.
+
+    2. If ghost cells have been requested, D3 requires a
+    global node ID array in order to request and transfer
+    ghost cells in parallel among the processors.  If there
+    is no global node ID array, D3 will in parallel create
+    a global node ID array, and the time to do this can be
+    significant.
+    
+    If you know the name of a global node ID array in the input
+    dataset, set that name with this method.  If you leave
+    it unset, D3 will search the input data set for certain
+    common names of global node ID arrays.  If none is found,
+    and ghost cells have been requested, D3 will create a
+    temporary global node ID array before aquiring ghost cells.
+   It is also desirable to have global element IDs.  However,
+   if they don't exist D3 can create them relatively quickly.
+   Set the name of the global element ID array if you have it.
+   If it is not set, D3 will search for it using common names.
+   If still not found, D3 will create a temporary array of
+   global element IDs.
+
+
+To create an instance of class vtkDistributedDataFilter, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkDistributedDataFilter
+\endverbatim
+\section Methods
+The class vtkDistributedDataFilter has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkDistributedDataFilter class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkDistributedDataFilter = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkDistributedDataFilter = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetController (vtkMultiProcessController c)</tt> -    Set/Get the communicator object
+ </LI>
+<LI>  <tt>vtkMultiProcessController = obj.GetController ()</tt> -    Set/Get the communicator object
+ </LI>
+<LI>  <tt>vtkPKdTree = obj.GetKdtree ()</tt>
+ </LI>
+<LI>  <tt>obj.RetainKdtreeOn ()</tt>
+ </LI>
+<LI>  <tt>obj.RetainKdtreeOff ()</tt>
+ </LI>
+<LI>  <tt>int = obj.GetRetainKdtree ()</tt>
+ </LI>
+<LI>  <tt>obj.SetRetainKdtree (int )</tt>
+ </LI>
+<LI>  <tt>obj.IncludeAllIntersectingCellsOn ()</tt>
+ </LI>
+<LI>  <tt>obj.IncludeAllIntersectingCellsOff ()</tt>
+ </LI>
+<LI>  <tt>int = obj.GetIncludeAllIntersectingCells ()</tt>
+ </LI>
+<LI>  <tt>obj.SetIncludeAllIntersectingCells (int )</tt>
+ </LI>
+<LI>  <tt>obj.ClipCellsOn ()</tt>
+ </LI>
+<LI>  <tt>obj.ClipCellsOff ()</tt>
+ </LI>
+<LI>  <tt>int = obj.GetClipCells ()</tt>
+ </LI>
+<LI>  <tt>obj.SetClipCells (int )</tt>
+ </LI>
+<LI>  <tt>obj.SetBoundaryMode (int mode)</tt> -  Handling of ClipCells and IncludeAllIntersectingCells.
+ </LI>
+<LI>  <tt>obj.SetBoundaryModeToAssignToOneRegion ()</tt> -  Handling of ClipCells and IncludeAllIntersectingCells.
+ </LI>
+<LI>  <tt>obj.SetBoundaryModeToAssignToAllIntersectingRegions ()</tt> -  Handling of ClipCells and IncludeAllIntersectingCells.
+ </LI>
+<LI>  <tt>obj.SetBoundaryModeToSplitBoundaryCells ()</tt> -  Handling of ClipCells and IncludeAllIntersectingCells.
+ </LI>
+<LI>  <tt>int = obj.GetBoundaryMode ()</tt> -  Handling of ClipCells and IncludeAllIntersectingCells.
+ </LI>
+<LI>  <tt>obj.UseMinimalMemoryOn ()</tt>
+ </LI>
+<LI>  <tt>obj.UseMinimalMemoryOff ()</tt>
+ </LI>
+<LI>  <tt>int = obj.GetUseMinimalMemory ()</tt>
+ </LI>
+<LI>  <tt>obj.SetUseMinimalMemory (int )</tt>
+ </LI>
+<LI>  <tt>obj.TimingOn ()</tt>
+ </LI>
+<LI>  <tt>obj.TimingOff ()</tt>
+ </LI>
+<LI>  <tt>obj.SetTiming (int )</tt>
+ </LI>
+<LI>  <tt>int = obj.GetTiming ()</tt>
+ </LI>
+<LI>  <tt>vtkBSPCuts = obj.GetCuts ()</tt> -  You can set the k-d tree decomposition, rather than
+ have D3 compute it.  This allows you to divide a dataset using
+ the decomposition computed for another dataset.  Obtain a description
+ of the k-d tree cuts this way:
+
+    vtkBSPCuts *cuts = D3Object1->GetCuts()
+
+ And set it this way:
+
+    D3Object2->SetCuts(cuts) 
+ </LI>
+<LI>  <tt>obj.SetCuts (vtkBSPCuts cuts)</tt> -  You can set the k-d tree decomposition, rather than
+ have D3 compute it.  This allows you to divide a dataset using
+ the decomposition computed for another dataset.  Obtain a description
+ of the k-d tree cuts this way:
+
+    vtkBSPCuts *cuts = D3Object1->GetCuts()
+
+ And set it this way:
+
+    D3Object2->SetCuts(cuts) 
+ </LI>
+</UL>
+*/

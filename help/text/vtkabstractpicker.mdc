@@ -1,0 +1,86 @@
+
+ Usage
+
+vtkAbstractPicker is an abstract superclass that defines a
+minimal API for its concrete subclasses. The minimum
+functionality of a picker is to return the x-y-z global
+coordinate position of a pick (the pick itself is defined in
+display coordinates).
+The API to this class is to invoke the Pick() method with a
+selection point (in display coordinates - pixels) and a
+renderer. Then get the resulting pick position in global
+coordinates with the GetPickPosition() method.
+vtkPicker fires events during the picking process. These
+events are StartPickEvent, PickEvent, and EndPickEvent which
+are invoked prior to picking, when something is picked, and
+after all picking candidates have been tested. Note that
+during the pick process the PickEvent of vtkProp (and its
+subclasses such as vtkActor) is fired prior to the PickEvent
+of vtkPicker.
+To create an instance of class vtkAbstractPicker, simply
+invoke its constructor as follows
+
+    obj = vtkAbstractPicker
+
+
+
+ Methods
+
+The class vtkAbstractPicker has several methods that can be
+used. They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkAbstractPicker class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkAbstractPicker = obj.NewInstance ()
+* vtkAbstractPicker = obj.SafeDownCast (vtkObject o)
+* vtkRenderer = obj.GetRenderer () - Get the renderer in
+  which pick event occurred.
+* double = obj. GetSelectionPoint () - Get the selection
+  point in screen (pixel) coordinates. The third value is
+  related to z-buffer depth. (Normally should be =0.)
+* double = obj. GetPickPosition () - Return position in
+  global coordinates of pick point.
+* int = obj.Pick (double selectionX, double selectionY,
+  double selectionZ, vtkRenderer renderer) - Perform pick
+  operation with selection point provided. Normally the
+  first two values for the selection point are x-y pixel
+  coordinate, and the third value is =0. Return non-zero if
+  something was successfully picked.
+* int = obj.Pick (double selectionPt[3], vtkRenderer ren) -
+  provided. Normally the first two values for the selection
+  point are x-y pixel coordinate, and the third value is =0.
+  Return non-zero if something was successfully picked.
+* obj.SetPickFromList (int ) - Use these methods to control
+  whether to limit the picking to this list (rather than
+  renderer's actors). Make sure that the pick list contains
+  actors that referred to by the picker's renderer.
+* int = obj.GetPickFromList () - Use these methods to
+  control whether to limit the picking to this list (rather
+  than renderer's actors). Make sure that the pick list
+  contains actors that referred to by the picker's renderer.
+* obj.PickFromListOn () - Use these methods to control
+  whether to limit the picking to this list (rather than
+  renderer's actors). Make sure that the pick list contains
+  actors that referred to by the picker's renderer.
+* obj.PickFromListOff () - Use these methods to control
+  whether to limit the picking to this list (rather than
+  renderer's actors). Make sure that the pick list contains
+  actors that referred to by the picker's renderer.
+* obj.InitializePickList () - Initialize list of actors in
+  pick list.
+* obj.AddPickList (vtkProp ) - Add an actor to the pick
+  list.
+* obj.DeletePickList (vtkProp ) - Delete an actor from the
+  pick list.
+* vtkPropCollection = obj.GetPickList ()
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Rendering_Classes
+* Generated on Thu Jul 25 2013 17:18:34 for FreeMat by
+  doxygen_ 1.8.1.1
+

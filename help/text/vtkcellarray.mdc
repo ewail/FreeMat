@@ -1,0 +1,136 @@
+
+ Usage
+
+vtkCellArray is a supporting object that explicitly
+represents cell connectivity. The cell array structure is a
+raw integer list of the form: (n,id1,id2,...,idn,
+n,id1,id2,...,idn, ...) where n is the number of points in
+the cell, and id is a zero-offset index into an associated
+point list.
+Advantages of this data structure are its compactness,
+simplicity, and easy interface to external data. However, it
+is totally inadequate for random access. This functionality
+(when necessary) is accomplished by using the vtkCellTypes
+and vtkCellLinks objects to extend the definition of the
+data structure.
+To create an instance of class vtkCellArray, simply invoke
+its constructor as follows
+
+    obj = vtkCellArray
+
+
+
+ Methods
+
+The class vtkCellArray has several methods that can be used.
+They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkCellArray class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkCellArray = obj.NewInstance ()
+* vtkCellArray = obj.SafeDownCast (vtkObject o)
+* int = obj.Allocate (vtkIdType sz, int ext) - Free any
+  memory and reset to an empty state.
+* obj.Initialize () - Free any memory and reset to an empty
+  state.
+* vtkIdType = obj.GetNumberOfCells () - Get the number of
+  cells in the array.
+* obj.SetNumberOfCells (vtkIdType ) - Set the number of
+  cells in the array. DO NOT do any kind of allocation,
+  advanced use only.
+* vtkIdType = obj.EstimateSize (vtkIdType numCells, int
+  maxPtsPerCell) - A cell traversal methods that is more
+  efficient than vtkDataSet traversal methods. InitTraversal
+  () initializes the traversal of the list of cells.
+* obj.InitTraversal () - A cell traversal methods that is
+  more efficient than vtkDataSet traversal methods.
+  InitTraversal() initializes the traversal of the list of
+  cells.
+* vtkIdType = obj.GetSize () - Get the total number of
+  entries (i.e., data values) in the connectivity array.
+  This may be much less than the allocated size (i.e.,
+  return value from GetSize().)
+* vtkIdType = obj.GetNumberOfConnectivityEntries () -
+  Internal method used to retrieve a cell given an offset
+  into the internal array.
+* vtkIdType = obj.InsertNextCell (vtkCell cell) - Insert a
+  cell object. Return the cell id of the cell.
+* vtkIdType = obj.InsertNextCell (vtkIdList pts) - Create a
+  cell by specifying a list of point ids. Return the cell id
+  of the cell.
+* vtkIdType = obj.InsertNextCell (int npts) - Create cells
+  by specifying count, and then adding points one at a time
+  using method InsertCellPoint(). If you don't know the
+  count initially, use the method UpdateCellCount() to
+  complete the cell. Return the cell id of the cell.
+* obj.InsertCellPoint (vtkIdType id) - Used in conjunction
+  with InsertNextCell(int npts) to add another point to the
+  list of cells.
+* obj.UpdateCellCount (int npts) - Used in conjunction with
+  InsertNextCell(int npts) and InsertCellPoint() to update
+  the number of points defining the cell.
+* vtkIdType = obj.GetInsertLocation (int npts) - Computes
+  the current insertion location within the internal array.
+  Used in conjunction with GetCell(int loc,...).
+* vtkIdType = obj.GetTraversalLocation () - Get/Set the
+  current traversal location.
+* obj.SetTraversalLocation (vtkIdType loc) - Computes the
+  current traversal location within the internal array. Used
+  in conjunction with GetCell(int loc,...).
+* vtkIdType = obj.GetTraversalLocation (vtkIdType npts) -
+  Special method inverts ordering of current cell. Must be
+  called carefully or the cell topology may be corrupted.
+* obj.ReverseCell (vtkIdType loc) - Special method inverts
+  ordering of current cell. Must be called carefully or the
+  cell topology may be corrupted.
+* int = obj.GetMaxCellSize () - Returns the size of the
+  largest cell. The size is the number of points defining
+  the cell.
+* vtkIdType = obj.GetPointer () - Get pointer to data array
+  for purpose of direct writes of data. Size is the total
+  storage consumed by the cell array. ncells is the number
+  of cells represented in the array.
+* vtkIdType = obj.WritePointer (vtkIdType ncells, vtkIdType
+  size) - Get pointer to data array for purpose of direct
+  writes of data. Size is the total storage consumed by the
+  cell array. ncells is the number of cells represented in
+  the array.
+* obj.SetCells (vtkIdType ncells, vtkIdTypeArray cells) -
+  Define multiple cells by providing a connectivity list.
+  The list is in the form (npts,p0,p1,...p(npts-1), repeated
+  for each cell). Be careful using this method because it
+  discards the old cells, and anything referring these cells
+  becomes invalid (for example, if BuildCells() has been
+  called see vtkPolyData). The traversal location is reset
+  to the beginning of the list; the insertion location is
+  set to the end of the list.
+* obj.DeepCopy (vtkCellArray ca) - Perform a deep copy (no
+  reference counting) of the given cell array.
+* vtkIdTypeArray = obj.GetData () - Reuse list. Reset to
+  initial condition.
+* obj.Reset () - Reuse list. Reset to initial condition.
+* obj.Squeeze () - Return the memory in kilobytes consumed
+  by this cell array. Used to support streaming and reading/
+  writing data. The value returned is guaranteed to be
+  greater than or equal to the memory required to actually
+  represent the data represented by this object. The
+  information returned is valid only after the pipeline has
+  been updated.
+* long = obj.GetActualMemorySize () - Return the memory in
+  kilobytes consumed by this cell array. Used to support
+  streaming and reading/writing data. The value returned is
+  guaranteed to be greater than or equal to the memory
+  required to actually represent the data represented by
+  this object. The information returned is valid only after
+  the pipeline has been updated.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Filtering_Classes
+* Generated on Thu Jul 25 2013 17:18:30 for FreeMat by
+  doxygen_ 1.8.1.1
+

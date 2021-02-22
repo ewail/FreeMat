@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="external_import" kind="page">
+    <compoundname>external_import</compoundname>
+    <title>IMPORT Foreign Function Import</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_external_1sec_external" kindref="member">FreeMat External Interface</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>The import function allows you to call functions that are compiled into shared libraries, as if they were FreeMat functions. The usage is <verbatim>  import(libraryname,symbol,function,return,arguments)
+</verbatim> The argument <computeroutput>libraryname</computeroutput> is the name of the library (as a string) to import the function from. The second argument <computeroutput>symbol</computeroutput> (also a string), is the name of the symbol to import from the library. The third argument <computeroutput>function</computeroutput> is the the name of the function after its been imported into Freemat. The fourth argument is a string that specifies the return type of the function. It can take on one of the following types: <itemizedlist>
+<listitem>
+<para>&apos;uint8&apos; for an unsigned, 8-bit integer.  </para></listitem>
+<listitem>
+<para>&apos;int8&apos; for a signed, 8-bit integer.  </para></listitem>
+<listitem>
+<para>&apos;uint16&apos; an unsigned, 16-bit integer.  </para></listitem>
+<listitem>
+<para>&apos;int16&apos; a signed, 16-bit integer.  </para></listitem>
+<listitem>
+<para>&apos;uint32&apos; for an unsigned, 32-bit integer.  </para></listitem>
+<listitem>
+<para>&apos;int32&apos; for a signed, 32-bit integer.  </para></listitem>
+<listitem>
+<para>&apos;single&apos; for a 32-bit floating point.  </para></listitem>
+<listitem>
+<para>&apos;double&apos; for a 64-bit floating point.  </para></listitem>
+<listitem>
+<para>&apos;void&apos; for no return type.  </para></listitem>
+</itemizedlist>
+The fourth argument is more complicated. It encodes the arguments of the imported function using a special syntax. In general, the argument list is a string consisting of entries of the form:</para><para><verbatim>  type[optional bounds check] {optional &amp;}name
+</verbatim></para><para>Here is a list of various scenarios (expressed in &apos;C&apos;), and the corresponding entries, along with snippets of code.</para><para><heading level="2">Scalar variable passed by value</heading>
+</para><para>Suppose a function is defined in the library as <verbatim>  int fooFunction(float t),
+</verbatim> i.e., it takes a scalar value (or a string) that is passed by value. Then the corresponding argument string would be <verbatim>  &apos;float t&apos;
+</verbatim> For a C-string, which corresponds to a function prototype of <verbatim>  int fooFunction(const char *t),
+</verbatim> the corresponding argument string would be <verbatim>  &apos;string t&apos;
+</verbatim> Other types are as listed above. Note that FreeMat will automatically promote the type of scalar variables to the type expected by the <computeroutput>C</computeroutput> function. For example, if we call a function expecting a <computeroutput>float</computeroutput> with a <computeroutput>double</computeroutput> or <computeroutput>int16</computeroutput> argument, then FreeMat will automatically apply type promotion rules prior to calling the function.</para><para><heading level="2">Scalar variable passed by reference:</heading>
+</para><para>Suppose a function is defined in the library as <verbatim>  int fooFunction(float *t),
+</verbatim> i.e., it takes a scalar value (or a string) that is passed as a pointer. Then the corresponding argument string would be <verbatim>  &apos;float &amp;t&apos;
+</verbatim> If the function <computeroutput>fooFunction</computeroutput> modifies <computeroutput>t</computeroutput>, then the argument passed in FreeMat will also be modified.</para><para><heading level="2">Array variable passed by value:</heading>
+</para><para>In <computeroutput>C</computeroutput>, it is impossible to distinguish an array being passed from a simple pointer being passed. More often than not, another argument indicates the length of the array. FreeMat has the ability to perform bounds-checking on array values. For example, suppose we have a function of the form <verbatim>  int sum_onehundred_ints(int *t),
+</verbatim> where <computeroutput>sum_onehundred_ints</computeroutput> assumes that <computeroutput>t</computeroutput> is a length <computeroutput>100</computeroutput> vector. Then the corresponding FreeMat argument is <verbatim>  &apos;float32[100] t&apos;.
+</verbatim> Note that because the argument is marked as not being passed by reference, that if <computeroutput>sub_onehundred_ints</computeroutput> modifies the array <computeroutput>t</computeroutput>, this will not affect the FreeMat argument. Note that the bounds-check expression can be any legal scalar expression that evaluates to an integer, and can be a function of the arguments. For example to pass a square <formula id="30">$N \times N$</formula> matrix to the following function: <verbatim>  float determinantmatrix(int N, float *A),
+</verbatim> we can use the following argument to <computeroutput>import</computeroutput>: <verbatim>  &apos;int32 N, float[N*N] t&apos;.
+</verbatim></para><para><heading level="2">Array variable passed by reference:</heading>
+</para><para>If the function in <computeroutput>C</computeroutput> modifies an array, and we wish this to be reflected in the FreeMat side, we must pass that argument by reference. Hence, consider the following hypothetical function that squares the elements of an array (functionally equivalent to <formula id="31">$x.^2$</formula>): <verbatim>  void squarearray(int N, float *A)
+</verbatim> we can use the following argument to <computeroutput>import</computeroutput>: <verbatim>  &apos;int32 N, float[N] &amp;A&apos;.
+</verbatim> Note that to avoid problems with memory allocation, external functions are not allowed to return pointers. As a result, as a general operating mechanism, the FreeMat code must allocate the proper arrays, and then pass them by reference to the external function.</para><para><heading level="2">Sending text to the FreeMat console:</heading>
+</para><para>Starting with FreeMat 4.0, it is possible for external code that is called using the <computeroutput>import</computeroutput> statement to send text to the FreeMat console. To do so, you must define in each library that wants to send text a function with the name <computeroutput>freemat_io_handler</computeroutput> that captures its argument (a function pointer), and stores it for use by functions in the library. That function pointer takes a standard C string argument. Here is a snippet of code to demonstrate how this works: <verbatim>  /* just to make it readable */
+  typedef void (*strfunc)(const char*); 
+
+  /* The name we want to use for the function */
+  strfunc FreeMatText;                  
+
+  /* this name is case sensitive and must not be mangled (i.e., use extern &quot;C&quot;) */
+  void freemat_io_handler(strfunc printFunc) {
+     FreeMatText = printFunc;
+  }
+
+  double SomeImportedFunction(double t) {
+     FreeMatText(&quot;I am going to double that argument!\n&quot;);
+     return (t*2);
+  }
+</verbatim> In this case, once <computeroutput>SomeImportedFunction</computeroutput> is called from within FreeMat, the text <computeroutput>&quot;I am going to double that argument&quot;</computeroutput> will appear in the FreeMat console.</para><para>Your <computeroutput>freemat_io_handler</computeroutput> function is automatically called when your library is loaded by FreeMat, which happens with the first <computeroutput>import</computeroutput> statement that references it.</para><para>Repeating <computeroutput>import</computeroutput> calls to import the same function name will be ignored, except the first call. In order to refresh the function without restarting FreeMat, you have to first clear all imported libraries via: <verbatim>   clear &apos;libs&apos;
+</verbatim></para></sect1>
+<sect1 id="variables_struct_1Example">
+<title>Example</title>
+<para>Here is a complete example. We have a <computeroutput>C</computeroutput> function that adds two float vectors of the same length, and stores the result in a third array that is modified by the function. First, the <computeroutput>C</computeroutput> code:</para><para><verbatim>     addArrays.c
+</verbatim></para><para><verbatim>void addArrays(int N, float *a, float *b, float *c) {
+  int i;
+ 
+  for (i=0;i&lt;N;i++)
+   c[i] = a[i] + b[i];
+}
+</verbatim></para><para>We then compile this into a dynamic library, say, <computeroutput>add.so</computeroutput>. The import command would then be: <verbatim>  import(&apos;add.so&apos;,&apos;addArrays&apos;,&apos;addArrays&apos;,&apos;void&apos;, ...
+         &apos;int32 N, float[N] a, float[N] b, float[N] &amp;c&apos;);
+</verbatim> We could then exercise the function exactly as if it had been written in FreeMat. The following only works on systems using the GNU C Compiler:</para><para><verbatim>--&gt; if (strcmp(computer,&apos;MAC&apos;)) system(&apos;gcc -bundle -flat_namespace -undefined suppress -o add.so addArrays.c&apos;); end;
+--&gt; if (~strcmp(computer,&apos;MAC&apos;)) system(&apos;gcc -shared -fPIC -o add.so addArrays.c&apos;); end;
+--&gt; import(&apos;add.so&apos;,&apos;addArrays&apos;,&apos;addArrays&apos;,&apos;void&apos;,&apos;int32 N, float[N] a, float[N] b, float[N] &amp;c&apos;);
+--&gt; a = [3,2,3,1];
+--&gt; b = [5,6,0,2]; 
+--&gt; c = [0,0,0,0];
+--&gt; addArrays(length(a),a,b,c)
+
+ans = 
+  []
+--&gt; c
+
+ans = 
+ 8 8 3 3 
+</verbatim> </para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

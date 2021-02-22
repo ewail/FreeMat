@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkcommon_vtkinstantiator" kind="page">
+    <compoundname>vtkcommon_vtkinstantiator</compoundname>
+    <title>vtkInstantiator</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkcommon_1sec_vtkcommon" kindref="member">Visualization Toolkit Common Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>vtkInstantiator provides an interface to create an instance of any VTK class from its name. Instances are created through registered pointers to functions returning the objects. New classes can also be registered with the creator. VTK libraries automatically register their classes with the creator when they are loaded. Instances are created using the static New() method, so the normal vtkObjectFactory mechanism is still invoked.</para><para>When using this class from language wrappers (Tcl, Python, or Java), the vtkInstantiator should be able to create any class from any kit that has been loaded.</para><para>In C++ code, one should include the header for each kit from which one wishes to create instances through vtkInstantiator. This is necessary to ensure proper linking when building static libraries. Be careful, though, because including each kit&apos;s header means every class from that kit will be linked into your executable whether or not the class is used. The headers are:</para><para>vtkCommon - vtkCommonInstantiator.h vtkFiltering - vtkFilteringInstantiator.h vtkIO - vtkIOInstantiator.h vtkImaging - vtkImagingInstantiator.h vtkGraphics - vtkGraphicsInstantiator.h vtkRendering - vtkRenderingInstantiator.h vtkVolumeRendering - vtkVolumeRenderingInstantiator.h vtkHybrid - vtkHybridInstantiator.h vtkParallel - vtkParallelInstantiator.h</para><para>The VTK_MAKE_INSTANTIATOR() command in CMake is used to automatically generate the creator registration for each VTK library. It can also be used to create registration code for VTK-style user libraries that are linked to vtkCommon. After using this command to register classes from a new library, the generated header must be included.</para><para>To create an instance of class vtkInstantiator, simply invoke its constructor as follows <verbatim>  obj = vtkInstantiator
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkInstantiator has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkInstantiator class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkInstantiator = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkInstantiator = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

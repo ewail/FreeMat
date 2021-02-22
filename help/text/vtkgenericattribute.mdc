@@ -1,0 +1,189 @@
+
+ Usage
+
+vtkGenericAttribute is an abstract class that defines an API
+for attribute data. Attribute data is data associated with
+the topology or geometry of a dataset (i.e., points, cells,
+etc.). vtkGenericAttribute is part of the adaptor framework
+(see GenericFiltering/README.html).
+vtkGenericAttribute provides a more general interface to
+attribute data than its counterpart vtkDataArray (which
+assumes a linear, contiguous array). It adopts an iterator
+interface, and allows attributes to be associated with
+points, edges, faces, or edges.
+To create an instance of class vtkGenericAttribute, simply
+invoke its constructor as follows
+
+    obj = vtkGenericAttribute
+
+
+
+ Methods
+
+The class vtkGenericAttribute has several methods that can
+be used. They are listed below. Note that the documentation
+is translated automatically from the VTK sources, and may
+not be completely intelligible. When in doubt, consult the
+VTK website. In the methods listed below, obj is an instance
+of the vtkGenericAttribute class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkGenericAttribute = obj.NewInstance ()
+* vtkGenericAttribute = obj.SafeDownCast (vtkObject o)
+* string = obj.GetName () - Name of the attribute. (e.g.
+  "velocity")
+
+
+    Postcondition:
+        result_may_not_exist: result!=0 || result==0
+
+* int = obj.GetNumberOfComponents () - Dimension of the
+  attribute. (1 for scalar, 3 for velocity)
+
+
+    Postcondition:
+        positive_result: result>=0
+        GetType()==VTK_SCALARS implies result==1
+        (GetType()==VTK_VECTORS||(GetType()==VTK_NORMALS)||
+        (GetType()==VTK_TCOORDS) implies result==3
+        GetType()==VTK_TENSORS implies result==6
+
+* int = obj.GetCentering () - Is the attribute centered
+  either on points, cells or boundaries?
+
+
+    Postcondition:
+        valid_result: (result==vtkPointCentered)||
+        (result==vtkCellCentered)
+
+* int = obj.GetType () - Type of the attribute: scalar,
+  vector, normal, texture coordinate, tensor
+
+
+    Postcondition:
+        valid_result: (result==vtkDataSetAttributes::
+        SCALARS) ||(result==vtkDataSetAttributes::VECTORS)
+        ||(result==vtkDataSetAttributes::NORMALS) ||
+        (result==vtkDataSetAttributes::TCOORDS) ||
+        (result==vtkDataSetAttributes::TENSORS)
+
+* int = obj.GetComponentType () - Type of the components of
+  the attribute: int, float, double
+
+
+    Postcondition:
+        valid_result: (result==VTK_BIT) ||(result==VTK_CHAR)
+        ||(result==VTK_UNSIGNED_CHAR) ||(result==VTK_SHORT)
+        ||(result==VTK_UNSIGNED_SHORT)||(result==VTK_INT) ||
+        (result==VTK_UNSIGNED_INT) ||(result==VTK_LONG) ||
+        (result==VTK_UNSIGNED_LONG) ||(result==VTK_FLOAT) ||
+        (result==VTK_DOUBLE) ||(result==VTK_ID_TYPE)
+
+* vtkIdType = obj.GetSize () - Number of tuples.
+
+
+    Postcondition:
+        valid_result: result>=0
+
+* long = obj.GetActualMemorySize () - Size in kilobytes
+  taken by the attribute.
+* obj.GetRange (int component, double range[2]) - Range of
+  the attribute component `component'. If `component'==-1,
+  it returns the range of the magnitude (euclidean norm).
+  THREAD SAFE
+
+
+    Precondition:
+        valid_component: (component>=-1)&amp;&amp;
+        (component<GetNumberOfComponents())
+
+* double = obj.GetMaxNorm () - Return the maximum euclidean
+  norm for the tuples.
+
+
+    Postcondition:
+        positive_result: result>=0
+
+* obj.GetTuple (vtkGenericAdaptorCell c, double tuple) - Put
+  attribute at all points of cell `c' in `tuple'.
+
+
+    Precondition:
+        c_exists: c!=0
+        c_valid: !c->IsAtEnd()
+        tuple_exists: tuple!=0
+        valid_tuple: sizeof(tuple)>=GetNumberOfComponents
+        ()*c->GetCell()->GetNumberOfPoints()
+
+* obj.GetTuple (vtkGenericCellIterator c, double tuple) -
+  Put attribute at all points of cell `c' in `tuple'.
+
+
+    Precondition:
+        c_exists: c!=0
+        c_valid: !c->IsAtEnd()
+        tuple_exists: tuple!=0
+        valid_tuple: sizeof(tuple)>=GetNumberOfComponents
+        ()*c->GetCell()->GetNumberOfPoints()
+
+* obj.GetTuple (vtkGenericPointIterator p, double tuple) -
+  Put the value of the attribute at position `p' into
+  `tuple'.
+
+
+    Precondition:
+        p_exists: p!=0
+        p_valid: !p->IsAtEnd()
+        tuple_exists: tuple!=0
+        valid_tuple_size: sizeof
+        (tuple)>=GetNumberOfComponents()
+
+* obj.GetComponent (int i, vtkGenericCellIterator c, double
+  values) - Put component `i' of the attribute at all points
+  of cell `c' in `values'.
+
+
+    Precondition:
+        valid_component: (i>=0) &amp;&amp;
+        (i<GetNumberOfComponents())
+        c_exists: c!=0
+        c_valid: !c->IsAtEnd()
+        values_exist: values!=0
+        valid_values: sizeof(values)>=c->GetCell()-
+        >GetNumberOfPoints()
+
+* double = obj.GetComponent (int i, vtkGenericPointIterator
+  p) - Value of the component `i' of the attribute at
+  position `p'.
+
+
+    Precondition:
+        valid_component: (i>=0) &amp;&amp;
+        (i<GetNumberOfComponents())
+        p_exists: p!=0
+        p_valid: !p->IsAtEnd()
+
+* obj.DeepCopy (vtkGenericAttribute other) - Recursive
+  duplication of `other' in `this'.
+
+
+    Precondition:
+        other_exists: other!=0
+        not_self: other!=this
+
+* obj.ShallowCopy (vtkGenericAttribute other) - Update
+  `this' using fields of `other'.
+
+
+    Precondition:
+        other_exists: other!=0
+        not_self: other!=this
+
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Filtering_Classes
+* Generated on Thu Jul 25 2013 17:18:30 for FreeMat by
+  doxygen_ 1.8.1.1
+

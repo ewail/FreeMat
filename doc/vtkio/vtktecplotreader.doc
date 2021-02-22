@@ -1,0 +1,90 @@
+/*!
+\page vtkio_vtktecplotreader vtkTecplotReader
+
+<p>
+Section: \ref sec_vtkio "Visualization Toolkit IO Classes"
+\section Usage
+  vtkTecplotReader parses an ASCII Tecplot file to get a vtkMultiBlockDataSet
+  object made up of several vtkDataSet objects, of which each is of type
+  either vtkStructuredGrid or vtkUnstructuredGrid. Each vtkDataSet object 
+  maintains the geometry, topology, and some associated attributes describing
+  physical properties.
+
+  Tecplot treats 3D coordinates (only one or two coordinates might be
+  explicitly specified in a file) as varaibles too, whose names (e.g.,
+  'X' / 'x' / 'I', 'Y' / 'y' / 'J', 'Z' / 'z' / 'K') are provided in the
+  variables list (the 'VARIABLES' section). These names are then followed
+  in the list by those of other traditional variables or attributes (node-
+  based and / or cell-based data with the mode specified via token 'VAR
+  LOCATION', to be extracted to create vtkPointData and / or vtkCellData). 
+  Each zone described afterwards (in the 'ZONE's section) provides the 
+  specific values of the aforementioned variables (including 3D coordinates), 
+  in the same order as indicated by the variable-names list, through either
+  POINT-packing (i.e., tuple-based storage) or BLOCK-packing (component-based
+  storage). In particular, the first / description line of  each zone tells 
+  the type of all the  constituent cells as the connectivity / topology 
+  information. In other words, the entire dataset is made up of multiple zones
+  (blocks), of which each maintains a set of cells of the same type ('BRICK', 
+  'TRIANGLE', 'QUADRILATERAL', 'TETRAHEDRON', and 'POINT' in Tecplot terms). 
+  In addition, the description line of each zone specifies the zone name, 
+  dimensionality information (size of each dimension for a structured zone), 
+  number of nodes, and number of cells. Information about the file format is 
+  available at http://download.tecplot.com/360/dataformat.pdf.
+  
+
+To create an instance of class vtkTecplotReader, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkTecplotReader
+\endverbatim
+\section Methods
+The class vtkTecplotReader has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkTecplotReader class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkTecplotReader = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkTecplotReader = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfVariables ()</tt> -  Get the number of all variables (including 3D coordinates).
+ </LI>
+<LI>  <tt>obj.SetFileName (string fileName)</tt> -  Specify a Tecplot ASCII file for data loading.
+ </LI>
+<LI>  <tt>string = obj.GetDataTitle ()</tt> -  Get the Tecplot data title.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfBlocks ()</tt> -  Get the number of blocks (i.e., zones in Tecplot terms).
+ </LI>
+<LI>  <tt>string = obj.GetBlockName (int blockIdx)</tt> -  Get the name of a block specified by a zero-based index. NULL is returned
+ for an invalid block index.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfDataAttributes ()</tt> -  Get the number of standard data attributes (node-based and cell-based),
+ excluding 3D coordinates.
+ </LI>
+<LI>  <tt>string = obj.GetDataAttributeName (int attrIndx)</tt> -  Get the name of a zero-based data attribute (not 3D coordinates). NULL is
+ returned for an invalid attribute index.
+ </LI>
+<LI>  <tt>int = obj.IsDataAttributeCellBased (string attrName)</tt> -  Get the type (0 for node-based and 1 for cell-based) of a specified data 
+ attribute (not 3D coordinates). -1 is returned for an invalid attribute 
+ name.
+ </LI>
+<LI>  <tt>int = obj.IsDataAttributeCellBased (int attrIndx)</tt> -  Get the type (0 for node-based and 1 for cell-based) of a specified data 
+ attribute (not 3D coordinates). -1 is returned for an invalid attribute
+ index.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfDataArrays ()</tt> -  Get the number of all data attributes (point data and cell data).
+ </LI>
+<LI>  <tt>string = obj.GetDataArrayName (int arrayIdx)</tt> -  Get the name of a data array specified by the zero-based index (arrayIdx).
+ </LI>
+<LI>  <tt>int = obj.GetDataArrayStatus (string arayName)</tt> -  Get the status of a specific data array (0: un-selected; 1: selected).
+ </LI>
+<LI>  <tt>obj.SetDataArrayStatus (string arayName, int bChecked)</tt> -  Set the status of a specific data array (0: de-select; 1: select) specified
+ by the name.
+ </LI>
+</UL>
+*/

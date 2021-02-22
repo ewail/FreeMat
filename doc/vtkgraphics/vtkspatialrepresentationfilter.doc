@@ -1,0 +1,70 @@
+/*!
+\page vtkgraphics_vtkspatialrepresentationfilter vtkSpatialRepresentationFilter
+
+<p>
+Section: \ref sec_vtkgraphics "Visualization Toolkit Graphics Classes"
+\section Usage
+ vtkSpatialRepresentationFilter generates an polygonal representation of a
+ spatial search (vtkLocator) object. The representation varies depending
+ upon the nature of the spatial search object. For example, the
+ representation for vtkOBBTree is a collection of oriented bounding
+ boxes. Ths input to this filter is a dataset of any type, and the output
+ is polygonal data. You must also specify the spatial search object to
+ use.
+
+ Generally spatial search objects are used for collision detection and
+ other geometric operations, but in this filter one or more levels of
+ spatial searchers can be generated to form a geometric approximation to
+ the input data. This is a form of data simplification, generally used to
+ accelerate the rendering process. Or, this filter can be used as a
+ debugging/ visualization aid for spatial search objects.
+ 
+ This filter can generate one or more output vtkPolyData corresponding to
+ different levels in the spatial search tree. The output data is retrieved 
+ using the GetOutput(id) method, where id ranges from 0 (root level) 
+ to Level. Note that the output for level "id" is not computed unless a 
+ GetOutput(id) method is issued. Thus, if you desire three levels of output 
+ (say 2,4,7), you would have to invoke GetOutput(2), GetOutput(4), and 
+ GetOutput(7). (Also note that the Level ivar is computed automatically 
+ depending on the size and nature of the input data.) There is also 
+ another GetOutput() method that takes no parameters. This method returns 
+ the leafs of the spatial search tree, which may be at different levels.
+
+To create an instance of class vtkSpatialRepresentationFilter, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkSpatialRepresentationFilter
+\endverbatim
+\section Methods
+The class vtkSpatialRepresentationFilter has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkSpatialRepresentationFilter class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkSpatialRepresentationFilter = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkSpatialRepresentationFilter = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetSpatialRepresentation (vtkLocator )</tt> -  Set/Get the locator that will be used to generate the representation.
+ </LI>
+<LI>  <tt>vtkLocator = obj.GetSpatialRepresentation ()</tt> -  Set/Get the locator that will be used to generate the representation.
+ </LI>
+<LI>  <tt>int = obj.GetLevel ()</tt> -  Get the maximum number of outputs actually available.
+ </LI>
+<LI>  <tt>vtkPolyData = obj.GetOutput (int level)</tt> -  A special form of the GetOutput() method that returns multiple outputs.
+ </LI>
+<LI>  <tt>vtkPolyData = obj.GetOutput ()</tt> -  Output of terminal nodes/leaves.
+ </LI>
+<LI>  <tt>obj.ResetOutput ()</tt> -  Reset requested output levels
+ </LI>
+<LI>  <tt>obj.SetInput (vtkDataSet input)</tt> -  Set / get the input data or filter.
+ </LI>
+<LI>  <tt>vtkDataSet = obj.GetInput ()</tt> -  Set / get the input data or filter.
+ </LI>
+</UL>
+*/

@@ -1,0 +1,162 @@
+
+ Usage
+
+Defines a piecewise function mapping. This mapping allows
+the addition of control points, and allows the user to
+control the function between the control points. A piecewise
+hermite curve is used between control points, based on the
+sharpness and midpoint parameters. A sharpness of 0 yields a
+piecewise linear function and a sharpness of 1 yields a
+piecewise constant function. The midpoint is the normalized
+distance between control points at which the curve reaches
+the median Y value. The midpoint and sharpness values
+specified when adding a node are used to control the
+transition to the next node (the last node's values are
+ignored) Outside the range of nodes, the values are 0 if
+Clamping is off, or the nearest node point if Clamping is
+on. Using the legacy methods for adding points (which do not
+have Sharpness and Midpoint parameters) will default to
+Midpoint = 0.5 (halfway between the control points) and
+Sharpness = 0.0 (linear).
+To create an instance of class vtkPiecewiseFunction, simply
+invoke its constructor as follows
+
+    obj = vtkPiecewiseFunction
+
+
+
+ Methods
+
+The class vtkPiecewiseFunction has several methods that can
+be used. They are listed below. Note that the documentation
+is translated automatically from the VTK sources, and may
+not be completely intelligible. When in doubt, consult the
+VTK website. In the methods listed below, obj is an instance
+of the vtkPiecewiseFunction class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkPiecewiseFunction = obj.NewInstance ()
+* vtkPiecewiseFunction = obj.SafeDownCast (vtkObject o)
+* obj.DeepCopy (vtkDataObject f)
+* obj.ShallowCopy (vtkDataObject f)
+* int = obj.GetDataObjectType () - Return what type of
+  dataset this is.
+* int = obj.GetSize () - Get the number of points used to
+  specify the function
+* int = obj.AddPoint (double x, double y) - Add/Remove
+  points to/from the function. If a duplicate point is added
+  then the function value is changed at that location.
+  Return the index of the point (0 based), or -1 on error.
+* int = obj.AddPoint (double x, double y, double midpoint,
+  double sharpness) - Add/Remove points to/from the
+  function. If a duplicate point is added then the function
+  value is changed at that location. Return the index of the
+  point (0 based), or -1 on error.
+* int = obj.RemovePoint (double x) - Add/Remove points to/
+  from the function. If a duplicate point is added then the
+  function value is changed at that location. Return the
+  index of the point (0 based), or -1 on error.
+* obj.RemoveAllPoints () - Removes all points from the
+  function.
+* obj.AddSegment (double x1, double y1, double x2, double
+  y2) - Add a line segment to the function. All points
+  defined between the two points specified are removed from
+  the function. This is a legacy method that does not allow
+  the specification of the sharpness and midpoint values for
+  the two nodes.
+* double = obj.GetValue (double x) - Returns the value of
+  the function at the specified location using the specified
+  interpolation.
+* int = obj.GetNodeValue (int index, double val[4]) - For
+  the node specified by index, set/get the location (X),
+  value (Y), midpoint, and sharpness values at the node.
+* int = obj.SetNodeValue (int index, double val[4]) - For
+  the node specified by index, set/get the location (X),
+  value (Y), midpoint, and sharpness values at the node.
+* obj.FillFromDataPointer (int , double ) - Returns a
+  pointer to the data stored in the table. Fills from a
+  pointer to data stored in a similar table. These are
+  legacy methods which will be maintained for compatibility
+  - however, note that the vtkPiecewiseFunction no longer
+  stores the nodes in a double array internally.
+* double = obj. GetRange () - Returns the min and max node
+  locations of the function.
+* int = obj.AdjustRange (double range[2]) - Remove all
+  points out of the new range, and make sure there is a
+  point at each end of that range. Return 1 on success, 0
+  otherwise.
+* obj.GetTable (double x1, double x2, int size, float table,
+  int stride) - Fills in an array of function values
+  evaluated at regular intervals. Parameter "stride" is used
+  to step through the output "table".
+* obj.GetTable (double x1, double x2, int size, double
+  table, int stride) - Fills in an array of function values
+  evaluated at regular intervals. Parameter "stride" is used
+  to step through the output "table".
+* obj.BuildFunctionFromTable (double x1, double x2, int
+  size, double table, int stride) - Constructs a piecewise
+  function from a table. Function range is is set to [x1,
+  x2], function size is set to size, and function points are
+  regularly spaced between x1 and x2. Parameter "stride" is
+  is step through the input table.
+* obj.SetClamping (int ) - When zero range clamping is Off,
+  GetValue() returns 0.0 when a value is requested outside
+  of the points specified. When zero range clamping is On,
+  GetValue() returns the value at the value at the lowest
+  point for a request below all points specified and returns
+  the value at the highest point for a request above all
+  points specified. On is the default.
+* int = obj.GetClamping () - When zero range clamping is
+  Off, GetValue() returns 0.0 when a value is requested
+  outside of the points specified. When zero range clamping
+  is On, GetValue() returns the value at the value at the
+  lowest point for a request below all points specified and
+  returns the value at the highest point for a request above
+  all points specified. On is the default.
+* obj.ClampingOn () - When zero range clamping is Off,
+  GetValue() returns 0.0 when a value is requested outside
+  of the points specified. When zero range clamping is On,
+  GetValue() returns the value at the value at the lowest
+  point for a request below all points specified and returns
+  the value at the highest point for a request above all
+  points specified. On is the default.
+* obj.ClampingOff () - When zero range clamping is Off,
+  GetValue() returns 0.0 when a value is requested outside
+  of the points specified. When zero range clamping is On,
+  GetValue() returns the value at the value at the lowest
+  point for a request below all points specified and returns
+  the value at the highest point for a request above all
+  points specified. On is the default.
+* string = obj.GetType () - Return the type of function:
+  Function Types: 0 : Constant (No change in slope between
+  end points) 1 : NonDecreasing (Always increasing or zero
+  slope) 2 : NonIncreasing (Always decreasing or zero slope)
+  3 : Varied (Contains both decreasing and increasing
+  slopes)
+* double = obj.GetFirstNonZeroValue () - Returns the first
+  point location which precedes a non-zero segment of the
+  function. Note that the value at this point may be zero.
+* obj.Initialize () - Clears out the current function. A
+  newly created vtkPiecewiseFunction is alreay initialized,
+  so there is no need to call this method which in turn
+  simply calls RemoveAllPoints()
+* obj.SetAllowDuplicateScalars (int ) - Toggle whether to
+  allow duplicate scalar values in the piecewise function
+  (off by default).
+* int = obj.GetAllowDuplicateScalars () - Toggle whether to
+  allow duplicate scalar values in the piecewise function
+  (off by default).
+* obj.AllowDuplicateScalarsOn () - Toggle whether to allow
+  duplicate scalar values in the piecewise function (off by
+  default).
+* obj.AllowDuplicateScalarsOff () - Toggle whether to allow
+  duplicate scalar values in the piecewise function (off by
+  default).
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Filtering_Classes
+* Generated on Thu Jul 25 2013 17:18:31 for FreeMat by
+  doxygen_ 1.8.1.1
+

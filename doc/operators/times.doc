@@ -1,0 +1,68 @@
+/*!
+\page operators_times TIMES Matrix Multiply Operator
+
+<p>
+Section: \ref sec_operators "Mathematical Operators"
+\section Usage
+Multiplies two numerical arrays.  This operator is really a combination
+of three operators, all of which have the same general syntax:
+\verbatim
+  y = a * b
+\endverbatim
+where <tt>a</tt> and <tt>b</tt> are arrays of numerical type.  The result <tt>y</tt> depends
+on which of the following three situations applies to the arguments
+<tt>a</tt> and <tt>b</tt>:
+<OL>
+  <LI> <tt>a</tt> is a scalar, <tt>b</tt> is an arbitrary <tt>n</tt>-dimensional numerical array, in which case the output is the element-wise product of <tt>b</tt> with the scalar <tt>a</tt>.
+</LI>
+  <LI> <tt>b</tt> is a scalar, <tt>a</tt> is an arbitrary <tt>n</tt>-dimensional numerical array, in which case the output is the element-wise product of <tt>a</tt> with the scalar <tt>b</tt>.
+</LI>
+  <LI> <tt>a,b</tt> are conformant matrices, i.e., <tt>a</tt> is of size <tt>M x K</tt>, and <tt>b</tt> is of size <tt>K x N</tt>, in which case the output is of size <tt>M x N</tt> and is the matrix product of <tt>a</tt>, and <tt>b</tt>.
+</LI>
+</OL>
+Matrix multiplication is only defined for matrices of type <tt>double</tt> 
+and <tt>single</tt>.
+\section Function Internals
+There are three formulae for the times operator.  For the first form
+\f[
+y(m_1,\ldots,m_d) = a \times b(m_1,\ldots,m_d),
+\f]
+and the second form
+\f[
+y(m_1,\ldots,m_d) = a(m_1,\ldots,m_d) \times b.
+\f]
+In the third form, the output is the matrix product of the arguments
+\f[
+y(m,n) = \sum_{k=1}^{K} a(m,k) b(k,n)
+\f]
+\section Examples
+Here are some examples of using the matrix multiplication operator.  First,
+the scalar examples (types 1 and 2 from the list above):
+
+\if FRAGMENT
+frag_operators_times_000.m
+0
+a = [1,3,4;0,2,1]
+b = a * 2
+\endif
+
+
+\verbinclude frag_operators_times_000.m.out 
+
+The matrix form, where the first argument is <tt>2 x 3</tt>, and the
+second argument is <tt>3 x 1</tt>, so that the product is size 
+<tt>2 x 1</tt>.
+
+\if FRAGMENT
+frag_operators_times_001.m
+0
+a = [1,2,0;4,2,3]
+b = [5;3;1]
+c = a*b
+\endif
+
+
+\verbinclude frag_operators_times_001.m.out 
+
+Note that the output is double precision.
+*/

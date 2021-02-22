@@ -1,0 +1,109 @@
+/*!
+\page io_format FORMAT Control the Format of Matrix Display
+
+<p>
+Section: \ref sec_io "Input/Ouput Functions"
+\section Usage
+FreeMat supports several modes for displaying matrices (either through the
+<tt>disp</tt> function or simply by entering expressions on the command line.  
+There are several options for the format command.  The default mode is equivalent
+to
+\verbatim
+   format short
+\endverbatim
+which generally displays matrices with 4 decimals, and scales matrices if the entries
+have magnitudes larger than roughly <tt>1e2</tt> or smaller than <tt>1e-2</tt>.   For more 
+information you can use 
+\verbatim
+   format long
+\endverbatim
+which displays roughly 7 decimals for <tt>float</tt> and <tt>complex</tt> arrays, and 14 decimals
+for <tt>double</tt> and <tt>dcomplex</tt>.  You can also use
+\verbatim
+   format short e
+\endverbatim
+to get exponential format with 4 decimals.  Matrices are not scaled for exponential 
+formats.  Similarly, you can use
+\verbatim
+   format long e
+\endverbatim
+which displays the same decimals as <tt>format long</tt>, but in exponential format.
+You can also use the <tt>format</tt> command to retrieve the current format:
+\verbatim
+   s = format
+\endverbatim
+where <tt>s</tt> is a string describing the current format.
+\section Example
+We start with the short format, and two matrices, one of double precision, and the
+other of single precision.
+
+\if FRAGMENT
+frag_io_format_000.m
+0
+format short
+a = randn(4)
+b = float(randn(4))
+\endif
+
+
+\verbinclude frag_io_format_000.m.out 
+
+Note that in the short format, these two matrices are displayed with the same format.
+In <tt>long</tt> format, however, they display differently
+
+\if FRAGMENT
+frag_io_format_001.m
+0
+format long
+a
+b
+\endif
+
+
+\verbinclude frag_io_format_001.m.out 
+
+Note also that we we scale the contents of the matrices, FreeMat rescales the entries
+with a scale premultiplier.
+
+\if FRAGMENT
+frag_io_format_002.m
+0
+format short
+a*1e4
+a*1e-4
+b*1e4
+b*1e-4
+\endif
+
+
+\verbinclude frag_io_format_002.m.out 
+
+Next, we use the exponential formats:
+
+\if FRAGMENT
+frag_io_format_003.m
+0
+format short e
+a*1e4
+a*1e-4
+b*1e4
+b*1e-4
+\endif
+
+
+\verbinclude frag_io_format_003.m.out 
+
+Finally, if we assign the <tt>format</tt> function to a variable, we can retrieve the 
+current format:
+
+\if FRAGMENT
+frag_io_format_004.m
+0
+format short
+t = format
+\endif
+
+
+\verbinclude frag_io_format_004.m.out 
+
+*/

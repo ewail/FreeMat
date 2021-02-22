@@ -1,0 +1,148 @@
+/*!
+\page vtkcommon_vtkfunctionparser vtkFunctionParser
+
+<p>
+Section: \ref sec_vtkcommon "Visualization Toolkit Common Classes"
+\section Usage
+ vtkFunctionParser is a class that takes in a mathematical expression as
+ a char string, parses it, and evaluates it at the specified values of
+ the variables in the input string.
+
+ You can use the "if" operator to create conditional expressions
+ such as if ( test, trueresult, falseresult). These evaluate the boolean
+ valued test expression and then evaluate either the trueresult or the 
+ falseresult expression to produce a final (scalar or vector valued) value.
+ "test" may contain <,>,=,|,&, and () and all three subexpressions can
+ evaluate arbitrary function operators (ln, cos, +, if, etc)
+
+ .SECTION Thanks
+ Thomas Dunne (thomas.dunne@iwr.uni-heidelberg.de) for adding code for
+ two-parameter-parsing and a few functions (sign, min, max).
+
+ Sid Sydoriak (sxs@lanl.gov) for adding boolean operations and
+ conditional expressions and for fixing a variety of bugs.
+
+To create an instance of class vtkFunctionParser, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkFunctionParser
+\endverbatim
+\section Methods
+The class vtkFunctionParser has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkFunctionParser class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkFunctionParser = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkFunctionParser = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetFunction (string function)</tt>
+ </LI>
+<LI>  <tt>string = obj.GetFunction ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsScalarResult ()</tt> -  Check whether the result is a scalar result.  If it isn't, then
+ either the result is a vector or an error has occurred.
+ </LI>
+<LI>  <tt>int = obj.IsVectorResult ()</tt> -  Check whether the result is a vector result.  If it isn't, then
+ either the result is scalar or an error has occurred.
+ </LI>
+<LI>  <tt>double = obj.GetScalarResult ()</tt> -  Get a scalar result from evaluating the input function.
+ </LI>
+<LI>  <tt>double = obj.GetVectorResult ()</tt> -  Get a vector result from evaluating the input function.
+ </LI>
+<LI>  <tt>obj.GetVectorResult (double result[3])</tt> -  Get a vector result from evaluating the input function.
+ </LI>
+<LI>  <tt>obj.SetScalarVariableValue (string variableName, double value)</tt> -  Set the value of a scalar variable.  If a variable with this name
+ exists, then its value will be set to the new value.  If there is not
+ already a variable with this name, variableName will be added to the
+ list of variables, and its value will be set to the new value.
+ </LI>
+<LI>  <tt>obj.SetScalarVariableValue (int i, double value)</tt> -  Set the value of a scalar variable.  If a variable with this name
+ exists, then its value will be set to the new value.  If there is not
+ already a variable with this name, variableName will be added to the
+ list of variables, and its value will be set to the new value.
+ </LI>
+<LI>  <tt>double = obj.GetScalarVariableValue (string variableName)</tt> -  Get the value of a scalar variable.
+ </LI>
+<LI>  <tt>double = obj.GetScalarVariableValue (int i)</tt> -  Get the value of a scalar variable.
+ </LI>
+<LI>  <tt>obj.SetVectorVariableValue (string variableName, double xValue, double yValue, double zValue)</tt> -  Set the value of a vector variable.  If a variable with this name
+ exists, then its value will be set to the new value.  If there is not
+ already a variable with this name, variableName will be added to the
+ list of variables, and its value will be set to the new value.
+ </LI>
+<LI>  <tt>obj.SetVectorVariableValue (string variableName, double values[3])</tt> -  Set the value of a vector variable.  If a variable with this name
+ exists, then its value will be set to the new value.  If there is not
+ already a variable with this name, variableName will be added to the
+ list of variables, and its value will be set to the new value.
+ </LI>
+<LI>  <tt>obj.SetVectorVariableValue (int i, double xValue, double yValue, double zValue)</tt> -  Set the value of a vector variable.  If a variable with this name
+ exists, then its value will be set to the new value.  If there is not
+ already a variable with this name, variableName will be added to the
+ list of variables, and its value will be set to the new value.
+ </LI>
+<LI>  <tt>obj.SetVectorVariableValue (int i, double values[3])</tt> -  Set the value of a vector variable.  If a variable with this name
+ exists, then its value will be set to the new value.  If there is not
+ already a variable with this name, variableName will be added to the
+ list of variables, and its value will be set to the new value.
+ </LI>
+<LI>  <tt>double = obj.GetVectorVariableValue (string variableName)</tt> -  Get the value of a vector variable.
+ </LI>
+<LI>  <tt>obj.GetVectorVariableValue (string variableName, double value[3])</tt> -  Get the value of a vector variable.
+ </LI>
+<LI>  <tt>double = obj.GetVectorVariableValue (int i)</tt> -  Get the value of a vector variable.
+ </LI>
+<LI>  <tt>obj.GetVectorVariableValue (int i, double value[3])</tt> -  Get the value of a vector variable.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfScalarVariables ()</tt> -  Get the number of scalar variables.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfVectorVariables ()</tt> -  Get the number of vector variables.
+ </LI>
+<LI>  <tt>string = obj.GetScalarVariableName (int i)</tt> -  Get the ith scalar variable name.
+ </LI>
+<LI>  <tt>string = obj.GetVectorVariableName (int i)</tt> -  Get the ith vector variable name.
+ </LI>
+<LI>  <tt>obj.RemoveAllVariables ()</tt> -  Remove all the current variables.
+ </LI>
+<LI>  <tt>obj.RemoveScalarVariables ()</tt> -  Remove all the scalar variables.
+ </LI>
+<LI>  <tt>obj.RemoveVectorVariables ()</tt> -  Remove all the vector variables.
+ </LI>
+<LI>  <tt>obj.SetReplaceInvalidValues (int )</tt> -  When ReplaceInvalidValues is on, all invalid values (such as
+ sqrt(-2), note that function parser does not handle complex
+ numbers) will be replaced by ReplacementValue. Otherwise an
+ error will be reported
+ </LI>
+<LI>  <tt>int = obj.GetReplaceInvalidValues ()</tt> -  When ReplaceInvalidValues is on, all invalid values (such as
+ sqrt(-2), note that function parser does not handle complex
+ numbers) will be replaced by ReplacementValue. Otherwise an
+ error will be reported
+ </LI>
+<LI>  <tt>obj.ReplaceInvalidValuesOn ()</tt> -  When ReplaceInvalidValues is on, all invalid values (such as
+ sqrt(-2), note that function parser does not handle complex
+ numbers) will be replaced by ReplacementValue. Otherwise an
+ error will be reported
+ </LI>
+<LI>  <tt>obj.ReplaceInvalidValuesOff ()</tt> -  When ReplaceInvalidValues is on, all invalid values (such as
+ sqrt(-2), note that function parser does not handle complex
+ numbers) will be replaced by ReplacementValue. Otherwise an
+ error will be reported
+ </LI>
+<LI>  <tt>obj.SetReplacementValue (double )</tt> -  When ReplaceInvalidValues is on, all invalid values (such as
+ sqrt(-2), note that function parser does not handle complex
+ numbers) will be replaced by ReplacementValue. Otherwise an
+ error will be reported
+ </LI>
+<LI>  <tt>double = obj.GetReplacementValue ()</tt> -  When ReplaceInvalidValues is on, all invalid values (such as
+ sqrt(-2), note that function parser does not handle complex
+ numbers) will be replaced by ReplacementValue. Otherwise an
+ error will be reported
+ </LI>
+</UL>
+*/

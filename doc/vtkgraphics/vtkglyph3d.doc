@@ -1,0 +1,217 @@
+/*!
+\page vtkgraphics_vtkglyph3d vtkGlyph3D
+
+<p>
+Section: \ref sec_vtkgraphics "Visualization Toolkit Graphics Classes"
+\section Usage
+ vtkGlyph3D is a filter that copies a geometric representation (called
+ a glyph) to every point in the input dataset. The glyph is defined with
+ polygonal data from a source filter input. The glyph may be oriented
+ along the input vectors or normals, and it may be scaled according to
+ scalar data or vector magnitude. More than one glyph may be used by
+ creating a table of source objects, each defining a different glyph. If a
+ table of glyphs is defined, then the table can be indexed into by using
+ either scalar value or vector magnitude.
+ 
+ To use this object you'll have to provide an input dataset and a source
+ to define the glyph. Then decide whether you want to scale the glyph and
+ how to scale the glyph (using scalar value or vector magnitude). Next
+ decide whether you want to orient the glyph, and whether to use the
+ vector data or normal data to orient it. Finally, decide whether to use a
+ table of glyphs, or just a single glyph. If you use a table of glyphs,
+ you'll have to decide whether to index into it with scalar value or with
+ vector magnitude.
+ 
+
+To create an instance of class vtkGlyph3D, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkGlyph3D
+\endverbatim
+\section Methods
+The class vtkGlyph3D has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkGlyph3D class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkGlyph3D = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkGlyph3D = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetSource (vtkPolyData pd)</tt> -  Set the source to use for he glyph. Old style. See SetSourceConnection.
+ </LI>
+<LI>  <tt>obj.SetSource (int id, vtkPolyData pd)</tt> -  Specify a source object at a specified table location.
+ Old style. See SetSourceConnection.
+ </LI>
+<LI>  <tt>obj.SetSourceConnection (int id, vtkAlgorithmOutput algOutput)</tt> -  Specify a source object at a specified table location. New style.
+ Source connection is stored in port 1. This method is equivalent
+ to SetInputConnection(1, id, outputPort).
+ </LI>
+<LI>  <tt>obj.SetSourceConnection (vtkAlgorithmOutput algOutput)</tt> -  Get a pointer to a source object at a specified table location.
+ </LI>
+<LI>  <tt>vtkPolyData = obj.GetSource (int id)</tt> -  Get a pointer to a source object at a specified table location.
+ </LI>
+<LI>  <tt>obj.SetScaling (int )</tt> -  Turn on/off scaling of source geometry.
+ </LI>
+<LI>  <tt>obj.ScalingOn ()</tt> -  Turn on/off scaling of source geometry.
+ </LI>
+<LI>  <tt>obj.ScalingOff ()</tt> -  Turn on/off scaling of source geometry.
+ </LI>
+<LI>  <tt>int = obj.GetScaling ()</tt> -  Turn on/off scaling of source geometry.
+ </LI>
+<LI>  <tt>obj.SetScaleMode (int )</tt> -  Either scale by scalar or by vector/normal magnitude.
+ </LI>
+<LI>  <tt>int = obj.GetScaleMode ()</tt> -  Either scale by scalar or by vector/normal magnitude.
+ </LI>
+<LI>  <tt>obj.SetScaleModeToScaleByScalar ()</tt> -  Either scale by scalar or by vector/normal magnitude.
+ </LI>
+<LI>  <tt>obj.SetScaleModeToScaleByVector ()</tt> -  Either scale by scalar or by vector/normal magnitude.
+ </LI>
+<LI>  <tt>obj.SetScaleModeToScaleByVectorComponents ()</tt> -  Either scale by scalar or by vector/normal magnitude.
+ </LI>
+<LI>  <tt>obj.SetScaleModeToDataScalingOff ()</tt> -  Either scale by scalar or by vector/normal magnitude.
+ </LI>
+<LI>  <tt>string = obj.GetScaleModeAsString ()</tt> -  Either scale by scalar or by vector/normal magnitude.
+ </LI>
+<LI>  <tt>obj.SetColorMode (int )</tt> -  Either color by scale, scalar or by vector/normal magnitude.
+ </LI>
+<LI>  <tt>int = obj.GetColorMode ()</tt> -  Either color by scale, scalar or by vector/normal magnitude.
+ </LI>
+<LI>  <tt>obj.SetColorModeToColorByScale ()</tt> -  Either color by scale, scalar or by vector/normal magnitude.
+ </LI>
+<LI>  <tt>obj.SetColorModeToColorByScalar ()</tt> -  Either color by scale, scalar or by vector/normal magnitude.
+ </LI>
+<LI>  <tt>obj.SetColorModeToColorByVector ()</tt> -  Either color by scale, scalar or by vector/normal magnitude.
+ </LI>
+<LI>  <tt>string = obj.GetColorModeAsString ()</tt> -  Either color by scale, scalar or by vector/normal magnitude.
+ </LI>
+<LI>  <tt>obj.SetScaleFactor (double )</tt> -  Specify scale factor to scale object by.
+ </LI>
+<LI>  <tt>double = obj.GetScaleFactor ()</tt> -  Specify scale factor to scale object by.
+ </LI>
+<LI>  <tt>obj.SetRange (double , double )</tt> -  Specify range to map scalar values into.
+ </LI>
+<LI>  <tt>obj.SetRange (double  a[2])</tt> -  Specify range to map scalar values into.
+ </LI>
+<LI>  <tt>double = obj. GetRange ()</tt> -  Specify range to map scalar values into.
+ </LI>
+<LI>  <tt>obj.SetOrient (int )</tt> -  Turn on/off orienting of input geometry along vector/normal.
+ </LI>
+<LI>  <tt>obj.OrientOn ()</tt> -  Turn on/off orienting of input geometry along vector/normal.
+ </LI>
+<LI>  <tt>obj.OrientOff ()</tt> -  Turn on/off orienting of input geometry along vector/normal.
+ </LI>
+<LI>  <tt>int = obj.GetOrient ()</tt> -  Turn on/off orienting of input geometry along vector/normal.
+ </LI>
+<LI>  <tt>obj.SetClamping (int )</tt> -  Turn on/off clamping of "scalar" values to range. (Scalar value may be
+  vector magnitude if ScaleByVector() is enabled.)
+ </LI>
+<LI>  <tt>obj.ClampingOn ()</tt> -  Turn on/off clamping of "scalar" values to range. (Scalar value may be
+  vector magnitude if ScaleByVector() is enabled.)
+ </LI>
+<LI>  <tt>obj.ClampingOff ()</tt> -  Turn on/off clamping of "scalar" values to range. (Scalar value may be
+  vector magnitude if ScaleByVector() is enabled.)
+ </LI>
+<LI>  <tt>int = obj.GetClamping ()</tt> -  Turn on/off clamping of "scalar" values to range. (Scalar value may be
+  vector magnitude if ScaleByVector() is enabled.)
+ </LI>
+<LI>  <tt>obj.SetVectorMode (int )</tt> -  Specify whether to use vector or normal to perform vector operations.
+ </LI>
+<LI>  <tt>int = obj.GetVectorMode ()</tt> -  Specify whether to use vector or normal to perform vector operations.
+ </LI>
+<LI>  <tt>obj.SetVectorModeToUseVector ()</tt> -  Specify whether to use vector or normal to perform vector operations.
+ </LI>
+<LI>  <tt>obj.SetVectorModeToUseNormal ()</tt> -  Specify whether to use vector or normal to perform vector operations.
+ </LI>
+<LI>  <tt>obj.SetVectorModeToVectorRotationOff ()</tt> -  Specify whether to use vector or normal to perform vector operations.
+ </LI>
+<LI>  <tt>string = obj.GetVectorModeAsString ()</tt> -  Specify whether to use vector or normal to perform vector operations.
+ </LI>
+<LI>  <tt>obj.SetIndexMode (int )</tt> -  Index into table of sources by scalar, by vector/normal magnitude, or
+ no indexing. If indexing is turned off, then the first source glyph in
+ the table of glyphs is used. Note that indexing mode will only use the
+ InputScalarsSelection array and not the InputColorScalarsSelection
+ as the scalar source if an array is specified.
+ </LI>
+<LI>  <tt>int = obj.GetIndexMode ()</tt> -  Index into table of sources by scalar, by vector/normal magnitude, or
+ no indexing. If indexing is turned off, then the first source glyph in
+ the table of glyphs is used. Note that indexing mode will only use the
+ InputScalarsSelection array and not the InputColorScalarsSelection
+ as the scalar source if an array is specified.
+ </LI>
+<LI>  <tt>obj.SetIndexModeToScalar ()</tt> -  Index into table of sources by scalar, by vector/normal magnitude, or
+ no indexing. If indexing is turned off, then the first source glyph in
+ the table of glyphs is used. Note that indexing mode will only use the
+ InputScalarsSelection array and not the InputColorScalarsSelection
+ as the scalar source if an array is specified.
+ </LI>
+<LI>  <tt>obj.SetIndexModeToVector ()</tt> -  Index into table of sources by scalar, by vector/normal magnitude, or
+ no indexing. If indexing is turned off, then the first source glyph in
+ the table of glyphs is used. Note that indexing mode will only use the
+ InputScalarsSelection array and not the InputColorScalarsSelection
+ as the scalar source if an array is specified.
+ </LI>
+<LI>  <tt>obj.SetIndexModeToOff ()</tt> -  Index into table of sources by scalar, by vector/normal magnitude, or
+ no indexing. If indexing is turned off, then the first source glyph in
+ the table of glyphs is used. Note that indexing mode will only use the
+ InputScalarsSelection array and not the InputColorScalarsSelection
+ as the scalar source if an array is specified.
+ </LI>
+<LI>  <tt>string = obj.GetIndexModeAsString ()</tt> -  Index into table of sources by scalar, by vector/normal magnitude, or
+ no indexing. If indexing is turned off, then the first source glyph in
+ the table of glyphs is used. Note that indexing mode will only use the
+ InputScalarsSelection array and not the InputColorScalarsSelection
+ as the scalar source if an array is specified.
+ </LI>
+<LI>  <tt>obj.SetGeneratePointIds (int )</tt> -  Enable/disable the generation of point ids as part of the output. The
+ point ids are the id of the input generating point. The point ids are
+ stored in the output point field data and named "InputPointIds". Point
+ generation is useful for debugging and pick operations.
+ </LI>
+<LI>  <tt>int = obj.GetGeneratePointIds ()</tt> -  Enable/disable the generation of point ids as part of the output. The
+ point ids are the id of the input generating point. The point ids are
+ stored in the output point field data and named "InputPointIds". Point
+ generation is useful for debugging and pick operations.
+ </LI>
+<LI>  <tt>obj.GeneratePointIdsOn ()</tt> -  Enable/disable the generation of point ids as part of the output. The
+ point ids are the id of the input generating point. The point ids are
+ stored in the output point field data and named "InputPointIds". Point
+ generation is useful for debugging and pick operations.
+ </LI>
+<LI>  <tt>obj.GeneratePointIdsOff ()</tt> -  Enable/disable the generation of point ids as part of the output. The
+ point ids are the id of the input generating point. The point ids are
+ stored in the output point field data and named "InputPointIds". Point
+ generation is useful for debugging and pick operations.
+ </LI>
+<LI>  <tt>obj.SetPointIdsName (string )</tt> -  Set/Get the name of the PointIds array if generated. By default the Ids
+ are named "InputPointIds", but this can be changed with this function.
+ </LI>
+<LI>  <tt>string = obj.GetPointIdsName ()</tt> -  Set/Get the name of the PointIds array if generated. By default the Ids
+ are named "InputPointIds", but this can be changed with this function.
+ </LI>
+<LI>  <tt>obj.SetFillCellData (int )</tt> -  Enable/disable the generation of cell data as part of the output.
+ The cell data at each cell will match the point data of the input
+ at the glyphed point.
+ </LI>
+<LI>  <tt>int = obj.GetFillCellData ()</tt> -  Enable/disable the generation of cell data as part of the output.
+ The cell data at each cell will match the point data of the input
+ at the glyphed point.
+ </LI>
+<LI>  <tt>obj.FillCellDataOn ()</tt> -  Enable/disable the generation of cell data as part of the output.
+ The cell data at each cell will match the point data of the input
+ at the glyphed point.
+ </LI>
+<LI>  <tt>obj.FillCellDataOff ()</tt> -  Enable/disable the generation of cell data as part of the output.
+ The cell data at each cell will match the point data of the input
+ at the glyphed point.
+ </LI>
+<LI>  <tt>int = obj.IsPointVisible (vtkDataSet , vtkIdType )</tt> -  This can be overwritten by subclass to return 0 when a point is
+ blanked. Default implementation is to always return 1;
+ </LI>
+</UL>
+*/

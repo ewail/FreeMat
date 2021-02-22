@@ -1,0 +1,79 @@
+/*!
+\page vtkrendering_vtkpicker vtkPicker
+
+<p>
+Section: \ref sec_vtkrendering "Visualization Toolkit Rendering Classes"
+\section Usage
+ vtkPicker is used to select instances of vtkProp3D by shooting a ray 
+ into a graphics window and intersecting with the actor's bounding box. 
+ The ray is defined from a point defined in window (or pixel) coordinates, 
+ and a point located from the camera's position.
+
+ vtkPicker may return more than one vtkProp3D, since more than one bounding 
+ box may be intersected. vtkPicker returns an unsorted list of props that
+ were hit, and a list of the corresponding world points of the hits.
+ For the vtkProp3D that is closest to the camera, vtkPicker returns the
+ pick coordinates in world and untransformed mapper space, the prop itself,
+ the data set, and the mapper.  For vtkPicker the closest prop is the one
+ whose center point (i.e., center of bounding box) projected on the view
+ ray is closest to the camera.  Subclasses of vtkPicker use other methods
+ for computing the pick point.
+
+To create an instance of class vtkPicker, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkPicker
+\endverbatim
+\section Methods
+The class vtkPicker has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkPicker class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkPicker = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkPicker = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetTolerance (double )</tt> -  Specify tolerance for performing pick operation. Tolerance is specified
+ as fraction of rendering window size. (Rendering window size is measured
+ across diagonal.)
+ </LI>
+<LI>  <tt>double = obj.GetTolerance ()</tt> -  Specify tolerance for performing pick operation. Tolerance is specified
+ as fraction of rendering window size. (Rendering window size is measured
+ across diagonal.)
+ </LI>
+<LI>  <tt>double = obj. GetMapperPosition ()</tt> -  Return position in mapper (i.e., non-transformed) coordinates of 
+ pick point.
+ </LI>
+<LI>  <tt>vtkAbstractMapper3D = obj.GetMapper ()</tt> -  Return mapper that was picked (if any).
+ </LI>
+<LI>  <tt>vtkDataSet = obj.GetDataSet ()</tt> -  Get a pointer to the dataset that was picked (if any). If nothing 
+ was picked then NULL is returned.
+ </LI>
+<LI>  <tt>vtkProp3DCollection = obj.GetProp3Ds ()</tt> -  Return a collection of all the prop 3D's that were intersected
+ by the pick ray. This collection is not sorted.
+ </LI>
+<LI>  <tt>vtkActorCollection = obj.GetActors ()</tt> -  Return a collection of all the actors that were intersected.
+ This collection is not sorted. (This is a convenience method
+ to maintain backward compatibility.)
+ </LI>
+<LI>  <tt>vtkPoints = obj.GetPickedPositions ()</tt> -  Return a list of the points the the actors returned by GetProp3Ds
+ were intersected at. The order of this list will match the order of
+ GetProp3Ds.
+ </LI>
+<LI>  <tt>int = obj.Pick (double selectionX, double selectionY, double selectionZ, vtkRenderer renderer)</tt> -  Perform pick operation with selection point provided. Normally the 
+ first two values for the selection point are x-y pixel coordinate, and
+ the third value is =0. Return non-zero if something was successfully 
+ picked.
+ </LI>
+<LI>  <tt>int = obj.Pick (double selectionPt[3], vtkRenderer ren)</tt> -  Perform pick operation with selection point provided. Normally the first
+ two values for the selection point are x-y pixel coordinate, and the
+ third value is =0. Return non-zero if something was successfully picked.
+ </LI>
+</UL>
+*/

@@ -1,0 +1,80 @@
+/*!
+\page vtkfiltering_vtkcelllocator vtkCellLocator
+
+<p>
+Section: \ref sec_vtkfiltering "Visualization Toolkit Filtering Classes"
+\section Usage
+ vtkCellLocator is a spatial search object to quickly locate cells in 3D.
+ vtkCellLocator uses a uniform-level octree subdivision, where each octant
+ (an octant is also referred to as a bucket) carries an indication of
+ whether it is empty or not, and each leaf octant carries a list of the
+ cells inside of it. (An octant is not empty if it has one or more cells
+ inside of it.)  Typical operations are intersection with a line to return
+ candidate cells, or intersection with another vtkCellLocator to return
+ candidate cells.
+
+To create an instance of class vtkCellLocator, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkCellLocator
+\endverbatim
+\section Methods
+The class vtkCellLocator has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkCellLocator class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkCellLocator = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkCellLocator = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetNumberOfCellsPerBucket (int N)</tt> -  Specify the average number of cells in each octant.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfCellsPerBucket ()</tt> -  reimplemented from vtkAbstractCellLocator to support bad compilers
+ </LI>
+<LI>  <tt>int = obj.IntersectWithLine (double a0[3], double a1[3], vtkPoints points, vtkIdList cellIds)</tt> -  Return intersection point (if any) AND the cell which was intersected by
+ the finite line. The cell is returned as a cell id and as a generic cell.
+ For other IntersectWithLine signatures, see vtkAbstractCellLocator
+ </LI>
+<LI>  <tt>vtkIdList = obj.GetCells (int bucket)</tt> -  Get the cells in a particular bucket.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfBuckets (void )</tt> -  Return number of buckets available. Insure that the locator has been 
+ built before attempting to access buckets (octants).
+ </LI>
+<LI>  <tt>vtkIdType = obj.FindCell (double x[3])</tt> -  Find the cell containing a given point. returns -1 if no cell found
+ the cell parameters are copied into the supplied variables, a cell must
+ be provided to store the information.
+ </LI>
+<LI>  <tt>vtkIdType = obj.FindCell (double x[3], double tol2, vtkGenericCell GenCell, double pcoords[3], double weights)</tt> -  Find the cell containing a given point. returns -1 if no cell found
+ the cell parameters are copied into the supplied variables, a cell must
+ be provided to store the information.
+ </LI>
+<LI>  <tt>obj.FindCellsWithinBounds (double bbox, vtkIdList cells)</tt> -  Return a list of unique cell ids inside of a given bounding box. The
+ user must provide the vtkIdList to populate. This method returns data
+ only after the locator has been built.
+ </LI>
+<LI>  <tt>obj.FindCellsAlongLine (double p1[3], double p2[3], double tolerance, vtkIdList cells)</tt> -  Given a finite line defined by the two points (p1,p2), return the list
+ of unique cell ids in the buckets containing the line. It is possible
+ that an empty cell list is returned. The user must provide the vtkIdList
+ to populate. This method returns data only after the locator has been
+ built.
+ </LI>
+<LI>  <tt>obj.FreeSearchStructure ()</tt> -  Satisfy vtkLocator abstract interface.
+ </LI>
+<LI>  <tt>obj.BuildLocator ()</tt> -  Satisfy vtkLocator abstract interface.
+ </LI>
+<LI>  <tt>obj.BuildLocatorIfNeeded ()</tt> -  Satisfy vtkLocator abstract interface.
+ </LI>
+<LI>  <tt>obj.ForceBuildLocator ()</tt> -  Satisfy vtkLocator abstract interface.
+ </LI>
+<LI>  <tt>obj.BuildLocatorInternal ()</tt> -  Satisfy vtkLocator abstract interface.
+ </LI>
+<LI>  <tt>obj.GenerateRepresentation (int level, vtkPolyData pd)</tt> -  Satisfy vtkLocator abstract interface.
+ </LI>
+</UL>
+*/

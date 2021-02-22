@@ -1,0 +1,253 @@
+/*!
+\page vtkio_vtkimagereader2 vtkImageReader2
+
+<p>
+Section: \ref sec_vtkio "Visualization Toolkit IO Classes"
+\section Usage
+ vtkImageReader2 is the parent class for vtkImageReader.  It 
+ is a good super class for streaming readers that do not require
+ a mask or transform on the data.  vtkImageReader was implemented
+ before vtkImageReader2, vtkImageReader2 is intended to have 
+ a simpler interface.
+
+To create an instance of class vtkImageReader2, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkImageReader2
+\endverbatim
+\section Methods
+The class vtkImageReader2 has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkImageReader2 class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkImageReader2 = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkImageReader2 = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetFileName (string )</tt> -  Specify file name for the image file. If the data is stored in
+ multiple files, then use SetFileNames or SetFilePrefix instead.
+ </LI>
+<LI>  <tt>string = obj.GetFileName ()</tt> -  Specify file name for the image file. If the data is stored in
+ multiple files, then use SetFileNames or SetFilePrefix instead.
+ </LI>
+<LI>  <tt>obj.SetFileNames (vtkStringArray )</tt> -  Specify a list of file names.  Each file must be a single slice,
+ and each slice must be of the same size. The files must be in the
+ correct order.
+ Use SetFileName when reading a volume (multiple slice), since
+ DataExtent will be modified after a SetFileNames call.
+ </LI>
+<LI>  <tt>vtkStringArray = obj.GetFileNames ()</tt> -  Specify a list of file names.  Each file must be a single slice,
+ and each slice must be of the same size. The files must be in the
+ correct order.
+ Use SetFileName when reading a volume (multiple slice), since
+ DataExtent will be modified after a SetFileNames call.
+ </LI>
+<LI>  <tt>obj.SetFilePrefix (string )</tt> -  Specify file prefix for the image file or files.  This can be
+ used in place of SetFileName or SetFileNames if the filenames
+ follow a specific naming pattern, but you must explicitly set
+ the DataExtent so that the reader will know what range of slices
+ to load.
+ </LI>
+<LI>  <tt>string = obj.GetFilePrefix ()</tt> -  Specify file prefix for the image file or files.  This can be
+ used in place of SetFileName or SetFileNames if the filenames
+ follow a specific naming pattern, but you must explicitly set
+ the DataExtent so that the reader will know what range of slices
+ to load.
+ </LI>
+<LI>  <tt>obj.SetFilePattern (string )</tt> -  The sprintf-style format string used to build filename from
+ FilePrefix and slice number.
+ </LI>
+<LI>  <tt>string = obj.GetFilePattern ()</tt> -  The sprintf-style format string used to build filename from
+ FilePrefix and slice number.
+ </LI>
+<LI>  <tt>obj.SetDataScalarType (int type)</tt> -  Set the data type of pixels in the file.  
+ If you want the output scalar type to have a different value, set it
+ after this method is called.
+ </LI>
+<LI>  <tt>obj.SetDataScalarTypeToFloat ()</tt> -  Set the data type of pixels in the file.  
+ If you want the output scalar type to have a different value, set it
+ after this method is called.
+ </LI>
+<LI>  <tt>obj.SetDataScalarTypeToDouble ()</tt> -  Set the data type of pixels in the file.  
+ If you want the output scalar type to have a different value, set it
+ after this method is called.
+ </LI>
+<LI>  <tt>obj.SetDataScalarTypeToInt ()</tt> -  Set the data type of pixels in the file.  
+ If you want the output scalar type to have a different value, set it
+ after this method is called.
+ </LI>
+<LI>  <tt>obj.SetDataScalarTypeToUnsignedInt ()</tt> -  Set the data type of pixels in the file.  
+ If you want the output scalar type to have a different value, set it
+ after this method is called.
+ </LI>
+<LI>  <tt>obj.SetDataScalarTypeToShort ()</tt> -  Set the data type of pixels in the file.  
+ If you want the output scalar type to have a different value, set it
+ after this method is called.
+ </LI>
+<LI>  <tt>obj.SetDataScalarTypeToUnsignedShort ()</tt> -  Set the data type of pixels in the file.  
+ If you want the output scalar type to have a different value, set it
+ after this method is called.
+ </LI>
+<LI>  <tt>obj.SetDataScalarTypeToChar ()</tt> -  Set the data type of pixels in the file.  
+ If you want the output scalar type to have a different value, set it
+ after this method is called.
+ </LI>
+<LI>  <tt>obj.SetDataScalarTypeToSignedChar ()</tt> -  Set the data type of pixels in the file.  
+ If you want the output scalar type to have a different value, set it
+ after this method is called.
+ </LI>
+<LI>  <tt>obj.SetDataScalarTypeToUnsignedChar ()</tt> -  Get the file format.  Pixels are this type in the file.
+ </LI>
+<LI>  <tt>int = obj.GetDataScalarType ()</tt> -  Get the file format.  Pixels are this type in the file.
+ </LI>
+<LI>  <tt>obj.SetNumberOfScalarComponents (int )</tt> -  Set/Get the number of scalar components
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfScalarComponents ()</tt> -  Set/Get the number of scalar components
+ </LI>
+<LI>  <tt>obj.SetDataExtent (int , int , int , int , int , int )</tt> -  Get/Set the extent of the data on disk.  
+ </LI>
+<LI>  <tt>obj.SetDataExtent (int  a[6])</tt> -  Get/Set the extent of the data on disk.  
+ </LI>
+<LI>  <tt>int = obj. GetDataExtent ()</tt> -  Get/Set the extent of the data on disk.  
+ </LI>
+<LI>  <tt>obj.SetFileDimensionality (int )</tt> -  The number of dimensions stored in a file. This defaults to two.
+ </LI>
+<LI>  <tt>int = obj.GetFileDimensionality ()</tt> -  Set/Get the spacing of the data in the file.
+ </LI>
+<LI>  <tt>obj.SetDataSpacing (double , double , double )</tt> -  Set/Get the spacing of the data in the file.
+ </LI>
+<LI>  <tt>obj.SetDataSpacing (double  a[3])</tt> -  Set/Get the spacing of the data in the file.
+ </LI>
+<LI>  <tt>double = obj. GetDataSpacing ()</tt> -  Set/Get the spacing of the data in the file.
+ </LI>
+<LI>  <tt>obj.SetDataOrigin (double , double , double )</tt> -  Set/Get the origin of the data (location of first pixel in the file).
+ </LI>
+<LI>  <tt>obj.SetDataOrigin (double  a[3])</tt> -  Set/Get the origin of the data (location of first pixel in the file).
+ </LI>
+<LI>  <tt>double = obj. GetDataOrigin ()</tt> -  Set/Get the origin of the data (location of first pixel in the file).
+ </LI>
+<LI>  <tt>long = obj.GetHeaderSize ()</tt> -  Get the size of the header computed by this object.
+ </LI>
+<LI>  <tt>long = obj.GetHeaderSize (long slice)</tt> -  Get the size of the header computed by this object.
+ </LI>
+<LI>  <tt>obj.SetHeaderSize (long size)</tt> -  If there is a tail on the file, you want to explicitly set the
+ header size.
+ </LI>
+<LI>  <tt>obj.SetDataByteOrderToBigEndian ()</tt> -  These methods should be used instead of the SwapBytes methods.
+ They indicate the byte ordering of the file you are trying
+ to read in. These methods will then either swap or not swap
+ the bytes depending on the byte ordering of the machine it is
+ being run on. For example, reading in a BigEndian file on a
+ BigEndian machine will result in no swapping. Trying to read
+ the same file on a LittleEndian machine will result in swapping.
+ As a quick note most UNIX machines are BigEndian while PC's
+ and VAX tend to be LittleEndian. So if the file you are reading
+ in was generated on a VAX or PC, SetDataByteOrderToLittleEndian 
+ otherwise SetDataByteOrderToBigEndian. 
+ </LI>
+<LI>  <tt>obj.SetDataByteOrderToLittleEndian ()</tt> -  These methods should be used instead of the SwapBytes methods.
+ They indicate the byte ordering of the file you are trying
+ to read in. These methods will then either swap or not swap
+ the bytes depending on the byte ordering of the machine it is
+ being run on. For example, reading in a BigEndian file on a
+ BigEndian machine will result in no swapping. Trying to read
+ the same file on a LittleEndian machine will result in swapping.
+ As a quick note most UNIX machines are BigEndian while PC's
+ and VAX tend to be LittleEndian. So if the file you are reading
+ in was generated on a VAX or PC, SetDataByteOrderToLittleEndian 
+ otherwise SetDataByteOrderToBigEndian. 
+ </LI>
+<LI>  <tt>int = obj.GetDataByteOrder ()</tt> -  These methods should be used instead of the SwapBytes methods.
+ They indicate the byte ordering of the file you are trying
+ to read in. These methods will then either swap or not swap
+ the bytes depending on the byte ordering of the machine it is
+ being run on. For example, reading in a BigEndian file on a
+ BigEndian machine will result in no swapping. Trying to read
+ the same file on a LittleEndian machine will result in swapping.
+ As a quick note most UNIX machines are BigEndian while PC's
+ and VAX tend to be LittleEndian. So if the file you are reading
+ in was generated on a VAX or PC, SetDataByteOrderToLittleEndian 
+ otherwise SetDataByteOrderToBigEndian. 
+ </LI>
+<LI>  <tt>obj.SetDataByteOrder (int )</tt> -  These methods should be used instead of the SwapBytes methods.
+ They indicate the byte ordering of the file you are trying
+ to read in. These methods will then either swap or not swap
+ the bytes depending on the byte ordering of the machine it is
+ being run on. For example, reading in a BigEndian file on a
+ BigEndian machine will result in no swapping. Trying to read
+ the same file on a LittleEndian machine will result in swapping.
+ As a quick note most UNIX machines are BigEndian while PC's
+ and VAX tend to be LittleEndian. So if the file you are reading
+ in was generated on a VAX or PC, SetDataByteOrderToLittleEndian 
+ otherwise SetDataByteOrderToBigEndian. 
+ </LI>
+<LI>  <tt>string = obj.GetDataByteOrderAsString ()</tt> -  These methods should be used instead of the SwapBytes methods.
+ They indicate the byte ordering of the file you are trying
+ to read in. These methods will then either swap or not swap
+ the bytes depending on the byte ordering of the machine it is
+ being run on. For example, reading in a BigEndian file on a
+ BigEndian machine will result in no swapping. Trying to read
+ the same file on a LittleEndian machine will result in swapping.
+ As a quick note most UNIX machines are BigEndian while PC's
+ and VAX tend to be LittleEndian. So if the file you are reading
+ in was generated on a VAX or PC, SetDataByteOrderToLittleEndian 
+ otherwise SetDataByteOrderToBigEndian. 
+ </LI>
+<LI>  <tt>obj.SetFileNameSliceOffset (int )</tt> -  When reading files which start at an unusual index, this can be added
+ to the slice number when generating the file name (default = 0)
+ </LI>
+<LI>  <tt>int = obj.GetFileNameSliceOffset ()</tt> -  When reading files which start at an unusual index, this can be added
+ to the slice number when generating the file name (default = 0)
+ </LI>
+<LI>  <tt>obj.SetFileNameSliceSpacing (int )</tt> -  When reading files which have regular, but non contiguous slices
+ (eg filename.1,filename.3,filename.5)
+ a spacing can be specified to skip missing files (default = 1)
+ </LI>
+<LI>  <tt>int = obj.GetFileNameSliceSpacing ()</tt> -  When reading files which have regular, but non contiguous slices
+ (eg filename.1,filename.3,filename.5)
+ a spacing can be specified to skip missing files (default = 1)
+ </LI>
+<LI>  <tt>obj.SetSwapBytes (int )</tt> -  Set/Get the byte swapping to explicitly swap the bytes of a file.
+ </LI>
+<LI>  <tt>int = obj.GetSwapBytes ()</tt> -  Set/Get the byte swapping to explicitly swap the bytes of a file.
+ </LI>
+<LI>  <tt>obj.SwapBytesOn ()</tt> -  Set/Get the byte swapping to explicitly swap the bytes of a file.
+ </LI>
+<LI>  <tt>obj.SwapBytesOff ()</tt> -  Set/Get the byte swapping to explicitly swap the bytes of a file.
+ </LI>
+<LI>  <tt>int = obj.OpenFile ()</tt>
+ </LI>
+<LI>  <tt>obj.SeekFile (int i, int j, int k)</tt>
+ </LI>
+<LI>  <tt>obj.FileLowerLeftOn ()</tt> -  Set/Get whether the data comes from the file starting in the lower left
+ corner or upper left corner.
+ </LI>
+<LI>  <tt>obj.FileLowerLeftOff ()</tt> -  Set/Get whether the data comes from the file starting in the lower left
+ corner or upper left corner.
+ </LI>
+<LI>  <tt>int = obj.GetFileLowerLeft ()</tt> -  Set/Get whether the data comes from the file starting in the lower left
+ corner or upper left corner.
+ </LI>
+<LI>  <tt>obj.SetFileLowerLeft (int )</tt> -  Set/Get whether the data comes from the file starting in the lower left
+ corner or upper left corner.
+ </LI>
+<LI>  <tt>obj.ComputeInternalFileName (int slice)</tt> -  Set/Get the internal file name
+ </LI>
+<LI>  <tt>string = obj.GetInternalFileName ()</tt> -  Set/Get the internal file name
+ </LI>
+<LI>  <tt>int = obj.CanReadFile (string )</tt> -  Get the file extensions for this format.
+ Returns a string with a space separated list of extensions in 
+ the format .extension
+ </LI>
+<LI>  <tt>string = obj.GetFileExtensions ()</tt> -  Return a descriptive name for the file format that might be useful in a GUI.
+ </LI>
+<LI>  <tt>string = obj.GetDescriptiveName ()</tt> -  Return a descriptive name for the file format that might be useful in a GUI.
+ </LI>
+</UL>
+*/

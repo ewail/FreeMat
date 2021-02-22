@@ -1,0 +1,63 @@
+/*!
+\page vtkgraphics_vtkmergefields vtkMergeFields
+
+<p>
+Section: \ref sec_vtkgraphics "Visualization Toolkit Graphics Classes"
+\section Usage
+ vtkMergeFields is used to merge mutliple field into one.
+ The new field is put in the same field data as the original field.
+ For example
+ @verbatim
+ mf->SetOutputField("foo", vtkMergeFields::POINT_DATA);
+ mf->SetNumberOfComponents(2);
+ mf->Merge(0, "array1", 1);
+ mf->Merge(1, "array2", 0);
+ @endverbatim
+ will tell vtkMergeFields to use the 2nd component of array1 and
+ the 1st component of array2 to create a 2 component field called foo.
+ The same can be done using Tcl:
+ @verbatim
+ mf SetOutputField foo POINT_DATA
+ mf Merge 0 array1 1
+ mf Merge 1 array2 0
+
+ Field locations: DATA_OBJECT, POINT_DATA, CELL_DATA
+ @endverbatim
+
+To create an instance of class vtkMergeFields, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkMergeFields
+\endverbatim
+\section Methods
+The class vtkMergeFields has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkMergeFields class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkMergeFields = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkMergeFields = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetOutputField (string name, int fieldLoc)</tt> -  The output field will have the given name and it will be in
+ fieldLoc (the input fields also have to be in fieldLoc).
+ </LI>
+<LI>  <tt>obj.SetOutputField (string name, string fieldLoc)</tt> -  Helper method used by the other language bindings. Allows the caller to
+ specify arguments as strings instead of enums.Returns an operation id 
+ which can later be used to remove the operation.
+ </LI>
+<LI>  <tt>obj.Merge (int component, string arrayName, int sourceComp)</tt> -  Add a component (arrayName,sourceComp) to the output field.
+ </LI>
+<LI>  <tt>obj.SetNumberOfComponents (int )</tt> -  Set the number of the components in the output field.
+ This has to be set before execution. Default value is 0.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfComponents ()</tt> -  Set the number of the components in the output field.
+ This has to be set before execution. Default value is 0.
+ </LI>
+</UL>
+*/

@@ -1,0 +1,131 @@
+/*!
+\page vtkgraphics_vtkhyperoctreesamplefunction vtkHyperOctreeSampleFunction
+
+<p>
+Section: \ref sec_vtkgraphics "Visualization Toolkit Graphics Classes"
+\section Usage
+ vtkHyperOctreeSampleFunction is a source object that evaluates an implicit
+ function to drive the subdivision process. The user can specify
+ the threshold over which a subdivision occurs, the maximum and minimum
+ level of subdivisions and the dimension of the hyperoctree.
+
+
+To create an instance of class vtkHyperOctreeSampleFunction, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkHyperOctreeSampleFunction
+\endverbatim
+\section Methods
+The class vtkHyperOctreeSampleFunction has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkHyperOctreeSampleFunction class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkHyperOctreeSampleFunction = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkHyperOctreeSampleFunction = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetLevels ()</tt> -  Return the maximum number of levels of the hyperoctree.
+ \post positive_result: result>=1
+ </LI>
+<LI>  <tt>obj.SetLevels (int levels)</tt> -  Set the maximum number of levels of the hyperoctree. If
+ GetMinLevels()>=levels, GetMinLevels() is changed to levels-1.
+ \pre positive_levels: levels>=1
+ \post is_set: this->GetLevels()==levels
+ \post min_is_valid: this->GetMinLevels()<this->GetLevels()
+ </LI>
+<LI>  <tt>int = obj.GetMinLevels ()</tt> -  Return the minimal number of levels of systematic subdivision.
+ \post positive_result: result>=0
+ </LI>
+<LI>  <tt>obj.SetMinLevels (int minLevels)</tt> -  Set the minimal number of levels of systematic subdivision.
+ \pre positive_minLevels: minLevels>=0
+ \post is_set: this->GetMinLevels()==minLevels
+ </LI>
+<LI>  <tt>double = obj.GetThreshold ()</tt> -  Return the threshold over which a subdivision is required.
+ \post positive_result: result>0
+ </LI>
+<LI>  <tt>obj.SetThreshold (double threshold)</tt> -  Set the threshold over which a subdivision is required.
+ \pre positive_threshold: threshold>=0
+ \post is_set: this->GetThreshold()==threshold
+ </LI>
+<LI>  <tt>int = obj.GetDimension ()</tt> -  Return the dimension of the tree (1D:binary tree(2 children), 2D:quadtree(4 children),
+ 3D:octree (8 children))
+ \post valid_result: result>=1 && result<=3
+ </LI>
+<LI>  <tt>obj.SetDimension (int dim)</tt>
+ </LI>
+<LI>  <tt>obj.SetSize (double , double , double )</tt> -  Set the size on each axis.
+ </LI>
+<LI>  <tt>obj.SetSize (double  a[3])</tt> -  Set the size on each axis.
+ </LI>
+<LI>  <tt>double = obj. GetSize ()</tt> -  Return the size on each axis.
+ </LI>
+<LI>  <tt>obj.SetOrigin (double , double , double )</tt> -  Set the origin (position of corner (0,0,0) of the root.
+ </LI>
+<LI>  <tt>obj.SetOrigin (double  a[3])</tt> -  Set the origin (position of corner (0,0,0) of the root.
+ </LI>
+<LI>  <tt>double = obj. GetOrigin ()</tt> -  Set the origin (position of corner (0,0,0) of the root.
+ Return the origin (position of corner (0,0,0) ) of the root.
+ </LI>
+<LI>  <tt>double = obj.GetWidth ()</tt> -  Return the length along the x-axis.
+ \post positive_result: result>0
+ </LI>
+<LI>  <tt>obj.SetWidth (double width)</tt> -  Set the length along the x-axis.
+ \pre positive_width: width>0
+ \post width_is_set: GetWidth()==width
+ </LI>
+<LI>  <tt>double = obj.GetHeight ()</tt> -  Return the length along the y-axis.
+ Relevant only if GetDimension()>=2
+ \post positive_result: result>0
+ </LI>
+<LI>  <tt>obj.SetHeight (double height)</tt> -  Set the length along the y-axis.
+ Relevant only if GetDimension()>=2
+ \pre positive_height: height>0
+ \post height_is_set: GetHeight()==height
+ </LI>
+<LI>  <tt>double = obj.GetDepth ()</tt> -  Return the length along the z-axis.
+ Relevant only if GetDimension()>=3
+ \post positive_result: result>0
+ </LI>
+<LI>  <tt>obj.SetDepth (double depth)</tt> -  Return the length along the z-axis.
+ Relevant only if GetDimension()>=3
+ \pre positive_depth: depth>0
+ \post depth_is_set: GetDepth()==depth
+ </LI>
+<LI>  <tt>obj.SetImplicitFunction (vtkImplicitFunction )</tt> -  Specify the implicit function to use to generate data.
+ </LI>
+<LI>  <tt>vtkImplicitFunction = obj.GetImplicitFunction ()</tt> -  Specify the implicit function to use to generate data.
+ </LI>
+<LI>  <tt>obj.SetOutputScalarType (int )</tt> -  Set what type of scalar data this source should generate.
+ </LI>
+<LI>  <tt>int = obj.GetOutputScalarType ()</tt> -  Set what type of scalar data this source should generate.
+ </LI>
+<LI>  <tt>obj.SetOutputScalarTypeToDouble ()</tt> -  Set what type of scalar data this source should generate.
+ </LI>
+<LI>  <tt>obj.SetOutputScalarTypeToFloat ()</tt> -  Set what type of scalar data this source should generate.
+ </LI>
+<LI>  <tt>obj.SetOutputScalarTypeToLong ()</tt> -  Set what type of scalar data this source should generate.
+ </LI>
+<LI>  <tt>obj.SetOutputScalarTypeToUnsignedLong ()</tt> -  Set what type of scalar data this source should generate.
+ </LI>
+<LI>  <tt>obj.SetOutputScalarTypeToInt ()</tt> -  Set what type of scalar data this source should generate.
+ </LI>
+<LI>  <tt>obj.SetOutputScalarTypeToUnsignedInt ()</tt> -  Set what type of scalar data this source should generate.
+ </LI>
+<LI>  <tt>obj.SetOutputScalarTypeToShort ()</tt> -  Set what type of scalar data this source should generate.
+ </LI>
+<LI>  <tt>obj.SetOutputScalarTypeToUnsignedShort ()</tt> -  Set what type of scalar data this source should generate.
+ </LI>
+<LI>  <tt>obj.SetOutputScalarTypeToChar ()</tt> -  Set what type of scalar data this source should generate.
+ </LI>
+<LI>  <tt>obj.SetOutputScalarTypeToUnsignedChar ()</tt> -  Return the MTime also considering the implicit function.
+ </LI>
+<LI>  <tt>long = obj.GetMTime ()</tt> -  Return the MTime also considering the implicit function.
+ </LI>
+</UL>
+*/

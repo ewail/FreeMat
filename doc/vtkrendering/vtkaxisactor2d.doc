@@ -1,0 +1,295 @@
+/*!
+\page vtkrendering_vtkaxisactor2d vtkAxisActor2D
+
+<p>
+Section: \ref sec_vtkrendering "Visualization Toolkit Rendering Classes"
+\section Usage
+ vtkAxisActor2D creates an axis with tick marks, labels, and/or a title,
+ depending on the particular instance variable settings. vtkAxisActor2D is
+ a 2D actor; that is, it is drawn on the overlay plane and is not
+ occluded by 3D geometry. To use this class, you typically specify two
+ points defining the start and end points of the line (x-y definition using
+ vtkCoordinate class), the number of labels, and the data range
+ (min,max). You can also control what parts of the axis are visible
+ including the line, the tick marks, the labels, and the title.  You can 
+ also specify the label format (a printf style format).
+
+ This class decides what font size to use and how to locate the labels. It
+ also decides how to create reasonable tick marks and labels. The number
+ of labels and the range of values may not match the number specified, but
+ should be close.
+
+ Labels are drawn on the "right" side of the axis. The "right" side is
+ the side of the axis on the right as you move from Position to Position2. 
+ The way the labels and title line up with the axis and tick marks depends on
+ whether the line is considered horizontal or vertical.
+
+ The vtkActor2D instance variables Position and Position2 are instances of 
+ vtkCoordinate. Note that the Position2 is an absolute position in that 
+ class (it was by default relative to Position in vtkActor2D).
+
+ What this means is that you can specify the axis in a variety of coordinate
+ systems. Also, the axis does not have to be either horizontal or vertical.
+ The tick marks are created so that they are perpendicular to the axis.
+
+ Set the text property/attributes of the title and the labels through the 
+ vtkTextProperty objects associated to this actor.
+
+
+To create an instance of class vtkAxisActor2D, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkAxisActor2D
+\endverbatim
+\section Methods
+The class vtkAxisActor2D has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkAxisActor2D class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkAxisActor2D = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkAxisActor2D = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>vtkCoordinate = obj.GetPoint1Coordinate ()</tt> -  Specify the position of the first point defining the axis.
+ Note: backward compatibility only, use vtkActor2D's Position instead.
+ </LI>
+<LI>  <tt>obj.SetPoint1 (double x[2])</tt> -  Specify the position of the first point defining the axis.
+ Note: backward compatibility only, use vtkActor2D's Position instead.
+ </LI>
+<LI>  <tt>obj.SetPoint1 (double x, double y)</tt> -  Specify the position of the first point defining the axis.
+ Note: backward compatibility only, use vtkActor2D's Position instead.
+ </LI>
+<LI>  <tt>vtkCoordinate = obj.GetPoint2Coordinate ()</tt> -  Specify the position of the second point defining the axis. Note that
+ the order from Point1 to Point2 controls which side the tick marks
+ are drawn on (ticks are drawn on the right, if visible).
+ Note: backward compatibility only, use vtkActor2D's Position2 instead.
+ </LI>
+<LI>  <tt>obj.SetPoint2 (double x[2])</tt> -  Specify the position of the second point defining the axis. Note that
+ the order from Point1 to Point2 controls which side the tick marks
+ are drawn on (ticks are drawn on the right, if visible).
+ Note: backward compatibility only, use vtkActor2D's Position2 instead.
+ </LI>
+<LI>  <tt>obj.SetPoint2 (double x, double y)</tt> -  Specify the position of the second point defining the axis. Note that
+ the order from Point1 to Point2 controls which side the tick marks
+ are drawn on (ticks are drawn on the right, if visible).
+ Note: backward compatibility only, use vtkActor2D's Position2 instead.
+ </LI>
+<LI>  <tt>obj.SetRange (double , double )</tt> -  Specify the (min,max) axis range. This will be used in the generation
+ of labels, if labels are visible.
+ </LI>
+<LI>  <tt>obj.SetRange (double  a[2])</tt> -  Specify the (min,max) axis range. This will be used in the generation
+ of labels, if labels are visible.
+ </LI>
+<LI>  <tt>double = obj. GetRange ()</tt> -  Specify the (min,max) axis range. This will be used in the generation
+ of labels, if labels are visible.
+ </LI>
+<LI>  <tt>obj.SetNumberOfLabels (int )</tt> -  Set/Get the number of annotation labels to show.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfLabelsMinValue ()</tt> -  Set/Get the number of annotation labels to show.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfLabelsMaxValue ()</tt> -  Set/Get the number of annotation labels to show.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfLabels ()</tt> -  Set/Get the number of annotation labels to show.
+ </LI>
+<LI>  <tt>obj.SetLabelFormat (string )</tt> -  Set/Get the format with which to print the labels on the scalar
+ bar.
+ </LI>
+<LI>  <tt>string = obj.GetLabelFormat ()</tt> -  Set/Get the format with which to print the labels on the scalar
+ bar.
+ </LI>
+<LI>  <tt>obj.SetAdjustLabels (int )</tt> -  Set/Get the flag that controls whether the labels and ticks are
+ adjusted for "nice" numerical values to make it easier to read 
+ the labels. The adjustment is based in the Range instance variable.
+ Call GetAdjustedRange and GetAdjustedNumberOfLabels to get the adjusted
+ range and number of labels.
+ </LI>
+<LI>  <tt>int = obj.GetAdjustLabels ()</tt> -  Set/Get the flag that controls whether the labels and ticks are
+ adjusted for "nice" numerical values to make it easier to read 
+ the labels. The adjustment is based in the Range instance variable.
+ Call GetAdjustedRange and GetAdjustedNumberOfLabels to get the adjusted
+ range and number of labels.
+ </LI>
+<LI>  <tt>obj.AdjustLabelsOn ()</tt> -  Set/Get the flag that controls whether the labels and ticks are
+ adjusted for "nice" numerical values to make it easier to read 
+ the labels. The adjustment is based in the Range instance variable.
+ Call GetAdjustedRange and GetAdjustedNumberOfLabels to get the adjusted
+ range and number of labels.
+ </LI>
+<LI>  <tt>obj.AdjustLabelsOff ()</tt> -  Set/Get the flag that controls whether the labels and ticks are
+ adjusted for "nice" numerical values to make it easier to read 
+ the labels. The adjustment is based in the Range instance variable.
+ Call GetAdjustedRange and GetAdjustedNumberOfLabels to get the adjusted
+ range and number of labels.
+ </LI>
+<LI>  <tt>obj.GetAdjustedRange (double _arg[2])</tt> -  Set/Get the flag that controls whether the labels and ticks are
+ adjusted for "nice" numerical values to make it easier to read 
+ the labels. The adjustment is based in the Range instance variable.
+ Call GetAdjustedRange and GetAdjustedNumberOfLabels to get the adjusted
+ range and number of labels.
+ </LI>
+<LI>  <tt>int = obj.GetAdjustedNumberOfLabels ()</tt> -  Set/Get the title of the scalar bar actor,
+ </LI>
+<LI>  <tt>obj.SetTitle (string )</tt> -  Set/Get the title of the scalar bar actor,
+ </LI>
+<LI>  <tt>string = obj.GetTitle ()</tt> -  Set/Get the title of the scalar bar actor,
+ </LI>
+<LI>  <tt>obj.SetTitleTextProperty (vtkTextProperty p)</tt> -  Set/Get the title text property.
+ </LI>
+<LI>  <tt>vtkTextProperty = obj.GetTitleTextProperty ()</tt> -  Set/Get the title text property.
+ </LI>
+<LI>  <tt>obj.SetLabelTextProperty (vtkTextProperty p)</tt> -  Set/Get the labels text property.
+ </LI>
+<LI>  <tt>vtkTextProperty = obj.GetLabelTextProperty ()</tt> -  Set/Get the labels text property.
+ </LI>
+<LI>  <tt>obj.SetTickLength (int )</tt> -  Set/Get the length of the tick marks (expressed in pixels or display
+ coordinates). 
+ </LI>
+<LI>  <tt>int = obj.GetTickLengthMinValue ()</tt> -  Set/Get the length of the tick marks (expressed in pixels or display
+ coordinates). 
+ </LI>
+<LI>  <tt>int = obj.GetTickLengthMaxValue ()</tt> -  Set/Get the length of the tick marks (expressed in pixels or display
+ coordinates). 
+ </LI>
+<LI>  <tt>int = obj.GetTickLength ()</tt> -  Set/Get the length of the tick marks (expressed in pixels or display
+ coordinates). 
+ </LI>
+<LI>  <tt>obj.SetNumberOfMinorTicks (int )</tt> -  Number of minor ticks to be displayed between each tick. Default
+ is 0.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfMinorTicksMinValue ()</tt> -  Number of minor ticks to be displayed between each tick. Default
+ is 0.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfMinorTicksMaxValue ()</tt> -  Number of minor ticks to be displayed between each tick. Default
+ is 0.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfMinorTicks ()</tt> -  Number of minor ticks to be displayed between each tick. Default
+ is 0.
+ </LI>
+<LI>  <tt>obj.SetMinorTickLength (int )</tt> -  Set/Get the length of the minor tick marks (expressed in pixels or
+ display coordinates).
+ </LI>
+<LI>  <tt>int = obj.GetMinorTickLengthMinValue ()</tt> -  Set/Get the length of the minor tick marks (expressed in pixels or
+ display coordinates).
+ </LI>
+<LI>  <tt>int = obj.GetMinorTickLengthMaxValue ()</tt> -  Set/Get the length of the minor tick marks (expressed in pixels or
+ display coordinates).
+ </LI>
+<LI>  <tt>int = obj.GetMinorTickLength ()</tt> -  Set/Get the length of the minor tick marks (expressed in pixels or
+ display coordinates).
+ </LI>
+<LI>  <tt>obj.SetTickOffset (int )</tt> -  Set/Get the offset of the labels (expressed in pixels or display
+ coordinates). The offset is the distance of labels from tick marks
+ or other objects.
+ </LI>
+<LI>  <tt>int = obj.GetTickOffsetMinValue ()</tt> -  Set/Get the offset of the labels (expressed in pixels or display
+ coordinates). The offset is the distance of labels from tick marks
+ or other objects.
+ </LI>
+<LI>  <tt>int = obj.GetTickOffsetMaxValue ()</tt> -  Set/Get the offset of the labels (expressed in pixels or display
+ coordinates). The offset is the distance of labels from tick marks
+ or other objects.
+ </LI>
+<LI>  <tt>int = obj.GetTickOffset ()</tt> -  Set/Get the offset of the labels (expressed in pixels or display
+ coordinates). The offset is the distance of labels from tick marks
+ or other objects.
+ </LI>
+<LI>  <tt>obj.SetAxisVisibility (int )</tt> -  Set/Get visibility of the axis line.
+ </LI>
+<LI>  <tt>int = obj.GetAxisVisibility ()</tt> -  Set/Get visibility of the axis line.
+ </LI>
+<LI>  <tt>obj.AxisVisibilityOn ()</tt> -  Set/Get visibility of the axis line.
+ </LI>
+<LI>  <tt>obj.AxisVisibilityOff ()</tt> -  Set/Get visibility of the axis line.
+ </LI>
+<LI>  <tt>obj.SetTickVisibility (int )</tt> -  Set/Get visibility of the axis tick marks.
+ </LI>
+<LI>  <tt>int = obj.GetTickVisibility ()</tt> -  Set/Get visibility of the axis tick marks.
+ </LI>
+<LI>  <tt>obj.TickVisibilityOn ()</tt> -  Set/Get visibility of the axis tick marks.
+ </LI>
+<LI>  <tt>obj.TickVisibilityOff ()</tt> -  Set/Get visibility of the axis tick marks.
+ </LI>
+<LI>  <tt>obj.SetLabelVisibility (int )</tt> -  Set/Get visibility of the axis labels.
+ </LI>
+<LI>  <tt>int = obj.GetLabelVisibility ()</tt> -  Set/Get visibility of the axis labels.
+ </LI>
+<LI>  <tt>obj.LabelVisibilityOn ()</tt> -  Set/Get visibility of the axis labels.
+ </LI>
+<LI>  <tt>obj.LabelVisibilityOff ()</tt> -  Set/Get visibility of the axis labels.
+ </LI>
+<LI>  <tt>obj.SetTitleVisibility (int )</tt> -  Set/Get visibility of the axis title.
+ </LI>
+<LI>  <tt>int = obj.GetTitleVisibility ()</tt> -  Set/Get visibility of the axis title.
+ </LI>
+<LI>  <tt>obj.TitleVisibilityOn ()</tt> -  Set/Get visibility of the axis title.
+ </LI>
+<LI>  <tt>obj.TitleVisibilityOff ()</tt> -  Set/Get visibility of the axis title.
+ </LI>
+<LI>  <tt>obj.SetTitlePosition (double )</tt> -  Set/Get position of the axis title. 0 is at the start of the
+ axis whereas 1 is at the end.
+ </LI>
+<LI>  <tt>double = obj.GetTitlePosition ()</tt> -  Set/Get position of the axis title. 0 is at the start of the
+ axis whereas 1 is at the end.
+ </LI>
+<LI>  <tt>obj.SetFontFactor (double )</tt> -  Set/Get the factor that controls the overall size of the fonts used
+ to label and title the axes. This ivar used in conjunction with
+ the LabelFactor can be used to control font sizes.
+ </LI>
+<LI>  <tt>double = obj.GetFontFactorMinValue ()</tt> -  Set/Get the factor that controls the overall size of the fonts used
+ to label and title the axes. This ivar used in conjunction with
+ the LabelFactor can be used to control font sizes.
+ </LI>
+<LI>  <tt>double = obj.GetFontFactorMaxValue ()</tt> -  Set/Get the factor that controls the overall size of the fonts used
+ to label and title the axes. This ivar used in conjunction with
+ the LabelFactor can be used to control font sizes.
+ </LI>
+<LI>  <tt>double = obj.GetFontFactor ()</tt> -  Set/Get the factor that controls the overall size of the fonts used
+ to label and title the axes. This ivar used in conjunction with
+ the LabelFactor can be used to control font sizes.
+ </LI>
+<LI>  <tt>obj.SetLabelFactor (double )</tt> -  Set/Get the factor that controls the relative size of the axis labels
+ to the axis title.
+ </LI>
+<LI>  <tt>double = obj.GetLabelFactorMinValue ()</tt> -  Set/Get the factor that controls the relative size of the axis labels
+ to the axis title.
+ </LI>
+<LI>  <tt>double = obj.GetLabelFactorMaxValue ()</tt> -  Set/Get the factor that controls the relative size of the axis labels
+ to the axis title.
+ </LI>
+<LI>  <tt>double = obj.GetLabelFactor ()</tt> -  Set/Get the factor that controls the relative size of the axis labels
+ to the axis title.
+ </LI>
+<LI>  <tt>int = obj.RenderOverlay (vtkViewport viewport)</tt> -  Draw the axis. 
+ </LI>
+<LI>  <tt>int = obj.RenderOpaqueGeometry (vtkViewport viewport)</tt> -  Draw the axis. 
+ </LI>
+<LI>  <tt>int = obj.RenderTranslucentPolygonalGeometry (vtkViewport )</tt> -  Does this prop have some translucent polygonal geometry?
+ </LI>
+<LI>  <tt>int = obj.HasTranslucentPolygonalGeometry ()</tt> -  Does this prop have some translucent polygonal geometry?
+ </LI>
+<LI>  <tt>obj.ReleaseGraphicsResources (vtkWindow )</tt> -  Release any graphics resources that are being consumed by this actor.
+ The parameter window could be used to determine which graphic
+ resources to release.
+ </LI>
+<LI>  <tt>obj.SetSizeFontRelativeToAxis (int )</tt> -  Specify whether to size the fonts relative to the viewport or relative to
+ length of the axis. By default, fonts are resized relative to the axis.
+ </LI>
+<LI>  <tt>int = obj.GetSizeFontRelativeToAxis ()</tt> -  Specify whether to size the fonts relative to the viewport or relative to
+ length of the axis. By default, fonts are resized relative to the axis.
+ </LI>
+<LI>  <tt>obj.SizeFontRelativeToAxisOn ()</tt> -  Specify whether to size the fonts relative to the viewport or relative to
+ length of the axis. By default, fonts are resized relative to the axis.
+ </LI>
+<LI>  <tt>obj.SizeFontRelativeToAxisOff ()</tt> -  Specify whether to size the fonts relative to the viewport or relative to
+ length of the axis. By default, fonts are resized relative to the axis.
+ </LI>
+<LI>  <tt>obj.ShallowCopy (vtkProp prop)</tt> -  Shallow copy of an axis actor. Overloads the virtual vtkProp method.
+ </LI>
+</UL>
+*/

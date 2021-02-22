@@ -1,0 +1,54 @@
+/*!
+\page transforms_qr QR QR Decomposition of a Matrix
+
+<p>
+Section: \ref sec_transforms "Transforms/Decompositions"
+\section Usage
+Computes the QR factorization of a matrix.  The <tt>qr</tt> function has
+multiple forms, with and without pivoting.  The non-pivot version
+has two forms, a compact version and a full-blown decomposition
+version.  The compact version of the decomposition of a matrix 
+of size <tt>M x N</tt> is
+\verbatim
+  [q,r] = qr(a,0)
+\endverbatim
+where <tt>q</tt> is a matrix of size <tt>M x L</tt> and <tt>r</tt> is a matrix of
+size <tt>L x N</tt> and <tt>L = min(N,M)</tt>, and <tt>q*r = a</tt>.  The QR decomposition is
+such that the columns of <tt>Q</tt> are orthonormal, and <tt>R</tt> is upper
+triangular.  The decomposition is computed using the LAPACK 
+routine <tt>xgeqrf</tt>, where <tt>x</tt> is the precision of the matrix.  
+FreeMat supports decompositions of <tt>single</tt> and <tt>double</tt> types.
+
+The second form of the non-pivot decomposition omits the second <tt>0</tt>
+argument:
+\verbatim
+  [q,r] = qr(a)
+\endverbatim
+This second form differs from the previous form only for matrices
+with more rows than columns (<tt>M > N</tt>).  For these matrices, the
+full decomposition is of a matrix <tt>Q</tt> of size <tt>M x M</tt> and 
+a matrix <tt>R</tt> of size <tt>M x N</tt>.  The full decomposition is computed
+using the same LAPACK routines as the compact decomposition, but
+on an augmented matrix <tt>[a 0]</tt>, where enough columns are added to
+form a square matrix.
+
+Generally, the QR decomposition will not return a matrix <tt>R</tt> with
+diagonal elements in any specific order.  The remaining two forms 
+of the <tt>qr</tt> command utilize permutations of the columns of <tt>a</tt>
+so that the diagonal elements of <tt>r</tt> are in decreasing magnitude.
+To trigger this form of the decomposition, a third argument is
+required, which records the permutation applied to the argument <tt>a</tt>.
+The compact version is
+\verbatim
+  [q,r,e] = qr(a,0)
+\endverbatim
+where <tt>e</tt> is an integer vector that describes the permutation of
+the columns of <tt>a</tt> necessary to reorder the diagonal elements of
+<tt>r</tt>.  This result is computed using the LAPACK routines <tt>(s,d)geqp3</tt>.
+In the non-compact version of the QR decomposition with pivoting,
+\verbatim
+  [q,r,e] = qr(a)
+\endverbatim
+the returned matrix <tt>e</tt> is a permutation matrix, such that 
+<tt>q*r*e' = a</tt>.
+*/

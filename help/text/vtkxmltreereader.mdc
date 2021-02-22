@@ -1,0 +1,181 @@
+
+ Usage
+
+vtkXMLTreeReader parses an XML file and uses the nesting
+structure of the XML tags to generate a tree. Node
+attributes are assigned to node arrays, and the special
+arrays .tagname and .chardata contain the tag type and the
+text internal to the tag, respectively. The arrays are of
+type vtkStringArray. There is an array for each attribute
+type in the XML file, even if it appears in only one tag. If
+an attribute is missing from a tag, its value is the empty
+string.
+If MaskArrays is on (the default is off), the filter will
+additionally make bit arrays whose names are prepended with
+".valid." which are 1 if the element contains that
+attribute, and 0 otherwise.
+For example, the XML file containing the text:
+
+   <node name="jeff" age="26">
+     this is text in jeff's node
+     <node name="joe">
+       <node name="al" initials="amb" other="something"/>
+       <node name="dave" age="30"/>
+     </node>
+     <node name="lisa">this is text in lisa's node</node>
+     <node name="darlene" age="29"/>
+   </node>
+
+would be parsed into a tree with the following node IDs and
+structure:
+
+   0 (jeff) - children: 1 (joe), 4 (lisa), 5 (darlene)
+   1 (joe)  - children: 2 (al), 3 (dave)
+   2 (al)
+   3 (dave)
+   4 (lisa)
+   5 (darlene)
+
+and the node data arrays would be as follows:
+
+   name      initials  other     age       .tagname
+  .chardata
+   ---------------------------------------------------------
+  ---------------------------------------
+   jeff      (empty)   (empty)   26         node     "  this
+  is text in jeff's node\n  \n  \n  \n"
+   joe       (empty)   (empty)   (empty)    node     "\n
+  \n    \n  "
+   al        amb       something (empty)    node     (empty)
+   dave      (empty)   (empty)   30         node     (empty)
+   lisa      (empty)   (empty)   (empty)    node     "this
+  is text in lisa's node"
+   darlene   (empty)   (empty)   29         node     (empty)
+
+There would also be the following bit arrays if MaskArrays
+is on:
+
+   .valid.name   .valid.initials   .valid.other   .valid.age
+   ---------------------------------------------------------
+   1             0                 0              1
+   1             0                 0              0
+   1             1                 1              0
+   1             0                 0              1
+   1             0                 0              0
+   1             0                 0              1
+
+To create an instance of class vtkXMLTreeReader, simply
+invoke its constructor as follows
+
+    obj = vtkXMLTreeReader
+
+
+
+ Methods
+
+The class vtkXMLTreeReader has several methods that can be
+used. They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkXMLTreeReader class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkXMLTreeReader = obj.NewInstance ()
+* vtkXMLTreeReader = obj.SafeDownCast (vtkObject o)
+* string = obj.GetFileName () - If set, reads in the XML
+  file specified.
+* obj.SetFileName (string ) - If set, reads in the XML file
+  specified.
+* string = obj.GetXMLString () - If set, and FileName is not
+  set, reads in the XML string.
+* obj.SetXMLString (string ) - If set, and FileName is not
+  set, reads in the XML string.
+* string = obj.GetEdgePedigreeIdArrayName () - The name of
+  the edge pedigree ids. Default is "edge id".
+* obj.SetEdgePedigreeIdArrayName (string ) - The name of the
+  edge pedigree ids. Default is "edge id".
+* string = obj.GetVertexPedigreeIdArrayName () - The name of
+  the vertex pedigree ids. Default is "vertex id".
+* obj.SetVertexPedigreeIdArrayName (string ) - The name of
+  the vertex pedigree ids. Default is "vertex id".
+* obj.SetGenerateEdgePedigreeIds (bool ) - Set whether to
+  use an property from the XML file as pedigree ids (off),
+  or generate a new array with integer values starting at
+  zero (on). Default is on.
+* bool = obj.GetGenerateEdgePedigreeIds () - Set whether to
+  use an property from the XML file as pedigree ids (off),
+  or generate a new array with integer values starting at
+  zero (on). Default is on.
+* obj.GenerateEdgePedigreeIdsOn () - Set whether to use an
+  property from the XML file as pedigree ids (off), or
+  generate a new array with integer values starting at zero
+  (on). Default is on.
+* obj.GenerateEdgePedigreeIdsOff () - Set whether to use an
+  property from the XML file as pedigree ids (off), or
+  generate a new array with integer values starting at zero
+  (on). Default is on.
+* obj.SetGenerateVertexPedigreeIds (bool ) - Set whether to
+  use an property from the XML file as pedigree ids (off),
+  or generate a new array with integer values starting at
+  zero (on). Default is on.
+* bool = obj.GetGenerateVertexPedigreeIds () - Set whether
+  to use an property from the XML file as pedigree ids
+  (off), or generate a new array with integer values
+  starting at zero (on). Default is on.
+* obj.GenerateVertexPedigreeIdsOn () - Set whether to use an
+  property from the XML file as pedigree ids (off), or
+  generate a new array with integer values starting at zero
+  (on). Default is on.
+* obj.GenerateVertexPedigreeIdsOff () - Set whether to use
+  an property from the XML file as pedigree ids (off), or
+  generate a new array with integer values starting at zero
+  (on). Default is on.
+* bool = obj.GetMaskArrays () - If on, makes bit arrays for
+  each attribute with name .valid.attribute_name for each
+  attribute. Default is off.
+* obj.SetMaskArrays (bool ) - If on, makes bit arrays for
+  each attribute with name .valid.attribute_name for each
+  attribute. Default is off.
+* obj.MaskArraysOn () - If on, makes bit arrays for each
+  attribute with name .valid.attribute_name for each
+  attribute. Default is off.
+* obj.MaskArraysOff () - If on, makes bit arrays for each
+  attribute with name .valid.attribute_name for each
+  attribute. Default is off.
+* bool = obj.GetReadCharData () - If on, stores the XML
+  character data (i.e. textual data between tags) into an
+  array named CharDataField, otherwise this field is
+  skipped. Default is off.
+* obj.SetReadCharData (bool ) - If on, stores the XML
+  character data (i.e. textual data between tags) into an
+  array named CharDataField, otherwise this field is
+  skipped. Default is off.
+* obj.ReadCharDataOn () - If on, stores the XML character
+  data (i.e. textual data between tags) into an array named
+  CharDataField, otherwise this field is skipped. Default is
+  off.
+* obj.ReadCharDataOff () - If on, stores the XML character
+  data (i.e. textual data between tags) into an array named
+  CharDataField, otherwise this field is skipped. Default is
+  off.
+* bool = obj.GetReadTagName () - If on, stores the XML tag
+  name data in a field called .tagname otherwise this field
+  is skipped. Default is on.
+* obj.SetReadTagName (bool ) - If on, stores the XML tag
+  name data in a field called .tagname otherwise this field
+  is skipped. Default is on.
+* obj.ReadTagNameOn () - If on, stores the XML tag name data
+  in a field called .tagname otherwise this field is
+  skipped. Default is on.
+* obj.ReadTagNameOff () - If on, stores the XML tag name
+  data in a field called .tagname otherwise this field is
+  skipped. Default is on.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Infovis_Classes
+* Generated on Thu Jul 25 2013 17:18:34 for FreeMat by
+  doxygen_ 1.8.1.1
+

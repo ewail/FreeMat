@@ -1,0 +1,141 @@
+/*!
+\page vtkrendering_vtkinteractorstyleflight vtkInteractorStyleFlight
+
+<p>
+Section: \ref sec_vtkrendering "Visualization Toolkit Rendering Classes"
+\section Usage
+ Left  mouse button press produces forward motion.
+ Right mouse button press produces reverse motion.
+ Moving mouse during motion steers user in desired direction.
+ Keyboard controls are:
+ Left/Right/Up/Down Arrows for steering direction
+ 'A' forward, 'Z' reverse motion
+ Ctrl Key causes sidestep instead of steering in mouse and key modes
+ Shift key is accelerator in mouse and key modes
+ Ctrl and Shift together causes Roll in mouse and key modes
+
+ By default, one "step" of motion corresponds to 1/250th of the diagonal
+ of bounding box of visible actors, '+' and '-' keys allow user to
+ increase or decrease step size.
+
+To create an instance of class vtkInteractorStyleFlight, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkInteractorStyleFlight
+\endverbatim
+\section Methods
+The class vtkInteractorStyleFlight has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkInteractorStyleFlight class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkInteractorStyleFlight = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkInteractorStyleFlight = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.JumpTo (double campos[3], double focpos[3])</tt> -  Move the Eye/Camera to a specific location (no intermediate
+ steps are taken
+ </LI>
+<LI>  <tt>obj.SetMotionStepSize (double )</tt> -  Set the basic unit step size : by default 1/250 of bounding diagonal
+ </LI>
+<LI>  <tt>double = obj.GetMotionStepSize ()</tt> -  Set the basic unit step size : by default 1/250 of bounding diagonal
+ </LI>
+<LI>  <tt>obj.SetMotionAccelerationFactor (double )</tt> -  Set acceleration factor when shift key is applied : default 10
+ </LI>
+<LI>  <tt>double = obj.GetMotionAccelerationFactor ()</tt> -  Set acceleration factor when shift key is applied : default 10
+ </LI>
+<LI>  <tt>obj.SetAngleStepSize (double )</tt> -  Set the basic angular unit for turning : default 1 degree
+ </LI>
+<LI>  <tt>double = obj.GetAngleStepSize ()</tt> -  Set the basic angular unit for turning : default 1 degree
+ </LI>
+<LI>  <tt>obj.SetAngleAccelerationFactor (double )</tt> -  Set angular acceleration when shift key is applied : default 5
+ </LI>
+<LI>  <tt>double = obj.GetAngleAccelerationFactor ()</tt> -  Set angular acceleration when shift key is applied : default 5
+ </LI>
+<LI>  <tt>obj.SetDisableMotion (int )</tt> -  Disable motion (temporarily - for viewing etc)
+ </LI>
+<LI>  <tt>int = obj.GetDisableMotion ()</tt> -  Disable motion (temporarily - for viewing etc)
+ </LI>
+<LI>  <tt>obj.DisableMotionOn ()</tt> -  Disable motion (temporarily - for viewing etc)
+ </LI>
+<LI>  <tt>obj.DisableMotionOff ()</tt> -  Disable motion (temporarily - for viewing etc)
+ </LI>
+<LI>  <tt>obj.SetRestoreUpVector (int )</tt> -  When flying, apply a restorative force to the "Up" vector.
+ This is activated when the current 'up' is close to the actual 'up'
+ (as defined in DefaultUpVector). This prevents excessive twisting forces
+ when viewing from arbitrary angles, but keep the horizon level when
+ the user is flying over terrain.
+ </LI>
+<LI>  <tt>int = obj.GetRestoreUpVector ()</tt> -  When flying, apply a restorative force to the "Up" vector.
+ This is activated when the current 'up' is close to the actual 'up'
+ (as defined in DefaultUpVector). This prevents excessive twisting forces
+ when viewing from arbitrary angles, but keep the horizon level when
+ the user is flying over terrain.
+ </LI>
+<LI>  <tt>obj.RestoreUpVectorOn ()</tt> -  When flying, apply a restorative force to the "Up" vector.
+ This is activated when the current 'up' is close to the actual 'up'
+ (as defined in DefaultUpVector). This prevents excessive twisting forces
+ when viewing from arbitrary angles, but keep the horizon level when
+ the user is flying over terrain.
+ </LI>
+<LI>  <tt>obj.RestoreUpVectorOff ()</tt> -  When flying, apply a restorative force to the "Up" vector.
+ This is activated when the current 'up' is close to the actual 'up'
+ (as defined in DefaultUpVector). This prevents excessive twisting forces
+ when viewing from arbitrary angles, but keep the horizon level when
+ the user is flying over terrain.
+ </LI>
+<LI>  <tt>double = obj. GetDefaultUpVector ()</tt>
+ </LI>
+<LI>  <tt>obj.SetDefaultUpVector (double  [3])</tt>
+ </LI>
+<LI>  <tt>obj.OnMouseMove ()</tt> -  Concrete implementation of Mouse event bindings for flight
+ </LI>
+<LI>  <tt>obj.OnLeftButtonDown ()</tt> -  Concrete implementation of Mouse event bindings for flight
+ </LI>
+<LI>  <tt>obj.OnLeftButtonUp ()</tt> -  Concrete implementation of Mouse event bindings for flight
+ </LI>
+<LI>  <tt>obj.OnMiddleButtonDown ()</tt> -  Concrete implementation of Mouse event bindings for flight
+ </LI>
+<LI>  <tt>obj.OnMiddleButtonUp ()</tt> -  Concrete implementation of Mouse event bindings for flight
+ </LI>
+<LI>  <tt>obj.OnRightButtonDown ()</tt> -  Concrete implementation of Mouse event bindings for flight
+ </LI>
+<LI>  <tt>obj.OnRightButtonUp ()</tt> -  Concrete implementation of Mouse event bindings for flight
+ </LI>
+<LI>  <tt>obj.OnChar ()</tt> -  Concrete implementation of Keyboard event bindings for flight
+ </LI>
+<LI>  <tt>obj.OnKeyDown ()</tt> -  Concrete implementation of Keyboard event bindings for flight
+ </LI>
+<LI>  <tt>obj.OnKeyUp ()</tt> -  Concrete implementation of Keyboard event bindings for flight
+ </LI>
+<LI>  <tt>obj.OnTimer ()</tt> -  Concrete implementation of Keyboard event bindings for flight
+ </LI>
+<LI>  <tt>obj.ForwardFly ()</tt> -  Concrete implementation of Keyboard event bindings for flight
+
+ </LI>
+<LI>  <tt>obj.ReverseFly ()</tt> -  Concrete implementation of Keyboard event bindings for flight
+
+ </LI>
+<LI>  <tt>obj.StartForwardFly ()</tt> -  Concrete implementation of Keyboard event bindings for flight
+
+
+ </LI>
+<LI>  <tt>obj.EndForwardFly ()</tt> -  Concrete implementation of Keyboard event bindings for flight
+
+
+ </LI>
+<LI>  <tt>obj.StartReverseFly ()</tt> -  Concrete implementation of Keyboard event bindings for flight
+
+
+ </LI>
+<LI>  <tt>obj.EndReverseFly ()</tt> -  Concrete implementation of Keyboard event bindings for flight
+
+
+ </LI>
+</UL>
+*/

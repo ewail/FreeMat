@@ -1,0 +1,177 @@
+
+ Usage
+
+vtkEncodedGradientEstimator is an abstract superclass for
+gradient estimation. It takes a scalar input of
+vtkImageData, computes a gradient value for every point, and
+encodes this value into a three byte value (2 for direction,
+1 for magnitude) using the vtkDirectionEncoder. The
+direction encoder is defaulted to a
+vtkRecursiveSphereDirectionEncoder, but can be overridden
+with the SetDirectionEncoder method. The scale and the bias
+values for the gradient magnitude are used to convert it
+into a one byte value according to v = m*scale + bias where
+m is the magnitude and v is the resulting one byte value.
+To create an instance of class vtkEncodedGradientEstimator,
+simply invoke its constructor as follows
+
+    obj = vtkEncodedGradientEstimator
+
+
+
+ Methods
+
+The class vtkEncodedGradientEstimator has several methods
+that can be used. They are listed below. Note that the
+documentation is translated automatically from the VTK
+sources, and may not be completely intelligible. When in
+doubt, consult the VTK website. In the methods listed below,
+obj is an instance of the vtkEncodedGradientEstimator class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkEncodedGradientEstimator = obj.NewInstance ()
+* vtkEncodedGradientEstimator = obj.SafeDownCast (vtkObject
+  o)
+* obj.SetInput (vtkImageData ) - Set/Get the scalar input
+  for which the normals will be calculated
+* vtkImageData = obj.GetInput () - Set/Get the scalar input
+  for which the normals will be calculated
+* obj.SetGradientMagnitudeScale (float ) - Set/Get the scale
+  and bias for the gradient magnitude
+* float = obj.GetGradientMagnitudeScale () - Set/Get the
+  scale and bias for the gradient magnitude
+* obj.SetGradientMagnitudeBias (float ) - Set/Get the scale
+  and bias for the gradient magnitude
+* float = obj.GetGradientMagnitudeBias () - Set/Get the
+  scale and bias for the gradient magnitude
+* obj.SetBoundsClip (int ) - Turn on / off the bounding of
+  the normal computation by the this->Bounds bounding box
+* int = obj.GetBoundsClipMinValue () - Turn on / off the
+  bounding of the normal computation by the this->Bounds
+  bounding box
+* int = obj.GetBoundsClipMaxValue () - Turn on / off the
+  bounding of the normal computation by the this->Bounds
+  bounding box
+* int = obj.GetBoundsClip () - Turn on / off the bounding of
+  the normal computation by the this->Bounds bounding box
+* obj.BoundsClipOn () - Turn on / off the bounding of the
+  normal computation by the this->Bounds bounding box
+* obj.BoundsClipOff () - Turn on / off the bounding of the
+  normal computation by the this->Bounds bounding box
+* obj.SetBounds (int , int , int , int , int , int ) - Set /
+  Get the bounds of the computation (used if this-
+  >ComputationBounds is 1.) The bounds are specified xmin,
+  xmax, ymin, ymax, zmin, zmax.
+* obj.SetBounds (int a[6]) - Set / Get the bounds of the
+  computation (used if this->ComputationBounds is 1.) The
+  bounds are specified xmin, xmax, ymin, ymax, zmin, zmax.
+* int = obj. GetBounds () - Set / Get the bounds of the
+  computation (used if this->ComputationBounds is 1.) The
+  bounds are specified xmin, xmax, ymin, ymax, zmin, zmax.
+* obj.Update (void ) - Recompute the encoded normals and
+  gradient magnitudes.
+* int = obj.GetEncodedNormalIndex (int xyz_index) - Get the
+  encoded normal at an x,y,z location in the volume
+* int = obj.GetEncodedNormalIndex (int x_index, int y_index,
+  int z_index) - Get the encoded normal at an x,y,z location
+  in the volume
+* obj.SetNumberOfThreads (int ) - Get/Set the number of
+  threads to create when encoding normals This defaults to
+  the number of available processors on the machine
+* int = obj.GetNumberOfThreadsMinValue () - Get/Set the
+  number of threads to create when encoding normals This
+  defaults to the number of available processors on the
+  machine
+* int = obj.GetNumberOfThreadsMaxValue () - Get/Set the
+  number of threads to create when encoding normals This
+  defaults to the number of available processors on the
+  machine
+* int = obj.GetNumberOfThreads () - Get/Set the number of
+  threads to create when encoding normals This defaults to
+  the number of available processors on the machine
+* obj.SetDirectionEncoder (vtkDirectionEncoder direnc) - Set
+  / Get the direction encoder used to encode normal
+  directions to fit within two bytes
+* vtkDirectionEncoder = obj.GetDirectionEncoder () - Set /
+  Get the direction encoder used to encode normal directions
+  to fit within two bytes
+* obj.SetComputeGradientMagnitudes (int ) - If you don't
+  want to compute gradient magnitudes (but you do want
+  normals for shading) this can be used. Be careful - if if
+  you a non-constant gradient magnitude transfer function
+  and you turn this on, it may crash
+* int = obj.GetComputeGradientMagnitudes () - If you don't
+  want to compute gradient magnitudes (but you do want
+  normals for shading) this can be used. Be careful - if if
+  you a non-constant gradient magnitude transfer function
+  and you turn this on, it may crash
+* obj.ComputeGradientMagnitudesOn () - If you don't want to
+  compute gradient magnitudes (but you do want normals for
+  shading) this can be used. Be careful - if if you a non-
+  constant gradient magnitude transfer function and you turn
+  this on, it may crash
+* obj.ComputeGradientMagnitudesOff () - If you don't want to
+  compute gradient magnitudes (but you do want normals for
+  shading) this can be used. Be careful - if if you a non-
+  constant gradient magnitude transfer function and you turn
+  this on, it may crash
+* obj.SetCylinderClip (int ) - If the data in each slice is
+  only contained within a circle circumscribed within the
+  slice, and the slice is square, then don't compute
+  anything outside the circle. This circle through the
+  slices forms a cylinder.
+* int = obj.GetCylinderClip () - If the data in each slice
+  is only contained within a circle circumscribed within the
+  slice, and the slice is square, then don't compute
+  anything outside the circle. This circle through the
+  slices forms a cylinder.
+* obj.CylinderClipOn () - If the data in each slice is only
+  contained within a circle circumscribed within the slice,
+  and the slice is square, then don't compute anything
+  outside the circle. This circle through the slices forms a
+  cylinder.
+* obj.CylinderClipOff () - If the data in each slice is only
+  contained within a circle circumscribed within the slice,
+  and the slice is square, then don't compute anything
+  outside the circle. This circle through the slices forms a
+  cylinder.
+* float = obj.GetLastUpdateTimeInSeconds () - Get the time
+  required for the last update in seconds or cpu seconds
+* float = obj.GetLastUpdateTimeInCPUSeconds () - Get the
+  time required for the last update in seconds or cpu
+  seconds
+* int = obj.GetUseCylinderClip ()
+* obj.SetZeroNormalThreshold (float v) - Set / Get the
+  ZeroNormalThreshold - this defines the minimum magnitude
+  of a gradient that is considered sufficient to define a
+  direction. Gradients with magnitudes at or less than this
+  value are given a "zero normal" index. These are handled
+  specially in the shader, and you can set the intensity of
+  light for these zero normals in the gradient shader.
+* float = obj.GetZeroNormalThreshold () - Set / Get the
+  ZeroNormalThreshold - this defines the minimum magnitude
+  of a gradient that is considered sufficient to define a
+  direction. Gradients with magnitudes at or less than this
+  value are given a "zero normal" index. These are handled
+  specially in the shader, and you can set the intensity of
+  light for these zero normals in the gradient shader.
+* obj.SetZeroPad (int ) - Assume that the data value outside
+  the volume is zero when computing normals.
+* int = obj.GetZeroPadMinValue () - Assume that the data
+  value outside the volume is zero when computing normals.
+* int = obj.GetZeroPadMaxValue () - Assume that the data
+  value outside the volume is zero when computing normals.
+* int = obj.GetZeroPad () - Assume that the data value
+  outside the volume is zero when computing normals.
+* obj.ZeroPadOn () - Assume that the data value outside the
+  volume is zero when computing normals.
+* obj.ZeroPadOff () - Assume that the data value outside the
+  volume is zero when computing normals.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Volume_Rendering_Classes
+* Generated on Thu Jul 25 2013 17:18:36 for FreeMat by
+  doxygen_ 1.8.1.1
+

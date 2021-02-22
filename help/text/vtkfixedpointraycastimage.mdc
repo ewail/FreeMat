@@ -1,0 +1,193 @@
+
+ Usage
+
+This is a helper class for storing the ray cast image
+including the underlying data and the size of the image.
+This class is not intended to be used directly - just as an
+internal class in the vtkFixedPointVolumeRayCastMapper so
+that multiple mappers can share the same image. This class
+also stored the ZBuffer (if necessary due to intermixed
+geometry). Perhaps this class could be generalized in the
+future to be used for other ray cast methods other than the
+fixed point method.
+To create an instance of class vtkFixedPointRayCastImage,
+simply invoke its constructor as follows
+
+    obj = vtkFixedPointRayCastImage
+
+
+
+ Methods
+
+The class vtkFixedPointRayCastImage has several methods that
+can be used. They are listed below. Note that the
+documentation is translated automatically from the VTK
+sources, and may not be completely intelligible. When in
+doubt, consult the VTK website. In the methods listed below,
+obj is an instance of the vtkFixedPointRayCastImage class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkFixedPointRayCastImage = obj.NewInstance ()
+* vtkFixedPointRayCastImage = obj.SafeDownCast (vtkObject o)
+* obj.SetImageViewportSize (int , int ) - Set / Get the
+  ImageViewportSize. This is the size of the whole viewport
+  in pixels.
+* obj.SetImageViewportSize (int a[2]) - Set / Get the
+  ImageViewportSize. This is the size of the whole viewport
+  in pixels.
+* int = obj. GetImageViewportSize () - Set / Get the
+  ImageViewportSize. This is the size of the whole viewport
+  in pixels.
+* obj.SetImageMemorySize (int , int ) - Set / Get the
+  ImageMemorySize. This is the size in pixels of the Image
+  ivar. This will be a power of two in order to ensure that
+  the texture can be rendered by graphics hardware that
+  requires power of two textures.
+* obj.SetImageMemorySize (int a[2]) - Set / Get the
+  ImageMemorySize. This is the size in pixels of the Image
+  ivar. This will be a power of two in order to ensure that
+  the texture can be rendered by graphics hardware that
+  requires power of two textures.
+* int = obj. GetImageMemorySize () - Set / Get the
+  ImageMemorySize. This is the size in pixels of the Image
+  ivar. This will be a power of two in order to ensure that
+  the texture can be rendered by graphics hardware that
+  requires power of two textures.
+* obj.SetImageInUseSize (int , int ) - Set / Get the size of
+  the image we are actually using. As long as the memory
+  size is big enough, but not too big, we won't bother
+  deleting and re-allocated, we'll just continue to use the
+  memory size we have. This size will always be equal to or
+  less than the ImageMemorySize.
+* obj.SetImageInUseSize (int a[2]) - Set / Get the size of
+  the image we are actually using. As long as the memory
+  size is big enough, but not too big, we won't bother
+  deleting and re-allocated, we'll just continue to use the
+  memory size we have. This size will always be equal to or
+  less than the ImageMemorySize.
+* int = obj. GetImageInUseSize () - Set / Get the size of
+  the image we are actually using. As long as the memory
+  size is big enough, but not too big, we won't bother
+  deleting and re-allocated, we'll just continue to use the
+  memory size we have. This size will always be equal to or
+  less than the ImageMemorySize.
+* obj.SetImageOrigin (int , int ) - Set / Get the origin of
+  the image. This is the starting pixel within the whole
+  viewport that our Image starts on. That is, we could be
+  generating just a subregion of the whole viewport due to
+  the fact that our volume occupies only a portion of the
+  viewport. The Image pixels will start from this location.
+* obj.SetImageOrigin (int a[2]) - Set / Get the origin of
+  the image. This is the starting pixel within the whole
+  viewport that our Image starts on. That is, we could be
+  generating just a subregion of the whole viewport due to
+  the fact that our volume occupies only a portion of the
+  viewport. The Image pixels will start from this location.
+* int = obj. GetImageOrigin () - Set / Get the origin of the
+  image. This is the starting pixel within the whole
+  viewport that our Image starts on. That is, we could be
+  generating just a subregion of the whole viewport due to
+  the fact that our volume occupies only a portion of the
+  viewport. The Image pixels will start from this location.
+* obj.SetImageSampleDistance (float ) - Set / Get the
+  ImageSampleDistance that will be used for rendering. This
+  is a copy of the value stored in the mapper. It is stored
+  here for sharing between all mappers that are
+  participating in the creation of this image.
+* float = obj.GetImageSampleDistance () - Set / Get the
+  ImageSampleDistance that will be used for rendering. This
+  is a copy of the value stored in the mapper. It is stored
+  here for sharing between all mappers that are
+  participating in the creation of this image.
+* obj.AllocateImage () - Call this method once the
+  ImageMemorySize has been set the allocate the image. If an
+  image already exists, it will be deleted first.
+* obj.ClearImage () - Clear the image to (0,0,0,0) for each
+  pixel.
+* obj.SetZBufferSize (int , int ) - Set / Get the size of
+  the ZBuffer in pixels. The zbuffer will be captured for
+  the region of the screen covered by the ImageInUseSize
+  image. However, due to subsampling, the size of the
+  ImageInUseSize image may be smaller than this ZBuffer
+  image which will be captured at screen resolution.
+* obj.SetZBufferSize (int a[2]) - Set / Get the size of the
+  ZBuffer in pixels. The zbuffer will be captured for the
+  region of the screen covered by the ImageInUseSize image.
+  However, due to subsampling, the size of the
+  ImageInUseSize image may be smaller than this ZBuffer
+  image which will be captured at screen resolution.
+* int = obj. GetZBufferSize () - Set / Get the size of the
+  ZBuffer in pixels. The zbuffer will be captured for the
+  region of the screen covered by the ImageInUseSize image.
+  However, due to subsampling, the size of the
+  ImageInUseSize image may be smaller than this ZBuffer
+  image which will be captured at screen resolution.
+* obj.SetZBufferOrigin (int , int ) - Set / Get the origin
+  of the ZBuffer. This is the distance from the lower left
+  corner of the viewport where the ZBuffer started (multiply
+  the ImageOrigin by the ImageSampleDistance) This is the
+  pixel location on the full resolution viewport where the
+  ZBuffer capture will start. These values are used to
+  convert the (x,y) pixel location within the ImageInUseSize
+  image into a ZBuffer location.
+* obj.SetZBufferOrigin (int a[2]) - Set / Get the origin of
+  the ZBuffer. This is the distance from the lower left
+  corner of the viewport where the ZBuffer started (multiply
+  the ImageOrigin by the ImageSampleDistance) This is the
+  pixel location on the full resolution viewport where the
+  ZBuffer capture will start. These values are used to
+  convert the (x,y) pixel location within the ImageInUseSize
+  image into a ZBuffer location.
+* int = obj. GetZBufferOrigin () - Set / Get the origin of
+  the ZBuffer. This is the distance from the lower left
+  corner of the viewport where the ZBuffer started (multiply
+  the ImageOrigin by the ImageSampleDistance) This is the
+  pixel location on the full resolution viewport where the
+  ZBuffer capture will start. These values are used to
+  convert the (x,y) pixel location within the ImageInUseSize
+  image into a ZBuffer location.
+* obj.SetUseZBuffer (int ) - The UseZBuffer flag indicates
+  whether the ZBuffer is in use. The ZBuffer is captured and
+  used when IntermixIntersectingGeometry is on in the
+  mapper, and when there are props that have been rendered
+  before the current volume.
+* int = obj.GetUseZBufferMinValue () - The UseZBuffer flag
+  indicates whether the ZBuffer is in use. The ZBuffer is
+  captured and used when IntermixIntersectingGeometry is on
+  in the mapper, and when there are props that have been
+  rendered before the current volume.
+* int = obj.GetUseZBufferMaxValue () - The UseZBuffer flag
+  indicates whether the ZBuffer is in use. The ZBuffer is
+  captured and used when IntermixIntersectingGeometry is on
+  in the mapper, and when there are props that have been
+  rendered before the current volume.
+* int = obj.GetUseZBuffer () - The UseZBuffer flag indicates
+  whether the ZBuffer is in use. The ZBuffer is captured and
+  used when IntermixIntersectingGeometry is on in the
+  mapper, and when there are props that have been rendered
+  before the current volume.
+* obj.UseZBufferOn () - The UseZBuffer flag indicates
+  whether the ZBuffer is in use. The ZBuffer is captured and
+  used when IntermixIntersectingGeometry is on in the
+  mapper, and when there are props that have been rendered
+  before the current volume.
+* obj.UseZBufferOff () - The UseZBuffer flag indicates
+  whether the ZBuffer is in use. The ZBuffer is captured and
+  used when IntermixIntersectingGeometry is on in the
+  mapper, and when there are props that have been rendered
+  before the current volume.
+* float = obj.GetZBufferValue (int x, int y) - Get the
+  ZBuffer value corresponding to location (x,y) where (x,y)
+  are indexing into the ImageInUse image. This must be
+  converted to the zbuffer image coordinates. Nearest
+  neighbor value is returned. If UseZBuffer is off, then 1.0
+  is always returned.
+* obj.AllocateZBuffer ()
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Volume_Rendering_Classes
+* Generated on Thu Jul 25 2013 17:18:36 for FreeMat by
+  doxygen_ 1.8.1.1
+

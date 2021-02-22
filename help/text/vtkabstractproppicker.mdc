@@ -1,0 +1,84 @@
+
+ Usage
+
+vtkAbstractPropPicker is an abstract superclass for pickers
+that can pick an instance of vtkProp. Some pickers, like
+vtkWorldPointPicker (not a subclass of this class), cannot
+identify the prop that is picked. Subclasses of
+vtkAbstractPropPicker return a prop in the form of a
+vtkAssemblyPath when a pick is invoked. Note that an
+vtkAssemblyPath contain a list of vtkAssemblyNodes, each of
+which in turn contains a reference to a vtkProp and a 4x4
+transformation matrix. The path fully describes the entire
+pick path, so you can pick assemblies or portions of
+assemblies, or just grab the tail end of the vtkAssemblyPath
+(which is the picked prop).
+To create an instance of class vtkAbstractPropPicker, simply
+invoke its constructor as follows
+
+    obj = vtkAbstractPropPicker
+
+
+
+ Methods
+
+The class vtkAbstractPropPicker has several methods that can
+be used. They are listed below. Note that the documentation
+is translated automatically from the VTK sources, and may
+not be completely intelligible. When in doubt, consult the
+VTK website. In the methods listed below, obj is an instance
+of the vtkAbstractPropPicker class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkAbstractPropPicker = obj.NewInstance ()
+* vtkAbstractPropPicker = obj.SafeDownCast (vtkObject o)
+* obj.SetPath (vtkAssemblyPath ) - Return the
+  vtkAssemblyPath that has been picked. The assembly path
+  lists all the vtkProps that form an assembly. If no
+  assembly is present, then the assembly path will have one
+  node (which is the picked prop). The set method is used
+  internally to set the path. (Note: the structure of an
+  assembly path is a collection of vtkAssemblyNode, each
+  node pointing to a vtkProp and (possibly) a transformation
+  matrix.)
+* vtkAssemblyPath = obj.GetPath () - Return the
+  vtkAssemblyPath that has been picked. The assembly path
+  lists all the vtkProps that form an assembly. If no
+  assembly is present, then the assembly path will have one
+  node (which is the picked prop). The set method is used
+  internally to set the path. (Note: the structure of an
+  assembly path is a collection of vtkAssemblyNode, each
+  node pointing to a vtkProp and (possibly) a transformation
+  matrix.)
+* vtkProp = obj.GetViewProp () - Return the vtkProp that has
+  been picked. If NULL, nothing was picked. If anything at
+  all was picked, this method will return something.
+* vtkProp3D = obj.GetProp3D () - Return the vtkProp that has
+  been picked. If NULL, no vtkProp3D was picked.
+* vtkActor = obj.GetActor () - Return the vtkActor that has
+  been picked. If NULL, no actor was picked.
+* vtkActor2D = obj.GetActor2D () - Return the vtkActor2D
+  that has been picked. If NULL, no actor2D was picked.
+* vtkVolume = obj.GetVolume () - Return the vtkVolume that
+  has been picked. If NULL, no volume was picked.
+* vtkAssembly = obj.GetAssembly () - Return the vtkAssembly
+  that has been picked. If NULL, no assembly was picked.
+  (Note: the returned assembly is the first node in the
+  assembly path. If the path is one node long, then the
+  assembly and the prop are the same, assuming that the
+  first node is a vtkAssembly.)
+* vtkPropAssembly = obj.GetPropAssembly () - Return the
+  vtkPropAssembly that has been picked. If NULL, no prop
+  assembly was picked. (Note: the returned prop assembly is
+  the first node in the assembly path. If the path is one
+  node long, then the prop assembly and the prop are the
+  same, assuming that the first node is a vtkPropAssembly.)
+* vtkProp = obj.GetProp () -
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Rendering_Classes
+* Generated on Thu Jul 25 2013 17:18:34 for FreeMat by
+  doxygen_ 1.8.1.1
+

@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkwidgets_vtkcenteredsliderwidget" kind="page">
+    <compoundname>vtkwidgets_vtkcenteredsliderwidget</compoundname>
+    <title>vtkCenteredSliderWidget</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkwidgets_1sec_vtkwidgets" kindref="member">Visualization Toolkit Widget Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>The vtkCenteredSliderWidget is used to adjust a scalar value in an application. This class measures deviations form the center point on the slider. Moving the slider modifies the value of the widget, which can be used to set parameters on other objects. Note that the actual appearance of the widget depends on the specific representation for the widget.</para><para>To use this widget, set the widget representation. The representation is assumed to consist of a tube, two end caps, and a slider (the details may vary depending on the particulars of the representation). Then in the representation you will typically set minimum and maximum value, as well as the current value. The position of the slider must also be set, as well as various properties.</para><para>Note that the value should be obtain from the widget, not from the representation. Also note that Minimum and Maximum values are in terms of value per second. The value you get from this widget&apos;s GetValue method is multiplied by time.</para><para>.SECTION Event Bindings By default, the widget responds to the following VTK events (i.e., it watches the vtkRenderWindowInteractor for these events): <preformatted>
+ If the slider bead is selected:
+   LeftButtonPressEvent - select slider (if on slider)
+   LeftButtonReleaseEvent - release slider (if selected)
+   MouseMoveEvent - move slider
+ If the end caps or slider tube are selected:
+   LeftButtonPressEvent - move (or animate) to cap or point on tube;
+ </preformatted></para><para>Note that the event bindings described above can be changed using this class&apos;s vtkWidgetEventTranslator. This class translates VTK events into the vtkCenteredSliderWidget&apos;s widget events: <preformatted>
+   vtkWidgetEvent::Select <ndash/> some part of the widget has been selected
+   vtkWidgetEvent::EndSelect <ndash/> the selection process has completed
+   vtkWidgetEvent::Move <ndash/> a request for slider motion has been invoked
+ </preformatted></para><para>In turn, when these widget events are processed, the vtkCenteredSliderWidget invokes the following VTK events on itself (which observers can listen for): <preformatted>
+   vtkCommand::StartInteractionEvent (on vtkWidgetEvent::Select)
+   vtkCommand::EndInteractionEvent (on vtkWidgetEvent::EndSelect)
+   vtkCommand::InteractionEvent (on vtkWidgetEvent::Move)
+ </preformatted></para><para>To create an instance of class vtkCenteredSliderWidget, simply invoke its constructor as follows <verbatim>  obj = vtkCenteredSliderWidget
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkCenteredSliderWidget has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkCenteredSliderWidget class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput> - Standard macros.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput> - Standard macros.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkCenteredSliderWidget = obj.NewInstance ()</computeroutput> - Standard macros.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkCenteredSliderWidget = obj.SafeDownCast (vtkObject o)</computeroutput> - Standard macros.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetRepresentation (vtkSliderRepresentation r)</computeroutput> - Create the default widget representation if one is not set.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.CreateDefaultRepresentation ()</computeroutput> - Create the default widget representation if one is not set.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetValue ()</computeroutput> - Get the value fo this widget.  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

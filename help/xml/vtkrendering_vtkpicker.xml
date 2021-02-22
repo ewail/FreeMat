@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkrendering_vtkpicker" kind="page">
+    <compoundname>vtkrendering_vtkpicker</compoundname>
+    <title>vtkPicker</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkrendering_1sec_vtkrendering" kindref="member">Visualization Toolkit Rendering Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>vtkPicker is used to select instances of vtkProp3D by shooting a ray into a graphics window and intersecting with the actor&apos;s bounding box. The ray is defined from a point defined in window (or pixel) coordinates, and a point located from the camera&apos;s position.</para><para>vtkPicker may return more than one vtkProp3D, since more than one bounding box may be intersected. vtkPicker returns an unsorted list of props that were hit, and a list of the corresponding world points of the hits. For the vtkProp3D that is closest to the camera, vtkPicker returns the pick coordinates in world and untransformed mapper space, the prop itself, the data set, and the mapper. For vtkPicker the closest prop is the one whose center point (i.e., center of bounding box) projected on the view ray is closest to the camera. Subclasses of vtkPicker use other methods for computing the pick point.</para><para>To create an instance of class vtkPicker, simply invoke its constructor as follows <verbatim>  obj = vtkPicker
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkPicker has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkPicker class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkPicker = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkPicker = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetTolerance (double )</computeroutput> - Specify tolerance for performing pick operation. Tolerance is specified as fraction of rendering window size. (Rendering window size is measured across diagonal.)  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetTolerance ()</computeroutput> - Specify tolerance for performing pick operation. Tolerance is specified as fraction of rendering window size. (Rendering window size is measured across diagonal.)  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj. GetMapperPosition ()</computeroutput> - Return position in mapper (i.e., non-transformed) coordinates of pick point.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkAbstractMapper3D = obj.GetMapper ()</computeroutput> - Return mapper that was picked (if any).  </para></listitem>
+<listitem>
+<para><computeroutput>vtkDataSet = obj.GetDataSet ()</computeroutput> - Get a pointer to the dataset that was picked (if any). If nothing was picked then NULL is returned.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkProp3DCollection = obj.GetProp3Ds ()</computeroutput> - Return a collection of all the prop 3D&apos;s that were intersected by the pick ray. This collection is not sorted.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkActorCollection = obj.GetActors ()</computeroutput> - Return a collection of all the actors that were intersected. This collection is not sorted. (This is a convenience method to maintain backward compatibility.)  </para></listitem>
+<listitem>
+<para><computeroutput>vtkPoints = obj.GetPickedPositions ()</computeroutput> - Return a list of the points the the actors returned by GetProp3Ds were intersected at. The order of this list will match the order of GetProp3Ds.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.Pick (double selectionX, double selectionY, double selectionZ, vtkRenderer renderer)</computeroutput> - Perform pick operation with selection point provided. Normally the first two values for the selection point are x-y pixel coordinate, and the third value is =0. Return non-zero if something was successfully picked.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.Pick (double selectionPt[3], vtkRenderer ren)</computeroutput> - Perform pick operation with selection point provided. Normally the first two values for the selection point are x-y pixel coordinate, and the third value is =0. Return non-zero if something was successfully picked.  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

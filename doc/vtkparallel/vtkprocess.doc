@@ -1,0 +1,54 @@
+/*!
+\page vtkparallel_vtkprocess vtkProcess
+
+<p>
+Section: \ref sec_vtkparallel "Visualization Toolkit Parallel Classes"
+\section Usage
+ vtkProcess is an abstract class representing a process that can be launched
+ by a vtkMultiProcessController. Concrete classes just have to implement
+ Execute() method and make sure it set the proper value in ReturnValue.
+
+ .SECTION Example
+  class MyProcess: public vtkProcess
+  ...
+  vtkMultiProcessController *c;
+  MyProcess *p=new MyProcess::New();
+  p->SetArgs(argc,argv); // some parameters specific to the process
+  p->SetX(10.0); // ...
+  c->SetSingleProcess(p);
+  c->SingleMethodExecute();
+  int returnValue=p->GetReturnValue();
+
+
+To create an instance of class vtkProcess, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkProcess
+\endverbatim
+\section Methods
+The class vtkProcess has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkProcess class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkProcess = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkProcess = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.Execute ()</tt>
+ </LI>
+<LI>  <tt>vtkMultiProcessController = obj.GetController ()</tt> -  Give access to the controller that launched the process.
+ Initial value is NULL.
+ </LI>
+<LI>  <tt>obj.SetController (vtkMultiProcessController aController)</tt> -  This method should not be called directly but set by the controller
+ itself.
+ </LI>
+<LI>  <tt>int = obj.GetReturnValue ()</tt> -  Value set at the end of a call to Execute.
+ </LI>
+</UL>
+*/

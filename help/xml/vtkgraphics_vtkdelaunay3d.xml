@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkgraphics_vtkdelaunay3d" kind="page">
+    <compoundname>vtkgraphics_vtkdelaunay3d</compoundname>
+    <title>vtkDelaunay3D</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkgraphics_1sec_vtkgraphics" kindref="member">Visualization Toolkit Graphics Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>vtkDelaunay3D is a filter that constructs a 3D Delaunay triangulation from a list of input points. These points may be represented by any dataset of type vtkPointSet and subclasses. The output of the filter is an unstructured grid dataset. Usually the output is a tetrahedral mesh, but if a non-zero alpha distance value is specified (called the &quot;alpha&quot; value), then only tetrahedra, triangles, edges, and vertices lying within the alpha radius are output. In other words, non-zero alpha values may result in arbitrary combinations of tetrahedra, triangles, lines, and vertices. (The notion of alpha value is derived from Edelsbrunner&apos;s work on &quot;alpha shapes&quot;.)</para><para>The 3D Delaunay triangulation is defined as the triangulation that satisfies the Delaunay criterion for n-dimensional simplexes (in this case n=3 and the simplexes are tetrahedra). This criterion states that a circumsphere of each simplex in a triangulation contains only the n+1 defining points of the simplex. (See text for more information.) While in two dimensions this translates into an &quot;optimal&quot; triangulation, this is not true in 3D, since a measurement for optimality in 3D is not agreed on.</para><para>Delaunay triangulations are used to build topological structures from unorganized (or unstructured) points. The input to this filter is a list of points specified in 3D. (If you wish to create 2D triangulations see vtkDelaunay2D.) The output is an unstructured grid.</para><para>The Delaunay triangulation can be numerically sensitive. To prevent problems, try to avoid injecting points that will result in triangles with bad aspect ratios (1000:1 or greater). In practice this means inserting points that are &quot;widely dispersed&quot;, and enables smooth transition of triangle sizes throughout the mesh. (You may even want to add extra points to create a better point distribution.) If numerical problems are present, you will see a warning message to this effect at the end of the triangulation process.</para><para>To create an instance of class vtkDelaunay3D, simply invoke its constructor as follows <verbatim>  obj = vtkDelaunay3D
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkDelaunay3D has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkDelaunay3D class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkDelaunay3D = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkDelaunay3D = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetAlpha (double )</computeroutput> - Specify alpha (or distance) value to control output of this filter. For a non-zero alpha value, only edges, faces, or tetra contained within the circumsphere (of radius alpha) will be output. Otherwise, only tetrahedra will be output.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetAlphaMinValue ()</computeroutput> - Specify alpha (or distance) value to control output of this filter. For a non-zero alpha value, only edges, faces, or tetra contained within the circumsphere (of radius alpha) will be output. Otherwise, only tetrahedra will be output.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetAlphaMaxValue ()</computeroutput> - Specify alpha (or distance) value to control output of this filter. For a non-zero alpha value, only edges, faces, or tetra contained within the circumsphere (of radius alpha) will be output. Otherwise, only tetrahedra will be output.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetAlpha ()</computeroutput> - Specify alpha (or distance) value to control output of this filter. For a non-zero alpha value, only edges, faces, or tetra contained within the circumsphere (of radius alpha) will be output. Otherwise, only tetrahedra will be output.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetTolerance (double )</computeroutput> - Specify a tolerance to control discarding of closely spaced points. This tolerance is specified as a fraction of the diagonal length of the bounding box of the points.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetToleranceMinValue ()</computeroutput> - Specify a tolerance to control discarding of closely spaced points. This tolerance is specified as a fraction of the diagonal length of the bounding box of the points.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetToleranceMaxValue ()</computeroutput> - Specify a tolerance to control discarding of closely spaced points. This tolerance is specified as a fraction of the diagonal length of the bounding box of the points.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetTolerance ()</computeroutput> - Specify a tolerance to control discarding of closely spaced points. This tolerance is specified as a fraction of the diagonal length of the bounding box of the points.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetOffset (double )</computeroutput> - Specify a multiplier to control the size of the initial, bounding Delaunay triangulation.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetOffsetMinValue ()</computeroutput> - Specify a multiplier to control the size of the initial, bounding Delaunay triangulation.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetOffsetMaxValue ()</computeroutput> - Specify a multiplier to control the size of the initial, bounding Delaunay triangulation.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetOffset ()</computeroutput> - Specify a multiplier to control the size of the initial, bounding Delaunay triangulation.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetBoundingTriangulation (int )</computeroutput> - Boolean controls whether bounding triangulation points (and associated triangles) are included in the output. (These are introduced as an initial triangulation to begin the triangulation process. This feature is nice for debugging output.)  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetBoundingTriangulation ()</computeroutput> - Boolean controls whether bounding triangulation points (and associated triangles) are included in the output. (These are introduced as an initial triangulation to begin the triangulation process. This feature is nice for debugging output.)  </para></listitem>
+<listitem>
+<para><computeroutput>obj.BoundingTriangulationOn ()</computeroutput> - Boolean controls whether bounding triangulation points (and associated triangles) are included in the output. (These are introduced as an initial triangulation to begin the triangulation process. This feature is nice for debugging output.)  </para></listitem>
+<listitem>
+<para><computeroutput>obj.BoundingTriangulationOff ()</computeroutput> - Boolean controls whether bounding triangulation points (and associated triangles) are included in the output. (These are introduced as an initial triangulation to begin the triangulation process. This feature is nice for debugging output.)  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetLocator (vtkIncrementalPointLocator locator)</computeroutput> - Set / get a spatial locator for merging points. By default, an instance of vtkPointLocator is used.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkIncrementalPointLocator = obj.GetLocator ()</computeroutput> - Set / get a spatial locator for merging points. By default, an instance of vtkPointLocator is used.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.CreateDefaultLocator ()</computeroutput> - Create default locator. Used to create one when none is specified. The locator is used to eliminate &quot;coincident&quot; points.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.InsertPoint (vtkUnstructuredGrid Mesh, vtkPoints points, vtkIdType id, double x[3], vtkIdList holeTetras)</computeroutput> - This is a helper method used with InitPointInsertion() to create tetrahedronalizations of points. Its purpose is to inject point at coordinates specified into tetrahedronalization. The point id is an index into the list of points in the mesh structure. (See vtkDelaunay3D::InitPointInsertion() for more information.) When you have completed inserting points, traverse the mesh structure to extract desired tetrahedra (or tetra faces and edges).The holeTetras id list lists all the tetrahedra that are deleted (invalid) in the mesh structure.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.EndPointInsertion ()</computeroutput> - Invoke this method after all points have been inserted. The purpose of the method is to clean up internal data structures. Note that the (vtkUnstructuredGrid *)Mesh returned from InitPointInsertion() is NOT deleted, you still are responsible for cleaning that up.  </para></listitem>
+<listitem>
+<para><computeroutput>long = obj.GetMTime ()</computeroutput> - Return the MTime also considering the locator.  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

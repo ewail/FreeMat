@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="functions_anonymous" kind="page">
+    <compoundname>functions_anonymous</compoundname>
+    <title>ANONYMOUS Anonymous Functions</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_functions_1sec_functions" kindref="member">Functions and Scripts</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>Anonymous functions are simple, nameless functions that can be defined anywhere (in a script, function, or at the prompt). They are intended to supplant <computeroutput>inline</computeroutput> functions. The syntax for an anonymous function is simple: <verbatim>   y = @(arg1,arg2,...,argn) expression
+</verbatim> where <computeroutput>arg1,arg2,...,argn</computeroutput> is a list of valid identifiers that define the arguments to the function, and <computeroutput>expression</computeroutput> is the expression to compute in the function. The returned value <computeroutput>y</computeroutput> is a function handle for the anonymous function that can then be used to evaluate the expression. Note that <computeroutput>y</computeroutput> will capture the value of variables that are not indicated in the argument list from the current scope or workspace at the time it is defined. So, for example, consider the simple anonymous function definition <verbatim>   y = @(x) a*(x+b)
+</verbatim> In order for this definition to work, the variables <computeroutput>a</computeroutput> and <computeroutput>b</computeroutput> need to be defined in the current workspace. Whatever value they have is captured in the function handle <computeroutput>y</computeroutput>. To change the values of <computeroutput>a</computeroutput> and <computeroutput>b</computeroutput> in the anonymous function, you must recreate the handle using another call. See the examples section for more information. In order to use the anonymous function, you can use it just like any other function handle. For example, <verbatim>   p = y(3)
+   p = y()
+   p = feval(y,3)
+</verbatim> are all examples of using the <computeroutput>y</computeroutput> anonymous function to perform a calculation. </para></sect1>
+<sect1 id="variables_matrix_1Examples">
+<title>Examples</title>
+<para>Here are some examples of using an anonymous function</para><para><verbatim>--&gt; a = 2; b = 4;    % define a and b (slope and intercept)
+--&gt; y = @(x) a*x+b   % create the anonymous function
+
+y = 
+ @(x)   a*x+b   % create the anonymous function
+--&gt; y(2)             % evaluate it for x = 2
+
+ans = 
+ 8 
+
+--&gt; a = 5; b = 7;    % change a and b
+--&gt; y(2)             % the value did not change!  because a=2,b=4 are captured in y
+
+ans = 
+ 8 
+
+--&gt; y = @(x) a*x+b   % recreate the function
+
+y = 
+ @(x)   a*x+b   % recreate the function
+--&gt; y(2)             % now the new values are used
+
+ans = 
+ 17 
+</verbatim> </para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

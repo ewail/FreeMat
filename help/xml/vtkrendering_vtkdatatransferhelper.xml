@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkrendering_vtkdatatransferhelper" kind="page">
+    <compoundname>vtkrendering_vtkdatatransferhelper</compoundname>
+    <title>vtkDataTransferHelper</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkrendering_1sec_vtkrendering" kindref="member">Visualization Toolkit Rendering Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>vtkDataTransferHelper is a helper class that aids in transferring data between the CPU memory and the GPU memory. The data in GPU memory is stored as textures which that in CPU memory is stored as vtkDataArray. vtkDataTransferHelper provides API to transfer only a sub-extent of CPU structured data to/from the GPU.</para><para>To create an instance of class vtkDataTransferHelper, simply invoke its constructor as follows <verbatim>  obj = vtkDataTransferHelper
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkDataTransferHelper has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkDataTransferHelper class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkDataTransferHelper = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkDataTransferHelper = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetContext (vtkRenderWindow context)</computeroutput> - Get/Set the context. Context must be a vtkOpenGLRenderWindow. This does not increase the reference count of the context to avoid reference loops. SetContext() may raise an error is the OpenGL context does not support the required OpenGL extensions.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkRenderWindow = obj.GetContext ()</computeroutput> - Get/Set the context. Context must be a vtkOpenGLRenderWindow. This does not increase the reference count of the context to avoid reference loops. SetContext() may raise an error is the OpenGL context does not support the required OpenGL extensions.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetCPUExtent (int , int , int , int , int , int )</computeroutput> - Set the CPU data extent. The extent matches the vtkDataArray size. If the vtkDataArray comes from an vtkImageData and it is part of the point data, it is usually the vtkImageData extent. It can be on cell data too, but in this case it does not match the vtkImageData extent. If the vtkDataArray comes from a vtkDataSet, just set it to a one-dimenstional extent equal to the number of tuples. Initial value is (0,0,0,0,0,0), a valid one tuple array.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetCPUExtent (int a[6])</computeroutput> - Set the CPU data extent. The extent matches the vtkDataArray size. If the vtkDataArray comes from an vtkImageData and it is part of the point data, it is usually the vtkImageData extent. It can be on cell data too, but in this case it does not match the vtkImageData extent. If the vtkDataArray comes from a vtkDataSet, just set it to a one-dimenstional extent equal to the number of tuples. Initial value is (0,0,0,0,0,0), a valid one tuple array.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj. GetCPUExtent ()</computeroutput> - Set the CPU data extent. The extent matches the vtkDataArray size. If the vtkDataArray comes from an vtkImageData and it is part of the point data, it is usually the vtkImageData extent. It can be on cell data too, but in this case it does not match the vtkImageData extent. If the vtkDataArray comes from a vtkDataSet, just set it to a one-dimenstional extent equal to the number of tuples. Initial value is (0,0,0,0,0,0), a valid one tuple array.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetGPUExtent (int , int , int , int , int , int )</computeroutput> - Set the GPU data extent. This is the sub-extent to copy from or to the GPU. This extent matches the size of the data to transfer. GPUExtent and TextureExtent don&apos;t have to match (GPUExtent can be 1D whereas TextureExtent is 2D) but the number of elements have to match. Initial value is (0,0,0,0,0,0), a valid one tuple array.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetGPUExtent (int a[6])</computeroutput> - Set the GPU data extent. This is the sub-extent to copy from or to the GPU. This extent matches the size of the data to transfer. GPUExtent and TextureExtent don&apos;t have to match (GPUExtent can be 1D whereas TextureExtent is 2D) but the number of elements have to match. Initial value is (0,0,0,0,0,0), a valid one tuple array.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj. GetGPUExtent ()</computeroutput> - Set the GPU data extent. This is the sub-extent to copy from or to the GPU. This extent matches the size of the data to transfer. GPUExtent and TextureExtent don&apos;t have to match (GPUExtent can be 1D whereas TextureExtent is 2D) but the number of elements have to match. Initial value is (0,0,0,0,0,0), a valid one tuple array.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetTextureExtent (int , int , int , int , int , int )</computeroutput> - Set the texture data extent. This is the extent of the texture image that will receive the data. This extent matches the size of the data to transfer. If it is set to an invalid extent, GPUExtent is used. See more comment on GPUExtent. Initial value is an invalid extent.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetTextureExtent (int a[6])</computeroutput> - Set the texture data extent. This is the extent of the texture image that will receive the data. This extent matches the size of the data to transfer. If it is set to an invalid extent, GPUExtent is used. See more comment on GPUExtent. Initial value is an invalid extent.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj. GetTextureExtent ()</computeroutput> - Set the texture data extent. This is the extent of the texture image that will receive the data. This extent matches the size of the data to transfer. If it is set to an invalid extent, GPUExtent is used. See more comment on GPUExtent. Initial value is an invalid extent.  </para></listitem>
+<listitem>
+<para><computeroutput>bool = obj.GetExtentIsValid (int extent)</computeroutput> - Tells if the given extent (6 int) is valid. True if min extent&lt;=max extent. <simplesect kind="pre"><para>extent_exists: extent!=0  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>bool = obj.GetCPUExtentIsValid ()</computeroutput> - Tells if CPUExtent is valid. True if min extent&lt;=max extent.  </para></listitem>
+<listitem>
+<para><computeroutput>bool = obj.GetGPUExtentIsValid ()</computeroutput> - Tells if GPUExtent is valid. True if min extent&lt;=max extent.  </para></listitem>
+<listitem>
+<para><computeroutput>bool = obj.GetTextureExtentIsValid ()</computeroutput> - Tells if TextureExtent is valid. True if min extent&lt;=max extent.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetMinTextureDimension (int )</computeroutput> - Define the minimal dimension of the texture regardless of the dimensions of the TextureExtent. Initial value is 1. A texture extent can have a given dimension 0D (one value), 1D, 2D or 3D. By default 0D and 1D are translated into a 1D texture, 2D is translated into a 2D texture, 3D is translated into a 3D texture. To make life easier when writting GLSL code and use only one type of sampler (ex: sampler2d), the default behavior can be changed by forcing a type of texture with this ivar. 1: default behavior. Initial value. 2: force 0D and 1D to be in a 2D texture 3: force 0D, 1D and 2D texture to be in a 3D texture.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetMinTextureDimension ()</computeroutput> - Define the minimal dimension of the texture regardless of the dimensions of the TextureExtent. Initial value is 1. A texture extent can have a given dimension 0D (one value), 1D, 2D or 3D. By default 0D and 1D are translated into a 1D texture, 2D is translated into a 2D texture, 3D is translated into a 3D texture. To make life easier when writting GLSL code and use only one type of sampler (ex: sampler2d), the default behavior can be changed by forcing a type of texture with this ivar. 1: default behavior. Initial value. 2: force 0D and 1D to be in a 2D texture 3: force 0D, 1D and 2D texture to be in a 3D texture.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkDataArray = obj.GetArray ()</computeroutput> - Get/Set the CPU data buffer. Initial value is 0.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetArray (vtkDataArray array)</computeroutput> - Get/Set the CPU data buffer. Initial value is 0.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkTextureObject = obj.GetTexture ()</computeroutput> - Get/Set the GPU data buffer. Initial value is 0.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetTexture (vtkTextureObject texture)</computeroutput> - Get/Set the GPU data buffer. Initial value is 0.  </para></listitem>
+<listitem>
+<para><computeroutput>bool = obj.Upload (int components, int componentListNULL)</computeroutput> - Old comment. Upload Extent from CPU data buffer to GPU. The WholeExtent must match the Array size. New comment. Upload GPUExtent from CPU vtkDataArray to GPU texture. It is possible to send a subset of the components or to specify and order of components or both. If components=0, componentList is ignored and all components are passed, a texture cannot have more than 4 components. <simplesect kind="pre"><para>array_exists: array!=0 </para><simplesectsep/><para>array_not_empty: array-&gt;GetNumberOfTuples()&gt;0 </para><simplesectsep/><para>valid_cpu_extent: this-&gt;GetCPUExtentIsValid() </para><simplesectsep/><para>valid_cpu_extent_size: (CPUExtent[1]-CPUExtent[0]+1)*(CPUExtent[3]-CPUExtent[2]+1)*(CPUExtent[5]-CPUExtent[4]+1)==array-&gt;GetNumberOfTuples() </para><simplesectsep/><para>valid_gpu_extent: this-&gt;GetGPUExtentIsValid() </para><simplesectsep/><para>gpu_extent_in_cpu_extent: CPUExtent[0]&lt;=GPUExtent[0] &amp;&amp; GPUExtent[1]&lt;=CPUExtent[1] &amp;&amp; CPUExtent[2]&lt;=GPUExtent[2] &amp;&amp; GPUExtent[3]&lt;=CPUExtent[3] &amp;&amp; CPUExtent[4]&lt;=GPUExtent[4] &amp;&amp; GPUExtent[5]&lt;=CPUExtent[5] </para><simplesectsep/><para>gpu_texture_size: !this-&gt;GetTextureExtentIsValid() || (GPUExtent[1]-GPUExtent[0]+1)*(GPUExtent[3]-GPUExtent[2]+1)*(GPUExtent[5]-GPUExtent[4]+1)==(TextureExtent[1]-TextureExtent[0]+1)*(TextureExtent[3]-TextureExtent[2]+1)*(TextureExtent[5]-TextureExtent[4]+1) </para><simplesectsep/><para>texture_can_exist_or_not: texture==0 || texture!=0 </para><simplesectsep/><para>valid_components: (components==0 &amp;&amp; componentList==0 &amp;&amp; array-&gt;GetNumberOfComponents()&lt;=4) || (components&gt;=1 &amp;&amp; components&lt;=array-&gt;GetNumberOfComponents() &amp;&amp; components&lt;=4 &amp;&amp; componentList!=0)  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>bool = obj.Download ()</computeroutput> - old comment: Downlad Extent from GPU data buffer to CPU. GPU data size must exactly match Extent. CPU data buffer will be resized to match WholeExtent in which only the Extent will be filled with the GPU data. new comment: Download GPUExtent from GPU texture to CPU vtkDataArray. If Array is not provided, it will be created with the size of CPUExtent. But only the tuples covered by GPUExtent will be download. In this case, if GPUExtent does not cover all GPUExtent, some of the vtkDataArray will be uninitialized. Reminder: A=&gt;B &lt;=&gt; !A||B <simplesect kind="pre"><para>texture_exists: texture!=0 </para><simplesectsep/><para>array_not_empty: array==0 || array-&gt;GetNumberOfTuples()&gt;0 </para><simplesectsep/><para>valid_cpu_extent: this-&gt;GetCPUExtentIsValid() </para><simplesectsep/><para>valid_cpu_extent_size: array==0 || (CPUExtent[1]-CPUExtent[0]+1)*(CPUExtent[3]-CPUExtent[2]+1)*(CPUExtent[5]-CPUExtent[4]+1)==array-&gt;GetNumberOfTuples() </para><simplesectsep/><para>valid_gpu_extent: this-&gt;GetGPUExtentIsValid() </para><simplesectsep/><para>gpu_extent_in_cpu_extent: CPUExtent[0]&lt;=GPUExtent[0] &amp;&amp; GPUExtent[1]&lt;=CPUExtent[1] &amp;&amp; CPUExtent[2]&lt;=GPUExtent[2] &amp;&amp; GPUExtent[3]&lt;=CPUExtent[3] &amp;&amp; CPUExtent[4]&lt;=GPUExtent[4] &amp;&amp; GPUExtent[5]&lt;=CPUExtent[5] </para><simplesectsep/><para>gpu_texture_size: !this-&gt;GetTextureExtentIsValid() || (GPUExtent[1]-GPUExtent[0]+1)*(GPUExtent[3]-GPUExtent[2]+1)*(GPUExtent[5]-GPUExtent[4]+1)==(TextureExtent[1]-TextureExtent[0]+1)*(TextureExtent[3]-TextureExtent[2]+1)*(TextureExtent[5]-TextureExtent[4]+1) </para><simplesectsep/><para>valid_components: array==0 || array-&gt;GetNumberOfComponents()&lt;=4 </para><simplesectsep/><para>components_match: array==0 || (texture-&gt;GetComponents()==array-&gt;GetNumberOfComponents())  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>bool = obj.DownloadAsync1 ()</computeroutput> - Splits the download in two operations Asynchronously download from texture memory to PBO (DownloadAsync1()). Copy from pbo to user array (DownloadAsync2()).  </para></listitem>
+<listitem>
+<para><computeroutput>bool = obj.DownloadAsync2 ()</computeroutput> - Splits the download in two operations Asynchronously download from texture memory to PBO (DownloadAsync1()). Copy from pbo to user array (DownloadAsync2()).  </para></listitem>
+<listitem>
+<para><computeroutput>bool = obj.GetShaderSupportsTextureInt ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetShaderSupportsTextureInt (bool value)</computeroutput>  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

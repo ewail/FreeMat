@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkgraphics_vtkclipvolume" kind="page">
+    <compoundname>vtkgraphics_vtkclipvolume</compoundname>
+    <title>vtkClipVolume</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkgraphics_1sec_vtkgraphics" kindref="member">Visualization Toolkit Graphics Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>vtkClipVolume is a filter that clips volume data (i.e., vtkImageData) using either: any subclass of vtkImplicitFunction or the input scalar data. The clipping operation cuts through the cells of the dataset<ndash/>converting 3D image data into a 3D unstructured grid<ndash/>returning everything inside of the specified implicit function (or greater than the scalar value). During the clipping the filter will produce pieces of a cell. (Compare this with vtkExtractGeometry or vtkGeometryFilter, which produces entire, uncut cells.) The output of this filter is a 3D unstructured grid (e.g., tetrahedra or other 3D cell types).</para><para>To use this filter, you must decide if you will be clipping with an implicit function, or whether you will be using the input scalar data. If you want to clip with an implicit function, you must first define and then set the implicit function with the SetClipFunction() method. Otherwise, you must make sure input scalar data is available. You can also specify a scalar value, which is used to decide what is inside and outside of the implicit function. You can also reverse the sense of what inside/outside is by setting the InsideOut instance variable. (The cutting algorithm proceeds by computing an implicit function value or using the input scalar data for each point in the dataset. This is compared to the scalar value to determine inside/outside.)</para><para>This filter can be configured to compute a second output. The second output is the portion of the volume that is clipped away. Set the GenerateClippedData boolean on if you wish to access this output data.</para><para>The filter will produce an unstructured grid of entirely tetrahedra or a mixed grid of tetrahedra and other 3D cell types (e.g., wedges). Control this behavior by setting the Mixed3DCellGeneration. By default the Mixed3DCellGeneration is on and a combination of cell types will be produced. Note that producing mixed cell types is a faster than producing only tetrahedra.</para><para>To create an instance of class vtkClipVolume, simply invoke its constructor as follows <verbatim>  obj = vtkClipVolume
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkClipVolume has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkClipVolume class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkClipVolume = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkClipVolume = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetValue (double )</computeroutput> - Set the clipping value of the implicit function (if clipping with implicit function) or scalar value (if clipping with scalars). The default value is 0.0.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetValue ()</computeroutput> - Set the clipping value of the implicit function (if clipping with implicit function) or scalar value (if clipping with scalars). The default value is 0.0.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetInsideOut (int )</computeroutput> - Set/Get the InsideOut flag. When off, a vertex is considered inside the implicit function if its value is greater than the Value ivar. When InsideOutside is turned on, a vertex is considered inside the implicit function if its implicit function value is less than or equal to the Value ivar. InsideOut is off by default.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetInsideOut ()</computeroutput> - Set/Get the InsideOut flag. When off, a vertex is considered inside the implicit function if its value is greater than the Value ivar. When InsideOutside is turned on, a vertex is considered inside the implicit function if its implicit function value is less than or equal to the Value ivar. InsideOut is off by default.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.InsideOutOn ()</computeroutput> - Set/Get the InsideOut flag. When off, a vertex is considered inside the implicit function if its value is greater than the Value ivar. When InsideOutside is turned on, a vertex is considered inside the implicit function if its implicit function value is less than or equal to the Value ivar. InsideOut is off by default.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.InsideOutOff ()</computeroutput> - Set/Get the InsideOut flag. When off, a vertex is considered inside the implicit function if its value is greater than the Value ivar. When InsideOutside is turned on, a vertex is considered inside the implicit function if its implicit function value is less than or equal to the Value ivar. InsideOut is off by default.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetClipFunction (vtkImplicitFunction )</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkImplicitFunction = obj.GetClipFunction ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetGenerateClipScalars (int )</computeroutput> - If this flag is enabled, then the output scalar values will be interpolated from the implicit function values, and not the input scalar data. If you enable this flag but do not provide an implicit function an error will be reported.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetGenerateClipScalars ()</computeroutput> - If this flag is enabled, then the output scalar values will be interpolated from the implicit function values, and not the input scalar data. If you enable this flag but do not provide an implicit function an error will be reported.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GenerateClipScalarsOn ()</computeroutput> - If this flag is enabled, then the output scalar values will be interpolated from the implicit function values, and not the input scalar data. If you enable this flag but do not provide an implicit function an error will be reported.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GenerateClipScalarsOff ()</computeroutput> - If this flag is enabled, then the output scalar values will be interpolated from the implicit function values, and not the input scalar data. If you enable this flag but do not provide an implicit function an error will be reported.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetGenerateClippedOutput (int )</computeroutput> - Control whether a second output is generated. The second output contains the unstructured grid that&apos;s been clipped away.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetGenerateClippedOutput ()</computeroutput> - Control whether a second output is generated. The second output contains the unstructured grid that&apos;s been clipped away.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GenerateClippedOutputOn ()</computeroutput> - Control whether a second output is generated. The second output contains the unstructured grid that&apos;s been clipped away.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GenerateClippedOutputOff ()</computeroutput> - Control whether a second output is generated. The second output contains the unstructured grid that&apos;s been clipped away.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkUnstructuredGrid = obj.GetClippedOutput ()</computeroutput> - Return the clipped output.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetMixed3DCellGeneration (int )</computeroutput> - Control whether the filter produces a mix of 3D cell types on output, or whether the output cells are all tetrahedra. By default, a mixed set of cells (e.g., tetrahedra and wedges) is produced. (Note: mixed type generation is faster and less overall data is generated.)  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetMixed3DCellGeneration ()</computeroutput> - Control whether the filter produces a mix of 3D cell types on output, or whether the output cells are all tetrahedra. By default, a mixed set of cells (e.g., tetrahedra and wedges) is produced. (Note: mixed type generation is faster and less overall data is generated.)  </para></listitem>
+<listitem>
+<para><computeroutput>obj.Mixed3DCellGenerationOn ()</computeroutput> - Control whether the filter produces a mix of 3D cell types on output, or whether the output cells are all tetrahedra. By default, a mixed set of cells (e.g., tetrahedra and wedges) is produced. (Note: mixed type generation is faster and less overall data is generated.)  </para></listitem>
+<listitem>
+<para><computeroutput>obj.Mixed3DCellGenerationOff ()</computeroutput> - Control whether the filter produces a mix of 3D cell types on output, or whether the output cells are all tetrahedra. By default, a mixed set of cells (e.g., tetrahedra and wedges) is produced. (Note: mixed type generation is faster and less overall data is generated.)  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetMergeTolerance (double )</computeroutput> - Set the tolerance for merging clip intersection points that are near the corners of voxels. This tolerance is used to prevent the generation of degenerate tetrahedra.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetMergeToleranceMinValue ()</computeroutput> - Set the tolerance for merging clip intersection points that are near the corners of voxels. This tolerance is used to prevent the generation of degenerate tetrahedra.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetMergeToleranceMaxValue ()</computeroutput> - Set the tolerance for merging clip intersection points that are near the corners of voxels. This tolerance is used to prevent the generation of degenerate tetrahedra.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetMergeTolerance ()</computeroutput> - Set the tolerance for merging clip intersection points that are near the corners of voxels. This tolerance is used to prevent the generation of degenerate tetrahedra.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetLocator (vtkIncrementalPointLocator locator)</computeroutput> - Set / Get a spatial locator for merging points. By default, an instance of vtkMergePoints is used.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkIncrementalPointLocator = obj.GetLocator ()</computeroutput> - Set / Get a spatial locator for merging points. By default, an instance of vtkMergePoints is used.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.CreateDefaultLocator ()</computeroutput> - Create default locator. Used to create one when none is specified. The locator is used to merge coincident points.  </para></listitem>
+<listitem>
+<para><computeroutput>long = obj.GetMTime ()</computeroutput> - Return the mtime also considering the locator and clip function.  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

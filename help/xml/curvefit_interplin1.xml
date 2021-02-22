@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="curvefit_interplin1" kind="page">
+    <compoundname>curvefit_interplin1</compoundname>
+    <title>INTERPLIN1 Linear 1-D Interpolation</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_curvefit_1sec_curvefit" kindref="member">Optimization and Curve Fitting</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>Given a set of monotonically increasing <computeroutput>x</computeroutput> coordinates and a corresponding set of <computeroutput>y</computeroutput> values, performs simple linear interpolation to a new set of <computeroutput>x</computeroutput> coordinates. The general syntax for its usage is <verbatim>   yi = interplin1(x1,y1,xi)
+</verbatim> where <computeroutput>x1</computeroutput> and <computeroutput>y1</computeroutput> are vectors of the same length, and the entries in <computeroutput>x1</computeroutput> are monotoniccally increasing. The output vector <computeroutput>yi</computeroutput> is the same size as the input vector <computeroutput>xi</computeroutput>. For each element of <computeroutput>xi</computeroutput>, the values in <computeroutput>y1</computeroutput> are linearly interpolated. For values in <computeroutput>xi</computeroutput> that are outside the range of <computeroutput>x1</computeroutput> the default value returned is <computeroutput>nan</computeroutput>. To change this behavior, you can specify the extrapolation flag: <verbatim>   yi = interplin1(x1,y1,xi,extrapflag)
+</verbatim> Valid options for <computeroutput>extrapflag</computeroutput> are: <itemizedlist>
+<listitem>
+<para><computeroutput>&apos;nan&apos;</computeroutput> - extrapolated values are tagged with <computeroutput>nan</computeroutput>s  </para></listitem>
+<listitem>
+<para><computeroutput>&apos;zero&apos;</computeroutput> - extrapolated values are set to zero  </para></listitem>
+<listitem>
+<para><computeroutput>&apos;endpoint&apos;</computeroutput> - extrapolated values are set to the endpoint values  </para></listitem>
+<listitem>
+<para><computeroutput>&apos;extrap&apos;</computeroutput> - linear extrapolation is performed  </para></listitem>
+</itemizedlist>
+The <computeroutput>x1</computeroutput> and <computeroutput>xi</computeroutput> vectors must be real, although complex types are allowed for <computeroutput>y1</computeroutput>. </para></sect1>
+<sect1 id="variables_struct_1Example">
+<title>Example</title>
+<para>Here is an example of simple linear interpolation with the different extrapolation modes. We start with a fairly coarse sampling of a cosine.</para><para><verbatim>--&gt; x = linspace(-pi*7/8,pi*7/8,15);
+--&gt; y = cos(x);
+--&gt; plot(x,y,&apos;ro&apos;);
+</verbatim></para><para>which is shown here <image type="html" name="interplin1_1.png"></image>
+ <image type="latex" name="interplin1_1" width="12cm">interplin1_1</image>
+ Next, we generate a finer sampling over a slightly broader range (in this case <computeroutput>[-pi,pi]</computeroutput>). First, we demonstrate the <computeroutput>&apos;nan&apos;</computeroutput> extrapolation method</para><para><verbatim>--&gt; xi = linspace(-4,4,100);
+--&gt; yi_nan = interplin1(x,y,xi,&apos;nan&apos;);
+--&gt; yi_zero = interplin1(x,y,xi,&apos;zero&apos;);
+--&gt; yi_endpoint = interplin1(x,y,xi,&apos;endpoint&apos;);
+--&gt; yi_extrap = interplin1(x,y,xi,&apos;extrap&apos;);
+--&gt; plot(x,y,&apos;ro&apos;,xi,yi_nan,&apos;g-x&apos;,xi,yi_zero,&apos;g-x&apos;,xi,yi_endpoint,&apos;g-x&apos;,xi,yi_extrap,&apos;g-x&apos;);
+</verbatim></para><para>which is shown here <image type="html" name="interplin1_2.png"></image>
+ <image type="latex" name="interplin1_2" width="12cm">interplin1_2</image>
+ </para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

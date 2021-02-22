@@ -1,0 +1,173 @@
+/*!
+\page vtkfiltering_vtkabstractinterpolatedvelocityfield vtkAbstractInterpolatedVelocityField
+
+<p>
+Section: \ref sec_vtkfiltering "Visualization Toolkit Filtering Classes"
+\section Usage
+  vtkAbstractInterpolatedVelocityField acts as a continuous velocity field
+  by performing cell interpolation on the underlying vtkDataSet. This is an
+  abstract sub-class of vtkFunctionSet, NumberOfIndependentVariables = 4
+  (x,y,z,t) and NumberOfFunctions = 3 (u,v,w). With a brute-force scheme,
+  every time an evaluation is performed, the target cell containing point 
+  (x,y,z) needs to be found by calling FindCell(), via either vtkDataSet or
+  vtkAbstractCelllocator's sub-classes (vtkCellLocator & vtkModifiedBSPTree). 
+  As it incurs a large cost, one (for vtkCellLocatorInterpolatedVelocityField
+  via vtkAbstractCellLocator) or two (for vtkInterpolatedVelocityField via 
+  vtkDataSet that involves vtkPointLocator in addressing vtkPointSet) levels
+  of cell caching may be exploited to increase the performance.
+
+  For vtkInterpolatedVelocityField, level #0 begins with intra-cell caching. 
+  Specifically if the previous cell is valid and the next point is still in
+  it ( i.e., vtkCell::EvaluatePosition() returns 1, coupled with newly created 
+  parametric coordinates & weights ), the function values can be interpolated
+  and only vtkCell::EvaluatePosition() is invoked. If this fails, then level #1 
+  follows by inter-cell search for the target cell that contains the next point. 
+  By an inter-cell search, the previous cell provides an important clue or serves 
+  as an immediate neighbor to aid in locating the target cell via vtkPointSet::
+  FindCell(). If this still fails, a global cell location / search is invoked via
+  vtkPointSet::FindCell(). Here regardless of either inter-cell or global search, 
+  vtkPointLocator is in fact employed (for datasets of type vtkPointSet only, note
+  vtkImageData and vtkRectilinearGrid are able to provide rapid and robust cell 
+  location due to the simple mesh topology) as a crucial tool underlying the cell 
+  locator. However, the use of vtkPointLocator makes vtkInterpolatedVelocityField 
+  non-robust in cell location for vtkPointSet.
+  
+  For vtkCellLocatorInterpolatedVelocityField, the only caching (level #0) works
+  by intra-cell trial. In case of failure, a global search for the target cell is 
+  invoked via vtkAbstractCellLocator::FindCell() and the actual work is done by 
+  either vtkCellLocator or vtkModifiedBSPTree (for datasets of type vtkPointSet 
+  only, while vtkImageData and vtkRectilinearGrid themselves are able to provide 
+  fast robust cell location). Without the involvement of vtkPointLocator, robust 
+  cell location is achieved for vtkPointSet. 
+
+
+To create an instance of class vtkAbstractInterpolatedVelocityField, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkAbstractInterpolatedVelocityField
+\endverbatim
+\section Methods
+The class vtkAbstractInterpolatedVelocityField has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkAbstractInterpolatedVelocityField class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkAbstractInterpolatedVelocityField = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkAbstractInterpolatedVelocityField = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetCaching (bool )</tt> -  Set/Get the caching flag. If this flag is turned ON, there are two levels
+ of caching for derived concrete class vtkInterpolatedVelocityField and one
+ level of caching for derived concrete class vtkCellLocatorInterpolatedVelocityField.
+ Otherwise a global cell location is always invoked for evaluating the 
+ function values at any point.
+ </LI>
+<LI>  <tt>bool = obj.GetCaching ()</tt> -  Set/Get the caching flag. If this flag is turned ON, there are two levels
+ of caching for derived concrete class vtkInterpolatedVelocityField and one
+ level of caching for derived concrete class vtkCellLocatorInterpolatedVelocityField.
+ Otherwise a global cell location is always invoked for evaluating the 
+ function values at any point.
+ </LI>
+<LI>  <tt>int = obj.GetCacheHit ()</tt> -  Get the caching statistics. CacheHit refers to the number of level #0 cache
+ hits while CacheMiss is the number of level #0 cache misses.
+ </LI>
+<LI>  <tt>int = obj.GetCacheMiss ()</tt> -  Get the caching statistics. CacheHit refers to the number of level #0 cache
+ hits while CacheMiss is the number of level #0 cache misses.
+ </LI>
+<LI>  <tt>int = obj.GetLastDataSetIndex ()</tt> -  Get the most recently visited dataset and it id. The dataset is used 
+ for a guess regarding where the next point will be, without searching
+ through all datasets. When setting the last dataset, care is needed as
+ no reference counting or checks are performed. This feature is intended
+ for custom interpolators only that cache datasets independently.
+ </LI>
+<LI>  <tt>vtkDataSet = obj.GetLastDataSet ()</tt> -  Get the most recently visited dataset and it id. The dataset is used 
+ for a guess regarding where the next point will be, without searching
+ through all datasets. When setting the last dataset, care is needed as
+ no reference counting or checks are performed. This feature is intended
+ for custom interpolators only that cache datasets independently.
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetLastCellId ()</tt> -  Get/Set the id of the cell cached from last evaluation.
+ </LI>
+<LI>  <tt>obj.SetLastCellId (vtkIdType c)</tt> -  Set the id of the most recently visited cell of a dataset.
+ </LI>
+<LI>  <tt>obj.SetLastCellId (vtkIdType c, int dataindex)</tt> -  Set the id of the most recently visited cell of a dataset.
+ </LI>
+<LI>  <tt>string = obj.GetVectorsSelection ()</tt> -  Get/Set the name of a spcified vector array. By default it is NULL, with
+ the active vector array for use.
+ </LI>
+<LI>  <tt>obj.SelectVectors (string fieldName)</tt> -  Set/Get the flag indicating vector post-normalization (following vector
+ interpolation). Vector post-normalization is required to avoid the 
+ 'curve-overshooting' problem (caused by high velocity magnitude) that
+ occurs when Cell-Length is used as the step size unit (particularly the
+ Minimum step size unit). Furthermore, it is required by RK45 to achieve,
+ as expected, high numerical accuracy (or high smoothness of flow lines)
+ through adaptive step sizing. Note this operation is performed (when
+ NormalizeVector TRUE) right after vector interpolation such that the
+ differing amount of contribution of each node (of a cell) to the
+ resulting direction of the interpolated vector, due to the possibly
+ significantly-differing velocity magnitude values at the nodes (which is
+ the case with large cells), can be reflected as is. Also note that this
+ flag needs to be turned to FALSE after vtkInitialValueProblemSolver::
+ ComputeNextStep() as subsequent operations, e.g., vorticity computation, 
+ may need non-normalized vectors.
+ </LI>
+<LI>  <tt>obj.SetNormalizeVector (bool )</tt> -  Set/Get the flag indicating vector post-normalization (following vector
+ interpolation). Vector post-normalization is required to avoid the 
+ 'curve-overshooting' problem (caused by high velocity magnitude) that
+ occurs when Cell-Length is used as the step size unit (particularly the
+ Minimum step size unit). Furthermore, it is required by RK45 to achieve,
+ as expected, high numerical accuracy (or high smoothness of flow lines)
+ through adaptive step sizing. Note this operation is performed (when
+ NormalizeVector TRUE) right after vector interpolation such that the
+ differing amount of contribution of each node (of a cell) to the
+ resulting direction of the interpolated vector, due to the possibly
+ significantly-differing velocity magnitude values at the nodes (which is
+ the case with large cells), can be reflected as is. Also note that this
+ flag needs to be turned to FALSE after vtkInitialValueProblemSolver::
+ ComputeNextStep() as subsequent operations, e.g., vorticity computation, 
+ may need non-normalized vectors.
+ </LI>
+<LI>  <tt>bool = obj.GetNormalizeVector ()</tt> -  Set/Get the flag indicating vector post-normalization (following vector
+ interpolation). Vector post-normalization is required to avoid the 
+ 'curve-overshooting' problem (caused by high velocity magnitude) that
+ occurs when Cell-Length is used as the step size unit (particularly the
+ Minimum step size unit). Furthermore, it is required by RK45 to achieve,
+ as expected, high numerical accuracy (or high smoothness of flow lines)
+ through adaptive step sizing. Note this operation is performed (when
+ NormalizeVector TRUE) right after vector interpolation such that the
+ differing amount of contribution of each node (of a cell) to the
+ resulting direction of the interpolated vector, due to the possibly
+ significantly-differing velocity magnitude values at the nodes (which is
+ the case with large cells), can be reflected as is. Also note that this
+ flag needs to be turned to FALSE after vtkInitialValueProblemSolver::
+ ComputeNextStep() as subsequent operations, e.g., vorticity computation, 
+ may need non-normalized vectors.
+ </LI>
+<LI>  <tt>obj.CopyParameters (vtkAbstractInterpolatedVelocityField from)</tt> -  Add a dataset for implicit velocity function evaluation. If more than 
+ one dataset is added, the evaluation point is searched in all until a
+ match is found. THIS FUNCTION DOES NOT CHANGE THE REFERENCE COUNT OF 
+ dataset FOR THREAD SAFETY REASONS.
+ </LI>
+<LI>  <tt>obj.AddDataSet (vtkDataSet dataset)</tt> -  Add a dataset for implicit velocity function evaluation. If more than 
+ one dataset is added, the evaluation point is searched in all until a
+ match is found. THIS FUNCTION DOES NOT CHANGE THE REFERENCE COUNT OF 
+ dataset FOR THREAD SAFETY REASONS.
+ </LI>
+<LI>  <tt>int = obj.FunctionValues (double x, double f)</tt> -  Evaluate the velocity field f at point (x, y, z).
+ </LI>
+<LI>  <tt>obj.ClearLastCellId ()</tt> -  Get the interpolation weights cached from last evaluation. Return 1 if the
+ cached cell is valid and 0 otherwise.
+ </LI>
+<LI>  <tt>int = obj.GetLastWeights (double w)</tt> -  Get the interpolation weights cached from last evaluation. Return 1 if the
+ cached cell is valid and 0 otherwise.
+ </LI>
+<LI>  <tt>int = obj.GetLastLocalCoordinates (double pcoords[3])</tt> -  Get the interpolation weights cached from last evaluation. Return 1 if the
+ cached cell is valid and 0 otherwise.
+ </LI>
+</UL>
+*/

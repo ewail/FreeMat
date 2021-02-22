@@ -1,0 +1,42 @@
+/*!
+\page array_assign ASSIGN Making assignments
+
+<p>
+Section: \ref sec_array "Array Generation and Manipulations"
+\section Usage
+FreeMat assignments take a number of different forms, depending
+on the type of the variable you want to make an assignment to.
+For numerical arrays and strings, the form of an assignment
+is either
+\verbatim
+  a(ndx) = val
+\endverbatim
+where <tt>ndx</tt> is a set of vector indexing coordinates.  This means
+that the values <tt>ndx</tt> takes reference the elements of <tt>a</tt> in column
+order.  So, if, for example <tt>a</tt> is an <tt>N x M</tt> matrix, the first column
+has vector indices <tt>1,2,...,N</tt>, and the second column has indices
+<tt>N+1,N+2,...,2N</tt>, and so on.  Alternately, you can use multi-dimensional
+indexing to make an assignment:
+\verbatim
+  a(ndx_1,ndx_2,..,ndx_m) = val
+\endverbatim
+where each indexing expression <tt>ndx_i</tt> corresponds to the <tt>i-th</tt> dimension
+of <tt>a</tt>.  In both cases, (vector or multi-dimensional indexing), the
+right hand side <tt>val</tt> must either be a scalar, an empty matrix, or of the
+same size as the indices.  If <tt>val</tt> is an empty matrix, the assignment acts
+like a delete.  Note that the type of <tt>a</tt> may be modified by the assignment.
+So, for example, assigning a <tt>double</tt> value to an element of a <tt>float</tt>
+array <tt>a</tt> will cause the array <tt>a</tt> to become <tt>double</tt>.
+
+For cell arrays, the above forms of assignment will still work, but only
+if <tt>val</tt> is also a cell array.  If you want to assign the contents of
+a cell in a cell array, you must use one of the two following forms, either
+\verbatim
+  a{ndx} = val
+\endverbatim
+or
+\verbatim
+  a{ndx_1,ndx_2,...,ndx_m} = val
+\endverbatim
+which will modify the contents of the cell.
+*/

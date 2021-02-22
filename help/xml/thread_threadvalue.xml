@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="thread_threadvalue" kind="page">
+    <compoundname>thread_threadvalue</compoundname>
+    <title>THREADVALUE Retrieve the return values from a thread</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_thread_1sec_thread" kindref="member">FreeMat Threads</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>The <computeroutput>threadvalue</computeroutput> function retrieves the values returned by the function specified in the <computeroutput>threadnew</computeroutput> call. The syntax for its use is <verbatim>   [arg1,arg2,...,argN] = threadvalue(handle)
+</verbatim> where <computeroutput>handle</computeroutput> is the value returned by a <computeroutput>threadnew</computeroutput> call. Note that there are issues with <computeroutput>nargout</computeroutput>. See the examples section of <computeroutput>threadnew</computeroutput> for details on how to work around this limitation. Because the function you have spawned with <computeroutput>threadnew</computeroutput> may still be executing, <computeroutput>threadvalue</computeroutput> must first <computeroutput>threadwait</computeroutput> for the function to complete before retrieving the output values. This wait may take an arbitrarily long time if the thread function is caught in an infinite loop. Hence, you can also specify a timeout parameter to <computeroutput>threadvalue</computeroutput> as <verbatim>   [arg1,arg2,...,argN] = threadvalue(handle,timeout)
+</verbatim> where the <computeroutput>timeout</computeroutput> is specified in milliseconds. If the wait times out, an error is raised (that can be caught with a <computeroutput>try</computeroutput> and <computeroutput>catch</computeroutput> block.</para><para>In either case, if the thread function itself caused an error and ceased execution abruptly, then calling <computeroutput>threadvalue</computeroutput> will cause that function to raise an error, allowing you to retrieve the error that was caused and correct it. See the examples section for more information. </para></sect1>
+<sect1 id="variables_struct_1Example">
+<title>Example</title>
+<para>Here we do something very simple. We want to obtain a listing of all files on the system, but do not want the results to stop our computation. So we run the <computeroutput>system</computeroutput> call in a thread.</para><para><verbatim>--&gt; a = threadnew;                         % Create the thread
+--&gt; threadstart(a,&apos;system&apos;,1,&apos;ls -lrt /&apos;); % Start the thread
+--&gt; b = rand(100)\rand(100,1);             % Solve some equations simultaneously
+--&gt; c = threadvalue(a);                    % Retrieve the file list
+--&gt; size(c)                                % It is large!
+
+ans = 
+  1 28 
+
+--&gt; threadfree(a);
+</verbatim></para><para>In this example, we force the threaded function to cause an exception (by calling the <computeroutput>error</computeroutput> function as the thread function). When we call <computeroutput>threadvalue</computeroutput>, we get an error, instead of the return value of the function</para><para><verbatim>--&gt; a = threadnew
+
+a = 
+ 3 
+
+--&gt; threadstart(a,&apos;error&apos;,0,&apos;Hello world!&apos;); % Will immediately stop due to error
+--&gt; c = threadvalue(a)                     % The error comes to us
+Error: Thread: Hello world!
+--&gt; threadfree(a)
+</verbatim></para><para>Note that the error has the text <computeroutput>Thread:</computeroutput> prepended to the message to help you identify that this was an error in a different thread. </para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

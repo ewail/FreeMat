@@ -1,0 +1,32 @@
+/*!
+\page external_ctypethaw CTYPETHAW Convert C Struct to FreeMat Structure
+
+<p>
+Section: \ref sec_external "FreeMat External Interface"
+\section Usage
+The <tt>ctypethaw</tt> function is used to convert a C structure that is
+encoded in a byte array into a FreeMat structure using a C structure
+typedef.  To use the <tt>ctypethaw</tt> function, you must first define
+the type of the C structure using the <tt>ctypedefine</tt> function.  The
+usage of <tt>ctypethaw</tt> is
+\verbatim
+  mystruct = ctypethaw(byte_array, 'typename')
+\endverbatim
+where <tt>byte_array</tt> is a <tt>uint8</tt> array containing the bytes that encode
+the C structure, and <tt>typename</tt> is a string that contains the type
+description as registered with <tt>ctypedefine</tt>.  If you want to
+retrieve multiple structures from a single byte array, you can specify
+a count as
+\verbatim
+  mystruct = ctypethaw(byte_array, 'typename', count)
+\endverbatim
+where <tt>count</tt> is an integer containing the number of structures to 
+retrieve.  Sometimes it is also useful to retrieve only part of the
+structure from a byte array, and then (based on the contents of the
+structure) retrieve more data.  In this case, you can retrieve the
+residual byte array using the optional second output argument of
+<tt>ctypethaw</tt>:
+\verbatim
+  [mystruct,byte_array_remaining] = ctypethaw(byte_array, 'typename',...)
+\endverbatim
+*/

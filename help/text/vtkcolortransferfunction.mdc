@@ -1,0 +1,268 @@
+
+ Usage
+
+vtkColorTransferFunction is a color mapping in RGB or HSV
+space that uses piecewise hermite functions to allow
+interpolation that can be piecewise constant, piecewise
+linear, or somewhere in-between (a modified piecewise
+hermite function that squishes the function according to a
+sharpness parameter). The function also allows for the
+specification of the midpoint (the place where the function
+reaches the average of the two bounding nodes) as a
+normalize distance between nodes. See the description of
+class vtkPiecewiseFunction for an explanation of midpoint
+and sharpness.
+To create an instance of class vtkColorTransferFunction,
+simply invoke its constructor as follows
+
+    obj = vtkColorTransferFunction
+
+
+
+ Methods
+
+The class vtkColorTransferFunction has several methods that
+can be used. They are listed below. Note that the
+documentation is translated automatically from the VTK
+sources, and may not be completely intelligible. When in
+doubt, consult the VTK website. In the methods listed below,
+obj is an instance of the vtkColorTransferFunction class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkColorTransferFunction = obj.NewInstance ()
+* vtkColorTransferFunction = obj.SafeDownCast (vtkObject o)
+* obj.DeepCopy (vtkColorTransferFunction f)
+* obj.ShallowCopy (vtkColorTransferFunction f)
+* int = obj.GetSize () - How many points are there defining
+  this function?
+* int = obj.AddRGBPoint (double x, double r, double g,
+  double b) - Add/Remove a point to/from the function
+  defined in RGB or HSV Return the index of the point (0
+  based), or -1 on error. See the description of class
+  vtkPiecewiseFunction for an explanation of midpoint and
+  sharpness.
+* int = obj.AddRGBPoint (double x, double r, double g,
+  double b, double midpoint, double sharpness) - Add/Remove
+  a point to/from the function defined in RGB or HSV Return
+  the index of the point (0 based), or -1 on error. See the
+  description of class vtkPiecewiseFunction for an
+  explanation of midpoint and sharpness.
+* int = obj.AddHSVPoint (double x, double h, double s,
+  double v) - Add/Remove a point to/from the function
+  defined in RGB or HSV Return the index of the point (0
+  based), or -1 on error. See the description of class
+  vtkPiecewiseFunction for an explanation of midpoint and
+  sharpness.
+* int = obj.AddHSVPoint (double x, double h, double s,
+  double v, double midpoint, double sharpness) - Add/Remove
+  a point to/from the function defined in RGB or HSV Return
+  the index of the point (0 based), or -1 on error. See the
+  description of class vtkPiecewiseFunction for an
+  explanation of midpoint and sharpness.
+* int = obj.RemovePoint (double x) - Add/Remove a point to/
+  from the function defined in RGB or HSV Return the index
+  of the point (0 based), or -1 on error. See the
+  description of class vtkPiecewiseFunction for an
+  explanation of midpoint and sharpness.
+* obj.AddRGBSegment (double x1, double r1, double g1, double
+  b1, double x2, double r2, double g2, double b2) - Add two
+  points to the function and remove all the points between
+  them
+* obj.AddHSVSegment (double x1, double h1, double s1, double
+  v1, double x2, double h2, double s2, double v2) - Add two
+  points to the function and remove all the points between
+  them
+* obj.RemoveAllPoints () - Remove all points
+* double = obj.GetColor (double x) - Returns an RGB color
+  for the specified scalar value
+* obj.GetColor (double x, double rgb[3]) - Returns an RGB
+  color for the specified scalar value
+* double = obj.GetRedValue (double x) - Get the color
+  components individually.
+* double = obj.GetGreenValue (double x) - Get the color
+  components individually.
+* double = obj.GetBlueValue (double x) - Get the color
+  components individually.
+* int = obj.GetNodeValue (int index, double val[6]) - For
+  the node specified by index, set/get the location (X), R,
+  G, and B values, midpoint, and sharpness values at the
+  node.
+* int = obj.SetNodeValue (int index, double val[6]) - For
+  the node specified by index, set/get the location (X), R,
+  G, and B values, midpoint, and sharpness values at the
+  node.
+* double = obj. GetRange () - Returns min and max position
+  of all function points.
+* int = obj.AdjustRange (double range[2]) - Remove all
+  points out of the new range, and make sure there is a
+  point at each end of that range. Return 1 on success, 0
+  otherwise.
+* obj.GetTable (double x1, double x2, int n, double table) -
+  Fills in a table of n function values between x1 and x2
+* obj.GetTable (double x1, double x2, int n, float table) -
+  Fills in a table of n function values between x1 and x2
+* obj.BuildFunctionFromTable (double x1, double x2, int
+  size, double table) - Construct a color transfer function
+  from a table. Function range is is set to [x1, x2], each
+  function size is set to size, and function points are
+  regularly spaced between x1 and x2. Parameter "table" is
+  assumed to be a block of memory of size [3*size]
+* obj.SetClamping (int ) - Sets and gets the clamping value
+  for this transfer function.
+* int = obj.GetClampingMinValue () - Sets and gets the
+  clamping value for this transfer function.
+* int = obj.GetClampingMaxValue () - Sets and gets the
+  clamping value for this transfer function.
+* int = obj.GetClamping () - Sets and gets the clamping
+  value for this transfer function.
+* obj.ClampingOn () - Sets and gets the clamping value for
+  this transfer function.
+* obj.ClampingOff () - Sets and gets the clamping value for
+  this transfer function.
+* obj.SetColorSpace (int ) - Set/Get the color space used
+  for interpolation: RGB, HSV, CIELAB, or Diverging. In HSV
+  mode, if HSVWrap is on, it will take the shortest path in
+  Hue (going back through 0 if that is the shortest way
+  around the hue circle) whereas if HSVWrap is off it will
+  not go through 0 (in order the match the current
+  functionality of vtkLookupTable). Diverging is a special
+  mode where colors will pass through white when
+  interpolating between two saturated colors.
+* int = obj.GetColorSpaceMinValue () - Set/Get the color
+  space used for interpolation: RGB, HSV, CIELAB, or
+  Diverging. In HSV mode, if HSVWrap is on, it will take the
+  shortest path in Hue (going back through 0 if that is the
+  shortest way around the hue circle) whereas if HSVWrap is
+  off it will not go through 0 (in order the match the
+  current functionality of vtkLookupTable). Diverging is a
+  special mode where colors will pass through white when
+  interpolating between two saturated colors.
+* int = obj.GetColorSpaceMaxValue () - Set/Get the color
+  space used for interpolation: RGB, HSV, CIELAB, or
+  Diverging. In HSV mode, if HSVWrap is on, it will take the
+  shortest path in Hue (going back through 0 if that is the
+  shortest way around the hue circle) whereas if HSVWrap is
+  off it will not go through 0 (in order the match the
+  current functionality of vtkLookupTable). Diverging is a
+  special mode where colors will pass through white when
+  interpolating between two saturated colors.
+* obj.SetColorSpaceToRGB () - Set/Get the color space used
+  for interpolation: RGB, HSV, CIELAB, or Diverging. In HSV
+  mode, if HSVWrap is on, it will take the shortest path in
+  Hue (going back through 0 if that is the shortest way
+  around the hue circle) whereas if HSVWrap is off it will
+  not go through 0 (in order the match the current
+  functionality of vtkLookupTable). Diverging is a special
+  mode where colors will pass through white when
+  interpolating between two saturated colors.
+* obj.SetColorSpaceToHSV () - Set/Get the color space used
+  for interpolation: RGB, HSV, CIELAB, or Diverging. In HSV
+  mode, if HSVWrap is on, it will take the shortest path in
+  Hue (going back through 0 if that is the shortest way
+  around the hue circle) whereas if HSVWrap is off it will
+  not go through 0 (in order the match the current
+  functionality of vtkLookupTable). Diverging is a special
+  mode where colors will pass through white when
+  interpolating between two saturated colors.
+* obj.SetColorSpaceToLab () - Set/Get the color space used
+  for interpolation: RGB, HSV, CIELAB, or Diverging. In HSV
+  mode, if HSVWrap is on, it will take the shortest path in
+  Hue (going back through 0 if that is the shortest way
+  around the hue circle) whereas if HSVWrap is off it will
+  not go through 0 (in order the match the current
+  functionality of vtkLookupTable). Diverging is a special
+  mode where colors will pass through white when
+  interpolating between two saturated colors.
+* obj.SetColorSpaceToDiverging () - Set/Get the color space
+  used for interpolation: RGB, HSV, CIELAB, or Diverging. In
+  HSV mode, if HSVWrap is on, it will take the shortest path
+  in Hue (going back through 0 if that is the shortest way
+  around the hue circle) whereas if HSVWrap is off it will
+  not go through 0 (in order the match the current
+  functionality of vtkLookupTable). Diverging is a special
+  mode where colors will pass through white when
+  interpolating between two saturated colors.
+* int = obj.GetColorSpace () - Set/Get the color space used
+  for interpolation: RGB, HSV, CIELAB, or Diverging. In HSV
+  mode, if HSVWrap is on, it will take the shortest path in
+  Hue (going back through 0 if that is the shortest way
+  around the hue circle) whereas if HSVWrap is off it will
+  not go through 0 (in order the match the current
+  functionality of vtkLookupTable). Diverging is a special
+  mode where colors will pass through white when
+  interpolating between two saturated colors.
+* obj.SetHSVWrap (int ) - Set/Get the color space used for
+  interpolation: RGB, HSV, CIELAB, or Diverging. In HSV
+  mode, if HSVWrap is on, it will take the shortest path in
+  Hue (going back through 0 if that is the shortest way
+  around the hue circle) whereas if HSVWrap is off it will
+  not go through 0 (in order the match the current
+  functionality of vtkLookupTable). Diverging is a special
+  mode where colors will pass through white when
+  interpolating between two saturated colors.
+* int = obj.GetHSVWrap () - Set/Get the color space used for
+  interpolation: RGB, HSV, CIELAB, or Diverging. In HSV
+  mode, if HSVWrap is on, it will take the shortest path in
+  Hue (going back through 0 if that is the shortest way
+  around the hue circle) whereas if HSVWrap is off it will
+  not go through 0 (in order the match the current
+  functionality of vtkLookupTable). Diverging is a special
+  mode where colors will pass through white when
+  interpolating between two saturated colors.
+* obj.HSVWrapOn () - Set/Get the color space used for
+  interpolation: RGB, HSV, CIELAB, or Diverging. In HSV
+  mode, if HSVWrap is on, it will take the shortest path in
+  Hue (going back through 0 if that is the shortest way
+  around the hue circle) whereas if HSVWrap is off it will
+  not go through 0 (in order the match the current
+  functionality of vtkLookupTable). Diverging is a special
+  mode where colors will pass through white when
+  interpolating between two saturated colors.
+* obj.HSVWrapOff () - Set/Get the color space used for
+  interpolation: RGB, HSV, CIELAB, or Diverging. In HSV
+  mode, if HSVWrap is on, it will take the shortest path in
+  Hue (going back through 0 if that is the shortest way
+  around the hue circle) whereas if HSVWrap is off it will
+  not go through 0 (in order the match the current
+  functionality of vtkLookupTable). Diverging is a special
+  mode where colors will pass through white when
+  interpolating between two saturated colors.
+* obj.SetScale (int ) - Set the type of scale to use, linear
+  or logarithmic. The default is linear. If the scale is
+  logarithmic, and the range contains zero, the color
+  mapping will be linear.
+* obj.SetScaleToLinear () - Set the type of scale to use,
+  linear or logarithmic. The default is linear. If the scale
+  is logarithmic, and the range contains zero, the color
+  mapping will be linear.
+* obj.SetScaleToLog10 () - Set the type of scale to use,
+  linear or logarithmic. The default is linear. If the scale
+  is logarithmic, and the range contains zero, the color
+  mapping will be linear.
+* int = obj.GetScale () - Set the type of scale to use,
+  linear or logarithmic. The default is linear. If the scale
+  is logarithmic, and the range contains zero, the color
+  mapping will be linear.
+* obj.FillFromDataPointer (int , double ) - Returns a list
+  of all nodes Fills from a pointer to data stored in a
+  similar list of nodes.
+* obj.SetAllowDuplicateScalars (int ) - Toggle whether to
+  allow duplicate scalar values in the color transfer
+  function (off by default).
+* int = obj.GetAllowDuplicateScalars () - Toggle whether to
+  allow duplicate scalar values in the color transfer
+  function (off by default).
+* obj.AllowDuplicateScalarsOn () - Toggle whether to allow
+  duplicate scalar values in the color transfer function
+  (off by default).
+* obj.AllowDuplicateScalarsOff () - Toggle whether to allow
+  duplicate scalar values in the color transfer function
+  (off by default).
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Filtering_Classes
+* Generated on Thu Jul 25 2013 17:18:30 for FreeMat by
+  doxygen_ 1.8.1.1
+

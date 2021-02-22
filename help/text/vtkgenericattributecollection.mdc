@@ -1,0 +1,295 @@
+
+ Usage
+
+vtkGenericAttributeCollection is a class that collects
+attributes (represented by vtkGenericAttribute).
+To create an instance of class
+vtkGenericAttributeCollection, simply invoke its constructor
+as follows
+
+    obj = vtkGenericAttributeCollection
+
+
+
+ Methods
+
+The class vtkGenericAttributeCollection has several methods
+that can be used. They are listed below. Note that the
+documentation is translated automatically from the VTK
+sources, and may not be completely intelligible. When in
+doubt, consult the VTK website. In the methods listed below,
+obj is an instance of the vtkGenericAttributeCollection
+class.
+
+* string = obj.GetClassName () - Standard type definition
+  and print methods for a VTK class.
+* int = obj.IsA (string name) - Standard type definition and
+  print methods for a VTK class.
+* vtkGenericAttributeCollection = obj.NewInstance () -
+  Standard type definition and print methods for a VTK
+  class.
+* vtkGenericAttributeCollection = obj.SafeDownCast
+  (vtkObject o) - Standard type definition and print methods
+  for a VTK class.
+* int = obj.GetNumberOfAttributes () - Return the number of
+  attributes (e.g., instances of vtkGenericAttribute) in the
+  collection.
+
+
+    Postcondition:
+        positive_result: result>=0
+
+* int = obj.GetNumberOfComponents () - Return the number of
+  components. This is the sum of all components found in all
+  attributes.
+
+
+    Postcondition:
+        positive_result: result>=0
+
+* int = obj.GetNumberOfPointCenteredComponents () - Return
+  the number of components. This is the sum of all
+  components found in all point centered attributes.
+
+
+    Postcondition:
+        positive_result: result>=0
+
+* int = obj.GetMaxNumberOfComponents () - Maximum number of
+  components encountered among all attributes.
+
+
+    Postcondition:
+        positive_result: result>=0
+        valid_result: result<=GetNumberOfComponents()
+
+* long = obj.GetActualMemorySize () - Actual size of the
+  data in kilobytes; only valid after the pipeline has
+  updated. It is guaranteed to be greater than or equal to
+  the memory required to represent the data.
+* int = obj.IsEmpty () - Indicate whether the collection
+  contains any attributes.
+
+
+    Postcondition:
+        definition: result==(GetNumberOfAttributes()==0)
+
+* vtkGenericAttribute = obj.GetAttribute (int i) - Return a
+  pointer to the ith instance of vtkGenericAttribute.
+
+
+    Precondition:
+        not_empty: !IsEmpty()
+        valid_i: i>=0 &amp;&amp; i<GetNumberOfAttributes()
+
+
+
+    Postcondition:
+        result_exists: result!=0
+
+* int = obj.FindAttribute (string name) - Return the index
+  of the attribute named `name'. Return the non-negative
+  index if found. Return -1 otherwise.
+
+
+    Precondition:
+        name_exists: name!=0
+
+
+
+    Postcondition:
+        valid_result: (result==-1) || (result>=0) &amp;&amp;
+        (result<=GetNumberOfAttributes())
+
+* int = obj.GetAttributeIndex (int i) - Return the index of
+  the first component of attribute `i' in an array of format
+  attrib0comp0 attrib0comp1 ... attrib4comp0 ...
+
+
+    Precondition:
+        valid_i: i>=0 &amp;&amp; i<GetNumberOfAttributes()
+        is_point_centered: GetAttribute(i)->GetCentering
+        ()==vtkPointCentered
+
+* obj.InsertNextAttribute (vtkGenericAttribute a) - Add the
+  attribute `a' to the end of the collection.
+
+
+    Precondition:
+        a_exists: a!=0
+
+
+
+    Postcondition:
+        more_items: GetNumberOfAttributes()==old
+        GetNumberOfAttributes()+1
+        a_is_set: GetAttribute(GetNumberOfAttributes()-1)==a
+
+* obj.InsertAttribute (int i, vtkGenericAttribute a) -
+  Replace the attribute at index `i' by `a'.
+
+
+    Precondition:
+        not_empty: !IsEmpty()
+        a_exists: a!=0
+        valid_i: i>=0 &amp;&amp; i<GetNumberOfAttributes()
+
+
+
+    Postcondition:
+        same_size: GetNumberOfAttributes()==old
+        GetNumberOfAttributes()
+        item_is_set: GetAttribute(i)==a
+
+* obj.RemoveAttribute (int i) - Remove the attribute at `i'.
+
+
+    Precondition:
+        not_empty: !IsEmpty()
+        valid_i: i>=0 &amp;&amp; i<GetNumberOfAttributes()
+
+
+
+    Postcondition:
+        fewer_items: GetNumberOfAttributes()==old
+        GetNumberOfAttributes()-1
+
+* obj.Reset () - Remove all attributes.
+
+
+    Postcondition:
+        is_empty: GetNumberOfAttributes()==0
+
+* obj.DeepCopy (vtkGenericAttributeCollection other) - Copy,
+  without reference counting, the other attribute array.
+
+
+    Precondition:
+        other_exists: other!=0
+        not_self: other!=this
+
+
+
+    Postcondition:
+        same_size: GetNumberOfAttributes()==other-
+        >GetNumberOfAttributes()
+
+* obj.ShallowCopy (vtkGenericAttributeCollection other) -
+  Copy, via reference counting, the other attribute array.
+
+
+    Precondition:
+        other_exists: other!=0
+        not_self: other!=this
+
+
+
+    Postcondition:
+        same_size: GetNumberOfAttributes()==other-
+        >GetNumberOfAttributes()
+
+* long = obj.GetMTime () - vtkAttributeCollection is a
+  composite object and needs to check each member of its
+  collection for modified time.
+* int = obj.GetActiveAttribute () - Index of the attribute
+  to be processed (not necessarily scalar).
+
+
+    Precondition:
+        not_empty: !IsEmpty()
+
+
+
+    Postcondition:
+        valid_result: result>=0 &amp;&amp;
+        result<GetNumberOfAttributes()
+
+* int = obj.GetActiveComponent () - Component of the active
+  attribute to be processed. -1 means module.
+
+
+    Precondition:
+        not_empty: GetNumberOfAttributes()>0
+
+
+
+    Postcondition:
+        valid_result: result>=-1 &amp;&amp;
+        result<GetAttribute(GetActiveAttribute())-
+        >GetNumberOfComponents()
+
+* obj.SetActiveAttribute (int attribute, int component) -
+  Set the scalar attribute to be processed. -1 means module.
+
+
+    Precondition:
+        not_empty: !IsEmpty()
+        valid_attribute: attribute>=0 &amp;&amp;
+        attribute<GetNumberOfAttributes()
+        valid_component: component>=-1 &amp;&amp;
+        component<GetAttribute(attribute)-
+        >GetNumberOfComponents()
+
+
+
+    Postcondition:
+        is_set: GetActiveAttribute()==attribute &amp;&amp;
+        GetActiveComponent()==component
+
+* int = obj.GetNumberOfAttributesToInterpolate () - Number
+  of attributes to interpolate.
+
+
+    Precondition:
+        not_empty: !IsEmpty()
+
+
+
+    Postcondition:
+        positive_result: result>=0
+
+* int = obj.HasAttribute (int size, int attributes, int
+  attribute)
+* obj.SetAttributesToInterpolate (int size, int attributes)
+  - Set the attributes to interpolate.
+
+
+    Precondition:
+        not_empty: !IsEmpty()
+        positive_size: size>=0
+        valid_attributes: size>0 implies attributes!=0
+        valid_attributes_contents: attributes!=0 implies
+        !HasAttributes(size,attributes,GetActiveAttribute())
+
+
+
+    Postcondition:
+        is_set: (GetNumberOfAttributesToInterpolate
+        ()==size)&amp;&amp; (GetAttributesToInterpolate
+        ()==attributes)
+
+* obj.SetAttributesToInterpolateToAll () - Set the
+  attributes to interpolate.
+
+
+    Precondition:
+        not_empty: !IsEmpty()
+        positive_size: size>=0
+        valid_attributes: size>0 implies attributes!=0
+        valid_attributes_contents: attributes!=0 implies
+        !HasAttributes(size,attributes,GetActiveAttribute())
+
+
+
+    Postcondition:
+        is_set: (GetNumberOfAttributesToInterpolate
+        ()==size)&amp;&amp; (GetAttributesToInterpolate
+        ()==attributes)
+
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Filtering_Classes
+* Generated on Thu Jul 25 2013 17:18:30 for FreeMat by
+  doxygen_ 1.8.1.1
+

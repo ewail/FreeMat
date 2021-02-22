@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="io_fseek" kind="page">
+    <compoundname>io_fseek</compoundname>
+    <title>FSEEK Seek File To A Given Position</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_io_1sec_io" kindref="member">Input/Ouput Functions</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>Moves the file pointer associated with the given file handle to the specified offset (in bytes). The usage is <verbatim>  fseek(handle,offset,style)
+</verbatim> The <computeroutput>handle</computeroutput> argument must be a value and active file handle. The <computeroutput>offset</computeroutput> parameter indicates the desired seek offset (how much the file pointer is moved in bytes). The <computeroutput>style</computeroutput> parameter determines how the offset is treated. Three values for the <computeroutput>style</computeroutput> parameter are understood: <itemizedlist>
+<listitem>
+<para>string <computeroutput>&apos;bof&apos;</computeroutput> or the value -1, which indicate the seek is relative to the beginning of the file. This is equivalent to <computeroutput>SEEK_SET</computeroutput> in ANSI C.  </para></listitem>
+<listitem>
+<para>string <computeroutput>&apos;cof&apos;</computeroutput> or the value 0, which indicates the seek is relative to the current position of the file. This is equivalent to <computeroutput>SEEK_CUR</computeroutput> in ANSI C.  </para></listitem>
+<listitem>
+<para>string <computeroutput>&apos;eof&apos;</computeroutput> or the value 1, which indicates the seek is relative to the end of the file. This is equivalent to <computeroutput>SEEK_END</computeroutput> in ANSI C.  </para></listitem>
+</itemizedlist>
+The offset can be positive or negative. </para></sect1>
+<sect1 id="variables_struct_1Example">
+<title>Example</title>
+<para>The first example reads a file and then ``rewinds&apos;&apos; the file pointer by seeking to the beginning. The next example seeks forward by 2048 bytes from the files current position, and then reads a line of 512 floats.</para><para><verbatim>--&gt; % First we create the file
+--&gt; fp = fopen(&apos;test.dat&apos;,&apos;wb&apos;);
+--&gt; fwrite(fp,float(rand(4096,1)));
+--&gt; fclose(fp);
+--&gt; % Now we open it
+--&gt; fp = fopen(&apos;test.dat&apos;,&apos;rb&apos;);
+--&gt; % Read the whole thing
+--&gt; x = fread(fp,[1,inf],&apos;float&apos;);
+--&gt; % Rewind to the beginning
+--&gt; fseek(fp,0,&apos;bof&apos;);
+--&gt; % Read part of the file
+--&gt; y = fread(fp,[1,1024],&apos;float&apos;);
+--&gt; who x y
+  Variable Name       Type   Flags             Size
+              x    double                    [1x4096]
+              y    double                    [1x1024]
+--&gt; % Seek 2048 bytes into the file
+--&gt; fseek(fp,2048,&apos;cof&apos;);
+--&gt; % Read 512 floats from the file
+--&gt; x = fread(fp,[512,1],&apos;float&apos;);
+--&gt; % Close the file
+--&gt; fclose(fp);
+</verbatim> </para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

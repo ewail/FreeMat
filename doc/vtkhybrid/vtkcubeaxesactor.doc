@@ -1,0 +1,341 @@
+/*!
+\page vtkhybrid_vtkcubeaxesactor vtkCubeAxesActor
+
+<p>
+Section: \ref sec_vtkhybrid "Visualization Toolkit Hybrid Classes"
+\section Usage
+ vtkCubeAxesActor is a composite actor that draws axes of the 
+ bounding box of an input dataset. The axes include labels and titles
+ for the x-y-z axes. The algorithm selects which axes to draw based
+ on the user-defined 'fly' mode.  (STATIC is default).
+ 'STATIC' constructs axes from all edges of the bounding box.
+ 'CLOSEST_TRIAD' consists of the three axes x-y-z forming a triad that 
+ lies closest to the specified camera. 
+ 'FURTHEST_TRIAD' consists of the three axes x-y-z forming a triad that 
+ lies furthest from the specified camera. 
+ 'OUTER_EDGES' is constructed from edges that are on the "exterior" of the 
+ bounding box, exterior as determined from examining outer edges of the 
+ bounding box in projection (display) space. 
+ 
+ To use this object you must define a bounding box and the camera used
+ to render the vtkCubeAxesActor. You can optionally turn on/off labels,
+ ticks, gridlines, and set tick location, number of labels, and text to
+ use for axis-titles.  A 'corner offset' can also be set.  This allows 
+ the axes to be set partially away from the actual bounding box to perhaps
+ prevent overlap of labels between the various axes.
+
+ The Bounds instance variable (an array of six doubles) is used to determine
+ the bounding box.
+ 
+
+To create an instance of class vtkCubeAxesActor, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkCubeAxesActor
+\endverbatim
+\section Methods
+The class vtkCubeAxesActor has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkCubeAxesActor class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkCubeAxesActor = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkCubeAxesActor = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>int = obj.RenderOpaqueGeometry (vtkViewport )</tt> -  Draw the axes as per the vtkProp superclass' API.
+ </LI>
+<LI>  <tt>int = obj.RenderTranslucentGeometry (vtkViewport )</tt> -  Explicitly specify the region in space around which to draw the bounds.
+ The bounds is used only when no Input or Prop is specified. The bounds
+ are specified according to (xmin,xmax, ymin,ymax, zmin,zmax), making
+ sure that the min's are less than the max's.
+ </LI>
+<LI>  <tt>obj.SetBounds (double , double , double , double , double , double )</tt> -  Explicitly specify the region in space around which to draw the bounds.
+ The bounds is used only when no Input or Prop is specified. The bounds
+ are specified according to (xmin,xmax, ymin,ymax, zmin,zmax), making
+ sure that the min's are less than the max's.
+ </LI>
+<LI>  <tt>obj.SetBounds (double  a[6])</tt> -  Explicitly specify the region in space around which to draw the bounds.
+ The bounds is used only when no Input or Prop is specified. The bounds
+ are specified according to (xmin,xmax, ymin,ymax, zmin,zmax), making
+ sure that the min's are less than the max's.
+ </LI>
+<LI>  <tt>double = obj.GetBounds ()</tt> -  Explicitly specify the region in space around which to draw the bounds.
+ The bounds is used only when no Input or Prop is specified. The bounds
+ are specified according to (xmin,xmax, ymin,ymax, zmin,zmax), making
+ sure that the min's are less than the max's.
+ </LI>
+<LI>  <tt>obj.GetBounds (double bounds[6])</tt> -  Explicitly specify the region in space around which to draw the bounds.
+ The bounds is used only when no Input or Prop is specified. The bounds
+ are specified according to (xmin,xmax, ymin,ymax, zmin,zmax), making
+ sure that the min's are less than the max's.
+ </LI>
+<LI>  <tt>obj.SetCamera (vtkCamera )</tt> -  Set/Get the camera to perform scaling and translation of the 
+ vtkCubeAxesActor.
+ </LI>
+<LI>  <tt>vtkCamera = obj.GetCamera ()</tt> -  Set/Get the camera to perform scaling and translation of the 
+ vtkCubeAxesActor.
+ </LI>
+<LI>  <tt>obj.SetFlyMode (int )</tt> -  Specify a mode to control how the axes are drawn: either static, 
+ closest triad, furthest triad or outer edges in relation to the 
+ camera position.
+ </LI>
+<LI>  <tt>int = obj.GetFlyModeMinValue ()</tt> -  Specify a mode to control how the axes are drawn: either static, 
+ closest triad, furthest triad or outer edges in relation to the 
+ camera position.
+ </LI>
+<LI>  <tt>int = obj.GetFlyModeMaxValue ()</tt> -  Specify a mode to control how the axes are drawn: either static, 
+ closest triad, furthest triad or outer edges in relation to the 
+ camera position.
+ </LI>
+<LI>  <tt>int = obj.GetFlyMode ()</tt> -  Specify a mode to control how the axes are drawn: either static, 
+ closest triad, furthest triad or outer edges in relation to the 
+ camera position.
+ </LI>
+<LI>  <tt>obj.SetFlyModeToOuterEdges ()</tt> -  Specify a mode to control how the axes are drawn: either static, 
+ closest triad, furthest triad or outer edges in relation to the 
+ camera position.
+ </LI>
+<LI>  <tt>obj.SetFlyModeToClosestTriad ()</tt> -  Specify a mode to control how the axes are drawn: either static, 
+ closest triad, furthest triad or outer edges in relation to the 
+ camera position.
+ </LI>
+<LI>  <tt>obj.SetFlyModeToFurthestTriad ()</tt> -  Specify a mode to control how the axes are drawn: either static, 
+ closest triad, furthest triad or outer edges in relation to the 
+ camera position.
+ </LI>
+<LI>  <tt>obj.SetFlyModeToStaticTriad ()</tt> -  Specify a mode to control how the axes are drawn: either static, 
+ closest triad, furthest triad or outer edges in relation to the 
+ camera position.
+ </LI>
+<LI>  <tt>obj.SetFlyModeToStaticEdges ()</tt> -  Specify a mode to control how the axes are drawn: either static, 
+ closest triad, furthest triad or outer edges in relation to the 
+ camera position.
+ </LI>
+<LI>  <tt>obj.SetXTitle (string )</tt> -  Set/Get the labels for the x, y, and z axes. By default, 
+ use "X-Axis", "Y-Axis" and "Z-Axis".
+ </LI>
+<LI>  <tt>string = obj.GetXTitle ()</tt> -  Set/Get the labels for the x, y, and z axes. By default, 
+ use "X-Axis", "Y-Axis" and "Z-Axis".
+ </LI>
+<LI>  <tt>obj.SetXUnits (string )</tt> -  Set/Get the labels for the x, y, and z axes. By default, 
+ use "X-Axis", "Y-Axis" and "Z-Axis".
+ </LI>
+<LI>  <tt>string = obj.GetXUnits ()</tt> -  Set/Get the labels for the x, y, and z axes. By default, 
+ use "X-Axis", "Y-Axis" and "Z-Axis".
+ </LI>
+<LI>  <tt>obj.SetYTitle (string )</tt> -  Set/Get the labels for the x, y, and z axes. By default, 
+ use "X-Axis", "Y-Axis" and "Z-Axis".
+ </LI>
+<LI>  <tt>string = obj.GetYTitle ()</tt> -  Set/Get the labels for the x, y, and z axes. By default, 
+ use "X-Axis", "Y-Axis" and "Z-Axis".
+ </LI>
+<LI>  <tt>obj.SetYUnits (string )</tt> -  Set/Get the labels for the x, y, and z axes. By default, 
+ use "X-Axis", "Y-Axis" and "Z-Axis".
+ </LI>
+<LI>  <tt>string = obj.GetYUnits ()</tt> -  Set/Get the labels for the x, y, and z axes. By default, 
+ use "X-Axis", "Y-Axis" and "Z-Axis".
+ </LI>
+<LI>  <tt>obj.SetZTitle (string )</tt> -  Set/Get the labels for the x, y, and z axes. By default, 
+ use "X-Axis", "Y-Axis" and "Z-Axis".
+ </LI>
+<LI>  <tt>string = obj.GetZTitle ()</tt> -  Set/Get the labels for the x, y, and z axes. By default, 
+ use "X-Axis", "Y-Axis" and "Z-Axis".
+ </LI>
+<LI>  <tt>obj.SetZUnits (string )</tt> -  Set/Get the labels for the x, y, and z axes. By default, 
+ use "X-Axis", "Y-Axis" and "Z-Axis".
+ </LI>
+<LI>  <tt>string = obj.GetZUnits ()</tt> -  Set/Get the labels for the x, y, and z axes. By default, 
+ use "X-Axis", "Y-Axis" and "Z-Axis".
+ </LI>
+<LI>  <tt>obj.SetXLabelFormat (string )</tt> -  Set/Get the format with which to print the labels on each of the
+ x-y-z axes.
+ </LI>
+<LI>  <tt>string = obj.GetXLabelFormat ()</tt> -  Set/Get the format with which to print the labels on each of the
+ x-y-z axes.
+ </LI>
+<LI>  <tt>obj.SetYLabelFormat (string )</tt> -  Set/Get the format with which to print the labels on each of the
+ x-y-z axes.
+ </LI>
+<LI>  <tt>string = obj.GetYLabelFormat ()</tt> -  Set/Get the format with which to print the labels on each of the
+ x-y-z axes.
+ </LI>
+<LI>  <tt>obj.SetZLabelFormat (string )</tt> -  Set/Get the format with which to print the labels on each of the
+ x-y-z axes.
+ </LI>
+<LI>  <tt>string = obj.GetZLabelFormat ()</tt> -  Set/Get the format with which to print the labels on each of the
+ x-y-z axes.
+ </LI>
+<LI>  <tt>obj.SetInertia (int )</tt> -  Set/Get the inertial factor that controls how often (i.e, how
+ many renders) the axes can switch position (jump from one axes 
+ to another).
+ </LI>
+<LI>  <tt>int = obj.GetInertiaMinValue ()</tt> -  Set/Get the inertial factor that controls how often (i.e, how
+ many renders) the axes can switch position (jump from one axes 
+ to another).
+ </LI>
+<LI>  <tt>int = obj.GetInertiaMaxValue ()</tt> -  Set/Get the inertial factor that controls how often (i.e, how
+ many renders) the axes can switch position (jump from one axes 
+ to another).
+ </LI>
+<LI>  <tt>int = obj.GetInertia ()</tt> -  Set/Get the inertial factor that controls how often (i.e, how
+ many renders) the axes can switch position (jump from one axes 
+ to another).
+ </LI>
+<LI>  <tt>obj.SetCornerOffset (double )</tt> -  Specify an offset value to "pull back" the axes from the corner at
+ which they are joined to avoid overlap of axes labels. The 
+ "CornerOffset" is the fraction of the axis length to pull back.
+ </LI>
+<LI>  <tt>double = obj.GetCornerOffset ()</tt> -  Specify an offset value to "pull back" the axes from the corner at
+ which they are joined to avoid overlap of axes labels. The 
+ "CornerOffset" is the fraction of the axis length to pull back.
+ </LI>
+<LI>  <tt>obj.ReleaseGraphicsResources (vtkWindow )</tt> -  Release any graphics resources that are being consumed by this actor.
+ The parameter window could be used to determine which graphic
+ resources to release.
+ </LI>
+<LI>  <tt>obj.SetXAxisVisibility (int )</tt> -  Turn on and off the visibility of each axis.
+ </LI>
+<LI>  <tt>int = obj.GetXAxisVisibility ()</tt> -  Turn on and off the visibility of each axis.
+ </LI>
+<LI>  <tt>obj.XAxisVisibilityOn ()</tt> -  Turn on and off the visibility of each axis.
+ </LI>
+<LI>  <tt>obj.XAxisVisibilityOff ()</tt> -  Turn on and off the visibility of each axis.
+ </LI>
+<LI>  <tt>obj.SetYAxisVisibility (int )</tt> -  Turn on and off the visibility of each axis.
+ </LI>
+<LI>  <tt>int = obj.GetYAxisVisibility ()</tt> -  Turn on and off the visibility of each axis.
+ </LI>
+<LI>  <tt>obj.YAxisVisibilityOn ()</tt> -  Turn on and off the visibility of each axis.
+ </LI>
+<LI>  <tt>obj.YAxisVisibilityOff ()</tt> -  Turn on and off the visibility of each axis.
+ </LI>
+<LI>  <tt>obj.SetZAxisVisibility (int )</tt> -  Turn on and off the visibility of each axis.
+ </LI>
+<LI>  <tt>int = obj.GetZAxisVisibility ()</tt> -  Turn on and off the visibility of each axis.
+ </LI>
+<LI>  <tt>obj.ZAxisVisibilityOn ()</tt> -  Turn on and off the visibility of each axis.
+ </LI>
+<LI>  <tt>obj.ZAxisVisibilityOff ()</tt> -  Turn on and off the visibility of each axis.
+ </LI>
+<LI>  <tt>obj.SetXAxisLabelVisibility (int )</tt> -  Turn on and off the visibility of labels for each axis.
+ </LI>
+<LI>  <tt>int = obj.GetXAxisLabelVisibility ()</tt> -  Turn on and off the visibility of labels for each axis.
+ </LI>
+<LI>  <tt>obj.XAxisLabelVisibilityOn ()</tt> -  Turn on and off the visibility of labels for each axis.
+ </LI>
+<LI>  <tt>obj.XAxisLabelVisibilityOff ()</tt> -  Turn on and off the visibility of labels for each axis.
+ </LI>
+<LI>  <tt>obj.SetYAxisLabelVisibility (int )</tt>
+ </LI>
+<LI>  <tt>int = obj.GetYAxisLabelVisibility ()</tt>
+ </LI>
+<LI>  <tt>obj.YAxisLabelVisibilityOn ()</tt>
+ </LI>
+<LI>  <tt>obj.YAxisLabelVisibilityOff ()</tt>
+ </LI>
+<LI>  <tt>obj.SetZAxisLabelVisibility (int )</tt>
+ </LI>
+<LI>  <tt>int = obj.GetZAxisLabelVisibility ()</tt>
+ </LI>
+<LI>  <tt>obj.ZAxisLabelVisibilityOn ()</tt>
+ </LI>
+<LI>  <tt>obj.ZAxisLabelVisibilityOff ()</tt>
+ </LI>
+<LI>  <tt>obj.SetXAxisTickVisibility (int )</tt> -  Turn on and off the visibility of ticks for each axis.
+ </LI>
+<LI>  <tt>int = obj.GetXAxisTickVisibility ()</tt> -  Turn on and off the visibility of ticks for each axis.
+ </LI>
+<LI>  <tt>obj.XAxisTickVisibilityOn ()</tt> -  Turn on and off the visibility of ticks for each axis.
+ </LI>
+<LI>  <tt>obj.XAxisTickVisibilityOff ()</tt> -  Turn on and off the visibility of ticks for each axis.
+ </LI>
+<LI>  <tt>obj.SetYAxisTickVisibility (int )</tt>
+ </LI>
+<LI>  <tt>int = obj.GetYAxisTickVisibility ()</tt>
+ </LI>
+<LI>  <tt>obj.YAxisTickVisibilityOn ()</tt>
+ </LI>
+<LI>  <tt>obj.YAxisTickVisibilityOff ()</tt>
+ </LI>
+<LI>  <tt>obj.SetZAxisTickVisibility (int )</tt>
+ </LI>
+<LI>  <tt>int = obj.GetZAxisTickVisibility ()</tt>
+ </LI>
+<LI>  <tt>obj.ZAxisTickVisibilityOn ()</tt>
+ </LI>
+<LI>  <tt>obj.ZAxisTickVisibilityOff ()</tt>
+ </LI>
+<LI>  <tt>obj.SetXAxisMinorTickVisibility (int )</tt> -  Turn on and off the visibility of minor ticks for each axis.
+ </LI>
+<LI>  <tt>int = obj.GetXAxisMinorTickVisibility ()</tt> -  Turn on and off the visibility of minor ticks for each axis.
+ </LI>
+<LI>  <tt>obj.XAxisMinorTickVisibilityOn ()</tt> -  Turn on and off the visibility of minor ticks for each axis.
+ </LI>
+<LI>  <tt>obj.XAxisMinorTickVisibilityOff ()</tt> -  Turn on and off the visibility of minor ticks for each axis.
+ </LI>
+<LI>  <tt>obj.SetYAxisMinorTickVisibility (int )</tt>
+ </LI>
+<LI>  <tt>int = obj.GetYAxisMinorTickVisibility ()</tt>
+ </LI>
+<LI>  <tt>obj.YAxisMinorTickVisibilityOn ()</tt>
+ </LI>
+<LI>  <tt>obj.YAxisMinorTickVisibilityOff ()</tt>
+ </LI>
+<LI>  <tt>obj.SetZAxisMinorTickVisibility (int )</tt>
+ </LI>
+<LI>  <tt>int = obj.GetZAxisMinorTickVisibility ()</tt>
+ </LI>
+<LI>  <tt>obj.ZAxisMinorTickVisibilityOn ()</tt>
+ </LI>
+<LI>  <tt>obj.ZAxisMinorTickVisibilityOff ()</tt>
+ </LI>
+<LI>  <tt>obj.SetDrawXGridlines (int )</tt>
+ </LI>
+<LI>  <tt>int = obj.GetDrawXGridlines ()</tt>
+ </LI>
+<LI>  <tt>obj.DrawXGridlinesOn ()</tt>
+ </LI>
+<LI>  <tt>obj.DrawXGridlinesOff ()</tt>
+ </LI>
+<LI>  <tt>obj.SetDrawYGridlines (int )</tt>
+ </LI>
+<LI>  <tt>int = obj.GetDrawYGridlines ()</tt>
+ </LI>
+<LI>  <tt>obj.DrawYGridlinesOn ()</tt>
+ </LI>
+<LI>  <tt>obj.DrawYGridlinesOff ()</tt>
+ </LI>
+<LI>  <tt>obj.SetDrawZGridlines (int )</tt>
+ </LI>
+<LI>  <tt>int = obj.GetDrawZGridlines ()</tt>
+ </LI>
+<LI>  <tt>obj.DrawZGridlinesOn ()</tt>
+ </LI>
+<LI>  <tt>obj.DrawZGridlinesOff ()</tt>
+ </LI>
+<LI>  <tt>obj.SetTickLocation (int )</tt> -  Set/Get the location of ticks marks. 
+ </LI>
+<LI>  <tt>int = obj.GetTickLocationMinValue ()</tt> -  Set/Get the location of ticks marks. 
+ </LI>
+<LI>  <tt>int = obj.GetTickLocationMaxValue ()</tt> -  Set/Get the location of ticks marks. 
+ </LI>
+<LI>  <tt>int = obj.GetTickLocation ()</tt> -  Set/Get the location of ticks marks. 
+ </LI>
+<LI>  <tt>obj.SetTickLocationToInside (void )</tt>
+ </LI>
+<LI>  <tt>obj.SetTickLocationToOutside (void )</tt>
+ </LI>
+<LI>  <tt>obj.SetTickLocationToBoth (void )</tt>
+ </LI>
+<LI>  <tt>obj.SetLabelScaling (bool , int , int , int )</tt>
+ </LI>
+<LI>  <tt>obj.ShallowCopy (vtkCubeAxesActor actor)</tt> -  Shallow copy of a KatCubeAxesActor.
+ </LI>
+</UL>
+*/

@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="freemat_blaslib" kind="page">
+    <compoundname>freemat_blaslib</compoundname>
+    <title>BLASLIB Select BLAS library</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_freemat_1sec_freemat" kindref="member">FreeMat Functions</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>The <computeroutput>blaslib</computeroutput> function allows you to select the FreeMat blas library. It has two modes of operation. The first is to select blas library: <verbatim>  blaslib LIB_NAME
+</verbatim> If you want to see current blas library selected issue a <computeroutput>blaslib</computeroutput> command with no arguments. <verbatim>   blaslib
+</verbatim> the returned list of libraries will include an asterix next to the library currently selected. If no library is selected, FreeMat will use its internal (reference) BLAS implementation, which is slow, but portable.</para><para>Location of the optimized library is specified in blas.ini file which is installed in the binary directory (i.e. directory where FreeMat executable is located).</para><para>The format of blas.ini file is following: <verbatim> [Linux64]
+ATLAS64\libname=/usr/lib64/atlas/libblas.so
+ATLAS64\capfnames=false
+ATLAS64\prefix=
+ATLAS64\suffix=_
+ATLAS64\desc=&quot;ATLAS BLAS. Optimized.&quot;
+</verbatim> Where Linux64 is the OS flavor for the blas library described below it. Other options are [Win32], [Linux32], [OSX]. Note that Linux is our name for all unix platforms. <itemizedlist>
+<listitem>
+<para><computeroutput>ATLAS64</computeroutput> - name of the library as it will appear in the list when you type blaslib command in FreeMat.  </para></listitem>
+<listitem>
+<para><computeroutput>ATLAS64\libname</computeroutput> - path to the library. It has to be a shared library (Linux), DLL (Windows), Bundle (? OSX). This library has to be a Fortran BLAS library, not cblas!  </para></listitem>
+<listitem>
+<para><computeroutput>ATLAS64\capfnames</computeroutput> - does the library use capital letters for function names (usually false).  </para></listitem>
+<listitem>
+<para><computeroutput>ATLAS64\prefix</computeroutput> - prefix (characters that are put in front of) for all blas functions in the library (e.g. <computeroutput>ATL_</computeroutput> or <computeroutput>AMD_</computeroutput>).  </para></listitem>
+<listitem>
+<para><computeroutput>ATLAS64\suffix</computeroutput> - suffix (characters that are put after) for all blas function in the library (e.g. <computeroutput>_</computeroutput>)  </para></listitem>
+<listitem>
+<para><computeroutput>ATLAS64\desc</computeroutput> - text description of the library.  </para></listitem>
+</itemizedlist>
+</para><para>On FreeMat startup it looks at the blas.ini file, and tries to load each library described in the section for the given OS flavor. FreeMat will use the first library it can successfully load. If you want to switch the BLAS libraries dynamically in the running FreeMat session you need to use blaslib command.</para><para>If FreeMat can&apos;t load any library it will default to using built in BLAS.</para><para>You should be a careful when using non-default BLAS libraries. Some libraries do not implement all the BLAS functions correctly. You should run FreeMat test suite (type <computeroutput>run_tests()</computeroutput>) and use common sense when evaluating the results of numerical computations. </para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

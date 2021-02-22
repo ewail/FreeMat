@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="array_cond" kind="page">
+    <compoundname>array_cond</compoundname>
+    <title>COND Condition Number of a Matrix</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_array_1sec_array" kindref="member">Array Generation and Manipulations</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>Calculates the condition number of a matrix. To compute the 2-norm condition number of a matrix (ratio of largest to smallest singular values), use the syntax <verbatim>   y = cond(A)
+</verbatim> where A is a matrix. If you want to compute the condition number in a different norm (e.g., the 1-norm), use the second syntax <verbatim>   y = cond(A,p)
+</verbatim> where <computeroutput>p</computeroutput> is the norm to use when computing the condition number. The following choices of <computeroutput>p</computeroutput> are supported <itemizedlist>
+<listitem>
+<para><computeroutput>p = 1</computeroutput> returns the 1-norm, or the max column sum of A  </para></listitem>
+<listitem>
+<para><computeroutput>p = 2</computeroutput> returns the 2-norm (largest singular value of A)  </para></listitem>
+<listitem>
+<para><computeroutput>p = inf</computeroutput> returns the infinity norm, or the max row sum of A  </para></listitem>
+<listitem>
+<para><computeroutput>p = &apos;fro&apos;</computeroutput> returns the Frobenius-norm (vector Euclidean norm, or RMS value)  </para></listitem>
+</itemizedlist>
+</para></sect1>
+<sect1 id="transforms_svd_1Function">
+<title>Internals</title>
+<para>The condition number is defined as <formula id="0">\[ \frac{\|A\|_p}{\|A^{-1}\|_p} \]</formula> This equation is precisely how the condition number is computed for the case <computeroutput>p ~= 2</computeroutput>. For the <computeroutput>p=2</computeroutput> case, the condition number can be computed much more efficiently using the ratio of the largest and smallest singular values. </para></sect1>
+<sect1 id="variables_struct_1Example">
+<title>Example</title>
+<para>The condition number of this matrix is large</para><para><verbatim>--&gt; A = [1,1;0,1e-15]
+
+A = 
+    1.0000    1.0000 
+         0    0.0000 
+
+--&gt; cond(A)
+
+ans = 
+ 2.0000e+15 
+
+--&gt; cond(A,1)
+
+ans = 
+ 2000000000000002 
+</verbatim></para><para>You can also (for the case <computeroutput>p=1</computeroutput> use <computeroutput>rcond</computeroutput> to calculate an estimate of the condition number</para><para><verbatim>--&gt; 1/rcond(A)
+
+ans = 
+ 2.0000e+15 
+</verbatim> </para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

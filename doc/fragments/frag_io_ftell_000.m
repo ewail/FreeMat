@@ -1,0 +1,7 @@
+0
+fp = fopen('test.dat','wb');
+fwrite(fp,randn(512,1));
+fclose(fp);
+fp = fopen('test.dat','rb');
+x = fread(fp,[512,1],'float');
+ftell(fp)

@@ -1,0 +1,11 @@
+function x = test_sparse26
+N = 1000;
+M = 7000;
+a = dcomplex(40*randn(N)+32*randn(N));
+A = sparse(a);
+rc = int32((N-1)*rand(M,1))+1;
+cc = int32((N-1)*rand(M,1))+1;
+lc = rc+N*(cc-1);
+b = a(lc);
+B = A(lc);
+x = testeq(b,B);

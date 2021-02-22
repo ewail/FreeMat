@@ -1,0 +1,122 @@
+/*!
+\page vtkparallel_vtkexodusiiwriter vtkExodusIIWriter
+
+<p>
+Section: \ref sec_vtkparallel "Visualization Toolkit Parallel Classes"
+\section Usage
+     This is a vtkWriter that writes it's vtkUnstructuredGrid 
+     input out to an Exodus II file.  Go to http://endo.sandia.gov/SEACAS/
+     for more information about the Exodus II format.
+
+     Exodus files contain much information that is not captured
+     in a vtkUnstructuredGrid, such as time steps, information
+     lines, node sets, and side sets.  This information can be
+     stored in a vtkModelMetadata object.
+
+     The vtkExodusReader and vtkPExodusReader can create
+     a vtkModelMetadata object and embed it in a vtkUnstructuredGrid
+     in a series of field arrays.  This writer searches for these
+     field arrays and will use the metadata contained in them
+     when creating the new Exodus II file. 
+
+     You can also explicitly give the vtkExodusIIWriter a
+     vtkModelMetadata object to use when writing the file.
+
+     In the absence of the information provided by vtkModelMetadata,
+     if this writer is not part of a parallel application, we will use
+     reasonable defaults for all the values in the output Exodus file.
+     If you don't provide a block ID element array, we'll create a
+     block for each cell type that appears in the unstructured grid.
+
+     However if this writer is part of a parallel application (hence 
+     writing out a distributed Exodus file), then we need at the very 
+     least a list of all the block IDs that appear in the file.  And 
+     we need the element array of block IDs for the input unstructured grid.
+
+     In the absense of a vtkModelMetadata object, you can also provide
+     time step information which we will include in the output Exodus
+     file.
+
+  .SECTION Caveats
+     If the input floating point field arrays and point locations are all
+     floats or all doubles, this class will operate more efficiently.
+     Mixing floats and doubles will slow you down, because Exodus II
+     requires that we write only floats or only doubles.
+
+     We use the terms "point" and "node" interchangeably.
+     Also, we use the terms "element" and "cell" interchangeably.
+
+To create an instance of class vtkExodusIIWriter, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkExodusIIWriter
+\endverbatim
+\section Methods
+The class vtkExodusIIWriter has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkExodusIIWriter class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkExodusIIWriter = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkExodusIIWriter = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetModelMetadata (vtkModelMetadata )</tt>
+ </LI>
+<LI>  <tt>vtkModelMetadata = obj.GetModelMetadata ()</tt>
+ </LI>
+<LI>  <tt>obj.SetFileName (string )</tt>
+ </LI>
+<LI>  <tt>string = obj.GetFileName ()</tt>
+ </LI>
+<LI>  <tt>obj.SetStoreDoubles (int )</tt>
+ </LI>
+<LI>  <tt>int = obj.GetStoreDoubles ()</tt>
+ </LI>
+<LI>  <tt>obj.SetGhostLevel (int )</tt>
+ </LI>
+<LI>  <tt>int = obj.GetGhostLevel ()</tt>
+ </LI>
+<LI>  <tt>obj.SetWriteOutBlockIdArray (int )</tt>
+ </LI>
+<LI>  <tt>int = obj.GetWriteOutBlockIdArray ()</tt>
+ </LI>
+<LI>  <tt>obj.WriteOutBlockIdArrayOn ()</tt>
+ </LI>
+<LI>  <tt>obj.WriteOutBlockIdArrayOff ()</tt>
+ </LI>
+<LI>  <tt>obj.SetWriteOutGlobalNodeIdArray (int )</tt>
+ </LI>
+<LI>  <tt>int = obj.GetWriteOutGlobalNodeIdArray ()</tt>
+ </LI>
+<LI>  <tt>obj.WriteOutGlobalNodeIdArrayOn ()</tt>
+ </LI>
+<LI>  <tt>obj.WriteOutGlobalNodeIdArrayOff ()</tt>
+ </LI>
+<LI>  <tt>obj.SetWriteOutGlobalElementIdArray (int )</tt>
+ </LI>
+<LI>  <tt>int = obj.GetWriteOutGlobalElementIdArray ()</tt>
+ </LI>
+<LI>  <tt>obj.WriteOutGlobalElementIdArrayOn ()</tt>
+ </LI>
+<LI>  <tt>obj.WriteOutGlobalElementIdArrayOff ()</tt>
+ </LI>
+<LI>  <tt>obj.SetWriteAllTimeSteps (int )</tt>
+ </LI>
+<LI>  <tt>int = obj.GetWriteAllTimeSteps ()</tt>
+ </LI>
+<LI>  <tt>obj.WriteAllTimeStepsOn ()</tt>
+ </LI>
+<LI>  <tt>obj.WriteAllTimeStepsOff ()</tt>
+ </LI>
+<LI>  <tt>obj.SetBlockIdArrayName (string )</tt>
+ </LI>
+<LI>  <tt>string = obj.GetBlockIdArrayName ()</tt>
+ </LI>
+</UL>
+*/

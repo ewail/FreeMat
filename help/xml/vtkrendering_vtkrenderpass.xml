@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkrendering_vtkrenderpass" kind="page">
+    <compoundname>vtkrendering_vtkrenderpass</compoundname>
+    <title>vtkRenderPass</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkrendering_1sec_vtkrendering" kindref="member">Visualization Toolkit Rendering Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>vtkRenderPass is a deferred class with a simple deferred method Render. This method performs a rendering pass of the scene described in vtkRenderState. Subclasses define what really happens during rendering.</para><para>Directions to write a subclass of vtkRenderPass: It is up to the subclass to decide if it needs to delegate part of its job to some other vtkRenderPass objects (&quot;delegates&quot;).<itemizedlist>
+<listitem><para>The subclass has to define ivar to set/get its delegates.</para></listitem><listitem><para>The documentation of the subclass has to describe:<itemizedlist>
+<listitem><para>what each delegate is supposed to perform</para></listitem><listitem><para>if a delegate is supposed to be used once or multiple times</para></listitem><listitem><para>what it expects to have in the framebuffer before starting (status of colorbuffers, depth buffer, stencil buffer)</para></listitem><listitem><para>what it will change in the framebuffer.</para></listitem></itemizedlist>
+</para></listitem><listitem><para>A pass cannot modify the vtkRenderState where it will perform but it can build a new vtkRenderState (it can change the FrameBuffer, change the prop array, changed the required prop properties keys (usually adding some to a copy of the existing list) but it has to keep the same vtkRenderer object), make it current and pass it to its delegate.</para></listitem><listitem><para>at the end of the execution of Render, the pass has to ensure the current vtkRenderState is the one it has in argument.</para></listitem></itemizedlist>
+</para><para>To create an instance of class vtkRenderPass, simply invoke its constructor as follows <verbatim>  obj = vtkRenderPass
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkRenderPass has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkRenderPass class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkRenderPass = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkRenderPass = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetNumberOfRenderedProps ()</computeroutput> - Number of props rendered at the last Render call.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ReleaseGraphicsResources (vtkWindow w)</computeroutput> - Release graphics resources and ask components to release their own resources. Default implementation is empty. <simplesect kind="pre"><para>w_exists: w!=0  </para></simplesect>
+</para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

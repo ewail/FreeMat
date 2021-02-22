@@ -1,0 +1,63 @@
+/*!
+\page transforms_svd SVD Singular Value Decomposition of a Matrix
+
+<p>
+Section: \ref sec_transforms "Transforms/Decompositions"
+\section Usage
+Computes the singular value decomposition (SVD) of a matrix.  The 
+<tt>svd</tt> function has three forms.  The first returns only the singular
+values of the matrix:
+\verbatim
+  s = svd(A)
+\endverbatim
+The second form returns both the singular values in a diagonal
+matrix <tt>S</tt>, as well as the left and right eigenvectors.
+\verbatim
+  [U,S,V] = svd(A)
+\endverbatim
+The third form returns a more compact decomposition, with the
+left and right singular vectors corresponding to zero singular
+values being eliminated.  The syntax is
+\verbatim
+  [U,S,V] = svd(A,0)
+\endverbatim
+\section Function Internals
+Recall that <tt>sigma_i</tt> is a singular value of an <tt>M x N</tt>
+matrix <tt>A</tt> if there exists two vectors <tt>u_i, v_i</tt> where <tt>u_i</tt> is
+of length <tt>M</tt>, and <tt>v_i</tt> is of length <tt>u_i</tt> and
+\f[
+  A v_i = \sigma_i u_i
+\f]
+and generally
+\f[
+  A = \sum_{i=1}^{K} \sigma_i u_i*v_i',
+\f]
+where <tt>K</tt> is the rank of <tt>A</tt>.  In matrix form, the left singular
+vectors <tt>u_i</tt> are stored in the matrix <tt>U</tt> as
+\f[
+  U = [u_1,\ldots,u_m], V = [v_1,\ldots,v_n]
+\f]
+The matrix <tt>S</tt> is then of size <tt>M x N</tt> with the singular
+values along the diagonal.  The SVD is computed using the 
+<tt>LAPACK</tt> class of functions <tt>GESVD</tt> (Note that this has
+changed.  Previous versions of FreeMat used <tt>GESDD</tt>, which
+yields a valid, but slightly different choice of the decomposition.
+Starting in version 4, it was changed to <tt>GESVD</tt> to improve
+compatibility.
+\section Examples
+Here is an example of a partial and complete singular value
+decomposition.
+
+\if FRAGMENT
+frag_transforms_svd_000.m
+0
+A = float(randn(2,3))
+[U,S,V] = svd(A)
+U*S*V'
+svd(A)
+\endif
+
+
+\verbinclude frag_transforms_svd_000.m.out 
+
+*/

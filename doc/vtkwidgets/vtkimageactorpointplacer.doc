@@ -1,0 +1,93 @@
+/*!
+\page vtkwidgets_vtkimageactorpointplacer vtkImageActorPointPlacer
+
+<p>
+Section: \ref sec_vtkwidgets "Visualization Toolkit Widget Classes"
+\section Usage
+ This PointPlacer is used to constrain the placement of points on the
+ supplied image actor. Additionally, you may set bounds to restrict the 
+ placement of the points. The placement of points will then be constrained 
+ to lie not only on the ImageActor but also within the bounds specified. 
+ If no bounds are specified, they may lie anywhere on the supplied ImageActor.
+
+To create an instance of class vtkImageActorPointPlacer, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkImageActorPointPlacer
+\endverbatim
+\section Methods
+The class vtkImageActorPointPlacer has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkImageActorPointPlacer class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt> -  Standard methods for instances of this class.
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt> -  Standard methods for instances of this class.
+ </LI>
+<LI>  <tt>vtkImageActorPointPlacer = obj.NewInstance ()</tt> -  Standard methods for instances of this class.
+ </LI>
+<LI>  <tt>vtkImageActorPointPlacer = obj.SafeDownCast (vtkObject o)</tt> -  Standard methods for instances of this class.
+ </LI>
+<LI>  <tt>int = obj.ComputeWorldPosition (vtkRenderer ren, double displayPos[2], double worldPos[3], double worldOrient[9])</tt> -  Given and renderer and a display position in pixels,
+ find a world position and orientation. In this class
+ an internal vtkBoundedPlanePointPlacer is used to compute
+ the world position and orientation. The internal placer
+ is set to use the plane of the image actor and the bounds
+ of the image actor as the constraints for placing points.
+ </LI>
+<LI>  <tt>int = obj.ComputeWorldPosition (vtkRenderer ren, double displayPos[2], double refWorldPos[2], double worldPos[3], double worldOrient[9])</tt> -  This method is identical to the one above since the
+ reference position is ignored by the bounded plane
+ point placer.
+ </LI>
+<LI>  <tt>int = obj.ValidateWorldPosition (double worldPos[3])</tt> -  This method validates a world position by checking to see
+ if the world position is valid according to the constraints
+ of the internal placer (essentially - is this world position
+ on the image?)
+ </LI>
+<LI>  <tt>int = obj.ValidateWorldPosition (double worldPos[3], double worldOrient[9])</tt> -  This method is identical to the one above since the bounded
+ plane point placer ignores orientation
+ </LI>
+<LI>  <tt>int = obj.UpdateWorldPosition (vtkRenderer ren, double worldPos[3], double worldOrient[9])</tt> -  Update the world position and orientation according the
+ the current constraints of the placer. Will be called
+ by the representation when it notices that this placer
+ has been modified.
+ </LI>
+<LI>  <tt>int = obj.UpdateInternalState ()</tt> -  A method for configuring the internal placer according
+ to the constraints of the image actor.
+ Called by the representation to give the placer a chance
+ to update itself, which may cause the MTime to change,
+ which would then cause the representation to update
+ all of its points
+ </LI>
+<LI>  <tt>obj.SetImageActor (vtkImageActor )</tt> -  Set / get the reference vtkImageActor used to place the points.
+ An image actor must be set for this placer to work. An internal
+ bounded plane point placer is created and set to match the bounds
+ of the displayed image.
+ </LI>
+<LI>  <tt>vtkImageActor = obj.GetImageActor ()</tt> -  Set / get the reference vtkImageActor used to place the points.
+ An image actor must be set for this placer to work. An internal
+ bounded plane point placer is created and set to match the bounds
+ of the displayed image.
+ </LI>
+<LI>  <tt>obj.SetBounds (double , double , double , double , double , double )</tt> -  Optionally, you may set bounds to restrict the placement of the points.
+ The placement of points will then be constrained to lie not only on
+ the ImageActor but also within the bounds specified. If no bounds are
+ specified, they may lie anywhere on the supplied ImageActor.
+ </LI>
+<LI>  <tt>obj.SetBounds (double  a[6])</tt> -  Optionally, you may set bounds to restrict the placement of the points.
+ The placement of points will then be constrained to lie not only on
+ the ImageActor but also within the bounds specified. If no bounds are
+ specified, they may lie anywhere on the supplied ImageActor.
+ </LI>
+<LI>  <tt>double = obj. GetBounds ()</tt> -  Optionally, you may set bounds to restrict the placement of the points.
+ The placement of points will then be constrained to lie not only on
+ the ImageActor but also within the bounds specified. If no bounds are
+ specified, they may lie anywhere on the supplied ImageActor.
+ </LI>
+<LI>  <tt>obj.SetWorldTolerance (double s)</tt> -  Set the world tolerance. This propagates it to the internal 
+ BoundedPlanePointPlacer.
+ </LI>
+</UL>
+*/

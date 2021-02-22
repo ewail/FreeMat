@@ -1,0 +1,87 @@
+/*!
+\page vtkcommon_vtkgarbagecollector vtkGarbageCollector
+
+<p>
+Section: \ref sec_vtkcommon "Visualization Toolkit Common Classes"
+\section Usage
+ vtkGarbageCollector is used by VTK classes that may be involved in
+ reference counting loops (such as Algorithm <-> Executive).  It
+ detects strongly connected components of the reference graph that
+ have been leaked deletes them.  The garbage collector uses the
+ ReportReferences method to search the reference graph and construct
+ a net reference count for each connected component.  If the net
+ reference count is zero the entire set of objects is deleted.
+ Deleting each component may leak other components, which are then
+ collected recursively.
+
+ To enable garbage collection for a class, add these members:
+
+ \verbatim
+
+  public:
+   virtual void Register(vtkObjectBase* o)
+     {
+     this->RegisterInternal(o, 1);
+     }
+   virtual void UnRegister(vtkObjectBase* o)
+     {
+     this->UnRegisterInternal(o, 1);
+     }
+
+  protected:
+
+   virtual void ReportReferences(vtkGarbageCollector* collector)
+     {
+     // Report references held by this object that may be in a loop.
+     this->Superclass::ReportReferences(collector);
+     vtkGarbageCollectorReport(collector, this->OtherObject, "Other Object");
+     }
+ \endverbatim
+
+ The implementations should be in the .cxx file in practice.
+ It is important that the reference be reported using the real
+ pointer or smart pointer instance that holds the reference.  When
+ collecting the garbage collector will actually set this pointer to
+ NULL.  The destructor of the class should be written to deal with
+ this.  It is also expected that an invariant is maintained for any
+ reference that is reported.  The variable holding the reference
+ must always either be NULL or refer to a fully constructed valid
+ object.  Therefore code like "this->Object->UnRegister(this)" must
+ be avoided if "this->Object" is a reported reference because it
+ is possible that the object is deleted before UnRegister returns
+ but then "this->Object" will be left as a dangling pointer.  Instead
+ use code like
+
+ \verbatim
+   vtkObjectBase* obj = this->Object;
+   this->Object = 0;
+   obj->UnRegister(this);
+ \endverbatim
+
+ so that the reported reference maintains the invariant.
+
+ If subclassing from a class that already supports garbage
+ collection, one need only provide the ReportReferences method.
+
+To create an instance of class vtkGarbageCollector, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkGarbageCollector
+\endverbatim
+\section Methods
+The class vtkGarbageCollector has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkGarbageCollector class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkGarbageCollector = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkGarbageCollector = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+</UL>
+*/

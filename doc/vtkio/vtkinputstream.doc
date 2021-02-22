@@ -1,0 +1,53 @@
+/*!
+\page vtkio_vtkinputstream vtkInputStream
+
+<p>
+Section: \ref sec_vtkio "Visualization Toolkit IO Classes"
+\section Usage
+ vtkInputStream provides a VTK-style interface wrapping around a
+ standard input stream.  The access methods are virtual so that
+ subclasses can transparently provide decoding of an encoded stream.
+ Data lengths for Seek and Read calls refer to the length of the
+ input data.  The actual length in the stream may differ for
+ subclasses that implement an encoding scheme.
+
+To create an instance of class vtkInputStream, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkInputStream
+\endverbatim
+\section Methods
+The class vtkInputStream has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkInputStream class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkInputStream = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkInputStream = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.StartReading ()</tt> -  Called after the stream position has been set by the caller, but
+ before any Seek or Read calls.  The stream position should not be
+ adjusted by the caller until after an EndReading call.
+ </LI>
+<LI>  <tt>int = obj.Seek (long offset)</tt> -  Seek to the given offset in the input data.  Returns 1 for
+ success, 0 for failure.
+ </LI>
+<LI>  <tt>long = obj.Read (string data, long length)</tt> -  Read input data of the given length.  Returns amount actually
+ read.
+ </LI>
+<LI>  <tt>long = obj.Read (string data, long length)</tt> -  Read input data of the given length.  Returns amount actually
+ read.
+ </LI>
+<LI>  <tt>obj.EndReading ()</tt> -  Called after all desired calls to Seek and Read have been made.
+ After this call, the caller is free to change the position of the
+ stream.  Additional reads should not be done until after another
+ call to StartReading.
+ </LI>
+</UL>
+*/

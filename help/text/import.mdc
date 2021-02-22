@@ -1,0 +1,225 @@
+
+ Usage
+
+The import function allows you to call functions that are
+compiled into shared libraries, as if they were FreeMat
+functions. The usage is
+
+    import(libraryname,symbol,function,return,arguments)
+
+The argument libraryname is the name of the library (as a
+string) to import the function from. The second argument
+symbol (also a string), is the name of the symbol to import
+from the library. The third argument function is the the
+name of the function after its been imported into Freemat.
+The fourth argument is a string that specifies the return
+type of the function. It can take on one of the following
+types:
+
+* 'uint8' for an unsigned, 8-bit integer.
+* 'int8' for a signed, 8-bit integer.
+* 'uint16' an unsigned, 16-bit integer.
+* 'int16' a signed, 16-bit integer.
+* 'uint32' for an unsigned, 32-bit integer.
+* 'int32' for a signed, 32-bit integer.
+* 'single' for a 32-bit floating point.
+* 'double' for a 64-bit floating point.
+* 'void' for no return type.
+
+The fourth argument is more complicated. It encodes the
+arguments of the imported function using a special syntax.
+In general, the argument list is a string consisting of
+entries of the form:
+
+    type[optional bounds check] {optional &amp;}name
+
+Here is a list of various scenarios (expressed in 'C'), and
+the corresponding entries, along with snippets of code.
+
+Scalar variable passed by value
+
+Suppose a function is defined in the library as
+
+    int fooFunction(float t),
+
+i.e., it takes a scalar value (or a string) that is passed
+by value. Then the corresponding argument string would be
+
+    'float t'
+
+For a C-string, which corresponds to a function prototype of
+
+    int fooFunction(const char *t),
+
+the corresponding argument string would be
+
+    'string t'
+
+Other types are as listed above. Note that FreeMat will
+automatically promote the type of scalar variables to the
+type expected by the C function. For example, if we call a
+function expecting a float with a double or int16 argument,
+then FreeMat will automatically apply type promotion rules
+prior to calling the function.
+
+Scalar variable passed by reference:
+
+Suppose a function is defined in the library as
+
+    int fooFunction(float *t),
+
+i.e., it takes a scalar value (or a string) that is passed
+as a pointer. Then the corresponding argument string would
+be
+
+    'float &amp;t'
+
+If the function fooFunction modifies t, then the argument
+passed in FreeMat will also be modified.
+
+Array variable passed by value:
+
+In C, it is impossible to distinguish an array being passed
+from a simple pointer being passed. More often than not,
+another argument indicates the length of the array. FreeMat
+has the ability to perform bounds-checking on array values.
+For example, suppose we have a function of the form
+
+    int sum_onehundred_ints(int *t),
+
+where sum_onehundred_ints assumes that t is a length 100
+vector. Then the corresponding FreeMat argument is
+
+    'float32[100] t'.
+
+Note that because the argument is marked as not being passed
+by reference, that if sub_onehundred_ints modifies the array
+t, this will not affect the FreeMat argument. Note that the
+bounds-check expression can be any legal scalar expression
+that evaluates to an integer, and can be a function of the
+arguments. For example to pass a square  $N \times N$
+matrix to the following function:
+
+    float determinantmatrix(int N, float *A),
+
+we can use the following argument to import:
+
+    'int32 N, float[N*N] t'.
+
+
+Array variable passed by reference:
+
+If the function in C modifies an array, and we wish this to
+be reflected in the FreeMat side, we must pass that argument
+by reference. Hence, consider the following hypothetical
+function that squares the elements of an array (functionally
+equivalent to  $x.^2$ ):
+
+    void squarearray(int N, float *A)
+
+we can use the following argument to import:
+
+    'int32 N, float[N] &amp;A'.
+
+Note that to avoid problems with memory allocation, external
+functions are not allowed to return pointers. As a result,
+as a general operating mechanism, the FreeMat code must
+allocate the proper arrays, and then pass them by reference
+to the external function.
+
+Sending text to the FreeMat console:
+
+Starting with FreeMat 4.0, it is possible for external code
+that is called using the import statement to send text to
+the FreeMat console. To do so, you must define in each
+library that wants to send text a function with the name
+freemat_io_handler that captures its argument (a function
+pointer), and stores it for use by functions in the library.
+That function pointer takes a standard C string argument.
+Here is a snippet of code to demonstrate how this works:
+
+    /* just to make it readable */
+    typedef void (*strfunc)(const char*);
+
+    /* The name we want to use for the function */
+    strfunc FreeMatText;
+
+    /* this name is case sensitive and must not be mangled
+  (i.e., use extern "C") */
+    void freemat_io_handler(strfunc printFunc) {
+       FreeMatText = printFunc;
+    }
+
+    double SomeImportedFunction(double t) {
+       FreeMatText("I am going to double that argument!\n");
+       return (t*2);
+    }
+
+In this case, once SomeImportedFunction is called from
+within FreeMat, the text "I am going to double that
+argument" will appear in the FreeMat console.
+Your freemat_io_handler function is automatically called
+when your library is loaded by FreeMat, which happens with
+the first import statement that references it.
+Repeating import calls to import the same function name will
+be ignored, except the first call. In order to refresh the
+function without restarting FreeMat, you have to first clear
+all imported libraries via:
+
+     clear 'libs'
+
+
+
+ Example
+
+Here is a complete example. We have a C function that adds
+two float vectors of the same length, and stores the result
+in a third array that is modified by the function. First,
+the C code:
+
+       addArrays.c
+
+
+  void addArrays(int N, float *a, float *b, float *c) {
+    int i;
+
+    for (i=0;i<N;i++)
+     c[i] = a[i] + b[i];
+  }
+
+We then compile this into a dynamic library, say, add.so.
+The import command would then be:
+
+    import('add.so','addArrays','addArrays','void', ...
+           'int32 N, float[N] a, float[N] b, float[N]
+  &amp;c');
+
+We could then exercise the function exactly as if it had
+been written in FreeMat. The following only works on systems
+using the GNU C Compiler:
+
+  --> if (strcmp(computer,'MAC')) system('gcc -bundle -
+  flat_namespace -undefined suppress -o add.so
+  addArrays.c'); end;
+  --> if (~strcmp(computer,'MAC')) system('gcc -shared -fPIC
+  -o add.so addArrays.c'); end;
+  --> import('add.so','addArrays','addArrays','void','int32
+  N, float[N] a, float[N] b, float[N] &amp;c');
+  --> a = [3,2,3,1];
+  --> b = [5,6,0,2];
+  --> c = [0,0,0,0];
+  --> addArrays(length(a),a,b,c)
+
+  ans =
+    []
+  --> c
+
+  ans =
+   8 8 3 3
+
+
+* FreeMat_Documentation
+* FreeMat_External_Interface
+* Generated on Thu Jul 25 2013 17:17:14 for FreeMat by
+  doxygen_ 1.8.1.1
+

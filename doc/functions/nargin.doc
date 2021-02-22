@@ -1,0 +1,57 @@
+/*!
+\page functions_nargin NARGIN Number of Input Arguments
+
+<p>
+Section: \ref sec_functions "Functions and Scripts"
+\section Usage
+The <tt>nargin</tt> function returns the number of arguments passed
+to a function when it was called.  The general syntax for its
+use is
+\verbatim
+  y = nargin
+\endverbatim
+FreeMat allows for
+fewer arguments to be passed to a function than were declared,
+and <tt>nargin</tt>, along with <tt>isset</tt> can be used to determine
+exactly what subset of the arguments were defined.
+
+You can also use <tt>nargin</tt> on a function handle to return the
+number of input arguments expected by the function
+\verbatim
+  y = nargin(fun)
+\endverbatim
+where <tt>fun</tt> is the name of the function (e.g. <tt>'sin'</tt>) or 
+a function handle.
+\section Example
+Here is a function that is declared to take five 
+arguments, and that simply prints the value of <tt>nargin</tt>
+each time it is called.
+
+\if FILE
+nargintest.m
+function nargintest(a1,a2,a3,a4,a5)
+  printf('nargin = %d\n',nargin);
+\endif
+\verbatim
+     nargintest.m
+\endverbatim
+
+\verbinclude nargintest.m
+
+
+\if FRAGMENT
+frag_functions_nargin_000.m
+0
+nargintest(3);
+nargintest(3,'h');
+nargintest(3,'h',1.34);
+nargintest(3,'h',1.34,pi,e);
+nargin('sin')
+y = @sin
+nargin(y)
+\endif
+
+
+\verbinclude frag_functions_nargin_000.m.out 
+
+*/

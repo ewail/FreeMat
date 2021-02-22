@@ -1,0 +1,294 @@
+
+ Usage
+
+vtkVolumeProMapper is the superclass for VolumePRO volume
+rendering mappers. Any functionality that is general across
+all VolumePRO implementations is placed here in this class.
+Subclasses of this class are for the specific board
+implementations. Subclasses of that are for underlying
+graphics languages. Users should not create subclasses
+directly - a vtkVolumeProMapper will automatically create
+the object of the right type.
+If you do not have the VolumePRO libraries when building
+this object, then the New method will create a default
+renderer that will not render. You can check the
+NumberOfBoards ivar to see if it is a real rendering class.
+To build with the VolumePRO board see
+vtkVolumeProVP1000Mapper.h for instructions.
+For more information on the VolumePRO hardware, please see:
+http://www.terarecon.com/products/volumepro_prod.html
+If you encounter any problems with this class, please inform
+Kitware, Inc. at
+kitwa.nosp@m.re@k.nosp@m.itwar.nosp@m.e.co.nosp@m.m.
+To create an instance of class vtkVolumeProMapper, simply
+invoke its constructor as follows
+
+    obj = vtkVolumeProMapper
+
+
+
+ Methods
+
+The class vtkVolumeProMapper has several methods that can be
+used. They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkVolumeProMapper class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkVolumeProMapper = obj.NewInstance ()
+* vtkVolumeProMapper = obj.SafeDownCast (vtkObject o)
+* obj.Render (vtkRenderer , vtkVolume ) - Set the blend mode
+* obj.SetBlendMode (int ) - Set the blend mode
+* int = obj.GetBlendModeMinValue () - Set the blend mode
+* int = obj.GetBlendModeMaxValue () - Set the blend mode
+* int = obj.GetBlendMode () - Set the blend mode
+* obj.SetBlendModeToComposite () - Set the blend mode
+* obj.SetBlendModeToMaximumIntensity () - Set the blend mode
+* obj.SetBlendModeToMinimumIntensity () - Set the blend mode
+* string = obj.GetBlendModeAsString (void ) - Set the blend
+  mode
+* obj.SetSubVolume (int , int , int , int , int , int ) -
+  Set the subvolume
+* obj.SetSubVolume (int a[6]) - Set the subvolume
+* int = obj. GetSubVolume () - Set the subvolume
+* obj.SetCursor (int ) - Turn the cursor on / off
+* int = obj.GetCursorMinValue () - Turn the cursor on / off
+* int = obj.GetCursorMaxValue () - Turn the cursor on / off
+* int = obj.GetCursor () - Turn the cursor on / off
+* obj.CursorOn () - Turn the cursor on / off
+* obj.CursorOff () - Turn the cursor on / off
+* obj.SetCursorType (int ) - Set the type of the cursor
+* int = obj.GetCursorTypeMinValue () - Set the type of the
+  cursor
+* int = obj.GetCursorTypeMaxValue () - Set the type of the
+  cursor
+* int = obj.GetCursorType () - Set the type of the cursor
+* obj.SetCursorTypeToCrossHair () - Set the type of the
+  cursor
+* obj.SetCursorTypeToPlane () - Set the type of the cursor
+* string = obj.GetCursorTypeAsString (void ) - Set the type
+  of the cursor
+* obj.SetCursorPosition (double , double , double ) - Set/
+  Get the cursor position
+* obj.SetCursorPosition (double a[3]) - Set/Get the cursor
+  position
+* double = obj. GetCursorPosition () - Set/Get the cursor
+  position
+* obj.SetCursorXAxisColor (double , double , double ) - Set/
+  Get the cursor color
+* obj.SetCursorXAxisColor (double a[3]) - Set/Get the cursor
+  color
+* double = obj. GetCursorXAxisColor () - Set/Get the cursor
+  color
+* obj.SetCursorYAxisColor (double , double , double ) - Set/
+  Get the cursor color
+* obj.SetCursorYAxisColor (double a[3]) - Set/Get the cursor
+  color
+* double = obj. GetCursorYAxisColor () - Set/Get the cursor
+  color
+* obj.SetCursorZAxisColor (double , double , double ) - Set/
+  Get the cursor color
+* obj.SetCursorZAxisColor (double a[3]) - Set/Get the cursor
+  color
+* double = obj. GetCursorZAxisColor () - Set/Get the cursor
+  color
+* obj.SetSuperSampling (int ) - Turn supersampling on/off
+* int = obj.GetSuperSamplingMinValue () - Turn supersampling
+  on/off
+* int = obj.GetSuperSamplingMaxValue () - Turn supersampling
+  on/off
+* int = obj.GetSuperSampling () - Turn supersampling on/off
+* obj.SuperSamplingOn () - Turn supersampling on/off
+* obj.SuperSamplingOff () - Turn supersampling on/off
+* obj.SetSuperSamplingFactor (double x, double y, double z)
+  - Set the supersampling factors
+* obj.SetSuperSamplingFactor (double f[3]) - Set the
+  supersampling factors
+* double = obj. GetSuperSamplingFactor () - Set the
+  supersampling factors
+* obj.SetCutPlane (int ) - Turn on / off the cut plane
+* int = obj.GetCutPlaneMinValue () - Turn on / off the cut
+  plane
+* int = obj.GetCutPlaneMaxValue () - Turn on / off the cut
+  plane
+* int = obj.GetCutPlane () - Turn on / off the cut plane
+* obj.CutPlaneOn () - Turn on / off the cut plane
+* obj.CutPlaneOff () - Turn on / off the cut plane
+* obj.SetCutPlaneEquation (double , double , double , double
+  ) - Set/Get the cut plane equation
+* obj.SetCutPlaneEquation (double a[4]) - Set/Get the cut
+  plane equation
+* double = obj. GetCutPlaneEquation () - Set/Get the cut
+  plane equation
+* obj.SetCutPlaneThickness (double ) - Set / Get the cut
+  plane thickness
+* double = obj.GetCutPlaneThicknessMinValue () - Set / Get
+  the cut plane thickness
+* double = obj.GetCutPlaneThicknessMaxValue () - Set / Get
+  the cut plane thickness
+* double = obj.GetCutPlaneThickness () - Set / Get the cut
+  plane thickness
+* obj.SetCutPlaneFallOffDistance (int ) - Set / Get the cut
+  plane falloff value for intensities
+* int = obj.GetCutPlaneFallOffDistanceMinValue () - Set /
+  Get the cut plane falloff value for intensities
+* int = obj.GetCutPlaneFallOffDistanceMaxValue () - Set /
+  Get the cut plane falloff value for intensities
+* int = obj.GetCutPlaneFallOffDistance () - Set / Get the
+  cut plane falloff value for intensities
+* obj.SetGradientOpacityModulation (int ) - Set/Get the
+  gradient magnitude opacity modulation
+* int = obj.GetGradientOpacityModulationMinValue () - Set/
+  Get the gradient magnitude opacity modulation
+* int = obj.GetGradientOpacityModulationMaxValue () - Set/
+  Get the gradient magnitude opacity modulation
+* int = obj.GetGradientOpacityModulation () - Set/Get the
+  gradient magnitude opacity modulation
+* obj.GradientOpacityModulationOn () - Set/Get the gradient
+  magnitude opacity modulation
+* obj.GradientOpacityModulationOff () - Set/Get the gradient
+  magnitude opacity modulation
+* obj.SetGradientDiffuseModulation (int ) - Set/Get the
+  gradient magnitude diffuse modulation
+* int = obj.GetGradientDiffuseModulationMinValue () - Set/
+  Get the gradient magnitude diffuse modulation
+* int = obj.GetGradientDiffuseModulationMaxValue () - Set/
+  Get the gradient magnitude diffuse modulation
+* int = obj.GetGradientDiffuseModulation () - Set/Get the
+  gradient magnitude diffuse modulation
+* obj.GradientDiffuseModulationOn () - Set/Get the gradient
+  magnitude diffuse modulation
+* obj.GradientDiffuseModulationOff () - Set/Get the gradient
+  magnitude diffuse modulation
+* obj.SetGradientSpecularModulation (int ) - Set/Get the
+  gradient magnitude specular modulation
+* int = obj.GetGradientSpecularModulationMinValue () - Set/
+  Get the gradient magnitude specular modulation
+* int = obj.GetGradientSpecularModulationMaxValue () - Set/
+  Get the gradient magnitude specular modulation
+* int = obj.GetGradientSpecularModulation () - Set/Get the
+  gradient magnitude specular modulation
+* obj.GradientSpecularModulationOn () - Set/Get the gradient
+  magnitude specular modulation
+* obj.GradientSpecularModulationOff () - Set/Get the
+  gradient magnitude specular modulation
+* int = obj.GetNoHardware () - Conveniece methods for
+  debugging
+* int = obj.GetWrongVLIVersion () - Conveniece methods for
+  debugging
+* int = obj.GetNumberOfBoards () - Access methods for some
+  board info
+* int = obj.GetMajorBoardVersion () - Access methods for
+  some board info
+* int = obj.GetMinorBoardVersion () - Access methods for
+  some board info
+* int = obj.GetAvailableBoardMemory () - Access methods for
+  some board info
+* obj.GetLockSizesForBoardMemory (int , int , int , int ) -
+  Access methods for some board info
+* obj.SetIntermixIntersectingGeometry (int ) - Specify
+  whether any geometry intersects the volume.
+* int = obj.GetIntermixIntersectingGeometryMinValue () -
+  Specify whether any geometry intersects the volume.
+* int = obj.GetIntermixIntersectingGeometryMaxValue () -
+  Specify whether any geometry intersects the volume.
+* int = obj.GetIntermixIntersectingGeometry () - Specify
+  whether any geometry intersects the volume.
+* obj.IntermixIntersectingGeometryOn () - Specify whether
+  any geometry intersects the volume.
+* obj.IntermixIntersectingGeometryOff () - Specify whether
+  any geometry intersects the volume.
+* obj.SetAutoAdjustMipmapLevels (int ) - If set to 1, this
+  mapper will select a mipmap level to use based on the
+  AllocatedRenderTime of the volume and the amount of time
+  used by the previous render.
+* int = obj.GetAutoAdjustMipmapLevelsMinValue () - If set to
+  1, this mapper will select a mipmap level to use based on
+  the AllocatedRenderTime of the volume and the amount of
+  time used by the previous render.
+* int = obj.GetAutoAdjustMipmapLevelsMaxValue () - If set to
+  1, this mapper will select a mipmap level to use based on
+  the AllocatedRenderTime of the volume and the amount of
+  time used by the previous render.
+* int = obj.GetAutoAdjustMipmapLevels () - If set to 1, this
+  mapper will select a mipmap level to use based on the
+  AllocatedRenderTime of the volume and the amount of time
+  used by the previous render.
+* obj.AutoAdjustMipmapLevelsOn () - If set to 1, this mapper
+  will select a mipmap level to use based on the
+  AllocatedRenderTime of the volume and the amount of time
+  used by the previous render.
+* obj.AutoAdjustMipmapLevelsOff () - If set to 1, this
+  mapper will select a mipmap level to use based on the
+  AllocatedRenderTime of the volume and the amount of time
+  used by the previous render.
+* obj.SetMinimumMipmapLevel (int ) - Specify the minimum
+  mipmap level to use &ndash; the highest resolution.
+  Defaults to 0. This is the mipmap level that is used when
+  interaction stops.
+* int = obj.GetMinimumMipmapLevelMinValue () - Specify the
+  minimum mipmap level to use &ndash; the highest
+  resolution. Defaults to 0. This is the mipmap level that
+  is used when interaction stops.
+* int = obj.GetMinimumMipmapLevelMaxValue () - Specify the
+  minimum mipmap level to use &ndash; the highest
+  resolution. Defaults to 0. This is the mipmap level that
+  is used when interaction stops.
+* int = obj.GetMinimumMipmapLevel () - Specify the minimum
+  mipmap level to use &ndash; the highest resolution.
+  Defaults to 0. This is the mipmap level that is used when
+  interaction stops.
+* obj.SetMaximumMipmapLevel (int ) - Specify the maximum
+  mipmap level to use &ndash; the lowest resolution.
+  Defaults to 4. It will not help to set the level larger
+  than this unless your volume is very large because for
+  each successive mipmap level, the number of voxels along
+  each axis is cut in half.
+* int = obj.GetMaximumMipmapLevelMinValue () - Specify the
+  maximum mipmap level to use &ndash; the lowest resolution.
+  Defaults to 4. It will not help to set the level larger
+  than this unless your volume is very large because for
+  each successive mipmap level, the number of voxels along
+  each axis is cut in half.
+* int = obj.GetMaximumMipmapLevelMaxValue () - Specify the
+  maximum mipmap level to use &ndash; the lowest resolution.
+  Defaults to 4. It will not help to set the level larger
+  than this unless your volume is very large because for
+  each successive mipmap level, the number of voxels along
+  each axis is cut in half.
+* int = obj.GetMaximumMipmapLevel () - Specify the maximum
+  mipmap level to use &ndash; the lowest resolution.
+  Defaults to 4. It will not help to set the level larger
+  than this unless your volume is very large because for
+  each successive mipmap level, the number of voxels along
+  each axis is cut in half.
+* obj.SetMipmapLevel (int ) - Choose a mipmap level. If
+  AutoAdjustMipmapLevels is off, then this specifies the
+  mipmap level to use during interaction. If
+  AutoAdjustMipmapLevels is on, then this specifies the
+  initial mipmap level to use.
+* int = obj.GetMipmapLevelMinValue () - Choose a mipmap
+  level. If AutoAdjustMipmapLevels is off, then this
+  specifies the mipmap level to use during interaction. If
+  AutoAdjustMipmapLevels is on, then this specifies the
+  initial mipmap level to use.
+* int = obj.GetMipmapLevelMaxValue () - Choose a mipmap
+  level. If AutoAdjustMipmapLevels is off, then this
+  specifies the mipmap level to use during interaction. If
+  AutoAdjustMipmapLevels is on, then this specifies the
+  initial mipmap level to use.
+* int = obj.GetMipmapLevel () - Choose a mipmap level. If
+  AutoAdjustMipmapLevels is off, then this specifies the
+  mipmap level to use during interaction. If
+  AutoAdjustMipmapLevels is on, then this specifies the
+  initial mipmap level to use.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Volume_Rendering_Classes
+* Generated on Thu Jul 25 2013 17:18:36 for FreeMat by
+  doxygen_ 1.8.1.1
+

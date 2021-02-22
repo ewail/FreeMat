@@ -1,0 +1,148 @@
+/*!
+\page vtkviews_vtkparallelcoordinatesrepresentation vtkParallelCoordinatesRepresentation
+
+<p>
+Section: \ref sec_vtkviews "Visualization Toolkit View Classes"
+\section Usage
+  A parallel coordinates plot represents each variable in a multivariate
+  data set as a separate axis.  Individual samples of that data set are
+  represented as a polyline that pass through each variable axis at 
+  positions that correspond to data values.  vtkParallelCoordinatesRepresentation
+  generates this plot when added to a vtkParallelCoordinatesView, which handles 
+  interaction and highlighting.  Sample polylines can alternatively
+  be represented as s-curves by enabling the UseCurves flag.  
+
+  There are three selection modes: lasso, angle, and function. Lasso selection
+  picks sample lines that pass through a polyline.  Angle selection picks sample 
+  lines that have similar slope to a line segment.  Function selection picks
+  sample lines that are near a linear function defined on two variables.  This
+  function specified by passing two (x,y) variable value pairs.
+
+  All primitives are plotted in normalized view coordinates [0,1].
+
+
+To create an instance of class vtkParallelCoordinatesRepresentation, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkParallelCoordinatesRepresentation
+\endverbatim
+\section Methods
+The class vtkParallelCoordinatesRepresentation has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkParallelCoordinatesRepresentation class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkParallelCoordinatesRepresentation = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkParallelCoordinatesRepresentation = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.ApplyViewTheme (vtkViewTheme theme)</tt> -  Apply the theme to this view.  CellColor is used for line coloring
+ and titles.  EdgeLabelColor is used for axis color. CellOpacity is 
+ used for line opacity.
+ </LI>
+<LI>  <tt>string = obj.GetHoverText (vtkView view, int x, int y)</tt> -  Returns the hover text at an x,y location.
+ </LI>
+<LI>  <tt>int = obj.SetPositionAndSize (double position, double size)</tt> -  Change the position of the plot
+ </LI>
+<LI>  <tt>int = obj.GetPositionAndSize (double position, double size)</tt> -  Change the position of the plot
+ </LI>
+<LI>  <tt>obj.SetAxisTitles (vtkStringArray )</tt> -  Set/Get the axis titles
+ </LI>
+<LI>  <tt>obj.SetAxisTitles (vtkAlgorithmOutput )</tt> -  Set/Get the axis titles
+ </LI>
+<LI>  <tt>obj.SetPlotTitle (string )</tt> -  Set the title for the entire plot
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfAxes ()</tt> -  Get the number of axes in the plot
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfSamples ()</tt>
+ </LI>
+<LI>  <tt>obj.SetNumberOfAxisLabels (int num)</tt> -  Set/Get the number of labels to display on each axis
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfAxisLabels ()</tt> -  Set/Get the number of labels to display on each axis
+ </LI>
+<LI>  <tt>int = obj.SwapAxisPositions (int position1, int position2)</tt> -  Move an axis to a particular screen position.  Using these
+ methods requires an Update() before they will work properly.
+ </LI>
+<LI>  <tt>int = obj.SetXCoordinateOfPosition (int position, double xcoord)</tt> -  Move an axis to a particular screen position.  Using these
+ methods requires an Update() before they will work properly.
+ </LI>
+<LI>  <tt>double = obj.GetXCoordinateOfPosition (int axis)</tt> -  Move an axis to a particular screen position.  Using these
+ methods requires an Update() before they will work properly.
+ </LI>
+<LI>  <tt>obj.GetXCoordinatesOfPositions (double coords)</tt> -  Move an axis to a particular screen position.  Using these
+ methods requires an Update() before they will work properly.
+ </LI>
+<LI>  <tt>int = obj.GetPositionNearXCoordinate (double xcoord)</tt> -  Move an axis to a particular screen position.  Using these
+ methods requires an Update() before they will work properly.
+ </LI>
+<LI>  <tt>obj.SetUseCurves (int )</tt> -  Whether or not to display using curves
+ </LI>
+<LI>  <tt>int = obj.GetUseCurves ()</tt> -  Whether or not to display using curves
+ </LI>
+<LI>  <tt>obj.UseCurvesOn ()</tt> -  Whether or not to display using curves
+ </LI>
+<LI>  <tt>obj.UseCurvesOff ()</tt> -  Whether or not to display using curves
+ </LI>
+<LI>  <tt>obj.SetCurveResolution (int )</tt> -  Resolution of the curves displayed, enabled by setting UseCurves
+ </LI>
+<LI>  <tt>int = obj.GetCurveResolution ()</tt> -  Resolution of the curves displayed, enabled by setting UseCurves
+ </LI>
+<LI>  <tt>double = obj.GetLineOpacity ()</tt> -  Access plot properties
+ </LI>
+<LI>  <tt>double = obj.GetFontSize ()</tt> -  Access plot properties
+ </LI>
+<LI>  <tt>double = obj. GetLineColor ()</tt> -  Access plot properties
+ </LI>
+<LI>  <tt>double = obj. GetAxisColor ()</tt> -  Access plot properties
+ </LI>
+<LI>  <tt>double = obj. GetAxisLabelColor ()</tt> -  Access plot properties
+ </LI>
+<LI>  <tt>obj.SetLineOpacity (double )</tt> -  Access plot properties
+ </LI>
+<LI>  <tt>obj.SetFontSize (double )</tt> -  Access plot properties
+ </LI>
+<LI>  <tt>obj.SetLineColor (double , double , double )</tt> -  Access plot properties
+ </LI>
+<LI>  <tt>obj.SetLineColor (double  a[3])</tt> -  Access plot properties
+ </LI>
+<LI>  <tt>obj.SetAxisColor (double , double , double )</tt> -  Access plot properties
+ </LI>
+<LI>  <tt>obj.SetAxisColor (double  a[3])</tt> -  Access plot properties
+ </LI>
+<LI>  <tt>obj.SetAxisLabelColor (double , double , double )</tt> -  Access plot properties
+ </LI>
+<LI>  <tt>obj.SetAxisLabelColor (double  a[3])</tt> -  Access plot properties
+ </LI>
+<LI>  <tt>obj.SetAngleBrushThreshold (double )</tt> -  Maximum angle difference (in degrees) of selection using angle/function brushes
+ </LI>
+<LI>  <tt>double = obj.GetAngleBrushThreshold ()</tt> -  Maximum angle difference (in degrees) of selection using angle/function brushes
+ </LI>
+<LI>  <tt>obj.SetFunctionBrushThreshold (double )</tt> -  Maximum angle difference (in degrees) of selection using angle/function brushes
+ </LI>
+<LI>  <tt>double = obj.GetFunctionBrushThreshold ()</tt> -  Maximum angle difference (in degrees) of selection using angle/function brushes
+ </LI>
+<LI>  <tt>int = obj.GetRangeAtPosition (int position, double range[2])</tt> -  Set/get the value range of the axis at a particular screen position
+ </LI>
+<LI>  <tt>int = obj.SetRangeAtPosition (int position, double range[2])</tt> -  Set/get the value range of the axis at a particular screen position
+ </LI>
+<LI>  <tt>obj.ResetAxes ()</tt> -  Reset the axes to their default positions and orders
+ </LI>
+<LI>  <tt>obj.LassoSelect (int brushClass, int brushOperator, vtkPoints brushPoints)</tt> -  Do a selection of the lines.  See the main description for how to use these functions.  
+ RangeSelect is currently stubbed out.
+ </LI>
+<LI>  <tt>obj.AngleSelect (int brushClass, int brushOperator, double p1, double p2)</tt> -  Do a selection of the lines.  See the main description for how to use these functions.  
+ RangeSelect is currently stubbed out.
+ </LI>
+<LI>  <tt>obj.FunctionSelect (int brushClass, int brushOperator, double p1, double p2, double q1, double q2)</tt> -  Do a selection of the lines.  See the main description for how to use these functions.  
+ RangeSelect is currently stubbed out.
+ </LI>
+<LI>  <tt>obj.RangeSelect (int brushClass, int brushOperator, double p1, double p2)</tt> -  Do a selection of the lines.  See the main description for how to use these functions.  
+ RangeSelect is currently stubbed out.
+ </LI>
+</UL>
+*/

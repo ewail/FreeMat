@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkvolumerendering_vtkunstructuredgridbunykraycastfunction" kind="page">
+    <compoundname>vtkvolumerendering_vtkunstructuredgridbunykraycastfunction</compoundname>
+    <title>vtkUnstructuredGridBunykRayCastFunction</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkvolumerendering_1sec_vtkvolumerendering" kindref="member">Visualization Toolkit Volume Rendering Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>vtkUnstructuredGridBunykRayCastFunction is a concrete implementation of a ray cast function for unstructured grid data. This class was based on the paper &quot;Simple, Fast, Robust Ray Casting of Irregular Grids&quot; by Paul Bunyk, Arie Kaufmna, and Claudio Silva. This method is quite memory intensive (with extra explicit copies of the data) and therefore should not be used for very large data. This method assumes that the input data is composed entirely of tetras - use vtkDataSetTriangleFilter before setting the input on the mapper.</para><para>The basic idea of this method is as follows:</para><para>1) Enumerate the triangles. At each triangle have space for some information that will be used during rendering. This includes which tetra the triangles belong to, the plane equation and the Barycentric coefficients.</para><para>2) Keep a reference to all four triangles for each tetra.</para><para>3) At the beginning of each render, do the precomputation. This includes creating an array of transformed points (in view coordinates) and computing the view dependent info per triangle (plane equations and barycentric coords in view space)</para><para>4) Find all front facing boundary triangles (a triangle is on the boundary if it belongs to only one tetra). For each triangle, find all pixels in the image that intersect the triangle, and add this to the sorted (by depth) intersection list at each pixel.</para><para>5) For each ray cast, traverse the intersection list. At each intersection, accumulate opacity and color contribution per tetra along the ray until you reach an exiting triangle (on the boundary).</para><para>To create an instance of class vtkUnstructuredGridBunykRayCastFunction, simply invoke its constructor as follows <verbatim>  obj = vtkUnstructuredGridBunykRayCastFunction
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkUnstructuredGridBunykRayCastFunction has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkUnstructuredGridBunykRayCastFunction class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkUnstructuredGridBunykRayCastFunction = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkUnstructuredGridBunykRayCastFunction = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

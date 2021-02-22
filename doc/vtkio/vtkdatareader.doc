@@ -1,0 +1,309 @@
+/*!
+\page vtkio_vtkdatareader vtkDataReader
+
+<p>
+Section: \ref sec_vtkio "Visualization Toolkit IO Classes"
+\section Usage
+ vtkDataReader is a helper superclass that reads the vtk data file header,
+ dataset type, and attribute data (point and cell attributes such as
+ scalars, vectors, normals, etc.) from a vtk data file.  See text for
+ the format of the various vtk file types.
+
+
+To create an instance of class vtkDataReader, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkDataReader
+\endverbatim
+\section Methods
+The class vtkDataReader has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkDataReader class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkDataReader = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkDataReader = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetFileName (string )</tt> -  Specify file name of vtk data file to read.
+ </LI>
+<LI>  <tt>string = obj.GetFileName ()</tt> -  Specify file name of vtk data file to read.
+ </LI>
+<LI>  <tt>int = obj.IsFileValid (string dstype)</tt> -  Is the file a valid vtk file of the passed dataset type ?
+ The dataset type is passed as a lower case string.
+ </LI>
+<LI>  <tt>int = obj.IsFileStructuredPoints ()</tt> -  Is the file a valid vtk file of the passed dataset type ?
+ The dataset type is passed as a lower case string.
+ </LI>
+<LI>  <tt>int = obj.IsFilePolyData ()</tt> -  Is the file a valid vtk file of the passed dataset type ?
+ The dataset type is passed as a lower case string.
+ </LI>
+<LI>  <tt>int = obj.IsFileStructuredGrid ()</tt> -  Is the file a valid vtk file of the passed dataset type ?
+ The dataset type is passed as a lower case string.
+ </LI>
+<LI>  <tt>int = obj.IsFileUnstructuredGrid ()</tt> -  Is the file a valid vtk file of the passed dataset type ?
+ The dataset type is passed as a lower case string.
+ </LI>
+<LI>  <tt>int = obj.IsFileRectilinearGrid ()</tt> -  Is the file a valid vtk file of the passed dataset type ?
+ The dataset type is passed as a lower case string.
+ </LI>
+<LI>  <tt>obj.SetInputString (string in)</tt> -  Specify the InputString for use when reading from a character array.
+ Optionally include the length for binary strings. Note that a copy
+ of the string is made and stored. If this causes exceedingly large
+ memory consumption, consider using InputArray instead.
+ </LI>
+<LI>  <tt>string = obj.GetInputString ()</tt> -  Specify the InputString for use when reading from a character array.
+ Optionally include the length for binary strings. Note that a copy
+ of the string is made and stored. If this causes exceedingly large
+ memory consumption, consider using InputArray instead.
+ </LI>
+<LI>  <tt>obj.SetInputString (string in, int len)</tt> -  Specify the InputString for use when reading from a character array.
+ Optionally include the length for binary strings. Note that a copy
+ of the string is made and stored. If this causes exceedingly large
+ memory consumption, consider using InputArray instead.
+ </LI>
+<LI>  <tt>int = obj.GetInputStringLength ()</tt> -  Specify the InputString for use when reading from a character array.
+ Optionally include the length for binary strings. Note that a copy
+ of the string is made and stored. If this causes exceedingly large
+ memory consumption, consider using InputArray instead.
+ </LI>
+<LI>  <tt>obj.SetBinaryInputString (string , int len)</tt> -  Specify the InputString for use when reading from a character array.
+ Optionally include the length for binary strings. Note that a copy
+ of the string is made and stored. If this causes exceedingly large
+ memory consumption, consider using InputArray instead.
+ </LI>
+<LI>  <tt>obj.SetInputArray (vtkCharArray )</tt> -  Specify the vtkCharArray to be used  when reading from a string.
+ If set, this array has precendence over InputString.
+ Use this instead of InputString to avoid the extra memory copy.
+ It should be noted that if the underlying char* is owned by the
+ user ( vtkCharArray::SetArray(array, 1); ) and is deleted before
+ the reader, bad things will happen during a pipeline update.
+ </LI>
+<LI>  <tt>vtkCharArray = obj.GetInputArray ()</tt> -  Specify the vtkCharArray to be used  when reading from a string.
+ If set, this array has precendence over InputString.
+ Use this instead of InputString to avoid the extra memory copy.
+ It should be noted that if the underlying char* is owned by the
+ user ( vtkCharArray::SetArray(array, 1); ) and is deleted before
+ the reader, bad things will happen during a pipeline update.
+ </LI>
+<LI>  <tt>string = obj.GetHeader ()</tt> -  Get the header from the vtk data file.
+ </LI>
+<LI>  <tt>obj.SetReadFromInputString (int )</tt> -  Enable reading from an InputString or InputArray instead of the default, 
+ a file.
+ </LI>
+<LI>  <tt>int = obj.GetReadFromInputString ()</tt> -  Enable reading from an InputString or InputArray instead of the default, 
+ a file.
+ </LI>
+<LI>  <tt>obj.ReadFromInputStringOn ()</tt> -  Enable reading from an InputString or InputArray instead of the default, 
+ a file.
+ </LI>
+<LI>  <tt>obj.ReadFromInputStringOff ()</tt> -  Enable reading from an InputString or InputArray instead of the default, 
+ a file.
+ </LI>
+<LI>  <tt>int = obj.GetFileType ()</tt> -  Get the type of file (ASCII or BINARY). Returned value only valid
+ after file has been read.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfScalarsInFile ()</tt> -  How many attributes of various types are in this file? This 
+ requires reading the file, so the filename must be set prior 
+ to invoking this operation. (Note: file characteristics are
+ cached, so only a single read is necessary to return file
+ characteristics.)
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfVectorsInFile ()</tt> -  How many attributes of various types are in this file? This 
+ requires reading the file, so the filename must be set prior 
+ to invoking this operation. (Note: file characteristics are
+ cached, so only a single read is necessary to return file
+ characteristics.)
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfTensorsInFile ()</tt> -  How many attributes of various types are in this file? This 
+ requires reading the file, so the filename must be set prior 
+ to invoking this operation. (Note: file characteristics are
+ cached, so only a single read is necessary to return file
+ characteristics.)
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfNormalsInFile ()</tt> -  How many attributes of various types are in this file? This 
+ requires reading the file, so the filename must be set prior 
+ to invoking this operation. (Note: file characteristics are
+ cached, so only a single read is necessary to return file
+ characteristics.)
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfTCoordsInFile ()</tt> -  How many attributes of various types are in this file? This 
+ requires reading the file, so the filename must be set prior 
+ to invoking this operation. (Note: file characteristics are
+ cached, so only a single read is necessary to return file
+ characteristics.)
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfFieldDataInFile ()</tt> -  What is the name of the ith attribute of a certain type
+ in this file? This requires reading the file, so the filename 
+ must be set prior to invoking this operation.
+ </LI>
+<LI>  <tt>string = obj.GetScalarsNameInFile (int i)</tt> -  What is the name of the ith attribute of a certain type
+ in this file? This requires reading the file, so the filename 
+ must be set prior to invoking this operation.
+ </LI>
+<LI>  <tt>string = obj.GetVectorsNameInFile (int i)</tt> -  What is the name of the ith attribute of a certain type
+ in this file? This requires reading the file, so the filename 
+ must be set prior to invoking this operation.
+ </LI>
+<LI>  <tt>string = obj.GetTensorsNameInFile (int i)</tt> -  What is the name of the ith attribute of a certain type
+ in this file? This requires reading the file, so the filename 
+ must be set prior to invoking this operation.
+ </LI>
+<LI>  <tt>string = obj.GetNormalsNameInFile (int i)</tt> -  What is the name of the ith attribute of a certain type
+ in this file? This requires reading the file, so the filename 
+ must be set prior to invoking this operation.
+ </LI>
+<LI>  <tt>string = obj.GetTCoordsNameInFile (int i)</tt> -  What is the name of the ith attribute of a certain type
+ in this file? This requires reading the file, so the filename 
+ must be set prior to invoking this operation.
+ </LI>
+<LI>  <tt>string = obj.GetFieldDataNameInFile (int i)</tt> -  What is the name of the ith attribute of a certain type
+ in this file? This requires reading the file, so the filename 
+ must be set prior to invoking this operation.
+ </LI>
+<LI>  <tt>obj.SetScalarsName (string )</tt> -  Set the name of the scalar data to extract. If not specified, first 
+ scalar data encountered is extracted.
+ </LI>
+<LI>  <tt>string = obj.GetScalarsName ()</tt> -  Set the name of the scalar data to extract. If not specified, first 
+ scalar data encountered is extracted.
+ </LI>
+<LI>  <tt>obj.SetVectorsName (string )</tt> -  Set the name of the vector data to extract. If not specified, first 
+ vector data encountered is extracted.
+ </LI>
+<LI>  <tt>string = obj.GetVectorsName ()</tt> -  Set the name of the vector data to extract. If not specified, first 
+ vector data encountered is extracted.
+ </LI>
+<LI>  <tt>obj.SetTensorsName (string )</tt> -  Set the name of the tensor data to extract. If not specified, first 
+ tensor data encountered is extracted.
+ </LI>
+<LI>  <tt>string = obj.GetTensorsName ()</tt> -  Set the name of the tensor data to extract. If not specified, first 
+ tensor data encountered is extracted.
+ </LI>
+<LI>  <tt>obj.SetNormalsName (string )</tt> -  Set the name of the normal data to extract. If not specified, first 
+ normal data encountered is extracted.
+ </LI>
+<LI>  <tt>string = obj.GetNormalsName ()</tt> -  Set the name of the normal data to extract. If not specified, first 
+ normal data encountered is extracted.
+ </LI>
+<LI>  <tt>obj.SetTCoordsName (string )</tt> -  Set the name of the texture coordinate data to extract. If not specified,
+ first texture coordinate data encountered is extracted.
+ </LI>
+<LI>  <tt>string = obj.GetTCoordsName ()</tt> -  Set the name of the texture coordinate data to extract. If not specified,
+ first texture coordinate data encountered is extracted.
+ </LI>
+<LI>  <tt>obj.SetLookupTableName (string )</tt> -  Set the name of the lookup table data to extract. If not specified, uses 
+ lookup table named by scalar. Otherwise, this specification supersedes.
+ </LI>
+<LI>  <tt>string = obj.GetLookupTableName ()</tt> -  Set the name of the lookup table data to extract. If not specified, uses 
+ lookup table named by scalar. Otherwise, this specification supersedes.
+ </LI>
+<LI>  <tt>obj.SetFieldDataName (string )</tt> -  Set the name of the field data to extract. If not specified, uses 
+ first field data encountered in file.
+ </LI>
+<LI>  <tt>string = obj.GetFieldDataName ()</tt> -  Set the name of the field data to extract. If not specified, uses 
+ first field data encountered in file.
+ </LI>
+<LI>  <tt>obj.SetReadAllScalars (int )</tt> -  Enable reading all scalars. 
+ </LI>
+<LI>  <tt>int = obj.GetReadAllScalars ()</tt> -  Enable reading all scalars. 
+ </LI>
+<LI>  <tt>obj.ReadAllScalarsOn ()</tt> -  Enable reading all scalars. 
+ </LI>
+<LI>  <tt>obj.ReadAllScalarsOff ()</tt> -  Enable reading all scalars. 
+ </LI>
+<LI>  <tt>obj.SetReadAllVectors (int )</tt> -  Enable reading all vectors. 
+ </LI>
+<LI>  <tt>int = obj.GetReadAllVectors ()</tt> -  Enable reading all vectors. 
+ </LI>
+<LI>  <tt>obj.ReadAllVectorsOn ()</tt> -  Enable reading all vectors. 
+ </LI>
+<LI>  <tt>obj.ReadAllVectorsOff ()</tt> -  Enable reading all vectors. 
+ </LI>
+<LI>  <tt>obj.SetReadAllNormals (int )</tt> -  Enable reading all normals. 
+ </LI>
+<LI>  <tt>int = obj.GetReadAllNormals ()</tt> -  Enable reading all normals. 
+ </LI>
+<LI>  <tt>obj.ReadAllNormalsOn ()</tt> -  Enable reading all normals. 
+ </LI>
+<LI>  <tt>obj.ReadAllNormalsOff ()</tt> -  Enable reading all normals. 
+ </LI>
+<LI>  <tt>obj.SetReadAllTensors (int )</tt> -  Enable reading all tensors. 
+ </LI>
+<LI>  <tt>int = obj.GetReadAllTensors ()</tt> -  Enable reading all tensors. 
+ </LI>
+<LI>  <tt>obj.ReadAllTensorsOn ()</tt> -  Enable reading all tensors. 
+ </LI>
+<LI>  <tt>obj.ReadAllTensorsOff ()</tt> -  Enable reading all tensors. 
+ </LI>
+<LI>  <tt>obj.SetReadAllColorScalars (int )</tt> -  Enable reading all color scalars. 
+ </LI>
+<LI>  <tt>int = obj.GetReadAllColorScalars ()</tt> -  Enable reading all color scalars. 
+ </LI>
+<LI>  <tt>obj.ReadAllColorScalarsOn ()</tt> -  Enable reading all color scalars. 
+ </LI>
+<LI>  <tt>obj.ReadAllColorScalarsOff ()</tt> -  Enable reading all color scalars. 
+ </LI>
+<LI>  <tt>obj.SetReadAllTCoords (int )</tt> -  Enable reading all tcoords. 
+ </LI>
+<LI>  <tt>int = obj.GetReadAllTCoords ()</tt> -  Enable reading all tcoords. 
+ </LI>
+<LI>  <tt>obj.ReadAllTCoordsOn ()</tt> -  Enable reading all tcoords. 
+ </LI>
+<LI>  <tt>obj.ReadAllTCoordsOff ()</tt> -  Enable reading all tcoords. 
+ </LI>
+<LI>  <tt>obj.SetReadAllFields (int )</tt> -  Enable reading all fields. 
+ </LI>
+<LI>  <tt>int = obj.GetReadAllFields ()</tt> -  Enable reading all fields. 
+ </LI>
+<LI>  <tt>obj.ReadAllFieldsOn ()</tt> -  Enable reading all fields. 
+ </LI>
+<LI>  <tt>obj.ReadAllFieldsOff ()</tt> -  Enable reading all fields. 
+ </LI>
+<LI>  <tt>int = obj.OpenVTKFile ()</tt> -  Open a vtk data file. Returns zero if error.
+ </LI>
+<LI>  <tt>int = obj.ReadHeader ()</tt> -  Read the header of a vtk data file. Returns 0 if error.
+ </LI>
+<LI>  <tt>int = obj.ReadCellData (vtkDataSet ds, int numCells)</tt> -  Read the cell data of a vtk data file. The number of cells (from the 
+ dataset) must match the number of cells defined in cell attributes (unless
+ no geometry was defined).
+ </LI>
+<LI>  <tt>int = obj.ReadPointData (vtkDataSet ds, int numPts)</tt> -  Read the point data of a vtk data file. The number of points (from the
+ dataset) must match the number of points defined in point attributes
+ (unless no geometry was defined).
+ </LI>
+<LI>  <tt>int = obj.ReadPoints (vtkPointSet ps, int numPts)</tt> -  Read point coordinates. Return 0 if error.
+ </LI>
+<LI>  <tt>int = obj.ReadPoints (vtkGraph g, int numPts)</tt> -  Read point coordinates. Return 0 if error.
+ </LI>
+<LI>  <tt>int = obj.ReadVertexData (vtkGraph g, int numVertices)</tt> -  Read the vertex data of a vtk data file. The number of vertices (from the
+ graph) must match the number of vertices defined in vertex attributes
+ (unless no geometry was defined).
+ </LI>
+<LI>  <tt>int = obj.ReadEdgeData (vtkGraph g, int numEdges)</tt> -  Read the edge data of a vtk data file. The number of edges (from the
+ graph) must match the number of edges defined in edge attributes
+ (unless no geometry was defined).
+ </LI>
+<LI>  <tt>int = obj.ReadRowData (vtkTable t, int numEdges)</tt> -  Read the row data of a vtk data file.
+ </LI>
+<LI>  <tt>int = obj.ReadCells (int size, int data)</tt> -  Read a bunch of "cells". Return 0 if error.
+ </LI>
+<LI>  <tt>int = obj.ReadCells (int size, int data, int skip1, int read2, int skip3)</tt> -  Read a piece of the cells (for streaming compliance)
+ </LI>
+<LI>  <tt>int = obj.ReadCoordinates (vtkRectilinearGrid rg, int axes, int numCoords)</tt> -  Read the coordinates for a rectilinear grid. The axes parameter specifies
+ which coordinate axes (0,1,2) is being read.
+ </LI>
+<LI>  <tt>vtkAbstractArray = obj.ReadArray (string dataType, int numTuples, int numComp)</tt> -  Helper functions for reading data.
+ </LI>
+<LI>  <tt>vtkFieldData = obj.ReadFieldData ()</tt> -  Helper functions for reading data.
+ </LI>
+<LI>  <tt>obj.CloseVTKFile ()</tt> -  Close the vtk file.
+ </LI>
+<LI>  <tt>int = obj.ReadMetaData (vtkInformation )</tt>
+ </LI>
+</UL>
+*/

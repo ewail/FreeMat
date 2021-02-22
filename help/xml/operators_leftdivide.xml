@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="operators_leftdivide" kind="page">
+    <compoundname>operators_leftdivide</compoundname>
+    <title>LEFTDIVIDE Matrix Equation Solver/Divide Operator</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_operators_1sec_operators" kindref="member">Mathematical Operators</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>The divide operator <computeroutput>&lt;/tt&gt; is really a combination of three operators, all of which have the same general syntax: <verbatim>  Y = A \ B
+</verbatim> where <computeroutput>A</computeroutput> and <computeroutput>B</computeroutput> are arrays of numerical type. The result <computeroutput>Y</computeroutput> depends on which of the following three situations applies to the arguments <computeroutput>A</computeroutput> and <computeroutput>B</computeroutput>: <orderedlist>
+<listitem>
+<para><computeroutput>A</computeroutput> is a scalar, <computeroutput>B</computeroutput> is an arbitrary <computeroutput>n</computeroutput>-dimensional numerical array, in which case the output is each element of <computeroutput>B</computeroutput> divided by the scalar <computeroutput>A</computeroutput>.  </para></listitem>
+<listitem>
+<para><computeroutput>A,B</computeroutput> are matrices with the same number of rows, i.e., <computeroutput>A</computeroutput> is of size <computeroutput>M x K</computeroutput>, and <computeroutput>B</computeroutput> is of size <computeroutput>M x L</computeroutput>, in which case the output is of size <computeroutput>K x L</computeroutput>.  </para></listitem>
+</orderedlist>
+The output follows the standard type promotion rules, although in the first two cases, if <computeroutput>A</computeroutput> and <computeroutput>B</computeroutput> are integers, the output is an integer also, while in the third case if <computeroutput>A</computeroutput> and <computeroutput>B</computeroutput> are integers, the output is of type <computeroutput>double</computeroutput>.</computeroutput></para><para><computeroutput>A few additional words about the third version, in which <computeroutput>A</computeroutput> and <computeroutput>B</computeroutput> are matrices. Very loosely speaking, <computeroutput>Y</computeroutput> is the matrix that satisfies <formula id="109">$A * Y = B$</formula>. In cases where such a matrix exists. If such a matrix does not exist, then a matrix <computeroutput>Y</computeroutput> is returned that approximates <formula id="110">$A * Y \approx B$</formula>. </computeroutput></para></sect1>
+<sect1 id="transforms_svd_1Function">
+<title>Internals</title>
+<para><computeroutput>There are three formulae for the times operator. For the first form <formula id="111">\[ Y(m_1,\ldots,m_d) = \frac{B(m_1,\ldots,m_d)}{A}. \]</formula> In the second form, the calculation of the output depends on the size of <computeroutput>A</computeroutput>. Because each column of <computeroutput>B</computeroutput> is treated independantly, we can rewrite the equation <formula id="112">$A Y = B$</formula> as <formula id="113">\[ A [y_1, y_2,\ldots, y_l] = [b_1, b_2, \ldots, b_l] \]</formula> where <computeroutput>y_i</computeroutput> are the columns of <computeroutput>Y</computeroutput>, and <computeroutput>b_i</computeroutput> are the columns of the matrix <computeroutput>B</computeroutput>. If <computeroutput>A</computeroutput> is a square matrix, then the LAPACK routine <computeroutput>*gesvx</computeroutput> (where the <computeroutput>*</computeroutput> is replaced with <computeroutput>sdcz</computeroutput> depending on the type of the arguments) is used, which uses an LU decomposition of <computeroutput>A</computeroutput> to solve the sequence of equations sequentially. If <computeroutput>A</computeroutput> is singular, then a warning is emitted.</computeroutput></para><para><computeroutput>On the other hand, if <computeroutput>A</computeroutput> is rectangular, then the LAPACK routine <computeroutput>*gelsy</computeroutput> is used. Note that these routines are designed to work with matrices <computeroutput>A</computeroutput> that are full rank - either full column rank or full row rank. If <computeroutput>A</computeroutput> fails to satisfy this assumption, a warning is emitted. If <computeroutput>A</computeroutput> has full column rank (and thus necessarily has more rows than columns), then theoretically, this operator finds the columns <computeroutput>y_i</computeroutput> that satisfy: <formula id="114">\[ y_i = \arg \min_y \| A y - b_i \|_2 \]</formula> and each column is thus the Least Squares solution of <computeroutput>A y = b_i</computeroutput>. On the other hand, if <computeroutput>A</computeroutput> has full row rank (and thus necessarily has more columns than rows), then theoretically, this operator finds the columns <computeroutput>y_i</computeroutput> that satisfy <formula id="115">\[ y_i = \arg \min_{A y = b_i} \| y \|_2 \]</formula> and each column is thus the Minimum Norm vector <computeroutput>y_i</computeroutput> that satisfies <formula id="116">$A y_i = b_i$</formula>. In the event that the matrix <computeroutput>A</computeroutput> is neither full row rank nor full column rank, a solution is returned, that is the minimum norm least squares solution. The solution is computed using an orthogonal factorization technique that is documented in the LAPACK User&apos;s Guide (see the References section for details). </computeroutput></para></sect1>
+<sect1 id="variables_matrix_1Examples">
+<title>Examples</title>
+<para><computeroutput>Here are some simple examples of the divide operator. We start with a simple example of a full rank, square matrix:</computeroutput></para><para><computeroutput><verbatim>--&gt; A = [1,1;0,1]
+
+A = 
+ 1 1 
+ 0 1 
+</verbatim></computeroutput></para><para><computeroutput>Suppose we wish to solve <formula id="117">\[ \begin{bmatrix} 1 &amp; 1 \\ 0 &amp; 1 \end{bmatrix} \begin{bmatrix} y_1 \\ y_2 \end{bmatrix} = \begin{bmatrix} 3 \\ 2 \end{bmatrix} \]</formula> (which by inspection has the solution <computeroutput>y_1 = 1</computeroutput>, <computeroutput>y_2 = 2</computeroutput>). Thus we compute:</computeroutput></para><para><computeroutput><verbatim>--&gt; B = [3;2]
+
+B = 
+ 3 
+ 2 
+
+--&gt; Y = A\B
+
+Y = 
+ 1 
+ 2 
+</verbatim></computeroutput></para><para><computeroutput>Suppose we wish to solve a trivial Least Squares (LS) problem. We want to find a simple scaling of the vector <computeroutput>[1;1]</computeroutput> that is closest to the point <computeroutput>[2,1]</computeroutput>. This is equivalent to solving <formula id="118">\[ \begin{bmatrix} 1 \\ 1 \end{bmatrix} y = \begin{bmatrix} 2 \\ 1 \end{bmatrix} \]</formula> in a least squares sense. For fun, we can calculate the solution using calculus by hand. The error we wish to minimize is <formula id="119">\[ \varepsilon(y) = (y - 2)^2 + (y-1)^2. \]</formula> Taking a derivative with respect to <computeroutput>y</computeroutput>, and setting to zero (which we must have for an extrema when <computeroutput>y</computeroutput> is unconstrained) <formula id="120">\[ 2 (y-2) + 2 (y-1) = 0 \]</formula> which we can simplify to <computeroutput>4y = 6</computeroutput> or <computeroutput>y = 3/2</computeroutput> (we must, technically, check to make sure this is a minimum, and not a maximum or an inflection point). Here is the same calculation performed using FreeMat:</computeroutput></para><para><computeroutput><verbatim>--&gt; A = [1;1]
+
+A = 
+ 1 
+ 1 
+
+--&gt; B = [2;1]
+
+B = 
+ 2 
+ 1 
+
+--&gt; A\B
+
+ans = 
+    1.5000 
+</verbatim></computeroutput></para><para><computeroutput>which is the same solution. </computeroutput></para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

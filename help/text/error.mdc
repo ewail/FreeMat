@@ -1,0 +1,64 @@
+
+ Usage
+
+The error function causes an error condition (exception to
+be raised). The general syntax for its use is
+
+     error(s),
+
+where s is the string message describing the error. The
+error function is usually used in conjunction with try and
+catch to provide error handling. If the string s, then (to
+conform to the MATLAB API), error does nothing.
+
+
+ Example
+
+Here is a simple example of an error being issued by a
+function evenoddtest:
+
+       evenoddtest.m
+
+
+  function evenoddtest(n)
+    if (n==0)
+      error('zero is neither even nor odd');
+    elseif ( n ~= fix(n) )
+      error('expecting integer argument');
+    end;
+    if (n==int32(n/2)*2)
+      printf('%d is even\n',n);
+    else
+      printf('%d is odd\n',n);
+    end
+
+The normal command line prompt &ndash;> simply prints the
+error that occured.
+
+  --> evenoddtest(4)
+  4 is even
+  --> evenoddtest(5)
+  5 is odd
+  --> evenoddtest(0)
+  In /home/sbasu/Devel/FreeMat4/doc/fragments/evenoddtest.m
+  (evenoddtest) at line 3
+      In scratch() at line 1
+      In base(base)
+      In base()
+      In global()
+  Error: zero is neither even nor odd
+  --> evenoddtest(pi)
+  In /home/sbasu/Devel/FreeMat4/doc/fragments/evenoddtest.m
+  (evenoddtest) at line 5
+      In scratch() at line 1
+      In base(base)
+      In base()
+      In global()
+  Error: expecting integer argument
+
+
+* FreeMat_Documentation
+* Flow_Control
+* Generated on Thu Jul 25 2013 17:17:14 for FreeMat by
+  doxygen_ 1.8.1.1
+

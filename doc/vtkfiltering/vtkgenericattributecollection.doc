@@ -1,0 +1,143 @@
+/*!
+\page vtkfiltering_vtkgenericattributecollection vtkGenericAttributeCollection
+
+<p>
+Section: \ref sec_vtkfiltering "Visualization Toolkit Filtering Classes"
+\section Usage
+ vtkGenericAttributeCollection is a class that collects attributes 
+ (represented by vtkGenericAttribute).
+
+To create an instance of class vtkGenericAttributeCollection, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkGenericAttributeCollection
+\endverbatim
+\section Methods
+The class vtkGenericAttributeCollection has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkGenericAttributeCollection class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt> -  Standard type definition and print methods for a VTK class.
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt> -  Standard type definition and print methods for a VTK class.
+ </LI>
+<LI>  <tt>vtkGenericAttributeCollection = obj.NewInstance ()</tt> -  Standard type definition and print methods for a VTK class.
+ </LI>
+<LI>  <tt>vtkGenericAttributeCollection = obj.SafeDownCast (vtkObject o)</tt> -  Standard type definition and print methods for a VTK class.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfAttributes ()</tt> -  Return the number of attributes (e.g., instances of vtkGenericAttribute) 
+ in the collection.
+ \post positive_result: result>=0
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfComponents ()</tt> -  Return the number of components. This is the sum of all components
+ found in all attributes.
+ \post positive_result: result>=0
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfPointCenteredComponents ()</tt> -  Return the number of components. This is the sum of all components
+ found in all point centered attributes.
+ \post positive_result: result>=0
+ </LI>
+<LI>  <tt>int = obj.GetMaxNumberOfComponents ()</tt> -  Maximum number of components encountered among all attributes.
+ \post positive_result: result>=0
+ \post valid_result: result<=GetNumberOfComponents()
+ </LI>
+<LI>  <tt>long = obj.GetActualMemorySize ()</tt> -  Actual size of the data in kilobytes; only valid after the pipeline has
+ updated. It is guaranteed to be greater than or equal to the memory
+ required to represent the data.
+ </LI>
+<LI>  <tt>int = obj.IsEmpty ()</tt> -  Indicate whether the collection contains any attributes.
+ \post definition: result==(GetNumberOfAttributes()==0)
+ </LI>
+<LI>  <tt>vtkGenericAttribute = obj.GetAttribute (int i)</tt> -  Return a pointer to the ith instance of vtkGenericAttribute.
+ \pre not_empty: !IsEmpty()
+ \pre valid_i: i>=0 && i<GetNumberOfAttributes()
+ \post result_exists: result!=0
+ </LI>
+<LI>  <tt>int = obj.FindAttribute (string name)</tt> -  Return the index of the attribute named `name'. Return the non-negative
+ index if found. Return -1 otherwise.
+ \pre name_exists: name!=0
+ \post valid_result: (result==-1) || (result>=0) && (result<=GetNumberOfAttributes())
+ </LI>
+<LI>  <tt>int = obj.GetAttributeIndex (int i)</tt> -  Return the index of the first component of attribute `i' in an array of
+ format attrib0comp0 attrib0comp1 ... attrib4comp0 ...
+ \pre valid_i: i>=0 && i<GetNumberOfAttributes()
+ \pre is_point_centered: GetAttribute(i)->GetCentering()==vtkPointCentered
+ </LI>
+<LI>  <tt>obj.InsertNextAttribute (vtkGenericAttribute a)</tt> -  Add the attribute `a' to the end of the collection.
+ \pre a_exists: a!=0
+ \post more_items: GetNumberOfAttributes()==old GetNumberOfAttributes()+1
+ \post a_is_set: GetAttribute(GetNumberOfAttributes()-1)==a
+ </LI>
+<LI>  <tt>obj.InsertAttribute (int i, vtkGenericAttribute a)</tt> -  Replace the attribute at index `i' by `a'.
+ \pre not_empty: !IsEmpty()
+ \pre a_exists: a!=0
+ \pre valid_i: i>=0 && i<GetNumberOfAttributes()
+ \post same_size: GetNumberOfAttributes()==old GetNumberOfAttributes()
+ \post item_is_set: GetAttribute(i)==a
+ </LI>
+<LI>  <tt>obj.RemoveAttribute (int i)</tt> -  Remove the attribute at `i'.
+ \pre not_empty: !IsEmpty()
+ \pre valid_i: i>=0 && i<GetNumberOfAttributes()
+ \post fewer_items: GetNumberOfAttributes()==old GetNumberOfAttributes()-1
+ </LI>
+<LI>  <tt>obj.Reset ()</tt> -  Remove all attributes.
+ \post is_empty: GetNumberOfAttributes()==0
+ </LI>
+<LI>  <tt>obj.DeepCopy (vtkGenericAttributeCollection other)</tt> -  Copy, without reference counting, the other attribute array.
+ \pre other_exists: other!=0
+ \pre not_self: other!=this
+ \post same_size: GetNumberOfAttributes()==other->GetNumberOfAttributes()
+ </LI>
+<LI>  <tt>obj.ShallowCopy (vtkGenericAttributeCollection other)</tt> -  Copy, via reference counting, the other attribute array.
+ \pre other_exists: other!=0
+ \pre not_self: other!=this
+ \post same_size: GetNumberOfAttributes()==other->GetNumberOfAttributes()
+ </LI>
+<LI>  <tt>long = obj.GetMTime ()</tt> -  vtkAttributeCollection is a composite object and needs to check each
+ member of its collection for modified time.
+ </LI>
+<LI>  <tt>int = obj.GetActiveAttribute ()</tt> -  Index of the attribute to be processed (not necessarily scalar).
+ \pre not_empty: !IsEmpty()
+ \post valid_result: result>=0 && result<GetNumberOfAttributes()
+ </LI>
+<LI>  <tt>int = obj.GetActiveComponent ()</tt> -  Component of the active attribute to be processed. -1 means module.
+ \pre not_empty: GetNumberOfAttributes()>0
+ \post valid_result: result>=-1 &&
+       result<GetAttribute(GetActiveAttribute())->GetNumberOfComponents()
+ </LI>
+<LI>  <tt>obj.SetActiveAttribute (int attribute, int component)</tt> -  Set the scalar attribute to be processed. -1 means module.
+ \pre not_empty: !IsEmpty()
+ \pre valid_attribute: attribute>=0 && attribute<GetNumberOfAttributes()
+ \pre valid_component: component>=-1 &&
+              component<GetAttribute(attribute)->GetNumberOfComponents()
+ \post is_set: GetActiveAttribute()==attribute &&
+               GetActiveComponent()==component
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfAttributesToInterpolate ()</tt> -  Number of attributes to interpolate.
+ \pre not_empty: !IsEmpty()
+ \post positive_result: result>=0
+ </LI>
+<LI>  <tt>int = obj.HasAttribute (int size, int attributes, int attribute)</tt>
+ </LI>
+<LI>  <tt>obj.SetAttributesToInterpolate (int size, int attributes)</tt> -  Set the attributes to interpolate.
+ \pre not_empty: !IsEmpty()
+ \pre positive_size: size>=0
+ \pre valid_attributes: size>0 implies attributes!=0
+ \pre valid_attributes_contents: attributes!=0 implies
+                     !HasAttributes(size,attributes,GetActiveAttribute())
+ \post is_set: (GetNumberOfAttributesToInterpolate()==size)&&
+               (GetAttributesToInterpolate()==attributes)
+ </LI>
+<LI>  <tt>obj.SetAttributesToInterpolateToAll ()</tt> -  Set the attributes to interpolate.
+ \pre not_empty: !IsEmpty()
+ \pre positive_size: size>=0
+ \pre valid_attributes: size>0 implies attributes!=0
+ \pre valid_attributes_contents: attributes!=0 implies
+                     !HasAttributes(size,attributes,GetActiveAttribute())
+ \post is_set: (GetNumberOfAttributesToInterpolate()==size)&&
+               (GetAttributesToInterpolate()==attributes)
+ </LI>
+</UL>
+*/

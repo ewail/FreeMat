@@ -1,0 +1,147 @@
+
+ Usage
+
+vtkRectilinearGrid is a data object that is a concrete
+implementation of vtkDataSet. vtkRectilinearGrid represents
+a geometric structure that is topologically regular with
+variable spacing in the three coordinate directions x-y-z.
+To define a vtkRectilinearGrid, you must specify the
+dimensions of the data and provide three arrays of values
+specifying the coordinates along the x-y-z axes. The
+coordinate arrays are specified using three vtkDataArray
+objects (one for x, one for y, one for z).
+To create an instance of class vtkRectilinearGrid, simply
+invoke its constructor as follows
+
+    obj = vtkRectilinearGrid
+
+
+
+ Methods
+
+The class vtkRectilinearGrid has several methods that can be
+used. They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkRectilinearGrid class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkRectilinearGrid = obj.NewInstance ()
+* vtkRectilinearGrid = obj.SafeDownCast (vtkObject o)
+* int = obj.GetDataObjectType () - Return what type of
+  dataset this is.
+* obj.CopyStructure (vtkDataSet ds) - Copy the geometric and
+  topological structure of an input rectilinear grid object.
+* obj.Initialize () - Restore object to initial state.
+  Release memory back to system.
+* vtkIdType = obj.GetNumberOfCells () - Standard vtkDataSet
+  API methods. See vtkDataSet for more information.
+* vtkIdType = obj.GetNumberOfPoints () - Standard vtkDataSet
+  API methods. See vtkDataSet for more information.
+* double = obj.GetPoint (vtkIdType ptId) - Standard
+  vtkDataSet API methods. See vtkDataSet for more
+  information.
+* obj.GetPoint (vtkIdType id, double x[3]) - Standard
+  vtkDataSet API methods. See vtkDataSet for more
+  information.
+* vtkCell = obj.GetCell (vtkIdType cellId) - Standard
+  vtkDataSet API methods. See vtkDataSet for more
+  information.
+* obj.GetCell (vtkIdType cellId, vtkGenericCell cell) -
+  Standard vtkDataSet API methods. See vtkDataSet for more
+  information.
+* obj.GetCellBounds (vtkIdType cellId, double bounds[6]) -
+  Standard vtkDataSet API methods. See vtkDataSet for more
+  information.
+* vtkIdType = obj.FindPoint (double x, double y, double z) -
+  Standard vtkDataSet API methods. See vtkDataSet for more
+  information.
+* vtkIdType = obj.FindPoint (double x[3]) - Standard
+  vtkDataSet API methods. See vtkDataSet for more
+  information.
+* int = obj.GetCellType (vtkIdType cellId) - Standard
+  vtkDataSet API methods. See vtkDataSet for more
+  information.
+* obj.GetCellPoints (vtkIdType cellId, vtkIdList ptIds) -
+  Standard vtkDataSet API methods. See vtkDataSet for more
+  information.
+* obj.GetPointCells (vtkIdType ptId, vtkIdList cellIds) -
+  Standard vtkDataSet API methods. See vtkDataSet for more
+  information.
+* obj.ComputeBounds () - Standard vtkDataSet API methods.
+  See vtkDataSet for more information.
+* int = obj.GetMaxCellSize () - Standard vtkDataSet API
+  methods. See vtkDataSet for more information.
+* obj.GetCellNeighbors (vtkIdType cellId, vtkIdList ptIds,
+  vtkIdList cellIds) - Standard vtkDataSet API methods. See
+  vtkDataSet for more information.
+* obj.SetDimensions (int i, int j, int k) - Set dimensions
+  of rectilinear grid dataset. This also sets the extent.
+* obj.SetDimensions (int dim[3]) - Set dimensions of
+  rectilinear grid dataset. This also sets the extent.
+* int = obj. GetDimensions () - Get dimensions of this
+  rectilinear grid dataset.
+* int = obj.GetDataDimension () - Return the dimensionality
+  of the data.
+* int = obj.ComputeStructuredCoordinates (double x[3], int
+  ijk[3], double pcoords[3]) - Convenience function computes
+  the structured coordinates for a point x[3]. The cell is
+  specified by the array ijk[3], and the parametric
+  coordinates in the cell are specified with pcoords[3]. The
+  function returns a 0 if the point x is outside of the
+  grid, and a 1 if inside the grid.
+* vtkIdType = obj.ComputePointId (int ijk[3]) - Given a
+  location in structured coordinates (i-j-k), return the
+  point id.
+* vtkIdType = obj.ComputeCellId (int ijk[3]) - Given a
+  location in structured coordinates (i-j-k), return the
+  cell id.
+* obj.SetXCoordinates (vtkDataArray ) - Specify the grid
+  coordinates in the x-direction.
+* vtkDataArray = obj.GetXCoordinates () - Specify the grid
+  coordinates in the x-direction.
+* obj.SetYCoordinates (vtkDataArray ) - Specify the grid
+  coordinates in the y-direction.
+* vtkDataArray = obj.GetYCoordinates () - Specify the grid
+  coordinates in the y-direction.
+* obj.SetZCoordinates (vtkDataArray ) - Specify the grid
+  coordinates in the z-direction.
+* vtkDataArray = obj.GetZCoordinates () - Specify the grid
+  coordinates in the z-direction.
+* obj.SetExtent (int extent[6]) - Different ways to set the
+  extent of the data array. The extent should be set before
+  the "Scalars" are set or allocated. The Extent is stored
+  in the order (X, Y, Z).
+* obj.SetExtent (int x1, int x2, int y1, int y2, int z1, int
+  z2) - Different ways to set the extent of the data array.
+  The extent should be set before the "Scalars" are set or
+  allocated. The Extent is stored in the order (X, Y, Z).
+* int = obj. GetExtent () - Different ways to set the extent
+  of the data array. The extent should be set before the
+  "Scalars" are set or allocated. The Extent is stored in
+  the order (X, Y, Z).
+* long = obj.GetActualMemorySize () - Return the actual size
+  of the data in kilobytes. This number is valid only after
+  the pipeline has updated. The memory size returned is
+  guaranteed to be greater than or equal to the memory
+  required to represent the data (e.g., extra space in
+  arrays, etc. are not included in the return value). THIS
+  METHOD IS THREAD SAFE.
+* obj.ShallowCopy (vtkDataObject src) - Shallow and Deep
+  copy.
+* obj.DeepCopy (vtkDataObject src) - Shallow and Deep copy.
+* int = obj.GetExtentType () - Structured extent. The extent
+  type is a 3D extent
+* obj.Crop () - Reallocates and copies to set the Extent to
+  the UpdateExtent. This is used internally when the exact
+  extent is requested, and the source generated more than
+  the update extent.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Filtering_Classes
+* Generated on Thu Jul 25 2013 17:18:31 for FreeMat by
+  doxygen_ 1.8.1.1
+

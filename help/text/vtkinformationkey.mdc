@@ -1,0 +1,74 @@
+
+ Usage
+
+vtkInformationKey is the superclass for all keys used to
+access the map represented by vtkInformation. The
+vtkInformation::Set and vtkInformation::Get methods of
+vtkInformation are accessed by information keys. A key is a
+pointer to an instance of a subclass of vtkInformationKey.
+The type of the subclass determines the overload of Set/Get
+that is selected. This ensures that the type of value stored
+in a vtkInformation instance corresponding to a given key
+matches the type expected for that key.
+To create an instance of class vtkInformationKey, simply
+invoke its constructor as follows
+
+    obj = vtkInformationKey
+
+
+
+ Methods
+
+The class vtkInformationKey has several methods that can be
+used. They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkInformationKey class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkInformationKey = obj.NewInstance ()
+* vtkInformationKey = obj.SafeDownCast (vtkObject o)
+* obj.Register (vtkObjectBase ) - Prevent normal vtkObject
+  reference counting behavior.
+* obj.UnRegister (vtkObjectBase ) - Prevent normal vtkObject
+  reference counting behavior.
+* string = obj.GetName () - Get the name of the key. This is
+  not the type of the key, but the name of the key instance.
+* string = obj.GetLocation () - Get the location of the key.
+  This is the name of the class in which the key is defined.
+* vtkInformationKey = obj.(string name, string location) -
+  Key instances are static data that need to be created and
+  destroyed. The constructor and destructor must be public.
+  The name of the static instance and the class in which it
+  is defined should be passed to the constructor. They must
+  be string literals because the strings are not copied.
+* ~vtkInformationKey = obj.() - Key instances are static
+  data that need to be created and destroyed. The
+  constructor and destructor must be public. The name of the
+  static instance and the class in which it is defined
+  should be passed to the constructor. They must be string
+  literals because the strings are not copied.
+* obj.ShallowCopy (vtkInformation from, vtkInformation to) -
+  Copy the entry associated with this key from one
+  information object to another. If there is no entry in the
+  first information object for this key, the value is
+  removed from the second.
+* obj.DeepCopy (vtkInformation from, vtkInformation to) -
+  Check whether this key appears in the given information
+  object.
+* int = obj.Has (vtkInformation info) - Check whether this
+  key appears in the given information object.
+* obj.Remove (vtkInformation info) - Remove this key from
+  the given information object.
+* obj.Report (vtkInformation info, vtkGarbageCollector
+  collector) - Report a reference this key has in the given
+  information object.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Common_Classes
+* Generated on Thu Jul 25 2013 17:18:30 for FreeMat by
+  doxygen_ 1.8.1.1
+

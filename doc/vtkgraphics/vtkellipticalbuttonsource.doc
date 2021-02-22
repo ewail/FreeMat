@@ -1,0 +1,134 @@
+/*!
+\page vtkgraphics_vtkellipticalbuttonsource vtkEllipticalButtonSource
+
+<p>
+Section: \ref sec_vtkgraphics "Visualization Toolkit Graphics Classes"
+\section Usage
+ vtkEllipticalButtonSource creates a ellipsoidal shaped button with
+ texture coordinates suitable for application of a texture map. This
+ provides a way to make nice looking 3D buttons. The buttons are
+ represented as vtkPolyData that includes texture coordinates and
+ normals. The button lies in the x-y plane.
+
+ To use this class you must define the major and minor axes lengths of an
+ ellipsoid (expressed as width (x), height (y) and depth (z)). The button
+ has a rectangular mesh region in the center with texture coordinates that
+ range smoothly from (0,1). (This flat region is called the texture
+ region.) The outer, curved portion of the button (called the shoulder) has
+ texture coordinates set to a user specified value (by default (0,0).
+ (This results in coloring the button curve the same color as the (s,t)
+ location of the texture map.) The resolution in the radial direction, the
+ texture region, and the shoulder region must also be set. The button can
+ be moved by specifying an origin.
+
+
+To create an instance of class vtkEllipticalButtonSource, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkEllipticalButtonSource
+\endverbatim
+\section Methods
+The class vtkEllipticalButtonSource has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkEllipticalButtonSource class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkEllipticalButtonSource = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkEllipticalButtonSource = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetWidth (double )</tt> -  Set/Get the width of the button (the x-ellipsoid axis length * 2).
+ </LI>
+<LI>  <tt>double = obj.GetWidthMinValue ()</tt> -  Set/Get the width of the button (the x-ellipsoid axis length * 2).
+ </LI>
+<LI>  <tt>double = obj.GetWidthMaxValue ()</tt> -  Set/Get the width of the button (the x-ellipsoid axis length * 2).
+ </LI>
+<LI>  <tt>double = obj.GetWidth ()</tt> -  Set/Get the width of the button (the x-ellipsoid axis length * 2).
+ </LI>
+<LI>  <tt>obj.SetHeight (double )</tt> -  Set/Get the height of the button (the y-ellipsoid axis length * 2).
+ </LI>
+<LI>  <tt>double = obj.GetHeightMinValue ()</tt> -  Set/Get the height of the button (the y-ellipsoid axis length * 2).
+ </LI>
+<LI>  <tt>double = obj.GetHeightMaxValue ()</tt> -  Set/Get the height of the button (the y-ellipsoid axis length * 2).
+ </LI>
+<LI>  <tt>double = obj.GetHeight ()</tt> -  Set/Get the height of the button (the y-ellipsoid axis length * 2).
+ </LI>
+<LI>  <tt>obj.SetDepth (double )</tt> -  Set/Get the depth of the button (the z-eliipsoid axis length).
+ </LI>
+<LI>  <tt>double = obj.GetDepthMinValue ()</tt> -  Set/Get the depth of the button (the z-eliipsoid axis length).
+ </LI>
+<LI>  <tt>double = obj.GetDepthMaxValue ()</tt> -  Set/Get the depth of the button (the z-eliipsoid axis length).
+ </LI>
+<LI>  <tt>double = obj.GetDepth ()</tt> -  Set/Get the depth of the button (the z-eliipsoid axis length).
+ </LI>
+<LI>  <tt>obj.SetCircumferentialResolution (int )</tt> -  Specify the resolution of the button in the circumferential direction.
+ </LI>
+<LI>  <tt>int = obj.GetCircumferentialResolutionMinValue ()</tt> -  Specify the resolution of the button in the circumferential direction.
+ </LI>
+<LI>  <tt>int = obj.GetCircumferentialResolutionMaxValue ()</tt> -  Specify the resolution of the button in the circumferential direction.
+ </LI>
+<LI>  <tt>int = obj.GetCircumferentialResolution ()</tt> -  Specify the resolution of the button in the circumferential direction.
+ </LI>
+<LI>  <tt>obj.SetTextureResolution (int )</tt> -  Specify the resolution of the texture in the radial direction in the
+ texture region.
+ </LI>
+<LI>  <tt>int = obj.GetTextureResolutionMinValue ()</tt> -  Specify the resolution of the texture in the radial direction in the
+ texture region.
+ </LI>
+<LI>  <tt>int = obj.GetTextureResolutionMaxValue ()</tt> -  Specify the resolution of the texture in the radial direction in the
+ texture region.
+ </LI>
+<LI>  <tt>int = obj.GetTextureResolution ()</tt> -  Specify the resolution of the texture in the radial direction in the
+ texture region.
+ </LI>
+<LI>  <tt>obj.SetShoulderResolution (int )</tt> -  Specify the resolution of the texture in the radial direction in the
+ shoulder region.
+ </LI>
+<LI>  <tt>int = obj.GetShoulderResolutionMinValue ()</tt> -  Specify the resolution of the texture in the radial direction in the
+ shoulder region.
+ </LI>
+<LI>  <tt>int = obj.GetShoulderResolutionMaxValue ()</tt> -  Specify the resolution of the texture in the radial direction in the
+ shoulder region.
+ </LI>
+<LI>  <tt>int = obj.GetShoulderResolution ()</tt> -  Specify the resolution of the texture in the radial direction in the
+ shoulder region.
+ </LI>
+<LI>  <tt>obj.SetRadialRatio (double )</tt> -  Set/Get the radial ratio. This is the measure of the radius of the
+ outer ellipsoid to the inner ellipsoid of the button. The outer
+ ellipsoid is the boundary of the button defined by the height and
+ width. The inner ellipsoid circumscribes the texture region. Larger
+ RadialRatio's cause the button to be more rounded (and the texture
+ region to be smaller); smaller ratios produce sharply curved shoulders
+ with a larger texture region.
+ </LI>
+<LI>  <tt>double = obj.GetRadialRatioMinValue ()</tt> -  Set/Get the radial ratio. This is the measure of the radius of the
+ outer ellipsoid to the inner ellipsoid of the button. The outer
+ ellipsoid is the boundary of the button defined by the height and
+ width. The inner ellipsoid circumscribes the texture region. Larger
+ RadialRatio's cause the button to be more rounded (and the texture
+ region to be smaller); smaller ratios produce sharply curved shoulders
+ with a larger texture region.
+ </LI>
+<LI>  <tt>double = obj.GetRadialRatioMaxValue ()</tt> -  Set/Get the radial ratio. This is the measure of the radius of the
+ outer ellipsoid to the inner ellipsoid of the button. The outer
+ ellipsoid is the boundary of the button defined by the height and
+ width. The inner ellipsoid circumscribes the texture region. Larger
+ RadialRatio's cause the button to be more rounded (and the texture
+ region to be smaller); smaller ratios produce sharply curved shoulders
+ with a larger texture region.
+ </LI>
+<LI>  <tt>double = obj.GetRadialRatio ()</tt> -  Set/Get the radial ratio. This is the measure of the radius of the
+ outer ellipsoid to the inner ellipsoid of the button. The outer
+ ellipsoid is the boundary of the button defined by the height and
+ width. The inner ellipsoid circumscribes the texture region. Larger
+ RadialRatio's cause the button to be more rounded (and the texture
+ region to be smaller); smaller ratios produce sharply curved shoulders
+ with a larger texture region.
+ </LI>
+</UL>
+*/

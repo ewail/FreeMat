@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkparallel_vtkcachinginterpolatedvelocityfield" kind="page">
+    <compoundname>vtkparallel_vtkcachinginterpolatedvelocityfield</compoundname>
+    <title>vtkCachingInterpolatedVelocityField</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkparallel_1sec_vtkparallel" kindref="member">Visualization Toolkit Parallel Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>vtkCachingInterpolatedVelocityField acts as a continuous velocity field by performing cell interpolation on the underlying vtkDataSet. This is a concrete sub-class of vtkFunctionSet with NumberOfIndependentVariables = 4 (x,y,z,t) and NumberOfFunctions = 3 (u,v,w). Normally, every time an evaluation is performed, the cell which contains the point (x,y,z) has to be found by calling FindCell. This is a computationally expensive operation. In certain cases, the cell search can be avoided or shortened by providing a guess for the cell id. For example, in streamline integration, the next evaluation is usually in the same or a neighbour cell. For this reason, vtkCachingInterpolatedVelocityField stores the last cell id. If caching is turned on, it uses this id as the starting point.</para><para>To create an instance of class vtkCachingInterpolatedVelocityField, simply invoke its constructor as follows <verbatim>  obj = vtkCachingInterpolatedVelocityField
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkCachingInterpolatedVelocityField has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkCachingInterpolatedVelocityField class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkCachingInterpolatedVelocityField = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkCachingInterpolatedVelocityField = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.FunctionValues (double x, double f)</computeroutput> - Evaluate the velocity field, f={u,v,w}, at {x, y, z}. returns 1 if valid, 0 if test failed  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.InsideTest (double x)</computeroutput> - Evaluate the velocity field, f={u,v,w}, at {x, y, z}. returns 1 if valid, 0 if test failed  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetDataSet (int I, vtkDataSet dataset, bool staticdataset, vtkAbstractCellLocator locator)</computeroutput> - Add a dataset used by the interpolation function evaluation.  </para></listitem>
+<listitem>
+<para><computeroutput>string = obj.GetVectorsSelection ()</computeroutput> - If you want to work with an arbitrary vector array, then set its name here. By default this in NULL and the filter will use the active vector array.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SelectVectors (string fieldName)</computeroutput> - Return the cell id cached from last evaluation.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetLastCellInfo (vtkIdType c, int datasetindex)</computeroutput> - Return the cell id cached from last evaluation.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ClearLastCellInfo ()</computeroutput> - Set the last cell id to -1 so that the next search does not start from the previous cell  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetLastWeights (double w)</computeroutput> - Returns the interpolation weights/pcoords cached from last evaluation if the cached cell is valid (returns 1). Otherwise, it does not change w and returns 0.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetLastLocalCoordinates (double pcoords[3])</computeroutput> - Returns the interpolation weights/pcoords cached from last evaluation if the cached cell is valid (returns 1). Otherwise, it does not change w and returns 0.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetCellCacheHit ()</computeroutput> - Caching statistics.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetDataSetCacheHit ()</computeroutput> - Caching statistics.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetCacheMiss ()</computeroutput> - Caching statistics.  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

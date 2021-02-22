@@ -1,0 +1,84 @@
+
+ Usage
+
+vtkProcrustesAlignmentFilter is a filter that takes a set of
+pointsets (any object derived from vtkPointSet) and aligns
+them in a least-squares sense to their mutual mean. The
+algorithm is iterated until convergence, as the mean must be
+recomputed after each alignment.
+Call SetNumberOfInputs(n) before calling SetInput(0) ...
+SetInput(n-1).
+Retrieve the outputs using GetOutput(0) ... GetOutput(n-1).
+The default (in vtkLandmarkTransform) is for a similarity
+alignment. For a rigid-body alignment (to build a 'size-and-
+shape' model) use:
+GetLandmarkTransform()->SetModeToRigidBody().
+Affine alignments are not normally used but are left in for
+completeness:
+GetLandmarkTransform()->SetModeToAffine().
+vtkProcrustesAlignmentFilter is an implementation of:
+J.C. Gower (1975) Generalized Procrustes Analysis.
+Psychometrika, 40:33-51.
+To create an instance of class vtkProcrustesAlignmentFilter,
+simply invoke its constructor as follows
+
+    obj = vtkProcrustesAlignmentFilter
+
+
+
+ Methods
+
+The class vtkProcrustesAlignmentFilter has several methods
+that can be used. They are listed below. Note that the
+documentation is translated automatically from the VTK
+sources, and may not be completely intelligible. When in
+doubt, consult the VTK website. In the methods listed below,
+obj is an instance of the vtkProcrustesAlignmentFilter
+class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkProcrustesAlignmentFilter = obj.NewInstance ()
+* vtkProcrustesAlignmentFilter = obj.SafeDownCast (vtkObject
+  o)
+* vtkLandmarkTransform = obj.GetLandmarkTransform () - Get
+  the internal landmark transform. Use it to constrain the
+  number of degrees of freedom of the alignment (i.e. rigid
+  body, similarity, etc.). The default is a similarity
+  alignment.
+* vtkPoints = obj.GetMeanPoints () - Get the estimated mean
+  point cloud
+* obj.SetNumberOfInputs (int n) - Specify how many pointsets
+  are going to be given as input.
+* obj.SetInput (int idx, vtkPointSet p) - Specify the input
+  pointset with index idx. Call SetNumberOfInputs before
+  calling this function.
+* obj.SetInput (int idx, vtkDataObject input) - Specify the
+  input pointset with index idx. Call SetNumberOfInputs
+  before calling this function.
+* obj.SetStartFromCentroid (bool ) - When on, the initial
+  alignment is to the centroid of the cohort curves. When
+  off, the alignment is to the centroid of the first input.
+  Default is off for backward compatibility.
+* bool = obj.GetStartFromCentroid () - When on, the initial
+  alignment is to the centroid of the cohort curves. When
+  off, the alignment is to the centroid of the first input.
+  Default is off for backward compatibility.
+* obj.StartFromCentroidOn () - When on, the initial
+  alignment is to the centroid of the cohort curves. When
+  off, the alignment is to the centroid of the first input.
+  Default is off for backward compatibility.
+* obj.StartFromCentroidOff () - When on, the initial
+  alignment is to the centroid of the cohort curves. When
+  off, the alignment is to the centroid of the first input.
+  Default is off for backward compatibility.
+* vtkPointSet = obj.GetInput (int idx) - Retrieve the input
+  point set with index idx (usually only for pipeline
+  tracing).
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Hybrid_Classes
+* Generated on Thu Jul 25 2013 17:18:33 for FreeMat by
+  doxygen_ 1.8.1.1
+

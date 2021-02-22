@@ -1,0 +1,78 @@
+/*!
+\page vtkgraphics_vtkrearrangefields vtkRearrangeFields
+
+<p>
+Section: \ref sec_vtkgraphics "Visualization Toolkit Graphics Classes"
+\section Usage
+ vtkRearrangeFields is used to copy/move fields (vtkDataArrays) between
+ data object's field data, point data and cell data. To specify which
+ fields are copied/moved, the user adds operations. There are two types
+ of operations: 1. the type which copies/moves an attribute's data
+ (i.e. the field will be copied but will not be an attribute in the
+ target), 2. the type which copies/moves fields by name. For example:
+ @verbatim
+ rf->AddOperation(vtkRearrangeFields::COPY, "foo", 
+                  vtkRearrangeFields::DATA_OBJECT, 
+                  vtkRearrangeFields::POINT_DATA);
+ @endverbatim
+ adds an operation which copies a field (data array) called foo from
+ the data object's field data to point data.
+ From Tcl, the same operation can be added as follows:
+ @verbatim
+ rf AddOperation COPY foo DATA_OBJECT POINT_DATA
+ @endverbatim
+ The same can be done using Python and Java bindings by passing
+ strings as arguments.
+ @verbatim
+ Operation types: COPY, MOVE
+ AttributeTypes: SCALARS, VECTORS, NORMALS, TCOORDS, TENSORS
+ Field data locations: DATA_OBJECT, POINT_DATA, CELL_DATA
+ @endverbatim
+
+To create an instance of class vtkRearrangeFields, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkRearrangeFields
+\endverbatim
+\section Methods
+The class vtkRearrangeFields has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkRearrangeFields class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkRearrangeFields = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkRearrangeFields = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>int = obj.AddOperation (int operationType, int attributeType, int fromFieldLoc, int toFieldLoc)</tt> -  Add an operation which copies an attribute's field (data array) from
+ one field data to another. Returns an operation id which can later
+ be used to remove the operation.
+ </LI>
+<LI>  <tt>int = obj.AddOperation (int operationType, string name, int fromFieldLoc, int toFieldLoc)</tt> -  Add an operation which copies a field (data array) from one field 
+ data to another. Returns an operation id which can later
+ be used to remove the operation.
+ </LI>
+<LI>  <tt>int = obj.AddOperation (string operationType, string attributeType, string fromFieldLoc, string toFieldLoc)</tt> -  Helper method used by other language bindings. Allows the caller to
+ specify arguments as strings instead of enums.Returns an operation id 
+ which can later be used to remove the operation.
+ </LI>
+<LI>  <tt>int = obj.RemoveOperation (int operationId)</tt> -  Remove an operation with the given id.
+ </LI>
+<LI>  <tt>int = obj.RemoveOperation (int operationType, int attributeType, int fromFieldLoc, int toFieldLoc)</tt> -  Remove an operation with the given signature. See AddOperation
+ for details.
+ </LI>
+<LI>  <tt>int = obj.RemoveOperation (int operationType, string name, int fromFieldLoc, int toFieldLoc)</tt> -  Remove an operation with the given signature. See AddOperation
+ for details.
+ </LI>
+<LI>  <tt>int = obj.RemoveOperation (string operationType, string attributeType, string fromFieldLoc, string toFieldLoc)</tt> -  Remove an operation with the given signature. See AddOperation
+ for details.
+ </LI>
+<LI>  <tt>obj.RemoveAllOperations ()</tt>
+ </LI>
+</UL>
+*/

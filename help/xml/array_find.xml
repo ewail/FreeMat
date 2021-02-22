@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="array_find" kind="page">
+    <compoundname>array_find</compoundname>
+    <title>FIND Find Non-zero Elements of An Array</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_array_1sec_array" kindref="member">Array Generation and Manipulations</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>Returns a vector that contains the indicies of all non-zero elements in an array. The usage is <verbatim>   y = find(x)
+</verbatim> The indices returned are generalized column indices, meaning that if the array <computeroutput>x</computeroutput> is of size <computeroutput>[d1,d2,...,dn]</computeroutput>, and the element <computeroutput>x(i1,i2,...,in)</computeroutput> is nonzero, then <computeroutput>y</computeroutput> will contain the integer <formula id="3">\[ i_1 + (i_2-1) d_1 + (i_3-1) d_1 d_2 + \dots \]</formula> The second syntax for the <computeroutput>find</computeroutput> command is <verbatim>   [r,c] = find(x)
+</verbatim> which returns the row and column index of the nonzero entries of <computeroutput>x</computeroutput>. The third syntax for the <computeroutput>find</computeroutput> command also returns the values <verbatim>   [r,c,v] = find(x).
+</verbatim> Note that if the argument is a row vector, then the returned vectors are also row vectors. This form is particularly useful for converting sparse matrices into IJV form.</para><para>The <computeroutput>find</computeroutput> command also supports some additional arguments. Each of the above forms can be combined with an integer indicating how many results to return: <verbatim>   y = find(x,k)
+</verbatim> where <computeroutput>k</computeroutput> is the maximum number of results to return. This form will return the first <computeroutput>k</computeroutput> results. You can also specify an optional flag indicating whether to take the first or last <computeroutput>k</computeroutput> values: <verbatim>   y = find(x,k,&apos;first&apos;)
+   y = find(x,k,&apos;last&apos;)
+</verbatim> in the case of the <computeroutput>&apos;last&apos;</computeroutput> argument, the last <computeroutput>k</computeroutput> values are returned. </para></sect1>
+<sect1 id="variables_struct_1Example">
+<title>Example</title>
+<para>Some simple examples of its usage, and some common uses of <computeroutput>find</computeroutput> in FreeMat programs.</para><para><verbatim>--&gt; a = [1,2,5,2,4];
+--&gt; find(a==2)
+
+ans = 
+ 2 4 
+</verbatim></para><para>Here is an example of using find to replace elements of <computeroutput>A</computeroutput> that are <computeroutput>0</computeroutput> with the number <computeroutput>5</computeroutput>.</para><para><verbatim>--&gt; A = [1,0,3;0,2,1;3,0,0]
+
+A = 
+ 1 0 3 
+ 0 2 1 
+ 3 0 0 
+
+--&gt; n = find(A==0)
+
+n = 
+ 2 
+ 4 
+ 6 
+ 9 
+
+--&gt; A(n) = 5
+
+A = 
+ 1 5 3 
+ 5 2 1 
+ 3 5 5 
+</verbatim></para><para>Incidentally, a better way to achieve the same concept is:</para><para><verbatim>--&gt; A = [1,0,3;0,2,1;3,0,0]
+
+A = 
+ 1 0 3 
+ 0 2 1 
+ 3 0 0 
+
+--&gt; A(A==0) = 5
+
+A = 
+ 1 5 3 
+ 5 2 1 
+ 3 5 5 
+</verbatim></para><para>Now, we can also return the indices as row and column indices using the two argument form of <computeroutput>find</computeroutput>:</para><para><verbatim>--&gt; A = [1,0,3;0,2,1;3,0,0]
+
+A = 
+ 1 0 3 
+ 0 2 1 
+ 3 0 0 
+
+--&gt; [r,c] = find(A)
+r = 
+ 1 
+ 3 
+ 2 
+ 1 
+ 2 
+
+c = 
+ 1 
+ 1 
+ 2 
+ 3 
+ 3 
+</verbatim></para><para>Or the three argument form of <computeroutput>find</computeroutput>, which returns the value also:</para><para><verbatim>--&gt; [r,c,v] = find(A)
+r = 
+ 1 
+ 3 
+ 2 
+ 1 
+ 2 
+
+c = 
+ 1 
+ 1 
+ 2 
+ 3 
+ 3 
+
+v = 
+ 1 
+ 3 
+ 2 
+ 3 
+ 1 
+</verbatim> </para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

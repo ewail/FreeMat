@@ -1,0 +1,69 @@
+/*!
+\page array_shiftdim SHIFTDIM Shift Array Dimensions Function
+
+<p>
+Section: \ref sec_array "Array Generation and Manipulations"
+\section Usage
+The <tt>shiftdim</tt> function is used to shift the dimensions of an array.
+The general syntax for the <tt>shiftdim</tt> function is
+\verbatim
+   y = shiftdim(x,n)
+\endverbatim
+where <tt>x</tt> is a multidimensional array, and <tt>n</tt> is an integer.  If
+<tt>n</tt> is a positive integer, then <tt>shiftdim</tt> circularly shifts the 
+dimensions of <tt>x</tt> to the left, wrapping the dimensions around as 
+necessary.  If <tt>n</tt> is a negative integer, then <tt>shiftdim</tt> shifts
+the dimensions of <tt>x</tt> to the right, introducing singleton dimensions
+as necessary.  In its second form:
+\verbatim
+  [y,n] = shiftdim(x)
+\endverbatim
+the <tt>shiftdim</tt> function will shift away (to the left) the leading
+singleton dimensions of <tt>x</tt> until the leading dimension is not
+ a singleton dimension (recall that a singleton dimension <tt>p</tt> is one for
+which <tt>size(x,p) == 1</tt>).
+\section Example
+Here are some simple examples of using <tt>shiftdim</tt> to remove the singleton
+dimensions of an array, and then restore them:
+
+\if FRAGMENT
+frag_array_shiftdim_000.m
+0
+x = uint8(10*randn(1,1,1,3,2));
+[y,n] = shiftdim(x);
+n
+size(y)
+c = shiftdim(y,-n);
+size(c)
+any(c~=x)
+\endif
+
+
+\verbinclude frag_array_shiftdim_000.m.out 
+
+Note that these operations (where shifting involves only singleton dimensions)
+do not actually cause data to be resorted, only the size of the arrays change.
+This is not true for the following example, which triggers a call to <tt>permute</tt>:
+
+\if FRAGMENT
+frag_array_shiftdim_001.m
+0
+z = shiftdim(x,4);
+\endif
+
+
+\verbinclude frag_array_shiftdim_001.m.out 
+
+ Note that <tt>z</tt> is now the transpose of <tt>x</tt>
+
+\if FRAGMENT
+frag_array_shiftdim_002.m
+0
+squeeze(x)
+squeeze(z)
+\endif
+
+
+\verbinclude frag_array_shiftdim_002.m.out 
+
+*/

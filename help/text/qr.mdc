@@ -1,0 +1,56 @@
+
+ Usage
+
+Computes the QR factorization of a matrix. The qr function
+has multiple forms, with and without pivoting. The non-pivot
+version has two forms, a compact version and a full-blown
+decomposition version. The compact version of the
+decomposition of a matrix of size M x N is
+
+    [q,r] = qr(a,0)
+
+where q is a matrix of size M x L and r is a matrix of size
+L x N and L = min(N,M), and q*r = a. The QR decomposition is
+such that the columns of Q are orthonormal, and R is upper
+triangular. The decomposition is computed using the LAPACK
+routine xgeqrf, where x is the precision of the matrix.
+FreeMat supports decompositions of single and double types.
+The second form of the non-pivot decomposition omits the
+second 0 argument:
+
+    [q,r] = qr(a)
+
+This second form differs from the previous form only for
+matrices with more rows than columns (M > N). For these
+matrices, the full decomposition is of a matrix Q of size M
+x M and a matrix R of size M x N. The full decomposition is
+computed using the same LAPACK routines as the compact
+decomposition, but on an augmented matrix [a 0], where
+enough columns are added to form a square matrix.
+Generally, the QR decomposition will not return a matrix R
+with diagonal elements in any specific order. The remaining
+two forms of the qr command utilize permutations of the
+columns of a so that the diagonal elements of r are in
+decreasing magnitude. To trigger this form of the
+decomposition, a third argument is required, which records
+the permutation applied to the argument a. The compact
+version is
+
+    [q,r,e] = qr(a,0)
+
+where e is an integer vector that describes the permutation
+of the columns of a necessary to reorder the diagonal
+elements of r. This result is computed using the LAPACK
+routines (s,d)geqp3. In the non-compact version of the QR
+decomposition with pivoting,
+
+    [q,r,e] = qr(a)
+
+the returned matrix e is a permutation matrix, such that
+q*r*e' = a.
+
+* FreeMat_Documentation
+* Transforms/Decompositions
+* Generated on Thu Jul 25 2013 17:18:29 for FreeMat by
+  doxygen_ 1.8.1.1
+

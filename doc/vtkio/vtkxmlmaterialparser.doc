@@ -1,0 +1,84 @@
+/*!
+\page vtkio_vtkxmlmaterialparser vtkXMLMaterialParser
+
+<p>
+Section: \ref sec_vtkio "Visualization Toolkit IO Classes"
+\section Usage
+ vtkXMLMaterialParser parses a VTK Material file and provides that file's
+ description of a number of vertex and fragment shaders along with data
+ values specified for data members of vtkProperty. This material is to be
+ applied to an actor through it's vtkProperty and augments VTK's concept
+ of a vtkProperty to include explicitly include vertex and fragment shaders
+ and parameter settings for those shaders. This effectively makes reflectance
+ models and other shaders  a material property. If no shaders are specified
+ VTK should default to standard rendering.
+
+ .SECTION Design
+ vtkXMLMaterialParser provides access to 3 distinct types of first-level
+ vtkXMLDataElements that describe a VTK material. These elements are as
+ follows:
+
+ vtkProperty - describe values for vtkProperty data members
+
+ vtkVertexShader - a vertex shader and enough information to
+ install it into the hardware rendering pipeline including values for
+ specific shader parameters and structures.
+
+ vtkFragmentShader - a fragment shader and enough information to
+ install it into the hardware rendering pipeline including values for
+ specific shader parameters and structures.
+
+ The design of the material file closely follows that of vtk's xml
+ descriptions of it's data sets. This allows use of the very handy
+ vtkXMLDataElement which provides easy access to an xml element's 
+ attribute values. Inlined data is currently not handled.
+
+ Ideally this class would be a Facade to a DOM parser, but VTK only
+ provides access to expat, a SAX parser. Other vtk classes that parse
+ xml files are tuned to read vtkDataSets and don't provide the functionality
+ to handle generic xml data. As such they are of little use here.
+
+ This class may be extended for better data  handling or may become a
+ Facade to a DOM parser should on become part of the VTK code base.
+ .SECTION Thanks
+ Shader support in VTK includes key contributions by Gary Templet at 
+ Sandia National Labs.
+
+To create an instance of class vtkXMLMaterialParser, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkXMLMaterialParser
+\endverbatim
+\section Methods
+The class vtkXMLMaterialParser has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkXMLMaterialParser class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkXMLMaterialParser = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkXMLMaterialParser = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>vtkXMLMaterial = obj.GetMaterial ()</tt> -  Set/Get the vtkXMLMaterial representation of the parsed material.
+ </LI>
+<LI>  <tt>obj.SetMaterial (vtkXMLMaterial )</tt> -  Set/Get the vtkXMLMaterial representation of the parsed material.
+ </LI>
+<LI>  <tt>int = obj.Parse ()</tt> -  Overridden to initialize the internal structures before
+ the parsing begins.
+ </LI>
+<LI>  <tt>int = obj.Parse (string inputString)</tt> -  Overridden to initialize the internal structures before
+ the parsing begins.
+ </LI>
+<LI>  <tt>int = obj.Parse (string inputString, int length)</tt> -  Overridden to initialize the internal structures before
+ the parsing begins.
+ </LI>
+<LI>  <tt>int = obj.InitializeParser ()</tt> -  Overridden to clean up internal structures before the chunk-parsing
+ begins.
+ </LI>
+</UL>
+*/

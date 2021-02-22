@@ -1,0 +1,73 @@
+
+ Usage
+
+vtkShaderProgram is a superclass for managing Hardware
+Shaders defined in the XML Material file and interfacing VTK
+to those shaders. It's concrete descendants are responsible
+for installing vertex and fragment programs to the graphics
+hardware.
+.SECTION Shader Operations are shader library operations
+that are performed on individual shaders, that is, without
+consideration of the partner shader.
+.SECTION Program Operations are shader library operations
+that treat the vertex and fragment shader as a single unit.
+.SECTION Design This class is a Strategy pattern for
+'Program' operations, which treat vertex/fragment shader
+pairs as a single 'Program', as required by some shader
+libraries (GLSL). Typically, 'Shader' operations are
+delegated to instances of vtkShader (managed by descendants
+of this class) while 'Program' operations are handled by
+descendants of this class, vtkCgShaderProgram,
+vtkGLSLShaderProgram.
+To create an instance of class vtkShaderProgram, simply
+invoke its constructor as follows
+
+    obj = vtkShaderProgram
+
+
+
+ Methods
+
+The class vtkShaderProgram has several methods that can be
+used. They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkShaderProgram class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkShaderProgram = obj.NewInstance ()
+* vtkShaderProgram = obj.SafeDownCast (vtkObject o)
+* vtkXMLMaterial = obj.GetMaterial ()
+* obj.SetMaterial (vtkXMLMaterial )
+* int = obj.AddShader (vtkShader shader)
+* obj.RemoveShader (int index) - Remove a shader at the
+  given index.
+* obj.RemoveShader (vtkShader shader) - Removes the given
+  shader.
+* vtkCollectionIterator = obj.NewShaderIterator () - Returns
+  a new iterator to iterate over the shaders.
+* int = obj.GetNumberOfShaders () - Returns the number of
+  shaders available in this shader program.
+* obj.ReadMaterial ()
+* obj.Render (vtkActor , vtkRenderer )
+* obj.AddShaderVariable (string name, int numVars, int x)
+* obj.AddShaderVariable (string name, int numVars, float x)
+* obj.AddShaderVariable (string name, int numVars, double x)
+* obj.PostRender (vtkActor , vtkRenderer ) - Called to
+  unload the shaders after the actor has been rendered.
+* obj.ReleaseGraphicsResources (vtkWindow ) - Release any
+  graphics resources that are being consumed by this actor.
+  The parameter window could be used to determine which
+  graphic resources to release.
+* vtkShaderDeviceAdapter = obj.GetShaderDeviceAdapter () -
+  Get the vtkShaderDeviceAdapter which can be used to
+  execute this shader program.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Rendering_Classes
+* Generated on Thu Jul 25 2013 17:18:35 for FreeMat by
+  doxygen_ 1.8.1.1
+

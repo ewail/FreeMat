@@ -1,0 +1,52 @@
+/*!
+\page elementary_sub2ind SUB2IND Convert Multiple Indexing To Linear Indexing
+
+<p>
+Section: \ref sec_elementary "Elementary Functions"
+\section Usage
+The <tt>sub2ind</tt> function converts a multi-dimensional indexing expression
+into a linear (or vector) indexing expression.  The syntax for its use
+is
+\verbatim
+   y = sub2ind(sizevec,d1,d2,...,dn)
+\endverbatim
+where <tt>sizevec</tt> is the size of the array being indexed into, and each
+<tt>di</tt> is a vector of the same length, containing index values.  The basic
+idea behind <tt>sub2ind</tt> is that it makes
+\verbatim
+  [z(d1(1),d2(1),...,dn(1)),...,z(d1(n),d2(n),...,dn(n))]
+\endverbatim
+equivalent to
+\verbatim
+  z(sub2ind(size(z),d1,d2,...,dn))
+\endverbatim
+where the later form is using vector indexing, and the former one is using
+native, multi-dimensional indexing.
+\section Example
+Suppose we have a simple <tt>3 x 4</tt> matrix <tt>A</tt> containing some random integer
+elements
+
+\if FRAGMENT
+frag_elementary_sub2ind_000.m
+0
+A = randi(ones(3,4),10*ones(3,4))
+\endif
+
+
+\verbinclude frag_elementary_sub2ind_000.m.out 
+
+We can extract the elements <tt>(1,3),(2,3),(3,4)</tt> of <tt>A</tt> via <tt>sub2ind</tt>.
+To calculate which elements of <tt>A</tt> this corresponds to, we can use
+<tt>sub2ind</tt> as
+
+\if FRAGMENT
+frag_elementary_sub2ind_001.m
+0
+n = sub2ind(size(A),1:3,2:4)
+A(n)
+\endif
+
+
+\verbinclude frag_elementary_sub2ind_001.m.out 
+
+*/

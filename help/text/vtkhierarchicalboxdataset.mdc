@@ -1,0 +1,105 @@
+
+ Usage
+
+vtkHierarchicalBoxDataSet is a concrete implementation of
+vtkCompositeDataSet. The dataset type is restricted to
+vtkUniformGrid. Each dataset has an associated vtkAMRBox
+that represents it's region (similar to extent) in space.
+.SECTION Warning To compute the cellId of a cell within a
+vtkUniformGrid with AMRBox=box, you should not use
+vtkUniformGrid::ComputeCellId( {x,y,z} ) but instead use the
+following pseudo code: for (int i=0; i<3; i++) { cellDims[i]
+= box.HiCorner[i] - box.LoCorner[i] + 1; } vtkIdType cellId
+= (z-box.LoCorner[2])*cellDims[0]*cellDims[1] + (y-
+box.LoCorner[1])*cellDims[0] + (x-box.LoCorner[0]);
+NOTE vtkAMRBox is used to compute cell visibility, therefor
+it should be dimensioned according to the visible region.
+To create an instance of class vtkHierarchicalBoxDataSet,
+simply invoke its constructor as follows
+
+    obj = vtkHierarchicalBoxDataSet
+
+
+
+ Methods
+
+The class vtkHierarchicalBoxDataSet has several methods that
+can be used. They are listed below. Note that the
+documentation is translated automatically from the VTK
+sources, and may not be completely intelligible. When in
+doubt, consult the VTK website. In the methods listed below,
+obj is an instance of the vtkHierarchicalBoxDataSet class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkHierarchicalBoxDataSet = obj.NewInstance ()
+* vtkHierarchicalBoxDataSet = obj.SafeDownCast (vtkObject o)
+* vtkCompositeDataIterator = obj.NewIterator () - Return a
+  new iterator (the iterator has to be deleted by user).
+* int = obj.GetDataObjectType () - Set the number of
+  refinement levels. This call might cause allocation if the
+  new number of levels is larger than the current one.
+* obj.SetNumberOfLevels (int numLevels) - Set the number of
+  refinement levels. This call might cause allocation if the
+  new number of levels is larger than the current one.
+* int = obj.GetNumberOfLevels () - Returns the number of
+  levels.
+* obj.SetNumberOfDataSets (int level, int numdatasets) - Set
+  the number of data set at a given level.
+* int = obj.GetNumberOfDataSets (int level) - Returns the
+  number of data sets available at any level.
+* obj.SetDataSet (vtkCompositeDataIterator iter,
+  vtkDataObject dataObj) - Set the dataset pointer for a
+  given node. This will resize the number of levels and the
+  number of datasets in the level to fit level, id
+  requested.
+* obj.SetDataSet (int level, int id, int LoCorner[3], int
+  HiCorner[3], vtkUniformGrid dataSet) - Set the dataset
+  pointer for a given node. This will resize the number of
+  levels and the number of datasets in the level to fit
+  level, id requested.
+* vtkInformation = obj.GetLevelMetaData (int level) -
+  Returns if meta-data exists for a given level.
+* int = obj.HasLevelMetaData (int level) - Get meta-data
+  associated with a dataset. This may allocate a new
+  vtkInformation object if none is already present. Use
+  HasMetaData to avoid unnecessary allocations.
+* vtkInformation = obj.GetMetaData (int level, int index) -
+  Get meta-data associated with a dataset. This may allocate
+  a new vtkInformation object if none is already present.
+  Use HasMetaData to avoid unnecessary allocations.
+* int = obj.HasMetaData (int level, int index) - Returns if
+  meta-data exists for a given dataset under a given level.
+* obj.SetRefinementRatio (int level, int refRatio) - Sets
+  the refinement of a given level. The spacing at level
+  level+1 is defined as spacing(level+1) = spacing(level)/
+  refRatio(level). Note that currently, this is not enforced
+  by this class however some algorithms might not function
+  properly if the spacing in the blocks (vtkUniformGrid)
+  does not match the one described by the refinement ratio.
+* int = obj.GetRefinementRatio (int level) - Returns the
+  refinement of a given level.
+* int = obj.GetRefinementRatio (vtkCompositeDataIterator
+  iter) - Returns the refinement ratio for the position
+  pointed by the iterator.
+* obj.GenerateVisibilityArrays () - Blank lower level cells
+  if they are overlapped by higher level ones.
+* obj.GetScalarRange (double range[]) - Copy the cached
+  scalar range into range.
+* vtkDataObject = obj.GetDataSet (vtkCompositeDataIterator
+  iter) - Unhiding superclass method.
+* vtkInformation = obj.GetMetaData (vtkCompositeDataIterator
+  iter) - Unhiding superclass method.
+* int = obj.HasMetaData (vtkCompositeDataIterator iter) -
+  Given the level and dataset index, returns the flat index
+  provided level and dataset index are valid.
+* int = obj.GetFlatIndex (int level, int index) - Given the
+  level and dataset index, returns the flat index provided
+  level and dataset index are valid.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Filtering_Classes
+* Generated on Thu Jul 25 2013 17:18:30 for FreeMat by
+  doxygen_ 1.8.1.1
+

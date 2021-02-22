@@ -1,0 +1,107 @@
+
+ Usage
+
+vtkExtentSplitter splits each input extent into non-
+overlapping sub-extents that are completely contained within
+other "source extents". A source extent corresponds to some
+resource providing an extent. Each source extent has an
+integer identifier, integer priority, and an extent. The
+input extents are split into sub-extents according to
+priority, availability, and amount of overlap of the source
+extents. This can be used by parallel data readers to read
+as few piece files as possible.
+To create an instance of class vtkExtentSplitter, simply
+invoke its constructor as follows
+
+    obj = vtkExtentSplitter
+
+
+
+ Methods
+
+The class vtkExtentSplitter has several methods that can be
+used. They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkExtentSplitter class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkExtentSplitter = obj.NewInstance ()
+* vtkExtentSplitter = obj.SafeDownCast (vtkObject o)
+* obj.AddExtentSource (int id, int priority, int x0, int x1,
+  int y0, int y1, int z0, int z1) - Add/Remove a source
+  providing the given extent. Sources with higher priority
+  numbers are favored. Source id numbers and priorities must
+  be non-negative.
+* obj.AddExtentSource (int id, int priority, int extent) -
+  Add/Remove a source providing the given extent. Sources
+  with higher priority numbers are favored. Source id
+  numbers and priorities must be non-negative.
+* obj.RemoveExtentSource (int id) - Add/Remove a source
+  providing the given extent. Sources with higher priority
+  numbers are favored. Source id numbers and priorities must
+  be non-negative.
+* obj.RemoveAllExtentSources () - Add/Remove a source
+  providing the given extent. Sources with higher priority
+  numbers are favored. Source id numbers and priorities must
+  be non-negative.
+* obj.AddExtent (int x0, int x1, int y0, int y1, int z0, int
+  z1) - Add an extent to the queue of extents to be split
+  among the available sources.
+* obj.AddExtent (int extent) - Add an extent to the queue of
+  extents to be split among the available sources.
+* int = obj.ComputeSubExtents () - Split the extents
+  currently in the queue among the available sources. The
+  queue is empty when this returns. Returns 1 if all extents
+  could be read. Returns 0 if any portion of any extent was
+  not available through any source.
+* int = obj.GetNumberOfSubExtents () - Get the number of
+  sub-extents into which the original set of extents have
+  been split across the available sources. Valid after a
+  call to ComputeSubExtents.
+* int = obj.GetSubExtent (int index) - Get the sub-extent
+  associated with the given index. Use GetSubExtentSource to
+  get the id of the source from which this sub-extent should
+  be read. Valid after a call to ComputeSubExtents.
+* obj.GetSubExtent (int index, int extent) - Get the sub-
+  extent associated with the given index. Use
+  GetSubExtentSource to get the id of the source from which
+  this sub-extent should be read. Valid after a call to
+  ComputeSubExtents.
+* int = obj.GetSubExtentSource (int index) - Get the id of
+  the source from which the sub-extent associated with the
+  given index should be read. Returns -1 if no source
+  provides the sub-extent.
+* int = obj.GetPointMode () - Get/Set whether "point mode"
+  is on. In point mode, sub-extents are generated to ensure
+  every point in the update request is read, but not
+  necessarily every cell. This can be used when point data
+  are stored in a planar slice per piece with no cell data.
+  The default is OFF.
+* obj.SetPointMode (int ) - Get/Set whether "point mode" is
+  on. In point mode, sub-extents are generated to ensure
+  every point in the update request is read, but not
+  necessarily every cell. This can be used when point data
+  are stored in a planar slice per piece with no cell data.
+  The default is OFF.
+* obj.PointModeOn () - Get/Set whether "point mode" is on.
+  In point mode, sub-extents are generated to ensure every
+  point in the update request is read, but not necessarily
+  every cell. This can be used when point data are stored in
+  a planar slice per piece with no cell data. The default is
+  OFF.
+* obj.PointModeOff () - Get/Set whether "point mode" is on.
+  In point mode, sub-extents are generated to ensure every
+  point in the update request is read, but not necessarily
+  every cell. This can be used when point data are stored in
+  a planar slice per piece with no cell data. The default is
+  OFF.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Common_Classes
+* Generated on Thu Jul 25 2013 17:18:30 for FreeMat by
+  doxygen_ 1.8.1.1
+

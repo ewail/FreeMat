@@ -1,0 +1,224 @@
+
+ Usage
+
+vtkStreamer is a filter that integrates a massless particle
+through a vector field. The integration is performed using
+second order Runge-Kutta method. vtkStreamer often serves as
+a base class for other classes that perform numerical
+integration through a vector field (e.g., vtkStreamLine).
+Note that vtkStreamer can integrate both forward and
+backward in time, or in both directions. The length of the
+streamer is controlled by specifying an elapsed time. (The
+elapsed time is the time each particle travels.) Otherwise,
+the integration terminates after exiting the dataset or if
+the particle speed is reduced to a value less than the
+terminal speed.
+vtkStreamer integrates through any type of dataset. As a
+result, if the dataset contains 2D cells such as polygons or
+triangles, the integration is constrained to lie on the
+surface defined by the 2D cells.
+The starting point of streamers may be defined in three
+different ways. Starting from global x-y-z "position" allows
+you to start a single streamer at a specified x-y-
+z coordinate. Starting from "location" allows you to start
+at a specified cell, subId, and parametric coordinate.
+Finally, you may specify a source object to start multiple
+streamers. If you start streamers using a source object, for
+each point in the source that is inside the dataset a
+streamer is created.
+vtkStreamer implements the integration process in the
+Integrate() method. Because vtkStreamer does not implement
+the Execute() method that its superclass (i.e., Filter)
+requires, it is an abstract class. Its subclasses implement
+the execute method and use the Integrate() method, and then
+build their own representation of the integration path
+(i.e., lines, dashed lines, points, etc.).
+To create an instance of class vtkStreamer, simply invoke
+its constructor as follows
+
+    obj = vtkStreamer
+
+
+
+ Methods
+
+The class vtkStreamer has several methods that can be used.
+They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkStreamer class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkStreamer = obj.NewInstance ()
+* vtkStreamer = obj.SafeDownCast (vtkObject o)
+* obj.SetStartLocation (vtkIdType cellId, int subId, double
+  pcoords[3]) - Specify the start of the streamline in the
+  cell coordinate system. That is, cellId and subId (if
+  composite cell), and parametric coordinates.
+* obj.SetStartLocation (vtkIdType cellId, int subId, double
+  r, double s, double t) - Specify the start of the
+  streamline in the cell coordinate system. That is, cellId
+  and subId (if composite cell), and parametric coordinates.
+* obj.SetStartPosition (double x[3]) - Specify the start of
+  the streamline in the global coordinate system. Search
+  must be performed to find initial cell to start
+  integration from.
+* obj.SetStartPosition (double x, double y, double z) -
+  Specify the start of the streamline in the global
+  coordinate system. Search must be performed to find
+  initial cell to start integration from.
+* double = obj.GetStartPosition () - Get the start position
+  in global x-y-z coordinates.
+* obj.SetSource (vtkDataSet source) - Specify the source
+  object used to generate starting points.
+* vtkDataSet = obj.GetSource () - Specify the source object
+  used to generate starting points.
+* obj.SetMaximumPropagationTime (double ) - Specify the
+  maximum length of the Streamer expressed in elapsed time.
+* double = obj.GetMaximumPropagationTimeMinValue () -
+  Specify the maximum length of the Streamer expressed in
+  elapsed time.
+* double = obj.GetMaximumPropagationTimeMaxValue () -
+  Specify the maximum length of the Streamer expressed in
+  elapsed time.
+* double = obj.GetMaximumPropagationTime () - Specify the
+  maximum length of the Streamer expressed in elapsed time.
+* obj.SetIntegrationDirection (int ) - Specify the direction
+  in which to integrate the Streamer.
+* int = obj.GetIntegrationDirectionMinValue () - Specify the
+  direction in which to integrate the Streamer.
+* int = obj.GetIntegrationDirectionMaxValue () - Specify the
+  direction in which to integrate the Streamer.
+* int = obj.GetIntegrationDirection () - Specify the
+  direction in which to integrate the Streamer.
+* obj.SetIntegrationDirectionToForward () - Specify the
+  direction in which to integrate the Streamer.
+* obj.SetIntegrationDirectionToBackward () - Specify the
+  direction in which to integrate the Streamer.
+* obj.SetIntegrationDirectionToIntegrateBothDirections () -
+  Specify the direction in which to integrate the Streamer.
+* string = obj.GetIntegrationDirectionAsString () - Specify
+  the direction in which to integrate the Streamer.
+* obj.SetIntegrationStepLength (double ) - Specify a nominal
+  integration step size (expressed as a fraction of the size
+  of each cell). This value can be larger than 1.
+* double = obj.GetIntegrationStepLengthMinValue () - Specify
+  a nominal integration step size (expressed as a fraction
+  of the size of each cell). This value can be larger than
+  1.
+* double = obj.GetIntegrationStepLengthMaxValue () - Specify
+  a nominal integration step size (expressed as a fraction
+  of the size of each cell). This value can be larger than
+  1.
+* double = obj.GetIntegrationStepLength () - Specify a
+  nominal integration step size (expressed as a fraction of
+  the size of each cell). This value can be larger than 1.
+* obj.SetSpeedScalars (int ) - Turn on/off the creation of
+  scalar data from velocity magnitude. If off, and input
+  dataset has scalars, input dataset scalars are used.
+* int = obj.GetSpeedScalars () - Turn on/off the creation of
+  scalar data from velocity magnitude. If off, and input
+  dataset has scalars, input dataset scalars are used.
+* obj.SpeedScalarsOn () - Turn on/off the creation of scalar
+  data from velocity magnitude. If off, and input dataset
+  has scalars, input dataset scalars are used.
+* obj.SpeedScalarsOff () - Turn on/off the creation of
+  scalar data from velocity magnitude. If off, and input
+  dataset has scalars, input dataset scalars are used.
+* obj.SetOrientationScalars (int ) - Turn on/off the
+  creation of scalar data from vorticity information. The
+  scalar information is currently the orientation value
+  "theta" used in rotating stream tubes. If off, and input
+  dataset has scalars, then input dataset scalars are used,
+  unless SpeedScalars is also on. SpeedScalars takes
+  precedence over OrientationScalars.
+* int = obj.GetOrientationScalars () - Turn on/off the
+  creation of scalar data from vorticity information. The
+  scalar information is currently the orientation value
+  "theta" used in rotating stream tubes. If off, and input
+  dataset has scalars, then input dataset scalars are used,
+  unless SpeedScalars is also on. SpeedScalars takes
+  precedence over OrientationScalars.
+* obj.OrientationScalarsOn () - Turn on/off the creation of
+  scalar data from vorticity information. The scalar
+  information is currently the orientation value "theta"
+  used in rotating stream tubes. If off, and input dataset
+  has scalars, then input dataset scalars are used, unless
+  SpeedScalars is also on. SpeedScalars takes precedence
+  over OrientationScalars.
+* obj.OrientationScalarsOff () - Turn on/off the creation of
+  scalar data from vorticity information. The scalar
+  information is currently the orientation value "theta"
+  used in rotating stream tubes. If off, and input dataset
+  has scalars, then input dataset scalars are used, unless
+  SpeedScalars is also on. SpeedScalars takes precedence
+  over OrientationScalars.
+* obj.SetTerminalSpeed (double ) - Set/get terminal speed
+  (i.e., speed is velocity magnitude). Terminal speed is
+  speed at which streamer will terminate propagation.
+* double = obj.GetTerminalSpeedMinValue () - Set/get
+  terminal speed (i.e., speed is velocity magnitude).
+  Terminal speed is speed at which streamer will terminate
+  propagation.
+* double = obj.GetTerminalSpeedMaxValue () - Set/get
+  terminal speed (i.e., speed is velocity magnitude).
+  Terminal speed is speed at which streamer will terminate
+  propagation.
+* double = obj.GetTerminalSpeed () - Set/get terminal speed
+  (i.e., speed is velocity magnitude). Terminal speed is
+  speed at which streamer will terminate propagation.
+* obj.SetVorticity (int ) - Turn on/off the computation of
+  vorticity. Vorticity is an indication of the rotation of
+  the flow. In combination with vtkStreamLine and
+  vtkTubeFilter can be used to create rotated tubes. If
+  vorticity is turned on, in the output, the velocity
+  vectors are replaced by vorticity vectors.
+* int = obj.GetVorticity () - Turn on/off the computation of
+  vorticity. Vorticity is an indication of the rotation of
+  the flow. In combination with vtkStreamLine and
+  vtkTubeFilter can be used to create rotated tubes. If
+  vorticity is turned on, in the output, the velocity
+  vectors are replaced by vorticity vectors.
+* obj.VorticityOn () - Turn on/off the computation of
+  vorticity. Vorticity is an indication of the rotation of
+  the flow. In combination with vtkStreamLine and
+  vtkTubeFilter can be used to create rotated tubes. If
+  vorticity is turned on, in the output, the velocity
+  vectors are replaced by vorticity vectors.
+* obj.VorticityOff () - Turn on/off the computation of
+  vorticity. Vorticity is an indication of the rotation of
+  the flow. In combination with vtkStreamLine and
+  vtkTubeFilter can be used to create rotated tubes. If
+  vorticity is turned on, in the output, the velocity
+  vectors are replaced by vorticity vectors.
+* obj.SetNumberOfThreads (int )
+* int = obj.GetNumberOfThreads ()
+* obj.SetSavePointInterval (double )
+* double = obj.GetSavePointInterval ()
+* obj.SetIntegrator (vtkInitialValueProblemSolver ) - Set/
+  get the integrator type to be used in the stream line
+  calculation. The object passed is not actually used but is
+  cloned with NewInstance by each thread/process in the
+  process of integration (prototype pattern). The default is
+  2nd order Runge Kutta.
+* vtkInitialValueProblemSolver = obj.GetIntegrator () - Set/
+  get the integrator type to be used in the stream line
+  calculation. The object passed is not actually used but is
+  cloned with NewInstance by each thread/process in the
+  process of integration (prototype pattern). The default is
+  2nd order Runge Kutta.
+* obj.SetEpsilon (double ) - A positive value, as small as
+  possible for numerical comparison. The initial value is
+  1E-12.
+* double = obj.GetEpsilon () - A positive value, as small as
+  possible for numerical comparison. The initial value is
+  1E-12.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Graphics_Classes
+* Generated on Thu Jul 25 2013 17:18:32 for FreeMat by
+  doxygen_ 1.8.1.1
+

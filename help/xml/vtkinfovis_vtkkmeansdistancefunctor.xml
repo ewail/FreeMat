@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkinfovis_vtkkmeansdistancefunctor" kind="page">
+    <compoundname>vtkinfovis_vtkkmeansdistancefunctor</compoundname>
+    <title>vtkKMeansDistanceFunctor</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkinfovis_1sec_vtkinfovis" kindref="member">Visualization Toolkit Infovis Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>This is an abstract class (with a default concrete subclass) that implements algorithms used by the vtkKMeansStatistics filter that rely on a distance metric. If you wish to use a non-Euclidean distance metric (this could include working with strings that do not have a Euclidean distance metric, implementing k-mediods, or trying distance metrics in norms other than L2), you should subclass vtkKMeansDistanceFunctor.</para><para>To create an instance of class vtkKMeansDistanceFunctor, simply invoke its constructor as follows <verbatim>  obj = vtkKMeansDistanceFunctor
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkKMeansDistanceFunctor has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkKMeansDistanceFunctor class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkKMeansDistanceFunctor = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkKMeansDistanceFunctor = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkVariantArray = obj.GetEmptyTuple (vtkIdType dimension)</computeroutput> - Return an empty tuple. These values are used as cluster center coordinates when no initial cluster centers are specified.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.PairwiseUpdate (vtkTable clusterCenters, vtkIdType row, vtkVariantArray data, vtkIdType dataCardinality, vtkIdType totalCardinality)</computeroutput> - This is called once per observation per run per iteration in order to assign the observation to its nearest cluster center after the distance functor has been evaluated for all the cluster centers.</para><para>The distance functor is responsible for incrementally updating the cluster centers to account for the assignment.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.PerturbElement (vtkTable , vtkTable , vtkIdType , vtkIdType , vtkIdType , double )</computeroutput> - When a cluster center (1) has no observations that are closer to it than other cluster centers or (2) has exactly the same coordinates as another cluster center, its coordinates should be perturbed. This function should perform that perturbation.</para><para>Since perturbation relies on a distance metric, this function is the responsibility of the distance functor.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkAbstractArray = obj.CreateCoordinateArray ()</computeroutput> - Return a vtkAbstractArray capable of holding cluster center coordinates. This is used by vtkPKMeansStatistics to hold cluster center coordinates sent to (received from) other processes.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetDataType ()</computeroutput> - Return the data type used to store cluster center coordinates.  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

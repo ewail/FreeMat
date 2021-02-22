@@ -1,0 +1,148 @@
+/*!
+\page vtkfiltering_vtkgenericdataset vtkGenericDataSet
+
+<p>
+Section: \ref sec_vtkfiltering "Visualization Toolkit Filtering Classes"
+\section Usage
+ In VTK, spatial-temporal data is defined in terms of a dataset. The
+ dataset consists of geometry (e.g., points), topology (e.g., cells), and
+ attributes (e.g., scalars, vectors, etc.) vtkGenericDataSet is an abstract
+ class defining this abstraction.
+
+ Since vtkGenericDataSet provides a general interface to manipulate data,
+ algorithms that process it tend to be slower than those specialized for a
+ particular data type. For this reason, there are concrete, non-abstract
+ subclasses that represent and provide access to data more efficiently.
+ Note that filters to process this dataset type are currently found in the
+ VTK/GenericFiltering/ subdirectory.
+
+ Unlike the vtkDataSet class, vtkGenericDataSet provides a more flexible
+ interface including support for iterators. vtkGenericDataSet is also
+ designed to interface VTK to external simulation packages without the
+ penalty of copying memory (see VTK/GenericFiltering/README.html) for
+ more information. Thus vtkGenericDataSet plays a central role in the
+ adaptor framework.
+
+ Please note that this class introduces the concepts of "boundary cells".
+ This refers to the boundaries of a cell (e.g., face of a tetrahedron)
+ which may in turn be represented as a cell. Boundary cells are derivative
+ topological features of cells, and are therefore never explicitly
+ represented in the dataset. Often in visualization algorithms, looping
+ over boundaries (edges or faces) is employed, while the actual dataset
+ cells may not traversed. Thus there are methods to loop over these
+ boundary cells.
+
+ Finally, as a point of clarification, points are not the same as vertices.
+ Vertices refer to points, and points specify a position is space. Vertices
+ are a type of 0-D cell. Also, the concept of a DOFNode, which is where
+ coefficients for higher-order cells are kept, is a new concept introduced
+ by the adaptor framework (see vtkGenericAdaptorCell for more information).
+
+
+To create an instance of class vtkGenericDataSet, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkGenericDataSet
+\endverbatim
+\section Methods
+The class vtkGenericDataSet has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkGenericDataSet class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt> -  Standard VTK type and print macros.
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt> -  Standard VTK type and print macros.
+ </LI>
+<LI>  <tt>vtkGenericDataSet = obj.NewInstance ()</tt> -  Standard VTK type and print macros.
+ </LI>
+<LI>  <tt>vtkGenericDataSet = obj.SafeDownCast (vtkObject o)</tt> -  Standard VTK type and print macros.
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetNumberOfPoints ()</tt> -  Return the number of points composing the dataset. See NewPointIterator()
+ for more details.
+ \post positive_result: result>=0
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetNumberOfCells (int dim)</tt> -  Return the number of cells that explicitly define the dataset. See
+ NewCellIterator() for more details.
+ \pre valid_dim_range: (dim>=-1) && (dim<=3)
+ \post positive_result: result>=0
+ </LI>
+<LI>  <tt>int = obj.GetCellDimension ()</tt> -  Return -1 if the dataset is explicitly defined by cells of varying
+ dimensions or if there are no cells. If the dataset is explicitly
+ defined by cells of a unique dimension, return this dimension.
+ \post valid_range: (result>=-1) && (result<=3)
+ </LI>
+<LI>  <tt>obj.GetCellTypes (vtkCellTypes types)</tt> -  Get a list of types of cells in a dataset. The list consists of an array
+ of types (not necessarily in any order), with a single entry per type.
+ For example a dataset 5 triangles, 3 lines, and 100 hexahedra would
+ result a list of three entries, corresponding to the types VTK_TRIANGLE,
+ VTK_LINE, and VTK_HEXAHEDRON.
+ THIS METHOD IS THREAD SAFE IF FIRST CALLED FROM A SINGLE THREAD AND
+ THE DATASET IS NOT MODIFIED
+ \pre types_exist: types!=0
+ </LI>
+<LI>  <tt>vtkGenericCellIterator = obj.NewCellIterator (int dim)</tt> -  Return an iterator to traverse cells of dimension `dim' (or all
+ dimensions if -1) that explicitly define the dataset. For instance, it
+ will return only tetrahedra if the mesh is defined by tetrahedra. If the
+ mesh is composed of two parts, one with tetrahedra and another part with
+ triangles, it will return both, but will not return the boundary edges
+ and vertices of these cells. The user is responsible for deleting the
+ iterator.
+ \pre valid_dim_range: (dim>=-1) && (dim<=3)
+ \post result_exists: result!=0
+ </LI>
+<LI>  <tt>vtkGenericCellIterator = obj.NewBoundaryIterator (int dim, int exteriorOnly)</tt> -  Return an iterator to traverse cell boundaries of dimension `dim' (or
+ all dimensions if -1) of the dataset.  If `exteriorOnly' is true, only
+ the exterior cell boundaries of the dataset will be returned, otherwise
+ it will return exterior and interior cell boundaries. The user is
+ responsible for deleting the iterator.
+ \pre valid_dim_range: (dim>=-1) && (dim<=2)
+ \post result_exists: result!=0
+ </LI>
+<LI>  <tt>vtkGenericPointIterator = obj.NewPointIterator ()</tt> -  Return an iterator to traverse the points composing the dataset; they
+ can be points that define a cell (corner points) or isolated points.
+ The user is responsible for deleting the iterator.
+ \post result_exists: result!=0
+ </LI>
+<LI>  <tt>obj.FindPoint (double x[3], vtkGenericPointIterator p)</tt> -  Locate the closest point `p' to position `x' (global coordinates).
+ \pre not_empty: GetNumberOfPoints()>0
+ \pre p_exists: p!=0
+ </LI>
+<LI>  <tt>long = obj.GetMTime ()</tt> -  Datasets are composite objects and need to check each part for their
+ modified time.
+ </LI>
+<LI>  <tt>obj.ComputeBounds ()</tt> -  Compute the geometry bounding box.
+ </LI>
+<LI>  <tt>obj.GetBounds (double bounds[6])</tt> -  Return the geometry bounding box in global coordinates in
+ the form (xmin,xmax, ymin,ymax, zmin,zmax) in the `bounds' array.
+ </LI>
+<LI>  <tt>obj.GetCenter (double center[3])</tt> -  Get the center of the bounding box in global coordinates.
+ </LI>
+<LI>  <tt>double = obj.GetLength ()</tt> -  Return the length of the diagonal of the bounding box.
+ \post positive_result: result>=0
+ </LI>
+<LI>  <tt>vtkGenericAttributeCollection = obj.GetAttributes ()</tt> -  Get the collection of attributes associated with this dataset.
+ </LI>
+<LI>  <tt>vtkDataSetAttributes = obj.GetAttributes (int type)</tt> -  Set/Get a cell tessellator if cells must be tessellated during
+ processing.
+ \pre tessellator_exists: tessellator!=0
+ </LI>
+<LI>  <tt>obj.SetTessellator (vtkGenericCellTessellator tessellator)</tt> -  Set/Get a cell tessellator if cells must be tessellated during
+ processing.
+ \pre tessellator_exists: tessellator!=0
+ </LI>
+<LI>  <tt>vtkGenericCellTessellator = obj.GetTessellator ()</tt> -  Set/Get a cell tessellator if cells must be tessellated during
+ processing.
+ \pre tessellator_exists: tessellator!=0
+ </LI>
+<LI>  <tt>long = obj.GetActualMemorySize ()</tt> -  Actual size of the data in kilobytes; only valid after the pipeline has
+ updated. It is guaranteed to be greater than or equal to the memory
+ required to represent the data.
+ </LI>
+<LI>  <tt>int = obj.GetDataObjectType ()</tt> -  Return the type of data object.
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetEstimatedSize ()</tt> -  Estimated size needed after tessellation (or special operation)
+ </LI>
+</UL>
+*/

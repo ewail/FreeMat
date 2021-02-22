@@ -1,0 +1,72 @@
+/*!
+\page thread_threadvalue THREADVALUE Retrieve the return values from a thread
+
+<p>
+Section: \ref sec_thread "FreeMat Threads"
+\section Usage
+The <tt>threadvalue</tt> function retrieves the values returned
+by the function specified in the <tt>threadnew</tt> call.  The
+syntax for its use is
+\verbatim
+   [arg1,arg2,...,argN] = threadvalue(handle)
+\endverbatim
+where <tt>handle</tt> is the value returned by a <tt>threadnew</tt> call.
+Note that there are issues with <tt>nargout</tt>.  See the examples
+section of <tt>threadnew</tt> for details on how to work around this
+limitation.  Because the function you have spawned with <tt>threadnew</tt>
+may still be executing, <tt>threadvalue</tt> must first <tt>threadwait</tt>
+for the function to complete before retrieving the output values.
+This wait may take an arbitrarily long time if the thread function
+is caught in an infinite loop.  Hence, you can also specify
+a timeout parameter to <tt>threadvalue</tt> as
+\verbatim
+   [arg1,arg2,...,argN] = threadvalue(handle,timeout)
+\endverbatim
+where the <tt>timeout</tt> is specified in milliseconds.  If the
+wait times out, an error is raised (that can be caught with a
+<tt>try</tt> and <tt>catch</tt> block.  
+
+In either case, if the thread function itself caused an error
+and ceased execution abruptly, then calling <tt>threadvalue</tt> will
+cause that function to raise an error, allowing you to retrieve
+the error that was caused and correct it.  See the examples section
+for more information.
+\section Example
+Here we do something very simple.  We want to obtain a listing of
+all files on the system, but do not want the results to stop our
+computation.  So we run the <tt>system</tt> call in a thread.
+
+\if FRAGMENT
+frag_thread_threadvalue_000.m
+0
+a = threadnew;                         % Create the thread
+threadstart(a,'system',1,'ls -lrt /'); % Start the thread
+b = rand(100)\rand(100,1);             % Solve some equations simultaneously
+c = threadvalue(a);                    % Retrieve the file list
+size(c)                                % It is large!
+threadfree(a);
+\endif
+
+
+\verbinclude frag_thread_threadvalue_000.m.out 
+
+In this example, we force the threaded function to cause an
+exception (by calling the <tt>error</tt> function as the thread 
+function).  When we call <tt>threadvalue</tt>, we get an error, instead
+of the return value of the function
+
+\if FRAGMENT
+frag_thread_threadvalue_001.m
+1
+a = threadnew
+threadstart(a,'error',0,'Hello world!'); % Will immediately stop due to error
+c = threadvalue(a)                     % The error comes to us
+threadfree(a)
+\endif
+
+
+\verbinclude frag_thread_threadvalue_001.m.out 
+
+Note that the error has the text <tt>Thread:</tt> prepended to the message
+to help you identify that this was an error in a different thread.
+*/

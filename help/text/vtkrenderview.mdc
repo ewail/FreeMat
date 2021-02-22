@@ -1,0 +1,161 @@
+
+ Usage
+
+vtkRenderView is a view which contains a vtkRenderer. You
+may add vtkActors directly to the renderer, or add certain
+vtkDataRepresentation subclasses to the renderer. The render
+view supports drag selection with the mouse to select cells.
+This class is also the parent class for any more specialized
+view which uses a renderer.
+To create an instance of class vtkRenderView, simply invoke
+its constructor as follows
+
+    obj = vtkRenderView
+
+
+
+ Methods
+
+The class vtkRenderView has several methods that can be
+used. They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkRenderView class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkRenderView = obj.NewInstance ()
+* vtkRenderView = obj.SafeDownCast (vtkObject o)
+* vtkRenderer = obj.GetRenderer () - Gets the renderer for
+  this view.
+* vtkRenderWindow = obj.GetRenderWindow () - Get a handle to
+  the render window.
+* vtkRenderWindowInteractor = obj.GetInteractor () - The
+  render window interactor.
+* obj.SetInteractor (vtkRenderWindowInteractor interactor) -
+  The render window interactor.
+* obj.SetInteractorStyle (vtkInteractorObserver style) - The
+  interactor style associated with the render view.
+* vtkInteractorObserver = obj.GetInteractorStyle () - The
+  interactor style associated with the render view.
+* obj.SetInteractionMode (int mode) - Set the interaction
+  mode for the view. Choices are: vtkRenderView::
+  INTERACTION_MODE_2D - 2D interactor vtkRenderView::
+  INTERACTION_MODE_3D - 3D interactor
+* int = obj.GetInteractionMode () - Set the interaction mode
+  for the view. Choices are: vtkRenderView::
+  INTERACTION_MODE_2D - 2D interactor vtkRenderView::
+  INTERACTION_MODE_3D - 3D interactor
+* obj.SetInteractionModeTo2D () - Set the interaction mode
+  for the view. Choices are: vtkRenderView::
+  INTERACTION_MODE_2D - 2D interactor vtkRenderView::
+  INTERACTION_MODE_3D - 3D interactor
+* obj.SetInteractionModeTo3D () - Applies a view theme to
+  this view.
+* obj.ApplyViewTheme (vtkViewTheme theme) - Applies a view
+  theme to this view.
+* obj.SetTransform (vtkAbstractTransform transform) - Set
+  the view's transform. All vtkRenderedRepresentations added
+  to this view should use this transform.
+* vtkAbstractTransform = obj.GetTransform () - Set the
+  view's transform. All vtkRenderedRepresentations added to
+  this view should use this transform.
+* obj.SetDisplayHoverText (bool b) - Whether the view should
+  display hover text.
+* bool = obj.GetDisplayHoverText () - Whether the view
+  should display hover text.
+* obj.DisplayHoverTextOn () - Whether the view should
+  display hover text.
+* obj.DisplayHoverTextOff () - Whether the view should
+  display hover text.
+* obj.SetSelectionMode (int ) - Sets the selection mode for
+  the render view. SURFACE selection uses
+  vtkHardwareSelector to perform a selection of visible
+  cells. FRUSTUM selection just creates a view frustum
+  selection, which will select everything in the frustum.
+* int = obj.GetSelectionModeMinValue () - Sets the selection
+  mode for the render view. SURFACE selection uses
+  vtkHardwareSelector to perform a selection of visible
+  cells. FRUSTUM selection just creates a view frustum
+  selection, which will select everything in the frustum.
+* int = obj.GetSelectionModeMaxValue () - Sets the selection
+  mode for the render view. SURFACE selection uses
+  vtkHardwareSelector to perform a selection of visible
+  cells. FRUSTUM selection just creates a view frustum
+  selection, which will select everything in the frustum.
+* int = obj.GetSelectionMode () - Sets the selection mode
+  for the render view. SURFACE selection uses
+  vtkHardwareSelector to perform a selection of visible
+  cells. FRUSTUM selection just creates a view frustum
+  selection, which will select everything in the frustum.
+* obj.SetSelectionModeToSurface () - Sets the selection mode
+  for the render view. SURFACE selection uses
+  vtkHardwareSelector to perform a selection of visible
+  cells. FRUSTUM selection just creates a view frustum
+  selection, which will select everything in the frustum.
+* obj.SetSelectionModeToFrustum () - Updates the
+  representations, then calls Render() on the render window
+  associated with this view.
+* obj.Render () - Updates the representations, then calls
+  Render() on the render window associated with this view.
+* obj.ResetCamera () - Updates the representations, then
+  calls ResetCamera() on the renderer associated with this
+  view.
+* obj.ResetCameraClippingRange () - Updates the
+  representations, then calls ResetCameraClippingRange() on
+  the renderer associated with this view.
+* obj.AddLabels (vtkAlgorithmOutput conn) - Add labels from
+  an input connection with an associated text property. The
+  output must be a vtkLabelHierarchy (normally the output of
+  vtkPointSetToLabelHierarchy).
+* obj.RemoveLabels (vtkAlgorithmOutput conn) - Remove labels
+  from an input connection.
+* obj.SetIconTexture (vtkTexture texture) - Set the icon
+  sheet to use for rendering icons.
+* vtkTexture = obj.GetIconTexture () - Set the icon sheet to
+  use for rendering icons.
+* obj.SetIconSize (int , int ) - Set the size of each icon
+  in the icon texture.
+* obj.SetIconSize (int a[2]) - Set the size of each icon in
+  the icon texture.
+* int = obj. GetIconSize () - Set the size of each icon in
+  the icon texture.
+* obj.SetLabelPlacementMode (int mode) - Label placement
+  mode. NO_OVERLAP uses vtkLabelPlacementMapper, which has a
+  faster startup time and works with 2D or 3D labels. ALL
+  displays all labels (Warning: This may cause incredibly
+  slow render times on datasets with more than a few hundred
+  labels).
+* int = obj.GetLabelPlacementMode () - Label placement mode.
+  NO_OVERLAP uses vtkLabelPlacementMapper, which has a
+  faster startup time and works with 2D or 3D labels. ALL
+  displays all labels (Warning: This may cause incredibly
+  slow render times on datasets with more than a few hundred
+  labels).
+* obj.SetLabelPlacementModeToNoOverlap () - Label placement
+  mode. NO_OVERLAP uses vtkLabelPlacementMapper, which has a
+  faster startup time and works with 2D or 3D labels. ALL
+  displays all labels (Warning: This may cause incredibly
+  slow render times on datasets with more than a few hundred
+  labels).
+* obj.SetLabelPlacementModeToAll () - Label render mode.
+  FREETYPE uses the freetype label rendering. QT uses more
+  advanced Qt-based label rendering.
+* obj.SetLabelRenderMode (int mode) - Label render mode.
+  FREETYPE uses the freetype label rendering. QT uses more
+  advanced Qt-based label rendering.
+* int = obj.GetLabelRenderMode () - Label render mode.
+  FREETYPE uses the freetype label rendering. QT uses more
+  advanced Qt-based label rendering.
+* obj.SetLabelRenderModeToFreetype () - Label render mode.
+  FREETYPE uses the freetype label rendering. QT uses more
+  advanced Qt-based label rendering.
+* obj.SetLabelRenderModeToQt ()
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_View_Classes
+* Generated on Thu Jul 25 2013 17:18:36 for FreeMat by
+  doxygen_ 1.8.1.1
+

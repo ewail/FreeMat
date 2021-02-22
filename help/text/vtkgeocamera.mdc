@@ -1,0 +1,96 @@
+
+ Usage
+
+I wanted to hide the normal vtkCamera API so I did not make
+this a subclass. The camera is a helper object. You can get
+a pointer to the camera, but it should be treated like a
+const.
+To create an instance of class vtkGeoCamera, simply invoke
+its constructor as follows
+
+    obj = vtkGeoCamera
+
+
+
+ Methods
+
+The class vtkGeoCamera has several methods that can be used.
+They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkGeoCamera class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkGeoCamera = obj.NewInstance ()
+* vtkGeoCamera = obj.SafeDownCast (vtkObject o)
+* double = obj. GetPosition () - Get the world position
+  without the origin shift.
+* obj.SetLongitude (double longitude) - Longitude is in
+  degrees: (-180->180) Relative to absolute coordinates.
+  Rotate Longitude around z axis (earth axis),
+* double = obj.GetLongitude () - Longitude is in degrees: (-
+  180->180) Relative to absolute coordinates. Rotate
+  Longitude around z axis (earth axis),
+* obj.SetLatitude (double latitude) - Latitude is in
+  degrees: (-90->90) Relative to Longitude. Rotate Latitude
+  around x axis by Latitude,
+* double = obj.GetLatitude () - Latitude is in degrees: (-
+  90->90) Relative to Longitude. Rotate Latitude around x
+  axis by Latitude,
+* obj.SetDistance (double Distance) - Distance is in Meters
+  Relative to Longitude and Latitude. above sea level ????
+  should we make this from center of earth ???? ???? what
+  about equatorial bulge ????
+* double = obj.GetDistance () - Distance is in Meters
+  Relative to Longitude and Latitude. above sea level ????
+  should we make this from center of earth ???? ???? what
+  about equatorial bulge ????
+* obj.SetHeading (double heading) - Heading is in degrees:
+  (-180->180) Relative to Logitude and Latitude. 0 is north.
+  90 is east. ???? what is the standard ???? 180 is south. -
+  90 is west. Rotate Heading around -y axis Center,
+* double = obj.GetHeading () - Heading is in degrees: (-180-
+  >180) Relative to Logitude and Latitude. 0 is north. 90 is
+  east. ???? what is the standard ???? 180 is south. -90 is
+  west. Rotate Heading around -y axis Center,
+* obj.SetTilt (double tilt) - Tilt is also know as pitch.
+  Tilt is in degrees: (0->90) Relative to Longitude,
+  Latitude, and Heading. Rotate Tilt around x axis,
+* double = obj.GetTilt () - Tilt is also know as pitch. Tilt
+  is in degrees: (0->90) Relative to Longitude, Latitude,
+  and Heading. Rotate Tilt around x axis,
+* vtkCamera = obj.GetVTKCamera () - This vtk camera is
+  updated to match this geo cameras state. It should be
+  treated as a const and should not be modified.
+* obj.InitializeNodeAnalysis (int rendererSize[2]) - We
+  precompute some values to speed up update of the terrain.
+  Unfortunately, they have to be manually/explicitely
+  updated when the camera or renderer size changes.
+* double = obj.GetNodeCoverage (vtkGeoTerrainNode node) -
+  This method estimates how much of the view is covered by
+  the sphere. Returns a value from 0 to 1.
+* bool = obj.GetLockHeading ()
+* obj.SetLockHeading (bool )
+* obj.LockHeadingOn ()
+* obj.LockHeadingOff ()
+* obj.SetOriginLatitude (double oLat) - This point is
+  shifted to 0,0,0 to avoid openGL issues.
+* double = obj.GetOriginLatitude () - This point is shifted
+  to 0,0,0 to avoid openGL issues.
+* obj.SetOriginLongitude (double oLat) - This point is
+  shifted to 0,0,0 to avoid openGL issues.
+* double = obj.GetOriginLongitude () - This point is shifted
+  to 0,0,0 to avoid openGL issues.
+* double = obj. GetOrigin () - Get the rectilinear
+  cooridinate location of the origin. This is used to shift
+  the terrain points.
+* obj.SetOrigin (double ox, double oy, double oz)
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Geo_Vis_Classes
+* Generated on Thu Jul 25 2013 17:18:31 for FreeMat by
+  doxygen_ 1.8.1.1
+

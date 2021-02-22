@@ -1,0 +1,38 @@
+/*!
+\page thread_threadid THREADID Get Current Thread Handle
+
+<p>
+Section: \ref sec_thread "FreeMat Threads"
+\section Usage
+The <tt>threadid</tt> function in FreeMat tells you which thread
+is executing the context you are in.  Normally, this is thread
+1, the main thread.  However, if you start a new thread using
+<tt>threadnew</tt>, you will be operating in a new thread, and functions
+that call <tt>threadid</tt> from the new thread will return their 
+handles.
+\section Example
+From the main thread, we have
+
+\if FRAGMENT
+frag_thread_threadid_000.m
+0
+threadid
+\endif
+
+
+\verbinclude frag_thread_threadid_000.m.out 
+
+But from a launched auxilliary thread, we have
+
+\if FRAGMENT
+frag_thread_threadid_001.m
+0
+t_id = threadnew
+id = threadcall(t_id,1000,'threadid')
+threadfree(t_id);
+\endif
+
+
+\verbinclude frag_thread_threadid_001.m.out 
+
+*/

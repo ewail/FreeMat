@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkfiltering_vtksmootherrormetric" kind="page">
+    <compoundname>vtkfiltering_vtksmootherrormetric</compoundname>
+    <title>vtkSmoothErrorMetric</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkfiltering_1sec_vtkfiltering" kindref="member">Visualization Toolkit Filtering Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>It is a concrete error metric, based on a geometric criterium: a max angle between the chord passing through the midpoint and one of the endpoints and the other chord passing through the midpoint and the other endpoint of the edge. It is related to the flatness of an edge.</para><para>To create an instance of class vtkSmoothErrorMetric, simply invoke its constructor as follows <verbatim>  obj = vtkSmoothErrorMetric
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkSmoothErrorMetric has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkSmoothErrorMetric class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput> - Standard VTK type and error macros.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput> - Standard VTK type and error macros.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkSmoothErrorMetric = obj.NewInstance ()</computeroutput> - Standard VTK type and error macros.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkSmoothErrorMetric = obj.SafeDownCast (vtkObject o)</computeroutput> - Standard VTK type and error macros.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetAngleTolerance ()</computeroutput> - Return the flatness threshold. <simplesect kind="post"><para>positive_result: result&gt;90 &amp;&amp; result&lt;180  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.SetAngleTolerance (double value)</computeroutput> - Set the flatness threshold with an angle in degrees. Internally compute the cosine. value is supposed to be in ]90,180[, if not it is clamped in [90.1,179.9]. For instance 178 will give better result than 150.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.RequiresEdgeSubdivision (double leftPoint, double midPoint, double rightPoint, double alpha)</computeroutput> - Does the edge need to be subdivided according to the cosine between the two chords passing through the mid-point and the endpoints? The edge is defined by its `leftPoint&apos; and its `rightPoint&apos;. `leftPoint&apos;, `midPoint&apos; and `rightPoint&apos; have to be initialized before calling RequiresEdgeSubdivision(). Their format is global coordinates, parametric coordinates and point centered attributes: xyx rst abc de... `alpha&apos; is the normalized abscissa of the midpoint along the edge. (close to 0 means close to the left point, close to 1 means close to the right point) <simplesect kind="pre"><para>leftPoint_exists: leftPoint!=0 </para><simplesectsep/><para>midPoint_exists: midPoint!=0 </para><simplesectsep/><para>rightPoint_exists: rightPoint!=0 </para><simplesectsep/><para>clamped_alpha: alpha&gt;0 &amp;&amp; alpha&lt;1 </para><simplesectsep/><para>valid_size: sizeof(leftPoint)=sizeof(midPoint)=sizeof(rightPoint) =GetAttributeCollection()-&gt;GetNumberOfPointCenteredComponents()+6  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetError (double leftPoint, double midPoint, double rightPoint, double alpha)</computeroutput> - Return the error at the mid-point. It will return an error relative to the bounding box size if GetRelative() is true, a square absolute error otherwise. See RequiresEdgeSubdivision() for a description of the arguments. <simplesect kind="pre"><para>leftPoint_exists: leftPoint!=0 </para><simplesectsep/><para>midPoint_exists: midPoint!=0 </para><simplesectsep/><para>rightPoint_exists: rightPoint!=0 </para><simplesectsep/><para>clamped_alpha: alpha&gt;0 &amp;&amp; alpha&lt;1 </para><simplesectsep/><para>valid_size: sizeof(leftPoint)=sizeof(midPoint)=sizeof(rightPoint) =GetAttributeCollection()-&gt;GetNumberOfPointCenteredComponents()+6 </para></simplesect>
+<simplesect kind="post"><para>positive_result: result&gt;=0  </para></simplesect>
+</para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

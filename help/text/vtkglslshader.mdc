@@ -1,0 +1,69 @@
+
+ Usage
+
+vtkGLSLShader is a concrete class that creates and compiles
+hardware shaders written in the OpenGL Shadering Language
+(GLSL, OpenGL2.0). While step linking a vertex and a
+fragment shader is performed by vtkGLSLShaderProgram, all
+shader parameters are initialized in this class.
+.Section vtkOpenGLExtensionManager All OpenGL calls are made
+through vtkOpenGLExtensionManager.
+.Section Supported Basic Shader Types:
+Scalar Types uniform float uniform int uniform int &ndash;
+boolean scalar not yet tested
+Vector Types: uniform vec{2|3|4} uniform ivec{2|3|4} uniform
+bvec{2|3|4} &ndash; boolean vector not yet tested
+Matrix Types: uniform mat{2|3|4}
+Texture Samplers: sample1D &ndash; Not yet implemented in
+this cless. sample2D &ndash; Not yet implemented in this
+class. sample3D &ndash; Not yet implemented in this class.
+sampler1DShadow &ndash; Not yet implemented in this class.
+sampler1DShadow &ndash; Not yet implemented in this class.
+User-Defined structures: uniform struct NOTE: these must be
+defined and declared outside of the 'main' shader function.
+.SECTION Thanks Shader support in VTK includes key
+contributions by Gary Templet at Sandia National Labs.
+To create an instance of class vtkGLSLShader, simply invoke
+its constructor as follows
+
+    obj = vtkGLSLShader
+
+
+
+ Methods
+
+The class vtkGLSLShader has several methods that can be
+used. They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkGLSLShader class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkGLSLShader = obj.NewInstance ()
+* vtkGLSLShader = obj.SafeDownCast (vtkObject o)
+* int = obj.Compile () - Called to compile the shader code.
+  The subclasses must only compile the code in this method.
+  Returns if the compile was successful. Subclasses should
+  compile the code only if it was not already compiled.
+* int = obj.GetHandle () - The Shader needs the id of the
+  ShaderProgram to obtain uniform variable locations. This
+  is set by vtkGLSLShaderProgram.
+* obj.SetProgram (int ) - The Shader needs the id of the
+  ShaderProgram to obtain uniform variable locations. This
+  is set by vtkGLSLShaderProgram.
+* int = obj.GetProgram () - The Shader needs the id of the
+  ShaderProgram to obtain uniform variable locations. This
+  is set by vtkGLSLShaderProgram.
+* obj.ReleaseGraphicsResources (vtkWindow ) - Release any
+  graphics resources that are being consumed by this actor.
+  The parameter window could be used to determine which
+  graphic resources to release.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Rendering_Classes
+* Generated on Thu Jul 25 2013 17:18:35 for FreeMat by
+  doxygen_ 1.8.1.1
+

@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="transforms_svd" kind="page">
+    <compoundname>transforms_svd</compoundname>
+    <title>SVD Singular Value Decomposition of a Matrix</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_transforms_1sec_transforms" kindref="member">Transforms/Decompositions</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>Computes the singular value decomposition (SVD) of a matrix. The <computeroutput>svd</computeroutput> function has three forms. The first returns only the singular values of the matrix: <verbatim>  s = svd(A)
+</verbatim> The second form returns both the singular values in a diagonal matrix <computeroutput>S</computeroutput>, as well as the left and right eigenvectors. <verbatim>  [U,S,V] = svd(A)
+</verbatim> The third form returns a more compact decomposition, with the left and right singular vectors corresponding to zero singular values being eliminated. The syntax is <verbatim>  [U,S,V] = svd(A,0)
+</verbatim> </para></sect1>
+<sect1 id="transforms_svd_1Function">
+<title>Internals</title>
+<para>Recall that <computeroutput>sigma_i</computeroutput> is a singular value of an <computeroutput>M x N</computeroutput> matrix <computeroutput>A</computeroutput> if there exists two vectors <computeroutput>u_i, v_i</computeroutput> where <computeroutput>u_i</computeroutput> is of length <computeroutput>M</computeroutput>, and <computeroutput>v_i</computeroutput> is of length <computeroutput>u_i</computeroutput> and <formula id="161">\[ A v_i = \sigma_i u_i \]</formula> and generally <formula id="162">\[ A = \sum_{i=1}^{K} \sigma_i u_i*v_i&apos;, \]</formula> where <computeroutput>K</computeroutput> is the rank of <computeroutput>A</computeroutput>. In matrix form, the left singular vectors <computeroutput>u_i</computeroutput> are stored in the matrix <computeroutput>U</computeroutput> as <formula id="163">\[ U = [u_1,\ldots,u_m], V = [v_1,\ldots,v_n] \]</formula> The matrix <computeroutput>S</computeroutput> is then of size <computeroutput>M x N</computeroutput> with the singular values along the diagonal. The SVD is computed using the <computeroutput>LAPACK</computeroutput> class of functions <computeroutput>GESVD</computeroutput> (Note that this has changed. Previous versions of FreeMat used <computeroutput>GESDD</computeroutput>, which yields a valid, but slightly different choice of the decomposition. Starting in version 4, it was changed to <computeroutput>GESVD</computeroutput> to improve compatibility. </para></sect1>
+<sect1 id="variables_matrix_1Examples">
+<title>Examples</title>
+<para>Here is an example of a partial and complete singular value decomposition.</para><para><verbatim>--&gt; A = float(randn(2,3))
+
+A = 
+    0.1962   -1.7828   -1.0621 
+   -0.6022   -0.6335    0.5810 
+
+--&gt; [U,S,V] = svd(A)
+U = 
+   -0.9929   -0.1189 
+   -0.1189    0.9929 
+
+S = 
+    2.0957         0         0 
+         0    1.0268         0 
+
+V = 
+   -0.0588   -0.6051    0.7940 
+    0.8806   -0.4061   -0.2443 
+    0.4702    0.6848    0.5567 
+
+--&gt; U*S*V&apos;
+
+ans = 
+    0.1962   -1.7828   -1.0621 
+   -0.6022   -0.6335    0.5810 
+
+--&gt; svd(A)
+
+ans = 
+    2.0957 
+    1.0268 
+</verbatim> </para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

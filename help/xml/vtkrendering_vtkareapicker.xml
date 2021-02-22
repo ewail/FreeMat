@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkrendering_vtkareapicker" kind="page">
+    <compoundname>vtkrendering_vtkareapicker</compoundname>
+    <title>vtkAreaPicker</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkrendering_1sec_vtkrendering" kindref="member">Visualization Toolkit Rendering Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>The vtkAreaPicker picks all vtkProp3Ds that lie behind the screen space rectangle from x0,y0 and x1,y1. The selection is based upon the bounding box of the prop and is thus not exact.</para><para>Like vtkPicker, a pick results in a list of Prop3Ds because many props may lie within the pick frustum. You can also get an AssemblyPath, which in this case is defined to be the path to the one particular prop in the Prop3D list that lies nearest to the near plane.</para><para>This picker also returns the selection frustum, defined as either a vtkPlanes, or a set of eight corner vertices in world space. The vtkPlanes version is an ImplicitFunction, which is suitable for use with the vtkExtractGeometry. The six frustum planes are in order: left, right, bottom, top, near, far</para><para>Because this picker picks everything within a volume, the world pick point result is ill-defined. Therefore if you ask this class for the world pick position, you will get the centroid of the pick frustum. This may be outside of all props in the prop list.</para><para>To create an instance of class vtkAreaPicker, simply invoke its constructor as follows <verbatim>  obj = vtkAreaPicker
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkAreaPicker has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkAreaPicker class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkAreaPicker = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkAreaPicker = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetPickCoords (double x0, double y0, double x1, double y1)</computeroutput> - Set the default screen rectangle to pick in.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetRenderer (vtkRenderer )</computeroutput> - Set the default renderer to pick on.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.Pick ()</computeroutput> - Perform an AreaPick within the default screen rectangle and renderer.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.AreaPick (double x0, double y0, double x1, double y1, vtkRenderer rendererNULL)</computeroutput> - Perform pick operation in volume behind the given screen coordinates. Props intersecting the selection frustum will be accesible via GetProp3D. GetPlanes returns a vtkImplicitFunciton suitable for vtkExtractGeometry.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.Pick (double x0, double y0, double , vtkRenderer rendererNULL)</computeroutput> - Perform pick operation in volume behind the given screen coordinate. This makes a thin frustum around the selected pixel. Note: this ignores Z in order to pick everying in a volume from z=0 to z=1.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkAbstractMapper3D = obj.GetMapper ()</computeroutput> - Return mapper that was picked (if any).  </para></listitem>
+<listitem>
+<para><computeroutput>vtkDataSet = obj.GetDataSet ()</computeroutput> - Get a pointer to the dataset that was picked (if any). If nothing was picked then NULL is returned.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkProp3DCollection = obj.GetProp3Ds ()</computeroutput> - Return a collection of all the prop 3D&apos;s that were intersected by the pick ray. This collection is not sorted.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkPlanes = obj.GetFrustum ()</computeroutput> - Return the six planes that define the selection frustum. The implicit function defined by the planes evaluates to negative inside and positive outside.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkPoints = obj.GetClipPoints ()</computeroutput> - Return eight points that define the selection frustum.  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

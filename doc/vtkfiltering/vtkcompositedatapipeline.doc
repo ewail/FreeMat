@@ -1,0 +1,55 @@
+/*!
+\page vtkfiltering_vtkcompositedatapipeline vtkCompositeDataPipeline
+
+<p>
+Section: \ref sec_vtkfiltering "Visualization Toolkit Filtering Classes"
+\section Usage
+ vtkCompositeDataPipeline is an executive that supports the processing of
+ composite dataset. It supports algorithms that are aware of composite
+ dataset as well as those that are not. Type checking is performed at run
+ time. Algorithms that are not composite dataset-aware have to support
+ all dataset types contained in the composite dataset. The pipeline
+ execution can be summarized as follows: 
+
+ * REQUEST_INFORMATION: The producers have to provide information about
+ the contents of the composite dataset in this pass. 
+ Sources that can produce more than one piece (note that a piece is
+ different than a block; each piece consistes of 0 or more blocks) should
+ set MAXIMUM_NUMBER_OF_PIECES to -1.
+
+ * REQUEST_UPDATE_EXTENT: This pass is identical to the one implemented
+ in vtkStreamingDemandDrivenPipeline
+
+ * REQUEST_DATA: This is where the algorithms execute. If the 
+ vtkCompositeDataPipeline is assigned to a simple filter, 
+ it will invoke the  vtkStreamingDemandDrivenPipeline passes in a loop, 
+ passing a different block each time and will collect the results in a 
+ composite dataset. 
+ .SECTION See also
+  vtkCompositeDataSet
+
+To create an instance of class vtkCompositeDataPipeline, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkCompositeDataPipeline
+\endverbatim
+\section Methods
+The class vtkCompositeDataPipeline has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkCompositeDataPipeline class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkCompositeDataPipeline = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkCompositeDataPipeline = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>vtkDataObject = obj.GetCompositeOutputData (int port)</tt> -  Returns the data object stored with the DATA_OBJECT() in the
+ output port
+ </LI>
+</UL>
+*/

@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="num_ode45" kind="page">
+    <compoundname>num_ode45</compoundname>
+    <title>ODE45 Numerical Solution of ODEs</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_num_1sec_num" kindref="member">Numerical Methods</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>function [t,y] = ode45(f,tspan,y0,options,varargin) function SOL = ode45(f,tspan,y0,options,varargin)</para><para>ode45 is a solver for ordinary differential equations and initial value problems. To solve the ODE <verbatim>      y&apos;(t) =  f(t,y)
+      y(0)  =  y0
+</verbatim> over the interval tspan=[t0 t1], you can use ode45. For example, to solve the ode <verbatim> y&apos;   =  y
+ y(0) =  1
+</verbatim></para><para>whose exact solution is y(t)=exp(t), over the interval t0=0, t1=3, do</para><para><verbatim>--&gt;       [t,y]=ode45(@(t,y) y,[0 3],1)
+t = 
+
+ Columns 1 to 7
+
+         0    0.0030    0.0180    0.0930    0.3930    0.6930    0.9930 
+
+ Columns 8 to 14
+
+    1.2930    1.5930    1.8930    2.1930    2.4930    2.7930    3.0000 
+
+y = 
+    1.0000 
+    1.0030 
+    1.0182 
+    1.0975 
+    1.4814 
+    1.9997 
+    2.6993 
+    3.6437 
+    4.9185 
+    6.6392 
+    8.9620 
+   12.0975 
+   16.3299 
+   20.0854 
+</verbatim></para><para>If you want a dense output (i.e., an output that also contains an interpolating spline), use instead</para><para><verbatim>--&gt;       SOL=ode45(@(t,y) y,[0 3],1)
+
+SOL = 
+    x: 1x14 double array
+    y: 1x14 double array
+    xe: 
+    ye: 
+    ie: 
+    solver: generic_ode_solver
+    interpolant: 1x1 functionpointer array
+    idata: 1x1 struct array
+</verbatim></para><para>You can view the result using <verbatim>      plot(0:0.01:3,deval(SOL,0:0.01:3))
+</verbatim> You will notice that this function is available for &quot;every&quot; value of t, while <verbatim> plot(t,y,&apos;o-&apos;)
+</verbatim></para><para>is only available at a few points.</para><para>The optional argument &apos;options&apos; is a structure. It may contain any of the following fields:</para><para>&apos;AbsTol&apos; - Absolute tolerance, default is 1e-6. &apos;RelTol&apos; - Relative tolerance, default is 1e-3. &apos;MaxStep&apos; - Maximum step size, default is (tspan(2)-tspan(1))/10 &apos;InitialStep&apos; - Initial step size, default is maxstep/100 &apos;Stepper&apos; - To override the default Fehlberg integrator &apos;Events&apos; - To provide an event function &apos;Projection&apos; - To provide a projection function</para><para>The varargin is ignored by this function, but is passed to all your callbacks, i.e., f, the event function and the projection function.</para><para>==Event Function==</para><para>The event function can be used to detect situations where the integrator should stop, possibly because the right-hand-side has changed, because of a collision, etc...</para><para>An event function should look like</para><para>function [val,isterminal,direction]=event(t,y,...)</para><para>The return values are:</para><para>val - the value of the event function. isterminal - whether or not this event should cause termination of the integrator. direction - 1=upcrossings only matter, -1=downcrossings only, 0=both.</para><para>== Projection function ==</para><para>For geometric integration, you can provide a projection function which will be called after each time step. The projection function has the following signature: <verbatim>function yn=project(t,yn,...);
+</verbatim></para><para>If the output yn is very different from the input yn, the quality of interpolation may decrease. </para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

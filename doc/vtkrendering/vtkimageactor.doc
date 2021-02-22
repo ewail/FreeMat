@@ -1,0 +1,129 @@
+/*!
+\page vtkrendering_vtkimageactor vtkImageActor
+
+<p>
+Section: \ref sec_vtkrendering "Visualization Toolkit Rendering Classes"
+\section Usage
+ vtkImageActor is used to render an image in a 3D scene.  The image
+ is placed at the origin of the image, and its size is controlled by the
+ image dimensions and image spacing. The orientation of the image is
+ orthogonal to one of the x-y-z axes depending on which plane the
+ image is defined in. vtkImageActor duplicates the functionality 
+ of combinations of other VTK classes in a convenient, single class.
+
+To create an instance of class vtkImageActor, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkImageActor
+\endverbatim
+\section Methods
+The class vtkImageActor has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkImageActor class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkImageActor = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkImageActor = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetInput (vtkImageData )</tt> -  Set/Get the image data input for the image actor.  
+ </LI>
+<LI>  <tt>vtkImageData = obj.GetInput ()</tt> -  Set/Get the image data input for the image actor.  
+ </LI>
+<LI>  <tt>int = obj.GetInterpolate ()</tt> -  Turn on/off linear interpolation of the image when rendering.
+ </LI>
+<LI>  <tt>obj.SetInterpolate (int )</tt> -  Turn on/off linear interpolation of the image when rendering.
+ </LI>
+<LI>  <tt>obj.InterpolateOn ()</tt> -  Turn on/off linear interpolation of the image when rendering.
+ </LI>
+<LI>  <tt>obj.InterpolateOff ()</tt> -  Turn on/off linear interpolation of the image when rendering.
+ </LI>
+<LI>  <tt>obj.SetOpacity (double )</tt> -  Set/Get the object's opacity. 1.0 is totally opaque and 0.0 is completely
+ transparent.
+ </LI>
+<LI>  <tt>double = obj.GetOpacityMinValue ()</tt> -  Set/Get the object's opacity. 1.0 is totally opaque and 0.0 is completely
+ transparent.
+ </LI>
+<LI>  <tt>double = obj.GetOpacityMaxValue ()</tt> -  Set/Get the object's opacity. 1.0 is totally opaque and 0.0 is completely
+ transparent.
+ </LI>
+<LI>  <tt>double = obj.GetOpacity ()</tt> -  Set/Get the object's opacity. 1.0 is totally opaque and 0.0 is completely
+ transparent.
+ </LI>
+<LI>  <tt>obj.SetDisplayExtent (int extent[6])</tt> -  The image extent is generally set explicitly, but if not set
+ it will be determined from the input image data.
+ </LI>
+<LI>  <tt>obj.SetDisplayExtent (int minX, int maxX, int minY, int maxY, int minZ, int maxZ)</tt> -  The image extent is generally set explicitly, but if not set
+ it will be determined from the input image data.
+ </LI>
+<LI>  <tt>obj.GetDisplayExtent (int extent[6])</tt> -  The image extent is generally set explicitly, but if not set
+ it will be determined from the input image data.
+ </LI>
+<LI>  <tt>int = obj.GetDisplayExtent ()</tt> -  Get the bounds of this image actor. Either copy the bounds
+ into a user provided array or return a pointer to an array.
+ In either case the boudns is expressed as a 6-vector 
+ (xmin,xmax, ymin,ymax, zmin,zmax).
+ </LI>
+<LI>  <tt>double = obj.GetBounds ()</tt> -  Get the bounds of this image actor. Either copy the bounds
+ into a user provided array or return a pointer to an array.
+ In either case the boudns is expressed as a 6-vector 
+ (xmin,xmax, ymin,ymax, zmin,zmax).
+ </LI>
+<LI>  <tt>obj.GetBounds (double bounds[6])</tt> -  Get the bounds of this image actor. Either copy the bounds
+ into a user provided array or return a pointer to an array.
+ In either case the boudns is expressed as a 6-vector 
+ (xmin,xmax, ymin,ymax, zmin,zmax).
+ </LI>
+<LI>  <tt>obj.GetDisplayBounds (double bounds[6])</tt> -  Get the bounds of the data that is displayed by this image
+ actor.  If the transformation matrix for this actor is the
+ identity matrix, this will return the same value as
+ GetBounds.
+ </LI>
+<LI>  <tt>int = obj.GetSliceNumber ()</tt> -  Return the slice number (& min/max slice number) computed from the display
+ extent.
+ </LI>
+<LI>  <tt>int = obj.GetSliceNumberMax ()</tt> -  Return the slice number (& min/max slice number) computed from the display
+ extent.
+ </LI>
+<LI>  <tt>int = obj.GetSliceNumberMin ()</tt> -  Return the slice number (& min/max slice number) computed from the display
+ extent.
+ </LI>
+<LI>  <tt>obj.SetZSlice (int z)</tt> -  Set/Get the current slice number. The axis Z in ZSlice does not
+ necessarily have any relation to the z axis of the data on disk.
+ It is simply the axis orthogonal to the x,y, display plane.
+ GetWholeZMax and Min are convenience methods for obtaining
+ the number of slices that can be displayed. Again the number
+ of slices is in reference to the display z axis, which is not
+ necessarily the z axis on disk. (due to reformatting etc)
+ </LI>
+<LI>  <tt>int = obj.GetZSlice ()</tt> -  Set/Get the current slice number. The axis Z in ZSlice does not
+ necessarily have any relation to the z axis of the data on disk.
+ It is simply the axis orthogonal to the x,y, display plane.
+ GetWholeZMax and Min are convenience methods for obtaining
+ the number of slices that can be displayed. Again the number
+ of slices is in reference to the display z axis, which is not
+ necessarily the z axis on disk. (due to reformatting etc)
+ </LI>
+<LI>  <tt>int = obj.GetWholeZMin ()</tt> -  Set/Get the current slice number. The axis Z in ZSlice does not
+ necessarily have any relation to the z axis of the data on disk.
+ It is simply the axis orthogonal to the x,y, display plane.
+ GetWholeZMax and Min are convenience methods for obtaining
+ the number of slices that can be displayed. Again the number
+ of slices is in reference to the display z axis, which is not
+ necessarily the z axis on disk. (due to reformatting etc)
+ </LI>
+<LI>  <tt>int = obj.GetWholeZMax ()</tt> -  Set/Get the current slice number. The axis Z in ZSlice does not
+ necessarily have any relation to the z axis of the data on disk.
+ It is simply the axis orthogonal to the x,y, display plane.
+ GetWholeZMax and Min are convenience methods for obtaining
+ the number of slices that can be displayed. Again the number
+ of slices is in reference to the display z axis, which is not
+ necessarily the z axis on disk. (due to reformatting etc)
+ </LI>
+</UL>
+*/

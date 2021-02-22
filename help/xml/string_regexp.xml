@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="string_regexp" kind="page">
+    <compoundname>string_regexp</compoundname>
+    <title>REGEXP Regular Expression Matching Function</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_string_1sec_string" kindref="member">String Functions</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>Matches regular expressions in the provided string. This function is complicated, and compatibility with MATLABs syntax is not perfect. The syntax for its use is <verbatim>  regexp(&apos;str&apos;,&apos;expr&apos;)
+</verbatim> which returns a row vector containing the starting index of each substring of <computeroutput>str</computeroutput> that matches the regular expression described by <computeroutput>expr</computeroutput>. The second form of <computeroutput>regexp</computeroutput> returns six outputs in the following order: <verbatim>  [start stop tokenExtents match tokens names] = regexp(&apos;str&apos;,&apos;expr&apos;)
+</verbatim> where the meaning of each of the outputs is defined below. <itemizedlist>
+<listitem>
+<para><computeroutput>start</computeroutput> is a row vector containing the starting index of each substring that matches the regular expression.  </para></listitem>
+<listitem>
+<para><computeroutput>stop</computeroutput> is a row vector containing the ending index of each substring that matches the regular expression.  </para></listitem>
+<listitem>
+<para><computeroutput>tokenExtents</computeroutput> is a cell array containing the starting and ending indices of each substring that matches the <computeroutput>tokens</computeroutput> in the regular expression. A token is a captured part of the regular expression. If the <computeroutput>&apos;once&apos;</computeroutput> mode is used, then this output is a <computeroutput>double</computeroutput> array.  </para></listitem>
+<listitem>
+<para><computeroutput>match</computeroutput> is a cell array containing the text for each substring that matches the regular expression. In <computeroutput>&apos;once&apos;</computeroutput> mode, this is a string.  </para></listitem>
+<listitem>
+<para><computeroutput>tokens</computeroutput> is a cell array of cell arrays of strings that correspond to the tokens in the regular expression. In <computeroutput>&apos;once&apos;</computeroutput> mode, this is a cell array of strings.  </para></listitem>
+<listitem>
+<para><computeroutput>named</computeroutput> is a structure array containing the named tokens captured in a regular expression. Each named token is assigned a field in the resulting structure array, and each element of the array corresponds to a different match.  </para></listitem>
+</itemizedlist>
+If you want only some of the the outputs, you can use the following variant of <computeroutput>regexp</computeroutput>: <verbatim>  [o1 o2 ...] = regexp(&apos;str&apos;,&apos;expr&apos;, &apos;p1&apos;, &apos;p2&apos;, ...)
+</verbatim> where <computeroutput>p1</computeroutput> etc. are the names of the outputs (and the order we want the outputs in). As a final variant, you can supply some mode flags to <computeroutput>regexp</computeroutput> <verbatim>  [o1 o2 ...] = regexp(&apos;str&apos;,&apos;expr&apos;, p1, p2, ..., &apos;mode1&apos;, &apos;mode2&apos;)
+</verbatim> where acceptable <computeroutput>mode</computeroutput> flags are: <itemizedlist>
+<listitem>
+<para><computeroutput>&apos;once&apos;</computeroutput> - only the first match is returned.  </para></listitem>
+<listitem>
+<para><computeroutput>&apos;matchcase&apos;</computeroutput> - letter case must match (selected by default for <computeroutput>regexp</computeroutput>)  </para></listitem>
+<listitem>
+<para><computeroutput>&apos;ignorecase&apos;</computeroutput> - letter case is ignored (selected by default for <computeroutput>regexpi</computeroutput>)  </para></listitem>
+<listitem>
+<para><computeroutput>&apos;dotall&apos;</computeroutput> - the <computeroutput>&apos;.&apos;</computeroutput> operator matches any character (default)  </para></listitem>
+<listitem>
+<para><computeroutput>&apos;dotexceptnewline&apos;</computeroutput> - the <computeroutput>&apos;.&apos;</computeroutput> operator does not match the newline character  </para></listitem>
+<listitem>
+<para><computeroutput>&apos;stringanchors&apos;</computeroutput> - the <computeroutput>^</computeroutput> and <computeroutput>$</computeroutput> operators match at the beginning and end (respectively) of a string.  </para></listitem>
+<listitem>
+<para><computeroutput>&apos;lineanchors&apos;</computeroutput> - the <computeroutput>^</computeroutput> and <computeroutput>$</computeroutput> operators match at the beginning and end (respectively) of a line.  </para></listitem>
+<listitem>
+<para><computeroutput>&apos;literalspacing&apos;</computeroutput> - the space characters and comment characters <computeroutput>#</computeroutput> are matched as literals, just like any other ordinary character (default).  </para></listitem>
+<listitem>
+<para><computeroutput>&apos;freespacing&apos;</computeroutput> - all spaces and comments are ignored in the regular expression. You must use &apos;\ &apos; and &apos;#&apos; to match spaces and comment characters, respectively.  </para></listitem>
+</itemizedlist>
+Note the following behavior differences between MATLABs regexp and FreeMats: <itemizedlist>
+<listitem>
+<para>If you have an old version of <computeroutput>pcre</computeroutput> installed, then named tokens must use the older <computeroutput>&lt;?P&lt;name&gt;</computeroutput> syntax, instead of the new <computeroutput>&lt;?&lt;name&gt;</computeroutput> syntax.  </para></listitem>
+<listitem>
+<para>The <computeroutput>pcre</computeroutput> library is pickier about named tokens and their appearance in expressions. So, for example, the regexp from the MATLAB manual <computeroutput>&apos;(?&lt;first&gt;\w+)\s+(?&lt;last&gt;\w+)</computeroutput>(?&lt;last&gt;\w+),\s+(?&lt;first&gt;\w+)&apos;| does not work correctly (as of this writing) because the same named tokens appear multiple times. The workaround is to assign different names to each token, and then collapse the results later.  </para></listitem>
+</itemizedlist>
+</para></sect1>
+<sect1 id="variables_struct_1Example">
+<title>Example</title>
+<para>Some examples of using the <computeroutput>regexp</computeroutput> function</para><para><verbatim>--&gt; [start,stop,tokenExtents,match,tokens,named] = regexp(&apos;quick down town zoo&apos;,&apos;(.)own&apos;)
+start = 
+  7 12 
+
+stop = 
+ 10 15 
+
+tokenExtents = 
+ [1x2 double array] [1x2 double array] 
+
+match = 
+ [down] [town] 
+
+tokens = 
+ [1x1 cell array] [1x1 cell array] 
+
+named = 
+  []
+</verbatim> </para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

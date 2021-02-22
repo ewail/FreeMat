@@ -1,0 +1,84 @@
+/*!
+\page vtkfiltering_vtkviewdependenterrormetric vtkViewDependentErrorMetric
+
+<p>
+Section: \ref sec_vtkfiltering "Visualization Toolkit Filtering Classes"
+\section Usage
+ It is a concrete error metric, based on a geometric criterium in 
+ the screen space: the variation of the projected edge from a projected 
+ straight line
+
+
+To create an instance of class vtkViewDependentErrorMetric, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkViewDependentErrorMetric
+\endverbatim
+\section Methods
+The class vtkViewDependentErrorMetric has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkViewDependentErrorMetric class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt> -  Standard VTK type and error macros.
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt> -  Standard VTK type and error macros.
+ </LI>
+<LI>  <tt>vtkViewDependentErrorMetric = obj.NewInstance ()</tt> -  Standard VTK type and error macros.
+ </LI>
+<LI>  <tt>vtkViewDependentErrorMetric = obj.SafeDownCast (vtkObject o)</tt> -  Standard VTK type and error macros.
+ </LI>
+<LI>  <tt>double = obj.GetPixelTolerance ()</tt> -  Return the squared screen-based geometric accurary measured in pixels.
+ An accuracy less or equal to 0.25 (0.5^2) ensures that the screen-space
+ interpolation of a mid-point matchs exactly with the projection of the
+ mid-point (a value less than 1 but greater than 0.25 is not enough,
+ because of 8-neighbors). Maybe it is useful for lower accuracy in case of
+ anti-aliasing?
+ \post positive_result: result>0
+ </LI>
+<LI>  <tt>obj.SetPixelTolerance (double value)</tt> -  Set the squared screen-based geometric accuracy measured in pixels.
+ Subdivision will be required if the square distance between the projection
+ of the real point and the straight line passing through the projection
+ of the vertices of the edge is greater than `value'.
+ For instance, 0.25 will give better result than 1.
+ \pre positive_value: value>0
+ </LI>
+<LI>  <tt>vtkViewport = obj.GetViewport ()</tt> -  Set/Get the renderer with `renderer' on which the error metric 
+ is based. The error metric use the active camera of the renderer.
+ </LI>
+<LI>  <tt>obj.SetViewport (vtkViewport viewport)</tt> -  Set/Get the renderer with `renderer' on which the error metric 
+ is based. The error metric use the active camera of the renderer.
+ </LI>
+<LI>  <tt>int = obj.RequiresEdgeSubdivision (double leftPoint, double midPoint, double rightPoint, double alpha)</tt> -  Does the edge need to be subdivided according to the distance between
+ the line passing through its endpoints in screen space and the projection
+ of its mid point?
+ The edge is defined by its `leftPoint' and its `rightPoint'.
+ `leftPoint', `midPoint' and `rightPoint' have to be initialized before
+ calling RequiresEdgeSubdivision().
+ Their format is global coordinates, parametric coordinates and
+ point centered attributes: xyx rst abc de...
+ `alpha' is the normalized abscissa of the midpoint along the edge.
+ (close to 0 means close to the left point, close to 1 means close to the
+ right point)
+ \pre leftPoint_exists: leftPoint!=0
+ \pre midPoint_exists: midPoint!=0
+ \pre rightPoint_exists: rightPoint!=0
+ \pre clamped_alpha: alpha>0 && alpha<1
+ \pre valid_size: sizeof(leftPoint)=sizeof(midPoint)=sizeof(rightPoint)
+          =GetAttributeCollection()->GetNumberOfPointCenteredComponents()+6
+ </LI>
+<LI>  <tt>double = obj.GetError (double leftPoint, double midPoint, double rightPoint, double alpha)</tt> -  Return the error at the mid-point. The type of error depends on the state
+ of the concrete error metric. For instance, it can return an absolute
+ or relative error metric.
+ See RequiresEdgeSubdivision() for a description of the arguments.
+ \pre leftPoint_exists: leftPoint!=0
+ \pre midPoint_exists: midPoint!=0
+ \pre rightPoint_exists: rightPoint!=0
+ \pre clamped_alpha: alpha>0 && alpha<1
+ \pre valid_size: sizeof(leftPoint)=sizeof(midPoint)=sizeof(rightPoint)
+          =GetAttributeCollection()->GetNumberOfPointCenteredComponents()+6
+ \post positive_result: result>=0
+ </LI>
+</UL>
+*/

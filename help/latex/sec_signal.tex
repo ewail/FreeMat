@@ -1,0 +1,26 @@
+
+\begin{DoxyItemize}
+\item \hyperlink{signal_conv}{C\-O\-N\-V Convolution Function}  
+\item \hyperlink{signal_conv2}{C\-O\-N\-V2 Matrix Convolution}  
+\end{DoxyItemize}\hypertarget{signal_conv}{}\section{C\-O\-N\-V Convolution Function}\label{signal_conv}
+Section\-: \hyperlink{sec_signal}{Signal Processing Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+The {\ttfamily conv} function performs a one-\/dimensional convolution of two vector arguments. The syntax for its use is \begin{DoxyVerb}     z = conv(x,y)
+\end{DoxyVerb}
+ where {\ttfamily x} and {\ttfamily y} are vectors. The output is of length {\ttfamily nx + ny -\/1}. The {\ttfamily conv} function calls {\ttfamily conv2} to do the calculation. See its help for more details. \hypertarget{signal_conv2}{}\section{C\-O\-N\-V2 Matrix Convolution}\label{signal_conv2}
+Section\-: \hyperlink{sec_signal}{Signal Processing Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+The {\ttfamily conv2} function performs a two-\/dimensional convolution of matrix arguments. The syntax for its use is \begin{DoxyVerb}    Z = conv2(X,Y)
+\end{DoxyVerb}
+ which performs the full 2-\/\-D convolution of {\ttfamily X} and {\ttfamily Y}. If the input matrices are of size {\ttfamily \mbox{[}xm,xn\mbox{]}} and {\ttfamily \mbox{[}ym,yn\mbox{]}} respectively, then the output is of size {\ttfamily \mbox{[}xm+ym-\/1,xn+yn-\/1\mbox{]}}. Another form is \begin{DoxyVerb}    Z = conv2(hcol,hrow,X)
+\end{DoxyVerb}
+ where {\ttfamily hcol} and {\ttfamily hrow} are vectors. In this form, {\ttfamily conv2} first convolves {\ttfamily Y} along the columns with {\ttfamily hcol}, and then convolves {\ttfamily Y} along the rows with {\ttfamily hrow}. This is equivalent to {\ttfamily conv2(hcol(\-:)$\ast$hrow(\-:)',Y)}.
+
+You can also provide an optional {\ttfamily shape} argument to {\ttfamily conv2} via either \begin{DoxyVerb}    Z = conv2(X,Y,'shape')
+    Z = conv2(hcol,hrow,X,'shape')
+\end{DoxyVerb}
+ where {\ttfamily shape} is one of the following strings 
+\begin{DoxyItemize}
+\item {\ttfamily 'full'} -\/ compute the full convolution result -\/ this is the default if no {\ttfamily shape} argument is provided.  
+\item {\ttfamily 'same'} -\/ returns the central part of the result that is the same size as {\ttfamily X}.  
+\item {\ttfamily 'valid'} -\/ returns the portion of the convolution that is computed without the zero-\/padded edges. In this situation, {\ttfamily Z} has size {\ttfamily \mbox{[}xm-\/ym+1,xn-\/yn+1\mbox{]}} when {\ttfamily xm$>$=ym} and {\ttfamily xn$>$=yn}. Otherwise {\ttfamily conv2} returns an empty matrix.  
+\end{DoxyItemize}\hypertarget{transforms_svd_Function}{}\subsection{Internals}\label{transforms_svd_Function}
+The convolution is computed explicitly using the definition\-: \[ Z(m,n) = \sum_{k} \sum_{j} X(k,j) Y(m-k,n-j) \] If the full output is requested, then {\ttfamily m} ranges over {\ttfamily 0 $<$= m $<$ xm+ym-\/1} and {\ttfamily n} ranges over {\ttfamily 0 $<$= n $<$ xn+yn-\/1}. For the case where {\ttfamily shape} is {\ttfamily 'same'}, the output ranges over {\ttfamily (ym-\/1)/2 $<$= m $<$ xm + (ym-\/1)/2} and {\ttfamily (yn-\/1)/2 $<$= n $<$ xn + (yn-\/1)/2}. 

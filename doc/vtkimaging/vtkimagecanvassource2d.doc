@@ -1,0 +1,186 @@
+/*!
+\page vtkimaging_vtkimagecanvassource2d vtkImageCanvasSource2D
+
+<p>
+Section: \ref sec_vtkimaging "Visualization Toolkit Imaging Classes"
+\section Usage
+ vtkImageCanvasSource2D is a source that starts as a blank image.
+ you may add to the image with two-dimensional drawing routines.
+ It can paint multi-spectral images.
+
+To create an instance of class vtkImageCanvasSource2D, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkImageCanvasSource2D
+\endverbatim
+\section Methods
+The class vtkImageCanvasSource2D has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkImageCanvasSource2D class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkImageCanvasSource2D = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkImageCanvasSource2D = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetDrawColor (double , double , double , double )</tt> -  Set/Get DrawColor.  This is the value that is used when filling data
+ or drawing lines. Default is (0,0,0,0)
+ </LI>
+<LI>  <tt>obj.SetDrawColor (double  a[4])</tt> -  Set/Get DrawColor.  This is the value that is used when filling data
+ or drawing lines. Default is (0,0,0,0)
+ </LI>
+<LI>  <tt>double = obj. GetDrawColor ()</tt> -  Set/Get DrawColor.  This is the value that is used when filling data
+ or drawing lines. Default is (0,0,0,0)
+ </LI>
+<LI>  <tt>obj.SetDrawColor (double a)</tt> -  Set DrawColor to (a, b, 0, 0)
+ </LI>
+<LI>  <tt>obj.SetDrawColor (double a, double b)</tt> -  Set DrawColor to (a, b, c, 0)
+ </LI>
+<LI>  <tt>obj.SetDrawColor (double a, double b, double c)</tt> -  Set the pixels inside the box (min0, max0, min1, max1) to the current
+ DrawColor
+ </LI>
+<LI>  <tt>obj.FillBox (int min0, int max0, int min1, int max1)</tt> -  Set the pixels inside the box (min0, max0, min1, max1) to the current
+ DrawColor
+ </LI>
+<LI>  <tt>obj.FillTube (int x0, int y0, int x1, int y1, double radius)</tt> -  Set the pixels inside the box (min0, max0, min1, max1) to the current
+ DrawColor
+ </LI>
+<LI>  <tt>obj.FillTriangle (int x0, int y0, int x1, int y1, int x2, int y2)</tt> -  Set the pixels inside the box (min0, max0, min1, max1) to the current
+ DrawColor
+ </LI>
+<LI>  <tt>obj.DrawCircle (int c0, int c1, double radius)</tt> -  Set the pixels inside the box (min0, max0, min1, max1) to the current
+ DrawColor
+ </LI>
+<LI>  <tt>obj.DrawPoint (int p0, int p1)</tt> -  Set the pixels inside the box (min0, max0, min1, max1) to the current
+ DrawColor
+ </LI>
+<LI>  <tt>obj.DrawSegment (int x0, int y0, int x1, int y1)</tt> -  Set the pixels inside the box (min0, max0, min1, max1) to the current
+ DrawColor
+ </LI>
+<LI>  <tt>obj.DrawSegment3D (double p0, double p1)</tt> -  Set the pixels inside the box (min0, max0, min1, max1) to the current
+ DrawColor
+ </LI>
+<LI>  <tt>obj.DrawSegment3D (double x1, double y1, double z1, double x2, double y2, double z2)</tt> -  Draw subimage of the input image in the canvas at position x0 and
+ y0. The subimage is defined with sx, sy, width, and height.
+ </LI>
+<LI>  <tt>obj.DrawImage (int x0, int y0, vtkImageData i)</tt> -  Draw subimage of the input image in the canvas at position x0 and
+ y0. The subimage is defined with sx, sy, width, and height.
+ </LI>
+<LI>  <tt>obj.DrawImage (int x0, int y0, vtkImageData , int sx, int sy, int width, int height)</tt> -  Draw subimage of the input image in the canvas at position x0 and
+ y0. The subimage is defined with sx, sy, width, and height.
+ </LI>
+<LI>  <tt>obj.FillPixel (int x, int y)</tt> -  Fill a colored area with another color. (like connectivity)
+ All pixels connected (and with the same value) to pixel (x, y)
+ get replaced by the current "DrawColor".
+ </LI>
+<LI>  <tt>obj.SetExtent (int extent)</tt> -  These methods set the WholeExtent of the output
+ It sets the size of the canvas.
+ Extent is a min max 3D box.  Minimums and maximums are inclusive.
+ </LI>
+<LI>  <tt>obj.SetExtent (int x1, int x2, int y1, int y2, int z1, int z2)</tt> -  These methods set the WholeExtent of the output
+ It sets the size of the canvas.
+ Extent is a min max 3D box.  Minimums and maximums are inclusive.
+ </LI>
+<LI>  <tt>obj.SetDefaultZ (int )</tt> -  The drawing operations can only draw into one 2D XY plane at a time.
+ If the canvas is a 3D volume, then this z value is used
+ as the default for 2D operations. The default is 0.
+ </LI>
+<LI>  <tt>int = obj.GetDefaultZ ()</tt> -  The drawing operations can only draw into one 2D XY plane at a time.
+ If the canvas is a 3D volume, then this z value is used
+ as the default for 2D operations. The default is 0.
+ </LI>
+<LI>  <tt>obj.SetRatio (double , double , double )</tt> -  Set/Get Ratio. This is the value that is used to pre-multiply each
+ (x, y, z) drawing coordinates (including DefaultZ). The default
+ is (1, 1, 1)
+ </LI>
+<LI>  <tt>obj.SetRatio (double  a[3])</tt> -  Set/Get Ratio. This is the value that is used to pre-multiply each
+ (x, y, z) drawing coordinates (including DefaultZ). The default
+ is (1, 1, 1)
+ </LI>
+<LI>  <tt>double = obj. GetRatio ()</tt> -  Set/Get Ratio. This is the value that is used to pre-multiply each
+ (x, y, z) drawing coordinates (including DefaultZ). The default
+ is (1, 1, 1)
+ </LI>
+<LI>  <tt>obj.SetNumberOfScalarComponents (int i)</tt> -  Set the number of scalar components
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfScalarComponents () const</tt> -  Set the number of scalar components
+ </LI>
+<LI>  <tt>obj.SetScalarTypeToFloat ()</tt> -  Set/Get the data scalar type (i.e VTK_DOUBLE). Note that these methods
+ are setting and getting the pipeline scalar type. i.e. they are setting
+ the type that the image data will be once it has executed. Until the
+ REQUEST_DATA pass the actual scalars may be of some other type. This is
+ for backwards compatibility
+ </LI>
+<LI>  <tt>obj.SetScalarTypeToDouble ()</tt> -  Set/Get the data scalar type (i.e VTK_DOUBLE). Note that these methods
+ are setting and getting the pipeline scalar type. i.e. they are setting
+ the type that the image data will be once it has executed. Until the
+ REQUEST_DATA pass the actual scalars may be of some other type. This is
+ for backwards compatibility
+ </LI>
+<LI>  <tt>obj.SetScalarTypeToInt ()</tt> -  Set/Get the data scalar type (i.e VTK_DOUBLE). Note that these methods
+ are setting and getting the pipeline scalar type. i.e. they are setting
+ the type that the image data will be once it has executed. Until the
+ REQUEST_DATA pass the actual scalars may be of some other type. This is
+ for backwards compatibility
+ </LI>
+<LI>  <tt>obj.SetScalarTypeToUnsignedInt ()</tt> -  Set/Get the data scalar type (i.e VTK_DOUBLE). Note that these methods
+ are setting and getting the pipeline scalar type. i.e. they are setting
+ the type that the image data will be once it has executed. Until the
+ REQUEST_DATA pass the actual scalars may be of some other type. This is
+ for backwards compatibility
+ </LI>
+<LI>  <tt>obj.SetScalarTypeToLong ()</tt> -  Set/Get the data scalar type (i.e VTK_DOUBLE). Note that these methods
+ are setting and getting the pipeline scalar type. i.e. they are setting
+ the type that the image data will be once it has executed. Until the
+ REQUEST_DATA pass the actual scalars may be of some other type. This is
+ for backwards compatibility
+ </LI>
+<LI>  <tt>obj.SetScalarTypeToUnsignedLong ()</tt> -  Set/Get the data scalar type (i.e VTK_DOUBLE). Note that these methods
+ are setting and getting the pipeline scalar type. i.e. they are setting
+ the type that the image data will be once it has executed. Until the
+ REQUEST_DATA pass the actual scalars may be of some other type. This is
+ for backwards compatibility
+ </LI>
+<LI>  <tt>obj.SetScalarTypeToShort ()</tt> -  Set/Get the data scalar type (i.e VTK_DOUBLE). Note that these methods
+ are setting and getting the pipeline scalar type. i.e. they are setting
+ the type that the image data will be once it has executed. Until the
+ REQUEST_DATA pass the actual scalars may be of some other type. This is
+ for backwards compatibility
+ </LI>
+<LI>  <tt>obj.SetScalarTypeToUnsignedShort ()</tt> -  Set/Get the data scalar type (i.e VTK_DOUBLE). Note that these methods
+ are setting and getting the pipeline scalar type. i.e. they are setting
+ the type that the image data will be once it has executed. Until the
+ REQUEST_DATA pass the actual scalars may be of some other type. This is
+ for backwards compatibility
+ </LI>
+<LI>  <tt>obj.SetScalarTypeToUnsignedChar ()</tt> -  Set/Get the data scalar type (i.e VTK_DOUBLE). Note that these methods
+ are setting and getting the pipeline scalar type. i.e. they are setting
+ the type that the image data will be once it has executed. Until the
+ REQUEST_DATA pass the actual scalars may be of some other type. This is
+ for backwards compatibility
+ </LI>
+<LI>  <tt>obj.SetScalarTypeToChar ()</tt> -  Set/Get the data scalar type (i.e VTK_DOUBLE). Note that these methods
+ are setting and getting the pipeline scalar type. i.e. they are setting
+ the type that the image data will be once it has executed. Until the
+ REQUEST_DATA pass the actual scalars may be of some other type. This is
+ for backwards compatibility
+ </LI>
+<LI>  <tt>obj.SetScalarType (int )</tt> -  Set/Get the data scalar type (i.e VTK_DOUBLE). Note that these methods
+ are setting and getting the pipeline scalar type. i.e. they are setting
+ the type that the image data will be once it has executed. Until the
+ REQUEST_DATA pass the actual scalars may be of some other type. This is
+ for backwards compatibility
+ </LI>
+<LI>  <tt>int = obj.GetScalarType () const</tt> -  Set/Get the data scalar type (i.e VTK_DOUBLE). Note that these methods
+ are setting and getting the pipeline scalar type. i.e. they are setting
+ the type that the image data will be once it has executed. Until the
+ REQUEST_DATA pass the actual scalars may be of some other type. This is
+ for backwards compatibility
+ </LI>
+</UL>
+*/

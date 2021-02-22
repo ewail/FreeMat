@@ -1,0 +1,292 @@
+
+\begin{DoxyItemize}
+\item \hyperlink{thread_threadcall}{T\-H\-R\-E\-A\-D\-C\-A\-L\-L Call Function In A Thread}  
+\item \hyperlink{thread_threadfree}{T\-H\-R\-E\-A\-D\-F\-R\-E\-E Free thread resources}  
+\item \hyperlink{thread_threadid}{T\-H\-R\-E\-A\-D\-I\-D Get Current Thread Handle}  
+\item \hyperlink{thread_threadkill}{T\-H\-R\-E\-A\-D\-K\-I\-L\-L Halt execution of a thread}  
+\item \hyperlink{thread_threadnew}{T\-H\-R\-E\-A\-D\-N\-E\-W Create a New Thread}  
+\item \hyperlink{thread_threadstart}{T\-H\-R\-E\-A\-D\-S\-T\-A\-R\-T Start a New Thread Computation}  
+\item \hyperlink{thread_threadvalue}{T\-H\-R\-E\-A\-D\-V\-A\-L\-U\-E Retrieve the return values from a thread}  
+\item \hyperlink{thread_threadwait}{T\-H\-R\-E\-A\-D\-W\-A\-I\-T Wait on a thread to complete execution}  
+\end{DoxyItemize}\hypertarget{thread_threadcall}{}\section{T\-H\-R\-E\-A\-D\-C\-A\-L\-L Call Function In A Thread}\label{thread_threadcall}
+Section\-: \hyperlink{sec_thread}{Free\-Mat Threads} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+The {\ttfamily threadcall} function is a convenience function for executing a function call in a thread. The syntax for its use is \begin{DoxyVerb}   [val1,...,valn] = threadcall(threadid,timeout,funcname,arg1,arg2,...)
+\end{DoxyVerb}
+ where {\ttfamily threadid} is the I\-D of the thread (as returned by the {\ttfamily threadnew} function), {\ttfamily funcname} is the name of the function to call, and {\ttfamily argi} are the arguments to the function, and {\ttfamily timeout} is the amount of time (in milliseconds) that the function is allowed to take. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+Here is an example of executing a simple function in a different thread.
+
+
+\begin{DoxyVerbInclude}
+--> id = threadnew
+
+id = 
+ 3 
+
+--> d = threadcall(id,1000,'cos',1.02343)
+
+d = 
+    0.5204 
+
+--> threadfree(id)
+\end{DoxyVerbInclude}
+ \hypertarget{thread_threadfree}{}\section{T\-H\-R\-E\-A\-D\-F\-R\-E\-E Free thread resources}\label{thread_threadfree}
+Section\-: \hyperlink{sec_thread}{Free\-Mat Threads} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+The {\ttfamily threadfree} is a function to free the resources claimed by a thread that has finished. The syntax for its use is \begin{DoxyVerb}   threadfree(handle)
+\end{DoxyVerb}
+ where {\ttfamily handle} is the handle returned by the call to {\ttfamily threadnew}. The {\ttfamily threadfree} function requires that the thread be completed. Otherwise it will wait for the thread to complete, potentially for an arbitrarily long period of time. To fix this, you can either call {\ttfamily threadfree} only on threads that are known to have completed, or you can call it using the syntax \begin{DoxyVerb}   threadfree(handle,timeout)
+\end{DoxyVerb}
+ where {\ttfamily timeout} is a time to wait in milliseconds. If the thread fails to complete before the timeout expires, an error occurs. \hypertarget{thread_threadid}{}\section{T\-H\-R\-E\-A\-D\-I\-D Get Current Thread Handle}\label{thread_threadid}
+Section\-: \hyperlink{sec_thread}{Free\-Mat Threads} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+The {\ttfamily threadid} function in Free\-Mat tells you which thread is executing the context you are in. Normally, this is thread 1, the main thread. However, if you start a new thread using {\ttfamily threadnew}, you will be operating in a new thread, and functions that call {\ttfamily threadid} from the new thread will return their handles. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+From the main thread, we have
+
+
+\begin{DoxyVerbInclude}
+--> threadid
+
+ans = 
+ 2 
+\end{DoxyVerbInclude}
+
+
+But from a launched auxilliary thread, we have
+
+
+\begin{DoxyVerbInclude}
+--> t_id = threadnew
+
+t_id = 
+ 3 
+
+--> id = threadcall(t_id,1000,'threadid')
+
+id = 
+ 3 
+
+--> threadfree(t_id);
+\end{DoxyVerbInclude}
+ \hypertarget{thread_threadkill}{}\section{T\-H\-R\-E\-A\-D\-K\-I\-L\-L Halt execution of a thread}\label{thread_threadkill}
+Section\-: \hyperlink{sec_thread}{Free\-Mat Threads} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+The {\ttfamily threadkill} function stops (or attempts to stop) execution of the given thread. It works only for functions defined in M-\/files (i.\-e., not for built in or imported functions), and it works by setting a flag that causes the thread to stop execution at the next available statement. The syntax for this function is \begin{DoxyVerb}  threadkill(handle)
+\end{DoxyVerb}
+ where {\ttfamily handle} is the value returned by a {\ttfamily threadnew} call. Note that the {\ttfamily threadkill} function returns immediately. It is still your responsibility to call {\ttfamily threadfree} to free the thread you have halted.
+
+You cannot kill the main thread (thread id {\ttfamily 1}). \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+Here is an example of stopping a runaway thread using {\ttfamily threadkill}. Note that the thread function in this case is an M-\/file function. We start by setting up a free running counter, where we can access the counter from the global variables.
+
+\begin{DoxyVerb}     freecount.m
+\end{DoxyVerb}
+
+
+
+\begin{DoxyVerbInclude}
+function freecount
+  global count
+  if (~exist('count')) count = 0; end  % Initialize the counter
+  while (1)
+    count = count + 1;                 % Update the counter
+  end
+\end{DoxyVerbInclude}
+
+
+We now launch this function in a thread, and use {\ttfamily threadkill} to stop it\-:
+
+
+\begin{DoxyVerbInclude}
+--> a = threadnew;
+--> global count                   % register the global variable count
+--> count = 0;
+--> threadstart(a,'freecount',0)   % start the thread
+--> count                          % it is counting
+
+ans = 
+ 0 
+
+--> sleep(1)                       % Wait a bit
+--> count                          % it is still counting
+
+ans = 
+ 225458 
+
+--> threadkill(a)                  % kill the counter
+--> threadwait(a,1000)             % wait for it to finish
+
+ans = 
+ 1 
+
+--> count                          % The count will no longer increase
+
+ans = 
+ 225497 
+
+--> sleep(1)
+--> count
+
+ans = 
+ 225497 
+
+--> threadfree(a)
+\end{DoxyVerbInclude}
+ \hypertarget{thread_threadnew}{}\section{T\-H\-R\-E\-A\-D\-N\-E\-W Create a New Thread}\label{thread_threadnew}
+Section\-: \hyperlink{sec_thread}{Free\-Mat Threads} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+The {\ttfamily threadnew} function creates a new Free\-Mat thread, and returns a handle to the resulting thread. The {\ttfamily threadnew} function takes no arguments. They general syntax for the {\ttfamily threadnew} function is \begin{DoxyVerb}   handle = threadnew
+\end{DoxyVerb}
+ Once you have a handle to a thread, you can start the thread on a computation using the {\ttfamily threadstart} function. The threads returned by {\ttfamily threadnew} are in a dormant state (i.\-e., not running). Once you are finished with the thread you must call {\ttfamily threadfree} to free the resources associated with that thread.
+
+Some additional important information. Thread functions operate in their own context or workspace, which means that data cannot be shared between threads. The exception is {\ttfamily global} variables, which provide a thread-\/safe way for multiple threads to share data. Accesses to global variables are serialized so that they can be used to share data. Threads and Free\-Mat are a new feature, so there is room for improvement in the A\-P\-I and behavior. The best way to improve threads is to experiment with them, and send feedback. \hypertarget{thread_threadstart}{}\section{T\-H\-R\-E\-A\-D\-S\-T\-A\-R\-T Start a New Thread Computation}\label{thread_threadstart}
+Section\-: \hyperlink{sec_thread}{Free\-Mat Threads} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+The {\ttfamily threadstart} function starts a new computation on a Free\-Mat thread, and you must provide a function (no scripts are allowed) to run inside the thread, pass any parameters that the thread function requires, as well as the number of output arguments expected. The general syntax for the {\ttfamily threadstart} function is \begin{DoxyVerb}   threadstart(threadid,function,nargout,arg1,arg2,...)
+\end{DoxyVerb}
+ where {\ttfamily threadid} is a thread handle (returned by {\ttfamily threadnew}), where {\ttfamily function} is a valid function name (it can be a built-\/in imported or M-\/function), {\ttfamily nargout} is the number of output arguments expected from the function, and {\ttfamily arg1} is the first argument that is passed to the function. Because the function runs in its own thread, the return values of the function are not available imediately. Instead, execution of that function will continue in parallel with the current thread. To retrieve the output of the thread function, you must wait for the thread to complete using the {\ttfamily threadwait} function, and then call {\ttfamily threadvalue} to retrieve the result. You can also stop the running thread prematurely by using the {\ttfamily threadkill} function. It is important to call {\ttfamily threadfree} on the handle you get from {\ttfamily threadnew} when you are finished with the thread to ensure that the resoures are properly freed.
+
+It is also perfectly reasonable to use a single thread multiple times, calling {\ttfamily threadstart} and {\ttfamily threadreturn} multiple times on a single thread. The context is preserved between threads. When calling {\ttfamily threadstart} on a pre-\/existing thread, Free\-Mat will attempt to wait on the thread. If the wait fails, then an error will occur.
+
+Some additional important information. Thread functions operate in their own context or workspace, which means that data cannot be shared between threads. The exception is {\ttfamily global} variables, which provide a thread-\/safe way for multiple threads to share data. Accesses to global variables are serialized so that they can be used to share data. Threads and Free\-Mat are a new feature, so there is room for improvement in the A\-P\-I and behavior. The best way to improve threads is to experiment with them, and send feedback.\hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+Here we do something very simple. We want to obtain a listing of all files on the system, but do not want the results to stop our computation. So we run the {\ttfamily system} call in a thread.
+
+
+\begin{DoxyVerbInclude}
+--> a = threadnew;                         % Create the thread
+--> threadstart(a,'system',1,'ls -lrt /'); % Start the thread
+--> b = rand(100)\rand(100,1);             % Solve some equations simultaneously
+--> c = threadvalue(a);                    % Retrieve the file list
+--> size(c)                                % It is large!
+
+ans = 
+  1 28 
+
+--> threadfree(a);
+\end{DoxyVerbInclude}
+
+
+The possibilities for threads are significant. For example, we can solve equations in parallel, or take Fast Fourier Transforms on multiple threads. On multi-\/processor machines or multicore C\-P\-Us, these threaded calculations will execute in parallel. Neat.
+
+The reason for the {\ttfamily nargout} argument is best illustrated with an example. Suppose we want to compute the Singular Value Decomposition {\ttfamily svd} of a matrix {\ttfamily A} in a thread. The documentation for the {\ttfamily svd} function tells us that the behavior depends on the number of output arguments we request. For example, if we want a full decomposition, including the left and right singular vectors, and a diagonal singular matrix, we need to use the three-\/output syntax, instead of the single output syntax (which returns only the singular values in a column vector)\-:
+
+
+\begin{DoxyVerbInclude}
+--> A = float(rand(4))
+
+A = 
+    0.4011    0.4747    0.9193    0.8655 
+    0.8633    0.0123    0.0599    0.5917 
+    0.4939    0.5458    0.9481    0.4566 
+    0.9335    0.8614    0.7993    0.6394 
+
+--> [u,s,v] = svd(A)    % Compute the full decomposition
+u = 
+   -0.5290    0.2711    0.7178    0.3626 
+   -0.3004   -0.8911    0.2379   -0.2431 
+   -0.4868    0.3556   -0.0927   -0.7925 
+   -0.6269   -0.0778   -0.6478    0.4259 
+
+s = 
+    2.5579         0         0         0 
+         0    0.7905         0         0 
+         0         0    0.4392         0 
+         0         0         0    0.1705 
+
+v = 
+   -0.5071   -0.7054   -0.3579   -0.3422 
+   -0.4146    0.3096   -0.6032    0.6070 
+   -0.5735    0.5955    0.1558   -0.5406 
+   -0.4921   -0.2279    0.6955    0.4713 
+
+--> sigmas = svd(A)     % Only want the singular values
+
+sigmas = 
+    2.5579 
+    0.7905 
+    0.4392 
+    0.1705 
+\end{DoxyVerbInclude}
+
+
+Normally, Free\-Mat uses the left hand side of an assignment to calculate the number of outputs for the function. When running a function in a thread, we separate the assignment of the output from the invokation of the function. Hence, we have to provide the number of arguments at the time we invoke the function. For example, to compute a full decomposition in a thread, we specify that we want 3 output arguments\-:
+
+
+\begin{DoxyVerbInclude}
+--> a = threadnew;               % Create the thread
+--> threadstart(a,'svd',3,A);    % Start a full decomposition 
+--> [u1,s1,v1] = threadvalue(a); % Retrieve the function values
+--> threadfree(a);
+\end{DoxyVerbInclude}
+
+
+If we want to compute just the singular values, we start the thread function with only one output argument\-:
+
+
+\begin{DoxyVerbInclude}
+--> a = threadnew;
+--> threadstart(a,'svd',1,A);
+--> sigmas = threadvalue(a);
+--> threadfree(a)
+\end{DoxyVerbInclude}
+ \hypertarget{thread_threadvalue}{}\section{T\-H\-R\-E\-A\-D\-V\-A\-L\-U\-E Retrieve the return values from a thread}\label{thread_threadvalue}
+Section\-: \hyperlink{sec_thread}{Free\-Mat Threads} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+The {\ttfamily threadvalue} function retrieves the values returned by the function specified in the {\ttfamily threadnew} call. The syntax for its use is \begin{DoxyVerb}   [arg1,arg2,...,argN] = threadvalue(handle)
+\end{DoxyVerb}
+ where {\ttfamily handle} is the value returned by a {\ttfamily threadnew} call. Note that there are issues with {\ttfamily nargout}. See the examples section of {\ttfamily threadnew} for details on how to work around this limitation. Because the function you have spawned with {\ttfamily threadnew} may still be executing, {\ttfamily threadvalue} must first {\ttfamily threadwait} for the function to complete before retrieving the output values. This wait may take an arbitrarily long time if the thread function is caught in an infinite loop. Hence, you can also specify a timeout parameter to {\ttfamily threadvalue} as \begin{DoxyVerb}   [arg1,arg2,...,argN] = threadvalue(handle,timeout)
+\end{DoxyVerb}
+ where the {\ttfamily timeout} is specified in milliseconds. If the wait times out, an error is raised (that can be caught with a {\ttfamily try} and {\ttfamily catch} block.
+
+In either case, if the thread function itself caused an error and ceased execution abruptly, then calling {\ttfamily threadvalue} will cause that function to raise an error, allowing you to retrieve the error that was caused and correct it. See the examples section for more information. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+Here we do something very simple. We want to obtain a listing of all files on the system, but do not want the results to stop our computation. So we run the {\ttfamily system} call in a thread.
+
+
+\begin{DoxyVerbInclude}
+--> a = threadnew;                         % Create the thread
+--> threadstart(a,'system',1,'ls -lrt /'); % Start the thread
+--> b = rand(100)\rand(100,1);             % Solve some equations simultaneously
+--> c = threadvalue(a);                    % Retrieve the file list
+--> size(c)                                % It is large!
+
+ans = 
+  1 28 
+
+--> threadfree(a);
+\end{DoxyVerbInclude}
+
+
+In this example, we force the threaded function to cause an exception (by calling the {\ttfamily error} function as the thread function). When we call {\ttfamily threadvalue}, we get an error, instead of the return value of the function
+
+
+\begin{DoxyVerbInclude}
+--> a = threadnew
+
+a = 
+ 3 
+
+--> threadstart(a,'error',0,'Hello world!'); % Will immediately stop due to error
+--> c = threadvalue(a)                     % The error comes to us
+Error: Thread: Hello world!
+--> threadfree(a)
+\end{DoxyVerbInclude}
+
+
+Note that the error has the text {\ttfamily Thread\-:} prepended to the message to help you identify that this was an error in a different thread. \hypertarget{thread_threadwait}{}\section{T\-H\-R\-E\-A\-D\-W\-A\-I\-T Wait on a thread to complete execution}\label{thread_threadwait}
+Section\-: \hyperlink{sec_thread}{Free\-Mat Threads} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+The {\ttfamily threadwait} function waits for the given thread to complete execution, and stops execution of the current thread (the one calling {\ttfamily threadwait}) until the given thread completes. The syntax for its use is \begin{DoxyVerb}   success = threadwait(handle)
+\end{DoxyVerb}
+ where {\ttfamily handle} is the value returned by {\ttfamily threadnew} and {\ttfamily success} is a {\ttfamily logical} vaariable that will be {\ttfamily 1} if the wait was successful or {\ttfamily 0} if the wait times out. By default, the wait is indefinite. It is better to use the following form of the function \begin{DoxyVerb}   success = threadwait(handle,timeout)
+\end{DoxyVerb}
+ where {\ttfamily timeout} is the amount of time (in milliseconds) for the {\ttfamily threadwait} function to wait before a timeout occurs. If the {\ttfamily threadwait} function succeeds, then the return value is a logical {\ttfamily 1}, and if it fails, the return value is a logical {\ttfamily 0}. Note that you can call {\ttfamily threadwait} multiple times on a thread, and if the thread is completed, each one will succeed. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+Here we lauch the {\ttfamily sleep} function in a thread with a time delay of 10 seconds. This means that the thread function will not complete until 10 seconds have elapsed. When we call {\ttfamily threadwait} on this thread with a short timeout, it fails, but not when the timeout is long enough to capture the end of the function call.
+
+
+\begin{DoxyVerbInclude}
+--> a = threadnew;
+--> threadstart(a,'sleep',0,10);  % start a thread that will sleep for 10
+--> threadwait(a,2000)            % 2 second wait is not long enough
+
+ans = 
+ 0 
+
+--> threadwait(a,10000)           % 10 second wait is long enough
+
+ans = 
+ 1 
+
+--> threadfree(a)
+\end{DoxyVerbInclude}
+ 

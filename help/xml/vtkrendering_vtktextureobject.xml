@@ -1,0 +1,176 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkrendering_vtktextureobject" kind="page">
+    <compoundname>vtkrendering_vtktextureobject</compoundname>
+    <title>vtkTextureObject</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkrendering_1sec_vtkrendering" kindref="member">Visualization Toolkit Rendering Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>vtkTextureObject represents an OpenGL texture object. It provides API to create textures using data already loaded into pixel buffer objects. It can also be used to create textures without uploading any data.</para><para>To create an instance of class vtkTextureObject, simply invoke its constructor as follows <verbatim>  obj = vtkTextureObject
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkTextureObject has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkTextureObject class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkTextureObject = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkTextureObject = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetContext (vtkRenderWindow )</computeroutput> - Get/Set the context. This does not increase the reference count of the context to avoid reference loops. SetContext() may raise an error is the OpenGL context does not support the required OpenGL extensions.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkRenderWindow = obj.GetContext ()</computeroutput> - Get/Set the context. This does not increase the reference count of the context to avoid reference loops. SetContext() may raise an error is the OpenGL context does not support the required OpenGL extensions.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetWidth ()</computeroutput> - Get the texture dimensions. These are the properties of the OpenGL texture this instance represents.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetHeight ()</computeroutput> - Get the texture dimensions. These are the properties of the OpenGL texture this instance represents.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetDepth ()</computeroutput> - Get the texture dimensions. These are the properties of the OpenGL texture this instance represents.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetComponents ()</computeroutput> - Get the texture dimensions. These are the properties of the OpenGL texture this instance represents.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetNumberOfDimensions ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetTarget ()</computeroutput> - Returns OpenGL texture target to which the texture is/can be bound.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetHandle ()</computeroutput> - Returns the OpenGL handle.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.Bind ()</computeroutput> - Activate the texture. The texture must have been created using Create(). RenderWindow must be set before calling this.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.UnBind ()</computeroutput> - Activate the texture. The texture must have been created using Create(). RenderWindow must be set before calling this.  </para></listitem>
+<listitem>
+<para><computeroutput>bool = obj.IsBound ()</computeroutput> - Tells if the texture object is bound to the active texture image unit. (a texture object can be bound to multiple texture image unit).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SendParameters ()</computeroutput> - Send all the texture object parameters to the hardware if not done yet. <simplesect kind="pre"><para>is_bound: IsBound()  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>bool = obj.Create1D (int numComps, vtkPixelBufferObject pbo, bool shaderSupportsTextureInt)</computeroutput> - Create a 1D texture using the PBO. Eventually we may start supporting creating a texture from subset of data in the PBO, but for simplicity we&apos;ll begin with entire PBO data. numComps must be in [1-4]. shaderSupportsTextureInt is true if the shader has an alternate implementation supporting sampler with integer values. Even if the card supports texture int, it does not mean that the implementor of the shader made a version that supports texture int.  </para></listitem>
+<listitem>
+<para><computeroutput>bool = obj.Create2D (int width, int height, int numComps, vtkPixelBufferObject pbo, bool shaderSupportsTextureInt)</computeroutput> - Create a 2D texture using the PBO. Eventually we may start supporting creating a texture from subset of data in the PBO, but for simplicity we&apos;ll begin with entire PBO data. numComps must be in [1-4].  </para></listitem>
+<listitem>
+<para><computeroutput>bool = obj.CreateDepth (int width, int height, int internalFormat, vtkPixelBufferObject pbo)</computeroutput> - Create a 2D depth texture using a PBO. <simplesect kind="pre"><para>: valid_internalFormat: internalFormat&gt;=0 &amp;&amp; internalFormat&lt;NumberOfDepthFormats  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>bool = obj.AllocateDepth (int width, int height, int internalFormat)</computeroutput> - Create a 2D depth texture but does not initialize its values.  </para></listitem>
+<listitem>
+<para><computeroutput>bool = obj.Allocate1D (int width, int numComps, int vtkType)</computeroutput> - Create a 1D color texture but does not initialize its values. Internal format is deduced from numComps and vtkType.  </para></listitem>
+<listitem>
+<para><computeroutput>bool = obj.Allocate2D (int width, int height, int numComps, int vtkType)</computeroutput> - Create a 2D color texture but does not initialize its values. Internal format is deduced from numComps and vtkType.  </para></listitem>
+<listitem>
+<para><computeroutput>bool = obj.Allocate3D (int width, int height, int depth, int numComps, int vtkType)</computeroutput> - Create a 3D color texture but does not initialize its values. Internal format is deduced from numComps and vtkType.  </para></listitem>
+<listitem>
+<para><computeroutput>bool = obj.Create3D (int width, int height, int depth, int numComps, vtkPixelBufferObject pbo, bool shaderSupportsTextureInt)</computeroutput> - Create a 3D texture using the PBO. Eventually we may start supporting creating a texture from subset of data in the PBO, but for simplicity we&apos;ll begin with entire PBO data. numComps must be in [1-4].  </para></listitem>
+<listitem>
+<para><computeroutput>bool = obj.Create2D (int width, int height, int numComps, int vtktype, bool shaderSupportsTextureInt)</computeroutput> - Create texture without uploading any data. To create a DEPTH_COMPONENT texture, vtktype must be set to VTK_VOID and numComps must be 1.  </para></listitem>
+<listitem>
+<para><computeroutput>bool = obj.Create3D (int width, int height, int depth, int numComps, int vtktype, bool shaderSupportsTextureInt)</computeroutput> - Create texture without uploading any data. To create a DEPTH_COMPONENT texture, vtktype must be set to VTK_VOID and numComps must be 1.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkPixelBufferObject = obj.Download ()</computeroutput> - This is used to download raw data from the texture into a pixel bufer. The pixel buffer API can then be used to download the pixel buffer data to CPU arrays. The caller takes on the responsibility of deleting the returns vtkPixelBufferObject once it done with it.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetDataType ()</computeroutput> - Get the data type for the texture as a vtk type int i.e. VTK_INT etc.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetInternalFormat (int vtktype, int numComps, bool shaderSupportsTextureInt)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetFormat (int vtktype, int numComps, bool shaderSupportsTextureInt)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetWrapS ()</computeroutput> - Wrap mode for the first texture coordinate &quot;s&quot; Valid values are:<itemizedlist>
+<listitem><para>Clamp</para></listitem><listitem><para>ClampToEdge</para></listitem><listitem><para>Repeat</para></listitem><listitem><para>ClampToBorder</para></listitem><listitem><para>MirroredRepeat Initial value is Repeat (as in OpenGL spec)  </para></listitem></itemizedlist>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.SetWrapS (int )</computeroutput> - Wrap mode for the first texture coordinate &quot;s&quot; Valid values are:<itemizedlist>
+<listitem><para>Clamp</para></listitem><listitem><para>ClampToEdge</para></listitem><listitem><para>Repeat</para></listitem><listitem><para>ClampToBorder</para></listitem><listitem><para>MirroredRepeat Initial value is Repeat (as in OpenGL spec)  </para></listitem></itemizedlist>
+</para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetWrapT ()</computeroutput> - Wrap mode for the first texture coordinate &quot;t&quot; Valid values are:<itemizedlist>
+<listitem><para>Clamp</para></listitem><listitem><para>ClampToEdge</para></listitem><listitem><para>Repeat</para></listitem><listitem><para>ClampToBorder</para></listitem><listitem><para>MirroredRepeat Initial value is Repeat (as in OpenGL spec)  </para></listitem></itemizedlist>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.SetWrapT (int )</computeroutput> - Wrap mode for the first texture coordinate &quot;t&quot; Valid values are:<itemizedlist>
+<listitem><para>Clamp</para></listitem><listitem><para>ClampToEdge</para></listitem><listitem><para>Repeat</para></listitem><listitem><para>ClampToBorder</para></listitem><listitem><para>MirroredRepeat Initial value is Repeat (as in OpenGL spec)  </para></listitem></itemizedlist>
+</para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetWrapR ()</computeroutput> - Wrap mode for the first texture coordinate &quot;r&quot; Valid values are:<itemizedlist>
+<listitem><para>Clamp</para></listitem><listitem><para>ClampToEdge</para></listitem><listitem><para>Repeat</para></listitem><listitem><para>ClampToBorder</para></listitem><listitem><para>MirroredRepeat Initial value is Repeat (as in OpenGL spec)  </para></listitem></itemizedlist>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.SetWrapR (int )</computeroutput> - Wrap mode for the first texture coordinate &quot;r&quot; Valid values are:<itemizedlist>
+<listitem><para>Clamp</para></listitem><listitem><para>ClampToEdge</para></listitem><listitem><para>Repeat</para></listitem><listitem><para>ClampToBorder</para></listitem><listitem><para>MirroredRepeat Initial value is Repeat (as in OpenGL spec)  </para></listitem></itemizedlist>
+</para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetMinificationFilter ()</computeroutput> - Minification filter mode. Valid values are:<itemizedlist>
+<listitem><para>Nearest</para></listitem><listitem><para>Linear</para></listitem><listitem><para>NearestMipmapNearest</para></listitem><listitem><para>NearestMipmapLinear</para></listitem><listitem><para>LinearMipmapNearest</para></listitem><listitem><para>LinearMipmapLinear Initial value is Nearest (note initial value in OpenGL spec is NearestMipMapLinear but this is error-prone because it makes the texture object incomplete. ).  </para></listitem></itemizedlist>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.SetMinificationFilter (int )</computeroutput> - Minification filter mode. Valid values are:<itemizedlist>
+<listitem><para>Nearest</para></listitem><listitem><para>Linear</para></listitem><listitem><para>NearestMipmapNearest</para></listitem><listitem><para>NearestMipmapLinear</para></listitem><listitem><para>LinearMipmapNearest</para></listitem><listitem><para>LinearMipmapLinear Initial value is Nearest (note initial value in OpenGL spec is NearestMipMapLinear but this is error-prone because it makes the texture object incomplete. ).  </para></listitem></itemizedlist>
+</para></listitem>
+<listitem>
+<para><computeroutput>bool = obj.GetLinearMagnification ()</computeroutput> - Tells if the magnification mode is linear (true) or nearest (false). Initial value is false (initial value in OpenGL spec is true).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetLinearMagnification (bool )</computeroutput> - Tells if the magnification mode is linear (true) or nearest (false). Initial value is false (initial value in OpenGL spec is true).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetBorderColor (float , float , float , float )</computeroutput> - Border Color (RGBA). Each component is in [0.0f,1.0f]. Initial value is (0.0f,0.0f,0.0f,0.0f), as in OpenGL spec.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetBorderColor (float a[4])</computeroutput> - Border Color (RGBA). Each component is in [0.0f,1.0f]. Initial value is (0.0f,0.0f,0.0f,0.0f), as in OpenGL spec.  </para></listitem>
+<listitem>
+<para><computeroutput>float = obj. GetBorderColor ()</computeroutput> - Border Color (RGBA). Each component is in [0.0f,1.0f]. Initial value is (0.0f,0.0f,0.0f,0.0f), as in OpenGL spec.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetPriority (float )</computeroutput> - Priority of the texture object to be resident on the card for higher performance in the range [0.0f,1.0f]. Initial value is 1.0f, as in OpenGL spec.  </para></listitem>
+<listitem>
+<para><computeroutput>float = obj.GetPriority ()</computeroutput> - Priority of the texture object to be resident on the card for higher performance in the range [0.0f,1.0f]. Initial value is 1.0f, as in OpenGL spec.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetMinLOD (float )</computeroutput> - Lower-clamp the computed LOD against this value. Any float value is valid. Initial value is -1000.0f, as in OpenGL spec.  </para></listitem>
+<listitem>
+<para><computeroutput>float = obj.GetMinLOD ()</computeroutput> - Lower-clamp the computed LOD against this value. Any float value is valid. Initial value is -1000.0f, as in OpenGL spec.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetMaxLOD (float )</computeroutput> - Upper-clamp the computed LOD against this value. Any float value is valid. Initial value is 1000.0f, as in OpenGL spec.  </para></listitem>
+<listitem>
+<para><computeroutput>float = obj.GetMaxLOD ()</computeroutput> - Upper-clamp the computed LOD against this value. Any float value is valid. Initial value is 1000.0f, as in OpenGL spec.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetBaseLevel (int )</computeroutput> - Level of detail of the first texture image. A texture object is a list of texture images. It is a non-negative integer value. Initial value is 0, as in OpenGL spec.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetBaseLevel ()</computeroutput> - Level of detail of the first texture image. A texture object is a list of texture images. It is a non-negative integer value. Initial value is 0, as in OpenGL spec.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetMaxLevel (int )</computeroutput> - Level of detail of the first texture image. A texture object is a list of texture images. It is a non-negative integer value. Initial value is 1000, as in OpenGL spec.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetMaxLevel ()</computeroutput> - Level of detail of the first texture image. A texture object is a list of texture images. It is a non-negative integer value. Initial value is 1000, as in OpenGL spec.  </para></listitem>
+<listitem>
+<para><computeroutput>bool = obj.GetDepthTextureCompare ()</computeroutput> - Tells if the output of a texture unit with a depth texture uses comparison or not. Comparison happens between D_t the depth texture value in the range [0,1] and with R the interpolated third texture coordinate clamped to range [0,1]. The result of the comparison is noted `r&apos;. If this flag is false, r=D_t. Initial value is false, as in OpenGL spec. Ignored if the texture object is not a depth texture.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetDepthTextureCompare (bool )</computeroutput> - Tells if the output of a texture unit with a depth texture uses comparison or not. Comparison happens between D_t the depth texture value in the range [0,1] and with R the interpolated third texture coordinate clamped to range [0,1]. The result of the comparison is noted `r&apos;. If this flag is false, r=D_t. Initial value is false, as in OpenGL spec. Ignored if the texture object is not a depth texture.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetDepthTextureCompareFunction ()</computeroutput> - In case DepthTextureCompare is true, specify the comparison function in use. The result of the comparison is noted `r&apos;. Valid values are:<itemizedlist>
+<listitem><para>Value</para></listitem><listitem><para>Lequal: r=R&lt;=Dt ? 1.0 : 0.0</para></listitem><listitem><para>Gequal: r=R&gt;=Dt ? 1.0 : 0.0</para></listitem><listitem><para>Less: r=R&lt;D_t ? 1.0 : 0.0</para></listitem><listitem><para>Greater: r=R&gt;Dt ? 1.0 : 0.0</para></listitem><listitem><para>Equal: r=R==Dt ? 1.0 : 0.0</para></listitem><listitem><para>NotEqual: r=R!=Dt ? 1.0 : 0.0</para></listitem><listitem><para>AlwaysTrue: r=1.0</para></listitem><listitem><para>Never: r=0.0 If the magnification of minification factor are not nearest, percentage closer filtering (PCF) is used: R is compared to several D_t and r is the average of the comparisons (it is NOT the average of D_t compared once to R). Initial value is Lequal, as in OpenGL spec. Ignored if the texture object is not a depth texture.  </para></listitem></itemizedlist>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.SetDepthTextureCompareFunction (int )</computeroutput> - In case DepthTextureCompare is true, specify the comparison function in use. The result of the comparison is noted `r&apos;. Valid values are:<itemizedlist>
+<listitem><para>Value</para></listitem><listitem><para>Lequal: r=R&lt;=Dt ? 1.0 : 0.0</para></listitem><listitem><para>Gequal: r=R&gt;=Dt ? 1.0 : 0.0</para></listitem><listitem><para>Less: r=R&lt;D_t ? 1.0 : 0.0</para></listitem><listitem><para>Greater: r=R&gt;Dt ? 1.0 : 0.0</para></listitem><listitem><para>Equal: r=R==Dt ? 1.0 : 0.0</para></listitem><listitem><para>NotEqual: r=R!=Dt ? 1.0 : 0.0</para></listitem><listitem><para>AlwaysTrue: r=1.0</para></listitem><listitem><para>Never: r=0.0 If the magnification of minification factor are not nearest, percentage closer filtering (PCF) is used: R is compared to several D_t and r is the average of the comparisons (it is NOT the average of D_t compared once to R). Initial value is Lequal, as in OpenGL spec. Ignored if the texture object is not a depth texture.  </para></listitem></itemizedlist>
+</para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetDepthTextureMode ()</computeroutput> - Defines the mapping from depth component `r&apos; to RGBA components. Ignored if the texture object is not a depth texture. Valid modes are:<itemizedlist>
+<listitem><para>Luminance: (R,G,B,A)=(r,r,r,1)</para></listitem><listitem><para>Intensity: (R,G,B,A)=(r,r,r,r)</para></listitem><listitem><para>Alpha: (R.G.B.A)=(0,0,0,r) Initial value is Luminance, as in OpenGL spec.  </para></listitem></itemizedlist>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.SetDepthTextureMode (int )</computeroutput> - Defines the mapping from depth component `r&apos; to RGBA components. Ignored if the texture object is not a depth texture. Valid modes are:<itemizedlist>
+<listitem><para>Luminance: (R,G,B,A)=(r,r,r,1)</para></listitem><listitem><para>Intensity: (R,G,B,A)=(r,r,r,r)</para></listitem><listitem><para>Alpha: (R.G.B.A)=(0,0,0,r) Initial value is Luminance, as in OpenGL spec.  </para></listitem></itemizedlist>
+</para></listitem>
+<listitem>
+<para><computeroutput>bool = obj.GetGenerateMipmap ()</computeroutput> - Tells the hardware to generate mipmap textures from the first texture image at BaseLevel. Initial value is false, as in OpenGL spec.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetGenerateMipmap (bool )</computeroutput> - Tells the hardware to generate mipmap textures from the first texture image at BaseLevel. Initial value is false, as in OpenGL spec.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.CopyToFrameBuffer (int srcXmin, int srcYmin, int srcXmax, int srcYmax, int dstXmin, int dstYmin, int width, int height)</computeroutput> - Copy a sub-part of the texture (src) in the current framebuffer at location (dstXmin,dstYmin). (dstXmin,dstYmin) is the location of the lower left corner of the rectangle. width and height are the dimensions of the framebuffer.<itemizedlist>
+<listitem><para>texture coordinates are sent on texture coordinate processing unit 0.</para></listitem><listitem><para>if the fixed-pipeline fragment shader is used, texturing has to be set on texture image unit 0 and the texture object has to be bound on texture image unit 0.</para></listitem><listitem><para>if a customized fragment shader is used, you are free to pick the texture image unit you want. You can even have multiple texture objects attached on multiple texture image units. In this case, you call this method only on one of them. <simplesect kind="pre"><para>positive_srcXmin: srcXmin&gt;=0 </para><simplesectsep/><para>max_srcXmax: srcXmax&lt;this-&gt;GetWidth() </para><simplesectsep/><para>increasing_x: srcXmin&lt;=srcXmax </para><simplesectsep/><para>positive_srcYmin: srcYmin&gt;=0 </para><simplesectsep/><para>max_srcYmax: srcYmax&lt;this-&gt;GetHeight() </para><simplesectsep/><para>increasing_y: srcYmin&lt;=srcYmax </para><simplesectsep/><para>positive_dstXmin: dstXmin&gt;=0 </para><simplesectsep/><para>positive_dstYmin: dstYmin&gt;=0 </para><simplesectsep/><para>positive_width: width&gt;0 </para><simplesectsep/><para>positive_height: height&gt;0 </para><simplesectsep/><para>x_fit: destXmin+(srcXmax-srcXmin)&lt;width </para><simplesectsep/><para>y_fit: destYmin+(srcYmax-srcYmin)&lt;height  </para></simplesect>
+</para></listitem></itemizedlist>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.CopyFromFrameBuffer (int srcXmin, int srcYmin, int dstXmin, int dstYmin, int width, int height)</computeroutput> - Copy a sub-part of a logical buffer of the framebuffer (color or depth) to the texture object. src is the framebuffer, dst is the texture. (srcXmin,srcYmin) is the location of the lower left corner of the rectangle in the framebuffer. (dstXmin,dstYmin) is the location of the lower left corner of the rectangle in the texture. width and height specifies the size of the rectangle in pixels. If the logical buffer is a color buffer, it has to be selected first with glReadBuffer(). <simplesect kind="pre"><para>is2D: GetNumberOfDimensions()==2  </para></simplesect>
+</para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

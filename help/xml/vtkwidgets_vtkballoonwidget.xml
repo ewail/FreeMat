@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkwidgets_vtkballoonwidget" kind="page">
+    <compoundname>vtkwidgets_vtkballoonwidget</compoundname>
+    <title>vtkBalloonWidget</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkwidgets_1sec_vtkwidgets" kindref="member">Visualization Toolkit Widget Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>The vtkBalloonWidget is used to popup text and/or an image when the mouse hovers over an instance of vtkProp. The widget keeps track of (vtkProp,vtkBalloon) pairs (where the internal vtkBalloon class is defined by a pair of vtkStdString and vtkImageData), and when the mouse stops moving for a user-specified period of time over the vtkProp, then the vtkBalloon is drawn nearby the vtkProp. Note that an instance of vtkBalloonRepresentation is used to draw the balloon.</para><para>To use this widget, specify an instance of vtkBalloonWidget and a representation (e.g., vtkBalloonRepresentation). Then list all instances of vtkProp, a text string, and/or an instance of vtkImageData to be associated with each vtkProp. (Note that you can specify both text and an image, or just one or the other.) You may also wish to specify the hover delay (i.e., set in the superclass vtkHoverWidget).</para><para>.SECTION Event Bindings By default, the widget observes the following VTK events (i.e., it watches the vtkRenderWindowInteractor for these events): <preformatted>
+   MouseMoveEvent - occurs when mouse is moved in render window.
+   TimerEvent - occurs when the time between events (e.g., mouse move)
+                is greater than TimerDuration.
+   KeyPressEvent - when the &quot;Enter&quot; key is pressed after the balloon appears,
+                   a callback is activited (e.g., WidgetActivateEvent).
+ </preformatted></para><para>Note that the event bindings described above can be changed using this class&apos;s vtkWidgetEventTranslator. This class translates VTK events into the vtkBalloonWidget&apos;s widget events: <preformatted>
+   vtkWidgetEvent::Move <ndash/> start the timer
+   vtkWidgetEvent::TimedOut <ndash/> when hovering occurs,
+   vtkWidgetEvent::SelectAction <ndash/> activate any callbacks associated 
+                                   with the balloon.
+ </preformatted></para><para>This widget invokes the following VTK events on itself (which observers can listen for): <preformatted>
+   vtkCommand::TimerEvent (when hovering is determined to occur)
+   vtkCommand::EndInteractionEvent (after a hover has occured and the
+                                    mouse begins moving again).
+   vtkCommand::WidgetActivateEvent (when the balloon is selected with a
+                                    keypress).
+ </preformatted></para><para>To create an instance of class vtkBalloonWidget, simply invoke its constructor as follows <verbatim>  obj = vtkBalloonWidget
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkBalloonWidget has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkBalloonWidget class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput> - Standard methods for a VTK class.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput> - Standard methods for a VTK class.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkBalloonWidget = obj.NewInstance ()</computeroutput> - Standard methods for a VTK class.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkBalloonWidget = obj.SafeDownCast (vtkObject o)</computeroutput> - Standard methods for a VTK class.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetEnabled (int )</computeroutput> - The method for activiating and deactiviating this widget. This method must be overridden because it performs special timer-related operations.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetRepresentation (vtkBalloonRepresentation r)</computeroutput> - Create the default widget representation if one is not set.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.CreateDefaultRepresentation ()</computeroutput> - Create the default widget representation if one is not set.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.AddBalloon (vtkProp prop, string str, vtkImageData img)</computeroutput> - Add and remove text and/or an image to be associated with a vtkProp. You may add one or both of them.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.AddBalloon (vtkProp prop, string str)</computeroutput> - Add and remove text and/or an image to be associated with a vtkProp. You may add one or both of them.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.RemoveBalloon (vtkProp prop)</computeroutput> - Add and remove text and/or an image to be associated with a vtkProp. You may add one or both of them.  </para></listitem>
+<listitem>
+<para><computeroutput>string = obj.GetBalloonString (vtkProp prop)</computeroutput> - Methods to retrieve the information associated with each vtkProp (i.e., the information that makes up each balloon). A NULL will be returned if the vtkProp does not exist, or if a string or image have not been associated with the specified vtkProp.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkImageData = obj.GetBalloonImage (vtkProp prop)</computeroutput> - Methods to retrieve the information associated with each vtkProp (i.e., the information that makes up each balloon). A NULL will be returned if the vtkProp does not exist, or if a string or image have not been associated with the specified vtkProp.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkProp = obj.GetCurrentProp ()</computeroutput> - Set/Get the object used to perform pick operations. Since the vtkBalloonWidget operates on vtkProps, the picker must be a subclass of vtkAbstractPropPicker. (Note: if not specified, an instance of vtkPropPicker is used.)  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetPicker (vtkAbstractPropPicker )</computeroutput> - Set/Get the object used to perform pick operations. Since the vtkBalloonWidget operates on vtkProps, the picker must be a subclass of vtkAbstractPropPicker. (Note: if not specified, an instance of vtkPropPicker is used.)  </para></listitem>
+<listitem>
+<para><computeroutput>vtkAbstractPropPicker = obj.GetPicker ()</computeroutput> - Set/Get the object used to perform pick operations. Since the vtkBalloonWidget operates on vtkProps, the picker must be a subclass of vtkAbstractPropPicker. (Note: if not specified, an instance of vtkPropPicker is used.)  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

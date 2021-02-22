@@ -1,0 +1,571 @@
+
+\begin{DoxyItemize}
+\item \hyperlink{variables_cell}{C\-E\-L\-L Cell Array Definitions}  
+\item \hyperlink{variables_functionhandles}{F\-U\-N\-C\-T\-I\-O\-N\-H\-A\-N\-D\-L\-E\-S Function Handles}  
+\item \hyperlink{variables_global}{G\-L\-O\-B\-A\-L Global Variables}  
+\item \hyperlink{variables_indexing}{I\-N\-D\-E\-X\-I\-N\-G Indexing Expressions}  
+\item \hyperlink{variables_matrix}{M\-A\-T\-R\-I\-X Matrix Definitions}  
+\item \hyperlink{variables_persistent}{P\-E\-R\-S\-I\-S\-T\-E\-N\-T Persistent Variables}  
+\item \hyperlink{variables_struct}{S\-T\-R\-U\-C\-T Structure Array Constructor}  
+\end{DoxyItemize}\hypertarget{variables_cell}{}\section{C\-E\-L\-L Cell Array Definitions}\label{variables_cell}
+Section\-: \hyperlink{sec_variables}{Variables and Arrays} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+The cell array is a fairly powerful array type that is available in Free\-Mat. Generally speaking, a cell array is a heterogenous array type, meaning that different elements in the array can contain variables of different type (including other cell arrays). For those of you familiar with {\ttfamily C}, it is the equivalent to the {\ttfamily void $\ast$} array. The general syntax for their construction is \begin{DoxyVerb}   A = {row_def1;row_def2;...;row_defN}
+\end{DoxyVerb}
+ where each row consists of one or more elements, seperated by commas \begin{DoxyVerb}  row_defi = element_i1,element_i2,...,element_iM
+\end{DoxyVerb}
+ Each element can be any type of Free\-Mat variable, including matrices, arrays, cell-\/arrays, structures, strings, etc. The restriction on the definition is that each row must have the same number of elements in it. \hypertarget{variables_matrix_Examples}{}\subsection{Examples}\label{variables_matrix_Examples}
+Here is an example of a cell-\/array that contains a number, a string, and an array
+
+
+\begin{DoxyVerbInclude}
+--> A = {14,'hello',[1:10]}
+
+A = 
+ [14] [hello] [1x10 double array] 
+\end{DoxyVerbInclude}
+
+
+Note that in the output, the number and string are explicitly printed, but the array is summarized. We can create a 2-\/dimensional cell-\/array by adding another row definition
+
+
+\begin{DoxyVerbInclude}
+--> B = {pi,i;e,-1}
+
+B = 
+ [3.14159] [0+1i] 
+ [2.71828] [-1] 
+\end{DoxyVerbInclude}
+
+
+Finally, we create a new cell array by placing {\ttfamily A} and {\ttfamily B} together
+
+
+\begin{DoxyVerbInclude}
+--> C = {A,B}
+
+C = 
+ [1x3 cell array] [2x2 cell array] 
+\end{DoxyVerbInclude}
+ \hypertarget{variables_functionhandles}{}\section{F\-U\-N\-C\-T\-I\-O\-N\-H\-A\-N\-D\-L\-E\-S Function Handles}\label{variables_functionhandles}
+Section\-: \hyperlink{sec_variables}{Variables and Arrays} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Starting with version 1.\-11, Free\-Mat now supports {\ttfamily function handles}, or {\ttfamily function pointers}. A {\ttfamily function handle} is an alias for a function or script that is stored in a variable. First, the way to assign a function handle is to use the notation \begin{DoxyVerb}    handle = @func
+\end{DoxyVerb}
+ where {\ttfamily func} is the name to point to. The function {\ttfamily func} must exist at the time we make the call. It can be a local function (i.\-e., a subfunction). To use the {\ttfamily handle}, we can either pass it to {\ttfamily feval} via \begin{DoxyVerb}   [x,y] = feval(handle,arg1,arg2).
+\end{DoxyVerb}
+ Alternately, you can the function directly using the notation \begin{DoxyVerb}   [x,y] = handle(arg1,arg2)
+\end{DoxyVerb}
+ \hypertarget{variables_global}{}\section{G\-L\-O\-B\-A\-L Global Variables}\label{variables_global}
+Section\-: \hyperlink{sec_variables}{Variables and Arrays} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Global variables are shared variables that can be seen and modified from any function or script that declares them. The syntax for the {\ttfamily global} statement is \begin{DoxyVerb}  global variable_1 variable_2 ...
+\end{DoxyVerb}
+ The {\ttfamily global} statement must occur before the variables appear. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+Here is an example of two functions that use a global variable to communicate an array between them. The first function sets the global variable.
+
+\begin{DoxyVerb}     set_global.m
+\end{DoxyVerb}
+
+
+
+\begin{DoxyVerbInclude}
+function set_global(x)
+  global common_array
+  common_array = x;
+\end{DoxyVerbInclude}
+
+
+The second function retrieves the value from the global variable
+
+\begin{DoxyVerb}     get_global.m
+\end{DoxyVerb}
+
+
+
+\begin{DoxyVerbInclude}
+function x = get_global
+  global common_array
+  x = common_array;
+\end{DoxyVerbInclude}
+
+
+Here we exercise the two functions
+
+
+\begin{DoxyVerbInclude}
+--> set_global('Hello')
+--> get_global
+
+ans = 
+Hello
+\end{DoxyVerbInclude}
+ \hypertarget{variables_indexing}{}\section{I\-N\-D\-E\-X\-I\-N\-G Indexing Expressions}\label{variables_indexing}
+Section\-: \hyperlink{sec_variables}{Variables and Arrays} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+There are three classes of indexing expressions available in Free\-Mat\-: {\ttfamily ()}, {\ttfamily \{\}}, and {\ttfamily .} Each is explained below in some detail, and with its own example section. \hypertarget{variables_indexing_Array}{}\subsection{Indexing}\label{variables_indexing_Array}
+We start with array indexing {\ttfamily ()}, which is the most general indexing expression, and can be used on any array. There are two general forms for the indexing expression -\/ the N-\/dimensional form, for which the general syntax is \begin{DoxyVerb}  variable(index_1,index_2,...,index_n)
+\end{DoxyVerb}
+ and the vector form, for which the general syntax is \begin{DoxyVerb}  variable(index)
+\end{DoxyVerb}
+ Here each index expression is either a scalar, a range of integer values, or the special token {\ttfamily \-:}, which is shorthand for {\ttfamily 1\-:end}. The keyword {\ttfamily end}, when included in an indexing expression, is assigned the length of the array in that dimension. The concept is easier to demonstrate than explain. Consider the following examples\-:
+
+
+\begin{DoxyVerbInclude}
+--> A = zeros(4)
+
+A = 
+ 0 0 0 0 
+ 0 0 0 0 
+ 0 0 0 0 
+ 0 0 0 0 
+
+--> B = float(randn(2))
+
+B = 
+   -0.1688    0.5183 
+    0.9485   -0.6864 
+
+--> A(2:3,2:3) = B
+
+A = 
+         0         0         0         0 
+         0   -0.1688    0.5183         0 
+         0    0.9485   -0.6864         0 
+         0         0         0         0 
+\end{DoxyVerbInclude}
+
+
+Here the array indexing was used on the left hand side only. It can also be used for right hand side indexing, as in
+
+
+\begin{DoxyVerbInclude}
+--> C = A(2:3,1:end)
+
+C = 
+         0   -0.1688    0.5183         0 
+         0    0.9485   -0.6864         0 
+\end{DoxyVerbInclude}
+
+
+Note that we used the {\ttfamily end} keyword to avoid having to know that {\ttfamily A} has 4 columns. Of course, we could also use the {\ttfamily \-:} token instead\-:
+
+
+\begin{DoxyVerbInclude}
+--> C = A(2:3,:)
+
+C = 
+         0   -0.1688    0.5183         0 
+         0    0.9485   -0.6864         0 
+\end{DoxyVerbInclude}
+
+
+An extremely useful example of {\ttfamily \-:} with array indexing is for slicing. Suppose we have a 3-\/\-D array, that is {\ttfamily 2 x 2 x 3}, and we want to set the middle slice\-:
+
+
+\begin{DoxyVerbInclude}
+--> D = zeros(2,2,3)
+
+D = 
+
+(:,:,1) = 
+ 0 0 
+ 0 0 
+
+(:,:,2) = 
+ 0 0 
+ 0 0 
+
+(:,:,3) = 
+ 0 0 
+ 0 0 
+
+--> D(:,:,2) = int32(10*rand(2,2))
+
+D = 
+
+(:,:,1) = 
+  0  0 
+  0  0 
+
+(:,:,2) = 
+  9 10 
+  5  8 
+
+(:,:,3) = 
+  0  0 
+  0  0 
+\end{DoxyVerbInclude}
+
+
+In another level of nuance, the assignment expression will automatically fill in the indexed rectangle on the left using data from the right hand side, as long as the lengths match. So we can take a vector and roll it into a matrix using this approach\-:
+
+
+\begin{DoxyVerbInclude}
+--> A = zeros(4)
+
+A = 
+ 0 0 0 0 
+ 0 0 0 0 
+ 0 0 0 0 
+ 0 0 0 0 
+
+--> v = [1;2;3;4]
+
+v = 
+ 1 
+ 2 
+ 3 
+ 4 
+
+--> A(2:3,2:3) = v
+
+A = 
+ 0 0 0 0 
+ 0 1 3 0 
+ 0 2 4 0 
+ 0 0 0 0 
+\end{DoxyVerbInclude}
+
+
+The N-\/dimensional form of the variable index is limited to accessing only (hyper-\/) rectangular regions of the array. You cannot, for example, use it to access only the diagonal elements of the array. To do that, you use the second form of the array access (or a loop). The vector form treats an arbitrary N-\/dimensional array as though it were a column vector. You can then access arbitrary subsets of the arrays elements (for example, through a {\ttfamily find} expression) efficiently. Note that in vector form, the {\ttfamily end} keyword takes the meaning of the total length of the array (defined as the product of its dimensions), as opposed to the size along the first dimension. \hypertarget{variables_indexing_Cell}{}\subsection{Indexing}\label{variables_indexing_Cell}
+The second form of indexing operates, to a large extent, in the same manner as the array indexing, but it is by no means interchangable. As the name implies, {\ttfamily cell}-\/indexing applies only to {\ttfamily cell} arrays. For those familiar with {\ttfamily C}, cell-\/ indexing is equivalent to pointer derefencing in {\ttfamily C}. First, the syntax\-: \begin{DoxyVerb}  variable{index_1,index_2,...,index_n}
+\end{DoxyVerb}
+ and the vector form, for which the general syntax is \begin{DoxyVerb}  variable{index}
+\end{DoxyVerb}
+ The rules and interpretation for N-\/dimensional and vector indexing are identical to {\ttfamily ()}, so we will describe only the differences. In simple terms, applying {\ttfamily ()} to a cell-\/array returns another cell array that is a subset of the original array. On the other hand, applying {\ttfamily \{\}} to a cell-\/array returns the contents of that cell array. A simple example makes the difference quite clear\-:
+
+
+\begin{DoxyVerbInclude}
+--> A = {1, 'hello', [1:4]}
+
+A = 
+ [1] [hello] [1x4 double array] 
+
+--> A(1:2)
+
+ans = 
+ [1] [hello] 
+
+--> A{1:2}
+
+ans = 
+
+1 of 2:
+ 1 
+
+
+2 of 2:
+hello
+\end{DoxyVerbInclude}
+
+
+You may be surprised by the response to the last line. The output is multiple assignments to {\ttfamily ans}!. The output of a cell-\/array dereference can be used anywhere a list of expressions is required. This includes arguments and returns for function calls, matrix construction, etc. Here is an example of using cell-\/arrays to pass parameters to a function\-:
+
+
+\begin{DoxyVerbInclude}
+--> A = {[1,3,0],[5,2,7]}
+
+A = 
+ [1x3 double array] [1x3 double array] 
+
+--> max(A{1:end})
+
+ans = 
+ 5 3 7 
+\end{DoxyVerbInclude}
+
+
+And here, cell-\/arrays are used to capture the return.
+
+
+\begin{DoxyVerbInclude}
+--> [K{1:2}] = max(randn(1,4))
+K = 
+ [0.779398] [4] 
+\end{DoxyVerbInclude}
+
+
+Here, cell-\/arrays are used in the matrix construction process\-:
+
+
+\begin{DoxyVerbInclude}
+--> C = [A{1};A{2}]
+
+C = 
+ 1 3 0 
+ 5 2 7 
+\end{DoxyVerbInclude}
+
+
+Note that this form of indexing is used to implement variable length arguments to function. See {\ttfamily varargin} and {\ttfamily varargout} for more details. \hypertarget{variables_indexing_Structure}{}\subsection{Indexing}\label{variables_indexing_Structure}
+The third form of indexing is structure indexing. It can only be applied to structure arrays, and has the general syntax \begin{DoxyVerb}  variable.fieldname
+\end{DoxyVerb}
+ where {\ttfamily fieldname} is one of the fields on the structure. Note that in Free\-Mat, fields are allocated dynamically, so if you reference a field that does not exist in an assignment, it is created automatically for you. If variable is an array, then the result of the {\ttfamily .} reference is an expression list, exactly like the {\ttfamily \{\}} operator. Hence, we can use structure indexing in a simple fashion\-:
+
+
+\begin{DoxyVerbInclude}
+--> clear A
+--> A.color = 'blue'
+
+A = 
+    color: blue
+--> B = A.color
+
+B = 
+blue
+\end{DoxyVerbInclude}
+
+
+Or in more complicated ways using expression lists for function arguments
+
+
+\begin{DoxyVerbInclude}
+--> clear A
+--> A(1).maxargs = [1,6,7,3]
+
+A = 
+    maxargs: 1x4 double array
+--> A(2).maxargs = [5,2,9,0]
+
+A = 
+1x2 struct array with fields:
+    maxargs
+--> max(A.maxargs)
+
+ans = 
+ 5 6 9 3 
+\end{DoxyVerbInclude}
+
+
+or to store function outputs
+
+
+\begin{DoxyVerbInclude}
+--> clear A
+--> A(1).maxreturn = [];
+--> A(2).maxreturn = [];
+--> [A.maxreturn] = max(randn(1,4))
+A = 
+1x2 struct array with fields:
+    maxreturn
+\end{DoxyVerbInclude}
+
+
+Free\-Mat now also supports the so called dynamic-\/field indexing expressions. In this mode, the fieldname is supplied through an expression instead of being explicitly provided. For example, suppose we have a set of structure indexed by color,
+
+
+\begin{DoxyVerbInclude}
+--> x.red = 430;
+--> x.green = 240;
+--> x.blue = 53;
+--> x.yello = 105
+
+x = 
+    red: 430
+    green: 240
+    blue: 53
+    yello: 105
+\end{DoxyVerbInclude}
+
+
+Then we can index into the structure {\ttfamily x} using a dynamic field reference\-:
+
+
+\begin{DoxyVerbInclude}
+--> y = 'green'
+
+y = 
+green
+--> a = x.(y)
+
+a = 
+ 240 
+\end{DoxyVerbInclude}
+
+
+Note that the indexing expression has to resolve to a string for dynamic field indexing to work. \hypertarget{variables_indexing_Complex}{}\subsection{Indexing}\label{variables_indexing_Complex}
+The indexing expressions described above can be freely combined to affect complicated indexing expressions. Here is an example that exercises all three indexing expressions in one assignment.
+
+
+\begin{DoxyVerbInclude}
+--> Z{3}.foo(2) = pi
+
+Z = 
+ [0] [0] [1x1 struct array] 
+\end{DoxyVerbInclude}
+
+
+From this statement, Free\-Mat infers that Z is a cell-\/array of length 3, that the third element is a structure array (with one element), and that this structure array contains a field named 'foo' with two double elements, the second of which is assigned a value of pi. \hypertarget{variables_matrix}{}\section{M\-A\-T\-R\-I\-X Matrix Definitions}\label{variables_matrix}
+Section\-: \hyperlink{sec_variables}{Variables and Arrays} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+The matrix is the basic datatype of Free\-Mat. Matrices can be defined using the following syntax \begin{DoxyVerb}  A = [row_def1;row_def2;...,row_defN]
+\end{DoxyVerb}
+ where each row consists of one or more elements, seperated by commas \begin{DoxyVerb}  row_defi = element_i1,element_i2,...,element_iM
+\end{DoxyVerb}
+ Each element can either be a scalar value or another matrix, provided that the resulting matrix definition makes sense. In general this means that all of the elements belonging to a row have the same number of rows themselves, and that all of the row definitions have the same number of columns. Matrices are actually special cases of N-\/dimensional arrays where {\ttfamily N$<$=2}. Higher dimensional arrays cannot be constructed using the bracket notation described above. The type of a matrix defined in this way (using the bracket notation) is determined by examining the types of the elements. The resulting type is chosen so no information is lost on any of the elements (or equivalently, by choosing the highest order type from those present in the elements). \hypertarget{variables_matrix_Examples}{}\subsection{Examples}\label{variables_matrix_Examples}
+Here is an example of a matrix of {\ttfamily int32} elements (note that untyped integer constants default to type {\ttfamily int32}).
+
+
+\begin{DoxyVerbInclude}
+--> A = [1,2;5,8]
+
+A = 
+ 1 2 
+ 5 8 
+\end{DoxyVerbInclude}
+
+
+Now we define a new matrix by adding a column to the right of {\ttfamily A}, and using float constants.
+
+
+\begin{DoxyVerbInclude}
+--> B = [A,[3.2f;5.1f]]
+
+B = 
+    1.0000    2.0000    3.2000 
+    5.0000    8.0000    5.1000 
+\end{DoxyVerbInclude}
+
+
+Next, we add extend {\ttfamily B} by adding a row at the bottom. Note how the use of an untyped floating point constant forces the result to be of type {\ttfamily double}
+
+
+\begin{DoxyVerbInclude}
+--> C = [B;5.2,1.0,0.0]
+
+C = 
+    1.0000    2.0000    3.2000 
+    5.0000    8.0000    5.1000 
+    5.2000    1.0000         0 
+\end{DoxyVerbInclude}
+
+
+If we instead add a row of {\ttfamily complex} values (recall that {\ttfamily i} is a {\ttfamily complex} constant, not a {\ttfamily dcomplex} constant)
+
+
+\begin{DoxyVerbInclude}
+--> D = [B;2.0f+3.0f*i,i,0.0f]
+
+D = 
+   1.0000 +  0.0000i   2.0000 +  0.0000i   3.2000 +  0.0000i 
+   5.0000 +  0.0000i   8.0000 +  0.0000i   5.1000 +  0.0000i 
+   2.0000 +  3.0000i   0.0000 +  1.0000i        0           
+\end{DoxyVerbInclude}
+
+
+Likewise, but using {\ttfamily dcomplex} constants
+
+
+\begin{DoxyVerbInclude}
+--> E = [B;2.0+3.0*i,i,0.0]
+
+E = 
+   1.0000 +  0.0000i   2.0000 +  0.0000i   3.2000 +  0.0000i 
+   5.0000 +  0.0000i   8.0000 +  0.0000i   5.1000 +  0.0000i 
+   2.0000 +  3.0000i   0.0000 +  1.0000i        0           
+\end{DoxyVerbInclude}
+
+
+Finally, in Free\-Mat, you can construct matrices with strings as contents, but you have to make sure that if the matrix has more than one row, that all the strings have the same length.
+
+
+\begin{DoxyVerbInclude}
+--> F = ['hello';'there']
+
+F = 
+hello
+there
+\end{DoxyVerbInclude}
+ \hypertarget{variables_persistent}{}\section{P\-E\-R\-S\-I\-S\-T\-E\-N\-T Persistent Variables}\label{variables_persistent}
+Section\-: \hyperlink{sec_variables}{Variables and Arrays} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Persistent variables are variables whose value persists between calls to a function or script. The general syntax for its use is \begin{DoxyVerb}   persistent variable1 variable2 ... variableN
+\end{DoxyVerb}
+ The {\ttfamily persistent} statement must occur before the variable is the tagged as persistent. Per the M\-A\-T\-L\-A\-B A\-P\-I documentation an empty variable is created when the {\ttfamily persistent} statement is called. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+Here is an example of a function that counts how many times it has been called.
+
+\begin{DoxyVerb}     count_calls.m
+\end{DoxyVerb}
+
+
+
+\begin{DoxyVerbInclude}
+function count_calls
+  persistent ccount
+  if isempty(ccount); ccount = 0; end;
+  ccount = ccount + 1;
+  printf('Function has been called %d times\n',ccount);
+\end{DoxyVerbInclude}
+
+
+We now call the function several times\-:
+
+
+\begin{DoxyVerbInclude}
+--> for i=1:10; count_calls; end
+Function has been called 1 times
+Function has been called 2 times
+Function has been called 3 times
+Function has been called 4 times
+Function has been called 5 times
+Function has been called 6 times
+Function has been called 7 times
+Function has been called 8 times
+Function has been called 9 times
+Function has been called 10 times
+\end{DoxyVerbInclude}
+ \hypertarget{variables_struct}{}\section{S\-T\-R\-U\-C\-T Structure Array Constructor}\label{variables_struct}
+Section\-: \hyperlink{sec_variables}{Variables and Arrays} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Creates an array of structures from a set of field, value pairs. The syntax is \begin{DoxyVerb}   y = struct(n_1,v_1,n_2,v_2,...)
+\end{DoxyVerb}
+ where {\ttfamily n\-\_\-i} are the names of the fields in the structure array, and {\ttfamily v\-\_\-i} are the values. The values {\ttfamily v\-\_\-i} must either all be scalars, or be cell-\/arrays of all the same dimensions. In the latter case, the output structure array will have dimensions dictated by this common size. Scalar entries for the {\ttfamily v\-\_\-i} are replicated to fill out their dimensions. An error is raised if the inputs are not properly matched (i.\-e., are not pairs of field names and values), or if the size of any two non-\/scalar values cell-\/arrays are different.
+
+Another use of the {\ttfamily struct} function is to convert a class into a structure. This allows you to access the members of the class, directly but removes the class information from the object.\hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+This example creates a 3-\/element structure array with three fields, {\ttfamily foo} {\ttfamily bar} and {\ttfamily key}, where the contents of {\ttfamily foo} and {\ttfamily bar} are provided explicitly as cell arrays of the same size, and the contents of {\ttfamily bar} are replicated from a scalar.
+
+
+\begin{DoxyVerbInclude}
+--> y = struct('foo',{1,3,4},'bar',{'cheese','cola','beer'},'key',508)
+
+y = 
+1x3 struct array with fields:
+    foo
+    bar
+    key
+--> y(1)
+
+ans = 
+    foo: 1
+    bar: cheese
+    key: 508
+--> y(2)
+
+ans = 
+    foo: 3
+    bar: cola
+    key: 508
+--> y(3)
+
+ans = 
+    foo: 4
+    bar: beer
+    key: 508
+\end{DoxyVerbInclude}
+
+
+An alternate way to create a structure array is to initialize the last element of each field of the structure
+
+
+\begin{DoxyVerbInclude}
+--> Test(2,3).Type = 'Beer';
+--> Test(2,3).Ounces = 12;
+--> Test(2,3).Container = 'Can';
+--> Test(2,3)
+
+ans = 
+    Type: Beer
+    Ounces: 12
+    Container: Can
+--> Test(1,1)
+
+ans = 
+    Type: 0
+    Ounces: 0
+    Container: 0
+\end{DoxyVerbInclude}
+ 

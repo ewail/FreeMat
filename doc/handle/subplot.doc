@@ -1,0 +1,109 @@
+/*!
+\page handle_subplot SUBPLOT Subplot Function
+
+<p>
+Section: \ref sec_handle "Handle-Based Graphics"
+\section Usage
+This function divides the current figure into a 2-dimensional
+grid, each of which can contain a plot of some kind.  The function
+has a number of syntaxes.  The first version 
+\verbatim
+   subplot(row,col,num)
+\endverbatim
+which either activates subplot number <tt>num</tt>, or 
+sets up a subplot grid of size <tt>row x col</tt>, and then
+activates <tt>num</tt>. You can also set up subplots that cover multiple
+grid elements
+\verbatim
+   subplot(row,col,[vec])
+\endverbatim
+where <tt>vec</tt> is a set of indexes covered by the new subplot.
+Finally, as a shortcut, you can specify a string with three
+components
+\verbatim
+   subplot('mnp')
+\endverbatim
+or using the alternate notation
+\verbatim
+   subplot mnp
+\endverbatim
+where <tt>m</tt> is the number of rows, <tt>n</tt> is the number of columns
+and <tt>p</tt> is the index.  You can also specify the location of the
+subplot explicitly using the syntax
+\verbatim
+   subplot('position',[left bottom width height])
+\endverbatim
+
+\section Example
+Here is the use of <tt>subplot</tt> to set up a <tt>2 x 2</tt> grid of plots
+
+\if FRAGMENT
+frag_handle_subplot_000.m
+0
+t = linspace(-pi,pi);
+subplot(2,2,1)
+plot(t,cos(t).*exp(-2*t));
+subplot(2,2,2);
+plot(t,cos(t*2).*exp(-2*t));
+subplot(2,2,3);
+plot(t,cos(t*3).*exp(-2*t));
+subplot(2,2,4);
+plot(t,cos(t*4).*exp(-2*t));
+mprint subplot1
+\endif
+
+
+\verbinclude frag_handle_subplot_000.m.out 
+
+\image html subplot1.png
+\image latex subplot1.eps "subplot1" width=12cm
+Here we use the second form of <tt>subplot</tt> to generate one subplot
+that is twice as large.
+
+\if FRAGMENT
+frag_handle_subplot_001.m
+0
+t = linspace(-pi,pi);
+subplot(2,2,[1,2])
+plot(t,cos(t).*exp(-2*t));
+subplot(2,2,3);
+plot(t,cos(t*3).*exp(-2*t));
+subplot(2,2,4);
+plot(t,cos(t*4).*exp(-2*t));
+mprint subplot2
+\endif
+
+
+\verbinclude frag_handle_subplot_001.m.out 
+
+\image html subplot2.png
+\image latex subplot2.eps "subplot2" width=12cm
+Note that the subplots can contain any handle graphics objects,
+not only simple plots.
+
+\if FRAGMENT
+frag_handle_subplot_002.m
+0
+t=0:(2*pi/100):(2*pi);
+x=cos(t*2).*(2+sin(t*3)*.3);
+y=sin(t*2).*(2+sin(t*3)*.3);
+z=cos(t*3)*.3;
+subplot(2,2,1)
+plot(t,x);
+subplot(2,2,2);
+plot(t,y);
+subplot(2,2,3);
+plot(t,z);
+subplot(2,2,4);
+tubeplot(x,y,z,0.14*sin(t*5)+.29,t,10)
+axis equal
+view(3)
+mprint subplot3
+\endif
+
+
+\verbinclude frag_handle_subplot_002.m.out 
+
+\image html subplot3.png
+\image latex subplot3.eps "subplot3" width=12cm
+*/

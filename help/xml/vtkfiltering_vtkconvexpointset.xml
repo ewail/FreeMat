@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkfiltering_vtkconvexpointset" kind="page">
+    <compoundname>vtkfiltering_vtkconvexpointset</compoundname>
+    <title>vtkConvexPointSet</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkfiltering_1sec_vtkfiltering" kindref="member">Visualization Toolkit Filtering Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>vtkConvexPointSet is a concrete implementation that represents a 3D cell defined by a convex set of points. An example of such a cell is an octant (from an octree). vtkConvexPointSet uses the ordered triangulations approach (vtkOrderedTriangulator) to create triangulations guaranteed to be compatible across shared faces. This allows a general approach to processing complex, convex cell types.</para><para>To create an instance of class vtkConvexPointSet, simply invoke its constructor as follows <verbatim>  obj = vtkConvexPointSet
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkConvexPointSet has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkConvexPointSet class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkConvexPointSet = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkConvexPointSet = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.HasFixedTopology ()</computeroutput> - See vtkCell3D API for description of these methods.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetCellType ()</computeroutput> - This cell requires that it be initialized prior to access.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.RequiresInitialization ()</computeroutput> - This cell requires that it be initialized prior to access.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.Initialize ()</computeroutput> - This cell requires that it be initialized prior to access.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetNumberOfEdges ()</computeroutput> - A convex point set has no explicit cell edge or faces; however implicitly (after triangulation) it does. Currently the method GetNumberOfEdges() always returns 0 while the GetNumberOfFaces() returns the number of boundary triangles of the triangulation of the convex point set. The method GetNumberOfFaces() triggers a triangulation of the convex point set; repeated calls to GetFace() then return the boundary faces. (Note: GetNumberOfEdges() currently returns 0 because it is a rarely used method and hard to implement. It can be changed in the future.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkCell = obj.GetEdge (int )</computeroutput> - A convex point set has no explicit cell edge or faces; however implicitly (after triangulation) it does. Currently the method GetNumberOfEdges() always returns 0 while the GetNumberOfFaces() returns the number of boundary triangles of the triangulation of the convex point set. The method GetNumberOfFaces() triggers a triangulation of the convex point set; repeated calls to GetFace() then return the boundary faces. (Note: GetNumberOfEdges() currently returns 0 because it is a rarely used method and hard to implement. It can be changed in the future.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetNumberOfFaces ()</computeroutput> - A convex point set has no explicit cell edge or faces; however implicitly (after triangulation) it does. Currently the method GetNumberOfEdges() always returns 0 while the GetNumberOfFaces() returns the number of boundary triangles of the triangulation of the convex point set. The method GetNumberOfFaces() triggers a triangulation of the convex point set; repeated calls to GetFace() then return the boundary faces. (Note: GetNumberOfEdges() currently returns 0 because it is a rarely used method and hard to implement. It can be changed in the future.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkCell = obj.GetFace (int faceId)</computeroutput> - A convex point set has no explicit cell edge or faces; however implicitly (after triangulation) it does. Currently the method GetNumberOfEdges() always returns 0 while the GetNumberOfFaces() returns the number of boundary triangles of the triangulation of the convex point set. The method GetNumberOfFaces() triggers a triangulation of the convex point set; repeated calls to GetFace() then return the boundary faces. (Note: GetNumberOfEdges() currently returns 0 because it is a rarely used method and hard to implement. It can be changed in the future.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.Contour (double value, vtkDataArray cellScalars, vtkIncrementalPointLocator locator, vtkCellArray verts, vtkCellArray lines, vtkCellArray polys, vtkPointData inPd, vtkPointData outPd, vtkCellData inCd, vtkIdType cellId, vtkCellData outCd)</computeroutput> - Satisfy the vtkCell API. This method contours by triangulating the cell and then contouring the resulting tetrahedra.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.Clip (double value, vtkDataArray cellScalars, vtkIncrementalPointLocator locator, vtkCellArray connectivity, vtkPointData inPd, vtkPointData outPd, vtkCellData inCd, vtkIdType cellId, vtkCellData outCd, int insideOut)</computeroutput> - Satisfy the vtkCell API. This method contours by triangulating the cell and then adding clip-edge intersection points into the triangulation; extracting the clipped region.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.Triangulate (int index, vtkIdList ptIds, vtkPoints pts)</computeroutput> - Triangulate using methods of vtkOrderedTriangulator.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.Derivatives (int subId, double pcoords[3], double values, int dim, double derivs)</computeroutput> - Computes derivatives by triangulating and from subId and pcoords, evaluating derivatives on the resulting tetrahedron.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.CellBoundary (int subId, double pcoords[3], vtkIdList pts)</computeroutput> - Returns the set of points forming a face of the triangulation of these points that are on the boundary of the cell that are closest parametrically to the point specified.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetParametricCenter (double pcoords[3])</computeroutput> - Return the center of the cell in parametric coordinates.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsPrimaryCell ()</computeroutput> - Compute the interpolation functions/derivatives (aka shape functions/derivatives)  </para></listitem>
+<listitem>
+<para><computeroutput>obj.InterpolateFunctions (double pcoords[3], double sf)</computeroutput> - Compute the interpolation functions/derivatives (aka shape functions/derivatives)  </para></listitem>
+<listitem>
+<para><computeroutput>obj.InterpolateDerivs (double pcoords[3], double derivs)</computeroutput> - Compute the interpolation functions/derivatives (aka shape functions/derivatives)  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

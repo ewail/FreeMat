@@ -1,0 +1,61 @@
+
+ Usage
+
+Generates random variables with an F-distribution. The
+general syntax for its use is
+
+     y = randf(n,m)
+
+where n and m are vectors of the number of degrees of
+freedom in the numerator and denominator of the chi-square
+random variables whose ratio defines the statistic.
+
+
+ Internals
+
+The statistic F_{n,m} is defined as the ratio of two chi-
+square random variables:
+ \[ F_{n,m} = \frac{\chi_n^2/n}{\chi_m^2/m} \]
+The PDF is given by
+ \[ f_{n,m} = \frac{m^{m/2}n^{n/2}x^{n/2-1}}{(m+nx)^{(n+m)/
+2}B(n/2,m/2)}, \]
+where B(a,b) is the beta function.
+
+
+ Example
+
+Here we use randf to generate some F-distributed random
+variables, and then again using the randchi function:
+
+  --> randf(5*ones(1,9),7)
+
+  ans =
+
+   Columns 1 to 7
+
+      0.5241    0.8414    0.4859    1.1266    0.4792
+  2.3743    2.9095
+
+   Columns 8 to 9
+
+      0.5825    0.4244
+
+  --> randchi(5*ones(1,9))./randchi(7*ones(1,9))
+
+  ans =
+
+   Columns 1 to 7
+
+      0.3737    0.2363    1.5733    0.7003    1.1385
+  0.6337    0.4597
+
+   Columns 8 to 9
+
+      0.2691    0.5190
+
+
+* FreeMat_Documentation
+* Random_Number_Generation
+* Generated on Thu Jul 25 2013 17:17:46 for FreeMat by
+  doxygen_ 1.8.1.1
+

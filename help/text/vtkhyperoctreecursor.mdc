@@ -1,0 +1,169 @@
+
+ Usage
+
+Objects that can traverse hyperoctree nodes. It is an
+abstract class. Cursors are created by the hyperoctree.
+To create an instance of class vtkHyperOctreeCursor, simply
+invoke its constructor as follows
+
+    obj = vtkHyperOctreeCursor
+
+
+
+ Methods
+
+The class vtkHyperOctreeCursor has several methods that can
+be used. They are listed below. Note that the documentation
+is translated automatically from the VTK sources, and may
+not be completely intelligible. When in doubt, consult the
+VTK website. In the methods listed below, obj is an instance
+of the vtkHyperOctreeCursor class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkHyperOctreeCursor = obj.NewInstance ()
+* vtkHyperOctreeCursor = obj.SafeDownCast (vtkObject o)
+* int = obj.GetLeafId () - Return the index of the current
+  leaf in the data arrays.
+
+
+    Precondition:
+        is_leaf: CurrentIsLeaf()
+
+* int = obj.CurrentIsLeaf () - Is the node pointed by the
+  cursor a leaf?
+* int = obj.CurrentIsRoot () - Is the node pointed by the
+  cursor the root?
+* int = obj.GetCurrentLevel () - Return the level of the
+  node pointed by the cursor.
+
+
+    Postcondition:
+        positive_result: result>=0
+
+* int = obj.GetChildIndex () - Return the child number of
+  the current node relative to its parent.
+
+
+    Precondition:
+        not_root: !CurrentIsRoot().
+
+
+
+    Postcondition:
+        valid_range: result>=0 &amp;&amp;
+        result<GetNumberOfChildren()
+
+* int = obj.CurrentIsTerminalNode ()
+* obj.ToRoot () - Move the cursor the root node.
+
+
+    Precondition:
+        can be root
+
+
+
+    Postcondition:
+        is_root: CurrentIsRoot()
+
+* obj.ToParent () - Move the cursor to the parent of the
+  current node.
+
+
+    Precondition:
+        not_root: !CurrentIsRoot()
+
+* obj.ToChild (int child) - Move the cursor to child `child'
+  of the current node.
+
+
+    Precondition:
+        not_leaf: !CurrentIsLeaf()
+        valid_child: child>=0 &amp;&amp; child<this-
+        >GetNumberOfChildren()
+
+* obj.ToSameNode (vtkHyperOctreeCursor other) - Move the
+  cursor to the same node pointed by `other'.
+
+
+    Precondition:
+        other_exists: other!=0
+        same_hyperoctree: this->SameTree(other);
+
+
+
+    Postcondition:
+        equal: this->IsEqual(other)
+
+* int = obj.IsEqual (vtkHyperOctreeCursor other) - Is `this'
+  equal to `other'?
+
+
+    Precondition:
+        other_exists: other!=0
+        same_hyperoctree: this->SameTree(other);
+
+* vtkHyperOctreeCursor = obj.Clone () - Create a copy of
+  `this'.
+
+
+    Postcondition:
+        results_exists:result!=0
+        same_tree: result->SameTree(this)
+
+* int = obj.SameTree (vtkHyperOctreeCursor other) - Are
+  `this' and `other' pointing on the same hyperoctree?
+
+
+    Precondition:
+        other_exists: other!=0
+
+* int = obj.GetIndex (int d) - Return the index in dimension
+  `d', as if the node was a cell of a uniform grid of
+  1<<GetCurrentLevel() cells in each dimension.
+
+
+    Precondition:
+        valid_range: d>=0 &amp;&amp; d<GetDimension()
+
+
+
+    Postcondition:
+        valid_result: result>=0 &amp;&amp; result<
+        (1<<GetCurrentLevel())
+
+* int = obj.GetNumberOfChildren () - Return the number of
+  children for each node of the tree.
+
+
+    Postcondition:
+        positive_number: result>0
+
+* int = obj.GetDimension () - Return the dimension of the
+  tree.
+
+
+    Postcondition:
+        positive_result: result>0
+
+* obj.MoveToNode (int indices, int level) - Move to the node
+  described by its indices in each dimension and at a given
+  level. If there is actually a node or a leaf at this
+  location, Found() returns true. Otherwise, Found() returns
+  false and the cursor moves to the closest parent of the
+  query. It can be the root in the worst case.
+
+
+    Precondition:
+        indices_exists: indices!=0
+        valid_size: sizeof(indices)==GetDimension()
+        valid_level: level>=0
+
+* int = obj.Found ()
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Filtering_Classes
+* Generated on Thu Jul 25 2013 17:18:30 for FreeMat by
+  doxygen_ 1.8.1.1
+

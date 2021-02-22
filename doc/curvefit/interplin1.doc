@@ -1,0 +1,79 @@
+/*!
+\page curvefit_interplin1 INTERPLIN1 Linear 1-D Interpolation
+
+<p>
+Section: \ref sec_curvefit "Optimization and Curve Fitting"
+\section Usage
+Given a set of monotonically increasing <tt>x</tt> coordinates and a 
+corresponding set of <tt>y</tt> values, performs simple linear 
+interpolation to a new set of <tt>x</tt> coordinates. The general syntax
+for its usage is
+\verbatim
+   yi = interplin1(x1,y1,xi)
+\endverbatim
+where <tt>x1</tt> and <tt>y1</tt> are vectors of the same length, and the entries
+in <tt>x1</tt> are monotoniccally increasing.  The output vector <tt>yi</tt> is
+the same size as the input vector <tt>xi</tt>.  For each element of <tt>xi</tt>,
+the values in <tt>y1</tt> are linearly interpolated.  For values in <tt>xi</tt> 
+that are outside the range of <tt>x1</tt> the default value returned is
+<tt>nan</tt>.  To change this behavior, you can specify the extrapolation
+flag:
+\verbatim
+   yi = interplin1(x1,y1,xi,extrapflag)
+\endverbatim
+Valid options for <tt>extrapflag</tt> are:
+<UL>
+<LI>  <tt>'nan'</tt> - extrapolated values are tagged with <tt>nan</tt>s
+ </LI>
+<LI>  <tt>'zero'</tt> - extrapolated values are set to zero
+ </LI>
+<LI>  <tt>'endpoint'</tt> - extrapolated values are set to the endpoint values 
+ </LI>
+<LI>  <tt>'extrap'</tt> - linear extrapolation is performed
+ </LI>
+</UL>
+The <tt>x1</tt> and <tt>xi</tt> vectors must be real, although complex types
+are allowed for <tt>y1</tt>.
+\section Example
+Here is an example of simple linear interpolation with the different
+extrapolation modes.  We start with a fairly coarse sampling of a 
+cosine.
+
+\if FRAGMENT
+frag_curvefit_interplin1_000.m
+0
+x = linspace(-pi*7/8,pi*7/8,15);
+y = cos(x);
+plot(x,y,'ro');
+mprint interplin1_1
+\endif
+
+
+\verbinclude frag_curvefit_interplin1_000.m.out 
+
+which is shown here
+\image html interplin1_1.png
+\image latex interplin1_1.eps "interplin1_1" width=12cm
+Next, we generate a finer sampling over a slightly broader range
+(in this case <tt>[-pi,pi]</tt>).  First, we demonstrate the <tt>'nan'</tt> 
+extrapolation method
+
+\if FRAGMENT
+frag_curvefit_interplin1_001.m
+0
+xi = linspace(-4,4,100);
+yi_nan = interplin1(x,y,xi,'nan');
+yi_zero = interplin1(x,y,xi,'zero');
+yi_endpoint = interplin1(x,y,xi,'endpoint');
+yi_extrap = interplin1(x,y,xi,'extrap');
+plot(x,y,'ro',xi,yi_nan,'g-x',xi,yi_zero,'g-x',xi,yi_endpoint,'g-x',xi,yi_extrap,'g-x');
+mprint interplin1_2
+\endif
+
+
+\verbinclude frag_curvefit_interplin1_001.m.out 
+
+which is shown here
+\image html interplin1_2.png
+\image latex interplin1_2.eps "interplin1_2" width=12cm
+*/

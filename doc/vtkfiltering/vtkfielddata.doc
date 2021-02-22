@@ -1,0 +1,235 @@
+/*!
+\page vtkfiltering_vtkfielddata vtkFieldData
+
+<p>
+Section: \ref sec_vtkfiltering "Visualization Toolkit Filtering Classes"
+\section Usage
+ vtkFieldData represents and manipulates fields of data. The model of a field
+ is a m x n matrix of data values, where m is the number of tuples, and n
+ is the number of components. (A tuple is a row of n components in the
+ matrix.) The field is assumed to be composed of a set of one or more data
+ arrays, where the data in the arrays are of different types (e.g., int,
+ double, char, etc.), and there may be variable numbers of components in
+ each array. Note that each data array is assumed to be "m" in length
+ (i.e., number of tuples), which typically corresponds to the number of
+ points or cells in a dataset. Also, each data array must have a
+ character-string name. (This is used to manipulate data.)
+
+ There are two ways of manipulating and interfacing to fields. You can do
+ it generically by manipulating components/tuples via a double-type data
+ exchange, or you can do it by grabbing the arrays and manipulating them
+ directly. The former is simpler but performs type conversion, which is bad
+ if your data has non-castable types like (void) pointers, or you lose
+ information as a result of the cast. The, more efficient method means
+ managing each array in the field.  Using this method you can create
+ faster, more efficient algorithms that do not lose information.
+
+To create an instance of class vtkFieldData, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkFieldData
+\endverbatim
+\section Methods
+The class vtkFieldData has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkFieldData class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkFieldData = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkFieldData = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.Initialize ()</tt> -  Release all data but do not delete object.
+ Also, clear the copy flags.
+ </LI>
+<LI>  <tt>int = obj.Allocate (vtkIdType sz, vtkIdType ext)</tt> -  Allocate data for each array.
+ Note that ext is no longer used.
+ </LI>
+<LI>  <tt>obj.CopyStructure (vtkFieldData )</tt> -  Copy data array structure from a given field.  The same arrays
+ will exist with the same types, but will contain nothing in the
+ copy.
+ </LI>
+<LI>  <tt>obj.AllocateArrays (int num)</tt> -  AllocateOfArrays actually sets the number of
+ vtkAbstractArray pointers in the vtkFieldData object, not the
+ number of used pointers (arrays). Adding more arrays will
+ cause the object to dynamically adjust the number of pointers
+ if it needs to extend. Although AllocateArrays can
+ be used if the number of arrays which will be added is
+ known, it can be omitted with a small computation cost.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfArrays ()</tt> -  Add an array to the array list. If an array with the same name
+ already exists - then the added array will replace it.
+ </LI>
+<LI>  <tt>int = obj.AddArray (vtkAbstractArray array)</tt> -  Add an array to the array list. If an array with the same name
+ already exists - then the added array will replace it.
+ </LI>
+<LI>  <tt>obj.RemoveArray (string name)</tt> -  Return the ith array in the field. A NULL is returned if the
+ index i is out of range. A NULL is returned if the array at the given 
+ index is not a vtkDataArray.
+ </LI>
+<LI>  <tt>vtkDataArray = obj.GetArray (int i)</tt> -  Return the ith array in the field. A NULL is returned if the
+ index i is out of range. A NULL is returned if the array at the given 
+ index is not a vtkDataArray.
+ </LI>
+<LI>  <tt>vtkDataArray = obj.GetArray (string arrayName)</tt> -  Returns the ith array in the field. Unlike GetArray(), this method returns
+ a vtkAbstractArray. A NULL is returned only if the index i is 
+ out of range.
+ </LI>
+<LI>  <tt>vtkAbstractArray = obj.GetAbstractArray (int i)</tt> -  Returns the ith array in the field. Unlike GetArray(), this method returns
+ a vtkAbstractArray. A NULL is returned only if the index i is 
+ out of range.
+ </LI>
+<LI>  <tt>vtkAbstractArray = obj.GetAbstractArray (string arrayName)</tt> -  Return 1 if an array with the given name could be found. 0 otherwise.
+ </LI>
+<LI>  <tt>int = obj.HasArray (string name)</tt> -  Get the name of ith array.
+ Note that this is equivalent to:
+ GetAbstractArray(i)->GetName() if ith array pointer is not NULL
+ </LI>
+<LI>  <tt>string = obj.GetArrayName (int i)</tt> -  Pass entire arrays of input data through to output. Obey the "copy"
+ flags.
+ </LI>
+<LI>  <tt>obj.PassData (vtkFieldData fd)</tt> -  Pass entire arrays of input data through to output. Obey the "copy"
+ flags.
+ </LI>
+<LI>  <tt>obj.CopyFieldOn (string name)</tt> -  Turn on/off the copying of the field specified by name.
+ During the copying/passing, the following rules are followed for each
+ array:
+ 1. If the copy flag for an array is set (on or off), it is applied
+    This overrides rule 2.
+ 2. If CopyAllOn is set, copy the array.
+    If CopyAllOff is set, do not copy the array
+ </LI>
+<LI>  <tt>obj.CopyFieldOff (string name)</tt> -  Turn on copying of all data.
+ During the copying/passing, the following rules are followed for each
+ array:
+ 1. If the copy flag for an array is set (on or off), it is applied
+    This overrides rule 2.
+ 2. If CopyAllOn is set, copy the array.
+    If CopyAllOff is set, do not copy the array
+ </LI>
+<LI>  <tt>obj.CopyAllOn (int unused)</tt> -  Turn on copying of all data.
+ During the copying/passing, the following rules are followed for each
+ array:
+ 1. If the copy flag for an array is set (on or off), it is applied
+    This overrides rule 2.
+ 2. If CopyAllOn is set, copy the array.
+    If CopyAllOff is set, do not copy the array
+ </LI>
+<LI>  <tt>obj.CopyAllOff (int unused)</tt> -  Turn off copying of all data.
+ During the copying/passing, the following rules are followed for each
+ array:
+ 1. If the copy flag for an array is set (on or off), it is applied
+    This overrides rule 2.
+ 2. If CopyAllOn is set, copy the array.
+    If CopyAllOff is set, do not copy the array
+ </LI>
+<LI>  <tt>obj.DeepCopy (vtkFieldData da)</tt> -  Copy a field by creating new data arrays (i.e., duplicate storage).
+ </LI>
+<LI>  <tt>obj.ShallowCopy (vtkFieldData da)</tt> -  Copy a field by reference counting the data arrays.
+ </LI>
+<LI>  <tt>obj.Squeeze ()</tt> -  Squeezes each data array in the field (Squeeze() reclaims unused memory.)
+ </LI>
+<LI>  <tt>obj.Reset ()</tt> -  Resets each data array in the field (Reset() does not release memory but
+ it makes the arrays look like they are empty.)
+ </LI>
+<LI>  <tt>long = obj.GetActualMemorySize ()</tt> -  Return the memory in kilobytes consumed by this field data. Used to
+ support streaming and reading/writing data. The value returned is
+ guaranteed to be greater than or equal to the memory required to
+ actually represent the data represented by this object.
+ </LI>
+<LI>  <tt>long = obj.GetMTime ()</tt> -  Check object's components for modified times.
+ </LI>
+<LI>  <tt>obj.GetField (vtkIdList ptId, vtkFieldData f)</tt> -  Get a field from a list of ids. Supplied field f should have same
+ types and number of data arrays as this one (i.e., like
+ CopyStructure() creates).  This method should not be used if the
+ instance is from a subclass of vtkFieldData (vtkPointData or
+ vtkCellData).  This is because in those cases, the attribute data
+ is stored with the other fields and will cause the method to
+ behave in an unexpected way.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfComponents ()</tt> -  Get the number of components in the field. This is determined by adding
+ up the components in each non-NULL array.
+ This method should not be used if the instance is from a
+ subclass of vtkFieldData (vtkPointData or vtkCellData).
+ This is because in those cases, the attribute data is 
+ stored with the other fields and will cause the method
+ to behave in an unexpected way.
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetNumberOfTuples ()</tt> -  Get the number of tuples in the field. Note: some fields have arrays with
+ different numbers of tuples; this method returns the number of tuples in
+ the first array. Mixed-length arrays may have to be treated specially.
+ This method should not be used if the instance is from a
+ subclass of vtkFieldData (vtkPointData or vtkCellData).
+ This is because in those cases, the attribute data is 
+ stored with the other fields and will cause the method
+ to behave in an unexpected way.
+ </LI>
+<LI>  <tt>obj.SetNumberOfTuples (vtkIdType number)</tt> -  Set the number of tuples for each data array in the field.
+ This method should not be used if the instance is from a
+ subclass of vtkFieldData (vtkPointData or vtkCellData).
+ This is because in those cases, the attribute data is 
+ stored with the other fields and will cause the method
+ to behave in an unexpected way.
+ </LI>
+<LI>  <tt>obj.SetTuple (vtkIdType i, vtkIdType j, vtkFieldData source)</tt> -  Set the jth tuple in source field data at the ith location. 
+ Set operations mean that no range checking is performed, so 
+ they're faster.
+ </LI>
+<LI>  <tt>obj.InsertTuple (vtkIdType i, vtkIdType j, vtkFieldData source)</tt> -  Insert the jth tuple in source field data at the ith location. 
+ Range checking is performed and memory allocates as necessary.
+ </LI>
+<LI>  <tt>vtkIdType = obj.InsertNextTuple (vtkIdType j, vtkFieldData source)</tt> -  Insert the jth tuple in source field data  at the end of the 
+ tuple matrix. Range checking is performed and memory is allocated 
+ as necessary.
+ </LI>
+<LI>  <tt>obj.GetTuple (vtkIdType i, double tuple)</tt> -  Copy the ith tuple value into a user provided tuple array. Make
+ sure that you've allocated enough space for the copy.
+ @deprecated as of VTK 5.2. Using this method for FieldData
+ having arrays that are not subclasses of vtkDataArray may
+ yield unexpected results.
+ </LI>
+<LI>  <tt>obj.SetTuple (vtkIdType i, double tuple)</tt> -  Set the tuple value at the ith location. Set operations
+ mean that no range checking is performed, so they're faster.
+ @deprecated as of VTK 5.2. Using this method for FieldData
+ having arrays that are not subclasses of vtkDataArray may
+ yield unexpected results.
+ </LI>
+<LI>  <tt>obj.InsertTuple (vtkIdType i, double tuple)</tt> -  Insert the tuple value at the ith location. Range checking is
+ performed and memory allocates as necessary.
+ @deprecated as of VTK 5.2. Using this method for FieldData
+ having arrays that are not subclasses of vtkDataArray may
+ yield unexpected results.
+ </LI>
+<LI>  <tt>vtkIdType = obj.InsertNextTuple (double tuple)</tt> -  Insert the tuple value at the end of the tuple matrix. Range
+ checking is performed and memory is allocated as necessary.
+ @deprecated as of VTK 5.2. Using this method for FieldData
+ having arrays that are not subclasses of vtkDataArray may
+ yield unexpected results.
+ </LI>
+<LI>  <tt>double = obj.GetComponent (vtkIdType i, int j)</tt> -  Get the component value at the ith tuple (or row) and jth component (or
+ column).
+ @deprecated as of VTK 5.2. Using this method for FieldData
+ having arrays that are not subclasses of vtkDataArray may
+ yield unexpected results.
+ </LI>
+<LI>  <tt>obj.SetComponent (vtkIdType i, int j, double c)</tt> -  Set the component value at the ith tuple (or row) and jth component (or
+ column).  Range checking is not performed, so set the object up properly
+ before invoking.
+ @deprecated as of VTK 5.2. Using this method for FieldData
+ having arrays that are not subclasses of vtkDataArray may
+ yield unexpected results.
+ </LI>
+<LI>  <tt>obj.InsertComponent (vtkIdType i, int j, double c)</tt> -  Insert the component value at the ith tuple (or row) and jth component
+ (or column).  Range checking is performed and memory allocated as
+ necessary o hold data.
+ @deprecated as of VTK 5.2. Using this method for FieldData
+ having arrays that are not subclasses of vtkDataArray may
+ yield unexpected results.
+ </LI>
+</UL>
+*/

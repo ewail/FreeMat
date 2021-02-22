@@ -1,0 +1,93 @@
+
+ Usage
+
+vtkImplicitFunction specifies an abstract interface for
+implicit functions. Implicit functions are real valued
+functions defined in 3D space, w = F(x,y,z). Two primitive
+operations are required: the ability to evaluate the
+function, and the function gradient at a given point. The
+implicit function divides space into three regions: on the
+surface (F(x,y,z)=w), outside of the surface (F(x,y,z)>c),
+and inside the surface (F(x,y,z)<c). (When c is zero,
+positive values are outside, negative values are inside, and
+zero is on the surface. Note also that the function gradient
+points from inside to outside.)
+Implicit functions are very powerful. It is possible to
+represent almost any type of geometry with the level sets w
+= const, especially if you use boolean combinations of
+implicit functions (see vtkImplicitBoolean).
+vtkImplicitFunction provides a mechanism to transform the
+implicit function(s) via a vtkAbstractTransform. This
+capability can be used to translate, orient, scale, or warp
+implicit functions. For example, a sphere implicit function
+can be transformed into an oriented ellipse.
+To create an instance of class vtkImplicitFunction, simply
+invoke its constructor as follows
+
+    obj = vtkImplicitFunction
+
+
+
+ Methods
+
+The class vtkImplicitFunction has several methods that can
+be used. They are listed below. Note that the documentation
+is translated automatically from the VTK sources, and may
+not be completely intelligible. When in doubt, consult the
+VTK website. In the methods listed below, obj is an instance
+of the vtkImplicitFunction class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkImplicitFunction = obj.NewInstance ()
+* vtkImplicitFunction = obj.SafeDownCast (vtkObject o)
+* long = obj.GetMTime () - Overload standard modified time
+  function. If Transform is modified, then this object is
+  modified as well.
+* double = obj.FunctionValue (double x[3]) - Evaluate
+  function at position x-y-z and return value. Point x[3] is
+  transformed through transform (if provided).
+* double = obj.FunctionValue (double x, double y, double z)
+  - Evaluate function at position x-y-z and return value.
+  Point x[3] is transformed through transform (if provided).
+* obj.FunctionGradient (double x[3], double g[3]) - Evaluate
+  function gradient at position x-y-z and pass back vector.
+  Point x[3] is transformed through transform (if provided).
+* double = obj.FunctionGradient (double x[3]) - Evaluate
+  function gradient at position x-y-z and pass back vector.
+  Point x[3] is transformed through transform (if provided).
+* double = obj.FunctionGradient (double x, double y, double
+  z) - Evaluate function gradient at position x-y-z and pass
+  back vector. Point x[3] is transformed through transform
+  (if provided).
+* obj.SetTransform (vtkAbstractTransform ) - Set/Get a
+  transformation to apply to input points before executing
+  the implicit function.
+* obj.SetTransform (double elements[16]) - Set/Get a
+  transformation to apply to input points before executing
+  the implicit function.
+* vtkAbstractTransform = obj.GetTransform () - Set/Get a
+  transformation to apply to input points before executing
+  the implicit function.
+* double = obj.EvaluateFunction (double x[3]) - Evaluate
+  function at position x-y-z and return value. You should
+  generally not call this method directly, you should use
+  FunctionValue() instead. This method must be implemented
+  by any derived class.
+* double = obj.EvaluateFunction (double x, double y, double
+  z) - Evaluate function at position x-y-z and return value.
+  You should generally not call this method directly, you
+  should use FunctionValue() instead. This method must be
+  implemented by any derived class.
+* obj.EvaluateGradient (double x[3], double g[3]) - Evaluate
+  function gradient at position x-y-z and pass back vector.
+  You should generally not call this method directly, you
+  should use FunctionGradient() instead. This method must be
+  implemented by any derived class.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Common_Classes
+* Generated on Thu Jul 25 2013 17:18:30 for FreeMat by
+  doxygen_ 1.8.1.1
+

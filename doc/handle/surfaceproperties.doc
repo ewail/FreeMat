@@ -1,0 +1,138 @@
+/*!
+\page handle_surfaceproperties SURFACEPROPERTIES Surface Object Properties
+
+<p>
+Section: \ref sec_handle "Handle-Based Graphics"
+\section Usage
+Below is a summary of the properties for the axis.
+<UL>
+<LI>  <tt>alphadata</tt> - <tt>vector</tt> - This is a vector that
+ should contain as many elements as the surface data itself <tt>cdata</tt>,
+ or a single scalar.  For a single scalar, all values of the surface
+ take on the same transparency.  Otherwise, the transparency of
+ each pixel is determined by the corresponding value from the <tt>alphadata</tt>
+ vector.
+ </LI>
+<LI>  <tt>alphadatamapping</tt> - <tt>{'scaled','direct','none'}</tt> - For <tt>none</tt>
+ mode (the default), no transparency is applied to the data.  For <tt>direct</tt>
+ mode, the vector <tt>alphadata</tt> contains values between @[0,M-1]| where
+ <tt>M</tt> is the length of the alpha map stored in the figure.  For <tt>scaled</tt>
+ mode, the <tt>alim</tt> vector for the figure is used to linearly rescale the 
+ alpha data prior to lookup in the alpha map. 
+ </LI>
+<LI>  <tt>ambientstrength</tt> - Not used.
+ </LI>
+<LI>  <tt>backfacelighting</tt> - Not used.
+ </LI>
+<LI>  <tt>cdata</tt> - <tt>array</tt> - This is either a <tt>M x N</tt> array or an 
+  <tt>M x N x 3</tt> array.  If the data is <tt>M x N</tt> the surface is a scalar
+ surface (indexed mode), where the color associated with each surface pixel
+ is computed using the colormap and the <tt>cdatamapping</tt> mode.  If the
+ data is <tt>M x N x 3</tt> the surface is assumed to be in RGB mode, and the
+ colorpanes are taken directly from <tt>cdata</tt> (the colormap is ignored).
+ Note that in this case, the data values must be between @[0,1]| for each
+ color channel and each point on the surface.
+ </LI>
+<LI>  <tt>cdatamapping</tt> - <tt>{'scaled','direct'}</tt> - For <tt>scaled</tt> (the
+ default), the pixel values are scaled using the <tt>clim</tt> vector for the
+ figure prior to looking up in the colormap.  For <tt>direct</tt> mode, the
+ pixel values must be in the range <tt>[0,N-1</tt> where <tt>N</tt> is the number of
+ colors in the colormap.
+ </LI>
+<LI>  <tt>children</tt> - Not used.
+ </LI>
+<LI>  <tt>diffusestrength</tt> - Not used.
+ </LI>
+<LI>  <tt>edgealpha</tt> - <tt>{'flat','interp','scalar'}</tt> - Controls how the
+ transparency is mapped for the edges of the surface.
+ </LI>
+<LI>  <tt>edgecolor</tt> - <tt>{'flat','interp','none',colorspec}</tt> - Specifies
+ how the edges are colored.  For <tt>'flat'</tt> the edges are flat colored,
+ meaning that the line segments that make up the edges are not shaded.
+ The color for the line is determined by the first edge point it is connected
+ to.
+ </LI>
+<LI>  <tt>edgelighting</tt> - Not used.
+ </LI>
+<LI>  <tt>facealpha</tt> - <tt>{'flat','interp','texturemap',scalar}</tt> - Controls
+ how the transparency of the faces of the surface are controlled.  For
+ flat shading, the faces are constant transparency.  For interp mode, the faces
+ are smoothly transparently mapped.  If set to a scalar, all faces have the
+ same transparency.
+ </LI>
+<LI>  <tt>facecolor</tt> - <tt>{'none','flat','interp',colorspec}</tt> - Controls
+ how the faces are colored.  For <tt>'none'</tt> the faces are uncolored, and
+ the surface appears as a mesh without hidden lines removed.  For <tt>'flat'</tt>
+ the surface faces have a constant color.  For <tt>'interp'</tt> smooth shading
+ is applied to the surface.  And if a colorspec is provided, then the
+ faces all have the same color.
+ </LI>
+<LI>  <tt>facelighting</tt> - Not used.
+ </LI>
+<LI>  <tt>linestyle</tt> - <tt>{'-','--',':','-.','none'}</tt> - The style of the line used
+ to draw the edges.
+ </LI>
+<LI>  <tt>linewidth</tt> - <tt>scalar</tt> - The width of the line used to draw the edges.
+ </LI>
+<LI>  <tt>marker</tt> - <tt>{'+','o','*','.','x','square','s','diamond','d','^','v','>','<'}</tt> - 
+ The marker for data points on the line.  Some of these are redundant, as <tt>'square'</tt> 
+ <tt>'s'</tt> are synonyms, and <tt>'diamond'</tt> and <tt>'d'</tt> are also synonyms.
+ </LI>
+<LI>  <tt>markeredgecolor</tt> - <tt>colorspec</tt> - The color used to draw the marker.  For some
+ of the markers (circle, square, etc.) there are two colors used to draw the marker.
+ This property controls the edge color (which for unfilled markers) is the primary
+ color of the marker.
+ </LI>
+<LI>  <tt>markerfacecolor</tt> - <tt>colorspec</tt> - The color used to fill the marker.  For some
+ of the markers (circle, square, etc.) there are two colors used to fill the marker.
+ </LI>
+<LI>  <tt>markersize</tt> - <tt>scalar</tt> - Control the size of the marker.  Defaults to 6, which
+ is effectively the radius (in pixels) of the markers.
+ </LI>
+<LI>  <tt>meshstyle</tt> - <tt>{'both','rows','cols}</tt> - This property controls how the mesh is
+ drawn for the surface.  For <tt>rows</tt> and <tt>cols</tt> modes, only one set of edges is drawn.
+ </LI>
+<LI>  <tt>normalmode</tt> - Not used.
+ </LI>
+<LI>  <tt>parent</tt> - <tt>handle</tt> - The axis containing the surface.
+ </LI>
+<LI>  <tt>specularcolorreflectance</tt> - Not used.
+ </LI>
+<LI>  <tt>specularexponent</tt> - Not used.
+ </LI>
+<LI>  <tt>specularstrength</tt> - Not used.
+ </LI>
+<LI>  <tt>tag</tt> - <tt>string</tt> - You can set this to any string you want.
+ </LI>
+<LI>  <tt>type</tt> - <tt>string</tt> - Set to the string <tt>'surface'</tt>.
+ </LI>
+<LI>  <tt>userdata</tt> - <tt>array</tt> - Available to store any variable you
+ want in the handle object.
+ </LI>
+<LI>  <tt>vertexnormals</tt> - Not used.
+ </LI>
+<LI>  <tt>xdata</tt> - <tt>array</tt> - Must be a numeric array of size <tt>M x N</tt> which contains
+ the x location of each point in the defined surface. Must be the same size as <tt>ydata</tt>
+ and <tt>zdata</tt>.  Alternately, you can specify an array of size <tt>1 x N</tt> in which case
+ FreeMat replicates the vector to fill out an <tt>M x N</tt> matrix.
+ </LI>
+<LI>  <tt>xdatamode</tt> - <tt>{'auto','manual'}</tt> - When set to <tt>auto</tt> then FreeMat will
+ automatically generate the x coordinates.
+ </LI>
+<LI>  <tt>ydata</tt> - <tt>array</tt> - Must be a numeric array of size <tt>M x N</tt> which contains
+ the y location of each point in the defined surface. Must be the same size as <tt>xdata</tt>
+ and <tt>zdata</tt>.   Alternately, you can specify an array of size <tt>M x 1</tt> in which case
+ FreeMat replicates the vector to fill out an <tt>M x N</tt> matrix.
+ </LI>
+<LI>  <tt>ydatamode</tt> - <tt>{'auto','manual'}</tt> - When set to <tt>auto</tt> then FreeMat will
+ automatically generate the y coordinates.
+ </LI>
+<LI>  <tt>zdata</tt> - <tt>array</tt> - Must be a numeric array of size <tt>M x N</tt> which contains
+ the y location of each point in the defined surface. Must be the same size as <tt>xdata</tt>
+ and <tt>ydata</tt>.
+ </LI>
+<LI>  <tt>visible</tt> - <tt>{'on','off'}</tt> - Controls whether the surface is
+ visible or not.
+ </LI>
+</UL>
+*/

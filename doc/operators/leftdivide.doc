@@ -1,0 +1,103 @@
+/*!
+\page operators_leftdivide LEFTDIVIDE Matrix Equation Solver/Divide Operator
+
+<p>
+Section: \ref sec_operators "Mathematical Operators"
+\section Usage
+The divide operator <tt>\</tt> is really a combination of three
+operators, all of which have the same general syntax:
+\verbatim
+  Y = A \ B
+\endverbatim
+where <tt>A</tt> and <tt>B</tt> are arrays of numerical type.  The result <tt>Y</tt> depends
+on which of the following three situations applies to the arguments
+<tt>A</tt> and <tt>B</tt>:
+<OL>
+  <LI> <tt>A</tt> is a scalar, <tt>B</tt> is an arbitrary <tt>n</tt>-dimensional numerical array, in which case the output is each element of <tt>B</tt> divided by the scalar <tt>A</tt>.
+</LI>
+  <LI> <tt>A,B</tt> are matrices with the same number of rows, i.e., <tt>A</tt> is of size <tt>M x K</tt>, and <tt>B</tt> is of size <tt>M x L</tt>, in which case the output is of size <tt>K x L</tt>.
+</LI>
+</OL>
+The output follows the standard type promotion rules, although in the first two cases, if <tt>A</tt> and <tt>B</tt> are integers, the output is an integer also, while in the third case if <tt>A</tt> and <tt>B</tt> are integers, the output is of type <tt>double</tt>.
+
+A few additional words about the third version, in which <tt>A</tt> and <tt>B</tt> are matrices.  Very loosely speaking, <tt>Y</tt> is the matrix that satisfies \f$A * Y = B\f$.  In cases where such a matrix exists.  If such a matrix does not exist, then a matrix <tt>Y</tt> is returned that approximates \f$A * Y \approx B\f$.
+\section Function Internals
+There are three formulae for the times operator.  For the first form
+\f[
+Y(m_1,\ldots,m_d) = \frac{B(m_1,\ldots,m_d)}{A}.
+\f]
+In the second form, the calculation of the output depends on the size of <tt>A</tt>. Because each column of <tt>B</tt> is treated independantly, we can rewrite the equation \f$A Y = B\f$ as
+\f[
+  A [y_1, y_2,\ldots, y_l] = [b_1, b_2, \ldots, b_l]
+\f]
+where <tt>y_i</tt> are the columns of <tt>Y</tt>, and <tt>b_i</tt> are the columns of the matrix <tt>B</tt>. If <tt>A</tt> is a square matrix, then the LAPACK routine <tt>*gesvx</tt> (where the <tt>*</tt> is replaced with <tt>sdcz</tt> depending on the type of the arguments) is used, which uses an LU decomposition of <tt>A</tt> to solve the sequence of equations sequentially.  If <tt>A</tt> is singular, then a warning is emitted. 
+
+On the other hand, if <tt>A</tt> is rectangular, then the LAPACK routine <tt>*gelsy</tt> is used.  Note that these routines are designed to work with matrices <tt>A</tt> that are full rank - either full column rank or full row rank.  If <tt>A</tt> fails to satisfy this assumption, a warning is emitted.  If <tt>A</tt> has full column rank (and thus necessarily has more rows than columns), then theoretically, this operator finds the columns <tt>y_i</tt> that satisfy:
+\f[
+  y_i = \arg \min_y \| A y - b_i \|_2
+\f]
+and each column is thus the Least Squares solution of <tt>A y = b_i</tt>.  On the other hand, if <tt>A</tt> has full row rank (and thus necessarily has more columns than rows), then theoretically, this operator finds the columns <tt>y_i</tt> that satisfy
+\f[
+  y_i = \arg \min_{A y = b_i} \| y \|_2
+\f]
+and each column is thus the Minimum Norm vector <tt>y_i</tt> that satisfies \f$A y_i = b_i\f$.  
+In the event that the matrix <tt>A</tt> is neither full row rank nor full column rank, a solution is returned, that is the minimum norm least squares solution.  The solution is computed using an orthogonal factorization technique that is documented in the LAPACK User's Guide (see the References section for details).
+\section Examples
+Here are some simple examples of the divide operator.  We start with a simple example of a full rank, square matrix:
+
+\if FRAGMENT
+frag_operators_leftdivide_000.m
+0
+A = [1,1;0,1]
+\endif
+
+
+\verbinclude frag_operators_leftdivide_000.m.out 
+
+Suppose we wish to solve
+\f[
+  \begin{bmatrix} 1 & 1 \\ 0 & 1 \end{bmatrix}
+  \begin{bmatrix} y_1 \\ y_2 \end{bmatrix}
+ = 
+  \begin{bmatrix} 3 \\ 2 \end{bmatrix}
+\f]
+(which by inspection has the solution <tt>y_1 = 1</tt>, <tt>y_2 = 2</tt>).  Thus we compute:
+
+\if FRAGMENT
+frag_operators_leftdivide_001.m
+0
+B = [3;2]
+Y = A\B
+\endif
+
+
+\verbinclude frag_operators_leftdivide_001.m.out 
+
+
+Suppose we wish to solve a trivial Least Squares (LS) problem.  We want to find a simple scaling of the vector <tt>[1;1]</tt> that is closest to the point <tt>[2,1]</tt>.  This is equivalent to solving
+\f[
+\begin{bmatrix} 1 \\ 1 \end{bmatrix} y = \begin{bmatrix} 2 \\ 1 \end{bmatrix}
+\f]
+in a least squares sense.  For fun, we can calculate the solution using calculus by hand.  The error we wish to minimize is
+\f[
+  \varepsilon(y) = (y - 2)^2 + (y-1)^2.
+\f]
+Taking a derivative with respect to <tt>y</tt>, and setting to zero (which we must have for an extrema when <tt>y</tt> is unconstrained)
+\f[
+  2 (y-2) + 2 (y-1) = 0
+\f]
+which we can simplify to <tt>4y = 6</tt> or <tt>y = 3/2</tt> (we must, technically, check to make sure this is a minimum, and not a maximum or an inflection point).  Here is the same calculation performed using FreeMat:
+
+\if FRAGMENT
+frag_operators_leftdivide_002.m
+0
+A = [1;1]
+B = [2;1]
+A\B
+\endif
+
+
+\verbinclude frag_operators_leftdivide_002.m.out 
+
+which is the same solution.
+*/

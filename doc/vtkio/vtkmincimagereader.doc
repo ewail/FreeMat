@@ -1,0 +1,96 @@
+/*!
+\page vtkio_vtkmincimagereader vtkMINCImageReader
+
+<p>
+Section: \ref sec_vtkio "Visualization Toolkit IO Classes"
+\section Usage
+ MINC is a NetCDF-based medical image file format that was developed
+ at the Montreal Neurological Institute in 1992. 
+ This class will read a MINC file into VTK, rearranging the data to
+ match the VTK x, y, and z dimensions, and optionally rescaling
+ real-valued data to VTK_FLOAT if RescaleRealValuesOn() is set.
+ If RescaleRealValues is off, then the data will be stored in its
+ original data type and the GetRescaleSlope(), GetRescaleIntercept()
+ method can be used to retrieve global rescaling parameters.
+ If the original file had a time dimension, the SetTimeStep() method
+ can be used to specify a time step to read.
+ All of the original header information can be accessed though the
+ GetImageAttributes() method.
+
+To create an instance of class vtkMINCImageReader, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkMINCImageReader
+\endverbatim
+\section Methods
+The class vtkMINCImageReader has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkMINCImageReader class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkMINCImageReader = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkMINCImageReader = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetFileName (string name)</tt> -  Set the file name.
+ </LI>
+<LI>  <tt>string = obj.GetFileExtensions ()</tt> -  Get the name of this file format.
+ </LI>
+<LI>  <tt>string = obj.GetDescriptiveName ()</tt> -  Test whether the specified file can be read.
+ </LI>
+<LI>  <tt>int = obj.CanReadFile (string name)</tt> -  Test whether the specified file can be read.
+ </LI>
+<LI>  <tt>vtkMatrix4x4 = obj.GetDirectionCosines ()</tt> -  Get a matrix that describes the orientation of the data.
+ The three columns of the matrix are the direction cosines
+ for the x, y and z dimensions respectively.
+ </LI>
+<LI>  <tt>double = obj.GetRescaleSlope ()</tt> -  Get the slope and intercept for rescaling the scalar values
+ to real data values.  To convert scalar values to real values,
+ use the equation y = x*RescaleSlope + RescaleIntercept.
+ </LI>
+<LI>  <tt>double = obj.GetRescaleIntercept ()</tt> -  Get the slope and intercept for rescaling the scalar values
+ to real data values.  To convert scalar values to real values,
+ use the equation y = x*RescaleSlope + RescaleIntercept.
+ </LI>
+<LI>  <tt>obj.SetRescaleRealValues (int )</tt> -  Rescale real data values to float.  If this is done, the
+ RescaleSlope and RescaleIntercept will be set to 1 and 0
+ respectively.  This is off by default.
+ </LI>
+<LI>  <tt>obj.RescaleRealValuesOn ()</tt> -  Rescale real data values to float.  If this is done, the
+ RescaleSlope and RescaleIntercept will be set to 1 and 0
+ respectively.  This is off by default.
+ </LI>
+<LI>  <tt>obj.RescaleRealValuesOff ()</tt> -  Rescale real data values to float.  If this is done, the
+ RescaleSlope and RescaleIntercept will be set to 1 and 0
+ respectively.  This is off by default.
+ </LI>
+<LI>  <tt>int = obj.GetRescaleRealValues ()</tt> -  Rescale real data values to float.  If this is done, the
+ RescaleSlope and RescaleIntercept will be set to 1 and 0
+ respectively.  This is off by default.
+ </LI>
+<LI>  <tt>double = obj.GetDataRange ()</tt> -  Get the scalar range of the output from the information in
+ the file header.  This is more efficient that computing the
+ scalar range, but in some cases the MINC file stores an
+ incorrect valid_range and the DataRange will be incorrect.
+ </LI>
+<LI>  <tt>obj.GetDataRange (double range[2])</tt> -  Get the scalar range of the output from the information in
+ the file header.  This is more efficient that computing the
+ scalar range, but in some cases the MINC file stores an
+ incorrect valid_range and the DataRange will be incorrect.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfTimeSteps ()</tt> -  Get the number of time steps in the file.
+ </LI>
+<LI>  <tt>obj.SetTimeStep (int )</tt> -  Set the time step to read.
+ </LI>
+<LI>  <tt>int = obj.GetTimeStep ()</tt> -  Set the time step to read.
+ </LI>
+<LI>  <tt>vtkMINCImageAttributes = obj.GetImageAttributes ()</tt> -  Get the image attributes, which contain patient information and
+ other useful metadata.
+ </LI>
+</UL>
+*/

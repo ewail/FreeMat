@@ -1,0 +1,90 @@
+
+ Usage
+
+Provides low-level access to GPU memory. Used to pass raw
+data to GPU. The data is uploaded into a pixel buffer.
+To create an instance of class vtkPixelBufferObject, simply
+invoke its constructor as follows
+
+    obj = vtkPixelBufferObject
+
+
+
+ Methods
+
+The class vtkPixelBufferObject has several methods that can
+be used. They are listed below. Note that the documentation
+is translated automatically from the VTK sources, and may
+not be completely intelligible. When in doubt, consult the
+VTK website. In the methods listed below, obj is an instance
+of the vtkPixelBufferObject class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkPixelBufferObject = obj.NewInstance ()
+* vtkPixelBufferObject = obj.SafeDownCast (vtkObject o)
+* obj.SetContext (vtkRenderWindow context) - Get/Set the
+  context. Context must be a vtkOpenGLRenderWindow. This
+  does not increase the reference count of the context to
+  avoid reference loops. SetContext() may raise an error is
+  the OpenGL context does not support the required OpenGL
+  extensions.
+* vtkRenderWindow = obj.GetContext () - Get/Set the context.
+  Context must be a vtkOpenGLRenderWindow. This does not
+  increase the reference count of the context to avoid
+  reference loops. SetContext() may raise an error is the
+  OpenGL context does not support the required OpenGL
+  extensions.
+* int = obj.GetUsage () - Usage is a performance hint. Valid
+  values are:
+
+  o StreamDraw specified once by A, used few times S
+  o StreamRead specified once by R, queried a few times by A
+  o StreamCopy specified once by R, used a few times S
+  o StaticDraw specified once by A, used many times S
+  o StaticRead specificed once by R, queried many times by A
+  o StaticCopy specified once by R, used many times S
+  o DynamicDraw respecified repeatedly by A, used many times
+    S
+  o DynamicRead respecified repeatedly by R, queried many
+    times by A
+  o DynamicCopy respecified repeatedly by R, used many times
+    S A: the application S: as the source for GL drawing and
+    image specification commands. R: reading data from the
+    GL Initial value is StaticDraw, as in OpenGL spec.
+
+* obj.SetUsage (int ) - Usage is a performance hint. Valid
+  values are:
+
+  o StreamDraw specified once by A, used few times S
+  o StreamRead specified once by R, queried a few times by A
+  o StreamCopy specified once by R, used a few times S
+  o StaticDraw specified once by A, used many times S
+  o StaticRead specificed once by R, queried many times by A
+  o StaticCopy specified once by R, used many times S
+  o DynamicDraw respecified repeatedly by A, used many times
+    S
+  o DynamicRead respecified repeatedly by R, queried many
+    times by A
+  o DynamicCopy respecified repeatedly by R, used many times
+    S A: the application S: as the source for GL drawing and
+    image specification commands. R: reading data from the
+    GL Initial value is StaticDraw, as in OpenGL spec.
+
+* int = obj.GetType () - Get the type with which the data is
+  loaded into the GPU. eg. VTK_FLOAT for float32, VTK_CHAR
+  for byte, VTK_UNSIGNED_CHAR for unsigned byte etc.
+* int = obj.GetSize () - Get the size of the data loaded
+  into the GPU. Size is in the number of elements of the
+  uploaded Type.
+* int = obj.GetHandle () - Get the openGL buffer handle.
+* obj.BindToPackedBuffer ()
+* obj.BindToUnPackedBuffer () - Inactivate the buffer.
+* obj.UnBind () - Inactivate the buffer.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Rendering_Classes
+* Generated on Thu Jul 25 2013 17:18:35 for FreeMat by
+  doxygen_ 1.8.1.1
+

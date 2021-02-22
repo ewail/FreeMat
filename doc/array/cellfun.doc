@@ -1,0 +1,52 @@
+/*!
+\page array_cellfun CELLFUN Appy a Function To Elements of a Cell Array
+
+<p>
+Section: \ref sec_array "Array Generation and Manipulations"
+\section Usage
+The <tt>cellfun</tt> function is used to apply a function handle
+(or anonymous function) to each element of a cell array and to
+collect the outputs into an array.  The general syntax for its
+use is 
+\verbatim
+   y = cellfun(fun, x)
+\endverbatim
+where <tt>x</tt> is an N-dimensional array.  In this case, each
+element of the output <tt>y_i</tt> is defined as <tt>fun(x{i})</tt>.  You can
+also supply multiple arguments to <tt>cellfun</tt>, provided all of the
+arguments are the same size
+\verbatim
+   y = cellfun(fun, x, z, ...)
+\endverbatim
+in which case each output <tt>y_i</tt> is defined as <tt>fun(x{i},z{i},...)</tt>.
+Note that unlike <tt>arrayfun</tt>, the <tt>cellfun</tt> function will allow for
+different types (if there are overloaded versions of the function
+<tt>fun</tt>) for each element.
+
+If the function returns multiple outputs, then <tt>arrayfun</tt> can be
+called with multiple outputs, in which case each output goes to
+a separate array output
+\verbatim
+   [y1,y2,...] = cellfun(fun, x, z, ...)
+\endverbatim
+The assumption is that the output types for each call to <tt>fun</tt> is
+the same across the inputs.
+
+Finally, some hints can be provided to <tt>cellfun</tt> using the syntax
+\verbatim
+   [y1,y2,...] = cellfun(fun, x, z, ..., 'param', value, 'param', value)
+\endverbatim
+where <tt>param</tt> and <tt>value</tt> take on the following possible values:
+<UL>
+<LI>  <tt>'UniformOutput'</tt> - if the <tt>value</tt> is <tt>true</tt> then each output of <tt>fun</tt>
+   must be a scalar, and the outputs are concatenated into an array the same size
+   as the input arrays.  If the <tt>value</tt> is <tt>false</tt> then the outputs are encapsulated
+   into a cell array, with each entry in the cell array containing the call to 
+   <tt>fun(x_i,z_i,...)</tt>.
+ </LI>
+<LI>  <tt>'ErrorHandler'</tt> - in this case <tt>value</tt> is a function handle that gets called
+  when <tt>fun</tt> throws an error.  If <tt>'ErrorHandler'</tt> is not specified, then <tt>arrayfun</tt>
+  allows the error to propogate (i.e., and exception is thrown).
+ </LI>
+</UL>
+*/

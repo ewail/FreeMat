@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkfiltering_vtkgenericdataset" kind="page">
+    <compoundname>vtkfiltering_vtkgenericdataset</compoundname>
+    <title>vtkGenericDataSet</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkfiltering_1sec_vtkfiltering" kindref="member">Visualization Toolkit Filtering Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>In VTK, spatial-temporal data is defined in terms of a dataset. The dataset consists of geometry (e.g., points), topology (e.g., cells), and attributes (e.g., scalars, vectors, etc.) vtkGenericDataSet is an abstract class defining this abstraction.</para><para>Since vtkGenericDataSet provides a general interface to manipulate data, algorithms that process it tend to be slower than those specialized for a particular data type. For this reason, there are concrete, non-abstract subclasses that represent and provide access to data more efficiently. Note that filters to process this dataset type are currently found in the VTK/GenericFiltering/ subdirectory.</para><para>Unlike the vtkDataSet class, vtkGenericDataSet provides a more flexible interface including support for iterators. vtkGenericDataSet is also designed to interface VTK to external simulation packages without the penalty of copying memory (see VTK/GenericFiltering/README.html) for more information. Thus vtkGenericDataSet plays a central role in the adaptor framework.</para><para>Please note that this class introduces the concepts of &quot;boundary cells&quot;. This refers to the boundaries of a cell (e.g., face of a tetrahedron) which may in turn be represented as a cell. Boundary cells are derivative topological features of cells, and are therefore never explicitly represented in the dataset. Often in visualization algorithms, looping over boundaries (edges or faces) is employed, while the actual dataset cells may not traversed. Thus there are methods to loop over these boundary cells.</para><para>Finally, as a point of clarification, points are not the same as vertices. Vertices refer to points, and points specify a position is space. Vertices are a type of 0-D cell. Also, the concept of a DOFNode, which is where coefficients for higher-order cells are kept, is a new concept introduced by the adaptor framework (see vtkGenericAdaptorCell for more information).</para><para>To create an instance of class vtkGenericDataSet, simply invoke its constructor as follows <verbatim>  obj = vtkGenericDataSet
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkGenericDataSet has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkGenericDataSet class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput> - Standard VTK type and print macros.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput> - Standard VTK type and print macros.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkGenericDataSet = obj.NewInstance ()</computeroutput> - Standard VTK type and print macros.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkGenericDataSet = obj.SafeDownCast (vtkObject o)</computeroutput> - Standard VTK type and print macros.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkIdType = obj.GetNumberOfPoints ()</computeroutput> - Return the number of points composing the dataset. See NewPointIterator() for more details. <simplesect kind="post"><para>positive_result: result&gt;=0  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>vtkIdType = obj.GetNumberOfCells (int dim)</computeroutput> - Return the number of cells that explicitly define the dataset. See NewCellIterator() for more details. <simplesect kind="pre"><para>valid_dim_range: (dim&gt;=-1) &amp;&amp; (dim&lt;=3) </para></simplesect>
+<simplesect kind="post"><para>positive_result: result&gt;=0  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetCellDimension ()</computeroutput> - Return -1 if the dataset is explicitly defined by cells of varying dimensions or if there are no cells. If the dataset is explicitly defined by cells of a unique dimension, return this dimension. <simplesect kind="post"><para>valid_range: (result&gt;=-1) &amp;&amp; (result&lt;=3)  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.GetCellTypes (vtkCellTypes types)</computeroutput> - Get a list of types of cells in a dataset. The list consists of an array of types (not necessarily in any order), with a single entry per type. For example a dataset 5 triangles, 3 lines, and 100 hexahedra would result a list of three entries, corresponding to the types VTK_TRIANGLE, VTK_LINE, and VTK_HEXAHEDRON. THIS METHOD IS THREAD SAFE IF FIRST CALLED FROM A SINGLE THREAD AND THE DATASET IS NOT MODIFIED <simplesect kind="pre"><para>types_exist: types!=0  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>vtkGenericCellIterator = obj.NewCellIterator (int dim)</computeroutput> - Return an iterator to traverse cells of dimension `dim&apos; (or all dimensions if -1) that explicitly define the dataset. For instance, it will return only tetrahedra if the mesh is defined by tetrahedra. If the mesh is composed of two parts, one with tetrahedra and another part with triangles, it will return both, but will not return the boundary edges and vertices of these cells. The user is responsible for deleting the iterator. <simplesect kind="pre"><para>valid_dim_range: (dim&gt;=-1) &amp;&amp; (dim&lt;=3) </para></simplesect>
+<simplesect kind="post"><para>result_exists: result!=0  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>vtkGenericCellIterator = obj.NewBoundaryIterator (int dim, int exteriorOnly)</computeroutput> - Return an iterator to traverse cell boundaries of dimension `dim&apos; (or all dimensions if -1) of the dataset. If `exteriorOnly&apos; is true, only the exterior cell boundaries of the dataset will be returned, otherwise it will return exterior and interior cell boundaries. The user is responsible for deleting the iterator. <simplesect kind="pre"><para>valid_dim_range: (dim&gt;=-1) &amp;&amp; (dim&lt;=2) </para></simplesect>
+<simplesect kind="post"><para>result_exists: result!=0  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>vtkGenericPointIterator = obj.NewPointIterator ()</computeroutput> - Return an iterator to traverse the points composing the dataset; they can be points that define a cell (corner points) or isolated points. The user is responsible for deleting the iterator. <simplesect kind="post"><para>result_exists: result!=0  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.FindPoint (double x[3], vtkGenericPointIterator p)</computeroutput> - Locate the closest point `p&apos; to position `x&apos; (global coordinates). <simplesect kind="pre"><para>not_empty: GetNumberOfPoints()&gt;0 </para><simplesectsep/><para>p_exists: p!=0  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>long = obj.GetMTime ()</computeroutput> - Datasets are composite objects and need to check each part for their modified time.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ComputeBounds ()</computeroutput> - Compute the geometry bounding box.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GetBounds (double bounds[6])</computeroutput> - Return the geometry bounding box in global coordinates in the form (xmin,xmax, ymin,ymax, zmin,zmax) in the `bounds&apos; array.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GetCenter (double center[3])</computeroutput> - Get the center of the bounding box in global coordinates.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetLength ()</computeroutput> - Return the length of the diagonal of the bounding box. <simplesect kind="post"><para>positive_result: result&gt;=0  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>vtkGenericAttributeCollection = obj.GetAttributes ()</computeroutput> - Get the collection of attributes associated with this dataset.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkDataSetAttributes = obj.GetAttributes (int type)</computeroutput> - Set/Get a cell tessellator if cells must be tessellated during processing. <simplesect kind="pre"><para>tessellator_exists: tessellator!=0  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.SetTessellator (vtkGenericCellTessellator tessellator)</computeroutput> - Set/Get a cell tessellator if cells must be tessellated during processing. <simplesect kind="pre"><para>tessellator_exists: tessellator!=0  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>vtkGenericCellTessellator = obj.GetTessellator ()</computeroutput> - Set/Get a cell tessellator if cells must be tessellated during processing. <simplesect kind="pre"><para>tessellator_exists: tessellator!=0  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>long = obj.GetActualMemorySize ()</computeroutput> - Actual size of the data in kilobytes; only valid after the pipeline has updated. It is guaranteed to be greater than or equal to the memory required to represent the data.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetDataObjectType ()</computeroutput> - Return the type of data object.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkIdType = obj.GetEstimatedSize ()</computeroutput> - Estimated size needed after tessellation (or special operation)  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

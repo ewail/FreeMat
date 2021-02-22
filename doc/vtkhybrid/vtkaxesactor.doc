@@ -1,0 +1,216 @@
+/*!
+\page vtkhybrid_vtkaxesactor vtkAxesActor
+
+<p>
+Section: \ref sec_vtkhybrid "Visualization Toolkit Hybrid Classes"
+\section Usage
+ vtkAxesActor is a hybrid 2D/3D actor used to represent 3D axes in a scene.
+ The user can define the geometry to use for the shaft or the tip, and the
+ user can set the text for the three axes. The text will appear to follow the
+ camera since it is implemented by means of vtkCaptionActor2D.  All of the
+ functionality of the underlying vtkCaptionActor2D objects are accessable so
+ that, for instance, the font attributes of the axes text can be manipulated
+ through vtkTextProperty. Since this class inherits from vtkProp3D, one can
+ apply a user transform to the underlying geometry and the positioning of the
+ labels. For example, a rotation transform could be used to generate a
+ left-handed axes representation.
+
+To create an instance of class vtkAxesActor, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkAxesActor
+\endverbatim
+\section Methods
+The class vtkAxesActor has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkAxesActor class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkAxesActor = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkAxesActor = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.GetActors (vtkPropCollection )</tt> -  For some exporters and other other operations we must be
+ able to collect all the actors or volumes. These methods
+ are used in that process.
+ </LI>
+<LI>  <tt>int = obj.RenderOpaqueGeometry (vtkViewport viewport)</tt> -  Support the standard render methods.
+ </LI>
+<LI>  <tt>int = obj.RenderTranslucentPolygonalGeometry (vtkViewport viewport)</tt> -  Support the standard render methods.
+ </LI>
+<LI>  <tt>int = obj.RenderOverlay (vtkViewport viewport)</tt> -  Support the standard render methods.
+ </LI>
+<LI>  <tt>int = obj.HasTranslucentPolygonalGeometry ()</tt> -  Does this prop have some translucent polygonal geometry?
+ </LI>
+<LI>  <tt>obj.ShallowCopy (vtkProp prop)</tt> -  Shallow copy of an axes actor. Overloads the virtual vtkProp method.
+ </LI>
+<LI>  <tt>obj.ReleaseGraphicsResources (vtkWindow )</tt> -  Release any graphics resources that are being consumed by this actor.
+ The parameter window could be used to determine which graphic
+ resources to release.
+ </LI>
+<LI>  <tt>obj.GetBounds (double bounds[6])</tt> -  Get the bounds for this Actor as (Xmin,Xmax,Ymin,Ymax,Zmin,Zmax). (The
+ method GetBounds(double bounds[6]) is available from the superclass.)
+ </LI>
+<LI>  <tt>double = obj.GetBounds ()</tt> -  Get the bounds for this Actor as (Xmin,Xmax,Ymin,Ymax,Zmin,Zmax). (The
+ method GetBounds(double bounds[6]) is available from the superclass.)
+ </LI>
+<LI>  <tt>long = obj.GetMTime ()</tt> -  Get the actors mtime plus consider its properties and texture if set.
+ </LI>
+<LI>  <tt>long = obj.GetRedrawMTime ()</tt> -  Return the mtime of anything that would cause the rendered image to 
+ appear differently. Usually this involves checking the mtime of the 
+ prop plus anything else it depends on such as properties, textures
+ etc.
+ </LI>
+<LI>  <tt>obj.SetTotalLength (double v[3])</tt> -  Set the total length of the axes in 3 dimensions.
+ </LI>
+<LI>  <tt>obj.SetTotalLength (double x, double y, double z)</tt> -  Set the total length of the axes in 3 dimensions.
+ </LI>
+<LI>  <tt>double = obj. GetTotalLength ()</tt> -  Set the total length of the axes in 3 dimensions.
+ </LI>
+<LI>  <tt>obj.SetNormalizedShaftLength (double v[3])</tt> -  Set the normalized (0-1) length of the shaft.
+ </LI>
+<LI>  <tt>obj.SetNormalizedShaftLength (double x, double y, double z)</tt> -  Set the normalized (0-1) length of the shaft.
+ </LI>
+<LI>  <tt>double = obj. GetNormalizedShaftLength ()</tt> -  Set the normalized (0-1) length of the shaft.
+ </LI>
+<LI>  <tt>obj.SetNormalizedTipLength (double v[3])</tt> -  Set the normalized (0-1) length of the tip.  Normally, this would be
+ 1 - the normalized length of the shaft.
+ </LI>
+<LI>  <tt>obj.SetNormalizedTipLength (double x, double y, double z)</tt> -  Set the normalized (0-1) length of the tip.  Normally, this would be
+ 1 - the normalized length of the shaft.
+ </LI>
+<LI>  <tt>double = obj. GetNormalizedTipLength ()</tt> -  Set the normalized (0-1) length of the tip.  Normally, this would be
+ 1 - the normalized length of the shaft.
+ </LI>
+<LI>  <tt>obj.SetNormalizedLabelPosition (double v[3])</tt> -  Set the normalized (0-1) position of the label along the length of
+ the shaft.  A value > 1 is permissible.
+ </LI>
+<LI>  <tt>obj.SetNormalizedLabelPosition (double x, double y, double z)</tt> -  Set the normalized (0-1) position of the label along the length of
+ the shaft.  A value > 1 is permissible.
+ </LI>
+<LI>  <tt>double = obj. GetNormalizedLabelPosition ()</tt> -  Set the normalized (0-1) position of the label along the length of
+ the shaft.  A value > 1 is permissible.
+ </LI>
+<LI>  <tt>obj.SetConeResolution (int )</tt> -  Set/get the resolution of the pieces of the axes actor.
+ </LI>
+<LI>  <tt>int = obj.GetConeResolutionMinValue ()</tt> -  Set/get the resolution of the pieces of the axes actor.
+ </LI>
+<LI>  <tt>int = obj.GetConeResolutionMaxValue ()</tt> -  Set/get the resolution of the pieces of the axes actor.
+ </LI>
+<LI>  <tt>int = obj.GetConeResolution ()</tt> -  Set/get the resolution of the pieces of the axes actor.
+ </LI>
+<LI>  <tt>obj.SetSphereResolution (int )</tt> -  Set/get the resolution of the pieces of the axes actor.
+ </LI>
+<LI>  <tt>int = obj.GetSphereResolutionMinValue ()</tt> -  Set/get the resolution of the pieces of the axes actor.
+ </LI>
+<LI>  <tt>int = obj.GetSphereResolutionMaxValue ()</tt> -  Set/get the resolution of the pieces of the axes actor.
+ </LI>
+<LI>  <tt>int = obj.GetSphereResolution ()</tt> -  Set/get the resolution of the pieces of the axes actor.
+ </LI>
+<LI>  <tt>obj.SetCylinderResolution (int )</tt> -  Set/get the resolution of the pieces of the axes actor.
+ </LI>
+<LI>  <tt>int = obj.GetCylinderResolutionMinValue ()</tt> -  Set/get the resolution of the pieces of the axes actor.
+ </LI>
+<LI>  <tt>int = obj.GetCylinderResolutionMaxValue ()</tt> -  Set/get the resolution of the pieces of the axes actor.
+ </LI>
+<LI>  <tt>int = obj.GetCylinderResolution ()</tt> -  Set/get the resolution of the pieces of the axes actor.
+ </LI>
+<LI>  <tt>obj.SetConeRadius (double )</tt> -  Set/get the radius of the pieces of the axes actor.
+ </LI>
+<LI>  <tt>double = obj.GetConeRadiusMinValue ()</tt> -  Set/get the radius of the pieces of the axes actor.
+ </LI>
+<LI>  <tt>double = obj.GetConeRadiusMaxValue ()</tt> -  Set/get the radius of the pieces of the axes actor.
+ </LI>
+<LI>  <tt>double = obj.GetConeRadius ()</tt> -  Set/get the radius of the pieces of the axes actor.
+ </LI>
+<LI>  <tt>obj.SetSphereRadius (double )</tt> -  Set/get the radius of the pieces of the axes actor.
+ </LI>
+<LI>  <tt>double = obj.GetSphereRadiusMinValue ()</tt> -  Set/get the radius of the pieces of the axes actor.
+ </LI>
+<LI>  <tt>double = obj.GetSphereRadiusMaxValue ()</tt> -  Set/get the radius of the pieces of the axes actor.
+ </LI>
+<LI>  <tt>double = obj.GetSphereRadius ()</tt> -  Set/get the radius of the pieces of the axes actor.
+ </LI>
+<LI>  <tt>obj.SetCylinderRadius (double )</tt> -  Set/get the radius of the pieces of the axes actor.
+ </LI>
+<LI>  <tt>double = obj.GetCylinderRadiusMinValue ()</tt> -  Set/get the radius of the pieces of the axes actor.
+ </LI>
+<LI>  <tt>double = obj.GetCylinderRadiusMaxValue ()</tt> -  Set/get the radius of the pieces of the axes actor.
+ </LI>
+<LI>  <tt>double = obj.GetCylinderRadius ()</tt> -  Set/get the radius of the pieces of the axes actor.
+ </LI>
+<LI>  <tt>obj.SetShaftType (int type)</tt> -  Set the type of the shaft to a cylinder, line, or user defined geometry.
+ </LI>
+<LI>  <tt>obj.SetShaftTypeToCylinder ()</tt> -  Set the type of the shaft to a cylinder, line, or user defined geometry.
+ </LI>
+<LI>  <tt>obj.SetShaftTypeToLine ()</tt> -  Set the type of the shaft to a cylinder, line, or user defined geometry.
+ </LI>
+<LI>  <tt>obj.SetShaftTypeToUserDefined ()</tt> -  Set the type of the shaft to a cylinder, line, or user defined geometry.
+ </LI>
+<LI>  <tt>int = obj.GetShaftType ()</tt> -  Set the type of the shaft to a cylinder, line, or user defined geometry.
+ </LI>
+<LI>  <tt>obj.SetTipType (int type)</tt> -  Set the type of the tip to a cone, sphere, or user defined geometry.
+ </LI>
+<LI>  <tt>obj.SetTipTypeToCone ()</tt> -  Set the type of the tip to a cone, sphere, or user defined geometry.
+ </LI>
+<LI>  <tt>obj.SetTipTypeToSphere ()</tt> -  Set the type of the tip to a cone, sphere, or user defined geometry.
+ </LI>
+<LI>  <tt>obj.SetTipTypeToUserDefined ()</tt> -  Set the type of the tip to a cone, sphere, or user defined geometry.
+ </LI>
+<LI>  <tt>int = obj.GetTipType ()</tt> -  Set the type of the tip to a cone, sphere, or user defined geometry.
+ </LI>
+<LI>  <tt>obj.SetUserDefinedTip (vtkPolyData )</tt> -  Set the user defined tip polydata.
+ </LI>
+<LI>  <tt>vtkPolyData = obj.GetUserDefinedTip ()</tt> -  Set the user defined tip polydata.
+ </LI>
+<LI>  <tt>obj.SetUserDefinedShaft (vtkPolyData )</tt> -  Set the user defined shaft polydata.
+ </LI>
+<LI>  <tt>vtkPolyData = obj.GetUserDefinedShaft ()</tt> -  Set the user defined shaft polydata.
+ </LI>
+<LI>  <tt>vtkProperty = obj.GetXAxisTipProperty ()</tt> -  Get the tip properties.
+ </LI>
+<LI>  <tt>vtkProperty = obj.GetYAxisTipProperty ()</tt> -  Get the tip properties.
+ </LI>
+<LI>  <tt>vtkProperty = obj.GetZAxisTipProperty ()</tt> -  Get the tip properties.
+ </LI>
+<LI>  <tt>vtkProperty = obj.GetXAxisShaftProperty ()</tt> -  Get the shaft properties.
+ </LI>
+<LI>  <tt>vtkProperty = obj.GetYAxisShaftProperty ()</tt> -  Get the shaft properties.
+ </LI>
+<LI>  <tt>vtkProperty = obj.GetZAxisShaftProperty ()</tt> -  Get the shaft properties.
+ </LI>
+<LI>  <tt>vtkCaptionActor2D = obj.GetXAxisCaptionActor2D ()</tt> -  Retrieve handles to the X, Y and Z axis (so that you can set their text
+ properties for example)
+ </LI>
+<LI>  <tt>vtkCaptionActor2D = obj.GetYAxisCaptionActor2D ()</tt> -  Retrieve handles to the X, Y and Z axis (so that you can set their text
+ properties for example)
+ </LI>
+<LI>  <tt>vtkCaptionActor2D = obj.GetZAxisCaptionActor2D ()</tt> -  Set/get the label text.
+ </LI>
+<LI>  <tt>obj.SetXAxisLabelText (string )</tt> -  Set/get the label text.
+ </LI>
+<LI>  <tt>string = obj.GetXAxisLabelText ()</tt> -  Set/get the label text.
+ </LI>
+<LI>  <tt>obj.SetYAxisLabelText (string )</tt> -  Set/get the label text.
+ </LI>
+<LI>  <tt>string = obj.GetYAxisLabelText ()</tt> -  Set/get the label text.
+ </LI>
+<LI>  <tt>obj.SetZAxisLabelText (string )</tt> -  Set/get the label text.
+ </LI>
+<LI>  <tt>string = obj.GetZAxisLabelText ()</tt> -  Set/get the label text.
+ </LI>
+<LI>  <tt>obj.SetAxisLabels (int )</tt> -  Enable/disable drawing the axis labels.
+ </LI>
+<LI>  <tt>int = obj.GetAxisLabels ()</tt> -  Enable/disable drawing the axis labels.
+ </LI>
+<LI>  <tt>obj.AxisLabelsOn ()</tt> -  Enable/disable drawing the axis labels.
+ </LI>
+<LI>  <tt>obj.AxisLabelsOff ()</tt> -  Enable/disable drawing the axis labels.
+ </LI>
+</UL>
+*/

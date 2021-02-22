@@ -1,0 +1,526 @@
+/*!
+\page vtkhybrid_vtklsdynareader vtkLSDynaReader
+
+<p>
+Section: \ref sec_vtkhybrid "Visualization Toolkit Hybrid Classes"
+\section Usage
+ This filter reads LS-Dyna databases.
+
+ The Set/GetFileName() routines are actually wrappers around the
+ Set/GetDatabaseDirectory() members; the actual filename you choose is
+ irrelevant -- only the directory name is used.  This is done in order to
+ accommodate ParaView.
+
+ Note that this reader produces 7 output meshes.
+ These meshes are required as several attributes are defined on subsets
+ of the mesh.  Below is a list of meshes in the order they are output and
+ an explanation of which attributes are unique to each mesh:
+ - solid (3D) elements: number of integration points are different than 2D
+ - thick shell elements: number of integration points are different than 
+ planar 2D
+ - shell (2D) elements: number of integration points are different than 3D
+ - rigid surfaces: can't have deflection, only velocity, accel, etc.
+ - road surfaces: have only a "segment ID" (serves as material ID) and a 
+ velocity.
+ - beam elements: have Frenet (TNB) frame and cross-section attributes 
+ (shape and size)
+ - spherical particle hydrodynamics (SPH) elements: have a radius of 
+ influence, internal energy, etc.
+ Because each mesh has its own cell attributes, the vtkLSDynaReader has a
+ rather large API.  Instead of a single set of routines to query and set
+ cell array names and status, one exists for each possible output mesh.
+ Also, GetNumberOfCells() will return the sum of all the cells in all 7
+ meshes.  If you want the number of cells in a specific mesh, there are
+ separate routines for each mesh type.
+
+ .SECTION "Developer Notes"
+
+To create an instance of class vtkLSDynaReader, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkLSDynaReader
+\endverbatim
+\section Methods
+The class vtkLSDynaReader has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkLSDynaReader class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkLSDynaReader = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkLSDynaReader = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.DebugDump ()</tt> -  A routine to call Dump() from within a lame debugger that won't
+ properly pass a C++ iostream object like cout.
+ </LI>
+<LI>  <tt>int = obj.CanReadFile (string fname)</tt> -  Determine if the file can be readed with this reader.
+ </LI>
+<LI>  <tt>obj.SetDatabaseDirectory (string )</tt> -  Get/Set the directory containing the LS-Dyna database and determine
+ whether it is valid.
+ </LI>
+<LI>  <tt>string = obj.GetDatabaseDirectory ()</tt> -  Get/Set the directory containing the LS-Dyna database and determine
+ whether it is valid.
+ </LI>
+<LI>  <tt>int = obj.IsDatabaseValid ()</tt> -  Get/Set the directory containing the LS-Dyna database and determine
+ whether it is valid.
+ </LI>
+<LI>  <tt>obj.SetFileName (string )</tt> -  Get/Set the filename. The Set/GetFileName() routines are actually
+ wrappers around the Set/GetDatabaseDirectory() members; the actual
+ filename you choose is irrelevant -- only the directory name is used.
+ This is done in order to accommodate ParaView.
+ </LI>
+<LI>  <tt>string = obj.GetFileName ()</tt> -  Get/Set the filename. The Set/GetFileName() routines are actually
+ wrappers around the Set/GetDatabaseDirectory() members; the actual
+ filename you choose is irrelevant -- only the directory name is used.
+ This is done in order to accommodate ParaView.
+ </LI>
+<LI>  <tt>string = obj.GetTitle ()</tt> -  The title of the database is a 40 or 80 character text description
+ stored at the front of a d3plot file.  Do not call this function
+ before setting the database directory and calling UpdateInformation().
+ </LI>
+<LI>  <tt>int = obj.GetDimensionality ()</tt> -  Retrieve the dimension of points in the database. This should return 2
+ or 3.  Do not call this function before setting the database directory
+ and calling UpdateInformation().
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetNumberOfNodes ()</tt> -  Retrieve the number of points in the database.  Do not call this
+ function before setting the database directory and calling
+ UpdateInformation().
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetNumberOfCells ()</tt> -  Retrieve the number of cells of a given type in the database.  Do not
+ call this function before setting the database directory and calling
+ UpdateInformation().
+
+ Note that GetNumberOfCells() returns the sum of
+ GetNumberOfContinuumCells() and GetNumberOfParticleCells().
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetNumberOfContinuumCells ()</tt> -  Retrieve the number of cells of a given type in the database.  Do not
+ call this function before setting the database directory and calling
+ UpdateInformation().
+
+ Note that GetNumberOfContinuumCells() returns the sum of
+ GetNumberOfSolidCells(), GetNumberOfThickShellCells(),
+ GetNumberOfShellCells(), GetNumberOfRigidBodyCells(),
+ GetNumberOfRoadSurfaceCells(), and GetNumberOfBeamCells().
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetNumberOfSolidCells ()</tt> -  Retrieve the number of cells of a given type in the database.  Do not
+ call this function before setting the database directory and calling
+ UpdateInformation().
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetNumberOfThickShellCells ()</tt> -  Retrieve the number of cells of a given type in the database.  Do not
+ call this function before setting the database directory and calling
+ UpdateInformation().
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetNumberOfShellCells ()</tt> -  Retrieve the number of cells of a given type in the database.  Do not
+ call this function before setting the database directory and calling
+ UpdateInformation().
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetNumberOfRigidBodyCells ()</tt> -  Retrieve the number of cells of a given type in the database.  Do not
+ call this function before setting the database directory and calling
+ UpdateInformation().
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetNumberOfRoadSurfaceCells ()</tt> -  Retrieve the number of cells of a given type in the database.  Do not
+ call this function before setting the database directory and calling
+ UpdateInformation().
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetNumberOfBeamCells ()</tt> -  Retrieve the number of cells of a given type in the database.
+ Do not call this function before setting the database directory and calling UpdateInformation().
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetNumberOfParticleCells ()</tt> -  Retrieve the number of cells of a given type in the database.  Do not
+ call this function before setting the database directory and calling
+ UpdateInformation().
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetNumberOfTimeSteps ()</tt> -  Retrieve information about the time extents of the LS-Dyna database.
+ Do not call these functions before setting the database directory and
+ calling UpdateInformation().
+ </LI>
+<LI>  <tt>obj.SetTimeStep (vtkIdType )</tt> -  Retrieve information about the time extents of the LS-Dyna database.
+ Do not call these functions before setting the database directory and
+ calling UpdateInformation().
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetTimeStep ()</tt> -  Retrieve information about the time extents of the LS-Dyna database.
+ Do not call these functions before setting the database directory and
+ calling UpdateInformation().
+ </LI>
+<LI>  <tt>double = obj.GetTimeValue (vtkIdType )</tt> -  Retrieve information about the time extents of the LS-Dyna database.
+ Do not call these functions before setting the database directory and
+ calling UpdateInformation().
+ </LI>
+<LI>  <tt>int = obj. GetTimeStepRange ()</tt> -  Retrieve information about the time extents of the LS-Dyna database.
+ Do not call these functions before setting the database directory and
+ calling UpdateInformation().
+ </LI>
+<LI>  <tt>obj.SetTimeStepRange (int , int )</tt> -  Retrieve information about the time extents of the LS-Dyna database.
+ Do not call these functions before setting the database directory and
+ calling UpdateInformation().
+ </LI>
+<LI>  <tt>obj.SetTimeStepRange (int  a[2])</tt> -  Retrieve information about the time extents of the LS-Dyna database.
+ Do not call these functions before setting the database directory and
+ calling UpdateInformation().
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfPointArrays ()</tt> -  These methods allow you to load only selected subsets of the nodal
+ variables defined over the mesh.
+ </LI>
+<LI>  <tt>string = obj.GetPointArrayName (int )</tt> -  These methods allow you to load only selected subsets of the nodal
+ variables defined over the mesh.
+ </LI>
+<LI>  <tt>obj.SetPointArrayStatus (int arr, int status)</tt> -  These methods allow you to load only selected subsets of the nodal
+ variables defined over the mesh.
+ </LI>
+<LI>  <tt>obj.SetPointArrayStatus (string arrName, int status)</tt> -  These methods allow you to load only selected subsets of the nodal
+ variables defined over the mesh.
+ </LI>
+<LI>  <tt>int = obj.GetPointArrayStatus (int arr)</tt> -  These methods allow you to load only selected subsets of the nodal
+ variables defined over the mesh.
+ </LI>
+<LI>  <tt>int = obj.GetPointArrayStatus (string arrName)</tt> -  These methods allow you to load only selected subsets of the nodal
+ variables defined over the mesh.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfComponentsInPointArray (int arr)</tt> -  These methods allow you to load only selected subsets of the nodal
+ variables defined over the mesh.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfComponentsInPointArray (string arrName)</tt> -  These methods allow you to load only selected subsets of the nodal
+ variables defined over the mesh.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfCellArrays (int cellType)</tt> -  Routines that allow the status of a cell variable to be adjusted or
+ queried independent of the output mesh.  The \a cellType parameter
+ should be one of: LS_POINT, LS_BEAM, LS_SHELL, LS_THICK_SHELL,
+ LS_SOLID, LS_RIGID_BODY, or LS_ROAD_SURFACE
+ </LI>
+<LI>  <tt>string = obj.GetCellArrayName (int cellType, int arr)</tt> -  Routines that allow the status of a cell variable to be adjusted or
+ queried independent of the output mesh.  The \a cellType parameter
+ should be one of: LS_POINT, LS_BEAM, LS_SHELL, LS_THICK_SHELL,
+ LS_SOLID, LS_RIGID_BODY, or LS_ROAD_SURFACE
+ </LI>
+<LI>  <tt>obj.SetCellArrayStatus (int cellType, int arr, int status)</tt> -  Routines that allow the status of a cell variable to be adjusted or
+ queried independent of the output mesh.  The \a cellType parameter
+ should be one of: LS_POINT, LS_BEAM, LS_SHELL, LS_THICK_SHELL,
+ LS_SOLID, LS_RIGID_BODY, or LS_ROAD_SURFACE
+ </LI>
+<LI>  <tt>obj.SetCellArrayStatus (int cellType, string arrName, int status)</tt> -  Routines that allow the status of a cell variable to be adjusted or
+ queried independent of the output mesh.  The \a cellType parameter
+ should be one of: LS_POINT, LS_BEAM, LS_SHELL, LS_THICK_SHELL,
+ LS_SOLID, LS_RIGID_BODY, or LS_ROAD_SURFACE
+ </LI>
+<LI>  <tt>int = obj.GetCellArrayStatus (int cellType, int arr)</tt> -  Routines that allow the status of a cell variable to be adjusted or
+ queried independent of the output mesh.  The \a cellType parameter
+ should be one of: LS_POINT, LS_BEAM, LS_SHELL, LS_THICK_SHELL,
+ LS_SOLID, LS_RIGID_BODY, or LS_ROAD_SURFACE
+ </LI>
+<LI>  <tt>int = obj.GetCellArrayStatus (int cellType, string arrName)</tt> -  Routines that allow the status of a cell variable to be adjusted or
+ queried independent of the output mesh.  The \a cellType parameter
+ should be one of: LS_POINT, LS_BEAM, LS_SHELL, LS_THICK_SHELL,
+ LS_SOLID, LS_RIGID_BODY, or LS_ROAD_SURFACE
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfComponentsInCellArray (int cellType, int arr)</tt> -  Routines that allow the status of a cell variable to be adjusted or
+ queried independent of the output mesh.  The \a cellType parameter
+ should be one of: LS_POINT, LS_BEAM, LS_SHELL, LS_THICK_SHELL,
+ LS_SOLID, LS_RIGID_BODY, or LS_ROAD_SURFACE
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfComponentsInCellArray (int cellType, string arrName)</tt> -  Routines that allow the status of a cell variable to be adjusted or
+ queried independent of the output mesh.  The \a cellType parameter
+ should be one of: LS_POINT, LS_BEAM, LS_SHELL, LS_THICK_SHELL,
+ LS_SOLID, LS_RIGID_BODY, or LS_ROAD_SURFACE
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfSolidArrays ()</tt> -  These methods allow you to load only selected subsets of the cell
+ variables defined over the mesh.
+ </LI>
+<LI>  <tt>string = obj.GetSolidArrayName (int )</tt> -  These methods allow you to load only selected subsets of the cell
+ variables defined over the mesh.
+ </LI>
+<LI>  <tt>obj.SetSolidArrayStatus (int arr, int status)</tt> -  These methods allow you to load only selected subsets of the cell
+ variables defined over the mesh.
+ </LI>
+<LI>  <tt>obj.SetSolidArrayStatus (string arrName, int status)</tt> -  These methods allow you to load only selected subsets of the cell
+ variables defined over the mesh.
+ </LI>
+<LI>  <tt>int = obj.GetSolidArrayStatus (int arr)</tt> -  These methods allow you to load only selected subsets of the cell
+ variables defined over the mesh.
+ </LI>
+<LI>  <tt>int = obj.GetSolidArrayStatus (string arrName)</tt> -  These methods allow you to load only selected subsets of the cell
+ variables defined over the mesh.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfComponentsInSolidArray (int a)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfComponentsInSolidArray (string arrName)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfThickShellArrays ()</tt> -  These methods allow you to load only selected subsets of the cell
+ variables defined over the mesh.
+ </LI>
+<LI>  <tt>string = obj.GetThickShellArrayName (int )</tt> -  These methods allow you to load only selected subsets of the cell
+ variables defined over the mesh.
+ </LI>
+<LI>  <tt>obj.SetThickShellArrayStatus (int arr, int status)</tt> -  These methods allow you to load only selected subsets of the cell
+ variables defined over the mesh.
+ </LI>
+<LI>  <tt>obj.SetThickShellArrayStatus (string arrName, int status)</tt> -  These methods allow you to load only selected subsets of the cell
+ variables defined over the mesh.
+ </LI>
+<LI>  <tt>int = obj.GetThickShellArrayStatus (int arr)</tt> -  These methods allow you to load only selected subsets of the cell
+ variables defined over the mesh.
+ </LI>
+<LI>  <tt>int = obj.GetThickShellArrayStatus (string arrName)</tt> -  These methods allow you to load only selected subsets of the cell
+ variables defined over the mesh.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfComponentsInThickShellArray (int a)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfComponentsInThickShellArray (string arrName)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfShellArrays ()</tt> -  These methods allow you to load only selected subsets of the cell
+ variables defined over the mesh.
+ </LI>
+<LI>  <tt>string = obj.GetShellArrayName (int )</tt> -  These methods allow you to load only selected subsets of the cell
+ variables defined over the mesh.
+ </LI>
+<LI>  <tt>obj.SetShellArrayStatus (int arr, int status)</tt> -  These methods allow you to load only selected subsets of the cell
+ variables defined over the mesh.
+ </LI>
+<LI>  <tt>obj.SetShellArrayStatus (string arrName, int status)</tt> -  These methods allow you to load only selected subsets of the cell
+ variables defined over the mesh.
+ </LI>
+<LI>  <tt>int = obj.GetShellArrayStatus (int arr)</tt> -  These methods allow you to load only selected subsets of the cell
+ variables defined over the mesh.
+ </LI>
+<LI>  <tt>int = obj.GetShellArrayStatus (string arrName)</tt> -  These methods allow you to load only selected subsets of the cell
+ variables defined over the mesh.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfComponentsInShellArray (int a)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfComponentsInShellArray (string arrName)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfRigidBodyArrays ()</tt> -  These methods allow you to load only selected subsets of the cell
+ variables defined over the mesh.
+ </LI>
+<LI>  <tt>string = obj.GetRigidBodyArrayName (int )</tt> -  These methods allow you to load only selected subsets of the cell
+ variables defined over the mesh.
+ </LI>
+<LI>  <tt>obj.SetRigidBodyArrayStatus (int arr, int status)</tt> -  These methods allow you to load only selected subsets of the cell
+ variables defined over the mesh.
+ </LI>
+<LI>  <tt>obj.SetRigidBodyArrayStatus (string arrName, int status)</tt> -  These methods allow you to load only selected subsets of the cell
+ variables defined over the mesh.
+ </LI>
+<LI>  <tt>int = obj.GetRigidBodyArrayStatus (int arr)</tt> -  These methods allow you to load only selected subsets of the cell
+ variables defined over the mesh.
+ </LI>
+<LI>  <tt>int = obj.GetRigidBodyArrayStatus (string arrName)</tt> -  These methods allow you to load only selected subsets of the cell
+ variables defined over the mesh.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfComponentsInRigidBodyArray (int a)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfComponentsInRigidBodyArray (string arrName)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfRoadSurfaceArrays ()</tt> -  These methods allow you to load only selected subsets of the cell
+ variables defined over the mesh.
+ </LI>
+<LI>  <tt>string = obj.GetRoadSurfaceArrayName (int )</tt> -  These methods allow you to load only selected subsets of the cell
+ variables defined over the mesh.
+ </LI>
+<LI>  <tt>obj.SetRoadSurfaceArrayStatus (int arr, int status)</tt> -  These methods allow you to load only selected subsets of the cell
+ variables defined over the mesh.
+ </LI>
+<LI>  <tt>obj.SetRoadSurfaceArrayStatus (string arrName, int status)</tt> -  These methods allow you to load only selected subsets of the cell
+ variables defined over the mesh.
+ </LI>
+<LI>  <tt>int = obj.GetRoadSurfaceArrayStatus (int arr)</tt> -  These methods allow you to load only selected subsets of the cell
+ variables defined over the mesh.
+ </LI>
+<LI>  <tt>int = obj.GetRoadSurfaceArrayStatus (string arrName)</tt> -  These methods allow you to load only selected subsets of the cell
+ variables defined over the mesh.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfComponentsInRoadSurfaceArray (int a)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfComponentsInRoadSurfaceArray (string arrName)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfBeamArrays ()</tt> -  These methods allow you to load only selected subsets of the cell
+ variables defined over the mesh.
+ </LI>
+<LI>  <tt>string = obj.GetBeamArrayName (int )</tt> -  These methods allow you to load only selected subsets of the cell
+ variables defined over the mesh.
+ </LI>
+<LI>  <tt>obj.SetBeamArrayStatus (int arr, int status)</tt> -  These methods allow you to load only selected subsets of the cell
+ variables defined over the mesh.
+ </LI>
+<LI>  <tt>obj.SetBeamArrayStatus (string arrName, int status)</tt> -  These methods allow you to load only selected subsets of the cell
+ variables defined over the mesh.
+ </LI>
+<LI>  <tt>int = obj.GetBeamArrayStatus (int arr)</tt> -  These methods allow you to load only selected subsets of the cell
+ variables defined over the mesh.
+ </LI>
+<LI>  <tt>int = obj.GetBeamArrayStatus (string arrName)</tt> -  These methods allow you to load only selected subsets of the cell
+ variables defined over the mesh.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfComponentsInBeamArray (int a)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfComponentsInBeamArray (string arrName)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfParticleArrays ()</tt> -  These methods allow you to load only selected subsets of the cell
+ variables defined over the mesh.
+ </LI>
+<LI>  <tt>string = obj.GetParticleArrayName (int )</tt> -  These methods allow you to load only selected subsets of the cell
+ variables defined over the mesh.
+ </LI>
+<LI>  <tt>obj.SetParticleArrayStatus (int arr, int status)</tt> -  These methods allow you to load only selected subsets of the cell
+ variables defined over the mesh.
+ </LI>
+<LI>  <tt>obj.SetParticleArrayStatus (string arrName, int status)</tt> -  These methods allow you to load only selected subsets of the cell
+ variables defined over the mesh.
+ </LI>
+<LI>  <tt>int = obj.GetParticleArrayStatus (int arr)</tt> -  These methods allow you to load only selected subsets of the cell
+ variables defined over the mesh.
+ </LI>
+<LI>  <tt>int = obj.GetParticleArrayStatus (string arrName)</tt> -  These methods allow you to load only selected subsets of the cell
+ variables defined over the mesh.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfComponentsInParticleArray (int a)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfComponentsInParticleArray (string arrName)</tt>
+ </LI>
+<LI>  <tt>obj.SetDeformedMesh (int )</tt> -  Should deflected coordinates be used, or should the mesh remain
+ undeflected?  By default, this is true but its value is ignored if the
+ nodal "Deflection" array is not set to be loaded.
+ </LI>
+<LI>  <tt>int = obj.GetDeformedMesh ()</tt> -  Should deflected coordinates be used, or should the mesh remain
+ undeflected?  By default, this is true but its value is ignored if the
+ nodal "Deflection" array is not set to be loaded.
+ </LI>
+<LI>  <tt>obj.DeformedMeshOn ()</tt> -  Should deflected coordinates be used, or should the mesh remain
+ undeflected?  By default, this is true but its value is ignored if the
+ nodal "Deflection" array is not set to be loaded.
+ </LI>
+<LI>  <tt>obj.DeformedMeshOff ()</tt> -  Should deflected coordinates be used, or should the mesh remain
+ undeflected?  By default, this is true but its value is ignored if the
+ nodal "Deflection" array is not set to be loaded.
+ </LI>
+<LI>  <tt>obj.SetRemoveDeletedCells (int )</tt> -  Should dead cells be removed from the mesh?  Cells are marked dead by
+ setting the corresponding entry in the <b>cell</b> array "Death" to 0.
+ Cells that are not dead have the corresponding entry in the cell array
+ "Death" set to their material ID.  By default, this is true but its
+ value is ignored if the cell "Death" array is not set to be loaded.
+ It is also ignored if the database's element deletion option is set to
+ denote <b>points</b> (not cells) as deleted; in that case, "Death"
+ will appear to be a point array.
+ </LI>
+<LI>  <tt>int = obj.GetRemoveDeletedCells ()</tt> -  Should dead cells be removed from the mesh?  Cells are marked dead by
+ setting the corresponding entry in the <b>cell</b> array "Death" to 0.
+ Cells that are not dead have the corresponding entry in the cell array
+ "Death" set to their material ID.  By default, this is true but its
+ value is ignored if the cell "Death" array is not set to be loaded.
+ It is also ignored if the database's element deletion option is set to
+ denote <b>points</b> (not cells) as deleted; in that case, "Death"
+ will appear to be a point array.
+ </LI>
+<LI>  <tt>obj.RemoveDeletedCellsOn ()</tt> -  Should dead cells be removed from the mesh?  Cells are marked dead by
+ setting the corresponding entry in the <b>cell</b> array "Death" to 0.
+ Cells that are not dead have the corresponding entry in the cell array
+ "Death" set to their material ID.  By default, this is true but its
+ value is ignored if the cell "Death" array is not set to be loaded.
+ It is also ignored if the database's element deletion option is set to
+ denote <b>points</b> (not cells) as deleted; in that case, "Death"
+ will appear to be a point array.
+ </LI>
+<LI>  <tt>obj.RemoveDeletedCellsOff ()</tt> -  Should dead cells be removed from the mesh?  Cells are marked dead by
+ setting the corresponding entry in the <b>cell</b> array "Death" to 0.
+ Cells that are not dead have the corresponding entry in the cell array
+ "Death" set to their material ID.  By default, this is true but its
+ value is ignored if the cell "Death" array is not set to be loaded.
+ It is also ignored if the database's element deletion option is set to
+ denote <b>points</b> (not cells) as deleted; in that case, "Death"
+ will appear to be a point array.
+ </LI>
+<LI>  <tt>obj.SetSplitByMaterialId (int )</tt> -  Split each part into submeshes based on material ID.
+ By default, this is false and all cells of a given
+ type (solid, thick shell, shell, ...) are in a single mesh.
+ </LI>
+<LI>  <tt>int = obj.GetSplitByMaterialId ()</tt> -  Split each part into submeshes based on material ID.
+ By default, this is false and all cells of a given
+ type (solid, thick shell, shell, ...) are in a single mesh.
+ </LI>
+<LI>  <tt>obj.SplitByMaterialIdOn ()</tt> -  Split each part into submeshes based on material ID.
+ By default, this is false and all cells of a given
+ type (solid, thick shell, shell, ...) are in a single mesh.
+ </LI>
+<LI>  <tt>obj.SplitByMaterialIdOff ()</tt> -  Split each part into submeshes based on material ID.
+ By default, this is false and all cells of a given
+ type (solid, thick shell, shell, ...) are in a single mesh.
+ </LI>
+<LI>  <tt>obj.SetInputDeck (string )</tt> -  The name of the input deck corresponding to the current database.
+ This is used to determine the part names associated with each material ID.
+ This file may be in two formats: a valid LSDyna input deck or a 
+ short XML summary.
+ If the file begins with "<?xml" then the summary format is used.
+ Otherwise, the keyword format is used and a summary file will be
+ created if write permissions exist in the directory containing
+ the keyword file. The newly created summary will have ".k" or ".key"
+ stripped from the end of the keyword filename and ".lsdyna" appended.
+ </LI>
+<LI>  <tt>string = obj.GetInputDeck ()</tt> -  The name of the input deck corresponding to the current database.
+ This is used to determine the part names associated with each material ID.
+ This file may be in two formats: a valid LSDyna input deck or a 
+ short XML summary.
+ If the file begins with "<?xml" then the summary format is used.
+ Otherwise, the keyword format is used and a summary file will be
+ created if write permissions exist in the directory containing
+ the keyword file. The newly created summary will have ".k" or ".key"
+ stripped from the end of the keyword filename and ".lsdyna" appended.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfPartArrays ()</tt> -  These methods allow you to load only selected parts of the input.
+ If InputDeck points to a valid keyword file (or summary), then part
+ names will be taken from that file.
+ Otherwise, when arbitrary material numbering is used, parts will be named
+ "PartXXX (MatlYYY)" where XXX is an increasing sequential number and YYY
+ is the respective material ID. If no input deck is specified and arbitrary
+ arbitrary material numbering is not used, parts will be named
+ "PartXXX" where XXX is a sequential material ID.
+ </LI>
+<LI>  <tt>string = obj.GetPartArrayName (int )</tt> -  These methods allow you to load only selected parts of the input.
+ If InputDeck points to a valid keyword file (or summary), then part
+ names will be taken from that file.
+ Otherwise, when arbitrary material numbering is used, parts will be named
+ "PartXXX (MatlYYY)" where XXX is an increasing sequential number and YYY
+ is the respective material ID. If no input deck is specified and arbitrary
+ arbitrary material numbering is not used, parts will be named
+ "PartXXX" where XXX is a sequential material ID.
+ </LI>
+<LI>  <tt>obj.SetPartArrayStatus (int arr, int status)</tt> -  These methods allow you to load only selected parts of the input.
+ If InputDeck points to a valid keyword file (or summary), then part
+ names will be taken from that file.
+ Otherwise, when arbitrary material numbering is used, parts will be named
+ "PartXXX (MatlYYY)" where XXX is an increasing sequential number and YYY
+ is the respective material ID. If no input deck is specified and arbitrary
+ arbitrary material numbering is not used, parts will be named
+ "PartXXX" where XXX is a sequential material ID.
+ </LI>
+<LI>  <tt>obj.SetPartArrayStatus (string partName, int status)</tt> -  These methods allow you to load only selected parts of the input.
+ If InputDeck points to a valid keyword file (or summary), then part
+ names will be taken from that file.
+ Otherwise, when arbitrary material numbering is used, parts will be named
+ "PartXXX (MatlYYY)" where XXX is an increasing sequential number and YYY
+ is the respective material ID. If no input deck is specified and arbitrary
+ arbitrary material numbering is not used, parts will be named
+ "PartXXX" where XXX is a sequential material ID.
+ </LI>
+<LI>  <tt>int = obj.GetPartArrayStatus (int arr)</tt> -  These methods allow you to load only selected parts of the input.
+ If InputDeck points to a valid keyword file (or summary), then part
+ names will be taken from that file.
+ Otherwise, when arbitrary material numbering is used, parts will be named
+ "PartXXX (MatlYYY)" where XXX is an increasing sequential number and YYY
+ is the respective material ID. If no input deck is specified and arbitrary
+ arbitrary material numbering is not used, parts will be named
+ "PartXXX" where XXX is a sequential material ID.
+ </LI>
+<LI>  <tt>int = obj.GetPartArrayStatus (string partName)</tt> -  These methods allow you to load only selected parts of the input.
+ If InputDeck points to a valid keyword file (or summary), then part
+ names will be taken from that file.
+ Otherwise, when arbitrary material numbering is used, parts will be named
+ "PartXXX (MatlYYY)" where XXX is an increasing sequential number and YYY
+ is the respective material ID. If no input deck is specified and arbitrary
+ arbitrary material numbering is not used, parts will be named
+ "PartXXX" where XXX is a sequential material ID.
+ </LI>
+</UL>
+*/

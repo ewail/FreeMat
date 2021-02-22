@@ -1,0 +1,82 @@
+
+ Usage
+
+vtkProgrammableGlyphFilter is a filter that allows you to
+place a glyph at each input point in the dataset. In
+addition, the filter is programmable which means the user
+has control over the generation of the glyph. The glyphs can
+be controlled via the point data attributes (e.g., scalars,
+vectors, etc.) or any other information in the input
+dataset.
+This is the way the filter works. You must define an input
+dataset which at a minimum contains points with associated
+attribute values. Also, the Source instance variable must be
+set which is of type vtkPolyData. Then, for each point in
+the input, the PointId is set to the current point id, and a
+user-defined function is called (i.e., GlyphMethod). In this
+method you can manipulate the Source data (including
+changing to a different Source object). After the
+GlyphMethod is called, vtkProgrammableGlyphFilter will
+invoke an Update() on its Source object, and then copy its
+data to the output of the vtkProgrammableGlyphFilter.
+Therefore the output of this filter is of type vtkPolyData.
+Another option to this filter is the way you color the
+glyphs. You can use the scalar data from the input or the
+source. The instance variable ColorMode controls this
+behavior.
+To create an instance of class vtkProgrammableGlyphFilter,
+simply invoke its constructor as follows
+
+    obj = vtkProgrammableGlyphFilter
+
+
+
+ Methods
+
+The class vtkProgrammableGlyphFilter has several methods
+that can be used. They are listed below. Note that the
+documentation is translated automatically from the VTK
+sources, and may not be completely intelligible. When in
+doubt, consult the VTK website. In the methods listed below,
+obj is an instance of the vtkProgrammableGlyphFilter class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkProgrammableGlyphFilter = obj.NewInstance ()
+* vtkProgrammableGlyphFilter = obj.SafeDownCast (vtkObject
+  o)
+* obj.SetSource (vtkPolyData source) - Set/Get the source to
+  use for this glyph. Note: you can change the source during
+  execution of this filter.
+* vtkPolyData = obj.GetSource () - Set/Get the source to use
+  for this glyph. Note: you can change the source during
+  execution of this filter.
+* vtkIdType = obj.GetPointId () - Get the current point id
+  during processing. Value only valid during the Execute()
+  method of this filter. (Meant to be called by the
+  GlyphMethod().)
+* double = obj. GetPoint () - Get the current point
+  coordinates during processing. Value only valid during the
+  Execute() method of this filter. (Meant to be called by
+  the GlyphMethod().)
+* vtkPointData = obj.GetPointData () - Get the set of point
+  data attributes for the input. A convenience to the
+  programmer to be used in the GlyphMethod(). Only valid
+  during the Execute() method of this filter.
+* obj.SetColorMode (int ) - Either color by the input or
+  source scalar data.
+* int = obj.GetColorMode () - Either color by the input or
+  source scalar data.
+* obj.SetColorModeToColorByInput () - Either color by the
+  input or source scalar data.
+* obj.SetColorModeToColorBySource () - Either color by the
+  input or source scalar data.
+* string = obj.GetColorModeAsString () - Either color by the
+  input or source scalar data.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Graphics_Classes
+* Generated on Thu Jul 25 2013 17:18:32 for FreeMat by
+  doxygen_ 1.8.1.1
+

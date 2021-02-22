@@ -1,0 +1,195 @@
+
+ Usage
+
+vtkDelimitedTextReader is an interface for pulling in data
+from a flat, delimited ascii or unicode text file (delimiter
+can be any character).
+The behavior of the reader with respect to ascii or unicode
+input is controlled by the SetUnicodeCharacterSet() method.
+By default (without calling SetUnicodeCharacterSet()), the
+reader will expect to read ascii text and will output
+vtkStdString columns. Use the Set and Get methods to set
+delimiters that do not contain UTF8 in the name when
+operating the reader in default ascii mode. If the
+SetUnicodeCharacterSet() method is called, the reader will
+output vtkUnicodeString columns in the output table. In
+addition, it is necessary to use the Set and Get methods
+that contain UTF8 in the name to specify delimiters when
+operating in unicode mode.
+This class emits ProgressEvent for every 100 lines it reads.
+.SECTION Thanks Thanks to Andy Wilson, Brian Wylie, Tim
+Shead, and Thomas Otahal from Sandia National Laboratories
+for implementing this class.
+To create an instance of class vtkDelimitedTextReader,
+simply invoke its constructor as follows
+
+    obj = vtkDelimitedTextReader
+
+
+
+ Methods
+
+The class vtkDelimitedTextReader has several methods that
+can be used. They are listed below. Note that the
+documentation is translated automatically from the VTK
+sources, and may not be completely intelligible. When in
+doubt, consult the VTK website. In the methods listed below,
+obj is an instance of the vtkDelimitedTextReader class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkDelimitedTextReader = obj.NewInstance ()
+* vtkDelimitedTextReader = obj.SafeDownCast (vtkObject o)
+* string = obj.GetFileName ()
+* obj.SetFileName (string )
+* string = obj.GetUnicodeCharacterSet () - Specifies the
+  character set used in the input file. Valid character set
+  names will be drawn from the list maintained by the
+  Internet Assigned Name Authority at
+  http://www.iana.org/assignments/character-sets
+  Where multiple aliases are provided for a character set,
+  the preferred MIME name will be used.
+  vtkUnicodeDelimitedTextReader currently supports "US-
+  ASCII", "UTF-8", "UTF-16", "UTF-16BE", and "UTF-16LE"
+  character sets.
+* obj.SetUnicodeCharacterSet (string ) - Specifies the
+  character set used in the input file. Valid character set
+  names will be drawn from the list maintained by the
+  Internet Assigned Name Authority at
+  http://www.iana.org/assignments/character-sets
+  Where multiple aliases are provided for a character set,
+  the preferred MIME name will be used.
+  vtkUnicodeDelimitedTextReader currently supports "US-
+  ASCII", "UTF-8", "UTF-16", "UTF-16BE", and "UTF-16LE"
+  character sets.
+* obj.SetUTF8RecordDelimiters (string delimiters) - Specify
+  the character(s) that will be used to separate records.
+  The order of characters in the string does not matter.
+  Defaults to "\r\n".
+* string = obj.GetUTF8RecordDelimiters () - Specify the
+  character(s) that will be used to separate records. The
+  order of characters in the string does not matter.
+  Defaults to "\r\n".
+* obj.SetFieldDelimiterCharacters (string ) - Specify the
+  character(s) that will be used to separate fields. For
+  example, set this to "," for a comma-separated value file.
+  Set it to ".:;" for a file where columns can be separated
+  by a period, colon or semicolon. The order of the
+  characters in the string does not matter. Defaults to a
+  comma.
+* string = obj.GetFieldDelimiterCharacters () - Specify the
+  character(s) that will be used to separate fields. For
+  example, set this to "," for a comma-separated value file.
+  Set it to ".:;" for a file where columns can be separated
+  by a period, colon or semicolon. The order of the
+  characters in the string does not matter. Defaults to a
+  comma.
+* obj.SetUTF8FieldDelimiters (string delimiters)
+* string = obj.GetUTF8FieldDelimiters ()
+* char = obj.GetStringDelimiter () - Get/set the character
+  that will begin and end strings. Microsoft Excel, for
+  example, will export the following format:
+  "First Field","Second Field","Field, With, Commas","Fourth
+  Field"
+  The third field has a comma in it. By using a string
+  delimiter, this will be correctly read. The delimiter
+  defaults to '"'.
+* obj.SetStringDelimiter (char ) - Get/set the character
+  that will begin and end strings. Microsoft Excel, for
+  example, will export the following format:
+  "First Field","Second Field","Field, With, Commas","Fourth
+  Field"
+  The third field has a comma in it. By using a string
+  delimiter, this will be correctly read. The delimiter
+  defaults to '"'.
+* obj.SetUTF8StringDelimiters (string delimiters)
+* string = obj.GetUTF8StringDelimiters ()
+* obj.SetUseStringDelimiter (bool ) - Set/get whether to use
+  the string delimiter. Defaults to on.
+* bool = obj.GetUseStringDelimiter () - Set/get whether to
+  use the string delimiter. Defaults to on.
+* obj.UseStringDelimiterOn () - Set/get whether to use the
+  string delimiter. Defaults to on.
+* obj.UseStringDelimiterOff () - Set/get whether to use the
+  string delimiter. Defaults to on.
+* bool = obj.GetHaveHeaders () - Set/get whether to treat
+  the first line of the file as headers.
+* obj.SetHaveHeaders (bool ) - Set/get whether to treat the
+  first line of the file as headers.
+* obj.SetMergeConsecutiveDelimiters (bool ) - Set/get
+  whether to merge successive delimiters. Use this if (for
+  example) your fields are separated by spaces but you don't
+  know exactly how many.
+* bool = obj.GetMergeConsecutiveDelimiters () - Set/get
+  whether to merge successive delimiters. Use this if (for
+  example) your fields are separated by spaces but you don't
+  know exactly how many.
+* obj.MergeConsecutiveDelimitersOn () - Set/get whether to
+  merge successive delimiters. Use this if (for example)
+  your fields are separated by spaces but you don't know
+  exactly how many.
+* obj.MergeConsecutiveDelimitersOff () - Set/get whether to
+  merge successive delimiters. Use this if (for example)
+  your fields are separated by spaces but you don't know
+  exactly how many.
+* vtkIdType = obj.GetMaxRecords () - Specifies the maximum
+  number of records to read from the file. Limiting the
+  number of records to read is useful for previewing the
+  contents of a file.
+* obj.SetMaxRecords (vtkIdType ) - Specifies the maximum
+  number of records to read from the file. Limiting the
+  number of records to read is useful for previewing the
+  contents of a file.
+* obj.SetDetectNumericColumns (bool ) - When set to true,
+  the reader will detect numeric columns and create
+  vtkDoubleArray or vtkIntArray for those instead of
+  vtkStringArray. Default is off.
+* bool = obj.GetDetectNumericColumns () - When set to true,
+  the reader will detect numeric columns and create
+  vtkDoubleArray or vtkIntArray for those instead of
+  vtkStringArray. Default is off.
+* obj.DetectNumericColumnsOn () - When set to true, the
+  reader will detect numeric columns and create
+  vtkDoubleArray or vtkIntArray for those instead of
+  vtkStringArray. Default is off.
+* obj.DetectNumericColumnsOff () - When set to true, the
+  reader will detect numeric columns and create
+  vtkDoubleArray or vtkIntArray for those instead of
+  vtkStringArray. Default is off.
+* obj.SetPedigreeIdArrayName (string ) - The name of the
+  array for generating or assigning pedigree ids (default
+  "id").
+* string = obj.GetPedigreeIdArrayName () - The name of the
+  array for generating or assigning pedigree ids (default
+  "id").
+* obj.SetGeneratePedigreeIds (bool ) - If on (default),
+  generates pedigree ids automatically. If off, assign one
+  of the arrays to be the pedigree id.
+* bool = obj.GetGeneratePedigreeIds () - If on (default),
+  generates pedigree ids automatically. If off, assign one
+  of the arrays to be the pedigree id.
+* obj.GeneratePedigreeIdsOn () - If on (default), generates
+  pedigree ids automatically. If off, assign one of the
+  arrays to be the pedigree id.
+* obj.GeneratePedigreeIdsOff () - If on (default), generates
+  pedigree ids automatically. If off, assign one of the
+  arrays to be the pedigree id.
+* obj.SetOutputPedigreeIds (bool ) - If on, assigns pedigree
+  ids to output. Defaults to off.
+* bool = obj.GetOutputPedigreeIds () - If on, assigns
+  pedigree ids to output. Defaults to off.
+* obj.OutputPedigreeIdsOn () - If on, assigns pedigree ids
+  to output. Defaults to off.
+* obj.OutputPedigreeIdsOff () - If on, assigns pedigree ids
+  to output. Defaults to off.
+* vtkStdString = obj.GetLastError () - Returns a human-
+  readable description of the most recent error, if any.
+  Otherwise, returns an empty string. Note that the result
+  is only valid after calling Update().
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Infovis_Classes
+* Generated on Thu Jul 25 2013 17:18:33 for FreeMat by
+  doxygen_ 1.8.1.1
+

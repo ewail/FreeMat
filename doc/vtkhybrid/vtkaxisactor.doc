@@ -1,0 +1,269 @@
+/*!
+\page vtkhybrid_vtkaxisactor vtkAxisActor
+
+<p>
+Section: \ref sec_vtkhybrid "Visualization Toolkit Hybrid Classes"
+\section Usage
+ vtkAxisActor creates an axis with tick marks, labels, and/or a title,
+ depending on the particular instance variable settings. It is assumed that
+ the axes is part of a bounding box and is orthoganal to one of the
+ coordinate axes.  To use this class, you typically specify two points 
+ defining the start and end points of the line (xyz definition using 
+ vtkCoordinate class), the axis type (X, Y or Z), the axis location in 
+ relation to the bounding box, the bounding box, the number of labels, and
+ the data range (min,max). You can also control what parts of the axis are
+ visible including the line, the tick marks, the labels, and the title. It
+ is also possible to control gridlines, and specifiy on which 'side' the
+ tickmarks are drawn (again with respect to the underlying assumed 
+ bounding box). You can also specify the label format (a printf style format).
+
+ This class decides how to locate the labels, and how to create reasonable 
+ tick marks and labels. 
+
+ Labels follow the camera so as to be legible from any viewpoint.
+
+ The instance variables Point1 and Point2 are instances of vtkCoordinate.
+ All calculations and references are in World Coordinates.
+
+ .SECTION Notes
+ This class was adapted from a 2D version created by Hank Childs called
+ vtkHankAxisActor2D.
+
+
+To create an instance of class vtkAxisActor, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkAxisActor
+\endverbatim
+\section Methods
+The class vtkAxisActor has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkAxisActor class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkAxisActor = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkAxisActor = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>vtkCoordinate = obj.GetPoint1Coordinate ()</tt> -  Specify the position of the first point defining the axis.
+ </LI>
+<LI>  <tt>obj.SetPoint1 (double x[3])</tt> -  Specify the position of the first point defining the axis.
+ </LI>
+<LI>  <tt>obj.SetPoint1 (double x, double y, double z)</tt> -  Specify the position of the first point defining the axis.
+ </LI>
+<LI>  <tt>vtkCoordinate = obj.GetPoint2Coordinate ()</tt> -  Specify the position of the second point defining the axis.
+ </LI>
+<LI>  <tt>obj.SetPoint2 (double x[3])</tt> -  Specify the position of the second point defining the axis.
+ </LI>
+<LI>  <tt>obj.SetPoint2 (double x, double y, double z)</tt> -  Specify the position of the second point defining the axis.
+ </LI>
+<LI>  <tt>obj.SetRange (double , double )</tt> -  Specify the (min,max) axis range. This will be used in the generation
+ of labels, if labels are visible.
+ </LI>
+<LI>  <tt>obj.SetRange (double  a[2])</tt> -  Specify the (min,max) axis range. This will be used in the generation
+ of labels, if labels are visible.
+ </LI>
+<LI>  <tt>double = obj. GetRange ()</tt> -  Specify the (min,max) axis range. This will be used in the generation
+ of labels, if labels are visible.
+ </LI>
+<LI>  <tt>obj.SetBounds (double bounds[6])</tt> -  Set or get the bounds for this Actor as (Xmin,Xmax,Ymin,Ymax,Zmin,Zmax).
+ </LI>
+<LI>  <tt>double = obj.GetBounds (void )</tt> -  Set or get the bounds for this Actor as (Xmin,Xmax,Ymin,Ymax,Zmin,Zmax).
+ </LI>
+<LI>  <tt>obj.GetBounds (double bounds[6])</tt> -  Set or get the bounds for this Actor as (Xmin,Xmax,Ymin,Ymax,Zmin,Zmax).
+ </LI>
+<LI>  <tt>obj.SetLabelFormat (string )</tt> -  Set/Get the format with which to print the labels on the axis.
+ </LI>
+<LI>  <tt>string = obj.GetLabelFormat ()</tt> -  Set/Get the format with which to print the labels on the axis.
+ </LI>
+<LI>  <tt>obj.SetMinorTicksVisible (int )</tt> -  Set/Get the flag that controls whether the minor ticks are visible. 
+ </LI>
+<LI>  <tt>int = obj.GetMinorTicksVisible ()</tt> -  Set/Get the flag that controls whether the minor ticks are visible. 
+ </LI>
+<LI>  <tt>obj.MinorTicksVisibleOn ()</tt> -  Set/Get the flag that controls whether the minor ticks are visible. 
+ </LI>
+<LI>  <tt>obj.MinorTicksVisibleOff ()</tt> -  Set/Get the flag that controls whether the minor ticks are visible. 
+ </LI>
+<LI>  <tt>obj.SetTitle (string t)</tt> -  Set/Get the title of the axis actor,
+ </LI>
+<LI>  <tt>string = obj.GetTitle ()</tt> -  Set/Get the title of the axis actor,
+ </LI>
+<LI>  <tt>obj.SetMajorTickSize (double )</tt> -  Set/Get the size of the major tick marks 
+ </LI>
+<LI>  <tt>double = obj.GetMajorTickSize ()</tt> -  Set/Get the size of the major tick marks 
+ </LI>
+<LI>  <tt>obj.SetMinorTickSize (double )</tt> -  Set/Get the size of the major tick marks 
+ </LI>
+<LI>  <tt>double = obj.GetMinorTickSize ()</tt> -  Set/Get the size of the major tick marks 
+ </LI>
+<LI>  <tt>obj.SetTickLocation (int )</tt> -  Set/Get the location of the ticks.
+ </LI>
+<LI>  <tt>int = obj.GetTickLocationMinValue ()</tt> -  Set/Get the location of the ticks.
+ </LI>
+<LI>  <tt>int = obj.GetTickLocationMaxValue ()</tt> -  Set/Get the location of the ticks.
+ </LI>
+<LI>  <tt>int = obj.GetTickLocation ()</tt> -  Set/Get the location of the ticks.
+ </LI>
+<LI>  <tt>obj.SetTickLocationToInside (void )</tt>
+ </LI>
+<LI>  <tt>obj.SetTickLocationToOutside (void )</tt>
+ </LI>
+<LI>  <tt>obj.SetTickLocationToBoth (void )</tt>
+ </LI>
+<LI>  <tt>obj.SetAxisVisibility (int )</tt> -  Set/Get visibility of the axis line.
+ </LI>
+<LI>  <tt>int = obj.GetAxisVisibility ()</tt> -  Set/Get visibility of the axis line.
+ </LI>
+<LI>  <tt>obj.AxisVisibilityOn ()</tt> -  Set/Get visibility of the axis line.
+ </LI>
+<LI>  <tt>obj.AxisVisibilityOff ()</tt> -  Set/Get visibility of the axis line.
+ </LI>
+<LI>  <tt>obj.SetTickVisibility (int )</tt> -  Set/Get visibility of the axis tick marks.
+ </LI>
+<LI>  <tt>int = obj.GetTickVisibility ()</tt> -  Set/Get visibility of the axis tick marks.
+ </LI>
+<LI>  <tt>obj.TickVisibilityOn ()</tt> -  Set/Get visibility of the axis tick marks.
+ </LI>
+<LI>  <tt>obj.TickVisibilityOff ()</tt> -  Set/Get visibility of the axis tick marks.
+ </LI>
+<LI>  <tt>obj.SetLabelVisibility (int )</tt> -  Set/Get visibility of the axis labels.
+ </LI>
+<LI>  <tt>int = obj.GetLabelVisibility ()</tt> -  Set/Get visibility of the axis labels.
+ </LI>
+<LI>  <tt>obj.LabelVisibilityOn ()</tt> -  Set/Get visibility of the axis labels.
+ </LI>
+<LI>  <tt>obj.LabelVisibilityOff ()</tt> -  Set/Get visibility of the axis labels.
+ </LI>
+<LI>  <tt>obj.SetTitleVisibility (int )</tt> -  Set/Get visibility of the axis title.
+ </LI>
+<LI>  <tt>int = obj.GetTitleVisibility ()</tt> -  Set/Get visibility of the axis title.
+ </LI>
+<LI>  <tt>obj.TitleVisibilityOn ()</tt> -  Set/Get visibility of the axis title.
+ </LI>
+<LI>  <tt>obj.TitleVisibilityOff ()</tt> -  Set/Get visibility of the axis title.
+ </LI>
+<LI>  <tt>obj.SetDrawGridlines (int )</tt> -  Set/Get whether gridlines should be drawn.
+ </LI>
+<LI>  <tt>int = obj.GetDrawGridlines ()</tt> -  Set/Get whether gridlines should be drawn.
+ </LI>
+<LI>  <tt>obj.DrawGridlinesOn ()</tt> -  Set/Get whether gridlines should be drawn.
+ </LI>
+<LI>  <tt>obj.DrawGridlinesOff ()</tt> -  Set/Get whether gridlines should be drawn.
+ </LI>
+<LI>  <tt>obj.SetGridlineXLength (double )</tt> -  Set/Get the length to use when drawing gridlines. 
+ </LI>
+<LI>  <tt>double = obj.GetGridlineXLength ()</tt> -  Set/Get the length to use when drawing gridlines. 
+ </LI>
+<LI>  <tt>obj.SetGridlineYLength (double )</tt> -  Set/Get the length to use when drawing gridlines. 
+ </LI>
+<LI>  <tt>double = obj.GetGridlineYLength ()</tt> -  Set/Get the length to use when drawing gridlines. 
+ </LI>
+<LI>  <tt>obj.SetGridlineZLength (double )</tt> -  Set/Get the length to use when drawing gridlines. 
+ </LI>
+<LI>  <tt>double = obj.GetGridlineZLength ()</tt> -  Set/Get the length to use when drawing gridlines. 
+ </LI>
+<LI>  <tt>obj.SetAxisType (int )</tt> -  Set/Get the type of this axis.
+ </LI>
+<LI>  <tt>int = obj.GetAxisTypeMinValue ()</tt> -  Set/Get the type of this axis.
+ </LI>
+<LI>  <tt>int = obj.GetAxisTypeMaxValue ()</tt> -  Set/Get the type of this axis.
+ </LI>
+<LI>  <tt>int = obj.GetAxisType ()</tt> -  Set/Get the type of this axis.
+ </LI>
+<LI>  <tt>obj.SetAxisTypeToX (void )</tt> -  Set/Get the type of this axis.
+ </LI>
+<LI>  <tt>obj.SetAxisTypeToY (void )</tt> -  Set/Get the type of this axis.
+ </LI>
+<LI>  <tt>obj.SetAxisTypeToZ (void )</tt> -  Set/Get the type of this axis.
+ </LI>
+<LI>  <tt>obj.SetAxisPosition (int )</tt> -  Set/Get the position of this axis (in relation to an an
+ assumed bounding box).  For an x-type axis, MINMIN corresponds
+ to the x-edge in the bounding box where Y values are minimum and 
+ Z values are minimum. For a y-type axis, MAXMIN corresponds to the 
+ y-edge where X values are maximum and Z values are minimum.
+ 
+ </LI>
+<LI>  <tt>int = obj.GetAxisPositionMinValue ()</tt> -  Set/Get the position of this axis (in relation to an an
+ assumed bounding box).  For an x-type axis, MINMIN corresponds
+ to the x-edge in the bounding box where Y values are minimum and 
+ Z values are minimum. For a y-type axis, MAXMIN corresponds to the 
+ y-edge where X values are maximum and Z values are minimum.
+ 
+ </LI>
+<LI>  <tt>int = obj.GetAxisPositionMaxValue ()</tt> -  Set/Get the position of this axis (in relation to an an
+ assumed bounding box).  For an x-type axis, MINMIN corresponds
+ to the x-edge in the bounding box where Y values are minimum and 
+ Z values are minimum. For a y-type axis, MAXMIN corresponds to the 
+ y-edge where X values are maximum and Z values are minimum.
+ 
+ </LI>
+<LI>  <tt>int = obj.GetAxisPosition ()</tt> -  Set/Get the position of this axis (in relation to an an
+ assumed bounding box).  For an x-type axis, MINMIN corresponds
+ to the x-edge in the bounding box where Y values are minimum and 
+ Z values are minimum. For a y-type axis, MAXMIN corresponds to the 
+ y-edge where X values are maximum and Z values are minimum.
+ 
+ </LI>
+<LI>  <tt>obj.SetAxisPositionToMinMin (void )</tt>
+ </LI>
+<LI>  <tt>obj.SetAxisPositionToMinMax (void )</tt>
+ </LI>
+<LI>  <tt>obj.SetAxisPositionToMaxMax (void )</tt>
+ </LI>
+<LI>  <tt>obj.SetAxisPositionToMaxMin (void )</tt>
+ </LI>
+<LI>  <tt>obj.SetCamera (vtkCamera )</tt> -  Set/Get the camera for this axis.  The camera is used by the
+ labels to 'follow' the camera and be legible from any viewpoint.
+ </LI>
+<LI>  <tt>vtkCamera = obj.GetCamera ()</tt> -  Set/Get the camera for this axis.  The camera is used by the
+ labels to 'follow' the camera and be legible from any viewpoint.
+ </LI>
+<LI>  <tt>int = obj.RenderOpaqueGeometry (vtkViewport viewport)</tt> -  Draw the axis. 
+ </LI>
+<LI>  <tt>int = obj.RenderTranslucentGeometry (vtkViewport )</tt> -  Release any graphics resources that are being consumed by this actor.
+ The parameter window could be used to determine which graphic
+ resources to release.
+ </LI>
+<LI>  <tt>obj.ReleaseGraphicsResources (vtkWindow )</tt> -  Release any graphics resources that are being consumed by this actor.
+ The parameter window could be used to determine which graphic
+ resources to release.
+ </LI>
+<LI>  <tt>obj.ShallowCopy (vtkProp prop)</tt> -  Shallow copy of an axis actor. Overloads the virtual vtkProp method.
+ </LI>
+<LI>  <tt>obj.SetLabelScale (double )</tt>
+ </LI>
+<LI>  <tt>obj.SetTitleScale (double )</tt>
+ </LI>
+<LI>  <tt>obj.SetMinorStart (double )</tt> -  Set/Get the starting position for minor and major tick points,
+ and the delta values that determine their spacing. 
+ </LI>
+<LI>  <tt>double = obj.GetMinorStart ()</tt> -  Set/Get the starting position for minor and major tick points,
+ and the delta values that determine their spacing. 
+ </LI>
+<LI>  <tt>obj.SetMajorStart (double )</tt> -  Set/Get the starting position for minor and major tick points,
+ and the delta values that determine their spacing. 
+ </LI>
+<LI>  <tt>double = obj.GetMajorStart ()</tt> -  Set/Get the starting position for minor and major tick points,
+ and the delta values that determine their spacing. 
+ </LI>
+<LI>  <tt>obj.SetDeltaMinor (double )</tt> -  Set/Get the starting position for minor and major tick points,
+ and the delta values that determine their spacing. 
+ </LI>
+<LI>  <tt>double = obj.GetDeltaMinor ()</tt> -  Set/Get the starting position for minor and major tick points,
+ and the delta values that determine their spacing. 
+ </LI>
+<LI>  <tt>obj.SetDeltaMajor (double )</tt> -  Set/Get the starting position for minor and major tick points,
+ and the delta values that determine their spacing. 
+ </LI>
+<LI>  <tt>double = obj.GetDeltaMajor ()</tt> -  Set/Get the starting position for minor and major tick points,
+ and the delta values that determine their spacing. 
+ </LI>
+<LI>  <tt>obj.BuildAxis (vtkViewport viewport, bool )</tt>
+ </LI>
+</UL>
+*/

@@ -1,0 +1,61 @@
+/*!
+\page elementary_cumsum CUMSUM Cumulative Summation Function
+
+<p>
+Section: \ref sec_elementary "Elementary Functions"
+\section Usage
+Computes the cumulative sum of an n-dimensional array along a given
+dimension.  The general syntax for its use is
+\verbatim
+  y = cumsum(x,d)
+\endverbatim
+where <tt>x</tt> is a multidimensional array of numerical type, and <tt>d</tt>
+is the dimension along which to perform the cumulative sum.  The
+output <tt>y</tt> is the same size of <tt>x</tt>.  Integer types are promoted
+to <tt>int32</tt>. If the dimension <tt>d</tt> is not specified, then the
+cumulative sum is applied along the first non-singular dimension.
+\section Function Internals
+The output is computed via
+\f[
+  y(m_1,\ldots,m_{d-1},j,m_{d+1},\ldots,m_{p}) = 
+  \sum_{k=1}^{j} x(m_1,\ldots,m_{d-1},k,m_{d+1},\ldots,m_{p}).
+\f]
+\section Example
+The default action is to perform the cumulative sum along the
+first non-singular dimension.
+
+\if FRAGMENT
+frag_elementary_cumsum_000.m
+0
+A = [5,1,3;3,2,1;0,3,1]
+cumsum(A)
+\endif
+
+
+\verbinclude frag_elementary_cumsum_000.m.out 
+
+To compute the cumulative sum along the columns:
+
+\if FRAGMENT
+frag_elementary_cumsum_001.m
+0
+cumsum(A,2)
+\endif
+
+
+\verbinclude frag_elementary_cumsum_001.m.out 
+
+The cumulative sum also works along arbitrary dimensions
+
+\if FRAGMENT
+frag_elementary_cumsum_002.m
+0
+B(:,:,1) = [5,2;8,9];
+B(:,:,2) = [1,0;3,0]
+cumsum(B,3)
+\endif
+
+
+\verbinclude frag_elementary_cumsum_002.m.out 
+
+*/

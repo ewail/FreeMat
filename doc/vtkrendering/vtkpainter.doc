@@ -1,0 +1,85 @@
+/*!
+\page vtkrendering_vtkpainter vtkPainter
+
+<p>
+Section: \ref sec_vtkrendering "Visualization Toolkit Rendering Classes"
+\section Usage
+ This defines the interface for a Painter. Painters are helpers used
+ by Mapper to perform the rendering. The mapper sets up a chain of painters
+ and passes the render request to the painter. Every painter may have a 
+ delegate painter to which the render request is forwarded. The Painter may
+ modify the request or data before passing it to the delegate painter. 
+ All the information to control the rendering must be passed to the painter
+ using the vtkInformation object. A concrete painter may read special keys
+ from the vtkInformation object and affect the rendering.
+
+
+To create an instance of class vtkPainter, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkPainter
+\endverbatim
+\section Methods
+The class vtkPainter has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkPainter class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkPainter = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkPainter = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>vtkInformation = obj.GetInformation ()</tt> -  Get/Set the information object associated with this painter.
+ </LI>
+<LI>  <tt>obj.SetInformation (vtkInformation )</tt> -  Get/Set the information object associated with this painter.
+ </LI>
+<LI>  <tt>vtkPainter = obj.GetDelegatePainter ()</tt> -  Set/Get the painter to which this painter should propagare its draw calls.
+ </LI>
+<LI>  <tt>obj.SetDelegatePainter (vtkPainter )</tt> -  Set/Get the painter to which this painter should propagare its draw calls.
+ </LI>
+<LI>  <tt>obj.Register (vtkObjectBase o)</tt> -  Take part in garbage collection.
+ </LI>
+<LI>  <tt>obj.UnRegister (vtkObjectBase o)</tt> -  Take part in garbage collection.
+ </LI>
+<LI>  <tt>obj.Render (vtkRenderer renderer, vtkActor actor, long typeflags, bool forceCompileOnly)</tt> -  Generates rendering primitives of appropriate type(s). Multiple types 
+ of primitives can be requested by or-ring the primitive flags. 
+ Default implementation calls UpdateDelegatePainter() to update the 
+ deletagate painter and then calls RenderInternal().
+ forceCompileOnly is passed to the display list painters.
+ </LI>
+<LI>  <tt>obj.ReleaseGraphicsResources (vtkWindow )</tt> -  Release any graphics resources that are being consumed by this painter.
+ The parameter window could be used to determine which graphic
+ resources to release. 
+ The call is propagated to the delegate painter, if any.
+ </LI>
+<LI>  <tt>obj.SetProgress (double )</tt> -  Set/Get the execution progress of a process object.
+ </LI>
+<LI>  <tt>double = obj.GetProgressMinValue ()</tt> -  Set/Get the execution progress of a process object.
+ </LI>
+<LI>  <tt>double = obj.GetProgressMaxValue ()</tt> -  Set/Get the execution progress of a process object.
+ </LI>
+<LI>  <tt>double = obj.GetProgress ()</tt> -  Set/Get the execution progress of a process object.
+ </LI>
+<LI>  <tt>double = obj.GetTimeToDraw ()</tt> -  Get the time required to draw the geometry last time it was rendered.
+ Default implementation adds the current TimeToDraw with that of the
+ delegate painter.
+ </LI>
+<LI>  <tt>obj.UpdateBounds (double bounds[6])</tt> -  Expand or shrink the estimated bounds of the object based on the
+ geometric transformations performed in the painter. If the painter
+ does not modify the geometry, the bounds are passed through.
+ </LI>
+<LI>  <tt>obj.SetInput (vtkDataObject )</tt> -  Set the data object to paint. Currently we only support one data object per
+ painter chain.
+ </LI>
+<LI>  <tt>vtkDataObject = obj.GetInput ()</tt> -  Set the data object to paint. Currently we only support one data object per
+ painter chain.
+ </LI>
+<LI>  <tt>vtkDataObject = obj.GetOutput ()</tt>
+ </LI>
+</UL>
+*/

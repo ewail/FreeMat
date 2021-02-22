@@ -1,0 +1,75 @@
+/*!
+\page handle_tubeplot TUBEPLOT Creates a Tubeplot
+
+<p>
+Section: \ref sec_handle "Handle-Based Graphics"
+\section Usage
+This <tt>tubeplot</tt> function is from the tubeplot package
+written by Anders Sandberg. The simplest syntax for the
+<tt>tubeplot</tt> routine is
+\verbatim
+    tubeplot(x,y,z)
+\endverbatim
+plots the basic tube with radius 1, where <tt>x,y,z</tt> are
+vectors that describe the tube.  If the radius of the
+tube is to be varied, use the second form
+\verbatim
+    tubeplot(x,y,z,r) 
+\endverbatim
+which plots the basic tube with variable radius r (either 
+a vector or a scalar value).  The third form allows you
+to specify the coloring using a vector of values:
+\verbatim
+    tubeplot(x,y,z,r,v)
+\endverbatim
+where the coloring is now dependent on the values in the 
+vector <tt>v</tt>.  If you want to create a tube plot with 
+a greater degree of tangential subdivisions (i.e.,
+the tube is more circular, use the form
+\verbatim
+    tubeplot(x,y,z,r,v,s)
+\endverbatim
+where <tt>s</tt> is the number of tangential subdivisions (default is 6)
+You can also use <tt>tubeplot</tt> to calculate matrices to feed to <tt>mesh</tt>
+and <tt>surf</tt>.
+\verbatim
+    [X,Y,Z]=tubeplot(x,y,z)
+\endverbatim
+returns <tt>N x 3</tt> matrices suitable for mesh or surf.
+
+Note that the tube may pinch at points where the normal and binormal 
+misbehaves. It is suitable for general space curves, not ones that 
+contain straight sections. Normally the tube is calculated using the
+Frenet frame, making the tube minimally twisted except at inflexion points.
+
+To deal with this problem there is an alternative frame:
+\verbatim
+    tubeplot(x,y,z,r,v,s,vec)
+\endverbatim
+calculates the tube by setting the normal to
+the cross product of the tangent and the vector vec. If it is chosen so 
+that it is always far from the tangent vector the frame will not twist unduly.
+\section Example
+Here is an example of a <tt>tubeplot</tt>.
+
+\if FRAGMENT
+frag_handle_tubeplot_000.m
+0
+t=0:(2*pi/100):(2*pi);
+x=cos(t*2).*(2+sin(t*3)*.3);
+y=sin(t*2).*(2+sin(t*3)*.3);
+z=cos(t*3)*.3;
+tubeplot(x,y,z,0.14*sin(t*5)+.29,t,10);
+mprint tubeplot1
+\endif
+
+
+\verbinclude frag_handle_tubeplot_000.m.out 
+
+\image html tubeplot1.png
+\image latex tubeplot1.eps "tubeplot1" width=12cm
+
+ Written by Anders Sandberg, asa@nada.kth.se, 2005
+ Website says the package is free for anybody to use.
+ www.nada.kth.se/~asa/Ray/Tubeplot/tubeplot.html
+*/

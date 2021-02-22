@@ -1,0 +1,83 @@
+/*!
+\page vtkhybrid_vtkexodusmodel vtkExodusModel
+
+<p>
+Section: \ref sec_vtkhybrid "Visualization Toolkit Hybrid Classes"
+\section Usage
+
+   A vtkUnstructuredGrid output by vtkExodusReader or vtkPExodusReader
+   is missing a great deal of initialization and static model data 
+   that is in an Exodus II file.  (Global variables, properties,
+   node sets, side sets, and so on.)  This data can be stored in a 
+   vtkModelMetadata object, which can be initialized using
+   this vtkExodusModel class.
+
+   This class can be initialized with a file handle for an open Exodus 
+   file, and the vtkUnstructuredGrid derived from that file.  The methods 
+   used would be SetGlobalInformation, SetLocalInformation, 
+   AddUGridElementVariable and AddUGridNodeVariable.  The vtkExodusReader
+   does this.
+
+   It can also be initialized (using UnpackExodusModel) from a 
+   vtkUnstructuredGrid that has had metadata packed into it's field 
+   arrays with PackExodusModel.   The vtkExodusIIWriter does this.
+
+   If you plan to write out the Exodus file (with vtkExodusIIWriter), 
+   you should direct the Exodus reader to create a vtkExodusModel object.
+   This will be used by the Exodus writer to create a correct Exodus II 
+   file on output.  In addition, the vtkDistributedDataFilter is 
+   cognizant of the ExodusModel object and will unpack, extract, merge, 
+   and pack these objects associated with the grids it is partitioning.
+
+ .SECTION See also
+   vtkExodusReader  vtkPExodusReader vtkExodusIIWriter vtkModelMetadata
+   vtkDistributedDataFilter
+
+To create an instance of class vtkExodusModel, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkExodusModel
+\endverbatim
+\section Methods
+The class vtkExodusModel has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkExodusModel class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkExodusModel = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkExodusModel = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>int = obj.SetGlobalInformation (int fid, int compute_word_size)</tt>
+ </LI>
+<LI>  <tt>int = obj.AddUGridElementVariable (string ugridVarName, string origName, int numComponents)</tt>
+ </LI>
+<LI>  <tt>int = obj.RemoveUGridElementVariable (string ugridVarName)</tt>
+ </LI>
+<LI>  <tt>int = obj.AddUGridNodeVariable (string ugridVarName, string origName, int numComponents)</tt>
+ </LI>
+<LI>  <tt>int = obj.RemoveUGridNodeVariable (string ugridVarName)</tt>
+ </LI>
+<LI>  <tt>int = obj.SetLocalInformation (vtkUnstructuredGrid ugrid, int fid, int timeStep, int newGeometry, int compute_word_size)</tt>
+ </LI>
+<LI>  <tt>vtkModelMetadata = obj.GetModelMetadata ()</tt>
+ </LI>
+<LI>  <tt>obj.SetModelMetadata (vtkModelMetadata emData)</tt>
+ </LI>
+<LI>  <tt>int = obj.UnpackExodusModel (vtkUnstructuredGrid grid, int deleteIt)</tt>
+ </LI>
+<LI>  <tt>int = obj.MergeExodusModel (vtkExodusModel em)</tt>
+ </LI>
+<LI>  <tt>vtkExodusModel = obj.ExtractExodusModel (vtkIdTypeArray globalCellIdList, vtkUnstructuredGrid grid)</tt>
+ </LI>
+<LI>  <tt>obj.PackExodusModel (vtkUnstructuredGrid grid)</tt>
+ </LI>
+<LI>  <tt>obj.Reset ()</tt>
+ </LI>
+</UL>
+*/

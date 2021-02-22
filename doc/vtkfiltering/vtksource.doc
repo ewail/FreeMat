@@ -1,0 +1,109 @@
+/*!
+\page vtkfiltering_vtksource vtkSource
+
+<p>
+Section: \ref sec_vtkfiltering "Visualization Toolkit Filtering Classes"
+\section Usage
+ vtkSource is an abstract object that specifies behavior and interface
+ of source objects. Source objects are objects that begin visualization
+ pipeline. Sources include readers (read data from file or communications
+ port) and procedural sources (generate data programmatically). vtkSource 
+ objects are also objects that generate output data. In this sense
+ vtkSource is used as a superclass to vtkFilter.
+
+ Concrete subclasses of vtkSource must define Update() and Execute() 
+ methods. The public method Update() invokes network execution and will
+ bring the network up-to-date. The protected Execute() method actually
+ does the work of data creation/generation. The difference between the two
+ methods is that Update() implements input consistency checks and modified
+ time comparisons and then invokes the Execute() which is an implementation 
+ of a particular algorithm.
+
+ An important feature of subclasses of vtkSource is that it is possible 
+ to control the memory-management model (i.e., retain output versus delete
+ output data). If enabled the ReleaseDataFlag enables the deletion of the
+ output data once the downstream process object finishes processing the
+ data (please see text).
+
+To create an instance of class vtkSource, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkSource
+\endverbatim
+\section Methods
+The class vtkSource has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkSource class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkSource = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkSource = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.Update ()</tt> -  Bring object up-to-date before execution. Update() checks modified
+ time against last execution time, and re-executes object if necessary.
+ </LI>
+<LI>  <tt>obj.UpdateWholeExtent ()</tt> -  Like update, but make sure the update extent is the whole extent in
+ the output.
+ </LI>
+<LI>  <tt>obj.UpdateInformation ()</tt> -  Updates any global information about the data 
+ (like spacing for images)
+ </LI>
+<LI>  <tt>obj.PropagateUpdateExtent (vtkDataObject output)</tt> -  WARNING: INTERNAL METHOD - NOT FOR GENERAL USE. 
+ THIS METHOD IS PART OF THE PIPELINE UPDATE FUNCTIONALITY.
+ The update extent for this object is propagated up the pipeline.
+ This propagation may early terminate based on the PipelineMTime.
+ </LI>
+<LI>  <tt>obj.TriggerAsynchronousUpdate ()</tt> -  WARNING: INTERNAL METHOD - NOT FOR GENERAL USE. 
+ THIS METHOD IS PART OF THE PIPELINE UPDATE FUNCTIONALITY.
+ Propagate back up the pipeline for ports and trigger the update on the
+ other side of the port to allow for asynchronous parallel processing in
+ the pipeline.
+ This propagation may early terminate based on the PipelineMTime.
+ </LI>
+<LI>  <tt>obj.UpdateData (vtkDataObject output)</tt> -  WARNING: INTERNAL METHOD - NOT FOR GENERAL USE. 
+ THIS METHOD IS PART OF THE PIPELINE UPDATE FUNCTIONALITY.
+ Propagate the update back up the pipeline, and perform the actual 
+ work of updating on the way down. When the propagate arrives at a
+ port, block and wait for the asynchronous update to finish on the
+ other side.
+ This propagation may early terminate based on the PipelineMTime.
+ </LI>
+<LI>  <tt>obj.ComputeInputUpdateExtents (vtkDataObject output)</tt> -  What is the input update extent that is required to produce the
+ desired output? By default, the whole input is always required but
+ this is overridden in many subclasses. 
+ </LI>
+<LI>  <tt>obj.SetReleaseDataFlag (int )</tt> -  Turn on/off flag to control whether this object's data is released
+ after being used by a source.
+ </LI>
+<LI>  <tt>int = obj.GetReleaseDataFlag ()</tt> -  Turn on/off flag to control whether this object's data is released
+ after being used by a source.
+ </LI>
+<LI>  <tt>obj.ReleaseDataFlagOn ()</tt> -  Turn on/off flag to control whether this object's data is released
+ after being used by a source.
+ </LI>
+<LI>  <tt>obj.ReleaseDataFlagOff ()</tt> -  Turn on/off flag to control whether this object's data is released
+ after being used by a source.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfOutputs ()</tt> -  Return an array with all the inputs of this process object.
+ This is useful for tracing back in the pipeline to construct
+ graphs etc.
+ </LI>
+<LI>  <tt>obj.UnRegisterAllOutputs (void )</tt> -  Release/disconnect all outputs of this source. This is intended to be
+ called prior to Delete() if the user is concerned about outputs holding
+ on to the filter/source.
+ </LI>
+<LI>  <tt>int = obj.GetOutputIndex (vtkDataObject out)</tt> -  Return what index output the passed in output is, return -1 if it
+ does not match any of the outputs
+ </LI>
+<LI>  <tt>obj.SetExecutive (vtkExecutive executive)</tt> -  Set this algorithm's executive.  This algorithm is removed from
+ any executive to which it has previously been assigned and then
+ assigned to the given executive.
+ </LI>
+</UL>
+*/

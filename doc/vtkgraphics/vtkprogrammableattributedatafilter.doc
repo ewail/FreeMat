@@ -1,0 +1,64 @@
+/*!
+\page vtkgraphics_vtkprogrammableattributedatafilter vtkProgrammableAttributeDataFilter
+
+<p>
+Section: \ref sec_vtkgraphics "Visualization Toolkit Graphics Classes"
+\section Usage
+ vtkProgrammableAttributeDataFilter is a filter that allows you to write a
+ custom procedure to manipulate attribute data - either point or cell
+ data. For example, you could generate scalars based on a complex formula;
+ convert vectors to normals; compute scalar values as a function of
+ vectors, texture coords, and/or any other point data attribute; and so
+ on. The filter takes multiple inputs (input plus an auxiliary input list),
+ so you can write procedures that combine several dataset point
+ attributes. Note that the output of the filter is the same type
+ (topology/geometry) as the input.
+
+ The filter works as follows. It operates like any other filter (i.e.,
+ checking and managing modified and execution times, processing Update()
+ and Execute() methods, managing release of data, etc.), but the difference
+ is that the Execute() method simply invokes a user-specified function with
+ an optional (void *) argument (typically the "this" pointer in C++). It is
+ also possible to specify a function to delete the argument via
+ ExecuteMethodArgDelete().
+
+ To use the filter, you write a procedure to process the input datasets,
+ process the data, and generate output data. Typically, this means grabbing
+ the input point or cell data (using GetInput() and maybe GetInputList()),
+ operating on it (creating new point and cell attributes such as scalars,
+ vectors, etc.), and then setting the point and/or cell attributes in the
+ output dataset (you'll need to use GetOutput() to access the output).
+ (Note: besides C++, it is possible to do the same thing in Tcl, Java, or
+ other languages that wrap the C++ core.) Remember, proper filter protocol
+ requires that you don't modify the input data - you create new output data
+ from the input.
+
+
+To create an instance of class vtkProgrammableAttributeDataFilter, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkProgrammableAttributeDataFilter
+\endverbatim
+\section Methods
+The class vtkProgrammableAttributeDataFilter has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkProgrammableAttributeDataFilter class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkProgrammableAttributeDataFilter = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkProgrammableAttributeDataFilter = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.AddInput (vtkDataSet in)</tt> -  Add a dataset to the list of data to process.
+ </LI>
+<LI>  <tt>obj.RemoveInput (vtkDataSet in)</tt> -  Remove a dataset from the list of data to process.
+ </LI>
+<LI>  <tt>vtkDataSetCollection = obj.GetInputList ()</tt> -  Return the list of inputs.
+ </LI>
+</UL>
+*/

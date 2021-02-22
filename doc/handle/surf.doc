@@ -1,0 +1,76 @@
+/*!
+\page handle_surf SURF Surface Plot Function
+
+<p>
+Section: \ref sec_handle "Handle-Based Graphics"
+\section Usage
+This routine is used to create a surface plot of data.  A 
+surface plot is a 3D surface defined by the xyz coordinates
+of its vertices and optionally by the color at the vertices.
+The most general syntax for the <tt>surf</tt> function is
+\verbatim
+  h = surf(X,Y,Z,C,properties...)
+\endverbatim
+Where <tt>X</tt> is a matrix or vector of <tt>x</tt> coordinates, <tt>Y</tt> is a
+matrix or vector of <tt>y</tt> coordinates, <tt>Z</tt> is a 2D matrix of
+coordinates, and <tt>C</tt> is a 2D matrix of color values (the colormap
+for the current fig is applied).  In general, <tt>X</tt> and <tt>Y</tt> should
+be the same size as <tt>Z</tt>, but FreeMat will expand vectors to match
+the matrix if possible.
+If you want the color of the surface to be defined by the height
+of the surface, you can omit <tt>C</tt>
+\verbatim
+  h = surf(X,Y,Z,properties...)
+\endverbatim
+in which case <tt>C=Z</tt>.  You can also eliminate the <tt>X</tt> and <tt>Y</tt>
+matrices in the specification
+\verbatim
+  h = surf(Z,properties)
+\endverbatim
+in which case they are set to <tt>1:size(Z,2)</tt> and <tt>1:size(Y,2)</tt>
+respectively.
+You can also specify a handle as the target of the <tt>surf</tt> command
+via
+\verbatim
+  h = surf(handle,...)
+\endverbatim
+\section Example
+Here we generate a surface specifying all four components.
+
+\if FRAGMENT
+frag_handle_surf_000.m
+0
+x = repmat(linspace(-1,1),[100,1]);
+y = x';
+r = x.^2+y.^2;
+z = exp(-r*3).*cos(5*r);
+c = r;
+surf(x,y,z,c)
+axis equal
+view(3)
+mprint surf1
+\endif
+
+
+\verbinclude frag_handle_surf_000.m.out 
+
+\image html surf1.png
+\image latex surf1.eps "surf1" width=12cm
+If we allow FreeMat to specify the color component, we see that
+the colorfield is the same as the height
+
+\if FRAGMENT
+frag_handle_surf_001.m
+0
+surf(x,y,z)
+axis equal
+view(3)
+mprint surf2
+\endif
+
+
+\verbinclude frag_handle_surf_001.m.out 
+
+\image html surf2.png
+\image latex surf2.eps "surf2" width=12cm
+*/

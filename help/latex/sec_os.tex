@@ -1,0 +1,277 @@
+
+\begin{DoxyItemize}
+\item \hyperlink{os_cd}{C\-D Change Working Directory Function}  
+\item \hyperlink{os_copyfile}{C\-O\-P\-Y\-F\-I\-L\-E Copy Files}  
+\item \hyperlink{os_delete}{D\-E\-L\-E\-T\-E Delete a File}  
+\item \hyperlink{os_dir}{D\-I\-R List Files Function}  
+\item \hyperlink{os_dirsep}{D\-I\-R\-S\-E\-P Director Seperator}  
+\item \hyperlink{os_fileattrib}{F\-I\-L\-E\-A\-T\-T\-R\-I\-B Get and Set File or Directory Attributes}  
+\item \hyperlink{os_fileparts}{F\-I\-L\-E\-P\-A\-R\-T\-S Extract Filename Parts}  
+\item \hyperlink{os_fullfile}{F\-U\-L\-L\-F\-I\-L\-E Build a Full Filename From Pieces}  
+\item \hyperlink{os_getenv}{G\-E\-T\-E\-N\-V Get the Value of an Environment Variable}  
+\item \hyperlink{os_getpath}{G\-E\-T\-P\-A\-T\-H Get Current Search Path}  
+\item \hyperlink{os_ls}{L\-S List Files Function}  
+\item \hyperlink{os_mkdir}{M\-K\-D\-I\-R Make Directory}  
+\item \hyperlink{os_pwd}{P\-W\-D Print Working Directory Function}  
+\item \hyperlink{os_rmdir}{R\-M\-D\-I\-R Remove Directory}  
+\item \hyperlink{os_setpath}{S\-E\-T\-P\-A\-T\-H Set Current Search Path}  
+\item \hyperlink{os_system}{S\-Y\-S\-T\-E\-M Call an External Program}  
+\end{DoxyItemize}\hypertarget{os_cd}{}\section{C\-D Change Working Directory Function}\label{os_cd}
+Section\-: \hyperlink{sec_os}{Operating System Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Changes the current working directory to the one specified as the argument. The general syntax for its use is \begin{DoxyVerb}  cd('dirname')
+\end{DoxyVerb}
+ but this can also be expressed as \begin{DoxyVerb}  cd 'dirname'
+\end{DoxyVerb}
+ or \begin{DoxyVerb}  cd dirname
+\end{DoxyVerb}
+ Examples of all three usages are given below. Generally speaking, {\ttfamily dirname} is any string that would be accepted by the underlying O\-S as a valid directory name. For example, on most systems, {\ttfamily '.'} refers to the current directory, and {\ttfamily '..'} refers to the parent directory. Also, depending on the O\-S, it may be necessary to ``escape'' the directory seperators. In particular, if directories are seperated with the backwards-\/slash character {\ttfamily '\textbackslash{}'}, then the path specification must use double-\/slashes {\ttfamily '\textbackslash{}\textbackslash{}'}. Note\-: to get file-\/name completion to work at this time, you must use one of the first two forms of the command.\hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+The {\ttfamily pwd} command returns the current directory location. First, we use the simplest form of the {\ttfamily cd} command, in which the directory name argument is given unquoted.
+
+
+\begin{DoxyVerbInclude}
+--> pwd
+
+ans = 
+/home/sbasu/Devel/FreeMat4/doc/fragments
+--> cd ..
+--> pwd
+
+ans = 
+/home/sbasu/Devel/FreeMat4/doc
+\end{DoxyVerbInclude}
+
+
+Next, we use the ``traditional'' form of the function call, using both the parenthesis and a variable to store the quoted string.
+
+
+\begin{DoxyVerbInclude}
+--> a = pwd;
+--> cd(a)
+--> pwd
+
+ans = 
+/home/sbasu/Devel/FreeMat4/doc/fragments
+\end{DoxyVerbInclude}
+ \hypertarget{os_copyfile}{}\section{C\-O\-P\-Y\-F\-I\-L\-E Copy Files}\label{os_copyfile}
+Section\-: \hyperlink{sec_os}{Operating System Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Copies a file or files from one location to another. There are several syntaxes for this function that are acceptable\-: \begin{DoxyVerb}   copyfile(file_in,file_out)
+\end{DoxyVerb}
+ copies the file from {\ttfamily file\-\_\-in} to {\ttfamily file\-\_\-out}. Also, the second argument can be a directory name\-: \begin{DoxyVerb}   copyfile(file_in,directory_out)
+\end{DoxyVerb}
+ in which case {\ttfamily file\-\_\-in} is copied into the directory specified by {\ttfamily directory\-\_\-out}. You can also use {\ttfamily copyfile} to copy entire directories as in \begin{DoxyVerb}   copyfile(dir_in,dir_out)
+\end{DoxyVerb}
+ in which case the directory contents are copied to the destination directory (which is created if necessary). Finally, the first argument to {\ttfamily copyfile} can contain wildcards \begin{DoxyVerb}   copyfile(pattern,directory_out)
+\end{DoxyVerb}
+ in which case all files that match the given pattern are copied to the output directory. Note that to remain compatible with the M\-A\-T\-L\-A\-B A\-P\-I, this function will delete/replace destination files that already exist, unless they are marked as read-\/only. If you want to force the copy to succeed, you can append a {\ttfamily 'f'} argument to the {\ttfamily copyfile} function\-: \begin{DoxyVerb}   copyfile(arg1,arg2,'f')
+\end{DoxyVerb}
+ or equivalently \begin{DoxyVerb}   copyfile arg1 arg2 f
+\end{DoxyVerb}
+ \hypertarget{os_delete}{}\section{D\-E\-L\-E\-T\-E Delete a File}\label{os_delete}
+Section\-: \hyperlink{sec_os}{Operating System Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Deletes a file. The general syntax for its use is \begin{DoxyVerb}  delete('filename')
+\end{DoxyVerb}
+ or alternately \begin{DoxyVerb}  delete filename
+\end{DoxyVerb}
+ which removes the file described by {\ttfamily filename} which must be relative to the current path. \hypertarget{os_dir}{}\section{D\-I\-R List Files Function}\label{os_dir}
+Section\-: \hyperlink{sec_os}{Operating System Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+In some versions of Free\-Mat (pre 3.\-1), the {\ttfamily dir} function was aliased to the {\ttfamily ls} function. Starting with version {\ttfamily 3.\-1}, the {\ttfamily dir} function has been rewritten to provide compatibility with M\-A\-T\-L\-A\-B. The general syntax for its use is \begin{DoxyVerb}  dir
+\end{DoxyVerb}
+ in which case, a listing of the files in the current directory are output to the console. Alternately, you can specify a target via \begin{DoxyVerb}  dir('name')
+\end{DoxyVerb}
+ or using the string syntax \begin{DoxyVerb}  dir name
+\end{DoxyVerb}
+ If you want to capture the output of the {\ttfamily dir} command, you can assign the output to an array \begin{DoxyVerb}  result = dir('name')
+\end{DoxyVerb}
+ (or you can omit {\ttfamily 'name'} to get a directory listing of the current directory. The resulting array {\ttfamily result} is a structure array containing the fields\-: 
+\begin{DoxyItemize}
+\item {\ttfamily name} the filename as a string  
+\item {\ttfamily date} the modification date and time stamp as a string  
+\item {\ttfamily bytes} the size of the file in bytes as a {\ttfamily uint64}  
+\item {\ttfamily isdir} a logical that is {\ttfamily 1} if the file corresponds to a directory.  
+\end{DoxyItemize}Note that {\ttfamily 'name'} can also contain wildcards (e.\-g., {\ttfamily dir $\ast$.m} to get a listing of all Free\-Mat scripts in the current directory. \hypertarget{os_dirsep}{}\section{D\-I\-R\-S\-E\-P Director Seperator}\label{os_dirsep}
+Section\-: \hyperlink{sec_os}{Operating System Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Returns the directory seperator character for the current platform. The general syntax for its use is \begin{DoxyVerb}   y = dirsep
+\end{DoxyVerb}
+ This function can be used to build up paths (or see {\ttfamily fullfile} for another way to do this. \hypertarget{os_fileattrib}{}\section{F\-I\-L\-E\-A\-T\-T\-R\-I\-B Get and Set File or Directory Attributes}\label{os_fileattrib}
+Section\-: \hyperlink{sec_os}{Operating System Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Retrieves information about a file or directory. The first version uses the syntax \begin{DoxyVerb}   y = fileattrib(filename)
+\end{DoxyVerb}
+ where {\ttfamily filename} is the name of a file or directory. The returned structure contains several entries, corresponding to the attributes of the file. Here is a list of the entries, and their meaning\-: 
+\begin{DoxyItemize}
+\item {\ttfamily Name} -\/ the full pathname for the file  
+\item {\ttfamily archive} -\/ not used, set to {\ttfamily 0}  
+\item {\ttfamily system} -\/ not used, set to {\ttfamily 0}  
+\item {\ttfamily hidden} -\/ set to {\ttfamily 1} for a hidden file, and {\ttfamily 0} else.  
+\item {\ttfamily directory} -\/ set to {\ttfamily 1} for a directory, and {\ttfamily 0} for a file.  
+\item {\ttfamily User\-Read} -\/ set to {\ttfamily 1} if the user has read permission, {\ttfamily 0} otherwise.  
+\item {\ttfamily User\-Write} -\/ set to {\ttfamily 1} if the user has write permission, {\ttfamily 0} otherwise.  
+\item {\ttfamily User\-Execute} -\/ set to {\ttfamily 1} if the user has execute permission, {\ttfamily 0} otherwise.  
+\item {\ttfamily Group\-Read} -\/ set to {\ttfamily 1} if the group has read permission, {\ttfamily 0} otherwise.  
+\item {\ttfamily Group\-Write} -\/ set to {\ttfamily 1} if the group has write permission, {\ttfamily 0} otherwise.  
+\item {\ttfamily Group\-Execute} -\/ set to {\ttfamily 1} if the group has execute permission, {\ttfamily 0} otherwise.  
+\item {\ttfamily Other\-Read} -\/ set to {\ttfamily 1} if the world has read permission, {\ttfamily 0} otherwise.  
+\item {\ttfamily Other\-Write} -\/ set to {\ttfamily 1} if the world has write permission, {\ttfamily 0} otherwise.  
+\item {\ttfamily Other\-Execute} -\/ set to {\ttfamily 1} if the world has execute permission, {\ttfamily 0} otherwise.  
+\end{DoxyItemize}You can also provide a wildcard filename to get the attributes for a set of files e.\-g., \begin{DoxyVerb}   y = fileattrib('foo*')
+\end{DoxyVerb}
+
+
+You can also use {\ttfamily fileattrib} to change the attributes of a file and/or directories. To change attributes, use one of the following syntaxes \begin{DoxyVerb}   y = fileattrib(filename,attributelist)
+   y = fileattrib(filename,attributelist,userlist)
+   y = fileattrib(filename,attributelist,userlist,'s')
+\end{DoxyVerb}
+ where {\ttfamily attributelist} is a string that consists of a list of attributes, each preceeded by a {\ttfamily +} to enable the attribute, and {\ttfamily -\/} to disable the attribute. The valid list of attributes that can be changed are 
+\begin{DoxyItemize}
+\item {\ttfamily 'w'} -\/ change write permissions  
+\item {\ttfamily 'r'} -\/ change read permissions  
+\item {\ttfamily 'x'} -\/ change execute permissions  
+\end{DoxyItemize}for example, {\ttfamily '-\/w +r'} would indicate removal of write permissions and addition of read permissions. The {\ttfamily userlist} is a string that lists the realm of the permission changes. If it is not specified, it defaults to {\ttfamily 'u'}. 
+\begin{DoxyItemize}
+\item {\ttfamily 'u'} -\/ user or owner permissions  
+\item {\ttfamily 'g'} -\/ group permissions  
+\item {\ttfamily 'o'} -\/ other permissions (\char`\"{}world\char`\"{} in normal Unix terminology)  
+\item {\ttfamily 'a'} -\/ equivalent to 'ugo'.  
+\end{DoxyItemize}Finally, if you specify a {\ttfamily 's'} for the last argument, the attribute change is applied recursively, so that setting the attributes for a directory will apply to all the entries within the directory. \hypertarget{os_fileparts}{}\section{F\-I\-L\-E\-P\-A\-R\-T\-S Extract Filename Parts}\label{os_fileparts}
+Section\-: \hyperlink{sec_os}{Operating System Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+The {\ttfamily fileparts} takes a filename, and returns the path, filename, extension, and (for M\-A\-T\-L\-A\-B-\/compatibility) an empty version number of the file. The syntax for its use is \begin{DoxyVerb}    [path,name,extension,version] = fileparts(filename)
+\end{DoxyVerb}
+ where {\ttfamily filename} is a string containing the description of the file, and {\ttfamily path} is the {\ttfamily path} to the file, \hypertarget{os_fullfile}{}\section{F\-U\-L\-L\-F\-I\-L\-E Build a Full Filename From Pieces}\label{os_fullfile}
+Section\-: \hyperlink{sec_os}{Operating System Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+The {\ttfamily fullfile} routine constructs a full filename from a set of pieces, namely, directory names and a filename. The syntax is\-: \begin{DoxyVerb}  x = fullfile(dir1,dir2,...,dirn,filename)
+\end{DoxyVerb}
+ where each of the arguments are strings. The {\ttfamily fullfile} function is equivalent to {\ttfamily \mbox{[}dir1 dirsep dir2 dirsep ... dirn dirsep filename\mbox{]}}. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+
+\begin{DoxyVerbInclude}
+--> fullfile('path','to','my','file.m')
+
+ans = 
+path/to/my/file.m
+\end{DoxyVerbInclude}
+ \hypertarget{os_getenv}{}\section{G\-E\-T\-E\-N\-V Get the Value of an Environment Variable}\label{os_getenv}
+Section\-: \hyperlink{sec_os}{Operating System Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+The {\ttfamily getenv} function returns the value for an environment variable from the underlying O\-S. The syntax for the {\ttfamily getenv} function is \begin{DoxyVerb}   y = getenv(environment_variable)
+\end{DoxyVerb}
+ where {\ttfamily environment\-\_\-variable} is the name of the environment variable to return. The return is a string. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+Here is an example of using the {\ttfamily getenv} function to get the value for the {\ttfamily H\-O\-M\-E} variable
+
+
+\begin{DoxyVerbInclude}
+--> getenv('HOME')
+
+ans = 
+/home/sbasu
+\end{DoxyVerbInclude}
+ \hypertarget{os_getpath}{}\section{G\-E\-T\-P\-A\-T\-H Get Current Search Path}\label{os_getpath}
+Section\-: \hyperlink{sec_os}{Operating System Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Returns a {\ttfamily string} containing the current Free\-Mat search path. The general syntax for its use is \begin{DoxyVerb}  y = getpath
+\end{DoxyVerb}
+ The delimiter between the paths depends on the system being used. For Win32, the delimiter is a semicolon. For all other systems, the delimiter is a colon.\hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+The {\ttfamily getpath} function is straightforward.
+
+
+\begin{DoxyVerbInclude}
+--> getpath
+
+ans = 
+/usr/local/FreeMat/MFiles:/localhome/basu/MFiles
+\end{DoxyVerbInclude}
+ \hypertarget{os_ls}{}\section{L\-S List Files Function}\label{os_ls}
+Section\-: \hyperlink{sec_os}{Operating System Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Lists the files in a directory or directories. The general syntax for its use is \begin{DoxyVerb}  ls('dirname1','dirname2',...,'dirnameN')
+\end{DoxyVerb}
+ but this can also be expressed as \begin{DoxyVerb}  ls 'dirname1' 'dirname2' ... 'dirnameN'
+\end{DoxyVerb}
+ or \begin{DoxyVerb}  ls dirname1 dirname2 ... dirnameN
+\end{DoxyVerb}
+ For compatibility with some environments, the function {\ttfamily dir} can also be used instead of {\ttfamily ls}. Generally speaking, {\ttfamily dirname} is any string that would be accepted by the underlying O\-S as a valid directory name. For example, on most systems, {\ttfamily '.'} refers to the current directory, and {\ttfamily '..'} refers to the parent directory. Also, depending on the O\-S, it may be necessary to ``escape'' the directory seperators. In particular, if directories are seperated with the backwards-\/slash character {\ttfamily '\textbackslash{}'}, then the path specification must use double-\/slashes {\ttfamily '\textbackslash{}\textbackslash{}'}. Two points worth mentioning about the {\ttfamily ls} function\-: 
+\begin{DoxyItemize}
+\item To get file-\/name completion to work at this time, you must use one of the first two forms of the command.  
+\item If you want to capture the output of the {\ttfamily ls} command, use the {\ttfamily system} function instead.  
+\end{DoxyItemize}\hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+First, we use the simplest form of the {\ttfamily ls} command, in which the directory name argument is given unquoted.
+
+
+\begin{DoxyVerbInclude}
+--> ls m*.m
+\end{DoxyVerbInclude}
+
+
+Next, we use the ``traditional'' form of the function call, using both the parenthesis and the quoted string.
+
+
+\begin{DoxyVerbInclude}
+--> ls('m*.m')
+\end{DoxyVerbInclude}
+
+
+In the third version, we use only the quoted string argument without parenthesis.
+
+
+\begin{DoxyVerbInclude}
+--> ls 'm*.m'
+\end{DoxyVerbInclude}
+ \hypertarget{os_mkdir}{}\section{M\-K\-D\-I\-R Make Directory}\label{os_mkdir}
+Section\-: \hyperlink{sec_os}{Operating System Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Creates a directory. The general syntax for its use is \begin{DoxyVerb}  mkdir('dirname')
+\end{DoxyVerb}
+ which creates the directory {\ttfamily dirname} if it does not exist. The argument {\ttfamily dirname} can be either a relative path or an absolute path. For compatibility with M\-A\-T\-L\-A\-B, the following syntax is also allowed \begin{DoxyVerb}  mkdir('parentdir','dirname')
+\end{DoxyVerb}
+ which attempts to create a directory {\ttfamily dirname} in the directory given by {\ttfamily parentdir}. However, this simply calls {\ttfamily mkdir(\mbox{[}parentdir dirsep dirname\mbox{]})}, and if this is not the required behavior, please file an enhancement request to have it changed. Note that {\ttfamily mkdir} returns a logical {\ttfamily 1} if the call succeeded, and a logical {\ttfamily 0} if not. \hypertarget{os_pwd}{}\section{P\-W\-D Print Working Directory Function}\label{os_pwd}
+Section\-: \hyperlink{sec_os}{Operating System Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Returns a {\ttfamily string} describing the current working directory. The general syntax for its use is \begin{DoxyVerb}  y = pwd
+\end{DoxyVerb}
+\hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+The {\ttfamily pwd} function is fairly straightforward.
+
+
+\begin{DoxyVerbInclude}
+--> pwd
+
+ans = 
+/home/sbasu/Devel/FreeMat4/doc/fragments
+\end{DoxyVerbInclude}
+ \hypertarget{os_rmdir}{}\section{R\-M\-D\-I\-R Remove Directory}\label{os_rmdir}
+Section\-: \hyperlink{sec_os}{Operating System Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Deletes a directory. The general syntax for its use is \begin{DoxyVerb}  rmdir('dirname')
+\end{DoxyVerb}
+ which removes the directory {\ttfamily dirname} if it is empty. If you want to delete the directory and all subdirectories and files in it, use the syntax \begin{DoxyVerb}  rmdir('dirname','s')
+\end{DoxyVerb}
+ \hypertarget{os_setpath}{}\section{S\-E\-T\-P\-A\-T\-H Set Current Search Path}\label{os_setpath}
+Section\-: \hyperlink{sec_os}{Operating System Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Changes the current Free\-Mat search path. The general syntax for its use is \begin{DoxyVerb}  setpath(y)
+\end{DoxyVerb}
+ where {\ttfamily y} is a {\ttfamily string} containing a delimited list of directories to be searched for M files and libraries. The delimiter between the paths depends on the system being used. For Win32, the delimiter is a semicolon. For all other systems, the delimiter is a colon.\hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+The {\ttfamily setpath} function is straightforward.
+
+
+\begin{DoxyVerbInclude}
+--> getpath
+
+ans = 
+/usr/local/FreeMat/MFiles:/localhome/basu/MFiles
+--> setpath('/usr/local/FreeMat/MFiles:/localhome/basu/MFiles')
+--> getpath
+
+ans = 
+/usr/local/FreeMat/MFiles:/localhome/basu/MFiles
+\end{DoxyVerbInclude}
+ \hypertarget{os_system}{}\section{S\-Y\-S\-T\-E\-M Call an External Program}\label{os_system}
+Section\-: \hyperlink{sec_os}{Operating System Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+The {\ttfamily system} function allows you to call an external program from within Free\-Mat, and capture the output. The syntax of the {\ttfamily system} function is \begin{DoxyVerb}  y = system(cmd)
+\end{DoxyVerb}
+ where {\ttfamily cmd} is the command to execute. The return array {\ttfamily y} is of type {\ttfamily cell-\/array}, where each entry in the array corresponds to a line from the output. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+Here is an example of calling the {\ttfamily ls} function (the list files function under Un$\ast$x-\/like operating system).
+
+
+\begin{DoxyVerbInclude}
+--> y = system('ls a*.m')
+
+y = 
+ [addtest2.m] [addtest3.m] [addtest.m] 
+
+--> y{1}
+
+ans = 
+addtest2.m
+\end{DoxyVerbInclude}
+ 

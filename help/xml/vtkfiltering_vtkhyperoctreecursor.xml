@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkfiltering_vtkhyperoctreecursor" kind="page">
+    <compoundname>vtkfiltering_vtkhyperoctreecursor</compoundname>
+    <title>vtkHyperOctreeCursor</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkfiltering_1sec_vtkfiltering" kindref="member">Visualization Toolkit Filtering Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>Objects that can traverse hyperoctree nodes. It is an abstract class. Cursors are created by the hyperoctree.</para><para>To create an instance of class vtkHyperOctreeCursor, simply invoke its constructor as follows <verbatim>  obj = vtkHyperOctreeCursor
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkHyperOctreeCursor has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkHyperOctreeCursor class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkHyperOctreeCursor = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkHyperOctreeCursor = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetLeafId ()</computeroutput> - Return the index of the current leaf in the data arrays. <simplesect kind="pre"><para>is_leaf: CurrentIsLeaf()  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>int = obj.CurrentIsLeaf ()</computeroutput> - Is the node pointed by the cursor a leaf?  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.CurrentIsRoot ()</computeroutput> - Is the node pointed by the cursor the root?  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetCurrentLevel ()</computeroutput> - Return the level of the node pointed by the cursor. <simplesect kind="post"><para>positive_result: result&gt;=0  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetChildIndex ()</computeroutput> - Return the child number of the current node relative to its parent. <simplesect kind="pre"><para>not_root: !CurrentIsRoot(). </para></simplesect>
+<simplesect kind="post"><para>valid_range: result&gt;=0 &amp;&amp; result&lt;GetNumberOfChildren()  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>int = obj.CurrentIsTerminalNode ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ToRoot ()</computeroutput> - Move the cursor the root node. <simplesect kind="pre"><para>can be root </para></simplesect>
+<simplesect kind="post"><para>is_root: CurrentIsRoot()  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.ToParent ()</computeroutput> - Move the cursor to the parent of the current node. <simplesect kind="pre"><para>not_root: !CurrentIsRoot()  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.ToChild (int child)</computeroutput> - Move the cursor to child `child&apos; of the current node. <simplesect kind="pre"><para>not_leaf: !CurrentIsLeaf() </para><simplesectsep/><para>valid_child: child&gt;=0 &amp;&amp; child&lt;this-&gt;GetNumberOfChildren()  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.ToSameNode (vtkHyperOctreeCursor other)</computeroutput> - Move the cursor to the same node pointed by `other&apos;. <simplesect kind="pre"><para>other_exists: other!=0 </para><simplesectsep/><para>same_hyperoctree: this-&gt;SameTree(other); </para></simplesect>
+<simplesect kind="post"><para>equal: this-&gt;IsEqual(other)  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsEqual (vtkHyperOctreeCursor other)</computeroutput> - Is `this&apos; equal to `other&apos;? <simplesect kind="pre"><para>other_exists: other!=0 </para><simplesectsep/><para>same_hyperoctree: this-&gt;SameTree(other);  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>vtkHyperOctreeCursor = obj.Clone ()</computeroutput> - Create a copy of `this&apos;. <simplesect kind="post"><para>results_exists:result!=0 </para><simplesectsep/><para>same_tree: result-&gt;SameTree(this)  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>int = obj.SameTree (vtkHyperOctreeCursor other)</computeroutput> - Are `this&apos; and `other&apos; pointing on the same hyperoctree? <simplesect kind="pre"><para>other_exists: other!=0  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetIndex (int d)</computeroutput> - Return the index in dimension `d&apos;, as if the node was a cell of a uniform grid of 1&lt;&lt;GetCurrentLevel() cells in each dimension. <simplesect kind="pre"><para>valid_range: d&gt;=0 &amp;&amp; d&lt;GetDimension() </para></simplesect>
+<simplesect kind="post"><para>valid_result: result&gt;=0 &amp;&amp; result&lt;(1&lt;&lt;GetCurrentLevel())  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetNumberOfChildren ()</computeroutput> - Return the number of children for each node of the tree. <simplesect kind="post"><para>positive_number: result&gt;0  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetDimension ()</computeroutput> - Return the dimension of the tree. <simplesect kind="post"><para>positive_result: result&gt;0  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.MoveToNode (int indices, int level)</computeroutput> - Move to the node described by its indices in each dimension and at a given level. If there is actually a node or a leaf at this location, Found() returns true. Otherwise, Found() returns false and the cursor moves to the closest parent of the query. It can be the root in the worst case. <simplesect kind="pre"><para>indices_exists: indices!=0 </para><simplesectsep/><para>valid_size: sizeof(indices)==GetDimension() </para><simplesectsep/><para>valid_level: level&gt;=0  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>int = obj.Found ()</computeroutput>  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

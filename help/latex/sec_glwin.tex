@@ -1,0 +1,34 @@
+
+\begin{DoxyItemize}
+\item \hyperlink{glwin_glassembly}{G\-L\-A\-S\-S\-E\-M\-B\-L\-Y Create a G\-L Assembly}  
+\item \hyperlink{glwin_glclump}{G\-L\-C\-L\-U\-M\-P Create a G\-L Clump}  
+\item \hyperlink{glwin_gldefmaterial}{G\-L\-D\-E\-F\-M\-A\-T\-E\-R\-I\-A\-L Defines a G\-L Material}  
+\item \hyperlink{glwin_gllines}{G\-L\-L\-I\-N\-E\-S Create a G\-L Lineset}  
+\item \hyperlink{glwin_glnode}{G\-L\-N\-O\-D\-E Create a G\-L Node}  
+\end{DoxyItemize}\hypertarget{glwin_glassembly}{}\section{G\-L\-A\-S\-S\-E\-M\-B\-L\-Y Create a G\-L Assembly}\label{glwin_glassembly}
+Section\-: \hyperlink{sec_glwin}{Open\-G\-L Models} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Define a G\-L Assembly. A G\-L Assembly consists of one or more G\-L Nodes or G\-L Assemblies that are placed relative to the coordinate system of the assembly. For example, if we have {\ttfamily glnode} definitions for {\ttfamily 'bread'} and {\ttfamily 'cheese'}, then a {\ttfamily glassembly} of sandwich would consist of placements of two {\ttfamily 'bread'} nodes with a {\ttfamily 'cheese'} node in between. Furthermore, a {\ttfamily 'lunch'} assembly could consist of a {\ttfamily 'sandwich'} a {\ttfamily 'chips'} and {\ttfamily 'soda'}. Hopefully, you get the idea. The syntax for the {\ttfamily glassembly} command is \begin{DoxyVerb}   glassembly(name,part1,transform1,part2,transform2,...)
+\end{DoxyVerb}
+ where {\ttfamily part1} is the name of the first part, and could be either a {\ttfamily glnode} or itself be another {\ttfamily glassembly}. Here {\ttfamily transform1} is the {\ttfamily 4 x 4 matrix} that transforms the part into the local reference coordinate system.
+
+W\-A\-R\-N\-I\-N\-G!! Currently Free\-Mat does not detect or gracefully handle self-\/referential assemblies (i.\-e, if you try to make a {\ttfamily sandwich} contain a {\ttfamily sandwich}, which you can do by devious methods that I refuse to explain). Do not do this! You have been warned. \hypertarget{glwin_glclump}{}\section{G\-L\-C\-L\-U\-M\-P Create a G\-L Clump}\label{glwin_glclump}
+Section\-: \hyperlink{sec_glwin}{Open\-G\-L Models} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Defines an aggregate clump of objects that can be treated as a node. A G\-L Clump is defined by a vector consisting of the following elements\-: \begin{DoxyVerb}   [r1 g1 b1 n1 p1 p2 p3 ... r2 g2 b2 n2 p1 p2 p3 ... ]
+\end{DoxyVerb}
+ i.\-e., an R\-G\-B color spec, followed by a point count {\ttfamily ni}, followed by a length {\ttfamily ni} vector of coordinates that are {\ttfamily x,y,z} triplets. The usage of this function is \begin{DoxyVerb}   glclump(name,vector)
+\end{DoxyVerb}
+ where {\ttfamily name} is the name of the clump and {\ttfamily vector} is the aforementioned vector of points. \hypertarget{glwin_gldefmaterial}{}\section{G\-L\-D\-E\-F\-M\-A\-T\-E\-R\-I\-A\-L Defines a G\-L Material}\label{glwin_gldefmaterial}
+Section\-: \hyperlink{sec_glwin}{Open\-G\-L Models} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Define a material. The syntax for its use is \begin{DoxyVerb}  gldefmaterial(name,ambient,diffuse,specular,shininess)
+\end{DoxyVerb}
+ where {\ttfamily name} is the name of the material, and {\ttfamily ambient} is a {\ttfamily 4 x 1} vector containing the ambient component of the material property, and {\ttfamily diffuse} is a {\ttfamily 4 x 1} vector and {\ttfamily specular} is a {\ttfamily 4 x 1} vector containing the specular component of the material properties and {\ttfamily shininess} is the exponent that governs the shinines of the material. \hypertarget{glwin_gllines}{}\section{G\-L\-L\-I\-N\-E\-S Create a G\-L Lineset}\label{glwin_gllines}
+Section\-: \hyperlink{sec_glwin}{Open\-G\-L Models} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Defines a set of lines that can be treated as a node. A G\-L Lines is defined by a vector consisting of the following elements\-: \begin{DoxyVerb}   [m1 x1 y1 z1 ... xn yn zn m2 x1 y1 z1 .... ]
+\end{DoxyVerb}
+ i.\-e., a point count followed by that number of triplets. The usage of this function is \begin{DoxyVerb}  gllines(name,vector,color)
+\end{DoxyVerb}
+ where {\ttfamily name} is the name of the lineset and {\ttfamily vector} is the aforementioned vector of points. \hypertarget{glwin_glnode}{}\section{G\-L\-N\-O\-D\-E Create a G\-L Node}\label{glwin_glnode}
+Section\-: \hyperlink{sec_glwin}{Open\-G\-L Models} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Define a G\-L Node. A G\-L Node is an object that can be displayed in a G\-L Window. It is defined by a triangular mesh of vertices. It must also have a material that defines its appearance (i.\-e. color, shininess, etc.). The syntax for the {\ttfamily glnode} command is \begin{DoxyVerb}  glnode(name,material,pointset)  
+\end{DoxyVerb}
+ where {\ttfamily material} is the name of a material that has already been defined with {\ttfamily gldefmaterial}, {\ttfamily pointset} is a {\ttfamily 3 x N} matrix of points that define the geometry of the object. Note that the points are assumed to be connected in triangular facts, with the points defined counter clock-\/wise as seen from the outside of the facet. {\ttfamily Free\-Mat} will compute the normals. The {\ttfamily name} argument must be unique. If you want multiple instances of a given {\ttfamily glnode} in your G\-L\-Window, that is fine, as instances of a {\ttfamily glnode} are created through a {\ttfamily glassembly}. 

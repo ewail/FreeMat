@@ -1,0 +1,104 @@
+
+\begin{DoxyItemize}
+\item \hyperlink{function_inline}{I\-N\-L\-I\-N\-E Construct Inline Function}  
+\item \hyperlink{function_symvar}{S\-Y\-M\-V\-A\-R Find Symbolic Variables in an Expression}  
+\end{DoxyItemize}\hypertarget{function_inline}{}\section{I\-N\-L\-I\-N\-E Construct Inline Function}\label{function_inline}
+Section\-: \hyperlink{sec_function}{Function Related Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Constructs an inline function object. The syntax for its use is either \begin{DoxyVerb}   y = inline(expr)
+\end{DoxyVerb}
+ which uses the {\ttfamily symvar} function to identify the variables in the expression, or the explicit form \begin{DoxyVerb}   y = inline(expr,var1,var2,...,varn)
+\end{DoxyVerb}
+ where the variables are explicitly given. Note that inline functions are only partially supported in Free\-Mat. If you need features of the inline function that are not currently implemented, please file a feature request at the Free\-Mat website. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+Here we construct an inline expression using the autodetection of {\ttfamily symvar}
+
+
+\begin{DoxyVerbInclude}
+--> a = inline('x^2')
+
+a = 
+  inline function object
+  f(x) = x^2
+--> a(3)
+
+ans = 
+ 9 
+
+--> a(i)
+
+ans = 
+  -1.0000 +  0.0000i 
+\end{DoxyVerbInclude}
+
+
+In this case, we have multiple arguments (again, autodetected)
+
+
+\begin{DoxyVerbInclude}
+--> a = inline('x+y-cos(x+y)')
+
+a = 
+  inline function object
+  f(x,y) = x+y-cos(x+y)
+--> a(pi,-pi)
+
+ans = 
+ -1 
+\end{DoxyVerbInclude}
+
+
+In this form, we specify which arguments we want to use (thereby also specifying the order of the arguments
+
+
+\begin{DoxyVerbInclude}
+--> a = inline('x+t-sin(x)','x','t')
+
+a = 
+  inline function object
+  f(x,t) = x+t-sin(x)
+--> a(0.5,1)
+
+ans = 
+    1.0206 
+\end{DoxyVerbInclude}
+
+
+Inline objects can also be used with {\ttfamily feval}
+
+
+\begin{DoxyVerbInclude}
+--> a = inline('cos(t)')
+
+a = 
+  inline function object
+  f(t) = cos(t)
+--> feval(a,pi/2)
+
+ans = 
+ 6.1232e-17 
+\end{DoxyVerbInclude}
+ \hypertarget{function_symvar}{}\section{S\-Y\-M\-V\-A\-R Find Symbolic Variables in an Expression}\label{function_symvar}
+Section\-: \hyperlink{sec_function}{Function Related Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Finds the symbolic variables in an expression. The syntax for its use is \begin{DoxyVerb}  syms = symvar(expr)
+\end{DoxyVerb}
+ where {\ttfamily expr} is a string containing an expression, such as {\ttfamily 'x$^\wedge$2 + cos(t+alpha)'}. The result is a cell array of strings containing the non-\/function identifiers in the expression. Because they are usually not used as identifiers in expressions, the strings {\ttfamily 'pi','inf','nan','eps','i','j'} are ignored. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+Here are some simple examples\-:
+
+
+\begin{DoxyVerbInclude}
+--> symvar('x^2+sqrt(x)')  % sqrt is eliminated as a function
+
+ans = 
+ [x] 
+
+--> symvar('pi+3')         % No identifiers here
+
+ans = 
+  Empty array 0x1
+--> symvar('x + t*alpha')  % x, t and alpha
+
+ans = 
+ [alpha] 
+ [t] 
+ [x] 
+\end{DoxyVerbInclude}
+ 

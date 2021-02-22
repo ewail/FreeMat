@@ -1,0 +1,110 @@
+
+ Usage
+
+Treats matrices as collections of vectors and computes dot-
+product similarity metrics between vectors.
+The results are returned as an edge-table that lists the
+index of each vector and their computed similarity. The
+output edge-table is typically used with vtkTableToGraph to
+create a similarity graph.
+This filter can be used with one or two input matrices. If
+you provide a single matrix as input, every vector in the
+matrix is compared with every other vector. If you provide
+two matrices, every vector in the first matrix is compared
+with every vector in the second matrix.
+Note that this filter only computes the dot-product between
+each pair of vectors; if you want to compute the cosine of
+the angles between vectors, you will need to normalize the
+inputs yourself.
+Inputs: Input port 0: (required) A vtkDenseArray<double>
+with two dimensions (a matrix). Input port 1: (optional) A
+vtkDenseArray<double> with two dimensions (a matrix).
+Outputs: Output port 0: A vtkTable containing "source",
+"target", and "similarity" columns.
+To create an instance of class vtkDotProductSimilarity,
+simply invoke its constructor as follows
+
+    obj = vtkDotProductSimilarity
+
+
+
+ Methods
+
+The class vtkDotProductSimilarity has several methods that
+can be used. They are listed below. Note that the
+documentation is translated automatically from the VTK
+sources, and may not be completely intelligible. When in
+doubt, consult the VTK website. In the methods listed below,
+obj is an instance of the vtkDotProductSimilarity class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkDotProductSimilarity = obj.NewInstance ()
+* vtkDotProductSimilarity = obj.SafeDownCast (vtkObject o)
+* vtkIdType = obj.GetVectorDimension () - Controls whether
+  to compute similarities for row-vectors or column-vectors.
+  0 = rows, 1 = columns.
+* obj.SetVectorDimension (vtkIdType ) - Controls whether to
+  compute similarities for row-vectors or column-vectors. 0
+  = rows, 1 = columns.
+* int = obj.GetUpperDiagonal () - When computing
+  similarities for a single input matrix, controls whether
+  the results will include the upper diagonal of the
+  similarity matrix. Default: true.
+* obj.SetUpperDiagonal (int ) - When computing similarities
+  for a single input matrix, controls whether the results
+  will include the upper diagonal of the similarity matrix.
+  Default: true.
+* int = obj.GetDiagonal () - When computing similarities for
+  a single input matrix, controls whether the results will
+  include the diagonal of the similarity matrix. Default:
+  false.
+* obj.SetDiagonal (int ) - When computing similarities for a
+  single input matrix, controls whether the results will
+  include the diagonal of the similarity matrix. Default:
+  false.
+* int = obj.GetLowerDiagonal () - When computing
+  similarities for a single input matrix, controls whether
+  the results will include the lower diagonal of the
+  similarity matrix. Default: false.
+* obj.SetLowerDiagonal (int ) - When computing similarities
+  for a single input matrix, controls whether the results
+  will include the lower diagonal of the similarity matrix.
+  Default: false.
+* int = obj.GetFirstSecond () - When computing similarities
+  for two input matrices, controls whether the results will
+  include comparisons from the first matrix to the second
+  matrix.
+* obj.SetFirstSecond (int ) - When computing similarities
+  for two input matrices, controls whether the results will
+  include comparisons from the first matrix to the second
+  matrix.
+* int = obj.GetSecondFirst () - When computing similarities
+  for two input matrices, controls whether the results will
+  include comparisons from the second matrix to the first
+  matrix.
+* obj.SetSecondFirst (int ) - When computing similarities
+  for two input matrices, controls whether the results will
+  include comparisons from the second matrix to the first
+  matrix.
+* double = obj.GetMinimumThreshold () - Specifies a minimum
+  threshold that a similarity must exceed to be included in
+  the output.
+* obj.SetMinimumThreshold (double ) - Specifies a minimum
+  threshold that a similarity must exceed to be included in
+  the output.
+* vtkIdType = obj.GetMinimumCount () - Specifies a minimum
+  number of edges to include for each vector.
+* obj.SetMinimumCount (vtkIdType ) - Specifies a minimum
+  number of edges to include for each vector.
+* vtkIdType = obj.GetMaximumCount () - Specifies a maximum
+  number of edges to include for each vector.
+* obj.SetMaximumCount (vtkIdType ) - Specifies a maximum
+  number of edges to include for each vector.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Infovis_Classes
+* Generated on Thu Jul 25 2013 17:18:33 for FreeMat by
+  doxygen_ 1.8.1.1
+

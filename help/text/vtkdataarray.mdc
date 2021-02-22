@@ -1,0 +1,312 @@
+
+ Usage
+
+vtkDataArray is an abstract superclass for data array
+objects containing numeric data. It extends the API defined
+in vtkAbstractArray. vtkDataArray is an abstract superclass
+for data array objects. This class defines an API that all
+array objects must support. Note that the concrete
+subclasses of this class represent data in native form
+(char, int, etc.) and often have specialized more efficient
+methods for operating on this data (for example, getting
+pointers to data or getting/inserting data in native form).
+Subclasses of vtkDataArray are assumed to contain data whose
+components are meaningful when cast to and from double.
+To create an instance of class vtkDataArray, simply invoke
+its constructor as follows
+
+    obj = vtkDataArray
+
+
+
+ Methods
+
+The class vtkDataArray has several methods that can be used.
+They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkDataArray class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkDataArray = obj.NewInstance ()
+* vtkDataArray = obj.SafeDownCast (vtkObject o)
+* int = obj.IsNumeric () - Return the size, in bytes, of the
+  lowest-level element of an array. For vtkDataArray and
+  subclasses this is the size of the data type.
+* int = obj.GetElementComponentSize () - Set the tuple at
+  the ith location using the jth tuple in the source array.
+  This method assumes that the two arrays have the same type
+  and structure. Note that range checking and memory
+  allocation is not performed; use in conjunction with
+  SetNumberOfTuples() to allocate space.
+* obj.SetTuple (vtkIdType i, vtkIdType j, vtkAbstractArray
+  source) - Set the tuple at the ith location using the jth
+  tuple in the source array. This method assumes that the
+  two arrays have the same type and structure. Note that
+  range checking and memory allocation is not performed; use
+  in conjunction with SetNumberOfTuples() to allocate space.
+* obj.InsertTuple (vtkIdType i, vtkIdType j,
+  vtkAbstractArray source) - Insert the jth tuple in the
+  source array, at ith location in this array. Note that
+  memory allocation is performed as necessary to hold the
+  data. This pure virtual function is redeclared here to
+  avoid declaration hidden warnings.
+* vtkIdType = obj.InsertNextTuple (vtkIdType j,
+  vtkAbstractArray source) - Insert the jth tuple in the
+  source array, at the end in this array. Note that memory
+  allocation is performed as necessary to hold the data.
+  Returns the location at which the data was inserted. This
+  pure virtual function is redeclared here to avoid
+  declaration hidden warnings.
+* obj.GetTuples (vtkIdList ptIds, vtkAbstractArray output) -
+  Given a list of point ids, return an array of tuples. You
+  must insure that the output array has been previously
+  allocated with enough space to hold the data.
+* obj.GetTuples (vtkIdType p1, vtkIdType p2,
+  vtkAbstractArray output) - Get the tuples for the range of
+  points ids specified (i.e., p1->p2 inclusive). You must
+  insure that the output array has been previously allocated
+  with enough space to hold the data.
+* obj.InterpolateTuple (vtkIdType i, vtkIdList ptIndices,
+  vtkAbstractArray source, double weights) - Set the ith
+  tuple in this array as the interpolated tuple value, given
+  the ptIndices in the source array and associated
+  interpolation weights. This method assumes that the two
+  arrays are of the same type and strcuture.
+* obj.InterpolateTuple (vtkIdType i, vtkIdType id1,
+  vtkAbstractArray source1, vtkIdType id2, vtkAbstractArray
+  source2, double t)
+* obj.GetTuple (vtkIdType i, double tuple) - Get the data
+  tuple at ith location by filling in a user-provided array,
+  Make sure that your array is large enough to hold the
+  NumberOfComponents amount of data being returned.
+* double = obj.GetTuple1 (vtkIdType i) - These methods are
+  included as convenience for the wrappers. GetTuple() and
+  SetTuple() which return/take arrays can not be used from
+  wrapped languages. These methods can be used instead.
+* double = obj.GetTuple2 (vtkIdType i) - These methods are
+  included as convenience for the wrappers. GetTuple() and
+  SetTuple() which return/take arrays can not be used from
+  wrapped languages. These methods can be used instead.
+* double = obj.GetTuple3 (vtkIdType i) - These methods are
+  included as convenience for the wrappers. GetTuple() and
+  SetTuple() which return/take arrays can not be used from
+  wrapped languages. These methods can be used instead.
+* double = obj.GetTuple4 (vtkIdType i) - These methods are
+  included as convenience for the wrappers. GetTuple() and
+  SetTuple() which return/take arrays can not be used from
+  wrapped languages. These methods can be used instead.
+* double = obj.GetTuple9 (vtkIdType i) - These methods are
+  included as convenience for the wrappers. GetTuple() and
+  SetTuple() which return/take arrays can not be used from
+  wrapped languages. These methods can be used instead.
+* obj.SetTuple (vtkIdType i, float tuple) - Set the data
+  tuple at ith location. Note that range checking or memory
+  allocation is not performed; use this method in
+  conjunction with SetNumberOfTuples() to allocate space.
+* obj.SetTuple (vtkIdType i, double tuple) - Set the data
+  tuple at ith location. Note that range checking or memory
+  allocation is not performed; use this method in
+  conjunction with SetNumberOfTuples() to allocate space.
+* obj.SetTuple1 (vtkIdType i, double value) - These methods
+  are included as convenience for the wrappers. GetTuple()
+  and SetTuple() which return/take arrays can not be used
+  from wrapped languages. These methods can be used instead.
+* obj.SetTuple2 (vtkIdType i, double val0, double val1) -
+  These methods are included as convenience for the
+  wrappers. GetTuple() and SetTuple() which return/take
+  arrays can not be used from wrapped languages. These
+  methods can be used instead.
+* obj.SetTuple3 (vtkIdType i, double val0, double val1,
+  double val2) - These methods are included as convenience
+  for the wrappers. GetTuple() and SetTuple() which return/
+  take arrays can not be used from wrapped languages. These
+  methods can be used instead.
+* obj.SetTuple4 (vtkIdType i, double val0, double val1,
+  double val2, double val3) - These methods are included as
+  convenience for the wrappers. GetTuple() and SetTuple()
+  which return/take arrays can not be used from wrapped
+  languages. These methods can be used instead.
+* obj.SetTuple9 (vtkIdType i, double val0, double val1,
+  double val2, double val3, double val4, double val5, double
+  val6, double val7, double val8) - These methods are
+  included as convenience for the wrappers. GetTuple() and
+  SetTuple() which return/take arrays can not be used from
+  wrapped languages. These methods can be used instead.
+* obj.InsertTuple (vtkIdType i, float tuple) - Insert the
+  data tuple at ith location. Note that memory allocation is
+  performed as necessary to hold the data.
+* obj.InsertTuple (vtkIdType i, double tuple) - Insert the
+  data tuple at ith location. Note that memory allocation is
+  performed as necessary to hold the data.
+* obj.InsertTuple1 (vtkIdType i, double value) - These
+  methods are included as convenience for the wrappers.
+  InsertTuple() which takes arrays can not be used from
+  wrapped languages. These methods can be used instead.
+* obj.InsertTuple2 (vtkIdType i, double val0, double val1) -
+  These methods are included as convenience for the
+  wrappers. InsertTuple() which takes arrays can not be used
+  from wrapped languages. These methods can be used instead.
+* obj.InsertTuple3 (vtkIdType i, double val0, double val1,
+  double val2) - These methods are included as convenience
+  for the wrappers. InsertTuple() which takes arrays can not
+  be used from wrapped languages. These methods can be used
+  instead.
+* obj.InsertTuple4 (vtkIdType i, double val0, double val1,
+  double val2, double val3) - These methods are included as
+  convenience for the wrappers. InsertTuple() which takes
+  arrays can not be used from wrapped languages. These
+  methods can be used instead.
+* obj.InsertTuple9 (vtkIdType i, double val0, double val1,
+  double val2, double val3, double val4, double val5, double
+  val6, double val7, double val8) - These methods are
+  included as convenience for the wrappers. InsertTuple()
+  which takes arrays can not be used from wrapped languages.
+  These methods can be used instead.
+* vtkIdType = obj.InsertNextTuple (float tuple) - Insert the
+  data tuple at the end of the array and return the location
+  at which the data was inserted. Memory is allocated as
+  necessary to hold the data.
+* vtkIdType = obj.InsertNextTuple (double tuple) - Insert
+  the data tuple at the end of the array and return the
+  location at which the data was inserted. Memory is
+  allocated as necessary to hold the data.
+* obj.InsertNextTuple1 (double value) - These methods are
+  included as convenience for the wrappers. InsertTuple()
+  which takes arrays can not be used from wrapped languages.
+  These methods can be used instead.
+* obj.InsertNextTuple2 (double val0, double val1) - These
+  methods are included as convenience for the wrappers.
+  InsertTuple() which takes arrays can not be used from
+  wrapped languages. These methods can be used instead.
+* obj.InsertNextTuple3 (double val0, double val1, double
+  val2) - These methods are included as convenience for the
+  wrappers. InsertTuple() which takes arrays can not be used
+  from wrapped languages. These methods can be used instead.
+* obj.InsertNextTuple4 (double val0, double val1, double
+  val2, double val3) - These methods are included as
+  convenience for the wrappers. InsertTuple() which takes
+  arrays can not be used from wrapped languages. These
+  methods can be used instead.
+* obj.InsertNextTuple9 (double val0, double val1, double
+  val2, double val3, double val4, double val5, double val6,
+  double val7, double val8) - These methods are included as
+  convenience for the wrappers. InsertTuple() which takes
+  arrays can not be used from wrapped languages. These
+  methods can be used instead.
+* obj.RemoveTuple (vtkIdType id) - These methods remove
+  tuples from the data array. They shift data and resize
+  array, so the data array is still valid after this
+  operation. Note, this operation is fairly slow.
+* obj.RemoveFirstTuple () - These methods remove tuples from
+  the data array. They shift data and resize array, so the
+  data array is still valid after this operation. Note, this
+  operation is fairly slow.
+* obj.RemoveLastTuple () - These methods remove tuples from
+  the data array. They shift data and resize array, so the
+  data array is still valid after this operation. Note, this
+  operation is fairly slow.
+* double = obj.GetComponent (vtkIdType i, int j) - Return
+  the data component at the ith tuple and jth component
+  location. Note that i is less than NumberOfTuples and j is
+  less than NumberOfComponents.
+* obj.SetComponent (vtkIdType i, int j, double c) - Set the
+  data component at the ith tuple and jth component
+  location. Note that i is less than NumberOfTuples and j is
+  less than NumberOfComponents. Make sure enough memory has
+  been allocated (use SetNumberOfTuples() and
+  SetNumberOfComponents()).
+* obj.InsertComponent (vtkIdType i, int j, double c) -
+  Insert the data component at ith tuple and jth component
+  location. Note that memory allocation is performed as
+  necessary to hold the data.
+* obj.GetData (vtkIdType tupleMin, vtkIdType tupleMax, int
+  compMin, int compMax, vtkDoubleArray data) - Get the data
+  as a double array in the range (tupleMin,tupleMax) and
+  (compMin, compMax). The resulting double array consists of
+  all data in the tuple range specified and only the
+  component range specified. This process typically requires
+  casting the data from native form into doubleing point
+  values. This method is provided as a convenience for data
+  exchange, and is not very fast.
+* obj.DeepCopy (vtkAbstractArray aa) - Deep copy of data.
+  Copies data from different data arrays even if they are
+  different types (using doubleing-point exchange).
+* obj.DeepCopy (vtkDataArray da) - Deep copy of data. Copies
+  data from different data arrays even if they are different
+  types (using doubleing-point exchange).
+* obj.FillComponent (int j, double c) - Fill a component of
+  a data array with a specified value. This method sets the
+  specified component to specified value for all tuples in
+  the data array. This methods can be used to initialize or
+  reinitialize a single component of a multi-component
+  array.
+* obj.CopyComponent (int j, vtkDataArray from, int
+  fromComponent) - Copy a component from one data array into
+  a component on this data array. This method copies the
+  specified component ("fromComponent") from the specified
+  data array ("from") to the specified component ("j") over
+  all the tuples in this data array. This method can be used
+  to extract a component (column) from one data array and
+  paste that data into a component on this data array.
+* long = obj.GetActualMemorySize () - Return the memory in
+  kilobytes consumed by this data array. Used to support
+  streaming and reading/writing data. The value returned is
+  guaranteed to be greater than or equal to the memory
+  required to actually represent the data represented by
+  this object. The information returned is valid only after
+  the pipeline has been updated.
+* obj.CreateDefaultLookupTable () - Create default lookup
+  table. Generally used to create one when none is
+  available.
+* obj.SetLookupTable (vtkLookupTable lut) - Set/get the
+  lookup table associated with this scalar data, if any.
+* vtkLookupTable = obj.GetLookupTable () - Set/get the
+  lookup table associated with this scalar data, if any.
+* obj.GetRange (double range[2], int comp) - Return the
+  range of the array values for the given component. Range
+  is copied into the array provided. If comp is equal to -1,
+  it returns the range of the magnitude (if the number of
+  components is equal to 1 it still returns the range of
+  component 0).
+* double = obj.GetRange (int comp) - Return the range of the
+  array values for the 0th component. Range is copied into
+  the array provided.
+* double = obj.GetRange () - Return the range of the array
+  values for the 0th component. Range is copied into the
+  array provided.
+* obj.GetRange (double range[2]) - These methods return the
+  Min and Max possible range of the native data type. For
+  example if a vtkScalars consists of unsigned char data
+  these will return (0,255).
+* obj.GetDataTypeRange (double range[2]) - These methods
+  return the Min and Max possible range of the native data
+  type. For example if a vtkScalars consists of unsigned
+  char data these will return (0,255).
+* double = obj.GetDataTypeMin () - These methods return the
+  Min and Max possible range of the native data type. For
+  example if a vtkScalars consists of unsigned char data
+  these will return (0,255).
+* double = obj.GetDataTypeMax () - These methods return the
+  Min and Max possible range of the native data type. For
+  example if a vtkScalars consists of unsigned char data
+  these will return (0,255).
+* double = obj.GetMaxNorm () - Return the maximum norm for
+  the tuples. Note that the max. is computed everytime
+  GetMaxNorm is called.
+* int = obj.CopyInformation (vtkInformation infoFrom, int
+  deep) - Copy information instance. Arrays use information
+  objects in a variety of ways. It is important to have
+  flexibility in this regard because certain keys should not
+  be coppied, while others must be. NOTE: Up to the
+  implmeneter to make sure that keys not inteneded to be
+  coppied are excluded here.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Common_Classes
+* Generated on Thu Jul 25 2013 17:18:30 for FreeMat by
+  doxygen_ 1.8.1.1
+

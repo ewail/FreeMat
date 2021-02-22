@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkvolumerendering_vtkvolumetexturemapper3d" kind="page">
+    <compoundname>vtkvolumerendering_vtkvolumetexturemapper3d</compoundname>
+    <title>vtkVolumeTextureMapper3D</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkvolumerendering_1sec_vtkvolumerendering" kindref="member">Visualization Toolkit Volume Rendering Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>vtkVolumeTextureMapper3D renders a volume using 3D texture mapping. This class is actually an abstract superclass - with all the actual work done by vtkOpenGLVolumeTextureMapper3D.</para><para>This mappers currently supports:</para><para><itemizedlist>
+<listitem><para>any data type as input</para></listitem><listitem><para>one component, or two or four non-independent components</para></listitem><listitem><para>composite blending</para></listitem><listitem><para>intermixed opaque geometry</para></listitem><listitem><para>multiple volumes can be rendered if they can be sorted into back-to-front order (use the vtkFrustumCoverageCuller)</para></listitem></itemizedlist>
+</para><para>This mapper does not support:<itemizedlist>
+<listitem><para>more than one independent component</para></listitem><listitem><para>maximum intensity projection</para></listitem></itemizedlist>
+</para><para>Internally, this mapper will potentially change the resolution of the input data. The data will be resampled to be a power of two in each direction, and also no greater than 128*256*256 voxels (any aspect) for one or two component data, or 128*128*256 voxels (any aspect) for four component data. The limits are currently hardcoded after a check using the GL_PROXY_TEXTURE3D because some graphics drivers were always responding &quot;yes&quot; to the proxy call despite not being able to allocate that much texture memory.</para><para>Currently, calculations are computed using 8 bits per RGBA channel. In the future this should be expanded to handle newer boards that can support 15 bit float compositing.</para><para>This mapper supports two main families of graphics hardware: nvidia and ATI. There are two different implementations of 3D texture mapping used - one based on nvidia&apos;s GL_NV_texture_shader2 and GL_NV_register_combiners2 extension, and one based on ATI&apos;s GL_ATI_fragment_shader (supported also by some nvidia boards) To use this class in an application that will run on various hardware configurations, you should have a back-up volume rendering method. You should create a vtkVolumeTextureMapper3D, assign its input, make sure you have a current OpenGL context (you&apos;ve rendered at least once), then call IsRenderSupported with a vtkVolumeProperty as an argument. This method will return 0 if the input has more than one independent component, or if the graphics hardware does not support the set of required extensions for using at least one of the two implemented methods (nvidia or ati)</para><para>.SECTION Thanks Thanks to Alexandre Gouaillard at the Megason Lab, Department of Systems Biology, Harvard Medical School <ulink url="https://wiki.med.harvard.edu/SysBio/Megason/">https://wiki.med.harvard.edu/SysBio/Megason/</ulink> for the idea and initial patch to speed-up rendering with compressed textures.</para><para>To create an instance of class vtkVolumeTextureMapper3D, simply invoke its constructor as follows <verbatim>  obj = vtkVolumeTextureMapper3D
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkVolumeTextureMapper3D has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkVolumeTextureMapper3D class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkVolumeTextureMapper3D = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkVolumeTextureMapper3D = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetSampleDistance (float )</computeroutput> - The distance at which to space sampling planes. This may not be honored for interactive renders. An interactive render is defined as one that has less than 1 second of allocated render time.  </para></listitem>
+<listitem>
+<para><computeroutput>float = obj.GetSampleDistance ()</computeroutput> - The distance at which to space sampling planes. This may not be honored for interactive renders. An interactive render is defined as one that has less than 1 second of allocated render time.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj. GetVolumeDimensions ()</computeroutput> - These are the dimensions of the 3D texture  </para></listitem>
+<listitem>
+<para><computeroutput>float = obj. GetVolumeSpacing ()</computeroutput> - This is the spacing of the 3D texture  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsRenderSupported (vtkVolumeProperty )</computeroutput> - Based on hardware and properties, we may or may not be able to render using 3D texture mapping. This indicates if 3D texture mapping is supported by the hardware, and if the other extensions necessary to support the specific properties are available.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetNumberOfPolygons ()</computeroutput> - Allow access to the number of polygons used for the rendering.  </para></listitem>
+<listitem>
+<para><computeroutput>float = obj.GetActualSampleDistance ()</computeroutput> - Allow access to the actual sample distance used to render the image.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetPreferredRenderMethod (int )</computeroutput> - Set the preferred render method. If it is supported, this one will be used. Don&apos;t allow ATI_METHOD - it is not actually supported.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetPreferredRenderMethodMinValue ()</computeroutput> - Set the preferred render method. If it is supported, this one will be used. Don&apos;t allow ATI_METHOD - it is not actually supported.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetPreferredRenderMethodMaxValue ()</computeroutput> - Set the preferred render method. If it is supported, this one will be used. Don&apos;t allow ATI_METHOD - it is not actually supported.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetPreferredMethodToFragmentProgram ()</computeroutput> - Set the preferred render method. If it is supported, this one will be used. Don&apos;t allow ATI_METHOD - it is not actually supported.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetPreferredMethodToNVidia ()</computeroutput> - Set the preferred render method. If it is supported, this one will be used. Don&apos;t allow ATI_METHOD - it is not actually supported.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetPreferredRenderMethod ()</computeroutput> - Set the preferred render method. If it is supported, this one will be used. Don&apos;t allow ATI_METHOD - it is not actually supported.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetUseCompressedTexture (bool )</computeroutput> - Set/Get if the mapper use compressed textures (if supported by the hardware). Initial value is false. There are two reasons to use compressed textures: 1. rendering can be 4 times faster. 2. It saves some VRAM. There is one reason to not use compressed textures: quality may be lower than with uncompressed textures.  </para></listitem>
+<listitem>
+<para><computeroutput>bool = obj.GetUseCompressedTexture ()</computeroutput> - Set/Get if the mapper use compressed textures (if supported by the hardware). Initial value is false. There are two reasons to use compressed textures: 1. rendering can be 4 times faster. 2. It saves some VRAM. There is one reason to not use compressed textures: quality may be lower than with uncompressed textures.  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

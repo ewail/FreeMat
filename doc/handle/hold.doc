@@ -1,0 +1,76 @@
+/*!
+\page handle_hold HOLD Plot Hold Toggle Function
+
+<p>
+Section: \ref sec_handle "Handle-Based Graphics"
+\section Usage
+Toggles the hold state on the currently active plot.  The
+general syntax for its use is
+\verbatim
+   hold(state)
+\endverbatim
+where <tt>state</tt> is either
+\verbatim
+   hold('on')
+\endverbatim
+to turn hold on, or
+\verbatim
+   hold('off')
+\endverbatim
+to turn hold off. If you specify no argument then
+<tt>hold</tt> toggles the state of the hold:
+\verbatim
+   hold
+\endverbatim
+You can also specify a particular axis to the hold command
+\verbatim
+   hold(handle,...)
+\endverbatim
+where <tt>handle</tt> is the handle for a particular axis.
+\section Function Internals
+The <tt>hold</tt> function allows one to construct a plot sequence
+incrementally, instead of issuing all of the plots simultaneously
+using the <tt>plot</tt> command.
+\section Example
+Here is an example of using both the <tt>hold</tt> command and the
+multiple-argument <tt>plot</tt> command to construct a plot composed
+of three sets of data.  The first is a plot of a modulated Gaussian.
+
+\if FRAGMENT
+frag_handle_hold_000.m
+0
+x = linspace(-5,5,500);
+t = exp(-x.^2);
+y = t.*cos(2*pi*x*3);
+plot(x,y);
+mprint hold1
+\endif
+
+
+\verbinclude frag_handle_hold_000.m.out 
+
+\image html hold1.png
+\image latex hold1.eps "hold1" width=12cm
+
+We now turn the hold state to <tt>'on'</tt>, and add another plot
+sequence, this time composed of the top and bottom envelopes of
+the modulated Gaussian.  We add the two envelopes simultaneously
+using a single <tt>plot</tt> command.  The fact that <tt>hold</tt> is
+<tt>'on'</tt> means that these two envelopes are added to (instead of
+replace) the current contents of the plot.
+
+\if FRAGMENT
+frag_handle_hold_001.m
+0
+plot(x,y);
+hold on
+plot(x,t,'g-',x,-t,'b-')
+mprint hold2
+\endif
+
+
+\verbinclude frag_handle_hold_001.m.out 
+
+\image html hold2.png
+\image latex hold2.eps "hold2" width=12cm
+*/

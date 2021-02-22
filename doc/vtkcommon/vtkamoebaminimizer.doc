@@ -1,0 +1,117 @@
+/*!
+\page vtkcommon_vtkamoebaminimizer vtkAmoebaMinimizer
+
+<p>
+Section: \ref sec_vtkcommon "Visualization Toolkit Common Classes"
+\section Usage
+ vtkAmoebaMinimizer will modify a set of parameters in order to find
+ the minimum of a specified function.  The method used is commonly
+ known as the amoeba method, it constructs an n-dimensional simplex
+ in parameter space (i.e. a tetrahedron if the number or parameters
+ is 3) and moves the vertices around parameter space until a local
+ minimum is found.  The amoeba method is robust, reasonably efficient,
+ but is not guaranteed to find the global minimum if several local
+ minima exist.
+
+To create an instance of class vtkAmoebaMinimizer, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkAmoebaMinimizer
+\endverbatim
+\section Methods
+The class vtkAmoebaMinimizer has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkAmoebaMinimizer class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkAmoebaMinimizer = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkAmoebaMinimizer = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetParameterValue (string name, double value)</tt> -  Set the initial value for the specified parameter.  Calling
+ this function for any parameter will reset the Iterations
+ and the FunctionEvaluations counts to zero.  You must also
+ use SetParameterScale() to specify the step size by which the
+ parameter will be modified during the minimization.  It is
+ preferable to specify parameters by name, rather than by
+ number.
+ </LI>
+<LI>  <tt>obj.SetParameterValue (int i, double value)</tt> -  Set the initial value for the specified parameter.  Calling
+ this function for any parameter will reset the Iterations
+ and the FunctionEvaluations counts to zero.  You must also
+ use SetParameterScale() to specify the step size by which the
+ parameter will be modified during the minimization.  It is
+ preferable to specify parameters by name, rather than by
+ number.
+ </LI>
+<LI>  <tt>obj.SetParameterScale (string name, double scale)</tt> -  Set the scale to use when modifying a parameter, i.e. the
+ initial amount by which the parameter will be modified
+ during the search for the minimum.  It is preferable to
+ identify scalars by name rather than by number.
+ </LI>
+<LI>  <tt>double = obj.GetParameterScale (string name)</tt> -  Set the scale to use when modifying a parameter, i.e. the
+ initial amount by which the parameter will be modified
+ during the search for the minimum.  It is preferable to
+ identify scalars by name rather than by number.
+ </LI>
+<LI>  <tt>obj.SetParameterScale (int i, double scale)</tt> -  Set the scale to use when modifying a parameter, i.e. the
+ initial amount by which the parameter will be modified
+ during the search for the minimum.  It is preferable to
+ identify scalars by name rather than by number.
+ </LI>
+<LI>  <tt>double = obj.GetParameterScale (int i)</tt> -  Set the scale to use when modifying a parameter, i.e. the
+ initial amount by which the parameter will be modified
+ during the search for the minimum.  It is preferable to
+ identify scalars by name rather than by number.
+ </LI>
+<LI>  <tt>double = obj.GetParameterValue (string name)</tt> -  Get the value of a parameter at the current stage of the minimization.
+ Call this method within the function that you are minimizing in order
+ to get the current parameter values.  It is preferable to specify
+ parameters by name rather than by index. 
+ </LI>
+<LI>  <tt>double = obj.GetParameterValue (int i)</tt> -  Get the value of a parameter at the current stage of the minimization.
+ Call this method within the function that you are minimizing in order
+ to get the current parameter values.  It is preferable to specify
+ parameters by name rather than by index. 
+ </LI>
+<LI>  <tt>string = obj.GetParameterName (int i)</tt> -  For completeness, an unchecked method to get the name for particular
+ parameter (the result will be NULL if no name was set).  
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfParameters ()</tt> -  Get the number of parameters that have been set.
+ </LI>
+<LI>  <tt>obj.Initialize ()</tt> -  Initialize the minimizer.  This will reset the number of parameters to
+ zero so that the minimizer can be reused.
+ </LI>
+<LI>  <tt>obj.Minimize ()</tt> -  Iterate until the minimum is found to within the specified tolerance,
+ or until the MaxIterations has been reached. 
+ </LI>
+<LI>  <tt>int = obj.Iterate ()</tt> -  Perform one iteration of minimization.  Returns zero if the tolerance
+ stopping criterion has been met.  
+ </LI>
+<LI>  <tt>obj.SetFunctionValue (double )</tt> -  Get the function value resulting from the minimization.
+ </LI>
+<LI>  <tt>double = obj.GetFunctionValue ()</tt> -  Get the function value resulting from the minimization.
+ </LI>
+<LI>  <tt>obj.SetTolerance (double )</tt> -  Specify the fractional tolerance to aim for during the minimization.
+ </LI>
+<LI>  <tt>double = obj.GetTolerance ()</tt> -  Specify the fractional tolerance to aim for during the minimization.
+ </LI>
+<LI>  <tt>obj.SetMaxIterations (int )</tt> -  Specify the maximum number of iterations to try before giving up.
+ </LI>
+<LI>  <tt>int = obj.GetMaxIterations ()</tt> -  Specify the maximum number of iterations to try before giving up.
+ </LI>
+<LI>  <tt>int = obj.GetIterations ()</tt> -  Return the number of interations that have been performed.  This
+ is not necessarily the same as the number of function evaluations.
+ </LI>
+<LI>  <tt>int = obj.GetFunctionEvaluations ()</tt> -  Return the number of times that the function has been evaluated.
+ </LI>
+<LI>  <tt>obj.EvaluateFunction ()</tt> -  Evaluate the function.  This is usually called internally by the
+ minimization code, but it is provided here as a public method.
+ </LI>
+</UL>
+*/

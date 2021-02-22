@@ -1,0 +1,60 @@
+/*!
+\page vtkgraphics_vtksplitfield vtkSplitField
+
+<p>
+Section: \ref sec_vtkgraphics "Visualization Toolkit Graphics Classes"
+\section Usage
+ vtkSplitField is used to split a multi-component field (vtkDataArray)
+ into multiple single component fields. The new fields are put in
+ the same field data as the original field. The output arrays
+ are of the same type as the input array. Example:
+ @verbatim
+ sf->SetInputField("gradient", vtkSplitField::POINT_DATA);
+ sf->Split(0, "firstcomponent");
+ @endverbatim
+ tells vtkSplitField to extract the first component of the field
+ called gradient and create an array called firstcomponent (the
+ new field will be in the output's point data).
+ The same can be done from Tcl:
+ @verbatim
+ sf SetInputField gradient POINT_DATA
+ sf Split 0 firstcomponent
+
+ AttributeTypes: SCALARS, VECTORS, NORMALS, TCOORDS, TENSORS
+ Field locations: DATA_OBJECT, POINT_DATA, CELL_DATA
+ @endverbatim
+ Note that, by default, the original array is also passed through.
+
+To create an instance of class vtkSplitField, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkSplitField
+\endverbatim
+\section Methods
+The class vtkSplitField has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkSplitField class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkSplitField = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkSplitField = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetInputField (int attributeType, int fieldLoc)</tt> -  Use the  given attribute in the field data given
+ by fieldLoc as input.
+ </LI>
+<LI>  <tt>obj.SetInputField (string name, int fieldLoc)</tt> -  Use the array with given name in the field data given
+ by fieldLoc as input.
+ </LI>
+<LI>  <tt>obj.SetInputField (string name, string fieldLoc)</tt> -  Helper method used by other language bindings. Allows the caller to
+ specify arguments as strings instead of enums.
+ </LI>
+<LI>  <tt>obj.Split (int component, string arrayName)</tt> -  Create a new array with the given component.
+ </LI>
+</UL>
+*/

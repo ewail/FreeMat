@@ -1,0 +1,193 @@
+
+ Usage
+
+To use this mapper, first send your data through
+vtkPointSetToLabelHierarchy, which takes a set of points,
+associates special arrays to the points (label, priority,
+etc.), and produces a prioritized spatial tree of labels.
+This mapper then takes that hierarchy (or hierarchies) as
+input, and every frame will decide which labels and/or icons
+to place in order of priority, and will render only those
+labels/icons. A label render strategy is used to render the
+labels, and can use e.g. FreeType or Qt for rendering.
+To create an instance of class vtkLabelPlacementMapper,
+simply invoke its constructor as follows
+
+    obj = vtkLabelPlacementMapper
+
+
+
+ Methods
+
+The class vtkLabelPlacementMapper has several methods that
+can be used. They are listed below. Note that the
+documentation is translated automatically from the VTK
+sources, and may not be completely intelligible. When in
+doubt, consult the VTK website. In the methods listed below,
+obj is an instance of the vtkLabelPlacementMapper class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkLabelPlacementMapper = obj.NewInstance ()
+* vtkLabelPlacementMapper = obj.SafeDownCast (vtkObject o)
+* obj.RenderOverlay (vtkViewport viewport, vtkActor2D actor)
+  - Draw non-overlapping labels to the screen.
+* obj.SetRenderStrategy (vtkLabelRenderStrategy s) - Set the
+  label rendering strategy.
+* vtkLabelRenderStrategy = obj.GetRenderStrategy () - Set
+  the label rendering strategy.
+* obj.SetMaximumLabelFraction (double ) - The maximum
+  fraction of the screen that the labels may cover. Label
+  placement stops when this fraction is reached.
+* double = obj.GetMaximumLabelFractionMinValue () - The
+  maximum fraction of the screen that the labels may cover.
+  Label placement stops when this fraction is reached.
+* double = obj.GetMaximumLabelFractionMaxValue () - The
+  maximum fraction of the screen that the labels may cover.
+  Label placement stops when this fraction is reached.
+* double = obj.GetMaximumLabelFraction () - The maximum
+  fraction of the screen that the labels may cover. Label
+  placement stops when this fraction is reached.
+* obj.SetIteratorType (int ) - The type of iterator used
+  when traversing the labels. May be vtkLabelHierarchy::
+  FRUSTUM or vtkLabelHierarchy::FULL_SORT
+* int = obj.GetIteratorType () - The type of iterator used
+  when traversing the labels. May be vtkLabelHierarchy::
+  FRUSTUM or vtkLabelHierarchy::FULL_SORT
+* obj.SetUseUnicodeStrings (bool ) - Set whether, or not, to
+  use unicode strings.
+* bool = obj.GetUseUnicodeStrings () - Set whether, or not,
+  to use unicode strings.
+* obj.UseUnicodeStringsOn () - Set whether, or not, to use
+  unicode strings.
+* obj.UseUnicodeStringsOff () - Set whether, or not, to use
+  unicode strings.
+* bool = obj.GetPositionsAsNormals () - Use label anchor
+  point coordinates as normal vectors and eliminate those
+  pointing away from the camera. Valid only when points are
+  on a sphere centered at the origin (such as a 3D
+  geographic view). Off by default.
+* obj.SetPositionsAsNormals (bool ) - Use label anchor point
+  coordinates as normal vectors and eliminate those pointing
+  away from the camera. Valid only when points are on a
+  sphere centered at the origin (such as a 3D geographic
+  view). Off by default.
+* obj.PositionsAsNormalsOn () - Use label anchor point
+  coordinates as normal vectors and eliminate those pointing
+  away from the camera. Valid only when points are on a
+  sphere centered at the origin (such as a 3D geographic
+  view). Off by default.
+* obj.PositionsAsNormalsOff () - Use label anchor point
+  coordinates as normal vectors and eliminate those pointing
+  away from the camera. Valid only when points are on a
+  sphere centered at the origin (such as a 3D geographic
+  view). Off by default.
+* bool = obj.GetGeneratePerturbedLabelSpokes () - Enable
+  drawing spokes (lines) to anchor point coordinates that
+  were perturbed for being coincident with other anchor
+  point coordinates.
+* obj.SetGeneratePerturbedLabelSpokes (bool ) - Enable
+  drawing spokes (lines) to anchor point coordinates that
+  were perturbed for being coincident with other anchor
+  point coordinates.
+* obj.GeneratePerturbedLabelSpokesOn () - Enable drawing
+  spokes (lines) to anchor point coordinates that were
+  perturbed for being coincident with other anchor point
+  coordinates.
+* obj.GeneratePerturbedLabelSpokesOff () - Enable drawing
+  spokes (lines) to anchor point coordinates that were
+  perturbed for being coincident with other anchor point
+  coordinates.
+* bool = obj.GetUseDepthBuffer () - Use the depth buffer to
+  test each label to see if it should not be displayed if it
+  would be occluded by other objects in the scene. Off by
+  default.
+* obj.SetUseDepthBuffer (bool ) - Use the depth buffer to
+  test each label to see if it should not be displayed if it
+  would be occluded by other objects in the scene. Off by
+  default.
+* obj.UseDepthBufferOn () - Use the depth buffer to test
+  each label to see if it should not be displayed if it
+  would be occluded by other objects in the scene. Off by
+  default.
+* obj.UseDepthBufferOff () - Use the depth buffer to test
+  each label to see if it should not be displayed if it
+  would be occluded by other objects in the scene. Off by
+  default.
+* obj.SetPlaceAllLabels (bool ) - Tells the placer to place
+  every label regardless of overlap. Off by default.
+* bool = obj.GetPlaceAllLabels () - Tells the placer to
+  place every label regardless of overlap. Off by default.
+* obj.PlaceAllLabelsOn () - Tells the placer to place every
+  label regardless of overlap. Off by default.
+* obj.PlaceAllLabelsOff () - Tells the placer to place every
+  label regardless of overlap. Off by default.
+* obj.SetOutputTraversedBounds (bool ) - Whether to render
+  traversed bounds. Off by default.
+* bool = obj.GetOutputTraversedBounds () - Whether to render
+  traversed bounds. Off by default.
+* obj.OutputTraversedBoundsOn () - Whether to render
+  traversed bounds. Off by default.
+* obj.OutputTraversedBoundsOff () - Whether to render
+  traversed bounds. Off by default.
+* obj.SetShape (int ) - The shape of the label background,
+  should be one of the values in the LabelShape enumeration.
+* int = obj.GetShapeMinValue () - The shape of the label
+  background, should be one of the values in the LabelShape
+  enumeration.
+* int = obj.GetShapeMaxValue () - The shape of the label
+  background, should be one of the values in the LabelShape
+  enumeration.
+* int = obj.GetShape () - The shape of the label background,
+  should be one of the values in the LabelShape enumeration.
+* obj.SetShapeToNone () - The shape of the label background,
+  should be one of the values in the LabelShape enumeration.
+* obj.SetShapeToRect () - The shape of the label background,
+  should be one of the values in the LabelShape enumeration.
+* obj.SetShapeToRoundedRect () - The style of the label
+  background shape, should be one of the values in the
+  LabelStyle enumeration.
+* obj.SetStyle (int ) - The style of the label background
+  shape, should be one of the values in the LabelStyle
+  enumeration.
+* int = obj.GetStyleMinValue () - The style of the label
+  background shape, should be one of the values in the
+  LabelStyle enumeration.
+* int = obj.GetStyleMaxValue () - The style of the label
+  background shape, should be one of the values in the
+  LabelStyle enumeration.
+* int = obj.GetStyle () - The style of the label background
+  shape, should be one of the values in the LabelStyle
+  enumeration.
+* obj.SetStyleToFilled () - The style of the label
+  background shape, should be one of the values in the
+  LabelStyle enumeration.
+* obj.SetStyleToOutline () - The size of the margin on the
+  label background shape. Default is 5.
+* obj.SetMargin (double ) - The size of the margin on the
+  label background shape. Default is 5.
+* double = obj.GetMargin () - The size of the margin on the
+  label background shape. Default is 5.
+* obj.SetBackgroundColor (double , double , double ) - The
+  color of the background shape.
+* obj.SetBackgroundColor (double a[3]) - The color of the
+  background shape.
+* double = obj. GetBackgroundColor () - The color of the
+  background shape.
+* obj.SetBackgroundOpacity (double ) - The opacity of the
+  background shape.
+* double = obj.GetBackgroundOpacityMinValue () - The opacity
+  of the background shape.
+* double = obj.GetBackgroundOpacityMaxValue () - The opacity
+  of the background shape.
+* double = obj.GetBackgroundOpacity () - The opacity of the
+  background shape.
+* vtkCoordinate = obj.GetAnchorTransform () - Get the
+  transform for the anchor points.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Rendering_Classes
+* Generated on Thu Jul 25 2013 17:18:35 for FreeMat by
+  doxygen_ 1.8.1.1
+

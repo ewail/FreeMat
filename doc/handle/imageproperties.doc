@@ -1,0 +1,62 @@
+/*!
+\page handle_imageproperties IMAGEPROPERTIES Image Object Properties
+
+<p>
+Section: \ref sec_handle "Handle-Based Graphics"
+\section Usage
+Below is a summary of the properties for the axis.
+<UL>
+<LI>  <tt>alphadata</tt> - <tt>vector</tt> - This is a vector that
+ should contain as many elements as the image data itself <tt>cdata</tt>,
+ or a single scalar.  For a single scalar, all values of the image
+ take on the same transparency.  Otherwise, the transparency of
+ each pixel is determined by the corresponding value from the <tt>alphadata</tt>
+ vector.
+ </LI>
+<LI>  <tt>alphadatamapping</tt> - <tt>{'scaled','direct','none'}</tt> - For <tt>none</tt>
+ mode (the default), no transparency is applied to the data.  For <tt>direct</tt>
+ mode, the vector <tt>alphadata</tt> contains values between @[0,M-1]| where
+ <tt>M</tt> is the length of the alpha map stored in the figure.  For <tt>scaled</tt>
+ mode, the <tt>alim</tt> vector for the figure is used to linearly rescale the 
+ alpha data prior to lookup in the alpha map. 
+ </LI>
+<LI>  <tt>cdata</tt> - <tt>array</tt> - This is either a <tt>M x N</tt> array or an 
+  <tt>M x N x 3</tt> array.  If the data is <tt>M x N</tt> the image is a scalar
+ image (indexed mode), where the color associated with each image pixel
+ is computed using the colormap and the <tt>cdatamapping</tt> mode.  If the
+ data is <tt>M x N x 3</tt> the image is assumed to be in RGB mode, and the
+ colorpanes are taken directly from <tt>cdata</tt> (the colormap is ignored).
+ Note that in this case, the data values must be between @[0,1]| for each
+ color channel and each pixel.
+ </LI>
+<LI>  <tt>cdatamapping</tt> - <tt>{'scaled','direct'}</tt> - For <tt>scaled</tt> (the
+ default), the pixel values are scaled using the <tt>clim</tt> vector for the
+ figure prior to looking up in the colormap.  For <tt>direct</tt> mode, the
+ pixel values must be in the range <tt>[0,N-1</tt> where <tt>N</tt> is the number of
+ colors in the colormap if the data is integer type.  For floating point
+ data types, values must be in the range <tt>[1,N]</tt>.
+ </LI>
+<LI>  <tt>children</tt> - Not used.
+ </LI>
+<LI>  <tt>parent</tt> - <tt>handle</tt> - The axis containing the image.
+ </LI>
+<LI>  <tt>tag</tt> - <tt>string</tt> - You can set this to any string you want.
+ </LI>
+<LI>  <tt>type</tt> - <tt>string</tt> - Set to the string <tt>'image'</tt>.
+ </LI>
+<LI>  <tt>xdata</tt> - <tt>two vector</tt> - contains the x coordinates of the
+ first and last column (respectively).  Defaults to <tt>[1,C]</tt> where
+ <tt>C</tt> is the number of columns in the image.
+ </LI>
+<LI>  <tt>ydata</tt> - <tt>two vector</tt> - contains the y coordinates of the
+ first and last row (respectively).  Defaults to <tt>[1,R]</tt> where
+ <tt>R</tt> is the number of rows in the image.
+ </LI>
+<LI>  <tt>userdata</tt> - <tt>array</tt> - Available to store any variable you
+ want in the handle object.
+ </LI>
+<LI>  <tt>visible</tt> - <tt>{'on','off'}</tt> - Controls whether the image is
+ visible or not.
+ </LI>
+</UL>
+*/

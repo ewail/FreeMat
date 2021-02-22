@@ -1,0 +1,148 @@
+
+ Usage
+
+The threadstart function starts a new computation on a
+FreeMat thread, and you must provide a function (no scripts
+are allowed) to run inside the thread, pass any parameters
+that the thread function requires, as well as the number of
+output arguments expected. The general syntax for the
+threadstart function is
+
+     threadstart(threadid,function,nargout,arg1,arg2,...)
+
+where threadid is a thread handle (returned by threadnew),
+where function is a valid function name (it can be a built-
+in imported or M-function), nargout is the number of output
+arguments expected from the function, and arg1 is the first
+argument that is passed to the function. Because the
+function runs in its own thread, the return values of the
+function are not available imediately. Instead, execution of
+that function will continue in parallel with the current
+thread. To retrieve the output of the thread function, you
+must wait for the thread to complete using the threadwait
+function, and then call threadvalue to retrieve the result.
+You can also stop the running thread prematurely by using
+the threadkill function. It is important to call threadfree
+on the handle you get from threadnew when you are finished
+with the thread to ensure that the resoures are properly
+freed.
+It is also perfectly reasonable to use a single thread
+multiple times, calling threadstart and threadreturn
+multiple times on a single thread. The context is preserved
+between threads. When calling threadstart on a pre-existing
+thread, FreeMat will attempt to wait on the thread. If the
+wait fails, then an error will occur.
+Some additional important information. Thread functions
+operate in their own context or workspace, which means that
+data cannot be shared between threads. The exception is
+global variables, which provide a thread-safe way for
+multiple threads to share data. Accesses to global variables
+are serialized so that they can be used to share data.
+Threads and FreeMat are a new feature, so there is room for
+improvement in the API and behavior. The best way to improve
+threads is to experiment with them, and send feedback.
+
+
+ Example
+
+Here we do something very simple. We want to obtain a
+listing of all files on the system, but do not want the
+results to stop our computation. So we run the system call
+in a thread.
+
+  --> a = threadnew;                         % Create the
+  thread
+  --> threadstart(a,'system',1,'ls -lrt /'); % Start the
+  thread
+  --> b = rand(100)\rand(100,1);             % Solve some
+  equations simultaneously
+  --> c = threadvalue(a);                    % Retrieve the
+  file list
+  --> size(c)                                % It is large!
+
+  ans =
+    1 28
+
+  --> threadfree(a);
+
+The possibilities for threads are significant. For example,
+we can solve equations in parallel, or take Fast Fourier
+Transforms on multiple threads. On multi-processor machines
+or multicore CPUs, these threaded calculations will execute
+in parallel. Neat.
+The reason for the nargout argument is best illustrated with
+an example. Suppose we want to compute the Singular Value
+Decomposition svd of a matrix A in a thread. The
+documentation for the svd function tells us that the
+behavior depends on the number of output arguments we
+request. For example, if we want a full decomposition,
+including the left and right singular vectors, and a
+diagonal singular matrix, we need to use the three-output
+syntax, instead of the single output syntax (which returns
+only the singular values in a column vector):
+
+  --> A = float(rand(4))
+
+  A =
+      0.4011    0.4747    0.9193    0.8655
+      0.8633    0.0123    0.0599    0.5917
+      0.4939    0.5458    0.9481    0.4566
+      0.9335    0.8614    0.7993    0.6394
+
+  --> [u,s,v] = svd(A)    % Compute the full decomposition
+  u =
+     -0.5290    0.2711    0.7178    0.3626
+     -0.3004   -0.8911    0.2379   -0.2431
+     -0.4868    0.3556   -0.0927   -0.7925
+     -0.6269   -0.0778   -0.6478    0.4259
+
+  s =
+      2.5579         0         0         0
+           0    0.7905         0         0
+           0         0    0.4392         0
+           0         0         0    0.1705
+
+  v =
+     -0.5071   -0.7054   -0.3579   -0.3422
+     -0.4146    0.3096   -0.6032    0.6070
+     -0.5735    0.5955    0.1558   -0.5406
+     -0.4921   -0.2279    0.6955    0.4713
+
+  --> sigmas = svd(A)     % Only want the singular values
+
+  sigmas =
+      2.5579
+      0.7905
+      0.4392
+      0.1705
+
+Normally, FreeMat uses the left hand side of an assignment
+to calculate the number of outputs for the function. When
+running a function in a thread, we separate the assignment
+of the output from the invokation of the function. Hence, we
+have to provide the number of arguments at the time we
+invoke the function. For example, to compute a full
+decomposition in a thread, we specify that we want 3 output
+arguments:
+
+  --> a = threadnew;               % Create the thread
+  --> threadstart(a,'svd',3,A);    % Start a full
+  decomposition
+  --> [u1,s1,v1] = threadvalue(a); % Retrieve the function
+  values
+  --> threadfree(a);
+
+If we want to compute just the singular values, we start the
+thread function with only one output argument:
+
+  --> a = threadnew;
+  --> threadstart(a,'svd',1,A);
+  --> sigmas = threadvalue(a);
+  --> threadfree(a)
+
+
+* FreeMat_Documentation
+* FreeMat_Threads
+* Generated on Thu Jul 25 2013 17:18:29 for FreeMat by
+  doxygen_ 1.8.1.1
+

@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkrendering_vtkassembly" kind="page">
+    <compoundname>vtkrendering_vtkassembly</compoundname>
+    <title>vtkAssembly</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkrendering_1sec_vtkrendering" kindref="member">Visualization Toolkit Rendering Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>vtkAssembly is an object that groups vtkProp3Ds, its subclasses, and other assemblies into a tree-like hierarchy. The vtkProp3Ds and assemblies can then be transformed together by transforming just the root assembly of the hierarchy.</para><para>A vtkAssembly object can be used in place of an vtkProp3D since it is a subclass of vtkProp3D. The difference is that vtkAssembly maintains a list of vtkProp3D instances (its &quot;parts&quot;) that form the assembly. Then, any operation that transforms (i.e., scales, rotates, translates) the parent assembly will transform all its parts. Note that this process is recursive: you can create groups consisting of assemblies and/or vtkProp3Ds to arbitrary depth.</para><para>To add an assembly to the renderer&apos;s list of props, you only need to add the root of the assembly. During rendering, the parts of the assembly are rendered during a hierarchical traversal process.</para><para>To create an instance of class vtkAssembly, simply invoke its constructor as follows <verbatim>  obj = vtkAssembly
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkAssembly has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkAssembly class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkAssembly = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkAssembly = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.AddPart (vtkProp3D )</computeroutput> - Add a part to the list of parts.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.RemovePart (vtkProp3D )</computeroutput> - Remove a part from the list of parts,  </para></listitem>
+<listitem>
+<para><computeroutput>vtkProp3DCollection = obj.GetParts ()</computeroutput> - Return the parts (direct descendants) of this assembly.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GetActors (vtkPropCollection )</computeroutput> - For some exporters and other other operations we must be able to collect all the actors or volumes. These methods are used in that process.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GetVolumes (vtkPropCollection )</computeroutput> - For some exporters and other other operations we must be able to collect all the actors or volumes. These methods are used in that process.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.RenderOpaqueGeometry (vtkViewport ren)</computeroutput> - Render this assembly and all its parts. The rendering process is recursive. Note that a mapper need not be defined. If not defined, then no geometry will be drawn for this assembly. This allows you to create &quot;logical&quot; assemblies; that is, assemblies that only serve to group and transform its parts.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.RenderTranslucentPolygonalGeometry (vtkViewport ren)</computeroutput> - Render this assembly and all its parts. The rendering process is recursive. Note that a mapper need not be defined. If not defined, then no geometry will be drawn for this assembly. This allows you to create &quot;logical&quot; assemblies; that is, assemblies that only serve to group and transform its parts.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.RenderVolumetricGeometry (vtkViewport ren)</computeroutput> - Render this assembly and all its parts. The rendering process is recursive. Note that a mapper need not be defined. If not defined, then no geometry will be drawn for this assembly. This allows you to create &quot;logical&quot; assemblies; that is, assemblies that only serve to group and transform its parts.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.HasTranslucentPolygonalGeometry ()</computeroutput> - Does this prop have some translucent polygonal geometry?  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ReleaseGraphicsResources (vtkWindow )</computeroutput> - Release any graphics resources that are being consumed by this actor. The parameter window could be used to determine which graphic resources to release.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.InitPathTraversal ()</computeroutput> - Methods to traverse the parts of an assembly. Each part (starting from the root) will appear properly transformed and with the correct properties (depending upon the ApplyProperty and ApplyTransform ivars). Note that the part appears as an instance of vtkProp. These methods should be contrasted to those that traverse the list of parts using GetParts(). GetParts() returns a list of children of this assembly, not necessarily with the correct transformation or properties. To use the methods below - first invoke InitPathTraversal() followed by repeated calls to GetNextPath(). GetNextPath() returns a NULL pointer when the list is exhausted.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkAssemblyPath = obj.GetNextPath ()</computeroutput> - Methods to traverse the parts of an assembly. Each part (starting from the root) will appear properly transformed and with the correct properties (depending upon the ApplyProperty and ApplyTransform ivars). Note that the part appears as an instance of vtkProp. These methods should be contrasted to those that traverse the list of parts using GetParts(). GetParts() returns a list of children of this assembly, not necessarily with the correct transformation or properties. To use the methods below - first invoke InitPathTraversal() followed by repeated calls to GetNextPath(). GetNextPath() returns a NULL pointer when the list is exhausted.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetNumberOfPaths ()</computeroutput> - Methods to traverse the parts of an assembly. Each part (starting from the root) will appear properly transformed and with the correct properties (depending upon the ApplyProperty and ApplyTransform ivars). Note that the part appears as an instance of vtkProp. These methods should be contrasted to those that traverse the list of parts using GetParts(). GetParts() returns a list of children of this assembly, not necessarily with the correct transformation or properties. To use the methods below - first invoke InitPathTraversal() followed by repeated calls to GetNextPath(). GetNextPath() returns a NULL pointer when the list is exhausted.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GetBounds (double bounds[6])</computeroutput> - Get the bounds for the assembly as (Xmin,Xmax,Ymin,Ymax,Zmin,Zmax).  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetBounds ()</computeroutput> - Get the bounds for the assembly as (Xmin,Xmax,Ymin,Ymax,Zmin,Zmax).  </para></listitem>
+<listitem>
+<para><computeroutput>long = obj.GetMTime ()</computeroutput> - Override default GetMTime method to also consider all of the assembly&apos;s parts.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ShallowCopy (vtkProp prop)</computeroutput> - Shallow copy of an assembly. Overloads the virtual vtkProp method.  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

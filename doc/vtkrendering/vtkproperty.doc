@@ -1,0 +1,383 @@
+/*!
+\page vtkrendering_vtkproperty vtkProperty
+
+<p>
+Section: \ref sec_vtkrendering "Visualization Toolkit Rendering Classes"
+\section Usage
+ vtkProperty is an object that represents lighting and other surface
+ properties of a geometric object. The primary properties that can be 
+ set are colors (overall, ambient, diffuse, specular, and edge color);
+ specular power; opacity of the object; the representation of the
+ object (points, wireframe, or surface); and the shading method to be 
+ used (flat, Gouraud, and Phong). Also, some special graphics features
+ like backface properties can be set and manipulated with this object.
+
+To create an instance of class vtkProperty, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkProperty
+\endverbatim
+\section Methods
+The class vtkProperty has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkProperty class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkProperty = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkProperty = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.DeepCopy (vtkProperty p)</tt> -  Assign one property to another. 
+ </LI>
+<LI>  <tt>obj.Render (vtkActor , vtkRenderer )</tt> -  This method causes the property to set up whatever is required for
+ its instance variables. This is actually handled by a subclass of
+ vtkProperty, which is created automatically. This
+ method includes the invoking actor as an argument which can
+ be used by property devices that require the actor.
+ </LI>
+<LI>  <tt>obj.BackfaceRender (vtkActor , vtkRenderer )</tt> -  This method renders the property as a backface property. TwoSidedLighting
+ must be turned off to see any backface properties. Note that only
+ colors and opacity are used for backface properties. Other properties
+ such as Representation, Culling are specified by the Property.
+ </LI>
+<LI>  <tt>bool = obj.GetLighting ()</tt> -  Set/Get lighting flag for an object. Initial value is true.
+ </LI>
+<LI>  <tt>obj.SetLighting (bool )</tt> -  Set/Get lighting flag for an object. Initial value is true.
+ </LI>
+<LI>  <tt>obj.LightingOn ()</tt> -  Set/Get lighting flag for an object. Initial value is true.
+ </LI>
+<LI>  <tt>obj.LightingOff ()</tt> -  Set/Get lighting flag for an object. Initial value is true.
+ </LI>
+<LI>  <tt>obj.SetInterpolation (int )</tt> -  Set the shading interpolation method for an object.
+ </LI>
+<LI>  <tt>int = obj.GetInterpolationMinValue ()</tt> -  Set the shading interpolation method for an object.
+ </LI>
+<LI>  <tt>int = obj.GetInterpolationMaxValue ()</tt> -  Set the shading interpolation method for an object.
+ </LI>
+<LI>  <tt>int = obj.GetInterpolation ()</tt> -  Set the shading interpolation method for an object.
+ </LI>
+<LI>  <tt>obj.SetInterpolationToFlat ()</tt> -  Set the shading interpolation method for an object.
+ </LI>
+<LI>  <tt>obj.SetInterpolationToGouraud ()</tt> -  Set the shading interpolation method for an object.
+ </LI>
+<LI>  <tt>obj.SetInterpolationToPhong ()</tt> -  Set the shading interpolation method for an object.
+ </LI>
+<LI>  <tt>string = obj.GetInterpolationAsString ()</tt> -  Set the shading interpolation method for an object.
+ </LI>
+<LI>  <tt>obj.SetRepresentation (int )</tt> -  Control the surface geometry representation for the object.
+ </LI>
+<LI>  <tt>int = obj.GetRepresentationMinValue ()</tt> -  Control the surface geometry representation for the object.
+ </LI>
+<LI>  <tt>int = obj.GetRepresentationMaxValue ()</tt> -  Control the surface geometry representation for the object.
+ </LI>
+<LI>  <tt>int = obj.GetRepresentation ()</tt> -  Control the surface geometry representation for the object.
+ </LI>
+<LI>  <tt>obj.SetRepresentationToPoints ()</tt> -  Control the surface geometry representation for the object.
+ </LI>
+<LI>  <tt>obj.SetRepresentationToWireframe ()</tt> -  Control the surface geometry representation for the object.
+ </LI>
+<LI>  <tt>obj.SetRepresentationToSurface ()</tt> -  Control the surface geometry representation for the object.
+ </LI>
+<LI>  <tt>string = obj.GetRepresentationAsString ()</tt> -  Control the surface geometry representation for the object.
+ </LI>
+<LI>  <tt>obj.SetColor (double r, double g, double b)</tt> -  Set the color of the object. Has the side effect of setting the
+ ambient diffuse and specular colors as well. This is basically
+ a quick overall color setting method.
+ </LI>
+<LI>  <tt>obj.SetColor (double a[3])</tt> -  Set the color of the object. Has the side effect of setting the
+ ambient diffuse and specular colors as well. This is basically
+ a quick overall color setting method.
+ </LI>
+<LI>  <tt>double = obj.GetColor ()</tt> -  Set the color of the object. Has the side effect of setting the
+ ambient diffuse and specular colors as well. This is basically
+ a quick overall color setting method.
+ </LI>
+<LI>  <tt>obj.GetColor (double rgb[3])</tt> -  Set the color of the object. Has the side effect of setting the
+ ambient diffuse and specular colors as well. This is basically
+ a quick overall color setting method.
+ </LI>
+<LI>  <tt>obj.SetAmbient (double )</tt> -  Set/Get the ambient lighting coefficient.
+ </LI>
+<LI>  <tt>double = obj.GetAmbientMinValue ()</tt> -  Set/Get the ambient lighting coefficient.
+ </LI>
+<LI>  <tt>double = obj.GetAmbientMaxValue ()</tt> -  Set/Get the ambient lighting coefficient.
+ </LI>
+<LI>  <tt>double = obj.GetAmbient ()</tt> -  Set/Get the ambient lighting coefficient.
+ </LI>
+<LI>  <tt>obj.SetDiffuse (double )</tt> -  Set/Get the diffuse lighting coefficient.
+ </LI>
+<LI>  <tt>double = obj.GetDiffuseMinValue ()</tt> -  Set/Get the diffuse lighting coefficient.
+ </LI>
+<LI>  <tt>double = obj.GetDiffuseMaxValue ()</tt> -  Set/Get the diffuse lighting coefficient.
+ </LI>
+<LI>  <tt>double = obj.GetDiffuse ()</tt> -  Set/Get the diffuse lighting coefficient.
+ </LI>
+<LI>  <tt>obj.SetSpecular (double )</tt> -  Set/Get the specular lighting coefficient.
+ </LI>
+<LI>  <tt>double = obj.GetSpecularMinValue ()</tt> -  Set/Get the specular lighting coefficient.
+ </LI>
+<LI>  <tt>double = obj.GetSpecularMaxValue ()</tt> -  Set/Get the specular lighting coefficient.
+ </LI>
+<LI>  <tt>double = obj.GetSpecular ()</tt> -  Set/Get the specular lighting coefficient.
+ </LI>
+<LI>  <tt>obj.SetSpecularPower (double )</tt> -  Set/Get the specular power.
+ </LI>
+<LI>  <tt>double = obj.GetSpecularPowerMinValue ()</tt> -  Set/Get the specular power.
+ </LI>
+<LI>  <tt>double = obj.GetSpecularPowerMaxValue ()</tt> -  Set/Get the specular power.
+ </LI>
+<LI>  <tt>double = obj.GetSpecularPower ()</tt> -  Set/Get the specular power.
+ </LI>
+<LI>  <tt>obj.SetOpacity (double )</tt> -  Set/Get the object's opacity. 1.0 is totally opaque and 0.0 is completely
+ transparent.
+ </LI>
+<LI>  <tt>double = obj.GetOpacityMinValue ()</tt> -  Set/Get the object's opacity. 1.0 is totally opaque and 0.0 is completely
+ transparent.
+ </LI>
+<LI>  <tt>double = obj.GetOpacityMaxValue ()</tt> -  Set/Get the object's opacity. 1.0 is totally opaque and 0.0 is completely
+ transparent.
+ </LI>
+<LI>  <tt>double = obj.GetOpacity ()</tt> -  Set/Get the object's opacity. 1.0 is totally opaque and 0.0 is completely
+ transparent.
+ </LI>
+<LI>  <tt>obj.SetAmbientColor (double , double , double )</tt> -  Set/Get the ambient surface color. Not all renderers support separate
+ ambient and diffuse colors. From a physical standpoint it really
+ doesn't make too much sense to have both. For the rendering
+ libraries that don't support both, the diffuse color is used.
+ </LI>
+<LI>  <tt>obj.SetAmbientColor (double  a[3])</tt> -  Set/Get the ambient surface color. Not all renderers support separate
+ ambient and diffuse colors. From a physical standpoint it really
+ doesn't make too much sense to have both. For the rendering
+ libraries that don't support both, the diffuse color is used.
+ </LI>
+<LI>  <tt>double = obj. GetAmbientColor ()</tt> -  Set/Get the ambient surface color. Not all renderers support separate
+ ambient and diffuse colors. From a physical standpoint it really
+ doesn't make too much sense to have both. For the rendering
+ libraries that don't support both, the diffuse color is used.
+ </LI>
+<LI>  <tt>obj.SetDiffuseColor (double , double , double )</tt> -  Set/Get the diffuse surface color.
+ </LI>
+<LI>  <tt>obj.SetDiffuseColor (double  a[3])</tt> -  Set/Get the diffuse surface color.
+ </LI>
+<LI>  <tt>double = obj. GetDiffuseColor ()</tt> -  Set/Get the diffuse surface color.
+ </LI>
+<LI>  <tt>obj.SetSpecularColor (double , double , double )</tt> -  Set/Get the specular surface color.
+ </LI>
+<LI>  <tt>obj.SetSpecularColor (double  a[3])</tt> -  Set/Get the specular surface color.
+ </LI>
+<LI>  <tt>double = obj. GetSpecularColor ()</tt> -  Set/Get the specular surface color.
+ </LI>
+<LI>  <tt>int = obj.GetEdgeVisibility ()</tt> -  Turn on/off the visibility of edges. On some renderers it is
+ possible to render the edges of geometric primitives separately
+ from the interior.
+ </LI>
+<LI>  <tt>obj.SetEdgeVisibility (int )</tt> -  Turn on/off the visibility of edges. On some renderers it is
+ possible to render the edges of geometric primitives separately
+ from the interior.
+ </LI>
+<LI>  <tt>obj.EdgeVisibilityOn ()</tt> -  Turn on/off the visibility of edges. On some renderers it is
+ possible to render the edges of geometric primitives separately
+ from the interior.
+ </LI>
+<LI>  <tt>obj.EdgeVisibilityOff ()</tt> -  Turn on/off the visibility of edges. On some renderers it is
+ possible to render the edges of geometric primitives separately
+ from the interior.
+ </LI>
+<LI>  <tt>obj.SetEdgeColor (double , double , double )</tt> -  Set/Get the color of primitive edges (if edge visibility is enabled).
+ </LI>
+<LI>  <tt>obj.SetEdgeColor (double  a[3])</tt> -  Set/Get the color of primitive edges (if edge visibility is enabled).
+ </LI>
+<LI>  <tt>double = obj. GetEdgeColor ()</tt> -  Set/Get the color of primitive edges (if edge visibility is enabled).
+ </LI>
+<LI>  <tt>obj.SetLineWidth (float )</tt> -  Set/Get the width of a Line. The width is expressed in screen units.
+ This is only implemented for OpenGL. The default is 1.0.
+ </LI>
+<LI>  <tt>float = obj.GetLineWidthMinValue ()</tt> -  Set/Get the width of a Line. The width is expressed in screen units.
+ This is only implemented for OpenGL. The default is 1.0.
+ </LI>
+<LI>  <tt>float = obj.GetLineWidthMaxValue ()</tt> -  Set/Get the width of a Line. The width is expressed in screen units.
+ This is only implemented for OpenGL. The default is 1.0.
+ </LI>
+<LI>  <tt>float = obj.GetLineWidth ()</tt> -  Set/Get the width of a Line. The width is expressed in screen units.
+ This is only implemented for OpenGL. The default is 1.0.
+ </LI>
+<LI>  <tt>obj.SetLineStipplePattern (int )</tt> -  Set/Get the stippling pattern of a Line, as a 16-bit binary pattern 
+ (1 = pixel on, 0 = pixel off).
+ This is only implemented for OpenGL. The default is 0xFFFF.
+ </LI>
+<LI>  <tt>int = obj.GetLineStipplePattern ()</tt> -  Set/Get the stippling pattern of a Line, as a 16-bit binary pattern 
+ (1 = pixel on, 0 = pixel off).
+ This is only implemented for OpenGL. The default is 0xFFFF.
+ </LI>
+<LI>  <tt>obj.SetLineStippleRepeatFactor (int )</tt> -  Set/Get the stippling repeat factor of a Line, which specifies how
+ many times each bit in the pattern is to be repeated.
+ This is only implemented for OpenGL. The default is 1.
+ </LI>
+<LI>  <tt>int = obj.GetLineStippleRepeatFactorMinValue ()</tt> -  Set/Get the stippling repeat factor of a Line, which specifies how
+ many times each bit in the pattern is to be repeated.
+ This is only implemented for OpenGL. The default is 1.
+ </LI>
+<LI>  <tt>int = obj.GetLineStippleRepeatFactorMaxValue ()</tt> -  Set/Get the stippling repeat factor of a Line, which specifies how
+ many times each bit in the pattern is to be repeated.
+ This is only implemented for OpenGL. The default is 1.
+ </LI>
+<LI>  <tt>int = obj.GetLineStippleRepeatFactor ()</tt> -  Set/Get the stippling repeat factor of a Line, which specifies how
+ many times each bit in the pattern is to be repeated.
+ This is only implemented for OpenGL. The default is 1.
+ </LI>
+<LI>  <tt>obj.SetPointSize (float )</tt> -  Set/Get the diameter of a point. The size is expressed in screen units.
+ This is only implemented for OpenGL. The default is 1.0.
+ </LI>
+<LI>  <tt>float = obj.GetPointSizeMinValue ()</tt> -  Set/Get the diameter of a point. The size is expressed in screen units.
+ This is only implemented for OpenGL. The default is 1.0.
+ </LI>
+<LI>  <tt>float = obj.GetPointSizeMaxValue ()</tt> -  Set/Get the diameter of a point. The size is expressed in screen units.
+ This is only implemented for OpenGL. The default is 1.0.
+ </LI>
+<LI>  <tt>float = obj.GetPointSize ()</tt> -  Set/Get the diameter of a point. The size is expressed in screen units.
+ This is only implemented for OpenGL. The default is 1.0.
+ </LI>
+<LI>  <tt>int = obj.GetBackfaceCulling ()</tt> -  Turn on/off fast culling of polygons based on orientation of normal
+ with respect to camera. If backface culling is on, polygons facing
+ away from camera are not drawn.
+ </LI>
+<LI>  <tt>obj.SetBackfaceCulling (int )</tt> -  Turn on/off fast culling of polygons based on orientation of normal
+ with respect to camera. If backface culling is on, polygons facing
+ away from camera are not drawn.
+ </LI>
+<LI>  <tt>obj.BackfaceCullingOn ()</tt> -  Turn on/off fast culling of polygons based on orientation of normal
+ with respect to camera. If backface culling is on, polygons facing
+ away from camera are not drawn.
+ </LI>
+<LI>  <tt>obj.BackfaceCullingOff ()</tt> -  Turn on/off fast culling of polygons based on orientation of normal
+ with respect to camera. If backface culling is on, polygons facing
+ away from camera are not drawn.
+ </LI>
+<LI>  <tt>int = obj.GetFrontfaceCulling ()</tt> -  Turn on/off fast culling of polygons based on orientation of normal
+ with respect to camera. If frontface culling is on, polygons facing
+ towards camera are not drawn.
+ </LI>
+<LI>  <tt>obj.SetFrontfaceCulling (int )</tt> -  Turn on/off fast culling of polygons based on orientation of normal
+ with respect to camera. If frontface culling is on, polygons facing
+ towards camera are not drawn.
+ </LI>
+<LI>  <tt>obj.FrontfaceCullingOn ()</tt> -  Turn on/off fast culling of polygons based on orientation of normal
+ with respect to camera. If frontface culling is on, polygons facing
+ towards camera are not drawn.
+ </LI>
+<LI>  <tt>obj.FrontfaceCullingOff ()</tt> -  Turn on/off fast culling of polygons based on orientation of normal
+ with respect to camera. If frontface culling is on, polygons facing
+ towards camera are not drawn.
+ </LI>
+<LI>  <tt>vtkXMLMaterial = obj.GetMaterial ()</tt> -  Get the material representation used for shading. The material will be used
+ only when shading is enabled.
+ </LI>
+<LI>  <tt>string = obj.GetMaterialName ()</tt> -  Returns the name of the material currenly loaded, if any.
+ </LI>
+<LI>  <tt>obj.LoadMaterial (string name)</tt> -  Load the material. The material can be the name of a
+ built-on material or the filename for a VTK material XML description.
+ </LI>
+<LI>  <tt>obj.LoadMaterialFromString (string materialxml)</tt> -  Load the material given the contents of the material file.
+ </LI>
+<LI>  <tt>obj.LoadMaterial (vtkXMLMaterial )</tt> -  Load the material given the material representation.
+ </LI>
+<LI>  <tt>obj.SetShading (int )</tt> -  Enable/Disable shading. When shading is enabled, the
+ Material must be set.
+ </LI>
+<LI>  <tt>int = obj.GetShading ()</tt> -  Enable/Disable shading. When shading is enabled, the
+ Material must be set.
+ </LI>
+<LI>  <tt>obj.ShadingOn ()</tt> -  Enable/Disable shading. When shading is enabled, the
+ Material must be set.
+ </LI>
+<LI>  <tt>obj.ShadingOff ()</tt> -  Enable/Disable shading. When shading is enabled, the
+ Material must be set.
+ </LI>
+<LI>  <tt>vtkShaderProgram = obj.GetShaderProgram ()</tt> -  Get the Shader program. If Material is not set/or not loaded properly,
+ this will return null.
+ </LI>
+<LI>  <tt>obj.AddShaderVariable (string name, int numVars, int x)</tt> -  Provide values to initialize shader variables.
+ Useful to initialize shader variables that change over time
+ (animation, GUI widgets inputs, etc. )
+ - \p name - hardware name of the uniform variable
+ - \p numVars - number of variables being set
+ - \p x - values
+ </LI>
+<LI>  <tt>obj.AddShaderVariable (string name, int numVars, float x)</tt> -  Provide values to initialize shader variables.
+ Useful to initialize shader variables that change over time
+ (animation, GUI widgets inputs, etc. )
+ - \p name - hardware name of the uniform variable
+ - \p numVars - number of variables being set
+ - \p x - values
+ </LI>
+<LI>  <tt>obj.AddShaderVariable (string name, int numVars, double x)</tt> -  Provide values to initialize shader variables.
+ Useful to initialize shader variables that change over time
+ (animation, GUI widgets inputs, etc. )
+ - \p name - hardware name of the uniform variable
+ - \p numVars - number of variables being set
+ - \p x - values
+ </LI>
+<LI>  <tt>obj.AddShaderVariable (string name, int v)</tt> -  Methods to provide to add shader variables from tcl.
+ </LI>
+<LI>  <tt>obj.AddShaderVariable (string name, float v)</tt> -  Methods to provide to add shader variables from tcl.
+ </LI>
+<LI>  <tt>obj.AddShaderVariable (string name, double v)</tt> -  Methods to provide to add shader variables from tcl.
+ </LI>
+<LI>  <tt>obj.AddShaderVariable (string name, int v1, int v2)</tt> -  Methods to provide to add shader variables from tcl.
+ </LI>
+<LI>  <tt>obj.AddShaderVariable (string name, float v1, float v2)</tt> -  Methods to provide to add shader variables from tcl.
+ </LI>
+<LI>  <tt>obj.AddShaderVariable (string name, double v1, double v2)</tt> -  Methods to provide to add shader variables from tcl.
+ </LI>
+<LI>  <tt>obj.AddShaderVariable (string name, int v1, int v2, int v3)</tt> -  Methods to provide to add shader variables from tcl.
+ </LI>
+<LI>  <tt>obj.AddShaderVariable (string name, float v1, float v2, float v3)</tt> -  Methods to provide to add shader variables from tcl.
+ </LI>
+<LI>  <tt>obj.AddShaderVariable (string name, double v1, double v2, double v3)</tt> -  Set/Get the texture object to control rendering texture maps.  This will
+ be a vtkTexture object. A property does not need to have an associated
+ texture map and multiple properties can share one texture. Textures
+ must be assigned unique names.
+ </LI>
+<LI>  <tt>obj.SetTexture (string name, vtkTexture texture)</tt> -  Set/Get the texture object to control rendering texture maps.  This will
+ be a vtkTexture object. A property does not need to have an associated
+ texture map and multiple properties can share one texture. Textures
+ must be assigned unique names.
+ </LI>
+<LI>  <tt>vtkTexture = obj.GetTexture (string name)</tt> -  Set/Get the texture object to control rendering texture maps.  This will
+ be a vtkTexture object. A property does not need to have an associated
+ texture map and multiple properties can share one texture. Textures
+ must be assigned unique names.
+ </LI>
+<LI>  <tt>obj.SetTexture (int unit, vtkTexture texture)</tt> -  Set/Get the texture object to control rendering texture maps.  This will
+ be a vtkTexture object. A property does not need to have an associated
+ texture map and multiple properties can share one texture. Textures
+ must be assigned unique names.
+ </LI>
+<LI>  <tt>vtkTexture = obj.GetTexture (int unit)</tt> -  Set/Get the texture object to control rendering texture maps.  This will
+ be a vtkTexture object. A property does not need to have an associated
+ texture map and multiple properties can share one texture. Textures
+ must be assigned unique names.
+ </LI>
+<LI>  <tt>obj.RemoveTexture (int unit)</tt> -  Set/Get the texture object to control rendering texture maps.  This will
+ be a vtkTexture object. A property does not need to have an associated
+ texture map and multiple properties can share one texture. Textures
+ must be assigned unique names.
+ </LI>
+<LI>  <tt>obj.RemoveTexture (string name)</tt> -  Remove a texture from the collection. Note that the
+ indices of all the subsquent textures, if any, will change.
+ </LI>
+<LI>  <tt>obj.RemoveAllTextures ()</tt> -  Remove all the textures.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfTextures ()</tt> -  Returns the number of textures in this property.
+ </LI>
+<LI>  <tt>obj.ReleaseGraphicsResources (vtkWindow win)</tt> -  Release any graphics resources that are being consumed by this
+ property. The parameter window could be used to determine which graphic
+ resources to release.
+ </LI>
+</UL>
+*/

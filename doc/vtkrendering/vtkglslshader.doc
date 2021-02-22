@@ -1,0 +1,91 @@
+/*!
+\page vtkrendering_vtkglslshader vtkGLSLShader
+
+<p>
+Section: \ref sec_vtkrendering "Visualization Toolkit Rendering Classes"
+\section Usage
+ vtkGLSLShader is a concrete class that creates and compiles hardware
+ shaders written in the OpenGL Shadering Language (GLSL, OpenGL2.0).
+ While step linking a vertex and a fragment shader is performed by
+ vtkGLSLShaderProgram, all shader parameters are initialized in this
+ class.
+
+ .Section vtkOpenGLExtensionManager
+ All OpenGL calls are made through vtkOpenGLExtensionManager.
+
+ .Section Supported Basic Shader Types:
+
+ Scalar Types
+ uniform float
+ uniform int
+ uniform int -- boolean scalar not yet tested
+
+ Vector Types:
+ uniform vec{2|3|4}
+ uniform ivec{2|3|4}
+ uniform bvec{2|3|4} -- boolean vector not yet tested
+
+ Matrix Types:
+ uniform mat{2|3|4}
+
+ Texture Samplers:
+ sample1D -- Not yet implemented in this cless.
+ sample2D -- Not yet implemented in this class.
+ sample3D -- Not yet implemented in this class.
+ sampler1DShadow -- Not yet implemented in this class.
+ sampler1DShadow -- Not yet implemented in this class.
+ 
+ User-Defined structures:
+ uniform struct
+  NOTE: these must be defined and declared  outside of the 'main' shader
+  function.
+
+
+ .SECTION Thanks
+ Shader support in VTK includes key contributions by Gary Templet at 
+ Sandia National Labs.
+
+To create an instance of class vtkGLSLShader, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkGLSLShader
+\endverbatim
+\section Methods
+The class vtkGLSLShader has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkGLSLShader class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkGLSLShader = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkGLSLShader = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>int = obj.Compile ()</tt> -  Called to compile the shader code.
+ The subclasses must only compile the code in this method.
+ Returns if the compile was successful.
+ Subclasses should compile the code only if it was not
+ already compiled.
+ </LI>
+<LI>  <tt>int = obj.GetHandle ()</tt> -  The Shader needs the id of the ShaderProgram
+ to obtain uniform variable locations. This is set
+ by vtkGLSLShaderProgram.
+ </LI>
+<LI>  <tt>obj.SetProgram (int )</tt> -  The Shader needs the id of the ShaderProgram
+ to obtain uniform variable locations. This is set
+ by vtkGLSLShaderProgram.
+ </LI>
+<LI>  <tt>int = obj.GetProgram ()</tt> -  The Shader needs the id of the ShaderProgram
+ to obtain uniform variable locations. This is set
+ by vtkGLSLShaderProgram.
+ </LI>
+<LI>  <tt>obj.ReleaseGraphicsResources (vtkWindow )</tt> -  Release any graphics resources that are being consumed by this actor.
+ The parameter window could be used to determine which graphic
+ resources to release.
+ </LI>
+</UL>
+*/

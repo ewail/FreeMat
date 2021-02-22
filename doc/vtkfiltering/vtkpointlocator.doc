@@ -1,0 +1,142 @@
+/*!
+\page vtkfiltering_vtkpointlocator vtkPointLocator
+
+<p>
+Section: \ref sec_vtkfiltering "Visualization Toolkit Filtering Classes"
+\section Usage
+ vtkPointLocator is a spatial search object to quickly locate points in 3D.
+ vtkPointLocator works by dividing a specified region of space into a regular
+ array of "rectangular" buckets, and then keeping a list of points that 
+ lie in each bucket. Typical operation involves giving a position in 3D 
+ and finding the closest point.
+
+ vtkPointLocator has two distinct methods of interaction. In the first
+ method, you supply it with a dataset, and it operates on the points in 
+ the dataset. In the second method, you supply it with an array of points,
+ and the object operates on the array.
+
+To create an instance of class vtkPointLocator, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkPointLocator
+\endverbatim
+\section Methods
+The class vtkPointLocator has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkPointLocator class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkPointLocator = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkPointLocator = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetDivisions (int , int , int )</tt> -  Set the number of divisions in x-y-z directions.
+ </LI>
+<LI>  <tt>obj.SetDivisions (int  a[3])</tt> -  Set the number of divisions in x-y-z directions.
+ </LI>
+<LI>  <tt>int = obj. GetDivisions ()</tt> -  Set the number of divisions in x-y-z directions.
+ </LI>
+<LI>  <tt>obj.SetNumberOfPointsPerBucket (int )</tt> -  Specify the average number of points in each bucket.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfPointsPerBucketMinValue ()</tt> -  Specify the average number of points in each bucket.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfPointsPerBucketMaxValue ()</tt> -  Specify the average number of points in each bucket.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfPointsPerBucket ()</tt> -  Specify the average number of points in each bucket.
+ </LI>
+<LI>  <tt>vtkIdType = obj.FindClosestPoint (double x[3])</tt> -  Given a position x, return the id of the point closest to it. Alternative
+ method requires separate x-y-z values.
+ These methods are thread safe if BuildLocator() is directly or
+ indirectly called from a single thread first.
+ </LI>
+<LI>  <tt>int = obj.InitPointInsertion (vtkPoints newPts, double bounds[6])</tt> -  Initialize the point insertion process. The newPts is an object
+ representing point coordinates into which incremental insertion methods
+ place their data. Bounds are the box that the points lie in.
+ Not thread safe.
+ </LI>
+<LI>  <tt>int = obj.InitPointInsertion (vtkPoints newPts, double bounds[6], vtkIdType estSize)</tt> -  Initialize the point insertion process. The newPts is an object
+ representing point coordinates into which incremental insertion methods
+ place their data. Bounds are the box that the points lie in.
+ Not thread safe.
+ </LI>
+<LI>  <tt>obj.InsertPoint (vtkIdType ptId, double x[3])</tt> -  Incrementally insert a point into search structure with a particular
+ index value. You should use the method IsInsertedPoint() to see whether 
+ this point has already been inserted (that is, if you desire to prevent
+ duplicate points). Before using this method you must make sure that 
+ newPts have been supplied, the bounds has been set properly, and that 
+ divs are properly set. (See InitPointInsertion().)
+ Not thread safe.
+ </LI>
+<LI>  <tt>vtkIdType = obj.InsertNextPoint (double x[3])</tt> -  Incrementally insert a point into search structure. The method returns
+ the insertion location (i.e., point id). You should use the method 
+ IsInsertedPoint() to see whether this point has already been
+ inserted (that is, if you desire to prevent duplicate points).
+ Before using this method you must make sure that newPts have been
+ supplied, the bounds has been set properly, and that divs are 
+ properly set. (See InitPointInsertion().)
+ Not thread safe.
+ </LI>
+<LI>  <tt>vtkIdType = obj.IsInsertedPoint (double x, double y, double z)</tt> -  Determine whether point given by x[3] has been inserted into points list.
+ Return id of previously inserted point if this is true, otherwise return
+ -1. This method is thread safe.
+ </LI>
+<LI>  <tt>vtkIdType = obj.IsInsertedPoint (double x[3])</tt> -  Determine whether point given by x[3] has been inserted into points list.
+ Return id of previously inserted point if this is true, otherwise return
+ -1. This method is thread safe.
+ </LI>
+<LI>  <tt>vtkIdType = obj.FindClosestInsertedPoint (double x[3])</tt> -  Given a position x, return the id of the point closest to it. This method
+ is used when performing incremental point insertion. Note that -1 
+ indicates that no point was found.
+ This method is thread safe if  BuildLocator() is directly or
+ indirectly called from a single thread first.
+ </LI>
+<LI>  <tt>obj.FindClosestNPoints (int N, double x[3], vtkIdList result)</tt> -  Find the closest N points to a position. This returns the closest
+ N points to a position. A faster method could be created that returned
+ N close points to a position, but necessarily the exact N closest.
+ The returned points are sorted from closest to farthest.
+ These methods are thread safe if BuildLocator() is directly or
+ indirectly called from a single thread first.
+ </LI>
+<LI>  <tt>obj.FindDistributedPoints (int N, double x[3], vtkIdList result, int M)</tt> -  Find the closest points to a position such that each octant of
+ space around the position contains at least N points. Loosely 
+ limit the search to a maximum number of points evaluated, M. 
+ These methods are thread safe if BuildLocator() is directly or
+ indirectly called from a single thread first.
+ </LI>
+<LI>  <tt>obj.FindDistributedPoints (int N, double x, double y, double z, vtkIdList result, int M)</tt> -  Find the closest points to a position such that each octant of
+ space around the position contains at least N points. Loosely 
+ limit the search to a maximum number of points evaluated, M. 
+ These methods are thread safe if BuildLocator() is directly or
+ indirectly called from a single thread first.
+ </LI>
+<LI>  <tt>obj.FindPointsWithinRadius (double R, double x[3], vtkIdList result)</tt> -  Find all points within a specified radius R of position x.
+ The result is not sorted in any specific manner.
+ These methods are thread safe if BuildLocator() is directly or
+ indirectly called from a single thread first.
+ </LI>
+<LI>  <tt>vtkIdList = obj.GetPointsInBucket (double x[3], int ijk[3])</tt> -  Given a position x, return the list of points in the bucket that
+ contains the point. It is possible that NULL is returned. The user
+ provides an ijk array that is the indices into the locator.
+ This method is thread safe.
+ </LI>
+<LI>  <tt>vtkPoints = obj.GetPoints ()</tt> -  Provide an accessor to the points.
+ </LI>
+<LI>  <tt>obj.Initialize ()</tt> -  See vtkLocator interface documentation.
+ These methods are not thread safe.
+ </LI>
+<LI>  <tt>obj.FreeSearchStructure ()</tt> -  See vtkLocator interface documentation.
+ These methods are not thread safe.
+ </LI>
+<LI>  <tt>obj.BuildLocator ()</tt> -  See vtkLocator interface documentation.
+ These methods are not thread safe.
+ </LI>
+<LI>  <tt>obj.GenerateRepresentation (int level, vtkPolyData pd)</tt> -  See vtkLocator interface documentation.
+ These methods are not thread safe.
+ </LI>
+</UL>
+*/

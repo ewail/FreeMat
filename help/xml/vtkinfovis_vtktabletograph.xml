@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkinfovis_vtktabletograph" kind="page">
+    <compoundname>vtkinfovis_vtktabletograph</compoundname>
+    <title>vtkTableToGraph</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkinfovis_1sec_vtkinfovis" kindref="member">Visualization Toolkit Infovis Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>vtkTableToGraph converts a table to a graph using an auxilliary link graph. The link graph specifies how each row in the table should be converted to an edge, or a collection of edges. It also specifies which columns of the table should be considered part of the same domain, and which columns should be hidden.</para><para>A second, optional, table may be provided as the vertex table. This vertex table must have one or more domain columns whose values match values in the edge table. The linked column name is specified in the domain array in the link graph. The output graph will only contain vertices corresponding to a row in the vertex table. For heterogenous graphs, you may want to use vtkMergeTables to create a single vertex table.</para><para>The link graph contains the following arrays:</para><para>(1) The &quot;column&quot; array has the names of the columns to connect in each table row. This array is required.</para><para>(2) The optional &quot;domain&quot; array provides user-defined domain names for each column. Matching domains in multiple columns will merge vertices with the same value from those columns. By default, all columns are in the same domain. If a vertex table is supplied, the domain indicates the column in the vertex table that the edge table column associates with. If the user provides a vertex table but no domain names, the output will be an empty graph. Hidden columns do not need valid domain names.</para><para>(3) The optional &quot;hidden&quot; array is a bit array specifying whether the column should be hidden. The resulting graph will contain edges representing connections &quot;through&quot; the hidden column, but the vertices for that column will not be present. By default, no columns are hidden. Hiding a column in a particular domain hides all columns in that domain.</para><para>The output graph will contain three additional arrays in the vertex data. The &quot;domain&quot; column is a string array containing the domain of each vertex. The &quot;label&quot; column is a string version of the distinct value that, along with the domain, defines that vertex. The &quot;ids&quot; column also contains the distinguishing value, but as a vtkVariant holding the raw value instead of being converted to a string. The &quot;ids&quot; column is set as the vertex pedigree ID attribute.</para><para>To create an instance of class vtkTableToGraph, simply invoke its constructor as follows <verbatim>  obj = vtkTableToGraph
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkTableToGraph has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkTableToGraph class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkTableToGraph = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkTableToGraph = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.AddLinkVertex (string column, string domain, int hidden)</computeroutput> - Add a vertex to the link graph. Specify the column name, the domain name for the column, and whether the column is hidden.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ClearLinkVertices ()</computeroutput> - Clear the link graph vertices. This also clears all edges.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.AddLinkEdge (string column1, string column2)</computeroutput> - Add an edge to the link graph. Specify the names of the columns to link.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ClearLinkEdges ()</computeroutput> - Clear the link graph edges. The graph vertices will remain.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkMutableDirectedGraph = obj.GetLinkGraph ()</computeroutput> - The graph describing how to link the columns in the table.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetLinkGraph (vtkMutableDirectedGraph g)</computeroutput> - The graph describing how to link the columns in the table.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.LinkColumnPath (vtkStringArray column, vtkStringArray domain, vtkBitArray hidden)</computeroutput> - Links the columns in a specific order. This creates a simple path as the link graph.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetDirected (bool )</computeroutput> - Specify the directedness of the output graph.  </para></listitem>
+<listitem>
+<para><computeroutput>bool = obj.GetDirected ()</computeroutput> - Specify the directedness of the output graph.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.DirectedOn ()</computeroutput> - Specify the directedness of the output graph.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.DirectedOff ()</computeroutput> - Specify the directedness of the output graph.  </para></listitem>
+<listitem>
+<para><computeroutput>long = obj.GetMTime ()</computeroutput> - Get the current modified time.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetVertexTableConnection (vtkAlgorithmOutput in)</computeroutput> - A convenience method for setting the vertex table input. This is mainly for the benefit of the VTK client/server layer, vanilla VTK code should use e.g:</para><para>table_to_graph-&gt;SetInputConnection(1, vertex_table-&gt;output());</para><para></para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,179 @@
+/*!
+\page vtkfiltering_vtkkdnode vtkKdNode
+
+<p>
+Section: \ref sec_vtkfiltering "Visualization Toolkit Filtering Classes"
+\section Usage
+     
+
+To create an instance of class vtkKdNode, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkKdNode
+\endverbatim
+\section Methods
+The class vtkKdNode has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkKdNode class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkKdNode = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkKdNode = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetDim (int )</tt> -  Set/Get the dimension along which this region is divided.
+ (0 - x, 1 - y, 2 - z, 3 - leaf node (default)).
+ </LI>
+<LI>  <tt>int = obj.GetDim ()</tt> -  Set/Get the dimension along which this region is divided.
+ (0 - x, 1 - y, 2 - z, 3 - leaf node (default)).
+ </LI>
+<LI>  <tt>double = obj.GetDivisionPosition ()</tt> -  Get the location of the division plane along the axis the region
+ is divided.  See also GetDim().  The result is undertermined if
+ this node is not divided (a leaf node).
+ </LI>
+<LI>  <tt>obj.SetNumberOfPoints (int )</tt> -  Set/Get the number of points contained in this region.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfPoints ()</tt> -  Set/Get the number of points contained in this region.
+ </LI>
+<LI>  <tt>obj.SetBounds (double x1, double x2, double y1, double y2, double z1, double z2)</tt> -    Set/Get the bounds of the spatial region represented by this node.
+   Caller allocates storage for 6-vector in GetBounds.
+ </LI>
+<LI>  <tt>obj.SetBounds (double b[6])</tt> -    Set/Get the bounds of the spatial region represented by this node.
+   Caller allocates storage for 6-vector in GetBounds.
+ </LI>
+<LI>  <tt>obj.GetBounds (double b) const</tt> -    Set/Get the bounds of the spatial region represented by this node.
+   Caller allocates storage for 6-vector in GetBounds.
+ </LI>
+<LI>  <tt>obj.SetDataBounds (double x1, double x2, double y1, double y2, double z1, double z2)</tt> -    Set/Get the bounds of the points contained in this spatial region.
+   This may be smaller than the bounds of the region itself.
+   Caller allocates storage for 6-vector in GetDataBounds.
+ </LI>
+<LI>  <tt>obj.GetDataBounds (double b) const</tt> -    Set/Get the bounds of the points contained in this spatial region.
+   This may be smaller than the bounds of the region itself.
+   Caller allocates storage for 6-vector in GetDataBounds.
+ </LI>
+<LI>  <tt>obj.SetDataBounds (float v)</tt> -    Given a pointer to NumberOfPoints points, set the DataBounds of this
+   node to the bounds of these points.
+ </LI>
+<LI>  <tt>double = obj.GetMinBounds ()</tt> -    Get a pointer to the 3 bound minima (xmin, ymin and zmin) or the
+   3 bound maxima (xmax, ymax, zmax).  Don't free this pointer.
+ </LI>
+<LI>  <tt>double = obj.GetMaxBounds ()</tt> -    Set the xmin, ymin and zmin value of the bounds of this region
+ </LI>
+<LI>  <tt>obj.SetMinBounds (double mb)</tt> -    Set the xmin, ymin and zmin value of the bounds of this region
+ </LI>
+<LI>  <tt>obj.SetMaxBounds (double mb)</tt> -    Set the xmax, ymax and zmax value of the bounds of this region
+ </LI>
+<LI>  <tt>double = obj.GetMinDataBounds ()</tt> -    Get a pointer to the 3 data bound minima (xmin, ymin and zmin) or the
+   3 data bound maxima (xmax, ymax, zmax).  Don't free this pointer.
+ </LI>
+<LI>  <tt>double = obj.GetMaxDataBounds ()</tt> -    Set the xmin, ymin and zmin value of the bounds of this 
+   data within this region
+ </LI>
+<LI>  <tt>obj.SetMinDataBounds (double mb)</tt> -    Set the xmin, ymin and zmin value of the bounds of this 
+   data within this region
+ </LI>
+<LI>  <tt>obj.SetMaxDataBounds (double mb)</tt> -    Set the xmax, ymax and zmax value of the bounds of this 
+   data within this region
+ </LI>
+<LI>  <tt>obj.SetID (int )</tt> -    Set/Get the ID associated with the region described by this node.  If
+   this is not a leaf node, this value should be -1.
+ </LI>
+<LI>  <tt>int = obj.GetID ()</tt> -    Set/Get the ID associated with the region described by this node.  If
+   this is not a leaf node, this value should be -1.
+ </LI>
+<LI>  <tt>int = obj.GetMinID ()</tt> -    If this node is not a leaf node, there are leaf nodes below it whose
+   regions represent a partitioning of this region.  The IDs of these
+   leaf nodes form a contigous set.  Set/Get the range of the IDs of
+   the leaf nodes below this node.  If this is already a leaf node, these
+   values should be the same as the ID.
+ </LI>
+<LI>  <tt>int = obj.GetMaxID ()</tt> -    If this node is not a leaf node, there are leaf nodes below it whose
+   regions represent a partitioning of this region.  The IDs of these
+   leaf nodes form a contigous set.  Set/Get the range of the IDs of
+   the leaf nodes below this node.  If this is already a leaf node, these
+   values should be the same as the ID.
+ </LI>
+<LI>  <tt>obj.SetMinID (int )</tt> -    If this node is not a leaf node, there are leaf nodes below it whose
+   regions represent a partitioning of this region.  The IDs of these
+   leaf nodes form a contigous set.  Set/Get the range of the IDs of
+   the leaf nodes below this node.  If this is already a leaf node, these
+   values should be the same as the ID.
+ </LI>
+<LI>  <tt>obj.SetMaxID (int )</tt> -    If this node is not a leaf node, there are leaf nodes below it whose
+   regions represent a partitioning of this region.  The IDs of these
+   leaf nodes form a contigous set.  Set/Get the range of the IDs of
+   the leaf nodes below this node.  If this is already a leaf node, these
+   values should be the same as the ID.
+ </LI>
+<LI>  <tt>obj.AddChildNodes (vtkKdNode left, vtkKdNode right)</tt> -    Add the left and right children.
+ </LI>
+<LI>  <tt>obj.DeleteChildNodes ()</tt> -    Delete the left and right children.
+ </LI>
+<LI>  <tt>vtkKdNode = obj.GetLeft ()</tt> -    Set/Get a pointer to the left child of this node.
+ </LI>
+<LI>  <tt>obj.SetLeft (vtkKdNode left)</tt> -    Set/Get a pointer to the left child of this node.
+ </LI>
+<LI>  <tt>vtkKdNode = obj.GetRight ()</tt> -    Set/Get a pointer to the right child of this node.
+ </LI>
+<LI>  <tt>obj.SetRight (vtkKdNode right)</tt> -    Set/Get a pointer to the right child of this node.
+ </LI>
+<LI>  <tt>vtkKdNode = obj.GetUp ()</tt> -    Set/Get a pointer to the parent of this node.
+ </LI>
+<LI>  <tt>obj.SetUp (vtkKdNode up)</tt> -    Set/Get a pointer to the parent of this node.
+ </LI>
+<LI>  <tt>int = obj.IntersectsBox (double x1, double x2, double y1, double y2, double z1, double z2, int useDataBounds)</tt> -    Return 1 if this spatial region intersects the axis-aligned box given
+   by the bounds passed in.  Use the possibly smaller bounds of the points
+   within the region if useDataBounds is non-zero.
+ </LI>
+<LI>  <tt>int = obj.IntersectsSphere2 (double x, double y, double z, double rSquared, int useDataBounds)</tt> -    Return 1 if this spatial region intersects a sphere described by
+   it's center and the square of it's radius. Use the possibly smaller 
+   bounds of the points within the region if useDataBounds is non-zero.
+ </LI>
+<LI>  <tt>int = obj.IntersectsRegion (vtkPlanesIntersection pi, int useDataBounds)</tt> -    A vtkPlanesIntersection object represents a convex 3D region bounded
+   by planes, and it is capable of computing intersections of
+   boxes with itself.  Return 1 if this spatial region intersects
+   the spatial region described by the vtkPlanesIntersection object.
+   Use the possibly smaller bounds of the points within the region 
+   if useDataBounds is non-zero.
+ </LI>
+<LI>  <tt>int = obj.IntersectsCell (vtkCell cell, int useDataBounds, int cellRegion, double cellBoundsNULL)</tt> -    Return 1 if the cell specified intersects this region.  If you
+   already know the ID of the region containing the cell's centroid,
+   provide that as an argument.  If you already know the bounds of the
+   cell, provide that as well, in the form of xmin,xmax,ymin,ymax,zmin,
+   zmax.  Either of these may speed the calculation.
+   Use the possibly smaller bounds of the points within the region 
+   if useDataBounds is non-zero.
+ </LI>
+<LI>  <tt>int = obj.ContainsBox (double x1, double x2, double y1, double y2, double z1, double z2, int useDataBounds)</tt> -    Return 1 if this spatial region entirely contains a box specified
+   by it's bounds. Use the possibly smaller 
+   bounds of the points within the region if useDataBounds is non-zero.
+ </LI>
+<LI>  <tt>int = obj.ContainsPoint (double x, double y, double z, int useDataBounds)</tt> -    Return 1 if this spatial region entirely contains the given point.
+   Use the possibly smaller bounds of the points within the region 
+   if useDataBounds is non-zero.
+ </LI>
+<LI>  <tt>double = obj.GetDistance2ToBoundary (double x, double y, double z, int useDataBounds)</tt> -    Calculate the distance squared from any point to the boundary of this
+   region.  Use the boundary of the points within the region if useDataBounds
+   is non-zero.
+ </LI>
+<LI>  <tt>double = obj.GetDistance2ToBoundary (double x, double y, double z, double boundaryPt, int useDataBounds)</tt> -    Calculate the distance squared from any point to the boundary of this
+   region.  Use the boundary of the points within the region if useDataBounds
+   is non-zero.  Set boundaryPt to the point on the boundary.
+ </LI>
+<LI>  <tt>double = obj.GetDistance2ToInnerBoundary (double x, double y, double z)</tt> -    Calculate the distance from the specified point (which is required to
+   be inside this spatial region) to an interior boundary.  An interior
+   boundary is one that is not also an boundary of the entire space
+   partitioned by the tree of vtkKdNode's.
+ </LI>
+<LI>  <tt>obj.PrintNode (int depth)</tt> -    For debugging purposes, print out this node.
+ </LI>
+<LI>  <tt>obj.PrintVerboseNode (int depth)</tt> -    For debugging purposes, print out this node.
+ </LI>
+</UL>
+*/

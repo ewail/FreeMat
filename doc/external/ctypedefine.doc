@@ -1,0 +1,58 @@
+/*!
+\page external_ctypedefine CTYPEDEFINE Define C Type
+
+<p>
+Section: \ref sec_external "FreeMat External Interface"
+\section Usage
+The <tt>ctypedefine</tt> function allows you to define C types for use
+with FreeMat.  Three variants of C types can be used.  You can
+use structures, enumerations, and aliases (typedefs).  All three are defined
+through a single function <tt>ctypedefine</tt>.  The general syntax for
+its use is
+\verbatim
+  ctypedefine(typeclass,typename,...)
+\endverbatim
+where <tt>typeclass</tt> is the variant of the type (legal values are
+<tt>'struct'</tt>, <tt>'alias'</tt>, <tt>'enum'</tt>).  The second argument is the
+name of the C type.  The remaining arguments depend on what the
+class of the typedef is.  
+
+To define a C structure, use the <tt>'struct'</tt> type class.  The usage
+in this case is:
+\verbatim
+  ctypedefine('struct',typename,field1,type1,field2,type2,...)
+\endverbatim
+The argument <tt>typename</tt> must be a valid identifier string.  Each of
+of the <tt>field</tt> arguments is also a valid identifier string that 
+describe in order, the elements of the C structure.  The <tt>type</tt> arguments
+are <tt>typespecs</tt>.  They can be of three types:
+<UL>
+<LI>  Built in types, e.g. <tt>'uint8'</tt> or <tt>'double'</tt> to name a couple of
+      examples.
+ </LI>
+<LI>  C types that have previously been defined with a call to 
+      <tt>ctypedefine</tt>, e.g. <tt>'mytype'</tt> where <tt>'mytype'</tt> has already been
+      defined through a call to <tt>ctypedefine</tt>.
+ </LI>
+<LI>  Arrays of either built in types or previously defined C types
+      with the length of the array coded as an integer in square brackets, 
+      for example: <tt>'uint8[10]'</tt> or <tt>'double[1000]'</tt>.
+ </LI>
+</UL>
+
+To define a C enumeration, use the <tt>'enum'</tt> type class.  The usage
+in this case is:
+  ctypedefine('enum',typename,name1,value1,name2,value2,...)
+@]
+The argument <tt>typename</tt> must be a valid identifier string.  Each of the
+<tt>name</tt> arguments must also be valid identifier strings that describe
+the possible values that the enumeration can take an, and their corresponding
+integer values.  Note that the names should be unique.  The behavior of
+the various <tt>cenum</tt> functions is undefined if the names are not unique.
+
+To define a C alias (or typedef), use the following form of <tt>ctypedefine</tt>:
+\verbatim
+  ctypedefine('alias',typename,aliased_typename)
+\endverbatim
+where <tt>aliased_typename</tt> is the type that is being aliased to.
+*/

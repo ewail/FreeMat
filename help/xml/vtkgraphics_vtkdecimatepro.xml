@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkgraphics_vtkdecimatepro" kind="page">
+    <compoundname>vtkgraphics_vtkdecimatepro</compoundname>
+    <title>vtkDecimatePro</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkgraphics_1sec_vtkgraphics" kindref="member">Visualization Toolkit Graphics Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>vtkDecimatePro is a filter to reduce the number of triangles in a triangle mesh, forming a good approximation to the original geometry. The input to vtkDecimatePro is a vtkPolyData object, and only triangles are treated. If you desire to decimate polygonal meshes, first triangulate the polygons with vtkTriangleFilter object.</para><para>The implementation of vtkDecimatePro is similar to the algorithm originally described in &quot;Decimation of Triangle Meshes&quot;, Proc Siggraph `92, with three major differences. First, this algorithm does not necessarily preserve the topology of the mesh. Second, it is guaranteed to give the a mesh reduction factor specified by the user (as long as certain constraints are not set - see Caveats). Third, it is set up generate progressive meshes, that is a stream of operations that can be easily transmitted and incrementally updated (see Hugues Hoppe&apos;s Siggraph &apos;96 paper on progressive meshes).</para><para>The algorithm proceeds as follows. Each vertex in the mesh is classified and inserted into a priority queue. The priority is based on the error to delete the vertex and retriangulate the hole. Vertices that cannot be deleted or triangulated (at this point in the algorithm) are skipped. Then, each vertex in the priority queue is processed (i.e., deleted followed by hole triangulation using edge collapse). This continues until the priority queue is empty. Next, all remaining vertices are processed, and the mesh is split into separate pieces along sharp edges or at non-manifold attachment points and reinserted into the priority queue. Again, the priority queue is processed until empty. If the desired reduction is still not achieved, the remaining vertices are split as necessary (in a recursive fashion) so that it is possible to eliminate every triangle as necessary.</para><para>To use this object, at a minimum you need to specify the ivar TargetReduction. The algorithm is guaranteed to generate a reduced mesh at this level as long as the following four conditions are met: 1) topology modification is allowed (i.e., the ivar PreserveTopology is off); 2) mesh splitting is enabled (i.e., the ivar Splitting is on); 3) the algorithm is allowed to modify the boundary of the mesh (i.e., the ivar BoundaryVertexDeletion is on); and 4) the maximum allowable error (i.e., the ivar MaximumError) is set to VTK_DOUBLE_MAX. Other important parameters to adjust include the FeatureAngle and SplitAngle ivars, since these can impact the quality of the final mesh. Also, you can set the ivar AccumulateError to force incremental error update and distribution to surrounding vertices as each vertex is deleted. The accumulated error is a conservative global error bounds and decimation error, but requires additional memory and time to compute.</para><para>To create an instance of class vtkDecimatePro, simply invoke its constructor as follows <verbatim>  obj = vtkDecimatePro
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkDecimatePro has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkDecimatePro class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkDecimatePro = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkDecimatePro = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetTargetReduction (double )</computeroutput> - Specify the desired reduction in the total number of polygons (e.g., if TargetReduction is set to 0.9, this filter will try to reduce the data set to 10% of its original size). Because of various constraints, this level of reduction may not be realized. If you want to guarantee a particular reduction, you must turn off PreserveTopology, turn on SplitEdges and BoundaryVertexDeletion, and set the MaximumError to VTK_DOUBLE_MAX (these ivars are initialized this way when the object is instantiated).  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetTargetReductionMinValue ()</computeroutput> - Specify the desired reduction in the total number of polygons (e.g., if TargetReduction is set to 0.9, this filter will try to reduce the data set to 10% of its original size). Because of various constraints, this level of reduction may not be realized. If you want to guarantee a particular reduction, you must turn off PreserveTopology, turn on SplitEdges and BoundaryVertexDeletion, and set the MaximumError to VTK_DOUBLE_MAX (these ivars are initialized this way when the object is instantiated).  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetTargetReductionMaxValue ()</computeroutput> - Specify the desired reduction in the total number of polygons (e.g., if TargetReduction is set to 0.9, this filter will try to reduce the data set to 10% of its original size). Because of various constraints, this level of reduction may not be realized. If you want to guarantee a particular reduction, you must turn off PreserveTopology, turn on SplitEdges and BoundaryVertexDeletion, and set the MaximumError to VTK_DOUBLE_MAX (these ivars are initialized this way when the object is instantiated).  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetTargetReduction ()</computeroutput> - Specify the desired reduction in the total number of polygons (e.g., if TargetReduction is set to 0.9, this filter will try to reduce the data set to 10% of its original size). Because of various constraints, this level of reduction may not be realized. If you want to guarantee a particular reduction, you must turn off PreserveTopology, turn on SplitEdges and BoundaryVertexDeletion, and set the MaximumError to VTK_DOUBLE_MAX (these ivars are initialized this way when the object is instantiated).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetPreserveTopology (int )</computeroutput> - Turn on/off whether to preserve the topology of the original mesh. If on, mesh splitting and hole elimination will not occur. This may limit the maximum reduction that may be achieved.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetPreserveTopology ()</computeroutput> - Turn on/off whether to preserve the topology of the original mesh. If on, mesh splitting and hole elimination will not occur. This may limit the maximum reduction that may be achieved.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.PreserveTopologyOn ()</computeroutput> - Turn on/off whether to preserve the topology of the original mesh. If on, mesh splitting and hole elimination will not occur. This may limit the maximum reduction that may be achieved.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.PreserveTopologyOff ()</computeroutput> - Turn on/off whether to preserve the topology of the original mesh. If on, mesh splitting and hole elimination will not occur. This may limit the maximum reduction that may be achieved.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetFeatureAngle (double )</computeroutput> - Specify the mesh feature angle. This angle is used to define what an edge is (i.e., if the surface normal between two adjacent triangles is &gt;= FeatureAngle, an edge exists).  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetFeatureAngleMinValue ()</computeroutput> - Specify the mesh feature angle. This angle is used to define what an edge is (i.e., if the surface normal between two adjacent triangles is &gt;= FeatureAngle, an edge exists).  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetFeatureAngleMaxValue ()</computeroutput> - Specify the mesh feature angle. This angle is used to define what an edge is (i.e., if the surface normal between two adjacent triangles is &gt;= FeatureAngle, an edge exists).  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetFeatureAngle ()</computeroutput> - Specify the mesh feature angle. This angle is used to define what an edge is (i.e., if the surface normal between two adjacent triangles is &gt;= FeatureAngle, an edge exists).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetSplitting (int )</computeroutput> - Turn on/off the splitting of the mesh at corners, along edges, at non-manifold points, or anywhere else a split is required. Turning splitting off will better preserve the original topology of the mesh, but you may not obtain the requested reduction.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetSplitting ()</computeroutput> - Turn on/off the splitting of the mesh at corners, along edges, at non-manifold points, or anywhere else a split is required. Turning splitting off will better preserve the original topology of the mesh, but you may not obtain the requested reduction.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SplittingOn ()</computeroutput> - Turn on/off the splitting of the mesh at corners, along edges, at non-manifold points, or anywhere else a split is required. Turning splitting off will better preserve the original topology of the mesh, but you may not obtain the requested reduction.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SplittingOff ()</computeroutput> - Turn on/off the splitting of the mesh at corners, along edges, at non-manifold points, or anywhere else a split is required. Turning splitting off will better preserve the original topology of the mesh, but you may not obtain the requested reduction.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetSplitAngle (double )</computeroutput> - Specify the mesh split angle. This angle is used to control the splitting of the mesh. A split line exists when the surface normals between two edge connected triangles are &gt;= SplitAngle.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetSplitAngleMinValue ()</computeroutput> - Specify the mesh split angle. This angle is used to control the splitting of the mesh. A split line exists when the surface normals between two edge connected triangles are &gt;= SplitAngle.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetSplitAngleMaxValue ()</computeroutput> - Specify the mesh split angle. This angle is used to control the splitting of the mesh. A split line exists when the surface normals between two edge connected triangles are &gt;= SplitAngle.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetSplitAngle ()</computeroutput> - Specify the mesh split angle. This angle is used to control the splitting of the mesh. A split line exists when the surface normals between two edge connected triangles are &gt;= SplitAngle.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetPreSplitMesh (int )</computeroutput> - In some cases you may wish to split the mesh prior to algorithm execution. This separates the mesh into semi-planar patches, which are disconnected from each other. This can give superior results in some cases. If the ivar PreSplitMesh ivar is enabled, the mesh is split with the specified SplitAngle. Otherwise mesh splitting is deferred as long as possible.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetPreSplitMesh ()</computeroutput> - In some cases you may wish to split the mesh prior to algorithm execution. This separates the mesh into semi-planar patches, which are disconnected from each other. This can give superior results in some cases. If the ivar PreSplitMesh ivar is enabled, the mesh is split with the specified SplitAngle. Otherwise mesh splitting is deferred as long as possible.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.PreSplitMeshOn ()</computeroutput> - In some cases you may wish to split the mesh prior to algorithm execution. This separates the mesh into semi-planar patches, which are disconnected from each other. This can give superior results in some cases. If the ivar PreSplitMesh ivar is enabled, the mesh is split with the specified SplitAngle. Otherwise mesh splitting is deferred as long as possible.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.PreSplitMeshOff ()</computeroutput> - In some cases you may wish to split the mesh prior to algorithm execution. This separates the mesh into semi-planar patches, which are disconnected from each other. This can give superior results in some cases. If the ivar PreSplitMesh ivar is enabled, the mesh is split with the specified SplitAngle. Otherwise mesh splitting is deferred as long as possible.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetMaximumError (double )</computeroutput> - Set the largest decimation error that is allowed during the decimation process. This may limit the maximum reduction that may be achieved. The maximum error is specified as a fraction of the maximum length of the input data bounding box.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetMaximumErrorMinValue ()</computeroutput> - Set the largest decimation error that is allowed during the decimation process. This may limit the maximum reduction that may be achieved. The maximum error is specified as a fraction of the maximum length of the input data bounding box.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetMaximumErrorMaxValue ()</computeroutput> - Set the largest decimation error that is allowed during the decimation process. This may limit the maximum reduction that may be achieved. The maximum error is specified as a fraction of the maximum length of the input data bounding box.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetMaximumError ()</computeroutput> - Set the largest decimation error that is allowed during the decimation process. This may limit the maximum reduction that may be achieved. The maximum error is specified as a fraction of the maximum length of the input data bounding box.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetAccumulateError (int )</computeroutput> - The computed error can either be computed directly from the mesh or the error may be accumulated as the mesh is modified. If the error is accumulated, then it represents a global error bounds, and the ivar MaximumError becomes a global bounds on mesh error. Accumulating the error requires extra memory proportional to the number of vertices in the mesh. If AccumulateError is off, then the error is not accumulated.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetAccumulateError ()</computeroutput> - The computed error can either be computed directly from the mesh or the error may be accumulated as the mesh is modified. If the error is accumulated, then it represents a global error bounds, and the ivar MaximumError becomes a global bounds on mesh error. Accumulating the error requires extra memory proportional to the number of vertices in the mesh. If AccumulateError is off, then the error is not accumulated.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.AccumulateErrorOn ()</computeroutput> - The computed error can either be computed directly from the mesh or the error may be accumulated as the mesh is modified. If the error is accumulated, then it represents a global error bounds, and the ivar MaximumError becomes a global bounds on mesh error. Accumulating the error requires extra memory proportional to the number of vertices in the mesh. If AccumulateError is off, then the error is not accumulated.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.AccumulateErrorOff ()</computeroutput> - The computed error can either be computed directly from the mesh or the error may be accumulated as the mesh is modified. If the error is accumulated, then it represents a global error bounds, and the ivar MaximumError becomes a global bounds on mesh error. Accumulating the error requires extra memory proportional to the number of vertices in the mesh. If AccumulateError is off, then the error is not accumulated.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetErrorIsAbsolute (int )</computeroutput> - The MaximumError is normally defined as a fraction of the dataset bounding diagonal. By setting ErrorIsAbsolute to 1, the error is instead defined as that specified by AbsoluteError. By default ErrorIsAbsolute=0.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetErrorIsAbsolute ()</computeroutput> - The MaximumError is normally defined as a fraction of the dataset bounding diagonal. By setting ErrorIsAbsolute to 1, the error is instead defined as that specified by AbsoluteError. By default ErrorIsAbsolute=0.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetAbsoluteError (double )</computeroutput> - Same as MaximumError, but to be used when ErrorIsAbsolute is 1  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetAbsoluteErrorMinValue ()</computeroutput> - Same as MaximumError, but to be used when ErrorIsAbsolute is 1  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetAbsoluteErrorMaxValue ()</computeroutput> - Same as MaximumError, but to be used when ErrorIsAbsolute is 1  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetAbsoluteError ()</computeroutput> - Same as MaximumError, but to be used when ErrorIsAbsolute is 1  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetBoundaryVertexDeletion (int )</computeroutput> - Turn on/off the deletion of vertices on the boundary of a mesh. This may limit the maximum reduction that may be achieved.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetBoundaryVertexDeletion ()</computeroutput> - Turn on/off the deletion of vertices on the boundary of a mesh. This may limit the maximum reduction that may be achieved.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.BoundaryVertexDeletionOn ()</computeroutput> - Turn on/off the deletion of vertices on the boundary of a mesh. This may limit the maximum reduction that may be achieved.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.BoundaryVertexDeletionOff ()</computeroutput> - Turn on/off the deletion of vertices on the boundary of a mesh. This may limit the maximum reduction that may be achieved.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetDegree (int )</computeroutput> - If the number of triangles connected to a vertex exceeds &quot;Degree&quot;, then the vertex will be split. (NOTE: the complexity of the triangulation algorithm is proportional to Degree^2. Setting degree small can improve the performance of the algorithm.)  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetDegreeMinValue ()</computeroutput> - If the number of triangles connected to a vertex exceeds &quot;Degree&quot;, then the vertex will be split. (NOTE: the complexity of the triangulation algorithm is proportional to Degree^2. Setting degree small can improve the performance of the algorithm.)  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetDegreeMaxValue ()</computeroutput> - If the number of triangles connected to a vertex exceeds &quot;Degree&quot;, then the vertex will be split. (NOTE: the complexity of the triangulation algorithm is proportional to Degree^2. Setting degree small can improve the performance of the algorithm.)  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetDegree ()</computeroutput> - If the number of triangles connected to a vertex exceeds &quot;Degree&quot;, then the vertex will be split. (NOTE: the complexity of the triangulation algorithm is proportional to Degree^2. Setting degree small can improve the performance of the algorithm.)  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetInflectionPointRatio (double )</computeroutput> - Specify the inflection point ratio. An inflection point occurs when the ratio of reduction error between two iterations is greater than or equal to the InflectionPointRatio.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetInflectionPointRatioMinValue ()</computeroutput> - Specify the inflection point ratio. An inflection point occurs when the ratio of reduction error between two iterations is greater than or equal to the InflectionPointRatio.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetInflectionPointRatioMaxValue ()</computeroutput> - Specify the inflection point ratio. An inflection point occurs when the ratio of reduction error between two iterations is greater than or equal to the InflectionPointRatio.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetInflectionPointRatio ()</computeroutput> - Specify the inflection point ratio. An inflection point occurs when the ratio of reduction error between two iterations is greater than or equal to the InflectionPointRatio.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkIdType = obj.GetNumberOfInflectionPoints ()</computeroutput> - Get the number of inflection points. Only returns a valid value after the filter has executed. The values in the list are mesh reduction values at each inflection point. Note: the first inflection point always occurs right before non-planar triangles are decimated (i.e., as the error becomes non-zero).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GetInflectionPoints (double inflectionPoints)</computeroutput> - Get a list of inflection points. These are double values 0 &lt; r &lt;= 1.0 corresponding to reduction level, and there are a total of NumberOfInflectionPoints() values. You must provide an array (of the correct size) into which the inflection points are written.  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,120 @@
+
+ Usage
+
+vtkSurfaceLICPainter painter performs LIC on the surface of
+arbitrary geometry. Point vectors are used as the vector
+field for generating the LIC. The implementation is based on
+"Image Space Based Visualization on Unstread Flow on
+Surfaces" by Laramee, Jobard and Hauser appered in
+proceedings of IEEE Visualization '03, pages 131-138.
+To create an instance of class vtkSurfaceLICPainter, simply
+invoke its constructor as follows
+
+    obj = vtkSurfaceLICPainter
+
+
+
+ Methods
+
+The class vtkSurfaceLICPainter has several methods that can
+be used. They are listed below. Note that the documentation
+is translated automatically from the VTK sources, and may
+not be completely intelligible. When in doubt, consult the
+VTK website. In the methods listed below, obj is an instance
+of the vtkSurfaceLICPainter class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkSurfaceLICPainter = obj.NewInstance ()
+* vtkSurfaceLICPainter = obj.SafeDownCast (vtkObject o)
+* obj.ReleaseGraphicsResources (vtkWindow ) - Release any
+  graphics resources that are being consumed by this mapper.
+  The parameter window could be used to determine which
+  graphic resources to release. In this case, releases the
+  display lists.
+* vtkDataObject = obj.GetOutput () - Get the output data
+  object from this painter. Overridden to pass the input
+  points (or cells) vectors as the tcoords to the deletage
+  painters. This is required by the internal GLSL shader
+  programs used for generating LIC.
+* obj.SetEnable (int ) - Enable/Disable this painter.
+* int = obj.GetEnable () - Enable/Disable this painter.
+* obj.EnableOn () - Enable/Disable this painter.
+* obj.EnableOff () - Enable/Disable this painter.
+* obj.SetInputArrayToProcess (int fieldAssociation, string
+  name) - Set the vectors to used for applying LIC. By
+  default point vectors are used. Arguments are same as
+  those passed to vtkAlgorithm::SetInputArrayToProcess
+  except the first 3 arguments i.e. idx, port, connection.
+* obj.SetInputArrayToProcess (int fieldAssociation, int
+  fieldAttributeType) - Set the vectors to used for applying
+  LIC. By default point vectors are used. Arguments are same
+  as those passed to vtkAlgorithm::SetInputArrayToProcess
+  except the first 3 arguments i.e. idx, port, connection.
+* obj.SetEnhancedLIC (int ) - Enable/Disable enhanced LIC
+  that improves image quality by increasing inter-streamline
+  contrast while suppressing artifacts. Enhanced LIC
+  performs two passes of LIC, with a 3x3 Laplacian high-pass
+  filter in between that processes the output of pass #1 LIC
+  and forwards the result as the input 'noise' to pass #2
+  LIC. This flag is automatically turned off during user
+  interaction.
+* int = obj.GetEnhancedLIC () - Enable/Disable enhanced LIC
+  that improves image quality by increasing inter-streamline
+  contrast while suppressing artifacts. Enhanced LIC
+  performs two passes of LIC, with a 3x3 Laplacian high-pass
+  filter in between that processes the output of pass #1 LIC
+  and forwards the result as the input 'noise' to pass #2
+  LIC. This flag is automatically turned off during user
+  interaction.
+* obj.EnhancedLICOn () - Enable/Disable enhanced LIC that
+  improves image quality by increasing inter-streamline
+  contrast while suppressing artifacts. Enhanced LIC
+  performs two passes of LIC, with a 3x3 Laplacian high-pass
+  filter in between that processes the output of pass #1 LIC
+  and forwards the result as the input 'noise' to pass #2
+  LIC. This flag is automatically turned off during user
+  interaction.
+* obj.EnhancedLICOff () - Enable/Disable enhanced LIC that
+  improves image quality by increasing inter-streamline
+  contrast while suppressing artifacts. Enhanced LIC
+  performs two passes of LIC, with a 3x3 Laplacian high-pass
+  filter in between that processes the output of pass #1 LIC
+  and forwards the result as the input 'noise' to pass #2
+  LIC. This flag is automatically turned off during user
+  interaction.
+* obj.SetNumberOfSteps (int ) - Get/Set the number of
+  integration steps in each direction.
+* int = obj.GetNumberOfSteps () - Get/Set the number of
+  integration steps in each direction.
+* obj.SetStepSize (double ) - Get/Set the step size (in
+  pixels).
+* double = obj.GetStepSize () - Get/Set the step size (in
+  pixels).
+* obj.SetLICIntensity (double ) - Control the contribution
+  of the LIC in the final output image. 0.0 produces same
+  result as disabling LIC alltogether, while 1.0 implies
+  show LIC result alone.
+* double = obj.GetLICIntensityMinValue () - Control the
+  contribution of the LIC in the final output image. 0.0
+  produces same result as disabling LIC alltogether, while
+  1.0 implies show LIC result alone.
+* double = obj.GetLICIntensityMaxValue () - Control the
+  contribution of the LIC in the final output image. 0.0
+  produces same result as disabling LIC alltogether, while
+  1.0 implies show LIC result alone.
+* double = obj.GetLICIntensity () - Control the contribution
+  of the LIC in the final output image. 0.0 produces same
+  result as disabling LIC alltogether, while 1.0 implies
+  show LIC result alone.
+* int = obj.GetRenderingPreparationSuccess () - Check if the
+  LIC process runs properly.
+* int = obj.GetLICSuccess () - Returns true is the rendering
+  context supports extensions needed by this painter.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Rendering_Classes
+* Generated on Thu Jul 25 2013 17:18:35 for FreeMat by
+  doxygen_ 1.8.1.1
+

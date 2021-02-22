@@ -1,0 +1,55 @@
+/*!
+\page functions_anonymous ANONYMOUS Anonymous Functions
+
+<p>
+Section: \ref sec_functions "Functions and Scripts"
+\section Usage
+Anonymous functions are simple, nameless functions that can be defined
+anywhere (in a script, function, or at the prompt).  They are intended
+to supplant <tt>inline</tt> functions.  The syntax for an anonymous function
+is simple:
+\verbatim
+   y = @(arg1,arg2,...,argn) expression
+\endverbatim
+where <tt>arg1,arg2,...,argn</tt> is a list of valid identifiers that define
+the arguments to the function, and <tt>expression</tt> is the expression to
+compute in the function.  The returned value <tt>y</tt> is a function handle
+for the anonymous function that can then be used to evaluate the expression.
+Note that <tt>y</tt> will capture the value of variables that are not indicated
+in the argument list from the current scope or workspace at the time
+it is defined.  So, for example, consider the simple anonymous function
+definition
+\verbatim
+   y = @(x) a*(x+b)
+\endverbatim
+In order for this definition to work, the variables <tt>a</tt> and <tt>b</tt> need to
+be defined in the current workspace.  Whatever value they have is captured
+in the function handle <tt>y</tt>.  To change the values of <tt>a</tt> and <tt>b</tt> in the
+anonymous function, you must recreate the handle using another call.  See
+the examples section for more information.  In order to use the anonymous
+function, you can use it just like any other function handle.  For example,
+\verbatim
+   p = y(3)
+   p = y()
+   p = feval(y,3)
+\endverbatim
+are all examples of using the <tt>y</tt> anonymous function to perform a calculation.
+\section Examples
+Here are some examples of using an anonymous function
+
+\if FRAGMENT
+frag_functions_anonymous_000.m
+0
+a = 2; b = 4;    % define a and b (slope and intercept)
+y = @(x) a*x+b   % create the anonymous function
+y(2)             % evaluate it for x = 2
+a = 5; b = 7;    % change a and b
+y(2)             % the value did not change!  because a=2,b=4 are captured in y
+y = @(x) a*x+b   % recreate the function
+y(2)             % now the new values are used
+\endif
+
+
+\verbinclude frag_functions_anonymous_000.m.out 
+
+*/

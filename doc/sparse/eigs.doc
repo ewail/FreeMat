@@ -1,0 +1,82 @@
+/*!
+\page sparse_eigs EIGS Sparse Matrix Eigendecomposition
+
+<p>
+Section: \ref sec_sparse "Sparse Matrix Support"
+\section Usage
+Computes the eigendecomsition of a sparse square matrix.  The
+<tt>eigs</tt> function has several forms.  The most general form is
+\verbatim
+  [V,D] = eigs(A,k,sigma)
+\endverbatim
+where <tt>A</tt> is the matrix to analyze, <tt>k</tt> is the number of
+eigenvalues to compute and <tt>sigma</tt> determines which eigenvallues
+to solve for.  Valid values for <tt>sigma</tt> are
+   'lm' - largest magnitude 
+   'sm' - smallest magnitude
+   'la' - largest algebraic (for real symmetric problems)
+   'sa' - smallest algebraic (for real symmetric problems)
+   'be' - both ends (for real symmetric problems)
+   'lr' - largest real part 
+   'sr' - smallest real part
+   'li' - largest imaginary part
+   'si' - smallest imaginary part
+ scalar - find the eigenvalues closest to <tt>sigma</tt>.
+The returned matrix <tt>V</tt> contains the eigenvectors, and <tt>D</tt>
+stores the eigenvalues.  The related form
+\verbatim
+   d = eigs(A,k,sigma)
+\endverbatim
+computes only the eigenvalues and not the eigenvectors.  If <tt>sigma</tt>
+is omitted, as in the forms
+\verbatim
+  [V,D] = eigs(A,k)
+\endverbatim
+and
+\verbatim
+  d = eigs(A,k)
+\endverbatim
+then <tt>eigs</tt> returns the largest magnitude eigenvalues (and optionally
+the associated eigenvectors).  As an even simpler form, the forms
+\verbatim
+  [V,D] = eigs(A)
+\endverbatim
+and
+\verbatim
+  d = eigs(A)
+\endverbatim
+then <tt>eigs</tt> returns the six largest magnitude eigenvalues of <tt>A</tt> and
+optionally the eigenvectors.  The <tt>eigs</tt> function uses ARPACK to
+compute the eigenvectors and/or eigenvalues.  Note that due to a 
+limitation in the interface into ARPACK from FreeMat, the number of
+eigenvalues that are to be computed must be strictly smaller than the
+number of columns (or rows) in the matrix.
+\section Example
+Here is an example of using <tt>eigs</tt> to calculate eigenvalues
+of a matrix, and a comparison of the results with <tt>eig</tt>
+
+\if FRAGMENT
+frag_sparse_eigs_000.m
+0
+a = sparse(rand(9));
+eigs(a)
+eig(full(a))
+\endif
+
+
+\verbinclude frag_sparse_eigs_000.m.out 
+
+Next, we exercise some of the variants of <tt>eigs</tt>:
+
+\if FRAGMENT
+frag_sparse_eigs_001.m
+0
+eigs(a,4,'sm')
+eigs(a,4,'lr')
+eigs(a,4,'sr')
+\endif
+
+
+\verbinclude frag_sparse_eigs_001.m.out 
+
+*/

@@ -1,0 +1,54 @@
+
+ Usage
+
+vtkDataObjectGenerator parses a string and produces
+dataobjects from the dataobject template names it sees in
+the string. For example, if the string contains "ID1" the
+generator will create a vtkImageData. "UF1", "RG1", "SG1",
+"PD1", and "UG1" will produce vtkUniformGrid,
+vtkRectilinearGrid, vtkStructuredGrid, vtkPolyData and
+vtkUnstructuredGrid respectively. "PD2" will produce an
+alternate vtkPolyData. You can compose composite datasets
+from the atomic ones listed above by placing them within one
+of the two composite dataset identifiers
+
+* "MB{}" or "HB[]". "MB{ ID1 PD1 MB{} }" for example will
+  create a vtkMultiBlockDataSet consisting of three blocks:
+  image data, poly data, multi-block (empty). Hierarchical
+  Box data sets additionally require the notion of groups,
+  declared within "()" braces, to specify AMR depth. "HB[
+  (UF1)(UF1)(UF1) ]" will create a vtkHierarchicalBoxDataSet
+  representing an octree that is three levels deep, in which
+  the firstmost cell in each level is refined.
+
+To create an instance of class vtkDataObjectGenerator,
+simply invoke its constructor as follows
+
+    obj = vtkDataObjectGenerator
+
+
+
+ Methods
+
+The class vtkDataObjectGenerator has several methods that
+can be used. They are listed below. Note that the
+documentation is translated automatically from the VTK
+sources, and may not be completely intelligible. When in
+doubt, consult the VTK website. In the methods listed below,
+obj is an instance of the vtkDataObjectGenerator class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkDataObjectGenerator = obj.NewInstance ()
+* vtkDataObjectGenerator = obj.SafeDownCast (vtkObject o)
+* obj.SetProgram (string ) - The string that will be parsed
+  to specify a dataobject structure.
+* string = obj.GetProgram () - The string that will be
+  parsed to specify a dataobject structure.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Graphics_Classes
+* Generated on Thu Jul 25 2013 17:18:31 for FreeMat by
+  doxygen_ 1.8.1.1
+

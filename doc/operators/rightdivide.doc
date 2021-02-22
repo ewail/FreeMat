@@ -1,0 +1,53 @@
+/*!
+\page operators_rightdivide RIGHTDIVIDE Matrix Equation Solver/Divide Operator
+
+<p>
+Section: \ref sec_operators "Mathematical Operators"
+\section Usage
+The divide operator <tt>/</tt> is really a combination of three
+operators, all of which have the same general syntax:
+\verbatim
+  Y = A / B
+\endverbatim
+where <tt>A</tt> and <tt>B</tt> are arrays of numerical type.  The result <tt>Y</tt> depends
+on which of the following three situations applies to the arguments
+<tt>A</tt> and <tt>B</tt>:
+<OL>
+  <LI> <tt>A</tt> is a scalar, <tt>B</tt> is an arbitrary <tt>n</tt>-dimensional numerical array, in which case the output is the scalar <tt>A</tt> divided into each element of <tt>B</tt>.
+</LI>
+  <LI> <tt>B</tt> is a scalar, <tt>A</tt> is an arbitrary <tt>n</tt>-dimensional numerical array, in which case the output is each element of <tt>A</tt> divided by the scalar <tt>B</tt>.
+</LI>
+  <LI> <tt>A,B</tt> are matrices with the same number of columns, i.e., <tt>A</tt> is of size <tt>K x M</tt>, and <tt>B</tt> is of size <tt>L x M</tt>, in which case the output is of size <tt>K x L</tt>.
+</LI>
+</OL>
+The output follows the standard type promotion rules, although in the first two cases, if <tt>A</tt> and <tt>B</tt> are integers, the output is an integer also, while in the third case if <tt>A</tt> and <tt>B</tt> are integers, the output is of type <tt>double</tt>.
+
+\section Function Internals
+There are three formulae for the times operator.  For the first form
+\f[
+Y(m_1,\ldots,m_d) = \frac{A}{B(m_1,\ldots,m_d)},
+\f]
+and the second form
+\f[
+Y(m_1,\ldots,m_d) = \frac{A(m_1,\ldots,m_d)}{B}.
+\f]
+In the third form, the output is defined as:
+\f[
+  Y = (B' \backslash A')'
+\f]
+and is used in the equation <tt>Y B = A</tt>.
+\section Examples
+The right-divide operator is much less frequently used than the left-divide operator, but the concepts are similar.  It can be used to find least-squares and minimum norm solutions.  It can also be used to solve systems of equations in much the same way.  Here's a simple example:
+
+\if FRAGMENT
+frag_operators_rightdivide_000.m
+0
+B = [1,1;0,1];
+A = [4,5]
+A/B
+\endif
+
+
+\verbinclude frag_operators_rightdivide_000.m.out 
+
+*/

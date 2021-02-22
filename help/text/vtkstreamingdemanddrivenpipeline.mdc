@@ -1,0 +1,217 @@
+
+ Usage
+
+vtkStreamingDemandDrivenPipeline is an executive that
+supports updating only a portion of the data set in the
+pipeline. This is the style of pipeline update that is
+provided by the old-style VTK 4.x pipeline. Instead of
+always updating an entire data set, this executive supports
+asking for pieces or sub-extents.
+To create an instance of class
+vtkStreamingDemandDrivenPipeline, simply invoke its
+constructor as follows
+
+    obj = vtkStreamingDemandDrivenPipeline
+
+
+
+ Methods
+
+The class vtkStreamingDemandDrivenPipeline has several
+methods that can be used. They are listed below. Note that
+the documentation is translated automatically from the VTK
+sources, and may not be completely intelligible. When in
+doubt, consult the VTK website. In the methods listed below,
+obj is an instance of the vtkStreamingDemandDrivenPipeline
+class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkStreamingDemandDrivenPipeline = obj.NewInstance ()
+* vtkStreamingDemandDrivenPipeline = obj.SafeDownCast
+  (vtkObject o)
+* int = obj.Update () - Bring the outputs up-to-date.
+* int = obj.Update (int port) - Bring the outputs up-to-
+  date.
+* int = obj.UpdateWholeExtent () - Bring the outputs up-to-
+  date.
+* int = obj.PropagateUpdateExtent (int outputPort) -
+  Propagate the update request from the given output port
+  back through the pipeline. Should be called only when
+  information is up to date.
+* int = obj.SetMaximumNumberOfPieces (int port, int n) -
+  Set/Get the maximum number of pieces that can be requested
+  from the given port. The maximum number of pieces is meta
+  data for unstructured data sets. It gets set by the source
+  during the update information call. A value of -
+  1 indicates that there is no maximum.
+* int = obj.SetMaximumNumberOfPieces (vtkInformation , int
+  n) - Set/Get the maximum number of pieces that can be
+  requested from the given port. The maximum number of
+  pieces is meta data for unstructured data sets. It gets
+  set by the source during the update information call. A
+  value of -1 indicates that there is no maximum.
+* int = obj.GetMaximumNumberOfPieces (int port) - Set/Get
+  the maximum number of pieces that can be requested from
+  the given port. The maximum number of pieces is meta data
+  for unstructured data sets. It gets set by the source
+  during the update information call. A value of -
+  1 indicates that there is no maximum.
+* int = obj.GetMaximumNumberOfPieces (vtkInformation ) -
+  Set/Get the maximum number of pieces that can be requested
+  from the given port. The maximum number of pieces is meta
+  data for unstructured data sets. It gets set by the source
+  during the update information call. A value of -
+  1 indicates that there is no maximum.
+* int = obj.SetWholeExtent (vtkInformation , int extent[6])
+  - Set/Get the whole extent of an output port. The whole
+  extent is meta data for structured data sets. It gets set
+  by the algorithm during the update information pass.
+* obj.GetWholeExtent (vtkInformation , int extent[6]) - Set/
+  Get the whole extent of an output port. The whole extent
+  is meta data for structured data sets. It gets set by the
+  algorithm during the update information pass.
+* int = obj.SetUpdateExtentToWholeExtent (int port) - If the
+  whole input extent is required to generate the requested
+  output extent, this method can be called to set the input
+  update extent to the whole input extent. This method
+  assumes that the whole extent is known (that
+  UpdateInformation has been called)
+* int = obj.SetUpdateExtentToWholeExtent (vtkInformation ) -
+  If the whole input extent is required to generate the
+  requested output extent, this method can be called to set
+  the input update extent to the whole input extent. This
+  method assumes that the whole extent is known (that
+  UpdateInformation has been called)
+* int = obj.SetUpdateExtent (int port, int extent[6]) - Get/
+  Set the update extent for output ports that use 3D
+  extents.
+* int = obj.SetUpdateExtent (vtkInformation , int extent[6])
+  - Get/Set the update extent for output ports that use 3D
+  extents.
+* obj.GetUpdateExtent (vtkInformation , int extent[6]) -
+  Get/Set the update extent for output ports that use 3D
+  extents.
+* int = obj.SetUpdateExtent (int port, int piece, int
+  numPieces, int ghostLevel) - Set/Get the update piece,
+  update number of pieces, and update number of ghost levels
+  for an output port. Similar to update extent in 3D.
+* int = obj.SetUpdateExtent (vtkInformation , int piece, int
+  numPieces, int ghostLevel) - Set/Get the update piece,
+  update number of pieces, and update number of ghost levels
+  for an output port. Similar to update extent in 3D.
+* int = obj.SetUpdatePiece (vtkInformation , int piece) -
+  Set/Get the update piece, update number of pieces, and
+  update number of ghost levels for an output port. Similar
+  to update extent in 3D.
+* int = obj.GetUpdatePiece (vtkInformation ) - Set/Get the
+  update piece, update number of pieces, and update number
+  of ghost levels for an output port. Similar to update
+  extent in 3D.
+* int = obj.SetUpdateNumberOfPieces (vtkInformation , int n)
+  - Set/Get the update piece, update number of pieces, and
+  update number of ghost levels for an output port. Similar
+  to update extent in 3D.
+* int = obj.GetUpdateNumberOfPieces (vtkInformation ) - Set/
+  Get the update piece, update number of pieces, and update
+  number of ghost levels for an output port. Similar to
+  update extent in 3D.
+* int = obj.SetUpdateGhostLevel (vtkInformation , int n) -
+  Set/Get the update piece, update number of pieces, and
+  update number of ghost levels for an output port. Similar
+  to update extent in 3D.
+* int = obj.GetUpdateGhostLevel (vtkInformation ) - Set/Get
+  the update piece, update number of pieces, and update
+  number of ghost levels for an output port. Similar to
+  update extent in 3D.
+* int = obj.SetUpdateResolution (int port, double r) - Set/
+  Get the update piece, update number of pieces, and update
+  number of ghost levels for an output port. Similar to
+  update extent in 3D.
+* int = obj.SetUpdateResolution (vtkInformation , double r)
+  - Set/Get the update piece, update number of pieces, and
+  update number of ghost levels for an output port. Similar
+  to update extent in 3D.
+* double = obj.GetUpdateResolution (vtkInformation ) - Set/
+  Get the update piece, update number of pieces, and update
+  number of ghost levels for an output port. Similar to
+  update extent in 3D.
+* int = obj.SetSplitUpdateExtent (int port, int major, int
+  minor, int numPieces, int ghostLevel) - Get/Set the update
+  extent for output ports that use Temporal Extents
+* int = obj.SetUpdateTimeSteps (int port, double times, int
+  length) - Get/Set the update extent for output ports that
+  use Temporal Extents
+* int = obj.SetUpdateTimeSteps (vtkInformation , double
+  times, int length) - Get/Set the update extent for output
+  ports that use Temporal Extents
+* int = obj.SetUpdateTimeStep (int port, double time) - Get/
+  Set the update extent for output ports that use Temporal
+  Extents
+* int = obj.SetRequestExactExtent (int port, int flag) -
+  This request flag indicates whether the requester can
+  handle more data than requested for the given port. Right
+  now it is used in vtkImageData. Image filters can return
+  more data than requested. The the consumer cannot handle
+  this (i.e. DataSetToDataSetFitler) the image will crop
+  itself. This functionality used to be in
+  ImageToStructuredPoints.
+* int = obj.GetRequestExactExtent (int port) - This request
+  flag indicates whether the requester can handle more data
+  than requested for the given port. Right now it is used in
+  vtkImageData. Image filters can return more data than
+  requested. The the consumer cannot handle this (i.e.
+  DataSetToDataSetFitler) the image will crop itself. This
+  functionality used to be in ImageToStructuredPoints.
+* int = obj.SetExtentTranslator (int port,
+  vtkExtentTranslator translator) - Get/Set the object that
+  will translate pieces into structured extents for an
+  output port.
+* int = obj.SetExtentTranslator (vtkInformation ,
+  vtkExtentTranslator translator) - Get/Set the object that
+  will translate pieces into structured extents for an
+  output port.
+* vtkExtentTranslator = obj.GetExtentTranslator (int port) -
+  Get/Set the object that will translate pieces into
+  structured extents for an output port.
+* vtkExtentTranslator = obj.GetExtentTranslator
+  (vtkInformation info) - Get/Set the object that will
+  translate pieces into structured extents for an output
+  port.
+* int = obj.SetWholeBoundingBox (int port, double bb[6]) -
+  Set/Get the whole bounding box of an output port data
+  object. The whole whole bounding box is meta data for data
+  sets. It gets set by the algorithm during the update
+  information pass.
+* obj.GetWholeBoundingBox (int port, double bb[6]) - Set/Get
+  the whole bounding box of an output port data object. The
+  whole whole bounding box is meta data for data sets. It
+  gets set by the algorithm during the update information
+  pass.
+* int = obj.SetPieceBoundingBox (int port, double bb[6]) -
+  Set/Get the piece bounding box of an output port data
+  object. The piece bounding box is meta data for data sets.
+  It gets set by the algorithm during the update extent
+  information pass.
+* obj.GetPieceBoundingBox (int port, double bb[6]) - Set/Get
+  the piece bounding box of an output port data object. The
+  piece bounding box is meta data for data sets. It gets set
+  by the algorithm during the update extent information
+  pass.
+* double = obj.ComputePriority () - Issues pipeline request
+  to determine and return the priority of the piece
+  described by the current update extent. The priority is a
+  number between 0.0 and 1.0 with 0 meaning skippable
+  (REQUEST_DATA not needed) and 1.0 meaning important.
+* double = obj.ComputePriority (int port) - Issues pipeline
+  request to determine and return the priority of the piece
+  described by the current update extent. The priority is a
+  number between 0.0 and 1.0 with 0 meaning skippable
+  (REQUEST_DATA not needed) and 1.0 meaning important.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Filtering_Classes
+* Generated on Thu Jul 25 2013 17:18:31 for FreeMat by
+  doxygen_ 1.8.1.1
+

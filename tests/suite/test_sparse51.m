@@ -1,0 +1,16 @@
+function x = test_sparse51
+a = rand(200,100);
+b = rand(100,300);
+c = rand(200,100);
+d = rand(100,300);
+a(a>0.1) = 0;
+b(b>0.1) = 0;
+c(c>0.1) = 0;
+d(d>0.1) = 0;
+f = a + i*c;
+g = b + i*d;
+h = f*g;
+F = sparse(f);
+G = sparse(g);
+H = F*G;
+x = testeq(h,H);

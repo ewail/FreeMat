@@ -1,0 +1,96 @@
+/*!
+\page handle_winlev WINLEV Image Window-Level Function
+
+<p>
+Section: \ref sec_handle "Handle-Based Graphics"
+\section Usage
+Adjusts the data range used to map the current image to the current
+colormap.  The general syntax for its use is
+\verbatim
+  winlev(window,level)
+\endverbatim
+where <tt>window</tt> is the new window, and <tt>level</tt> is the new level, or
+\verbatim
+  winlev
+\endverbatim
+in which case it returns a vector containing the current window
+and level for the active image.
+\section Function Internals
+FreeMat deals with scalar images on the range of <tt>[0,1]</tt>, and must
+therefor map an arbitrary image <tt>x</tt> to this range before it can
+be displayed.  By default, the <tt>image</tt> command chooses 
+\f[
+  \mathrm{window} = \max x - \min x,
+\f]
+and
+\f[
+  \mathrm{level} = \frac{\mathrm{window}}{2}
+\f]
+This ensures that the entire range of image values in <tt>x</tt> are 
+mapped to the screen.  With the <tt>winlev</tt> function, you can change
+the range of values mapped.  In general, before display, a pixel <tt>x</tt>
+is mapped to <tt>[0,1]</tt> via:
+\f[
+   \max\left(0,\min\left(1,\frac{x - \mathrm{level}}{\mathrm{window}}
+   \right)\right)
+\f]
+\section Examples
+The window level function is fairly easy to demonstrate.  Consider
+the following image, which is a Gaussian pulse image that is very 
+narrow:
+
+\if FRAGMENT
+frag_handle_winlev_000.m
+0
+t = linspace(-1,1,256);
+xmat = ones(256,1)*t; ymat = xmat';
+A = exp(-(xmat.^2 + ymat.^2)*100);
+image(A);
+mprint('winlev1');
+\endif
+
+
+\verbinclude frag_handle_winlev_000.m.out 
+
+The data range of <tt>A</tt> is <tt>[0,1]</tt>, as we can verify numerically:
+
+\if FRAGMENT
+frag_handle_winlev_001.m
+0
+min(A(:))
+max(A(:))
+\endif
+
+
+\verbinclude frag_handle_winlev_001.m.out 
+
+To see the tail behavior, we use the <tt>winlev</tt> command to force FreeMat
+to map a smaller range of <tt>A</tt> to the colormap.
+
+\if FRAGMENT
+frag_handle_winlev_002.m
+0
+image(A);
+winlev(1e-4,0.5e-4)
+mprint('winlev2');
+\endif
+
+
+\verbinclude frag_handle_winlev_002.m.out 
+
+The result is a look at more of the tail behavior of <tt>A</tt>.
+We can also use the winlev function to find out what the
+window and level are once set, as in the following example.
+
+\if FRAGMENT
+frag_handle_winlev_003.m
+0
+image(A);
+winlev(1e-4,0.5e-4)
+winlev
+\endif
+
+
+\verbinclude frag_handle_winlev_003.m.out 
+
+*/

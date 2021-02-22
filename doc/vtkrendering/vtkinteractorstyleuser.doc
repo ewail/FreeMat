@@ -1,0 +1,92 @@
+/*!
+\page vtkrendering_vtkinteractorstyleuser vtkInteractorStyleUser
+
+<p>
+Section: \ref sec_vtkrendering "Visualization Toolkit Rendering Classes"
+\section Usage
+ The most common way to customize user interaction is to write a subclass
+ of vtkInteractorStyle: vtkInteractorStyleUser allows you to customize
+ the interaction to without subclassing vtkInteractorStyle.  This is
+ particularly useful for setting up custom interaction modes in
+ scripting languages such as Tcl and Python.  This class allows you
+ to hook into the MouseMove, ButtonPress/Release, KeyPress/Release,
+ etc. events.  If you want to hook into just a single mouse button,
+ but leave the interaction modes for the others unchanged, you
+ must use e.g. SetMiddleButtonPressMethod() instead of the more
+ general SetButtonPressMethod().
+
+To create an instance of class vtkInteractorStyleUser, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkInteractorStyleUser
+\endverbatim
+\section Methods
+The class vtkInteractorStyleUser has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkInteractorStyleUser class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkInteractorStyleUser = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkInteractorStyleUser = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>int = obj. GetLastPos ()</tt> -  Get the most recent mouse position during mouse motion.  
+ In your user interaction method, you must use this to track
+ the mouse movement.  Do not use GetEventPosition(), which records
+ the last position where a mouse button was pressed.
+ </LI>
+<LI>  <tt>int = obj. GetOldPos ()</tt> -  Get the previous mouse position during mouse motion, or after
+ a key press.  This can be used to calculate the relative 
+ displacement of the mouse.
+ </LI>
+<LI>  <tt>int = obj.GetShiftKey ()</tt> -  Test whether modifiers were held down when mouse button or key
+ was pressed
+ </LI>
+<LI>  <tt>int = obj.GetCtrlKey ()</tt> -  Test whether modifiers were held down when mouse button or key
+ was pressed
+ </LI>
+<LI>  <tt>int = obj.GetChar ()</tt> -  Get the character for a Char event.
+ </LI>
+<LI>  <tt>string = obj.GetKeySym ()</tt> -  Get the KeySym (in the same format as Tk KeySyms) for a 
+ KeyPress or KeyRelease method.
+ </LI>
+<LI>  <tt>int = obj.GetButton ()</tt> -  Get the mouse button that was last pressed inside the window
+ (returns zero when the button is released).
+ </LI>
+<LI>  <tt>obj.OnMouseMove ()</tt> -  Generic event bindings
+ </LI>
+<LI>  <tt>obj.OnLeftButtonDown ()</tt> -  Generic event bindings
+ </LI>
+<LI>  <tt>obj.OnLeftButtonUp ()</tt> -  Generic event bindings
+ </LI>
+<LI>  <tt>obj.OnMiddleButtonDown ()</tt> -  Generic event bindings
+ </LI>
+<LI>  <tt>obj.OnMiddleButtonUp ()</tt> -  Generic event bindings
+ </LI>
+<LI>  <tt>obj.OnRightButtonDown ()</tt> -  Generic event bindings
+ </LI>
+<LI>  <tt>obj.OnRightButtonUp ()</tt> -  Generic event bindings
+ </LI>
+<LI>  <tt>obj.OnChar ()</tt> -  Keyboard functions
+ </LI>
+<LI>  <tt>obj.OnKeyPress ()</tt> -  Keyboard functions
+ </LI>
+<LI>  <tt>obj.OnKeyRelease ()</tt> -  Keyboard functions
+ </LI>
+<LI>  <tt>obj.OnExpose ()</tt> -  These are more esoteric events, but are useful in some cases.
+ </LI>
+<LI>  <tt>obj.OnConfigure ()</tt> -  These are more esoteric events, but are useful in some cases.
+ </LI>
+<LI>  <tt>obj.OnEnter ()</tt> -  These are more esoteric events, but are useful in some cases.
+ </LI>
+<LI>  <tt>obj.OnLeave ()</tt> -  These are more esoteric events, but are useful in some cases.
+ </LI>
+<LI>  <tt>obj.OnTimer ()</tt>
+ </LI>
+</UL>
+*/

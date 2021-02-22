@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkrendering_vtkpainterdeviceadapter" kind="page">
+    <compoundname>vtkrendering_vtkpainterdeviceadapter</compoundname>
+    <title>vtkPainterDeviceAdapter</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkrendering_1sec_vtkrendering" kindref="member">Visualization Toolkit Rendering Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>This class is an adapter between a vtkPainter and a rendering device (such as an OpenGL machine). Having an abstract adapter allows vtkPainters to be re-used for any rendering system.</para><para>Although VTK really only uses OpenGL right now, there are reasons to swap out the rendering functions. Sometimes MESA with mangled names is used. Also, different shader extensions use different functions. Furthermore, Cg also has its own interface.</para><para>The interface for this class should be familier to anyone experienced with OpenGL.</para><para>To create an instance of class vtkPainterDeviceAdapter, simply invoke its constructor as follows <verbatim>  obj = vtkPainterDeviceAdapter
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkPainterDeviceAdapter has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkPainterDeviceAdapter class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkPainterDeviceAdapter = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkPainterDeviceAdapter = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.BeginPrimitive (int mode)</computeroutput> - Signals the start of sending a primitive to the graphics card. The mode is one of VTK_VERTEX, VTK_POLY_VERTEX, VTK_LINE, VTK_POLY_LINE, VTK_TRIANGLE, VTK_TRIANGLE_STRIP, VTK_POLYGON, or VTK_QUAD. The primitive is defined by the attributes sent between the calls to BeginPrimitive and EndPrimitive. You do not need to call EndPrimitive/BeginPrimitive between primitives that have a constant number of points (i.e. VTK_VERTEX, VTK_LINE, VTK_TRIANGLE, and VTK_QUAD).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.EndPrimitive ()</computeroutput> - Signals the end of sending a primitive to the graphics card.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsAttributesSupported (int attribute)</computeroutput> - Returns if the given attribute type is supported by the device. Returns 1 is supported, 0 otherwise.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetAttributePointer (int index, vtkDataArray attributeArray)</computeroutput> - Sets an array of attributes. This allows you to send all the data for a particular attribute with one call, thus greatly reducing function call overhead. Once set, the array is enabled with EnableAttributeArray, and the data is sent with a call to DrawArrays DrawElements.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.EnableAttributeArray (int index)</computeroutput> - Enable/disable the attribute array set with SetAttributePointer.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.DisableAttributeArray (int index)</computeroutput> - Enable/disable the attribute array set with SetAttributePointer.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.DrawArrays (int mode, vtkIdType first, vtkIdType count)</computeroutput> - Send a section of the enabled attribute pointers to the graphics card to define a primitive. The mode is one of VTK_VERTEX, VTK_POLY_VERTEX, VTK_LINE, VTK_POLY_LINE, VTK_TRIANGLE, VTK_TRIANGLE_STRIP, VTK_POLYGON, or VTK_QUAD. It identifies which type of primitive the attribute data is defining. The parameters first and count identify what part of the attribute arrays define the given primitive. If mode is a primitive that has a constant number of points (i.e. VTK_VERTEX, VTK_LINE, VTK_TRIANGLE, and VTK_QUAD), you may draw multiple primitives with one call to DrawArrays.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.Compatible (vtkRenderer renderer)</computeroutput> - Returns true if this device adapter is compatable with the given vtkRenderer.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.MakeLighting (int mode)</computeroutput> - Turns lighting on and off.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.QueryLighting ()</computeroutput> - Returns current lighting setting.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.MakeMultisampling (int mode)</computeroutput> - Turns antialiasing on and off.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.QueryMultisampling ()</computeroutput> - Returns current antialiasing setting.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.MakeBlending (int mode)</computeroutput> - Turns blending on and off.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.QueryBlending ()</computeroutput> - Returns current blending setting.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.MakeVertexEmphasis (bool mode)</computeroutput> - Turns emphasis of vertices on or off for vertex selection.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.MakeVertexEmphasisWithStencilCheck (int )</computeroutput> -  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

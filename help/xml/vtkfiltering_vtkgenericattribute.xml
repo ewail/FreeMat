@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkfiltering_vtkgenericattribute" kind="page">
+    <compoundname>vtkfiltering_vtkgenericattribute</compoundname>
+    <title>vtkGenericAttribute</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkfiltering_1sec_vtkfiltering" kindref="member">Visualization Toolkit Filtering Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>vtkGenericAttribute is an abstract class that defines an API for attribute data. Attribute data is data associated with the topology or geometry of a dataset (i.e., points, cells, etc.). vtkGenericAttribute is part of the adaptor framework (see GenericFiltering/README.html).</para><para>vtkGenericAttribute provides a more general interface to attribute data than its counterpart vtkDataArray (which assumes a linear, contiguous array). It adopts an iterator interface, and allows attributes to be associated with points, edges, faces, or edges.</para><para>To create an instance of class vtkGenericAttribute, simply invoke its constructor as follows <verbatim>  obj = vtkGenericAttribute
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkGenericAttribute has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkGenericAttribute class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkGenericAttribute = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkGenericAttribute = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>string = obj.GetName ()</computeroutput> - Name of the attribute. (e.g. &quot;velocity&quot;) <simplesect kind="post"><para>result_may_not_exist: result!=0 || result==0  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetNumberOfComponents ()</computeroutput> - Dimension of the attribute. (1 for scalar, 3 for velocity) <simplesect kind="post"><para>positive_result: result&gt;=0 </para><simplesectsep/><para>GetType()==VTK_SCALARS implies result==1 </para><simplesectsep/><para>(GetType()==VTK_VECTORS||(GetType()==VTK_NORMALS)||(GetType()==VTK_TCOORDS) implies result==3 </para><simplesectsep/><para>GetType()==VTK_TENSORS implies result==6  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetCentering ()</computeroutput> - Is the attribute centered either on points, cells or boundaries? <simplesect kind="post"><para>valid_result: (result==vtkPointCentered)||(result==vtkCellCentered)  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetType ()</computeroutput> - Type of the attribute: scalar, vector, normal, texture coordinate, tensor <simplesect kind="post"><para>valid_result: (result==vtkDataSetAttributes::SCALARS) ||(result==vtkDataSetAttributes::VECTORS) ||(result==vtkDataSetAttributes::NORMALS) ||(result==vtkDataSetAttributes::TCOORDS) ||(result==vtkDataSetAttributes::TENSORS)  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetComponentType ()</computeroutput> - Type of the components of the attribute: int, float, double <simplesect kind="post"><para>valid_result: (result==VTK_BIT) ||(result==VTK_CHAR) ||(result==VTK_UNSIGNED_CHAR) ||(result==VTK_SHORT) ||(result==VTK_UNSIGNED_SHORT)||(result==VTK_INT) ||(result==VTK_UNSIGNED_INT) ||(result==VTK_LONG) ||(result==VTK_UNSIGNED_LONG) ||(result==VTK_FLOAT) ||(result==VTK_DOUBLE) ||(result==VTK_ID_TYPE)  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>vtkIdType = obj.GetSize ()</computeroutput> - Number of tuples. <simplesect kind="post"><para>valid_result: result&gt;=0  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>long = obj.GetActualMemorySize ()</computeroutput> - Size in kilobytes taken by the attribute.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GetRange (int component, double range[2])</computeroutput> - Range of the attribute component `component&apos;. If `component&apos;==-1, it returns the range of the magnitude (euclidean norm). THREAD SAFE <simplesect kind="pre"><para>valid_component: (component&gt;=-1)&amp;&amp;(component&lt;GetNumberOfComponents())  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetMaxNorm ()</computeroutput> - Return the maximum euclidean norm for the tuples. <simplesect kind="post"><para>positive_result: result&gt;=0  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.GetTuple (vtkGenericAdaptorCell c, double tuple)</computeroutput> - Put attribute at all points of cell `c&apos; in `tuple&apos;. <simplesect kind="pre"><para>c_exists: c!=0 </para><simplesectsep/><para>c_valid: !c-&gt;IsAtEnd() </para><simplesectsep/><para>tuple_exists: tuple!=0 </para><simplesectsep/><para>valid_tuple: sizeof(tuple)&gt;=GetNumberOfComponents()*c-&gt;GetCell()-&gt;GetNumberOfPoints()  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.GetTuple (vtkGenericCellIterator c, double tuple)</computeroutput> - Put attribute at all points of cell `c&apos; in `tuple&apos;. <simplesect kind="pre"><para>c_exists: c!=0 </para><simplesectsep/><para>c_valid: !c-&gt;IsAtEnd() </para><simplesectsep/><para>tuple_exists: tuple!=0 </para><simplesectsep/><para>valid_tuple: sizeof(tuple)&gt;=GetNumberOfComponents()*c-&gt;GetCell()-&gt;GetNumberOfPoints()  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.GetTuple (vtkGenericPointIterator p, double tuple)</computeroutput> - Put the value of the attribute at position `p&apos; into `tuple&apos;. <simplesect kind="pre"><para>p_exists: p!=0 </para><simplesectsep/><para>p_valid: !p-&gt;IsAtEnd() </para><simplesectsep/><para>tuple_exists: tuple!=0 </para><simplesectsep/><para>valid_tuple_size: sizeof(tuple)&gt;=GetNumberOfComponents()  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.GetComponent (int i, vtkGenericCellIterator c, double values)</computeroutput> - Put component `i&apos; of the attribute at all points of cell `c&apos; in `values&apos;. <simplesect kind="pre"><para>valid_component: (i&gt;=0) &amp;&amp; (i&lt;GetNumberOfComponents()) </para><simplesectsep/><para>c_exists: c!=0 </para><simplesectsep/><para>c_valid: !c-&gt;IsAtEnd() </para><simplesectsep/><para>values_exist: values!=0 </para><simplesectsep/><para>valid_values: sizeof(values)&gt;=c-&gt;GetCell()-&gt;GetNumberOfPoints()  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetComponent (int i, vtkGenericPointIterator p)</computeroutput> - Value of the component `i&apos; of the attribute at position `p&apos;. <simplesect kind="pre"><para>valid_component: (i&gt;=0) &amp;&amp; (i&lt;GetNumberOfComponents()) </para><simplesectsep/><para>p_exists: p!=0 </para><simplesectsep/><para>p_valid: !p-&gt;IsAtEnd()  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.DeepCopy (vtkGenericAttribute other)</computeroutput> - Recursive duplication of `other&apos; in `this&apos;. <simplesect kind="pre"><para>other_exists: other!=0 </para><simplesectsep/><para>not_self: other!=this  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.ShallowCopy (vtkGenericAttribute other)</computeroutput> - Update `this&apos; using fields of `other&apos;. <simplesect kind="pre"><para>other_exists: other!=0 </para><simplesectsep/><para>not_self: other!=this  </para></simplesect>
+</para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

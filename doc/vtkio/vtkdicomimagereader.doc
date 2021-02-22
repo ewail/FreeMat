@@ -1,0 +1,107 @@
+/*!
+\page vtkio_vtkdicomimagereader vtkDICOMImageReader
+
+<p>
+Section: \ref sec_vtkio "Visualization Toolkit IO Classes"
+\section Usage
+ DICOM (stands for Digital Imaging in COmmunications and Medicine)
+ is a medical image file format widely used to exchange data, provided
+ by various modalities.
+ .SECTION Warnings
+ This reader might eventually handle ACR-NEMA file (predecessor of the DICOM
+ format for medical images).
+ This reader does not handle encapsulated format, only plain raw file are
+ handled. This reader also does not handle multi-frames DICOM datasets.
+ .SECTION Warnings
+ Internally DICOMParser assumes the x,y pixel spacing is stored in 0028,0030 and
+ that z spacing is stored in Slice Thickness (correct only when slice were acquired
+ contiguous): 0018,0050. Which means this is only valid for some rare 
+ MR Image Storage
+ 
+
+To create an instance of class vtkDICOMImageReader, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkDICOMImageReader
+\endverbatim
+\section Methods
+The class vtkDICOMImageReader has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkDICOMImageReader class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt> -  Static method for construction.
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt> -  Static method for construction.
+ </LI>
+<LI>  <tt>vtkDICOMImageReader = obj.NewInstance ()</tt> -  Static method for construction.
+ </LI>
+<LI>  <tt>vtkDICOMImageReader = obj.SafeDownCast (vtkObject o)</tt> -  Static method for construction.
+ </LI>
+<LI>  <tt>obj.SetFileName (string fn)</tt> -  Set the directory name for the reader to look in for DICOM
+ files. If this method is used, the reader will try to find
+ all the DICOM files in a directory. It will select the subset
+ corresponding to the first series UID it stumbles across and
+ it will try to build an ordered volume from them based on
+ the slice number. The volume building will be upgraded to
+ something more sophisticated in the future.
+ </LI>
+<LI>  <tt>obj.SetDirectoryName (string dn)</tt> -  Set the directory name for the reader to look in for DICOM
+ files. If this method is used, the reader will try to find
+ all the DICOM files in a directory. It will select the subset
+ corresponding to the first series UID it stumbles across and
+ it will try to build an ordered volume from them based on
+ the slice number. The volume building will be upgraded to
+ something more sophisticated in the future.
+ </LI>
+<LI>  <tt>string = obj.GetDirectoryName ()</tt> -  Returns the directory name.
+ </LI>
+<LI>  <tt>double = obj.GetPixelSpacing ()</tt> -  Returns the pixel spacing (in X, Y, Z).
+ Note: if there is only one slice, the Z spacing is set to the slice
+ thickness. If there is more than one slice, it is set to the distance
+ between the first two slices.
+ </LI>
+<LI>  <tt>int = obj.GetWidth ()</tt> -  Returns the image width.
+ </LI>
+<LI>  <tt>int = obj.GetHeight ()</tt> -  Returns the image height.
+ </LI>
+<LI>  <tt>float = obj.GetImagePositionPatient ()</tt> -  Get the (DICOM) x,y,z coordinates of the first pixel in the
+ image (upper left hand corner) of the last image processed by the
+ DICOMParser
+ </LI>
+<LI>  <tt>float = obj.GetImageOrientationPatient ()</tt> -  Get the (DICOM) directions cosines. It consist of the components
+ of the first two vectors. The third vector needs to be computed
+ to form an orthonormal basis.
+ </LI>
+<LI>  <tt>int = obj.GetBitsAllocated ()</tt> -  Get the number of bits allocated for each pixel in the file.
+ </LI>
+<LI>  <tt>int = obj.GetPixelRepresentation ()</tt> -  Get the pixel representation of the last image processed by the
+ DICOMParser. A zero is a unsigned quantity.  A one indicates a
+ signed quantity
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfComponents ()</tt> -  Get the number of components of the image data for the last
+ image processed.
+ </LI>
+<LI>  <tt>string = obj.GetTransferSyntaxUID ()</tt> -  Get the transfer syntax UID for the last image processed.
+ </LI>
+<LI>  <tt>float = obj.GetRescaleSlope ()</tt> -  Get the rescale slope for the pixel data.
+ </LI>
+<LI>  <tt>float = obj.GetRescaleOffset ()</tt> -  Get the rescale offset for the pixel data.
+ </LI>
+<LI>  <tt>string = obj.GetPatientName ()</tt> -  Get the patient name for the last image processed.
+ </LI>
+<LI>  <tt>string = obj.GetStudyUID ()</tt> -  Get the study uid for the last image processed.
+ </LI>
+<LI>  <tt>string = obj.GetStudyID ()</tt> -  Get the Study ID for the last image processed.
+ </LI>
+<LI>  <tt>float = obj.GetGantryAngle ()</tt> -  Get the gantry angle for the last image processed.
+ </LI>
+<LI>  <tt>int = obj.CanReadFile (string fname)</tt>
+ </LI>
+<LI>  <tt>string = obj.GetFileExtensions ()</tt> -  Return a descriptive name for the file format that might be useful in a GUI.
+ </LI>
+<LI>  <tt>string = obj.GetDescriptiveName ()</tt>
+ </LI>
+</UL>
+*/

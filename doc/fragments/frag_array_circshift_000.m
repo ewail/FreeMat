@@ -1,0 +1,10 @@
+0
+x = int32(rand(4,5)*10)
+circshift(x,[1,0])
+circshift(x,[0,-1])
+circshift(x,[2,2])
+x = int32(rand(4,5,3)*10)
+circshift(x,[1,0,0])
+circshift(x,[0,-1,0])
+circshift(x,[0,0,-1])
+circshift(x,[2,-3,1])

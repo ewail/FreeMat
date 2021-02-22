@@ -1,0 +1,69 @@
+
+ Usage
+
+A vtkMultiPieceDataSet dataset groups multiple data pieces
+together. For example, say that a simulation broke a volume
+into 16 piece so that each piece can be processed with 1
+process in parallel. We want to load this volume in a
+visualization cluster of 4 nodes. Each node will get 4
+pieces, not necessarily forming a whole rectangular piece.
+In this case, it is not possible to append the 4 pieces
+together into a vtkImageData. In this case, these 4 pieces
+can be collected together using a vtkMultiPieceDataSet. Note
+that vtkMultiPieceDataSet is intended to be included in
+other composite datasets eg. vtkMultiBlockDataSet,
+vtkHierarchicalBoxDataSet. Hence the lack of algorithms
+producting vtkMultiPieceDataSet.
+To create an instance of class vtkMultiPieceDataSet, simply
+invoke its constructor as follows
+
+    obj = vtkMultiPieceDataSet
+
+
+
+ Methods
+
+The class vtkMultiPieceDataSet has several methods that can
+be used. They are listed below. Note that the documentation
+is translated automatically from the VTK sources, and may
+not be completely intelligible. When in doubt, consult the
+VTK website. In the methods listed below, obj is an instance
+of the vtkMultiPieceDataSet class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkMultiPieceDataSet = obj.NewInstance ()
+* vtkMultiPieceDataSet = obj.SafeDownCast (vtkObject o)
+* int = obj.GetDataObjectType () - Set the number of pieces.
+  This will cause allocation if the new number of pieces is
+  greater than the current size. All new pieces are
+  initialized to null.
+* obj.SetNumberOfPieces (int numpieces) - Set the number of
+  pieces. This will cause allocation if the new number of
+  pieces is greater than the current size. All new pieces
+  are initialized to null.
+* int = obj.GetNumberOfPieces () - Returns the number of
+  pieces.
+* vtkDataSet = obj.GetPiece (int pieceno) - Returns the
+  piece at the given index.
+* vtkDataObject = obj.GetPieceAsDataObject (int pieceno) -
+  Returns the piece at the given index.
+* obj.SetPiece (int pieceno, vtkDataObject piece) - Sets the
+  data object as the given piece. The total number of pieces
+  will be resized to fit the requested piece no.
+* int = obj.HasMetaData (int piece) - Returns the meta-data
+  for the piece. If none is already present, a new
+  vtkInformation object will be allocated. Use HasMetaData
+  to avoid allocating vtkInformation objects.
+* vtkInformation = obj.GetMetaData (int pieceno) - Unhiding
+  superclass method.
+* vtkInformation = obj.GetMetaData (vtkCompositeDataIterator
+  iter) - Unhiding superclass method.
+* int = obj.HasMetaData (vtkCompositeDataIterator iter)
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Filtering_Classes
+* Generated on Thu Jul 25 2013 17:18:31 for FreeMat by
+  doxygen_ 1.8.1.1
+

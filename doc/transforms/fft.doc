@@ -1,0 +1,116 @@
+/*!
+\page transforms_fft FFT (Inverse) Fast Fourier Transform Function
+
+<p>
+Section: \ref sec_transforms "Transforms/Decompositions"
+\section Usage
+Computes the Discrete Fourier Transform (DFT) of a vector using the
+Fast Fourier Transform technique.  The general syntax for its use is
+\verbatim
+  y = fft(x,n,d)
+\endverbatim
+where <tt>x</tt> is an <tt>n</tt>-dimensional array of numerical type.
+Integer types are promoted to the <tt>double</tt> type prior to 
+calculation of the DFT. The argument <tt>n</tt> is the length of the
+FFT, and <tt>d</tt> is the dimension along which to take the DFT.  If
+|n| is larger than the length of <tt>x</tt> along dimension <tt>d</tt>,
+then <tt>x</tt> is zero-padded (by appending zeros) prior to calculation
+of the DFT.  If <tt>n</tt> is smaller than the length of <tt>x</tt>  along
+the given dimension, then <tt>x</tt> is truncated (by removing elements
+at the end) to length <tt>n</tt>.  
+
+If <tt>d</tt> is omitted, then the DFT is taken along the first 
+non-singleton dimension of <tt>x</tt>.  If <tt>n</tt> is omitted, then
+the DFT length is chosen to match of the length of <tt>x</tt> along
+dimension <tt>d</tt>.  
+
+Note that FFT support on Linux builds requires availability
+of the FFTW libraries at compile time.  On Windows and Mac OS
+X, single and double precision FFTs are available by default.
+\section Function Internals
+The output is computed via
+\f[
+y(m_1,\ldots,m_{d-1},l,m_{d+1},\ldots,m_{p}) = 
+\sum_{k=1}^{n} x(m_1,\ldots,m_{d-1},k,m_{d+1},\ldots,m_{p})
+e^{-\frac{2\pi(k-1)l}{n}}.
+\f]
+
+For the inverse DFT, the calculation is similar, and the arguments
+have the same meanings as the DFT:
+\f[
+y(m_1,\ldots,m_{d-1},l,m_{d+1},\ldots,m_{p}) = 
+\frac{1}{n} \sum_{k=1}^{n} x(m_1,\ldots,m_{d-1},k,m_{d+1},\ldots,m_{p})
+e^{\frac{2\pi(k-1)l}{n}}.
+\f]
+The FFT is computed using the FFTPack library, available from 
+netlib at <tt>http://www.netlib.org</tt>.  Generally speaking, the 
+computational cost for a FFT is (in worst case) <tt>O(n^2)</tt>.
+However, if <tt>n</tt> is composite, and can be factored as
+\f[
+n = \prod_{k=1}^{p} m_k,
+\f]
+then the DFT can be computed in 
+\f[
+O(n \sum_{k=1}^{p} m_k)
+\f]
+operations.  If <tt>n</tt> is a power of 2, then the FFT can be
+calculated in <tt>O(n log_2 n)</tt>.  The calculations for the
+inverse FFT are identical.
+\section Example
+The following piece of code plots the FFT for a sinusoidal signal:
+
+\if FRAGMENT
+frag_transforms_fft_000.m
+0
+t = linspace(0,2*pi,128);
+x = cos(15*t);
+y = fft(x);
+plot(t,abs(y));
+mprint('fft1');
+\endif
+
+
+\verbinclude frag_transforms_fft_000.m.out 
+
+The resulting plot is:
+\image html fft1.png
+\image latex fft1.eps "fft1" width=12cm
+
+The FFT can also be taken along different dimensions, and with padding 
+and/or truncation.  The following example demonstrates the Fourier
+Transform being computed along each column, and then along each row.
+
+\if FRAGMENT
+frag_transforms_fft_001.m
+0
+A = [2,5;3,6]
+real(fft(A,[],1))
+real(fft(A,[],2))
+\endif
+
+
+\verbinclude frag_transforms_fft_001.m.out 
+
+Fourier transforms can also be padded using the <tt>n</tt> argument.  This
+pads the signal with zeros prior to taking the Fourier transform.  Zero
+padding in the time domain results in frequency interpolation.  The
+following example demonstrates the FFT of a pulse (consisting of 10 ones)
+with (red line) and without (green circles) padding.
+
+\if FRAGMENT
+frag_transforms_fft_002.m
+0
+delta(1:10) = 1;
+plot((0:255)/256*pi*2,real(fft(delta,256)),'r-');
+hold on
+plot((0:9)/10*pi*2,real(fft(delta)),'go');
+mprint('fft2');
+\endif
+
+
+\verbinclude frag_transforms_fft_002.m.out 
+
+The resulting plot is:
+\image html fft2.png
+\image latex fft2.eps "fft2" width=12cm
+*/

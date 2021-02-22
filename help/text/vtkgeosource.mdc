@@ -1,0 +1,77 @@
+
+ Usage
+
+vtkGeoSource is an abstract superclass for all multi-
+resolution data sources shown in a geographic view like
+vtkGeoView or vtkGeoView2D. vtkGeoSource subclasses need to
+implement the FetchRoot() method, which fills a
+vtkGeoTreeNode with the low-res data at the root, and
+FetchChild(), which produces a refinement of a parent node.
+Other geovis classes such as vtkGeoTerrain, vtkGeoTerrain2D,
+and vtkGeoAlignedImageSource use a vtkGeoSource subclass to
+build their geometry or image caches which are stored in
+trees. The source itself does not maintain the tree, but
+simply provides a mechanism for generating refined tree
+nodes.
+Sources are multi-threaded. Each source may have one or more
+worker threads associated with it, which this superclass
+manages. It is essential that the FetchChild() method is
+thread-safe, since it may be called from multiple workers
+simultaneously.
+To create an instance of class vtkGeoSource, simply invoke
+its constructor as follows
+
+    obj = vtkGeoSource
+
+
+
+ Methods
+
+The class vtkGeoSource has several methods that can be used.
+They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkGeoSource class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkGeoSource = obj.NewInstance ()
+* vtkGeoSource = obj.SafeDownCast (vtkObject o)
+* vtkGeoSource = obj.()
+* ~vtkGeoSource = obj.()
+* bool = obj.FetchRoot (vtkGeoTreeNode root) - Blocking
+  access methods to be implemented in subclasses.
+* bool = obj.FetchChild (vtkGeoTreeNode node, int index,
+  vtkGeoTreeNode child) - Blocking access methods to be
+  implemented in subclasses.
+* obj.RequestChildren (vtkGeoTreeNode node) - Non-blocking
+  methods for to use from the main application. After
+  calling RequestChildren() for a certain node,
+  GetRequestedNodes() will after a certain period of time
+  return a non-null pointer to a collection of four
+  vtkGeoTreeNode objects, which are the four children of the
+  requested node. The collection is reference counted, so
+  you need to eventually call Delete() on the returned
+  collection pointer (if it is non-null).
+* vtkCollection = obj.GetRequestedNodes (vtkGeoTreeNode
+  node) - Non-blocking methods for to use from the main
+  application. After calling RequestChildren() for a certain
+  node, GetRequestedNodes() will after a certain period of
+  time return a non-null pointer to a collection of four
+  vtkGeoTreeNode objects, which are the four children of the
+  requested node. The collection is reference counted, so
+  you need to eventually call Delete() on the returned
+  collection pointer (if it is non-null).
+* obj.Initialize (int numThreads) - Spawn worker threads.
+* obj.ShutDown () - Shut down the source. This terminates
+  the thread and releases memory.
+* obj.WorkerThread ()
+* vtkAbstractTransform = obj.GetTransform ()
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Geo_Vis_Classes
+* Generated on Thu Jul 25 2013 17:18:31 for FreeMat by
+  doxygen_ 1.8.1.1
+

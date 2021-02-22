@@ -1,0 +1,91 @@
+/*!
+\page vtkio_vtksqlitedatabase vtkSQLiteDatabase
+
+<p>
+Section: \ref sec_vtkio "Visualization Toolkit IO Classes"
+\section Usage
+
+ SQLite (http://www.sqlite.org) is a public-domain SQL database
+ written in C++.  It's small, fast, and can be easily embedded
+ inside other applications.  Its databases are stored in files.
+
+ This class provides a VTK interface to SQLite.  You do not need to
+ download any external libraries: we include a copy of SQLite 3.3.16
+ in VTK/Utilities/vtksqlite.  
+
+ If you want to open a database that stays in memory and never gets
+ written to disk, pass in the URL 'sqlite://:memory:'; otherwise,
+ specifiy the file path by passing the URL 'sqlite://<file_path>'.
+
+ .SECTION Thanks
+ Thanks to Andrew Wilson and Philippe Pebay from Sandia National 
+ Laboratories for implementing this class.
+
+
+To create an instance of class vtkSQLiteDatabase, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkSQLiteDatabase
+\endverbatim
+\section Methods
+The class vtkSQLiteDatabase has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkSQLiteDatabase class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkSQLiteDatabase = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkSQLiteDatabase = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>bool = obj.Open (string password)</tt> -  Open a new connection to the database.  You need to set the
+ filename before calling this function.  Returns true if the
+ database was opened successfully; false otherwise.
+ - USE_EXISTING (default) - Fail if the file does not exist.
+ - USE_EXISTING_OR_CREATE - Create a new file if necessary.
+ - CREATE_OR_CLEAR - Create new or clear existing file.
+ - CREATE - Create new, fail if file exists.
+ </LI>
+<LI>  <tt>bool = obj.Open (string password, int mode)</tt> -  Open a new connection to the database.  You need to set the
+ filename before calling this function.  Returns true if the
+ database was opened successfully; false otherwise.
+ - USE_EXISTING (default) - Fail if the file does not exist.
+ - USE_EXISTING_OR_CREATE - Create a new file if necessary.
+ - CREATE_OR_CLEAR - Create new or clear existing file.
+ - CREATE - Create new, fail if file exists.
+ </LI>
+<LI>  <tt>obj.Close ()</tt> -  Close the connection to the database.
+ </LI>
+<LI>  <tt>bool = obj.IsOpen ()</tt> -  Return whether the database has an open connection
+ </LI>
+<LI>  <tt>vtkSQLQuery = obj.GetQueryInstance ()</tt> -  Return an empty query on this database.
+ </LI>
+<LI>  <tt>vtkStringArray = obj.GetTables ()</tt> -  Get the list of tables from the database
+ </LI>
+<LI>  <tt>vtkStringArray = obj.GetRecord (string table)</tt> -  Get the list of fields for a particular table
+ </LI>
+<LI>  <tt>bool = obj.IsSupported (int feature)</tt> -  Return whether a feature is supported by the database.
+ </LI>
+<LI>  <tt>bool = obj.HasError ()</tt> -  Did the last operation generate an error
+ </LI>
+<LI>  <tt>string = obj.GetLastErrorText ()</tt> -  Get the last error text from the database
+ </LI>
+<LI>  <tt>string = obj.GetDatabaseType ()</tt> -  String representing database type (e.g. "sqlite").
+ </LI>
+<LI>  <tt>string = obj.GetDatabaseFileName ()</tt> -  String representing the database filename.
+ </LI>
+<LI>  <tt>obj.SetDatabaseFileName (string )</tt> -  String representing the database filename.
+ </LI>
+<LI>  <tt>vtkStdString = obj.GetURL ()</tt> -  Get the URL of the database.
+ </LI>
+<LI>  <tt>vtkStdString = obj.GetColumnSpecification (vtkSQLDatabaseSchema schema, int tblHandle, int colHandle)</tt> -  Return the SQL string with the syntax to create a column inside a
+ "CREATE TABLE" SQL statement.
+ NB: this method implements the SQLite-specific syntax:
+ <column name> <column type> <column attributes>
+ </LI>
+</UL>
+*/

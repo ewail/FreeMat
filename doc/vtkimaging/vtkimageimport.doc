@@ -1,0 +1,135 @@
+/*!
+\page vtkimaging_vtkimageimport vtkImageImport
+
+<p>
+Section: \ref sec_vtkimaging "Visualization Toolkit Imaging Classes"
+\section Usage
+ vtkImageImport provides methods needed to import image data from a source
+ independent of VTK, such as a simple C array or a third-party pipeline.
+ Note that the VTK convention is for the image voxel index (0,0,0) to be
+ the lower-left corner of the image, while most 2D image formats use
+ the upper-left corner.  You can use vtkImageFlip to correct the 
+ orientation after the image has been loaded into VTK.
+ Note that is also possible to import the raw data from a Python string
+ instead of from a C array. The array applies on scalar point data only, not
+ on cell data.
+
+To create an instance of class vtkImageImport, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkImageImport
+\endverbatim
+\section Methods
+The class vtkImageImport has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkImageImport class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkImageImport = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkImageImport = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetDataScalarType (int )</tt> -  Set/Get the data type of pixels in the imported data.  This is used
+ as the scalar type of the Output.  Default: Short.
+ </LI>
+<LI>  <tt>obj.SetDataScalarTypeToDouble ()</tt> -  Set/Get the data type of pixels in the imported data.  This is used
+ as the scalar type of the Output.  Default: Short.
+ </LI>
+<LI>  <tt>obj.SetDataScalarTypeToFloat ()</tt> -  Set/Get the data type of pixels in the imported data.  This is used
+ as the scalar type of the Output.  Default: Short.
+ </LI>
+<LI>  <tt>obj.SetDataScalarTypeToInt ()</tt> -  Set/Get the data type of pixels in the imported data.  This is used
+ as the scalar type of the Output.  Default: Short.
+ </LI>
+<LI>  <tt>obj.SetDataScalarTypeToShort ()</tt> -  Set/Get the data type of pixels in the imported data.  This is used
+ as the scalar type of the Output.  Default: Short.
+ </LI>
+<LI>  <tt>obj.SetDataScalarTypeToUnsignedShort ()</tt> -  Set/Get the data type of pixels in the imported data.  This is used
+ as the scalar type of the Output.  Default: Short.
+ </LI>
+<LI>  <tt>obj.SetDataScalarTypeToUnsignedChar ()</tt> -  Set/Get the data type of pixels in the imported data.  This is used
+ as the scalar type of the Output.  Default: Short.
+ </LI>
+<LI>  <tt>int = obj.GetDataScalarType ()</tt> -  Set/Get the data type of pixels in the imported data.  This is used
+ as the scalar type of the Output.  Default: Short.
+ </LI>
+<LI>  <tt>string = obj.GetDataScalarTypeAsString ()</tt> -  Set/Get the number of scalar components, for RGB images this must be 3.
+ Default: 1.
+ </LI>
+<LI>  <tt>obj.SetNumberOfScalarComponents (int )</tt> -  Set/Get the number of scalar components, for RGB images this must be 3.
+ Default: 1.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfScalarComponents ()</tt> -  Set/Get the number of scalar components, for RGB images this must be 3.
+ Default: 1.
+ </LI>
+<LI>  <tt>obj.SetDataExtent (int , int , int , int , int , int )</tt> -  Get/Set the extent of the data buffer.  The dimensions of your data
+ must be equal to (extent[1]-extent[0]+1) * (extent[3]-extent[2]+1) * 
+ (extent[5]-DataExtent[4]+1).  For example, for a 2D image use
+ (0,width-1, 0,height-1, 0,0).
+ </LI>
+<LI>  <tt>obj.SetDataExtent (int  a[6])</tt> -  Get/Set the extent of the data buffer.  The dimensions of your data
+ must be equal to (extent[1]-extent[0]+1) * (extent[3]-extent[2]+1) * 
+ (extent[5]-DataExtent[4]+1).  For example, for a 2D image use
+ (0,width-1, 0,height-1, 0,0).
+ </LI>
+<LI>  <tt>int = obj. GetDataExtent ()</tt> -  Get/Set the extent of the data buffer.  The dimensions of your data
+ must be equal to (extent[1]-extent[0]+1) * (extent[3]-extent[2]+1) * 
+ (extent[5]-DataExtent[4]+1).  For example, for a 2D image use
+ (0,width-1, 0,height-1, 0,0).
+ </LI>
+<LI>  <tt>obj.SetDataExtentToWholeExtent ()</tt> -  Set/Get the spacing (typically in mm) between image voxels.
+ Default: (1.0, 1.0, 1.0).
+ </LI>
+<LI>  <tt>obj.SetDataSpacing (double , double , double )</tt> -  Set/Get the spacing (typically in mm) between image voxels.
+ Default: (1.0, 1.0, 1.0).
+ </LI>
+<LI>  <tt>obj.SetDataSpacing (double  a[3])</tt> -  Set/Get the spacing (typically in mm) between image voxels.
+ Default: (1.0, 1.0, 1.0).
+ </LI>
+<LI>  <tt>double = obj. GetDataSpacing ()</tt> -  Set/Get the spacing (typically in mm) between image voxels.
+ Default: (1.0, 1.0, 1.0).
+ </LI>
+<LI>  <tt>obj.SetDataOrigin (double , double , double )</tt> -  Set/Get the origin of the data, i.e. the coordinates (usually in mm)
+ of voxel (0,0,0).  Default: (0.0, 0.0, 0.0). 
+ </LI>
+<LI>  <tt>obj.SetDataOrigin (double  a[3])</tt> -  Set/Get the origin of the data, i.e. the coordinates (usually in mm)
+ of voxel (0,0,0).  Default: (0.0, 0.0, 0.0). 
+ </LI>
+<LI>  <tt>double = obj. GetDataOrigin ()</tt> -  Set/Get the origin of the data, i.e. the coordinates (usually in mm)
+ of voxel (0,0,0).  Default: (0.0, 0.0, 0.0). 
+ </LI>
+<LI>  <tt>obj.SetWholeExtent (int , int , int , int , int , int )</tt> -  Get/Set the whole extent of the image.  This is the largest possible
+ extent.  Set the DataExtent to the extent of the image in the buffer
+ pointed to by the ImportVoidPointer.
+ </LI>
+<LI>  <tt>obj.SetWholeExtent (int  a[6])</tt> -  Get/Set the whole extent of the image.  This is the largest possible
+ extent.  Set the DataExtent to the extent of the image in the buffer
+ pointed to by the ImportVoidPointer.
+ </LI>
+<LI>  <tt>int = obj. GetWholeExtent ()</tt> -  Get/Set the whole extent of the image.  This is the largest possible
+ extent.  Set the DataExtent to the extent of the image in the buffer
+ pointed to by the ImportVoidPointer.
+ </LI>
+<LI>  <tt>obj.SetScalarArrayName (string )</tt> -  Set/get the scalar array name for this data set. Initial value is
+ "scalars".
+ </LI>
+<LI>  <tt>string = obj.GetScalarArrayName ()</tt> -  Set/get the scalar array name for this data set. Initial value is
+ "scalars".
+ </LI>
+<LI>  <tt>int = obj.InvokePipelineModifiedCallbacks ()</tt> -  Invoke the appropriate callbacks
+ </LI>
+<LI>  <tt>obj.InvokeUpdateInformationCallbacks ()</tt> -  Invoke the appropriate callbacks
+ </LI>
+<LI>  <tt>obj.InvokeExecuteInformationCallbacks ()</tt> -  Invoke the appropriate callbacks
+ </LI>
+<LI>  <tt>obj.InvokeExecuteDataCallbacks ()</tt> -  Invoke the appropriate callbacks
+ </LI>
+<LI>  <tt>obj.LegacyCheckWholeExtent ()</tt> -  Invoke the appropriate callbacks
+ </LI>
+</UL>
+*/

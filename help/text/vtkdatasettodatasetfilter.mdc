@@ -1,0 +1,69 @@
+
+ Usage
+
+vtkDataSetToDataSetFilter is an abstract filter class.
+Subclasses of vtkDataSetToDataSetFilter take a dataset as
+input and create a dataset as output. The form of the input
+geometry is not changed in these filters, only the point
+attributes (e.g. scalars, vectors, etc.).
+This is an abstract filter type. What that means is that the
+output of the filter is an abstract type (i.e., vtkDataSet),
+no matter what the input of the filter is. This can cause
+problems connecting together filters due to the change in
+dataset type. (For example, in a series of filters
+processing vtkPolyData, when a vtkDataSetToDataSetFilter or
+subclass is introduced into the pipeline, if the filter
+downstream of it takes vtkPolyData as input, the pipeline
+connection cannot be made.) To get around this problem, use
+one of the convenience methods to return a concrete type
+(e.g., vtkGetPolyDataOutput(), GetStructuredPointsOutput(),
+etc.).
+To create an instance of class vtkDataSetToDataSetFilter,
+simply invoke its constructor as follows
+
+    obj = vtkDataSetToDataSetFilter
+
+
+
+ Methods
+
+The class vtkDataSetToDataSetFilter has several methods that
+can be used. They are listed below. Note that the
+documentation is translated automatically from the VTK
+sources, and may not be completely intelligible. When in
+doubt, consult the VTK website. In the methods listed below,
+obj is an instance of the vtkDataSetToDataSetFilter class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkDataSetToDataSetFilter = obj.NewInstance ()
+* vtkDataSetToDataSetFilter = obj.SafeDownCast (vtkObject o)
+* obj.SetInput (vtkDataSet input) - Specify the input data
+  or filter.
+* vtkDataSet = obj.GetOutput () - Get the output of this
+  filter. If output is NULL then input hasn't been set which
+  is necessary for abstract objects.
+* vtkDataSet = obj.GetOutput (int idx) - Get the output of
+  this filter. If output is NULL then input hasn't been set
+  which is necessary for abstract objects.
+* vtkPolyData = obj.GetPolyDataOutput () - Get the output as
+  vtkPolyData.
+* vtkStructuredPoints = obj.GetStructuredPointsOutput () -
+  Get the output as vtkStructuredPoints.
+* vtkStructuredGrid = obj.GetStructuredGridOutput () - Get
+  the output as vtkStructuredGrid.
+* vtkUnstructuredGrid = obj.GetUnstructuredGridOutput () -
+  Get the output as vtkUnstructuredGrid.
+* vtkRectilinearGrid = obj.GetRectilinearGridOutput () - Get
+  the output as vtkRectilinearGrid.
+* vtkDataSet = obj.GetInput () - Get the input data or
+  filter.
+* obj.ComputeInputUpdateExtents (vtkDataObject output) - By
+  default copy the output update extent to the input
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Filtering_Classes
+* Generated on Thu Jul 25 2013 17:18:30 for FreeMat by
+  doxygen_ 1.8.1.1
+

@@ -1,0 +1,84 @@
+
+ Usage
+
+Constructs an inline function object. The syntax for its use
+is either
+
+     y = inline(expr)
+
+which uses the symvar function to identify the variables in
+the expression, or the explicit form
+
+     y = inline(expr,var1,var2,...,varn)
+
+where the variables are explicitly given. Note that inline
+functions are only partially supported in FreeMat. If you
+need features of the inline function that are not currently
+implemented, please file a feature request at the FreeMat
+website.
+
+
+ Example
+
+Here we construct an inline expression using the
+autodetection of symvar
+
+  --> a = inline('x^2')
+
+  a =
+    inline function object
+    f(x) = x^2
+  --> a(3)
+
+  ans =
+   9
+
+  --> a(i)
+
+  ans =
+    -1.0000 +  0.0000i
+
+In this case, we have multiple arguments (again,
+autodetected)
+
+  --> a = inline('x+y-cos(x+y)')
+
+  a =
+    inline function object
+    f(x,y) = x+y-cos(x+y)
+  --> a(pi,-pi)
+
+  ans =
+   -1
+
+In this form, we specify which arguments we want to use
+(thereby also specifying the order of the arguments
+
+  --> a = inline('x+t-sin(x)','x','t')
+
+  a =
+    inline function object
+    f(x,t) = x+t-sin(x)
+  --> a(0.5,1)
+
+  ans =
+      1.0206
+
+Inline objects can also be used with feval
+
+  --> a = inline('cos(t)')
+
+  a =
+    inline function object
+    f(t) = cos(t)
+  --> feval(a,pi/2)
+
+  ans =
+   6.1232e-17
+
+
+* FreeMat_Documentation
+* Function_Related_Functions
+* Generated on Thu Jul 25 2013 17:17:14 for FreeMat by
+  doxygen_ 1.8.1.1
+

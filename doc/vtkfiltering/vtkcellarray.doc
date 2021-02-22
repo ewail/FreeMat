@@ -1,0 +1,132 @@
+/*!
+\page vtkfiltering_vtkcellarray vtkCellArray
+
+<p>
+Section: \ref sec_vtkfiltering "Visualization Toolkit Filtering Classes"
+\section Usage
+ vtkCellArray is a supporting object that explicitly represents cell 
+ connectivity. The cell array structure is a raw integer list
+ of the form: (n,id1,id2,...,idn, n,id1,id2,...,idn, ...)
+ where n is the number of points in the cell, and id is a zero-offset index 
+ into an associated point list.
+
+ Advantages of this data structure are its compactness, simplicity, and 
+ easy interface to external data.  However, it is totally inadequate for 
+ random access.  This functionality (when necessary) is accomplished by 
+ using the vtkCellTypes and vtkCellLinks objects to extend the definition of 
+ the data structure.
+
+
+To create an instance of class vtkCellArray, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkCellArray
+\endverbatim
+\section Methods
+The class vtkCellArray has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkCellArray class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkCellArray = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkCellArray = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>int = obj.Allocate (vtkIdType sz, int ext)</tt> -  Free any memory and reset to an empty state.
+ </LI>
+<LI>  <tt>obj.Initialize ()</tt> -  Free any memory and reset to an empty state.
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetNumberOfCells ()</tt> -  Get the number of cells in the array.
+ </LI>
+<LI>  <tt>obj.SetNumberOfCells (vtkIdType )</tt> -  Set the number of cells in the array.
+ DO NOT do any kind of allocation, advanced use only.
+ </LI>
+<LI>  <tt>vtkIdType = obj.EstimateSize (vtkIdType numCells, int maxPtsPerCell)</tt> -  A cell traversal methods that is more efficient than vtkDataSet traversal
+ methods.  InitTraversal() initializes the traversal of the list of cells.
+ </LI>
+<LI>  <tt>obj.InitTraversal ()</tt> -  A cell traversal methods that is more efficient than vtkDataSet traversal
+ methods.  InitTraversal() initializes the traversal of the list of cells.
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetSize ()</tt> -  Get the total number of entries (i.e., data values) in the connectivity 
+ array. This may be much less than the allocated size (i.e., return value 
+ from GetSize().)
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetNumberOfConnectivityEntries ()</tt> -  Internal method used to retrieve a cell given an offset into
+ the internal array.
+ </LI>
+<LI>  <tt>vtkIdType = obj.InsertNextCell (vtkCell cell)</tt> -  Insert a cell object. Return the cell id of the cell.
+ </LI>
+<LI>  <tt>vtkIdType = obj.InsertNextCell (vtkIdList pts)</tt> -  Create a cell by specifying a list of point ids. Return the cell id of
+ the cell.
+ </LI>
+<LI>  <tt>vtkIdType = obj.InsertNextCell (int npts)</tt> -  Create cells by specifying count, and then adding points one at a time
+ using method InsertCellPoint(). If you don't know the count initially,
+ use the method UpdateCellCount() to complete the cell. Return the cell
+ id of the cell.
+ </LI>
+<LI>  <tt>obj.InsertCellPoint (vtkIdType id)</tt> -  Used in conjunction with InsertNextCell(int npts) to add another point
+ to the list of cells.
+ </LI>
+<LI>  <tt>obj.UpdateCellCount (int npts)</tt> -  Used in conjunction with InsertNextCell(int npts) and InsertCellPoint() to
+ update the number of points defining the cell.
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetInsertLocation (int npts)</tt> -  Computes the current insertion location within the internal array. 
+ Used in conjunction with GetCell(int loc,...).
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetTraversalLocation ()</tt> -  Get/Set the current traversal location.
+ </LI>
+<LI>  <tt>obj.SetTraversalLocation (vtkIdType loc)</tt> -  Computes the current traversal location within the internal array. Used 
+ in conjunction with GetCell(int loc,...).
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetTraversalLocation (vtkIdType npts)</tt> -  Special method inverts ordering of current cell. Must be called
+ carefully or the cell topology may be corrupted.
+ </LI>
+<LI>  <tt>obj.ReverseCell (vtkIdType loc)</tt> -  Special method inverts ordering of current cell. Must be called
+ carefully or the cell topology may be corrupted.
+ </LI>
+<LI>  <tt>int = obj.GetMaxCellSize ()</tt> -  Returns the size of the largest cell. The size is the number of points
+ defining the cell.
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetPointer ()</tt> -  Get pointer to data array for purpose of direct writes of data. Size is the
+ total storage consumed by the cell array. ncells is the number of cells
+ represented in the array.
+ </LI>
+<LI>  <tt>vtkIdType = obj.WritePointer (vtkIdType ncells, vtkIdType size)</tt> -  Get pointer to data array for purpose of direct writes of data. Size is the
+ total storage consumed by the cell array. ncells is the number of cells
+ represented in the array.
+ </LI>
+<LI>  <tt>obj.SetCells (vtkIdType ncells, vtkIdTypeArray cells)</tt> -  Define multiple cells by providing a connectivity list. The list is in
+ the form (npts,p0,p1,...p(npts-1), repeated for each cell). Be careful
+ using this method because it discards the old cells, and anything
+ referring these cells becomes invalid (for example, if BuildCells() has
+ been called see vtkPolyData).  The traversal location is reset to the
+ beginning of the list; the insertion location is set to the end of the
+ list.
+ </LI>
+<LI>  <tt>obj.DeepCopy (vtkCellArray ca)</tt> -  Perform a deep copy (no reference counting) of the given cell array.
+ </LI>
+<LI>  <tt>vtkIdTypeArray = obj.GetData ()</tt> -  Reuse list. Reset to initial condition.
+ </LI>
+<LI>  <tt>obj.Reset ()</tt> -  Reuse list. Reset to initial condition.
+ </LI>
+<LI>  <tt>obj.Squeeze ()</tt> -  Return the memory in kilobytes consumed by this cell array. Used to
+ support streaming and reading/writing data. The value returned is
+ guaranteed to be greater than or equal to the memory required to
+ actually represent the data represented by this object. The 
+ information returned is valid only after the pipeline has 
+ been updated.
+ </LI>
+<LI>  <tt>long = obj.GetActualMemorySize ()</tt> -  Return the memory in kilobytes consumed by this cell array. Used to
+ support streaming and reading/writing data. The value returned is
+ guaranteed to be greater than or equal to the memory required to
+ actually represent the data represented by this object. The 
+ information returned is valid only after the pipeline has 
+ been updated.
+ </LI>
+</UL>
+*/

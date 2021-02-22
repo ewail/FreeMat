@@ -1,0 +1,594 @@
+
+\begin{DoxyItemize}
+\item \hyperlink{flow_break}{B\-R\-E\-A\-K Exit Execution In Loop}  
+\item \hyperlink{flow_continue}{C\-O\-N\-T\-I\-N\-U\-E Continue Execution In Loop}  
+\item \hyperlink{flow_error}{E\-R\-R\-O\-R Causes an Error Condition Raised}  
+\item \hyperlink{flow_for}{F\-O\-R For Loop}  
+\item \hyperlink{flow_if}{I\-F-\/\-E\-L\-S\-E\-I\-F-\/\-E\-L\-S\-E Conditional Statements}  
+\item \hyperlink{flow_keyboard}{K\-E\-Y\-B\-O\-A\-R\-D Initiate Interactive Debug Session}  
+\item \hyperlink{flow_lasterr}{L\-A\-S\-T\-E\-R\-R Retrieve Last Error Message}  
+\item \hyperlink{flow_retall}{R\-E\-T\-A\-L\-L Return From All Keyboard Sessions}  
+\item \hyperlink{flow_return}{R\-E\-T\-U\-R\-N Return From Function}  
+\item \hyperlink{flow_switch}{S\-W\-I\-T\-C\-H Switch statement}  
+\item \hyperlink{flow_try}{T\-R\-Y-\/\-C\-A\-T\-C\-H Try and Catch Statement}  
+\item \hyperlink{flow_warning}{W\-A\-R\-N\-I\-N\-G Emits a Warning Message}  
+\item \hyperlink{flow_while}{W\-H\-I\-L\-E While Loop}  
+\end{DoxyItemize}\hypertarget{flow_break}{}\section{B\-R\-E\-A\-K Exit Execution In Loop}\label{flow_break}
+Section\-: \hyperlink{sec_flow}{Flow Control} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+The {\ttfamily break} statement is used to exit a loop prematurely. It can be used inside a {\ttfamily for} loop or a {\ttfamily while} loop. The syntax for its use is \begin{DoxyVerb}   break
+\end{DoxyVerb}
+ inside the body of the loop. The {\ttfamily break} statement forces execution to exit the loop immediately. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+Here is a simple example of how {\ttfamily break} exits the loop. We have a loop that sums integers from {\ttfamily 1} to {\ttfamily 10}, but that stops prematurely at {\ttfamily 5} using a {\ttfamily break}. We will use a {\ttfamily while} loop.
+
+\begin{DoxyVerb}     break_ex.m
+\end{DoxyVerb}
+
+
+
+\begin{DoxyVerbInclude}
+function accum = break_ex
+  accum = 0;
+  i = 1;
+  while (i<=10)
+    accum = accum + i;
+    if (i == 5)
+      break;
+    end
+    i = i + 1;
+  end
+\end{DoxyVerbInclude}
+
+
+The function is exercised here\-:
+
+
+\begin{DoxyVerbInclude}
+--> break_ex
+
+ans = 
+ 15 
+
+--> sum(1:5)
+
+ans = 
+ 15 
+\end{DoxyVerbInclude}
+ \hypertarget{flow_continue}{}\section{C\-O\-N\-T\-I\-N\-U\-E Continue Execution In Loop}\label{flow_continue}
+Section\-: \hyperlink{sec_flow}{Flow Control} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+The {\ttfamily continue} statement is used to change the order of execution within a loop. The {\ttfamily continue} statement can be used inside a {\ttfamily for} loop or a {\ttfamily while} loop. The syntax for its use is \begin{DoxyVerb}   continue
+\end{DoxyVerb}
+ inside the body of the loop. The {\ttfamily continue} statement forces execution to start at the top of the loop with the next iteration. The examples section shows how the {\ttfamily continue} statement works. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+Here is a simple example of using a {\ttfamily continue} statement. We want to sum the integers from {\ttfamily 1} to {\ttfamily 10}, but not the number {\ttfamily 5}. We will use a {\ttfamily for} loop and a continue statement.
+
+\begin{DoxyVerb}     continue_ex.m
+\end{DoxyVerb}
+
+
+
+\begin{DoxyVerbInclude}
+function accum = continue_ex
+  accum = 0;
+  for i=1:10
+    if (i==5)
+      continue;
+    end
+    accum = accum + 1; %skipped if i == 5!
+  end
+\end{DoxyVerbInclude}
+
+
+The function is exercised here\-:
+
+
+\begin{DoxyVerbInclude}
+--> continue_ex
+
+ans = 
+ 9 
+
+--> sum([1:4,6:10])
+
+ans = 
+ 50 
+\end{DoxyVerbInclude}
+ \hypertarget{flow_error}{}\section{E\-R\-R\-O\-R Causes an Error Condition Raised}\label{flow_error}
+Section\-: \hyperlink{sec_flow}{Flow Control} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+The {\ttfamily error} function causes an error condition (exception to be raised). The general syntax for its use is \begin{DoxyVerb}   error(s),
+\end{DoxyVerb}
+ where {\ttfamily s} is the string message describing the error. The {\ttfamily error} function is usually used in conjunction with {\ttfamily try} and {\ttfamily catch} to provide error handling. If the string {\ttfamily s}, then (to conform to the M\-A\-T\-L\-A\-B A\-P\-I), {\ttfamily error} does nothing. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+Here is a simple example of an {\ttfamily error} being issued by a function {\ttfamily evenoddtest}\-:
+
+\begin{DoxyVerb}     evenoddtest.m
+\end{DoxyVerb}
+
+
+
+\begin{DoxyVerbInclude}
+function evenoddtest(n)
+  if (n==0)
+    error('zero is neither even nor odd');
+  elseif ( n ~= fix(n) )
+    error('expecting integer argument');
+  end;
+  if (n==int32(n/2)*2)
+    printf('%d is even\n',n);
+  else
+    printf('%d is odd\n',n);
+  end
+\end{DoxyVerbInclude}
+
+
+The normal command line prompt {\ttfamily --$>$} simply prints the error that occured.
+
+
+\begin{DoxyVerbInclude}
+--> evenoddtest(4)
+4 is even
+--> evenoddtest(5)
+5 is odd
+--> evenoddtest(0)
+In /home/sbasu/Devel/FreeMat4/doc/fragments/evenoddtest.m(evenoddtest) at line 3
+    In scratch() at line 1
+    In base(base)
+    In base()
+    In global()
+Error: zero is neither even nor odd
+--> evenoddtest(pi)
+In /home/sbasu/Devel/FreeMat4/doc/fragments/evenoddtest.m(evenoddtest) at line 5
+    In scratch() at line 1
+    In base(base)
+    In base()
+    In global()
+Error: expecting integer argument
+\end{DoxyVerbInclude}
+ \hypertarget{flow_for}{}\section{F\-O\-R For Loop}\label{flow_for}
+Section\-: \hyperlink{sec_flow}{Flow Control} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+The {\ttfamily for} loop executes a set of statements with an index variable looping through each element in a vector. The syntax of a {\ttfamily for} loop is one of the following\-: \begin{DoxyVerb}  for (variable=expression)
+     statements
+  end
+\end{DoxyVerb}
+ Alternately, the parenthesis can be eliminated \begin{DoxyVerb}  for variable=expression
+     statements
+  end
+\end{DoxyVerb}
+ or alternately, the index variable can be pre-\/initialized with the vector of values it is going to take\-: \begin{DoxyVerb}  for variable
+     statements
+  end
+\end{DoxyVerb}
+ The third form is essentially equivalent to {\ttfamily for variable=variable}, where {\ttfamily variable} is both the index variable and the set of values over which the for loop executes. See the examples section for an example of this form of the {\ttfamily for} loop. \hypertarget{variables_matrix_Examples}{}\subsection{Examples}\label{variables_matrix_Examples}
+Here we write {\ttfamily for} loops to add all the integers from {\ttfamily 1} to {\ttfamily 100}. We will use all three forms of the {\ttfamily for} statement.
+
+
+\begin{DoxyVerbInclude}
+--> accum = 0;
+--> for (i=1:100); accum = accum + i; end
+--> accum
+
+ans = 
+ 5050 
+\end{DoxyVerbInclude}
+
+
+The second form is functionally the same, without the extra parenthesis
+
+
+\begin{DoxyVerbInclude}
+--> accum = 0;
+--> for i=1:100; accum = accum + i; end
+--> accum
+
+ans = 
+ 5050 
+\end{DoxyVerbInclude}
+
+
+In the third example, we pre-\/initialize the loop variable with the values it is to take
+
+
+\begin{DoxyVerbInclude}
+
+\end{DoxyVerbInclude}
+ \hypertarget{flow_if}{}\section{I\-F-\/\-E\-L\-S\-E\-I\-F-\/\-E\-L\-S\-E Conditional Statements}\label{flow_if}
+Section\-: \hyperlink{sec_flow}{Flow Control} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+The {\ttfamily if} and {\ttfamily else} statements form a control structure for conditional execution. The general syntax involves an {\ttfamily if} test, followed by zero or more {\ttfamily elseif} clauses, and finally an optional {\ttfamily else} clause\-: \begin{DoxyVerb}  if conditional_expression_1
+    statements_1
+  elseif conditional_expression_2
+    statements_2
+  elseif conditional_expresiion_3
+    statements_3
+  ...
+  else
+    statements_N
+  end
+\end{DoxyVerb}
+ Note that a conditional expression is considered true if the real part of the result of the expression contains all non-\/zero elements (this strange convention is adopted for compatibility with M\-A\-T\-L\-A\-B). \hypertarget{variables_matrix_Examples}{}\subsection{Examples}\label{variables_matrix_Examples}
+Here is an example of a function that uses an {\ttfamily if} statement
+
+\begin{DoxyVerb}     if_test.m
+\end{DoxyVerb}
+
+
+
+\begin{DoxyVerbInclude}
+function c = if_test(a)
+  if (a == 1)
+     c = 'one';
+  elseif (a==2)
+     c = 'two';
+  elseif (a==3)
+     c = 'three';
+  else
+     c = 'something else';
+  end
+\end{DoxyVerbInclude}
+
+
+Some examples of {\ttfamily if\-\_\-test} in action\-:
+
+
+\begin{DoxyVerbInclude}
+--> if_test(1)
+
+ans = 
+one
+--> if_test(2)
+
+ans = 
+two
+--> if_test(3)
+
+ans = 
+three
+--> if_test(pi)
+
+ans = 
+something else
+\end{DoxyVerbInclude}
+ \hypertarget{flow_keyboard}{}\section{K\-E\-Y\-B\-O\-A\-R\-D Initiate Interactive Debug Session}\label{flow_keyboard}
+Section\-: \hyperlink{sec_flow}{Flow Control} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+The {\ttfamily keyboard} statement is used to initiate an interactive session at a specific point in a function. The general syntax for the {\ttfamily keyboard} statement is \begin{DoxyVerb}   keyboard
+\end{DoxyVerb}
+ A {\ttfamily keyboard} statement can be issued in a {\ttfamily script}, in a {\ttfamily function}, or from within another {\ttfamily keyboard} session. The result of a {\ttfamily keyboard} statement is that execution of the program is halted, and you are given a prompt of the form\-: \begin{DoxyVerb} [scope,n] -->
+\end{DoxyVerb}
+ where {\ttfamily scope} is the current scope of execution (either the name of the function we are executing, or {\ttfamily base} otherwise). And {\ttfamily n} is the depth of the {\ttfamily keyboard} session. If, for example, we are in a {\ttfamily keyboard} session, and we call a function that issues another {\ttfamily keyboard} session, the depth of that second session will be one higher. Put another way, {\ttfamily n} is the number of {\ttfamily return} statements you have to issue to get back to the base workspace. Incidentally, a {\ttfamily return} is how you exit the {\ttfamily keyboard} session and resume execution of the program from where it left off. A {\ttfamily retall} can be used to shortcut execution and return to the base workspace.
+
+The {\ttfamily keyboard} statement is an excellent tool for debugging Free\-Mat code, and along with {\ttfamily eval} provide a unique set of capabilities not usually found in compiled environments. Indeed, the {\ttfamily keyboard} statement is equivalent to a debugger breakpoint in more traditional environments, but with significantly more inspection power. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+Here we demonstrate a two-\/level {\ttfamily keyboard} situation. We have a simple function that calls {\ttfamily keyboard} internally\-:
+
+\begin{DoxyVerb}     key_one.m
+\end{DoxyVerb}
+
+
+
+\begin{DoxyVerbInclude}
+function c = key_one(a,b)
+c = a + b;
+keyboard
+\end{DoxyVerbInclude}
+
+
+Now, we execute the function from the base workspace, and at the {\ttfamily keyboard} prompt, we call it again. This action puts us at depth 2. We can confirm that we are in the second invocation of the function by examining the arguments. We then issue two {\ttfamily return} statements to return to the base workspace.
+
+
+\begin{DoxyVerbInclude}
+--> key_one(1,2)
+[key_one,3]--> key_one(5,7)
+[key_one,3]--> a
+
+ans = 
+ 5 
+
+[key_one,3]--> b
+
+ans = 
+ 7 
+
+[key_one,3]--> c
+
+ans = 
+ 12 
+
+[key_one,3]--> return
+
+ans = 
+ 12 
+
+[key_one,3]--> a
+
+ans = 
+ 1 
+
+[key_one,3]--> b
+
+ans = 
+ 2 
+
+[key_one,3]--> c
+
+ans = 
+ 3 
+
+[key_one,3]--> return
+
+ans = 
+ 3 
+\end{DoxyVerbInclude}
+ \hypertarget{flow_lasterr}{}\section{L\-A\-S\-T\-E\-R\-R Retrieve Last Error Message}\label{flow_lasterr}
+Section\-: \hyperlink{sec_flow}{Flow Control} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Either returns or sets the last error message. The general syntax for its use is either \begin{DoxyVerb}  msg = lasterr
+\end{DoxyVerb}
+ which returns the last error message that occured, or \begin{DoxyVerb}  lasterr(msg)
+\end{DoxyVerb}
+ which sets the contents of the last error message. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+Here is an example of using the {\ttfamily error} function to set the last error, and then retrieving it using lasterr.
+
+
+\begin{DoxyVerbInclude}
+--> try; error('Test error message'); catch; end;
+--> lasterr
+
+ans = 
+Test error message
+\end{DoxyVerbInclude}
+
+
+Or equivalently, using the second form\-:
+
+
+\begin{DoxyVerbInclude}
+--> lasterr('Test message');
+--> lasterr
+
+ans = 
+Test message
+\end{DoxyVerbInclude}
+ \hypertarget{flow_retall}{}\section{R\-E\-T\-A\-L\-L Return From All Keyboard Sessions}\label{flow_retall}
+Section\-: \hyperlink{sec_flow}{Flow Control} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+The {\ttfamily retall} statement is used to return to the base workspace from a nested {\ttfamily keyboard} session. It is equivalent to forcing execution to return to the main prompt, regardless of the level of nesting of {\ttfamily keyboard} sessions, or which functions are running. The syntax is simple \begin{DoxyVerb}   retall
+\end{DoxyVerb}
+ The {\ttfamily retall} is a convenient way to stop debugging. In the process of debugging a complex program or set of functions, you may find yourself 5 function calls down into the program only to discover the problem. After fixing it, issueing a {\ttfamily retall} effectively forces Free\-Mat to exit your program and return to the interactive prompt. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+Here we demonstrate an extreme example of {\ttfamily retall}. We are debugging a recursive function {\ttfamily self} to calculate the sum of the first N integers. When the function is called, a {\ttfamily keyboard} session is initiated after the function has called itself N times. At this {\ttfamily keyboard} prompt, we issue another call to {\ttfamily self} and get another {\ttfamily keyboard} prompt, this time with a depth of 2. A {\ttfamily retall} statement returns us to the top level without executing the remainder of either the first or second call to {\ttfamily self}\-:
+
+\begin{DoxyVerb}     self.m
+\end{DoxyVerb}
+
+
+
+\begin{DoxyVerbInclude}
+function y = self(n)
+  if (n>1)
+    y = n + self(n-1);
+    printf('y is %d\n',y);
+  else
+    y = 1;
+    printf('y is initialized to one\n');
+    keyboard
+  end
+\end{DoxyVerbInclude}
+
+
+
+\begin{DoxyVerbInclude}
+--> self(4)
+y is initialized to one
+[self,8]--> self(6)
+y is initialized to one
+[self,8]--> retall
+\end{DoxyVerbInclude}
+ \hypertarget{flow_return}{}\section{R\-E\-T\-U\-R\-N Return From Function}\label{flow_return}
+Section\-: \hyperlink{sec_flow}{Flow Control} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+The {\ttfamily return} statement is used to immediately return from a function, or to return from a {\ttfamily keyboard} session. The syntax for its use is \begin{DoxyVerb}  return
+\end{DoxyVerb}
+ Inside a function, a {\ttfamily return} statement causes Free\-Mat to exit the function immediately. When a {\ttfamily keyboard} session is active, the {\ttfamily return} statement causes execution to resume where the {\ttfamily keyboard} session started. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+In the first example, we define a function that uses a {\ttfamily return} to exit the function if a certain test condition is satisfied.
+
+\begin{DoxyVerb}     return_func.m
+\end{DoxyVerb}
+
+
+
+\begin{DoxyVerbInclude}
+function ret = return_func(a,b)
+  ret = 'a is greater';
+  if (a > b)
+    return;
+  end
+  ret = 'b is greater';
+  printf('finishing up...\n');
+\end{DoxyVerbInclude}
+
+
+Next we exercise the function with a few simple test cases\-:
+
+
+\begin{DoxyVerbInclude}
+--> return_func(1,3)
+finishing up...
+
+ans = 
+b is greater
+--> return_func(5,2)
+
+ans = 
+a is greater
+\end{DoxyVerbInclude}
+
+
+In the second example, we take the function and rewrite it to use a {\ttfamily keyboard} statement inside the {\ttfamily if} statement.
+
+\begin{DoxyVerb}     return_func2.m
+\end{DoxyVerb}
+
+
+
+\begin{DoxyVerbInclude}
+function ret = return_func2(a,b)
+  if (a > b)
+     ret = 'a is greater';
+     keyboard;
+  else
+     ret = 'b is greater';
+  end
+  printf('finishing up...\n');
+\end{DoxyVerbInclude}
+
+
+Now, we call the function with a larger first argument, which triggers the {\ttfamily keyboard} session. After verifying a few values inside the {\ttfamily keyboard} session, we issue a {\ttfamily return} statement to resume execution.
+
+
+\begin{DoxyVerbInclude}
+--> return_func2(2,4)
+finishing up...
+
+ans = 
+b is greater
+--> return_func2(5,1)
+[return_func2,4]--> ret
+
+ans = 
+a is greater
+[return_func2,4]--> a
+
+ans = 
+ 5 
+
+[return_func2,4]--> b
+
+ans = 
+ 1 
+
+[return_func2,4]--> return
+finishing up...
+
+ans = 
+a is greater
+\end{DoxyVerbInclude}
+ \hypertarget{flow_switch}{}\section{S\-W\-I\-T\-C\-H Switch statement}\label{flow_switch}
+Section\-: \hyperlink{sec_flow}{Flow Control} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+The {\ttfamily switch} statement is used to selective execute code based on the value of either scalar value or a string. The general syntax for a {\ttfamily switch} statement is \begin{DoxyVerb}  switch(expression)
+    case test_expression_1
+      statements
+    case test_expression_2
+      statements
+    otherwise
+      statements
+  end
+\end{DoxyVerb}
+ The {\ttfamily otherwise} clause is optional. Note that each test expression can either be a scalar value, a string to test against (if the switch expression is a string), or a {\ttfamily cell-\/array} of expressions to test against. Note that unlike {\ttfamily C} {\ttfamily switch} statements, the Free\-Mat {\ttfamily switch} does not have fall-\/through, meaning that the statements associated with the first matching case are executed, and then the {\ttfamily switch} ends. Also, if the {\ttfamily switch} expression matches multiple {\ttfamily case} expressions, only the first one is executed. \hypertarget{variables_matrix_Examples}{}\subsection{Examples}\label{variables_matrix_Examples}
+Here is an example of a {\ttfamily switch} expression that tests against a string input\-:
+
+\begin{DoxyVerb}     switch_test.m
+\end{DoxyVerb}
+
+
+
+\begin{DoxyVerbInclude}
+function c = switch_test(a)
+  switch(a)
+    case {'lima beans','root beer'}
+      c = 'food';
+    case {'red','green','blue'}
+      c = 'color';
+    otherwise
+      c = 'not sure';
+  end
+\end{DoxyVerbInclude}
+
+
+Now we exercise the switch statements
+
+
+\begin{DoxyVerbInclude}
+--> switch_test('root beer')
+
+ans = 
+food
+--> switch_test('red')
+
+ans = 
+color
+--> switch_test('carpet')
+
+ans = 
+not sure
+\end{DoxyVerbInclude}
+ \hypertarget{flow_try}{}\section{T\-R\-Y-\/\-C\-A\-T\-C\-H Try and Catch Statement}\label{flow_try}
+Section\-: \hyperlink{sec_flow}{Flow Control} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+The {\ttfamily try} and {\ttfamily catch} statements are used for error handling and control. A concept present in {\ttfamily C++}, the {\ttfamily try} and {\ttfamily catch} statements are used with two statement blocks as follows \begin{DoxyVerb}   try
+     statements_1
+   catch
+     statements_2
+   end
+\end{DoxyVerb}
+ The meaning of this construction is\-: try to execute {\ttfamily statements\-\_\-1}, and if any errors occur during the execution, then execute the code in {\ttfamily statements\-\_\-2}. An error can either be a Free\-Mat generated error (such as a syntax error in the use of a built in function), or an error raised with the {\ttfamily error} command. \hypertarget{variables_matrix_Examples}{}\subsection{Examples}\label{variables_matrix_Examples}
+Here is an example of a function that uses error control via {\ttfamily try} and {\ttfamily catch} to check for failures in {\ttfamily fopen}.
+
+\begin{DoxyVerb}     read_file.m
+\end{DoxyVerb}
+
+
+
+\begin{DoxyVerbInclude}
+function c = read_file(filename)
+try
+   fp = fopen(filename,'r');
+   c = fgetline(fp);
+   fclose(fp);
+catch
+   c = ['could not open file because of error :' lasterr]
+end
+\end{DoxyVerbInclude}
+
+
+Now we try it on an example file -\/ first one that does not exist, and then on one that we create (so that we know it exists).
+
+
+\begin{DoxyVerbInclude}
+--> read_file('this_filename_is_invalid')
+
+c = 
+could not open file because of error :Invalid handle!
+
+ans = 
+could not open file because of error :Invalid handle!
+--> fp = fopen('test_text.txt','w');
+--> fprintf(fp,'a line of text\n');
+--> fclose(fp);
+--> read_file('test_text.txt')
+
+ans = 
+a line of text
+\end{DoxyVerbInclude}
+ \hypertarget{flow_warning}{}\section{W\-A\-R\-N\-I\-N\-G Emits a Warning Message}\label{flow_warning}
+Section\-: \hyperlink{sec_flow}{Flow Control} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+The {\ttfamily warning} function causes a warning message to be sent to the user. The general syntax for its use is \begin{DoxyVerb}   warning(s)
+\end{DoxyVerb}
+ where {\ttfamily s} is the string message containing the warning.
+
+The {\ttfamily warning} function can also be used to turn off warnings, and to retrieve the current state of the warning flag. To turn off warnings use the syntax \begin{DoxyVerb}   warning off
+\end{DoxyVerb}
+ at which point, warnings will not be displayed. To turn on warnings use the syntax \begin{DoxyVerb}   warning on
+\end{DoxyVerb}
+ In both cases, you can also retrieve the current state of the warnings flag \begin{DoxyVerb}   y = warning('on')
+   y = warning('off')
+\end{DoxyVerb}
+ \hypertarget{flow_while}{}\section{W\-H\-I\-L\-E While Loop}\label{flow_while}
+Section\-: \hyperlink{sec_flow}{Flow Control} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+The {\ttfamily while} loop executes a set of statements as long as a the test condition remains {\ttfamily true}. The syntax of a {\ttfamily while} loop is \begin{DoxyVerb}  while test_expression
+     statements
+  end
+\end{DoxyVerb}
+ Note that a conditional expression is considered true if the real part of the result of the expression contains any non-\/zero elements (this strange convention is adopted for compatibility with M\-A\-T\-L\-A\-B). \hypertarget{variables_matrix_Examples}{}\subsection{Examples}\label{variables_matrix_Examples}
+Here is a {\ttfamily while} loop that adds the integers from {\ttfamily 1} to {\ttfamily 100}\-:
+
+
+\begin{DoxyVerbInclude}
+--> accum = 0;
+--> k=1;
+--> while (k<=100), accum = accum + k; k = k + 1; end
+--> accum
+
+ans = 
+ 5050 
+\end{DoxyVerbInclude}
+ 

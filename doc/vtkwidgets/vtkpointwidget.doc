@@ -1,0 +1,166 @@
+/*!
+\page vtkwidgets_vtkpointwidget vtkPointWidget
+
+<p>
+Section: \ref sec_vtkwidgets "Visualization Toolkit Widget Classes"
+\section Usage
+ This 3D widget allows the user to position a point in 3D space using a 3D
+ cursor. The cursor has an outline bounding box, axes-aligned cross-hairs,
+ and axes shadows. (The outline and shadows can be turned off.) Any of
+ these can be turned off. A nice feature of the object is that the
+ vtkPointWidget, like any 3D widget, will work with the current interactor
+ style. That is, if vtkPointWidget does not handle an event, then all other
+ registered observers (including the interactor style) have an opportunity
+ to process the event. Otherwise, the vtkPointWidget will terminate the
+ processing of the event that it handles.
+
+ To use this object, just invoke SetInteractor() with the argument of the
+ method a vtkRenderWindowInteractor.  You may also wish to invoke
+ "PlaceWidget()" to initially position the widget. The interactor will act
+ normally until the "i" key (for "interactor") is pressed, at which point
+ the vtkPointWidget will appear. (See superclass documentation for
+ information about changing this behavior.) To move the point, the user can
+ grab (left mouse) on any widget line and "slide" the point into
+ position. Scaling is achieved by using the right mouse button "up" the
+ render window (makes the widget bigger) or "down" the render window (makes
+ the widget smaller). To translate the widget use the middle mouse button.
+ (Note: all of the translation interactions can be constrained to one of
+ the x-y-z axes by using the "shift" key.) The vtkPointWidget produces as
+ output a polydata with a single point and a vertex cell.
+
+ Some additional features of this class include the ability to control the
+ rendered properties of the widget. You can set the properties of the
+ selected and unselected representations of the parts of the widget. For
+ example, you can set the property of the 3D cursor in its normal and
+ selected states.
+
+To create an instance of class vtkPointWidget, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkPointWidget
+\endverbatim
+\section Methods
+The class vtkPointWidget has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkPointWidget class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkPointWidget = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkPointWidget = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetEnabled (int )</tt> -  Methods that satisfy the superclass' API.
+ </LI>
+<LI>  <tt>obj.PlaceWidget (double bounds[6])</tt> -  Methods that satisfy the superclass' API.
+ </LI>
+<LI>  <tt>obj.PlaceWidget ()</tt> -  Methods that satisfy the superclass' API.
+ </LI>
+<LI>  <tt>obj.PlaceWidget (double xmin, double xmax, double ymin, double ymax, double zmin, double zmax)</tt> -  Grab the polydata (including points) that defines the point. A
+ single point and a vertex compose the vtkPolyData.
+ </LI>
+<LI>  <tt>obj.GetPolyData (vtkPolyData pd)</tt> -  Grab the polydata (including points) that defines the point. A
+ single point and a vertex compose the vtkPolyData.
+ </LI>
+<LI>  <tt>obj.SetPosition (double x, double y, double z)</tt> -  Set/Get the position of the point. Note that if the position is set
+ outside of the bounding box, it will be clamped to the boundary of
+ the bounding box.
+ </LI>
+<LI>  <tt>obj.SetPosition (double x[3])</tt> -  Set/Get the position of the point. Note that if the position is set
+ outside of the bounding box, it will be clamped to the boundary of
+ the bounding box.
+ </LI>
+<LI>  <tt>double = obj.GetPosition ()</tt> -  Set/Get the position of the point. Note that if the position is set
+ outside of the bounding box, it will be clamped to the boundary of
+ the bounding box.
+ </LI>
+<LI>  <tt>obj.GetPosition (double xyz[3])</tt> -  Turn on/off the wireframe bounding box.
+ </LI>
+<LI>  <tt>obj.SetOutline (int o)</tt> -  Turn on/off the wireframe bounding box.
+ </LI>
+<LI>  <tt>int = obj.GetOutline ()</tt> -  Turn on/off the wireframe bounding box.
+ </LI>
+<LI>  <tt>obj.OutlineOn ()</tt> -  Turn on/off the wireframe bounding box.
+ </LI>
+<LI>  <tt>obj.OutlineOff ()</tt> -  Turn on/off the wireframe x-shadows.
+ </LI>
+<LI>  <tt>obj.SetXShadows (int o)</tt> -  Turn on/off the wireframe x-shadows.
+ </LI>
+<LI>  <tt>int = obj.GetXShadows ()</tt> -  Turn on/off the wireframe x-shadows.
+ </LI>
+<LI>  <tt>obj.XShadowsOn ()</tt> -  Turn on/off the wireframe x-shadows.
+ </LI>
+<LI>  <tt>obj.XShadowsOff ()</tt> -  Turn on/off the wireframe y-shadows.
+ </LI>
+<LI>  <tt>obj.SetYShadows (int o)</tt> -  Turn on/off the wireframe y-shadows.
+ </LI>
+<LI>  <tt>int = obj.GetYShadows ()</tt> -  Turn on/off the wireframe y-shadows.
+ </LI>
+<LI>  <tt>obj.YShadowsOn ()</tt> -  Turn on/off the wireframe y-shadows.
+ </LI>
+<LI>  <tt>obj.YShadowsOff ()</tt> -  Turn on/off the wireframe z-shadows.
+ </LI>
+<LI>  <tt>obj.SetZShadows (int o)</tt> -  Turn on/off the wireframe z-shadows.
+ </LI>
+<LI>  <tt>int = obj.GetZShadows ()</tt> -  Turn on/off the wireframe z-shadows.
+ </LI>
+<LI>  <tt>obj.ZShadowsOn ()</tt> -  Turn on/off the wireframe z-shadows.
+ </LI>
+<LI>  <tt>obj.ZShadowsOff ()</tt> -  If translation mode is on, as the widget is moved the bounding box,
+ shadows, and cursor are all translated simultaneously as the point
+ moves.
+ </LI>
+<LI>  <tt>obj.SetTranslationMode (int mode)</tt> -  If translation mode is on, as the widget is moved the bounding box,
+ shadows, and cursor are all translated simultaneously as the point
+ moves.
+ </LI>
+<LI>  <tt>int = obj.GetTranslationMode ()</tt> -  If translation mode is on, as the widget is moved the bounding box,
+ shadows, and cursor are all translated simultaneously as the point
+ moves.
+ </LI>
+<LI>  <tt>obj.TranslationModeOn ()</tt> -  If translation mode is on, as the widget is moved the bounding box,
+ shadows, and cursor are all translated simultaneously as the point
+ moves.
+ </LI>
+<LI>  <tt>obj.TranslationModeOff ()</tt> -  Convenience methods to turn outline and shadows on and off.
+ </LI>
+<LI>  <tt>obj.AllOn ()</tt> -  Convenience methods to turn outline and shadows on and off.
+ </LI>
+<LI>  <tt>obj.AllOff ()</tt> -  Get the handle properties (the little balls are the handles). The 
+ properties of the handles when selected and normal can be 
+ set.
+ </LI>
+<LI>  <tt>vtkProperty = obj.GetProperty ()</tt> -  Get the handle properties (the little balls are the handles). The 
+ properties of the handles when selected and normal can be 
+ set.
+ </LI>
+<LI>  <tt>vtkProperty = obj.GetSelectedProperty ()</tt> -  Get the handle properties (the little balls are the handles). The 
+ properties of the handles when selected and normal can be 
+ set.
+ </LI>
+<LI>  <tt>obj.SetHotSpotSize (double )</tt> -  Set the "hot spot" size; i.e., the region around the focus, in which the
+ motion vector is used to control the constrained sliding action. Note the
+ size is specified as a fraction of the length of the diagonal of the 
+ point widget's bounding box.
+ </LI>
+<LI>  <tt>double = obj.GetHotSpotSizeMinValue ()</tt> -  Set the "hot spot" size; i.e., the region around the focus, in which the
+ motion vector is used to control the constrained sliding action. Note the
+ size is specified as a fraction of the length of the diagonal of the 
+ point widget's bounding box.
+ </LI>
+<LI>  <tt>double = obj.GetHotSpotSizeMaxValue ()</tt> -  Set the "hot spot" size; i.e., the region around the focus, in which the
+ motion vector is used to control the constrained sliding action. Note the
+ size is specified as a fraction of the length of the diagonal of the 
+ point widget's bounding box.
+ </LI>
+<LI>  <tt>double = obj.GetHotSpotSize ()</tt> -  Set the "hot spot" size; i.e., the region around the focus, in which the
+ motion vector is used to control the constrained sliding action. Note the
+ size is specified as a fraction of the length of the diagonal of the 
+ point widget's bounding box.
+ </LI>
+</UL>
+*/

@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkrendering_vtkimageviewer2" kind="page">
+    <compoundname>vtkrendering_vtkimageviewer2</compoundname>
+    <title>vtkImageViewer2</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkrendering_1sec_vtkrendering" kindref="member">Visualization Toolkit Rendering Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>vtkImageViewer2 is a convenience class for displaying a 2D image. It packages up the functionality found in vtkRenderWindow, vtkRenderer, vtkImageActor and vtkImageMapToWindowLevelColors into a single easy to use class. This class also creates an image interactor style (vtkInteractorStyleImage) that allows zooming and panning of images, and supports interactive window/level operations on the image. Note that vtkImageViewer2 is simply a wrapper around these classes.</para><para>vtkImageViewer2 uses the 3D rendering and texture mapping engine to draw an image on a plane. This allows for rapid rendering, zooming, and panning. The image is placed in the 3D scene at a depth based on the z-coordinate of the particular image slice. Each call to SetSlice() changes the image data (slice) displayed AND changes the depth of the displayed slice in the 3D scene. This can be controlled by the AutoAdjustCameraClippingRange ivar of the InteractorStyle member.</para><para>It is possible to mix images and geometry, using the methods:</para><para>viewer-&gt;SetInput( myImage ); viewer-&gt;GetRenderer()-&gt;AddActor( myActor );</para><para>This can be used to annotate an image with a PolyData of &quot;edges&quot; or or highlight sections of an image or display a 3D isosurface with a slice from the volume, etc. Any portions of your geometry that are in front of the displayed slice will be visible; any portions of your geometry that are behind the displayed slice will be obscured. A more general framework (with respect to viewing direction) for achieving this effect is provided by the vtkImagePlaneWidget .</para><para>Note that pressing &apos;r&apos; will reset the window/level and pressing shift+&apos;r&apos; or control+&apos;r&apos; will reset the camera.</para><para>To create an instance of class vtkImageViewer2, simply invoke its constructor as follows <verbatim>  obj = vtkImageViewer2
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkImageViewer2 has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkImageViewer2 class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkImageViewer2 = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkImageViewer2 = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>string = obj.GetWindowName ()</computeroutput> - Get the name of rendering window.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.Render (void )</computeroutput> - Render the resulting image.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetInput (vtkImageData in)</computeroutput> - Set/Get the input image to the viewer.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkImageData = obj.GetInput ()</computeroutput> - Set/Get the input image to the viewer.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetInputConnection (vtkAlgorithmOutput input)</computeroutput> - Set/Get the input image to the viewer.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetSliceOrientation ()</computeroutput> - Set/get the slice orientation  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetSliceOrientation (int orientation)</computeroutput> - Set/get the slice orientation  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetSliceOrientationToXY ()</computeroutput> - Set/get the slice orientation  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetSliceOrientationToYZ ()</computeroutput> - Set/get the slice orientation  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetSliceOrientationToXZ ()</computeroutput> - Set/get the slice orientation  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetSlice ()</computeroutput> - Set/Get the current slice to display (depending on the orientation this can be in X, Y or Z).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetSlice (int s)</computeroutput> - Set/Get the current slice to display (depending on the orientation this can be in X, Y or Z).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.UpdateDisplayExtent ()</computeroutput> - Update the display extent manually so that the proper slice for the given orientation is displayed. It will also try to set a reasonable camera clipping range. This method is called automatically when the Input is changed, but most of the time the input of this class is likely to remain the same, i.e. connected to the output of a filter, or an image reader. When the input of this filter or reader itself is changed, an error message might be displayed since the current display extent is probably outside the new whole extent. Calling this method will ensure that the display extent is reset properly.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetSliceMin ()</computeroutput> - Return the minimum and maximum slice values (depending on the orientation this can be in X, Y or Z).  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetSliceMax ()</computeroutput> - Return the minimum and maximum slice values (depending on the orientation this can be in X, Y or Z).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GetSliceRange (int range[2])</computeroutput> - Return the minimum and maximum slice values (depending on the orientation this can be in X, Y or Z).  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetColorWindow ()</computeroutput> - Set window and level for mapping pixels to colors.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetColorLevel ()</computeroutput> - Set window and level for mapping pixels to colors.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetColorWindow (double s)</computeroutput> - Set window and level for mapping pixels to colors.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetColorLevel (double s)</computeroutput> - Set window and level for mapping pixels to colors.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetPosition (int a, int b)</computeroutput> - Set/Get the position in screen coordinates of the rendering window.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetPosition (int a[2])</computeroutput> - Set/Get the size of the window in screen coordinates in pixels.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetSize (int a, int b)</computeroutput> - Set/Get the size of the window in screen coordinates in pixels.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetSize (int a[2])</computeroutput> - Get the internal render window, renderer, image actor, and image map instances.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkRenderWindow = obj.GetRenderWindow ()</computeroutput> - Get the internal render window, renderer, image actor, and image map instances.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkRenderer = obj.GetRenderer ()</computeroutput> - Get the internal render window, renderer, image actor, and image map instances.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkImageActor = obj.GetImageActor ()</computeroutput> - Get the internal render window, renderer, image actor, and image map instances.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkImageMapToWindowLevelColors = obj.GetWindowLevel ()</computeroutput> - Get the internal render window, renderer, image actor, and image map instances.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkInteractorStyleImage = obj.GetInteractorStyle ()</computeroutput> - Get the internal render window, renderer, image actor, and image map instances.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetRenderWindow (vtkRenderWindow arg)</computeroutput> - Set your own renderwindow and renderer  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetRenderer (vtkRenderer arg)</computeroutput> - Set your own renderwindow and renderer  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetupInteractor (vtkRenderWindowInteractor )</computeroutput> - Attach an interactor for the internal render window.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetOffScreenRendering (int )</computeroutput> - Create a window in memory instead of on the screen. This may not be supported for every type of window and on some windows you may need to invoke this prior to the first render.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetOffScreenRendering ()</computeroutput> - Create a window in memory instead of on the screen. This may not be supported for every type of window and on some windows you may need to invoke this prior to the first render.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.OffScreenRenderingOn ()</computeroutput> - Create a window in memory instead of on the screen. This may not be supported for every type of window and on some windows you may need to invoke this prior to the first render.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.OffScreenRenderingOff ()</computeroutput> - Create a window in memory instead of on the screen. This may not be supported for every type of window and on some windows you may need to invoke this prior to the first render.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetWholeZMin ()</computeroutput> -  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

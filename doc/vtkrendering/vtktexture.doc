@@ -1,0 +1,191 @@
+/*!
+\page vtkrendering_vtktexture vtkTexture
+
+<p>
+Section: \ref sec_vtkrendering "Visualization Toolkit Rendering Classes"
+\section Usage
+ vtkTexture is an object that handles loading and binding of texture
+ maps. It obtains its data from an input image data dataset type.
+ Thus you can create visualization pipelines to read, process, and 
+ construct textures. Note that textures will only work if texture
+ coordinates are also defined, and if the rendering system supports 
+ texture.
+
+ Instances of vtkTexture are associated with actors via the actor's
+ SetTexture() method. Actors can share texture maps (this is encouraged
+ to save memory resources.) 
+
+To create an instance of class vtkTexture, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkTexture
+\endverbatim
+\section Methods
+The class vtkTexture has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkTexture class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkTexture = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkTexture = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.Render (vtkRenderer ren)</tt> -  Renders a texture map. It first checks the object's modified time
+ to make sure the texture maps Input is valid, then it invokes the 
+ Load() method.
+ </LI>
+<LI>  <tt>obj.PostRender (vtkRenderer )</tt> -  Cleans up after the texture rendering to restore the state of the
+ graphics context.
+ </LI>
+<LI>  <tt>obj.ReleaseGraphicsResources (vtkWindow )</tt> -  Release any graphics resources that are being consumed by this texture.
+ The parameter window could be used to determine which graphic
+ resources to release.
+ </LI>
+<LI>  <tt>obj.Load (vtkRenderer )</tt> -  Abstract interface to renderer. Each concrete subclass of 
+ vtkTexture will load its data into graphics system in response 
+ to this method invocation.
+ </LI>
+<LI>  <tt>int = obj.GetRepeat ()</tt> -  Turn on/off the repetition of the texture map when the texture
+ coords extend beyond the [0,1] range.
+ </LI>
+<LI>  <tt>obj.SetRepeat (int )</tt> -  Turn on/off the repetition of the texture map when the texture
+ coords extend beyond the [0,1] range.
+ </LI>
+<LI>  <tt>obj.RepeatOn ()</tt> -  Turn on/off the repetition of the texture map when the texture
+ coords extend beyond the [0,1] range.
+ </LI>
+<LI>  <tt>obj.RepeatOff ()</tt> -  Turn on/off the repetition of the texture map when the texture
+ coords extend beyond the [0,1] range.
+ </LI>
+<LI>  <tt>int = obj.GetEdgeClamp ()</tt> -  Turn on/off the clamping of the texture map when the texture
+ coords extend beyond the [0,1] range.
+ Only used when Repeat is off, and edge clamping is supported by
+ the graphics card.
+ </LI>
+<LI>  <tt>obj.SetEdgeClamp (int )</tt> -  Turn on/off the clamping of the texture map when the texture
+ coords extend beyond the [0,1] range.
+ Only used when Repeat is off, and edge clamping is supported by
+ the graphics card.
+ </LI>
+<LI>  <tt>obj.EdgeClampOn ()</tt> -  Turn on/off the clamping of the texture map when the texture
+ coords extend beyond the [0,1] range.
+ Only used when Repeat is off, and edge clamping is supported by
+ the graphics card.
+ </LI>
+<LI>  <tt>obj.EdgeClampOff ()</tt> -  Turn on/off the clamping of the texture map when the texture
+ coords extend beyond the [0,1] range.
+ Only used when Repeat is off, and edge clamping is supported by
+ the graphics card.
+ </LI>
+<LI>  <tt>int = obj.GetInterpolate ()</tt> -  Turn on/off linear interpolation of the texture map when rendering.
+ </LI>
+<LI>  <tt>obj.SetInterpolate (int )</tt> -  Turn on/off linear interpolation of the texture map when rendering.
+ </LI>
+<LI>  <tt>obj.InterpolateOn ()</tt> -  Turn on/off linear interpolation of the texture map when rendering.
+ </LI>
+<LI>  <tt>obj.InterpolateOff ()</tt> -  Turn on/off linear interpolation of the texture map when rendering.
+ </LI>
+<LI>  <tt>obj.SetQuality (int )</tt> -  Force texture quality to 16-bit or 32-bit.
+ This might not be supported on all machines.
+ </LI>
+<LI>  <tt>int = obj.GetQuality ()</tt> -  Force texture quality to 16-bit or 32-bit.
+ This might not be supported on all machines.
+ </LI>
+<LI>  <tt>obj.SetQualityToDefault ()</tt> -  Force texture quality to 16-bit or 32-bit.
+ This might not be supported on all machines.
+ </LI>
+<LI>  <tt>obj.SetQualityTo16Bit ()</tt> -  Force texture quality to 16-bit or 32-bit.
+ This might not be supported on all machines.
+ </LI>
+<LI>  <tt>obj.SetQualityTo32Bit ()</tt> -  Force texture quality to 16-bit or 32-bit.
+ This might not be supported on all machines.
+ </LI>
+<LI>  <tt>int = obj.GetMapColorScalarsThroughLookupTable ()</tt> -  Turn on/off the mapping of color scalars through the lookup table.
+ The default is Off. If Off, unsigned char scalars will be used
+ directly as texture. If On, scalars will be mapped through the
+ lookup table to generate 4-component unsigned char scalars.
+ This ivar does not affect other scalars like unsigned short, float,
+ etc. These scalars are always mapped through lookup tables.
+ </LI>
+<LI>  <tt>obj.SetMapColorScalarsThroughLookupTable (int )</tt> -  Turn on/off the mapping of color scalars through the lookup table.
+ The default is Off. If Off, unsigned char scalars will be used
+ directly as texture. If On, scalars will be mapped through the
+ lookup table to generate 4-component unsigned char scalars.
+ This ivar does not affect other scalars like unsigned short, float,
+ etc. These scalars are always mapped through lookup tables.
+ </LI>
+<LI>  <tt>obj.MapColorScalarsThroughLookupTableOn ()</tt> -  Turn on/off the mapping of color scalars through the lookup table.
+ The default is Off. If Off, unsigned char scalars will be used
+ directly as texture. If On, scalars will be mapped through the
+ lookup table to generate 4-component unsigned char scalars.
+ This ivar does not affect other scalars like unsigned short, float,
+ etc. These scalars are always mapped through lookup tables.
+ </LI>
+<LI>  <tt>obj.MapColorScalarsThroughLookupTableOff ()</tt> -  Turn on/off the mapping of color scalars through the lookup table.
+ The default is Off. If Off, unsigned char scalars will be used
+ directly as texture. If On, scalars will be mapped through the
+ lookup table to generate 4-component unsigned char scalars.
+ This ivar does not affect other scalars like unsigned short, float,
+ etc. These scalars are always mapped through lookup tables.
+ </LI>
+<LI>  <tt>obj.SetLookupTable (vtkScalarsToColors )</tt> -  Specify the lookup table to convert scalars if necessary
+ </LI>
+<LI>  <tt>vtkScalarsToColors = obj.GetLookupTable ()</tt> -  Specify the lookup table to convert scalars if necessary
+ </LI>
+<LI>  <tt>vtkUnsignedCharArray = obj.GetMappedScalars ()</tt> -  Get Mapped Scalars
+ </LI>
+<LI>  <tt>obj.SetTransform (vtkTransform transform)</tt> -  Set a transform on the texture which allows one to scale,
+ rotate and translate the texture.
+ </LI>
+<LI>  <tt>vtkTransform = obj.GetTransform ()</tt> -  Set a transform on the texture which allows one to scale,
+ rotate and translate the texture.
+ </LI>
+<LI>  <tt>int = obj.GetBlendingMode ()</tt> -  Used to specify how the texture will blend its RGB and Alpha values
+ with other textures and the fragment the texture is rendered upon.
+ </LI>
+<LI>  <tt>obj.SetBlendingMode (int )</tt> -  Used to specify how the texture will blend its RGB and Alpha values
+ with other textures and the fragment the texture is rendered upon.
+ </LI>
+<LI>  <tt>bool = obj.GetPremultipliedAlpha ()</tt> -  Whether the texture colors are premultiplied by alpha.
+ Initial value is false.
+ </LI>
+<LI>  <tt>obj.SetPremultipliedAlpha (bool )</tt> -  Whether the texture colors are premultiplied by alpha.
+ Initial value is false.
+ </LI>
+<LI>  <tt>obj.PremultipliedAlphaOn ()</tt> -  Whether the texture colors are premultiplied by alpha.
+ Initial value is false.
+ </LI>
+<LI>  <tt>obj.PremultipliedAlphaOff ()</tt> -  Whether the texture colors are premultiplied by alpha.
+ Initial value is false.
+ </LI>
+<LI>  <tt>int = obj.GetRestrictPowerOf2ImageSmaller ()</tt> -  When the texture is forced to be a power of 2, the default behavior is
+ for the "new" image's dimensions  to be greater than or equal to with 
+ respects to the original.  Setting RestrictPowerOf2ImageSmaller to be
+ 1 (or ON) with force the new image's dimensions to be less than or equal 
+ to with respects to the original.
+ </LI>
+<LI>  <tt>obj.SetRestrictPowerOf2ImageSmaller (int )</tt> -  When the texture is forced to be a power of 2, the default behavior is
+ for the "new" image's dimensions  to be greater than or equal to with 
+ respects to the original.  Setting RestrictPowerOf2ImageSmaller to be
+ 1 (or ON) with force the new image's dimensions to be less than or equal 
+ to with respects to the original.
+ </LI>
+<LI>  <tt>obj.RestrictPowerOf2ImageSmallerOn ()</tt> -  When the texture is forced to be a power of 2, the default behavior is
+ for the "new" image's dimensions  to be greater than or equal to with 
+ respects to the original.  Setting RestrictPowerOf2ImageSmaller to be
+ 1 (or ON) with force the new image's dimensions to be less than or equal 
+ to with respects to the original.
+ </LI>
+<LI>  <tt>obj.RestrictPowerOf2ImageSmallerOff ()</tt> -  When the texture is forced to be a power of 2, the default behavior is
+ for the "new" image's dimensions  to be greater than or equal to with 
+ respects to the original.  Setting RestrictPowerOf2ImageSmaller to be
+ 1 (or ON) with force the new image's dimensions to be less than or equal 
+ to with respects to the original.
+ </LI>
+</UL>
+*/

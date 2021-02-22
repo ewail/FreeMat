@@ -1,0 +1,75 @@
+/*!
+\page elementary_all ALL All True Function
+
+<p>
+Section: \ref sec_elementary "Elementary Functions"
+\section Usage
+Reduces a logical array along a given dimension by testing for all
+logical 1s.  The general 
+syntax for its use is
+\verbatim
+  y = all(x,d)
+\endverbatim
+where <tt>x</tt> is an <tt>n</tt>-dimensions array of <tt>logical</tt> type.
+The output is of <tt>logical</tt> type.  The argument <tt>d</tt> is 
+optional, and denotes the dimension along which to operate.
+The output <tt>y</tt> is the same size as <tt>x</tt>, except that it is 
+singular along the operated direction.  So, for example,
+if <tt>x</tt> is a <tt>3 x 3 x 4</tt> array, and we <tt>all</tt> operation along
+dimension <tt>d=2</tt>, then the output is of size <tt>3 x 1 x 4</tt>.
+\section Function Internals
+The output is computed via
+\f[
+y(m_1,\ldots,m_{d-1},1,m_{d+1},\ldots,m_{p}) = 
+\min_{k} x(m_1,\ldots,m_{d-1},k,m_{d+1},\ldots,m_{p})
+\f]
+If <tt>d</tt> is omitted, then the minimum is taken over all elements of
+<tt>x</tt>.
+\section Example
+The following piece of code demonstrates various uses of the <tt>all</tt>
+function
+
+\if FRAGMENT
+frag_elementary_all_000.m
+0
+A = [1,0,0;1,0,0;0,0,1]
+\endif
+
+
+\verbinclude frag_elementary_all_000.m.out 
+
+We start by calling <tt>all</tt> without a dimension argument, in which 
+case it defaults to testing all values of <tt>A</tt>
+
+\if FRAGMENT
+frag_elementary_all_001.m
+0
+all(A)
+\endif
+
+
+\verbinclude frag_elementary_all_001.m.out 
+
+The <tt>all</tt> function is useful in expressions also.
+
+\if FRAGMENT
+frag_elementary_all_002.m
+0
+all(A>=0)
+\endif
+
+
+\verbinclude frag_elementary_all_002.m.out 
+
+Next, we apply the <tt>all</tt> operation along the rows.
+
+\if FRAGMENT
+frag_elementary_all_003.m
+0
+all(A,2)
+\endif
+
+
+\verbinclude frag_elementary_all_003.m.out 
+
+*/

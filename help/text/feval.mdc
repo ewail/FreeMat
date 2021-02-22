@@ -1,0 +1,65 @@
+
+ Usage
+
+The feval function executes a function using its name. The
+syntax of feval is
+
+    [y1,y2,...,yn] = feval(f,x1,x2,...,xm)
+
+where f is the name of the function to evaluate, and xi are
+the arguments to the function, and yi are the return values.
+Alternately, f can be a function handle to a function (see
+the section on function handles for more information).
+Finally, FreeMat also supports f being a user defined class
+in which case it will atttempt to invoke the subsref method
+of the class.
+
+
+ Example
+
+Here is an example of using feval to call the cos function
+indirectly.
+
+  --> feval('cos',pi/4)
+
+  ans =
+      0.7071
+
+Now, we call it through a function handle
+
+  --> c = @cos
+
+  c =
+   @cos
+  --> feval(c,pi/4)
+
+  ans =
+      0.7071
+
+Here we construct an inline object (which is a user-defined
+class) and use feval to call it
+
+  --> afunc = inline('cos(t)+sin(t)','t')
+
+  afunc =
+    inline function object
+    f(t) = cos(t)+sin(t)
+  --> feval(afunc,pi)
+
+  ans =
+     -1.0000
+
+  --> afunc(pi)
+
+  ans =
+     -1.0000
+
+In both cases, (the feval call and the direct invokation),
+FreeMat calls the subsref method of the class, which
+computes the requested function.
+
+* FreeMat_Documentation
+* FreeMat_Functions
+* Generated on Thu Jul 25 2013 17:17:14 for FreeMat by
+  doxygen_ 1.8.1.1
+

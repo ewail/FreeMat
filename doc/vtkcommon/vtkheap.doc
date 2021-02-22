@@ -1,0 +1,54 @@
+/*!
+\page vtkcommon_vtkheap vtkHeap
+
+<p>
+Section: \ref sec_vtkcommon "Visualization Toolkit Common Classes"
+\section Usage
+ This class is a replacement for malloc/free and new/delete for software
+ that has inherent memory leak or performance problems. For example,
+ external software such as the PLY library (vtkPLY) and VRML importer
+ (vtkVRMLImporter) are often written with lots of malloc() calls but
+ without the corresponding free() invocations. The class
+ vtkOrderedTriangulator may create and delete millions of new/delete calls.
+ This class allows the overloading of the C++ new operator (or other memory
+ allocation requests) by using the method AllocateMemory(). Memory is
+ deleted with an invocation of CleanAll() (which deletes ALL memory; any
+ given memory allocation cannot be deleted). Note: a block size can be used
+ to control the size of each memory allocation. Requests for memory are
+ fulfilled from the block until the block runs out, then a new block is
+ created.
+
+
+To create an instance of class vtkHeap, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkHeap
+\endverbatim
+\section Methods
+The class vtkHeap has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkHeap class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkHeap = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkHeap = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfBlocks ()</tt> -  Get the number of allocations thus far.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfAllocations ()</tt> -  Get the number of allocations thus far.
+ </LI>
+<LI>  <tt>obj.Reset ()</tt> -  This methods resets the current allocation location
+ back to the beginning of the heap. This allows
+ reuse of previously allocated memory which may be
+ beneficial to performance in many cases.
+ </LI>
+<LI>  <tt>string = obj.StringDup (string str)</tt> -  Convenience method performs string duplication.
+ </LI>
+</UL>
+*/

@@ -1,0 +1,165 @@
+/*!
+\page handle_colormap COLORMAP Image Colormap Function
+
+<p>
+Section: \ref sec_handle "Handle-Based Graphics"
+\section Usage
+Changes the colormap for the current figure.  The generic syntax 
+for its use is
+\verbatim
+  colormap(map)
+\endverbatim
+where <tt>map</tt> is a an array organized as \f$3 \times N\f$),
+which defines the RGB (Red Green Blue) coordinates for each color in the
+colormap.  You can also use the function with no arguments to recover
+the current colormap
+\verbatim
+  map = colormap
+\endverbatim
+\section Function Internals
+Assuming that the contents of the colormap function argument <tt>c</tt> are 
+labeled as:
+\f[
+  c = \begin{bmatrix}
+    r_1 & g_1 & b_1 \\
+    r_1 & g_2 & b_2 \\
+    r_1 & g_3 & b_3 \\
+    \vdots & \vdots & \vdots 
+      \end{bmatrix} 
+\f]
+then these columns for the RGB coordinates of pixel in the mapped image.
+Assume that the image occupies the range $[a,b]$.  Then the RGB color 
+of each pixel depends on the value $x$ via the following integer
+\f[
+  k = 1 + \lfloor 256 \frac{x-a}{b-a} \rfloor,
+\f]
+so that a pixel corresponding to image value $x$ will receive RGB color 
+$[r_k,g_k,b_k]$.
+Colormaps are generally used to pseudo color images to enhance 
+visibility of features, etc.
+\section Examples
+We start by creating a smoothly varying image of a 2D Gaussian pulse.
+
+\if FRAGMENT
+frag_handle_colormap_000.m
+0
+x = linspace(-1,1,512)'*ones(1,512);
+y = x';
+Z = exp(-(x.^2+y.^2)/0.3);
+image(Z);
+mprint('colormap1');
+\endif
+
+
+\verbinclude frag_handle_colormap_000.m.out 
+
+which we display with the default (grayscale) colormap here.
+\image html colormap1.png
+\image latex colormap1.eps "colormap1" width=12cm
+
+Next we switch to the <tt>copper</tt> colormap, and redisplay the image.
+
+\if FRAGMENT
+frag_handle_colormap_001.m
+0
+colormap(copper);
+image(Z);
+mprint('colormap2');
+\endif
+
+
+\verbinclude frag_handle_colormap_001.m.out 
+
+which results in the following image.
+\image html colormap2.png
+\image latex colormap2.eps "colormap2" width=12cm
+
+If we capture the output of the <tt>copper</tt> command and plot it, we obtain
+the following result:
+
+\if FRAGMENT
+frag_handle_colormap_002.m
+0
+a = copper;
+plot(a);
+mprint('colormap3');
+\endif
+
+
+\verbinclude frag_handle_colormap_002.m.out 
+
+\image html colormap3.png
+\image latex colormap3.eps "colormap3" width=12cm
+
+Note that in the output that each of the color components are linear functions
+of the index, with the ratio between the red, blue and green components remaining
+constant as a function of index.  The result is an intensity map with a copper
+tint.  We can similarly construct a colormap of our own by defining the 
+three components seperately.  For example, suppose we take three gaussian
+curves, one for each color, centered on different parts of the index space:
+
+\if FRAGMENT
+frag_handle_colormap_003.m
+0
+t = linspace(0,1,256);
+A = [exp(-(t-1.0).^2/0.1);exp(-(t-0.5).^2/0.1);exp(-t.^2/0.1)]';
+plot(A);
+mprint('colormap4');
+\endif
+
+
+\verbinclude frag_handle_colormap_003.m.out 
+
+\image html colormap4.png
+\image latex colormap4.eps "colormap4" width=12cm
+
+The resulting image has dark bands in it near the color transitions.
+
+\if FRAGMENT
+frag_handle_colormap_004.m
+0
+image(Z);
+colormap(A);
+mprint('colormap5');
+\endif
+
+
+\verbinclude frag_handle_colormap_004.m.out 
+
+\image html colormap5.png
+\image latex colormap5.eps "colormap5" width=12cm
+
+These dark bands are a result of the nonuniform color intensity, which 
+we can correct for by renormalizing each color to have the same norm.
+
+\if FRAGMENT
+frag_handle_colormap_005.m
+0
+w = sqrt(sum(A'.^2));
+sA = diag(1./w)*A;
+plot(A);
+mprint('colormap6');
+\endif
+
+
+\verbinclude frag_handle_colormap_005.m.out 
+
+\image html colormap6.png
+\image latex colormap6.eps "colormap6" width=12cm
+
+The resulting image has no more dark bands.
+
+\if FRAGMENT
+frag_handle_colormap_006.m
+0
+image(Z);
+colormap(A);
+mprint('colormap7');
+\endif
+
+
+\verbinclude frag_handle_colormap_006.m.out 
+
+\image html colormap7.png
+\image latex colormap7.eps "colormap7" width=12cm
+*/

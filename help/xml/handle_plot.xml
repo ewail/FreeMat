@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="handle_plot" kind="page">
+    <compoundname>handle_plot</compoundname>
+    <title>PLOT Plot Function</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_handle_1sec_handle" kindref="member">Handle-Based Graphics</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>This is the basic plot command for FreeMat. The general syntax for its use is <verbatim>  plot(\&lt;data 1\&gt;,{linespec 1},\&lt;data 2\&gt;,{linespec 2}...,properties...)
+</verbatim> where the <computeroutput>&lt;data&gt;</computeroutput> arguments can have various forms, and the <computeroutput>linespec</computeroutput> arguments are optional. We start with the <computeroutput>&lt;data&gt;</computeroutput> term, which can take on one of multiple forms: <itemizedlist>
+<listitem>
+<para>Vector Matrix Case <ndash/> In this case the argument data is a pair of variables. A set of <computeroutput>x</computeroutput> coordinates in a numeric vector, and a set of <computeroutput>y</computeroutput> coordinates in the columns of the second, numeric matrix. <computeroutput>x</computeroutput> must have as many elements as <computeroutput>y</computeroutput> has columns (unless <computeroutput>y</computeroutput> is a vector, in which case only the number of elements must match). Each column of <computeroutput>y</computeroutput> is plotted sequentially against the common vector <computeroutput>x</computeroutput>.  </para></listitem>
+<listitem>
+<para>Unpaired Matrix Case <ndash/> In this case the argument data is a single numeric matrix <computeroutput>y</computeroutput> that constitutes the <computeroutput>y</computeroutput>-values of the plot. An <computeroutput>x</computeroutput> vector is synthesized as <computeroutput>x = 1:length(y)</computeroutput>, and each column of <computeroutput>y</computeroutput> is plotted sequentially against this common <computeroutput>x</computeroutput> axis.  </para></listitem>
+<listitem>
+<para>Complex Matrix Case <ndash/> Here the argument data is a complex matrix, in which case, the real part of each column is plotted against the imaginary part of each column. All columns receive the same line styles.  </para></listitem>
+</itemizedlist>
+Multiple data arguments in a single plot command are treated as a <bold>sequence</bold>, meaning that all of the plots are overlapped on the same set of axes. The <computeroutput>linespec</computeroutput> is a string used to change the characteristics of the line. In general, the <computeroutput>linespec</computeroutput> is composed of three optional parts, the <computeroutput>colorspec</computeroutput>, the <computeroutput>symbolspec</computeroutput> and the <computeroutput>linestylespec</computeroutput> in any order. Each of these specifications is a single character that determines the corresponding characteristic. First, the <computeroutput>colorspec</computeroutput>: <itemizedlist>
+<listitem>
+<para><computeroutput>&apos;b&apos;</computeroutput> - Color Blue  </para></listitem>
+<listitem>
+<para><computeroutput>&apos;g&apos;</computeroutput> - Color Green  </para></listitem>
+<listitem>
+<para><computeroutput>&apos;r&apos;</computeroutput> - Color Red  </para></listitem>
+<listitem>
+<para><computeroutput>&apos;c&apos;</computeroutput> - Color Cyan  </para></listitem>
+<listitem>
+<para><computeroutput>&apos;m&apos;</computeroutput> - Color Magenta  </para></listitem>
+<listitem>
+<para><computeroutput>&apos;y&apos;</computeroutput> - Color Yellow  </para></listitem>
+<listitem>
+<para><computeroutput>&apos;k&apos;</computeroutput> - Color Black  </para></listitem>
+</itemizedlist>
+The <computeroutput>symbolspec</computeroutput> specifies the (optional) symbol to be drawn at each data point: <itemizedlist>
+<listitem>
+<para><computeroutput>&apos;.&apos;</computeroutput> - Dot symbol  </para></listitem>
+<listitem>
+<para><computeroutput>&apos;o&apos;</computeroutput> - Circle symbol  </para></listitem>
+<listitem>
+<para><computeroutput>&apos;x&apos;</computeroutput> - Times symbol  </para></listitem>
+<listitem>
+<para><computeroutput>&apos;+&apos;</computeroutput> - Plus symbol  </para></listitem>
+<listitem>
+<para><computeroutput>&apos;*&apos;</computeroutput> - Asterisk symbol  </para></listitem>
+<listitem>
+<para><computeroutput>&apos;s&apos;</computeroutput> - Square symbol  </para></listitem>
+<listitem>
+<para><computeroutput>&apos;d&apos;</computeroutput> - Diamond symbol  </para></listitem>
+<listitem>
+<para><computeroutput>&apos;v&apos;</computeroutput> - Downward-pointing triangle symbol  </para></listitem>
+<listitem>
+<para><computeroutput>&apos;^&apos;</computeroutput> - Upward-pointing triangle symbol  </para></listitem>
+<listitem>
+<para><computeroutput>&apos;&lt;&apos;</computeroutput> - Left-pointing triangle symbol  </para></listitem>
+<listitem>
+<para><computeroutput>&apos;&gt;&apos;</computeroutput> - Right-pointing triangle symbol  </para></listitem>
+</itemizedlist>
+The <computeroutput>linestylespec</computeroutput> specifies the (optional) line style to use for each data series: <itemizedlist>
+<listitem>
+<para><computeroutput>&apos;-&apos;</computeroutput> - Solid line style  </para></listitem>
+<listitem>
+<para><computeroutput>&apos;:&apos;</computeroutput> - Dotted line style  </para></listitem>
+<listitem>
+<para><computeroutput>&apos;-.&apos;</computeroutput> - Dot-Dash-Dot-Dash line style  </para></listitem>
+<listitem>
+<para><computeroutput>&apos;<ndash/>&apos;</computeroutput> - Dashed line style  </para></listitem>
+</itemizedlist>
+For sequences of plots, the <computeroutput>linespec</computeroutput> is recycled with color order determined by the properties of the current axes. You can also use the <computeroutput>properties</computeroutput> argument to specify handle properties that will be inherited by all of the plots generated during this event. Finally, you can also specify the handle for the axes that are the target of the <computeroutput>plot</computeroutput> operation. <verbatim>  handle = plot(handle,...)
+</verbatim> </para></sect1>
+<sect1 id="variables_struct_1Example">
+<title>Example</title>
+<para>The most common use of the <computeroutput>plot</computeroutput> command probably involves the vector-matrix paired case. Here, we generate a simple cosine, and plot it using a red line, with no symbols (i.e., a <computeroutput>linespec</computeroutput> of <computeroutput>&apos;r-&apos;</computeroutput>).</para><para><verbatim>--&gt; x = linspace(-pi,pi);
+--&gt; y = cos(x);
+--&gt; plot(x,y,&apos;r-&apos;);
+</verbatim></para><para>which results in the following plot. <image type="html" name="plot1.png"></image>
+ <image type="latex" name="plot1" width="12cm">plot1</image>
+</para><para>Next, we plot multiple sinusoids (at different frequencies). First, we construct a matrix, in which each column corresponds to a different sinusoid, and then plot them all at once.</para><para><verbatim>--&gt; x = linspace(-pi,pi);
+--&gt; y = [cos(x(:)),cos(3*x(:)),cos(5*x(:))];
+--&gt; plot(x,y);
+</verbatim></para><para>In this case, we do not specify a <computeroutput>linespec</computeroutput>, so that we cycle through the colors automatically (in the order listed in the previous section). <image type="html" name="plot2.png"></image>
+ <image type="latex" name="plot2" width="12cm">plot2</image>
+</para><para>This time, we produce the same plot, but as we want to assign individual <computeroutput>linespec</computeroutput>s to each line, we use a sequence of arguments in a single plot command, which has the effect of plotting all of the data sets on a common axis, but which allows us to control the <computeroutput>linespec</computeroutput> of each plot. In the following example, the first line (harmonic) has red, solid lines with times symbols marking the data points, the second line (third harmonic) has blue, solid lines with right-pointing triangle symbols, and the third line (fifth harmonic) has green, dotted lines with asterisk symbols.</para><para><verbatim>--&gt; plot(x,y(:,1),&apos;rx-&apos;,x,y(:,2),&apos;b&gt;-&apos;,x,y(:,3),&apos;g*:&apos;);
+</verbatim></para><para><image type="html" name="plot3.png"></image>
+ <image type="latex" name="plot3" width="12cm">plot3</image>
+</para><para>The second most frequently used case is the unpaired matrix case. Here, we need to provide only one data component, which will be automatically plotted against a vector of natural number of the appropriate length. Here, we use a plot sequence to change the style of each line to be dotted, dot-dashed, and dashed.</para><para><verbatim>--&gt; plot(y(:,1),&apos;r:&apos;,y(:,2),&apos;b;&apos;,y(:,3),&apos;g|&apos;);
+</verbatim></para><para>Note in the resulting plot that the <computeroutput>x</computeroutput>-axis no longer runs from <computeroutput>[-pi,pi]</computeroutput>, but instead runs from <computeroutput>[1,100]</computeroutput>. <image type="html" name="plot4.png"></image>
+ <image type="latex" name="plot4" width="12cm">plot4</image>
+</para><para>The final case is for complex matrices. For complex arguments, the real part is plotted against the imaginary part. Hence, we can generate a 2-dimensional plot from a vector as follows.</para><para><verbatim>--&gt; y = cos(2*x) + i * cos(3*x);
+--&gt; plot(y);
+</verbatim></para><para><image type="html" name="plot5.png"></image>
+ <image type="latex" name="plot5" width="12cm">plot5</image>
+</para><para>Here is an example of using the handle properties to influence the behavior of the generated lines.</para><para><verbatim>--&gt; t = linspace(-3,3);
+--&gt; plot(cos(5*t).*exp(-t),&apos;r-&apos;,&apos;linewidth&apos;,3);
+</verbatim></para><para><image type="html" name="plot6.png"></image>
+ <image type="latex" name="plot6" width="12cm">plot6</image>
+ </para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

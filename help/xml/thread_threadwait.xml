@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="thread_threadwait" kind="page">
+    <compoundname>thread_threadwait</compoundname>
+    <title>THREADWAIT Wait on a thread to complete execution</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_thread_1sec_thread" kindref="member">FreeMat Threads</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>The <computeroutput>threadwait</computeroutput> function waits for the given thread to complete execution, and stops execution of the current thread (the one calling <computeroutput>threadwait</computeroutput>) until the given thread completes. The syntax for its use is <verbatim>   success = threadwait(handle)
+</verbatim> where <computeroutput>handle</computeroutput> is the value returned by <computeroutput>threadnew</computeroutput> and <computeroutput>success</computeroutput> is a <computeroutput>logical</computeroutput> vaariable that will be <computeroutput>1</computeroutput> if the wait was successful or <computeroutput>0</computeroutput> if the wait times out. By default, the wait is indefinite. It is better to use the following form of the function <verbatim>   success = threadwait(handle,timeout)
+</verbatim> where <computeroutput>timeout</computeroutput> is the amount of time (in milliseconds) for the <computeroutput>threadwait</computeroutput> function to wait before a timeout occurs. If the <computeroutput>threadwait</computeroutput> function succeeds, then the return value is a logical <computeroutput>1</computeroutput>, and if it fails, the return value is a logical <computeroutput>0</computeroutput>. Note that you can call <computeroutput>threadwait</computeroutput> multiple times on a thread, and if the thread is completed, each one will succeed. </para></sect1>
+<sect1 id="variables_struct_1Example">
+<title>Example</title>
+<para>Here we lauch the <computeroutput>sleep</computeroutput> function in a thread with a time delay of 10 seconds. This means that the thread function will not complete until 10 seconds have elapsed. When we call <computeroutput>threadwait</computeroutput> on this thread with a short timeout, it fails, but not when the timeout is long enough to capture the end of the function call.</para><para><verbatim>--&gt; a = threadnew;
+--&gt; threadstart(a,&apos;sleep&apos;,0,10);  % start a thread that will sleep for 10
+--&gt; threadwait(a,2000)            % 2 second wait is not long enough
+
+ans = 
+ 0 
+
+--&gt; threadwait(a,10000)           % 10 second wait is long enough
+
+ans = 
+ 1 
+
+--&gt; threadfree(a)
+</verbatim> </para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

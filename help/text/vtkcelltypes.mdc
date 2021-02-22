@@ -1,0 +1,71 @@
+
+ Usage
+
+This class is a supplemental object to vtkCellArray to allow
+random access into cells as well as representing cell type
+information. The "location" field is the location in the
+vtkCellArray list in terms of an integer offset. An integer
+offset was used instead of a pointer for easy storage and
+inter-process communication. The type information is defined
+in the file vtkCellType.h.
+To create an instance of class vtkCellTypes, simply invoke
+its constructor as follows
+
+    obj = vtkCellTypes
+
+
+
+ Methods
+
+The class vtkCellTypes has several methods that can be used.
+They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkCellTypes class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkCellTypes = obj.NewInstance ()
+* vtkCellTypes = obj.SafeDownCast (vtkObject o)
+* int = obj.Allocate (int sz, int ext) - Allocate memory for
+  this array. Delete old storage only if necessary.
+* obj.InsertCell (int id, char type, int loc) - Add a cell
+  at specified id.
+* int = obj.InsertNextCell (char type, int loc) - Add a cell
+  to the object in the next available slot.
+* obj.SetCellTypes (int ncells, vtkUnsignedCharArray
+  cellTypes, vtkIntArray cellLocations) - Specify a group of
+  cell types.
+* int = obj.GetCellLocation (int cellId) - Return the
+  location of the cell in the associated vtkCellArray.
+* obj.DeleteCell (vtkIdType cellId) - Delete cell by setting
+  to NULL cell type.
+* int = obj.GetNumberOfTypes () - Return the number of types
+  in the list.
+* int = obj.IsType (char type) - Return 1 if type specified
+  is contained in list; 0 otherwise.
+* int = obj.InsertNextType (char type) - Add the type
+  specified to the end of the list. Range checking is
+  performed.
+* char = obj.GetCellType (int cellId) - Return the type of
+  cell.
+* obj.Squeeze () - Reclaim any extra memory.
+* obj.Reset () - Initialize object without releasing memory.
+* long = obj.GetActualMemorySize () - Return the memory in
+  kilobytes consumed by this cell type array. Used to
+  support streaming and reading/writing data. The value
+  returned is guaranteed to be greater than or equal to the
+  memory required to actually represent the data represented
+  by this object. The information returned is valid only
+  after the pipeline has been updated.
+* obj.DeepCopy (vtkCellTypes src) - Standard DeepCopy
+  method. Since this object contains no reference to other
+  objects, there is no ShallowCopy.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Filtering_Classes
+* Generated on Thu Jul 25 2013 17:18:30 for FreeMat by
+  doxygen_ 1.8.1.1
+

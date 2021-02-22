@@ -1,0 +1,928 @@
+
+\begin{DoxyItemize}
+\item \hyperlink{operators_colon}{C\-O\-L\-O\-N Index Generation Operator}  
+\item \hyperlink{operators_comparisonops}{C\-O\-M\-P\-A\-R\-I\-S\-O\-N\-O\-P\-S Array Comparison Operators}  
+\item \hyperlink{operators_dotleftdivide}{D\-O\-T\-L\-E\-F\-T\-D\-I\-V\-I\-D\-E Element-\/wise Left-\/\-Division Operator}  
+\item \hyperlink{operators_dotpower}{D\-O\-T\-P\-O\-W\-E\-R Element-\/wise Power Operator}  
+\item \hyperlink{operators_dotrightdivide}{D\-O\-T\-R\-I\-G\-H\-T\-D\-I\-V\-I\-D\-E Element-\/wise Right-\/\-Division Operator}  
+\item \hyperlink{operators_dottimes}{D\-O\-T\-T\-I\-M\-E\-S Element-\/wise Multiplication Operator}  
+\item \hyperlink{operators_hermitian}{H\-E\-R\-M\-I\-T\-I\-A\-N Matrix Hermitian (Conjugate Transpose) Operator}  
+\item \hyperlink{operators_leftdivide}{L\-E\-F\-T\-D\-I\-V\-I\-D\-E Matrix Equation Solver/\-Divide Operator}  
+\item \hyperlink{operators_logicalops}{L\-O\-G\-I\-C\-A\-L\-O\-P\-S Logical Array Operators}  
+\item \hyperlink{operators_matrixpower}{M\-A\-T\-R\-I\-X\-P\-O\-W\-E\-R Matrix Power Operator}  
+\item \hyperlink{operators_minus}{M\-I\-N\-U\-S Subtraction Operator}  
+\item \hyperlink{operators_plus}{P\-L\-U\-S Addition Operator}  
+\item \hyperlink{operators_rightdivide}{R\-I\-G\-H\-T\-D\-I\-V\-I\-D\-E Matrix Equation Solver/\-Divide Operator}  
+\item \hyperlink{operators_times}{T\-I\-M\-E\-S Matrix Multiply Operator}  
+\item \hyperlink{operators_transpose}{T\-R\-A\-N\-S\-P\-O\-S\-E Matrix Transpose Operator}  
+\item \hyperlink{operators_typerules}{T\-Y\-P\-E\-R\-U\-L\-E\-S Type Rules for Operators}  
+\end{DoxyItemize}\hypertarget{operators_colon}{}\section{C\-O\-L\-O\-N Index Generation Operator}\label{operators_colon}
+Section\-: \hyperlink{sec_operators}{Mathematical Operators} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+There are two distinct syntaxes for the colon {\ttfamily \-:} operator -\/ the two argument form \begin{DoxyVerb}  y = a : c
+\end{DoxyVerb}
+ and the three argument form \begin{DoxyVerb}  y = a : b : c
+\end{DoxyVerb}
+ The two argument form is exactly equivalent to {\ttfamily a\-:1\-:c}. The output {\ttfamily y} is the vector \[ y = [a,a+b,a+2b,\ldots,a+nb] \] where {\ttfamily a+nb $<$= c}. There is a third form of the colon operator, the no-\/argument form used in indexing (see {\ttfamily indexing} for more details). \hypertarget{transforms_svd_Function}{}\subsection{Internals}\label{transforms_svd_Function}
+The colon operator turns out to be trickier to implement than one might believe at first, primarily because the floating point versions should do the right thing, which is not the obvious behavior. For example, suppose the user issues a three point colon command \begin{DoxyVerb}   y = a : b : c
+\end{DoxyVerb}
+ The first question that one might need to answer is\-: how many points in this vector? If you answered \[ n = \frac{c-a}{b}+1 \] then you would be doing the straighforward, but not correct thing. because a, b, and c are all floating point values, there are errors associated with each of the quantities that can lead to n not being an integer. A better way (and the way Free\-Mat currently does the calculation) is to compute the bounding values (for b positive) \[ n \in \left[\frac{(c-a) \rightarrow 0}{b \rightarrow \infty}, \frac{(c-a) \rightarrow \infty}{b \rightarrow 0} \right] + 1 \] where \[ x \rightarrow y \] means we replace x by the floating point number that is closest to it in the direction of y. Once we have determined the number of points we have to compute the intermediate values \[ [a, a+b, a+2*b, \ldots, a+n*b] \] but one can readily verify for themselves that this may {\bfseries not} be the same as the vector \[ \mathrm{fliplr} [c, c-b, c-2*b, \ldots, c-n*b] \] even for the case where \[ c = a + n*b \] for some n. The reason is that the roundoff in the calculations may be different depending on the nature of the sum. Free\-Mat uses the following strategy to compute the double-\/colon vector\-: 
+\begin{DoxyEnumerate}
+\item The value {\ttfamily n} is computed by taking the floor of the larger value in the interval defined above.  
+\item If {\ttfamily n} falls inside the interval defined above, then it is assumed that the user intended {\ttfamily c = a + n$\ast$b}, and the symmetric algorithm is used. Otherwise, the nonsymmetric algorithm is used.  
+\item The symmetric algorithm computes the vector via \[ [a, a+b, a+2b,\ldots,c-2b,c-b,c] \] working symmetrically from both ends of the vector (hence the nomenclature), while the nonsymmetric algorithm computes \[ [a, a+b ,a+2b,\ldots,a+nb] \] In practice, the entries are computed by repeated accumulation instead of multiplying the step size by an integer.  
+\item The real interval calculation is modified so that we get the exact same result with {\ttfamily a\-:b\-:c} and {\ttfamily c\-:-\/b\-:a} (which basically means that instead of moving towards infinity, we move towards the signed infinity where the sign is inherited from {\ttfamily b}).  
+\end{DoxyEnumerate}If you think this is all very obscure, it is. But without it, you will be confronted by mysterious vectors where the last entry is dropped, or where the values show progressively larger amounts of accumulated roundoff error. \hypertarget{variables_matrix_Examples}{}\subsection{Examples}\label{variables_matrix_Examples}
+Some simple examples of index generation.
+
+
+\begin{DoxyVerbInclude}
+--> y = 1:4
+
+y = 
+ 1 2 3 4 
+\end{DoxyVerbInclude}
+
+
+Now by half-\/steps\-:
+
+
+\begin{DoxyVerbInclude}
+--> y = 1:.5:4
+
+y = 
+    1.0000    1.5000    2.0000    2.5000    3.0000    3.5000    4.0000 
+\end{DoxyVerbInclude}
+
+
+Now going backwards (negative steps)
+
+
+\begin{DoxyVerbInclude}
+--> y = 4:-.5:1
+
+y = 
+    4.0000    3.5000    3.0000    2.5000    2.0000    1.5000    1.0000 
+\end{DoxyVerbInclude}
+
+
+If the endpoints are the same, one point is generated, regardless of the step size (middle argument)
+
+
+\begin{DoxyVerbInclude}
+--> y = 4:1:4
+
+y = 
+ 4 
+\end{DoxyVerbInclude}
+
+
+If the endpoints define an empty interval, the output is an empty matrix\-:
+
+
+\begin{DoxyVerbInclude}
+--> y = 5:4
+
+y = 
+  Empty array 1x0
+\end{DoxyVerbInclude}
+ \hypertarget{operators_comparisonops}{}\section{C\-O\-M\-P\-A\-R\-I\-S\-O\-N\-O\-P\-S Array Comparison Operators}\label{operators_comparisonops}
+Section\-: \hyperlink{sec_operators}{Mathematical Operators} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+There are a total of six comparison operators available in Free\-Mat, all of which are binary operators with the following syntax \begin{DoxyVerb}  y = a < b
+  y = a <= b
+  y = a > b
+  y = a >= b
+  y = a ~= b
+  y = a == b
+\end{DoxyVerb}
+ where {\ttfamily a} and {\ttfamily b} are numerical arrays or scalars, and {\ttfamily y} is a {\ttfamily logical} array of the appropriate size. Each of the operators has three modes of operation, summarized in the following list\-: 
+\begin{DoxyEnumerate}
+\item {\ttfamily a} is a scalar, {\ttfamily b} is an n-\/dimensional array -\/ the output is then the same size as {\ttfamily b}, and contains the result of comparing each element in {\ttfamily b} to the scalar {\ttfamily a}.  
+\item {\ttfamily a} is an n-\/dimensional array, {\ttfamily b} is a scalar -\/ the output is the same size as {\ttfamily a}, and contains the result of comparing each element in {\ttfamily a} to the scalar {\ttfamily b}.  
+\item {\ttfamily a} and {\ttfamily b} are both n-\/dimensional arrays of the same size -\/ the output is then the same size as both {\ttfamily a} and {\ttfamily b}, and contains the result of an element-\/wise comparison between {\ttfamily a} and {\ttfamily b}.  
+\end{DoxyEnumerate}The operators behave the same way as in {\ttfamily C}, with unequal types being promoted using the standard type promotion rules prior to comparisons. The only difference is that in Free\-Mat, the not-\/equals operator is {\ttfamily $\sim$=} instead of {\ttfamily !=}. \hypertarget{variables_matrix_Examples}{}\subsection{Examples}\label{variables_matrix_Examples}
+Some simple examples of comparison operations. First a comparison with a scalar\-:
+
+
+\begin{DoxyVerbInclude}
+--> a = randn(1,5)
+
+a = 
+   -0.0454   -0.1876    1.5987   -0.9136   -0.2120 
+
+--> a>0
+
+ans = 
+ 0 0 1 0 0 
+\end{DoxyVerbInclude}
+
+
+Next, we construct two vectors, and test for equality\-:
+
+
+\begin{DoxyVerbInclude}
+--> a = [1,2,5,7,3]
+
+a = 
+ 1 2 5 7 3 
+
+--> b = [2,2,5,9,4]
+
+b = 
+ 2 2 5 9 4 
+
+--> c = a == b
+
+c = 
+ 0 1 1 0 0 
+\end{DoxyVerbInclude}
+ \hypertarget{operators_dotleftdivide}{}\section{D\-O\-T\-L\-E\-F\-T\-D\-I\-V\-I\-D\-E Element-\/wise Left-\/\-Division Operator}\label{operators_dotleftdivide}
+Section\-: \hyperlink{sec_operators}{Mathematical Operators} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Divides two numerical arrays (elementwise) -\/ gets its name from the fact that the divisor is on the left. There are two forms for its use, both with the same general syntax\-: \begin{DoxyVerb}  y = a .\ b
+\end{DoxyVerb}
+ where {\ttfamily a} and {\ttfamily b} are {\ttfamily n}-\/dimensional arrays of numerical type. In the first case, the two arguments are the same size, in which case, the output {\ttfamily y} is the same size as the inputs, and is the element-\/wise division of {\ttfamily b} by {\ttfamily a}. In the second case, either {\ttfamily a} or {\ttfamily b} is a scalar, in which case {\ttfamily y} is the same size as the larger argument, and is the division of the scalar with each element of the other argument.
+
+The rules for manipulating types has changed in Free\-Mat 4.\-0. See {\ttfamily typerules} for more details.\hypertarget{transforms_svd_Function}{}\subsection{Internals}\label{transforms_svd_Function}
+There are three formulae for the dot-\/left-\/divide operator, depending on the sizes of the three arguments. In the most general case, in which the two arguments are the same size, the output is computed via\-: \[ y(m_1,\ldots,m_d) = \frac{b(m_1,\ldots,m_d)}{a(m_1,\ldots,m_d)} \] If {\ttfamily a} is a scalar, then the output is computed via \[ y(m_1,\ldots,m_d) = \frac{b(m_1,\ldots,m_d)}{a} \] On the other hand, if {\ttfamily b} is a scalar, then the output is computed via \[ y(m_1,\ldots,m_d) = \frac{b}{a(m_1,\ldots,m_d)}. \] \hypertarget{variables_matrix_Examples}{}\subsection{Examples}\label{variables_matrix_Examples}
+Here are some examples of using the dot-\/left-\/divide operator. First, a straight-\/forward usage of the {\ttfamily .\textbackslash{}} operator. The first example is straightforward\-:
+
+
+\begin{DoxyVerbInclude}
+--> 3 .\ 8
+
+ans = 
+    2.6667 
+\end{DoxyVerbInclude}
+
+
+We can also divide complex arguments\-:
+
+
+\begin{DoxyVerbInclude}
+--> a = 3 + 4*i
+
+a = 
+   3.0000 +  4.0000i 
+
+--> b = 5 + 8*i
+
+b = 
+   5.0000 +  8.0000i 
+
+--> c = b .\ a
+
+c = 
+   0.5281 -  0.0449i 
+\end{DoxyVerbInclude}
+
+
+We can also demonstrate the three forms of the dot-\/left-\/divide operator. First the element-\/wise version\-:
+
+
+\begin{DoxyVerbInclude}
+--> a = [1,2;3,4]
+
+a = 
+ 1 2 
+ 3 4 
+
+--> b = [2,3;6,7]
+
+b = 
+ 2 3 
+ 6 7 
+
+--> c = a .\ b
+
+c = 
+    2.0000    1.5000 
+    2.0000    1.7500 
+\end{DoxyVerbInclude}
+
+
+Then the scalar versions
+
+
+\begin{DoxyVerbInclude}
+--> c = a .\ 3
+
+c = 
+    3.0000    1.5000 
+    1.0000    0.7500 
+
+--> c = 3 .\ a
+
+c = 
+    0.3333    0.6667 
+    1.0000    1.3333 
+\end{DoxyVerbInclude}
+ \hypertarget{operators_dotpower}{}\section{D\-O\-T\-P\-O\-W\-E\-R Element-\/wise Power Operator}\label{operators_dotpower}
+Section\-: \hyperlink{sec_operators}{Mathematical Operators} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Raises one numerical array to another array (elementwise). There are three operators all with the same general syntax\-: \begin{DoxyVerb}  y = a .^ b
+\end{DoxyVerb}
+ The result {\ttfamily y} depends on which of the following three situations applies to the arguments {\ttfamily a} and {\ttfamily b}\-: 
+\begin{DoxyEnumerate}
+\item {\ttfamily a} is a scalar, {\ttfamily b} is an arbitrary {\ttfamily n}-\/dimensional numerical array, in which case the output is {\ttfamily a} raised to the power of each element of {\ttfamily b}, and the output is the same size as {\ttfamily b}.  
+\item {\ttfamily a} is an {\ttfamily n}-\/dimensional numerical array, and {\ttfamily b} is a scalar, then the output is the same size as {\ttfamily a}, and is defined by each element of {\ttfamily a} raised to the power {\ttfamily b}.  
+\item {\ttfamily a} and {\ttfamily b} are both {\ttfamily n}-\/dimensional numerical arrays of {\bfseries the same size}. In this case, each element of the output is the corresponding element of {\ttfamily a} raised to the power defined by the corresponding element of {\ttfamily b}.  
+\end{DoxyEnumerate}
+
+The rules for manipulating types has changed in Free\-Mat 4.\-0. See {\ttfamily typerules} for more details.\hypertarget{transforms_svd_Function}{}\subsection{Internals}\label{transforms_svd_Function}
+There are three formulae for this operator. For the first form \[ y(m_1,\ldots,m_d) = a^{b(m_1,\ldots,m_d)}, \] and the second form \[ y(m_1,\ldots,m_d) = a(m_1,\ldots,m_d)^b, \] and in the third form \[ y(m_1,\ldots,m_d) = a(m_1,\ldots,m_d)^{b(m_1,\ldots,m_d)}. \] \hypertarget{variables_matrix_Examples}{}\subsection{Examples}\label{variables_matrix_Examples}
+We demonstrate the three forms of the dot-\/power operator using some simple examples. First, the case of a scalar raised to a series of values.
+
+
+\begin{DoxyVerbInclude}
+--> a = 2
+
+a = 
+ 2 
+
+--> b = 1:4
+
+b = 
+ 1 2 3 4 
+
+--> c = a.^b
+
+c = 
+  2  4  8 16 
+\end{DoxyVerbInclude}
+
+
+The second case shows a vector raised to a scalar.
+
+
+\begin{DoxyVerbInclude}
+--> c = b.^a
+
+c = 
+  1  4  9 16 
+\end{DoxyVerbInclude}
+
+
+The third case shows the most general use of the dot-\/power operator.
+
+
+\begin{DoxyVerbInclude}
+--> A = [1,2;3,2]
+
+A = 
+ 1 2 
+ 3 2 
+
+--> B = [2,1.5;0.5,0.6]
+
+B = 
+    2.0000    1.5000 
+    0.5000    0.6000 
+
+--> C = A.^B
+
+C = 
+    1.0000    2.8284 
+    1.7321    1.5157 
+\end{DoxyVerbInclude}
+ \hypertarget{operators_dotrightdivide}{}\section{D\-O\-T\-R\-I\-G\-H\-T\-D\-I\-V\-I\-D\-E Element-\/wise Right-\/\-Division Operator}\label{operators_dotrightdivide}
+Section\-: \hyperlink{sec_operators}{Mathematical Operators} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Divides two numerical arrays (elementwise). There are two forms for its use, both with the same general syntax\-: \begin{DoxyVerb}  y = a ./ b
+\end{DoxyVerb}
+ where {\ttfamily a} and {\ttfamily b} are {\ttfamily n}-\/dimensional arrays of numerical type. In the first case, the two arguments are the same size, in which case, the output {\ttfamily y} is the same size as the inputs, and is the element-\/wise division of {\ttfamily b} by {\ttfamily a}. In the second case, either {\ttfamily a} or {\ttfamily b} is a scalar, in which case {\ttfamily y} is the same size as the larger argument, and is the division of the scalar with each element of the other argument.
+
+The rules for manipulating types has changed in Free\-Mat 4.\-0. See {\ttfamily typerules} for more details.\hypertarget{transforms_svd_Function}{}\subsection{Internals}\label{transforms_svd_Function}
+There are three formulae for the dot-\/right-\/divide operator, depending on the sizes of the three arguments. In the most general case, in which the two arguments are the same size, the output is computed via\-: \[ y(m_1,\ldots,m_d) = \frac{a(m_1,\ldots,m_d)}{b(m_1,\ldots,m_d)} \] If {\ttfamily a} is a scalar, then the output is computed via \[ y(m_1,\ldots,m_d) = \frac{a}{b(m_1,\ldots,m_d)} \] On the other hand, if {\ttfamily b} is a scalar, then the output is computed via \[ y(m_1,\ldots,m_d) = \frac{a(m_1,\ldots,m_d)}{b}. \] \hypertarget{variables_matrix_Examples}{}\subsection{Examples}\label{variables_matrix_Examples}
+Here are some examples of using the dot-\/right-\/divide operator. First, a straight-\/forward usage of the {\ttfamily ./} operator. The first example is straightforward\-:
+
+
+\begin{DoxyVerbInclude}
+--> 3 ./ 8
+
+ans = 
+    0.3750 
+\end{DoxyVerbInclude}
+
+
+We can also divide complex arguments\-:
+
+
+\begin{DoxyVerbInclude}
+--> a = 3 + 4*i
+
+a = 
+   3.0000 +  4.0000i 
+
+--> b = 5 + 8*i
+
+b = 
+   5.0000 +  8.0000i 
+
+--> c = a ./ b
+
+c = 
+   0.5281 -  0.0449i 
+\end{DoxyVerbInclude}
+
+
+We can also demonstrate the three forms of the dot-\/right-\/divide operator. First the element-\/wise version\-:
+
+
+\begin{DoxyVerbInclude}
+--> a = [1,2;3,4]
+
+a = 
+ 1 2 
+ 3 4 
+
+--> b = [2,3;6,7]
+
+b = 
+ 2 3 
+ 6 7 
+
+--> c = a ./ b
+
+c = 
+    0.5000    0.6667 
+    0.5000    0.5714 
+\end{DoxyVerbInclude}
+
+
+Then the scalar versions
+
+
+\begin{DoxyVerbInclude}
+--> c = a ./ 3
+
+c = 
+    0.3333    0.6667 
+    1.0000    1.3333 
+
+--> c = 3 ./ a
+
+c = 
+    3.0000    1.5000 
+    1.0000    0.7500 
+\end{DoxyVerbInclude}
+ \hypertarget{operators_dottimes}{}\section{D\-O\-T\-T\-I\-M\-E\-S Element-\/wise Multiplication Operator}\label{operators_dottimes}
+Section\-: \hyperlink{sec_operators}{Mathematical Operators} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Multiplies two numerical arrays (elementwise). There are two forms for its use, both with the same general syntax\-: \begin{DoxyVerb}  y = a .* b
+\end{DoxyVerb}
+ where {\ttfamily a} and {\ttfamily b} are {\ttfamily n}-\/dimensional arrays of numerical type. In the first case, the two arguments are the same size, in which case, the output {\ttfamily y} is the same size as the inputs, and is the element-\/wise product of {\ttfamily a} and {\ttfamily b}. In the second case, either {\ttfamily a} or {\ttfamily b} is a scalar, in which case {\ttfamily y} is the same size as the larger argument, and is the product of the scalar with each element of the other argument.
+
+The rules for manipulating types has changed in Free\-Mat 4.\-0. See {\ttfamily typerules} for more details.\hypertarget{transforms_svd_Function}{}\subsection{Internals}\label{transforms_svd_Function}
+There are three formulae for the dot-\/times operator, depending on the sizes of the three arguments. In the most general case, in which the two arguments are the same size, the output is computed via\-: \[ y(m_1,\ldots,m_d) = a(m_1,\ldots,m_d) \times b(m_1,\ldots,m_d) \] If {\ttfamily a} is a scalar, then the output is computed via \[ y(m_1,\ldots,m_d) = a \times b(m_1,\ldots,m_d). \] On the other hand, if {\ttfamily b} is a scalar, then the output is computed via \[ y(m_1,\ldots,m_d) = a(m_1,\ldots,m_d) \times b. \] \hypertarget{variables_matrix_Examples}{}\subsection{Examples}\label{variables_matrix_Examples}
+Here are some examples of using the dottimes operator. First, a straight-\/forward usage of the {\ttfamily .$\ast$} operator. The first example is straightforward\-:
+
+
+\begin{DoxyVerbInclude}
+--> 3 .* 8
+
+ans = 
+ 24 
+\end{DoxyVerbInclude}
+
+
+Next, we multiply a scalar by a vector of values\-:
+
+
+\begin{DoxyVerbInclude}
+--> 3.1 .* [2,4,5,6,7]
+
+ans = 
+    6.2000   12.4000   15.5000   18.6000   21.7000 
+\end{DoxyVerbInclude}
+
+
+With complex values
+
+
+\begin{DoxyVerbInclude}
+--> a = 3 + 4*i
+
+a = 
+   3.0000 +  4.0000i 
+
+--> b = a .* 2
+
+b = 
+   6.0000 +  8.0000i 
+\end{DoxyVerbInclude}
+
+
+Finally, the element-\/wise version\-:
+
+
+\begin{DoxyVerbInclude}
+--> a = [1,2;3,4]
+
+a = 
+ 1 2 
+ 3 4 
+
+--> b = [2,3;6,7]
+
+b = 
+ 2 3 
+ 6 7 
+
+--> c = a .* b
+
+c = 
+  2  6 
+ 18 28 
+\end{DoxyVerbInclude}
+ \hypertarget{operators_hermitian}{}\section{H\-E\-R\-M\-I\-T\-I\-A\-N Matrix Hermitian (Conjugate Transpose) Operator}\label{operators_hermitian}
+Section\-: \hyperlink{sec_operators}{Mathematical Operators} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Computes the Hermitian of the argument (a 2\-D matrix). The syntax for its use is \begin{DoxyVerb}  y = a';
+\end{DoxyVerb}
+ where {\ttfamily a} is a {\ttfamily M x N} numerical matrix. The output {\ttfamily y} is a numerical matrix of the same type of size {\ttfamily N x M}. This operator is the conjugating transpose, which is different from the transpose operator {\ttfamily .'} (which does not conjugate complex values). \hypertarget{transforms_svd_Function}{}\subsection{Internals}\label{transforms_svd_Function}
+The Hermitian operator is defined simply as \[ y_{i,j} = \overline{a_{j,i}} \] where {\ttfamily y\-\_\-ij} is the element in the {\ttfamily i}th row and {\ttfamily j}th column of the output matrix {\ttfamily y}. \hypertarget{variables_matrix_Examples}{}\subsection{Examples}\label{variables_matrix_Examples}
+A simple transpose example\-:
+
+
+\begin{DoxyVerbInclude}
+--> A = [1,2,0;4,1,-1]
+
+A = 
+  1  2  0 
+  4  1 -1 
+
+--> A'
+
+ans = 
+  1  4 
+  2  1 
+  0 -1 
+\end{DoxyVerbInclude}
+
+
+Here, we use a complex matrix to demonstrate how the Hermitian operator conjugates the entries.
+
+
+\begin{DoxyVerbInclude}
+--> A = [1+i,2-i]
+
+A = 
+   1.0000 +  1.0000i   2.0000 -  1.0000i 
+
+--> A.'
+
+ans = 
+   1.0000 +  1.0000i 
+   2.0000 -  1.0000i 
+\end{DoxyVerbInclude}
+ \hypertarget{operators_leftdivide}{}\section{L\-E\-F\-T\-D\-I\-V\-I\-D\-E Matrix Equation Solver/\-Divide Operator}\label{operators_leftdivide}
+Section\-: \hyperlink{sec_operators}{Mathematical Operators} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+The divide operator {\ttfamily $<$/tt$>$ is really a combination of three operators, all of which have the same general syntax\-: \begin{DoxyVerb}  Y = A \ B
+\end{DoxyVerb}
+ where {\ttfamily A} and {\ttfamily B} are arrays of numerical type. The result {\ttfamily Y} depends on which of the following three situations applies to the arguments {\ttfamily A} and {\ttfamily B}\-: 
+\begin{DoxyEnumerate}
+\item {\ttfamily A} is a scalar, {\ttfamily B} is an arbitrary {\ttfamily n}-\/dimensional numerical array, in which case the output is each element of {\ttfamily B} divided by the scalar {\ttfamily A}.  
+\item {\ttfamily A,B} are matrices with the same number of rows, i.\-e., {\ttfamily A} is of size {\ttfamily M x K}, and {\ttfamily B} is of size {\ttfamily M x L}, in which case the output is of size {\ttfamily K x L}.  
+\end{DoxyEnumerate}The output follows the standard type promotion rules, although in the first two cases, if {\ttfamily A} and {\ttfamily B} are integers, the output is an integer also, while in the third case if {\ttfamily A} and {\ttfamily B} are integers, the output is of type {\ttfamily double}.}
+
+{\ttfamily A few additional words about the third version, in which {\ttfamily A} and {\ttfamily B} are matrices. Very loosely speaking, {\ttfamily Y} is the matrix that satisfies $A * Y = B$. In cases where such a matrix exists. If such a matrix does not exist, then a matrix {\ttfamily Y} is returned that approximates $A * Y \approx B$. }\hypertarget{transforms_svd_Function}{}\subsection{Internals}\label{transforms_svd_Function}
+{\ttfamily There are three formulae for the times operator. For the first form \[ Y(m_1,\ldots,m_d) = \frac{B(m_1,\ldots,m_d)}{A}. \] In the second form, the calculation of the output depends on the size of {\ttfamily A}. Because each column of {\ttfamily B} is treated independantly, we can rewrite the equation $A Y = B$ as \[ A [y_1, y_2,\ldots, y_l] = [b_1, b_2, \ldots, b_l] \] where {\ttfamily y\-\_\-i} are the columns of {\ttfamily Y}, and {\ttfamily b\-\_\-i} are the columns of the matrix {\ttfamily B}. If {\ttfamily A} is a square matrix, then the L\-A\-P\-A\-C\-K routine {\ttfamily $\ast$gesvx} (where the {\ttfamily $\ast$} is replaced with {\ttfamily sdcz} depending on the type of the arguments) is used, which uses an L\-U decomposition of {\ttfamily A} to solve the sequence of equations sequentially. If {\ttfamily A} is singular, then a warning is emitted.}
+
+{\ttfamily On the other hand, if {\ttfamily A} is rectangular, then the L\-A\-P\-A\-C\-K routine {\ttfamily $\ast$gelsy} is used. Note that these routines are designed to work with matrices {\ttfamily A} that are full rank -\/ either full column rank or full row rank. If {\ttfamily A} fails to satisfy this assumption, a warning is emitted. If {\ttfamily A} has full column rank (and thus necessarily has more rows than columns), then theoretically, this operator finds the columns {\ttfamily y\-\_\-i} that satisfy\-: \[ y_i = \arg \min_y \| A y - b_i \|_2 \] and each column is thus the Least Squares solution of {\ttfamily A y = b\-\_\-i}. On the other hand, if {\ttfamily A} has full row rank (and thus necessarily has more columns than rows), then theoretically, this operator finds the columns {\ttfamily y\-\_\-i} that satisfy \[ y_i = \arg \min_{A y = b_i} \| y \|_2 \] and each column is thus the Minimum Norm vector {\ttfamily y\-\_\-i} that satisfies $A y_i = b_i$. In the event that the matrix {\ttfamily A} is neither full row rank nor full column rank, a solution is returned, that is the minimum norm least squares solution. The solution is computed using an orthogonal factorization technique that is documented in the L\-A\-P\-A\-C\-K User's Guide (see the References section for details). }\hypertarget{variables_matrix_Examples}{}\subsection{Examples}\label{variables_matrix_Examples}
+{\ttfamily Here are some simple examples of the divide operator. We start with a simple example of a full rank, square matrix\-:}
+
+{\ttfamily 
+\begin{DoxyVerbInclude}
+--> A = [1,1;0,1]
+
+A = 
+ 1 1 
+ 0 1 
+\end{DoxyVerbInclude}
+}
+
+{\ttfamily Suppose we wish to solve \[ \begin{bmatrix} 1 & 1 \\ 0 & 1 \end{bmatrix} \begin{bmatrix} y_1 \\ y_2 \end{bmatrix} = \begin{bmatrix} 3 \\ 2 \end{bmatrix} \] (which by inspection has the solution {\ttfamily y\-\_\-1 = 1}, {\ttfamily y\-\_\-2 = 2}). Thus we compute\-:}
+
+{\ttfamily 
+\begin{DoxyVerbInclude}
+--> B = [3;2]
+
+B = 
+ 3 
+ 2 
+
+--> Y = A\B
+
+Y = 
+ 1 
+ 2 
+\end{DoxyVerbInclude}
+}
+
+{\ttfamily Suppose we wish to solve a trivial Least Squares (L\-S) problem. We want to find a simple scaling of the vector {\ttfamily \mbox{[}1;1\mbox{]}} that is closest to the point {\ttfamily \mbox{[}2,1\mbox{]}}. This is equivalent to solving \[ \begin{bmatrix} 1 \\ 1 \end{bmatrix} y = \begin{bmatrix} 2 \\ 1 \end{bmatrix} \] in a least squares sense. For fun, we can calculate the solution using calculus by hand. The error we wish to minimize is \[ \varepsilon(y) = (y - 2)^2 + (y-1)^2. \] Taking a derivative with respect to {\ttfamily y}, and setting to zero (which we must have for an extrema when {\ttfamily y} is unconstrained) \[ 2 (y-2) + 2 (y-1) = 0 \] which we can simplify to {\ttfamily 4y = 6} or {\ttfamily y = 3/2} (we must, technically, check to make sure this is a minimum, and not a maximum or an inflection point). Here is the same calculation performed using Free\-Mat\-:}
+
+{\ttfamily 
+\begin{DoxyVerbInclude}
+--> A = [1;1]
+
+A = 
+ 1 
+ 1 
+
+--> B = [2;1]
+
+B = 
+ 2 
+ 1 
+
+--> A\B
+
+ans = 
+    1.5000 
+\end{DoxyVerbInclude}
+}
+
+{\ttfamily which is the same solution. }\hypertarget{operators_logicalops}{}\section{L\-O\-G\-I\-C\-A\-L\-O\-P\-S Logical Array Operators}\label{operators_logicalops}
+Section\-: \hyperlink{sec_operators}{Mathematical Operators} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+There are three Boolean operators available in Free\-Mat. The syntax for their use is\-: \begin{DoxyVerb}  y = ~x
+  y = a & b
+  y = a | b
+\end{DoxyVerb}
+ where {\ttfamily x}, {\ttfamily a} and {\ttfamily b} are {\ttfamily logical} arrays. The operators are 
+\begin{DoxyItemize}
+\item N\-O\-T ({\ttfamily $\sim$}) -\/ output {\ttfamily y} is true if the corresponding element of {\ttfamily x} is false, and ouput {\ttfamily y} is false if the corresponding element of {\ttfamily x} is true.  
+\item O\-R ({\ttfamily }$|$) -\/ output {\ttfamily y} is true if corresponding element of {\ttfamily a} is true or if corresponding element of {\ttfamily b} is true (or if both are true).  
+\item A\-N\-D ({\ttfamily \&}) -\/ output {\ttfamily y} is true only if both the corresponding elements of {\ttfamily a} and {\ttfamily b} are both true.  
+\end{DoxyItemize}The binary operators A\-N\-D and O\-R can take scalar arguments as well as vector arguments, in which case, the scalar is operated on with each element of the vector. As of version 1.\-10, Free\-Mat supports {\ttfamily shortcut} evaluation. This means that if we have two expressions \begin{DoxyVerb}  if (expr1 & expr2)
+\end{DoxyVerb}
+ then if {\ttfamily expr1} evaluates to {\ttfamily false}, then {\ttfamily expr2} is not evaluated at all. Similarly, for the expression \begin{DoxyVerb}  if (expr1 | expr2)
+\end{DoxyVerb}
+ then if {\ttfamily expr1} evaluates to {\ttfamily true}, then {\ttfamily expr2} is not evaluated at all. Shortcut evaluation is useful for doing a sequence of tests, each of which is not valid unless the prior test is successful. For example, \begin{DoxyVerb}  if isa(p,'string') & strcmp(p,'fro')
+\end{DoxyVerb}
+ is not valid without shortcut evaluation (if {\ttfamily p} is an integer, for example, the first test returns false, and an attempt to evaluate the second expression would lead to an error). Note that shortcut evaluation only works with scalar expressions. \hypertarget{variables_matrix_Examples}{}\subsection{Examples}\label{variables_matrix_Examples}
+Some simple examples of logical operators. Suppose we want to calculate the exclusive-\/or (X\-O\-R) of two vectors of logical variables. First, we create a pair of vectors to perform the X\-O\-R operation on\-:
+
+
+\begin{DoxyVerbInclude}
+--> a = (randn(1,6)>0)
+
+a = 
+ 0 0 0 0 1 0 
+
+--> b = (randn(1,6)>0)
+
+b = 
+ 1 1 0 1 0 1 
+\end{DoxyVerbInclude}
+
+
+Next, we can compute the O\-R of {\ttfamily a} and {\ttfamily b}\-:
+
+
+\begin{DoxyVerbInclude}
+--> c = a | b
+
+c = 
+ 1 1 0 1 1 1 
+\end{DoxyVerbInclude}
+
+
+However, the X\-O\-R and O\-R operations differ on the fifth entry -\/ the X\-O\-R would be false, since it is true if and only if exactly one of the two inputs is true. To isolate this case, we can A\-N\-D the two vectors, to find exactly those entries that appear as true in both {\ttfamily a} and {\ttfamily b}\-:
+
+
+\begin{DoxyVerbInclude}
+--> d = a & b
+
+d = 
+ 0 0 0 0 0 0 
+\end{DoxyVerbInclude}
+
+
+At this point, we can modify the contents of {\ttfamily c} in two ways -- the Boolean way is to A\-N\-D $\sim d$ with {\ttfamily c}, like so
+
+
+\begin{DoxyVerbInclude}
+--> xor = c & (~d)
+
+xor = 
+ 1 1 0 1 1 1 
+\end{DoxyVerbInclude}
+
+
+The other way to do this is simply force {\ttfamily c(d) = 0}, which uses the logical indexing mode of Free\-Mat (see the chapter on indexing for more details). This, however, will cause {\ttfamily c} to become an {\ttfamily int32} type, as opposed to a logical type.
+
+
+\begin{DoxyVerbInclude}
+--> c(d) = 0
+
+c = 
+ 1 1 0 1 1 1 
+\end{DoxyVerbInclude}
+ \hypertarget{operators_matrixpower}{}\section{M\-A\-T\-R\-I\-X\-P\-O\-W\-E\-R Matrix Power Operator}\label{operators_matrixpower}
+Section\-: \hyperlink{sec_operators}{Mathematical Operators} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+The power operator for scalars and square matrices. This operator is really a combination of two operators, both of which have the same general syntax\-: \begin{DoxyVerb}  y = a ^ b
+\end{DoxyVerb}
+ The exact action taken by this operator, and the size and type of the output, depends on which of the two configurations of {\ttfamily a} and {\ttfamily b} is present\-: 
+\begin{DoxyEnumerate}
+\item {\ttfamily a} is a scalar, {\ttfamily b} is a square matrix  
+\item {\ttfamily a} is a square matrix, {\ttfamily b} is a scalar  
+\end{DoxyEnumerate}\hypertarget{transforms_svd_Function}{}\subsection{Internals}\label{transforms_svd_Function}
+In the first case that {\ttfamily a} is a scalar, and {\ttfamily b} is a square matrix, the matrix power is defined in terms of the eigenvalue decomposition of {\ttfamily b}. Let {\ttfamily b} have the following eigen-\/decomposition (problems arise with non-\/symmetric matrices {\ttfamily b}, so let us assume that {\ttfamily b} is symmetric)\-: \[ b = E \begin{bmatrix} \lambda_1 & 0 & \cdots & 0 \\ 0 & \lambda_2 & \ddots & \vdots \\ \vdots & \ddots & \ddots & 0 \\ 0 & \hdots & 0 & \lambda_n \end{bmatrix} E^{-1} \] Then {\ttfamily a} raised to the power {\ttfamily b} is defined as \[ a^{b} = E \begin{bmatrix} a^{\lambda_1} & 0 & \cdots & 0 \\ 0 & a^{\lambda_2} & \ddots & \vdots \\ \vdots & \ddots & \ddots & 0 \\ 0 & \hdots & 0 & a^{\lambda_n} \end{bmatrix} E^{-1} \] Similarly, if {\ttfamily a} is a square matrix, then {\ttfamily a} has the following eigen-\/decomposition (again, suppose {\ttfamily a} is symmetric)\-: \[ a = E \begin{bmatrix} \lambda_1 & 0 & \cdots & 0 \\ 0 & \lambda_2 & \ddots & \vdots \\ \vdots & \ddots & \ddots & 0 \\ 0 & \hdots & 0 & \lambda_n \end{bmatrix} E^{-1} \] Then {\ttfamily a} raised to the power {\ttfamily b} is defined as \[ a^{b} = E \begin{bmatrix} \lambda_1^b & 0 & \cdots & 0 \\ 0 & \lambda_2^b & \ddots & \vdots \\ \vdots & \ddots & \ddots & 0 \\ 0 & \hdots & 0 & \lambda_n^b \end{bmatrix} E^{-1} \] \hypertarget{variables_matrix_Examples}{}\subsection{Examples}\label{variables_matrix_Examples}
+We first define a simple {\ttfamily 2 x 2} symmetric matrix
+
+
+\begin{DoxyVerbInclude}
+--> A = 1.5
+
+A = 
+    1.5000 
+
+--> B = [1,.2;.2,1]
+
+B = 
+    1.0000    0.2000 
+    0.2000    1.0000 
+\end{DoxyVerbInclude}
+
+
+First, we raise {\ttfamily B} to the (scalar power) {\ttfamily A}\-:
+
+
+\begin{DoxyVerbInclude}
+--> C = B^A
+
+C = 
+    1.0150    0.2995 
+    0.2995    1.0150 
+\end{DoxyVerbInclude}
+
+
+Next, we raise {\ttfamily A} to the matrix power {\ttfamily B}\-:
+
+
+\begin{DoxyVerbInclude}
+--> C = A^B
+
+C = 
+    1.5049    0.1218 
+    0.1218    1.5049 
+\end{DoxyVerbInclude}
+ \hypertarget{operators_minus}{}\section{M\-I\-N\-U\-S Subtraction Operator}\label{operators_minus}
+Section\-: \hyperlink{sec_operators}{Mathematical Operators} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Subtracts two numerical arrays (elementwise). There are two forms for its use, both with the same general syntax\-: \begin{DoxyVerb}  y = a - b
+\end{DoxyVerb}
+ where {\ttfamily a} and {\ttfamily b} are {\ttfamily n}-\/dimensional arrays of numerical type. In the first case, the two arguments are the same size, in which case, the output {\ttfamily y} is the same size as the inputs, and is the element-\/wise difference of {\ttfamily a} and {\ttfamily b}. In the second case, either {\ttfamily a} or {\ttfamily b} is a scalar, in which case {\ttfamily y} is the same size as the larger argument, and is the difference of the scalar to each element of the other argument.
+
+The rules for manipulating types has changed in Free\-Mat 4.\-0. See {\ttfamily typerules} for more details.\hypertarget{transforms_svd_Function}{}\subsection{Internals}\label{transforms_svd_Function}
+There are three formulae for the subtraction operator, depending on the sizes of the three arguments. In the most general case, in which the two arguments are the same size, the output is computed via\-: \[ y(m_1,\ldots,m_d) = a(m_1,\ldots,m_d) - b(m_1,\ldots,m_d) \] If {\ttfamily a} is a scalar, then the output is computed via \[ y(m_1,\ldots,m_d) = a - b(m_1,\ldots,m_d). \] On the other hand, if {\ttfamily b} is a scalar, then the output is computed via \[ y(m_1,\ldots,m_d) = a(m_1,\ldots,m_d) - b. \] \hypertarget{variables_matrix_Examples}{}\subsection{Examples}\label{variables_matrix_Examples}
+Here are some examples of using the subtraction operator. First, a straight-\/forward usage of the minus operator. The first example is straightforward\-:
+
+
+\begin{DoxyVerbInclude}
+--> 3 - 8
+
+ans = 
+ -5 
+\end{DoxyVerbInclude}
+
+
+Next, we subtract a vector of values from a scalar\-:
+
+
+\begin{DoxyVerbInclude}
+--> 3.1 - [2,4,5,6,7]
+
+ans = 
+    1.1000   -0.9000   -1.9000   -2.9000   -3.9000 
+\end{DoxyVerbInclude}
+
+
+With complex values
+
+
+\begin{DoxyVerbInclude}
+--> a = 3 - 4*i
+
+a = 
+   3.0000 -  4.0000i 
+
+--> b = a - 2
+
+b = 
+   1.0000 -  4.0000i 
+\end{DoxyVerbInclude}
+
+
+Finally, the element-\/wise version\-:
+
+
+\begin{DoxyVerbInclude}
+--> a = [1,2;3,4]
+
+a = 
+ 1 2 
+ 3 4 
+
+--> b = [2,3;6,7]
+
+b = 
+ 2 3 
+ 6 7 
+
+--> c = a - b
+
+c = 
+ -1 -1 
+ -3 -3 
+\end{DoxyVerbInclude}
+ \hypertarget{operators_plus}{}\section{P\-L\-U\-S Addition Operator}\label{operators_plus}
+Section\-: \hyperlink{sec_operators}{Mathematical Operators} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Adds two numerical arrays (elementwise) together. There are two forms for its use, both with the same general syntax\-: \begin{DoxyVerb}  y = a + b
+\end{DoxyVerb}
+ where {\ttfamily a} and {\ttfamily b} are {\ttfamily n}-\/dimensional arrays of numerical type. In the first case, the two arguments are the same size, in which case, the output {\ttfamily y} is the same size as the inputs, and is the element-\/wise the sum of {\ttfamily a} and {\ttfamily b}. In the second case, either {\ttfamily a} or {\ttfamily b} is a scalar, in which case {\ttfamily y} is the same size as the larger argument, and is the sum of the scalar added to each element of the other argument.
+
+The rules for manipulating types has changed in Free\-Mat 4.\-0. See {\ttfamily typerules} for more details.\hypertarget{transforms_svd_Function}{}\subsection{Internals}\label{transforms_svd_Function}
+There are three formulae for the addition operator, depending on the sizes of the three arguments. In the most general case, in which the two arguments are the same size, the output is computed via\-: \[ y(m_1,\ldots,m_d) = a(m_1,\ldots,m_d) + b(m_1,\ldots,m_d) \] If {\ttfamily a} is a scalar, then the output is computed via \[ y(m_1,\ldots,m_d) = a + b(m_1,\ldots,m_d). \] On the other hand, if {\ttfamily b} is a scalar, then the output is computed via \[ y(m_1,\ldots,m_d) = a(m_1,\ldots,m_d) + b. \] \hypertarget{variables_matrix_Examples}{}\subsection{Examples}\label{variables_matrix_Examples}
+Here are some examples of using the addition operator. First, a straight-\/forward usage of the plus operator. The first example is straightforward\-:
+
+
+\begin{DoxyVerbInclude}
+--> 3 + 8
+
+ans = 
+ 11 
+\end{DoxyVerbInclude}
+
+
+Next, we add a scalar to a vector of values\-:
+
+
+\begin{DoxyVerbInclude}
+--> 3.1 + [2,4,5,6,7]
+
+ans = 
+    5.1000    7.1000    8.1000    9.1000   10.1000 
+\end{DoxyVerbInclude}
+
+
+With complex values
+
+
+\begin{DoxyVerbInclude}
+--> a = 3 + 4*i
+
+a = 
+   3.0000 +  4.0000i 
+
+--> b = a + 2
+
+b = 
+   5.0000 +  4.0000i 
+\end{DoxyVerbInclude}
+
+
+Finally, the element-\/wise version\-:
+
+
+\begin{DoxyVerbInclude}
+--> a = [1,2;3,4]
+
+a = 
+ 1 2 
+ 3 4 
+
+--> b = [2,3;6,7]
+
+b = 
+ 2 3 
+ 6 7 
+
+--> c = a + b
+
+c = 
+  3  5 
+  9 11 
+\end{DoxyVerbInclude}
+ \hypertarget{operators_rightdivide}{}\section{R\-I\-G\-H\-T\-D\-I\-V\-I\-D\-E Matrix Equation Solver/\-Divide Operator}\label{operators_rightdivide}
+Section\-: \hyperlink{sec_operators}{Mathematical Operators} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+The divide operator {\ttfamily /} is really a combination of three operators, all of which have the same general syntax\-: \begin{DoxyVerb}  Y = A / B
+\end{DoxyVerb}
+ where {\ttfamily A} and {\ttfamily B} are arrays of numerical type. The result {\ttfamily Y} depends on which of the following three situations applies to the arguments {\ttfamily A} and {\ttfamily B}\-: 
+\begin{DoxyEnumerate}
+\item {\ttfamily A} is a scalar, {\ttfamily B} is an arbitrary {\ttfamily n}-\/dimensional numerical array, in which case the output is the scalar {\ttfamily A} divided into each element of {\ttfamily B}.  
+\item {\ttfamily B} is a scalar, {\ttfamily A} is an arbitrary {\ttfamily n}-\/dimensional numerical array, in which case the output is each element of {\ttfamily A} divided by the scalar {\ttfamily B}.  
+\item {\ttfamily A,B} are matrices with the same number of columns, i.\-e., {\ttfamily A} is of size {\ttfamily K x M}, and {\ttfamily B} is of size {\ttfamily L x M}, in which case the output is of size {\ttfamily K x L}.  
+\end{DoxyEnumerate}The output follows the standard type promotion rules, although in the first two cases, if {\ttfamily A} and {\ttfamily B} are integers, the output is an integer also, while in the third case if {\ttfamily A} and {\ttfamily B} are integers, the output is of type {\ttfamily double}.\hypertarget{transforms_svd_Function}{}\subsection{Internals}\label{transforms_svd_Function}
+There are three formulae for the times operator. For the first form \[ Y(m_1,\ldots,m_d) = \frac{A}{B(m_1,\ldots,m_d)}, \] and the second form \[ Y(m_1,\ldots,m_d) = \frac{A(m_1,\ldots,m_d)}{B}. \] In the third form, the output is defined as\-: \[ Y = (B' \backslash A')' \] and is used in the equation {\ttfamily Y B = A}. \hypertarget{variables_matrix_Examples}{}\subsection{Examples}\label{variables_matrix_Examples}
+The right-\/divide operator is much less frequently used than the left-\/divide operator, but the concepts are similar. It can be used to find least-\/squares and minimum norm solutions. It can also be used to solve systems of equations in much the same way. Here's a simple example\-:
+
+
+\begin{DoxyVerbInclude}
+--> B = [1,1;0,1];
+--> A = [4,5]
+
+A = 
+ 4 5 
+
+--> A/B
+
+ans = 
+ 4 1 
+\end{DoxyVerbInclude}
+ \hypertarget{operators_times}{}\section{T\-I\-M\-E\-S Matrix Multiply Operator}\label{operators_times}
+Section\-: \hyperlink{sec_operators}{Mathematical Operators} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Multiplies two numerical arrays. This operator is really a combination of three operators, all of which have the same general syntax\-: \begin{DoxyVerb}  y = a * b
+\end{DoxyVerb}
+ where {\ttfamily a} and {\ttfamily b} are arrays of numerical type. The result {\ttfamily y} depends on which of the following three situations applies to the arguments {\ttfamily a} and {\ttfamily b}\-: 
+\begin{DoxyEnumerate}
+\item {\ttfamily a} is a scalar, {\ttfamily b} is an arbitrary {\ttfamily n}-\/dimensional numerical array, in which case the output is the element-\/wise product of {\ttfamily b} with the scalar {\ttfamily a}.  
+\item {\ttfamily b} is a scalar, {\ttfamily a} is an arbitrary {\ttfamily n}-\/dimensional numerical array, in which case the output is the element-\/wise product of {\ttfamily a} with the scalar {\ttfamily b}.  
+\item {\ttfamily a,b} are conformant matrices, i.\-e., {\ttfamily a} is of size {\ttfamily M x K}, and {\ttfamily b} is of size {\ttfamily K x N}, in which case the output is of size {\ttfamily M x N} and is the matrix product of {\ttfamily a}, and {\ttfamily b}.  
+\end{DoxyEnumerate}Matrix multiplication is only defined for matrices of type {\ttfamily double} and {\ttfamily single}. \hypertarget{transforms_svd_Function}{}\subsection{Internals}\label{transforms_svd_Function}
+There are three formulae for the times operator. For the first form \[ y(m_1,\ldots,m_d) = a \times b(m_1,\ldots,m_d), \] and the second form \[ y(m_1,\ldots,m_d) = a(m_1,\ldots,m_d) \times b. \] In the third form, the output is the matrix product of the arguments \[ y(m,n) = \sum_{k=1}^{K} a(m,k) b(k,n) \] \hypertarget{variables_matrix_Examples}{}\subsection{Examples}\label{variables_matrix_Examples}
+Here are some examples of using the matrix multiplication operator. First, the scalar examples (types 1 and 2 from the list above)\-:
+
+
+\begin{DoxyVerbInclude}
+--> a = [1,3,4;0,2,1]
+
+a = 
+ 1 3 4 
+ 0 2 1 
+
+--> b = a * 2
+
+b = 
+ 2 6 8 
+ 0 4 2 
+\end{DoxyVerbInclude}
+
+
+The matrix form, where the first argument is {\ttfamily 2 x 3}, and the second argument is {\ttfamily 3 x 1}, so that the product is size {\ttfamily 2 x 1}.
+
+
+\begin{DoxyVerbInclude}
+--> a = [1,2,0;4,2,3]
+
+a = 
+ 1 2 0 
+ 4 2 3 
+
+--> b = [5;3;1]
+
+b = 
+ 5 
+ 3 
+ 1 
+
+--> c = a*b
+
+c = 
+ 11 
+ 29 
+\end{DoxyVerbInclude}
+
+
+Note that the output is double precision. \hypertarget{operators_transpose}{}\section{T\-R\-A\-N\-S\-P\-O\-S\-E Matrix Transpose Operator}\label{operators_transpose}
+Section\-: \hyperlink{sec_operators}{Mathematical Operators} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Performs a transpose of the argument (a 2\-D matrix). The syntax for its use is \begin{DoxyVerb}  y = a.';
+\end{DoxyVerb}
+ where {\ttfamily a} is a {\ttfamily M x N} numerical matrix. The output {\ttfamily y} is a numerical matrix of the same type of size {\ttfamily N x M}. This operator is the non-\/conjugating transpose, which is different from the Hermitian operator {\ttfamily '} (which conjugates complex values). \hypertarget{transforms_svd_Function}{}\subsection{Internals}\label{transforms_svd_Function}
+The transpose operator is defined simply as \[ y_{i,j} = a_{j,i} \] where {\ttfamily y\-\_\-ij} is the element in the {\ttfamily i}th row and {\ttfamily j}th column of the output matrix {\ttfamily y}. \hypertarget{variables_matrix_Examples}{}\subsection{Examples}\label{variables_matrix_Examples}
+A simple transpose example\-:
+
+
+\begin{DoxyVerbInclude}
+--> A = [1,2,0;4,1,-1]
+
+A = 
+  1  2  0 
+  4  1 -1 
+
+--> A.'
+
+ans = 
+  1  4 
+  2  1 
+  0 -1 
+\end{DoxyVerbInclude}
+
+
+Here, we use a complex matrix to demonstrate how the transpose does {\bfseries not} conjugate the entries.
+
+
+\begin{DoxyVerbInclude}
+--> A = [1+i,2-i]
+
+A = 
+   1.0000 +  1.0000i   2.0000 -  1.0000i 
+
+--> A.'
+
+ans = 
+   1.0000 +  1.0000i 
+   2.0000 -  1.0000i 
+\end{DoxyVerbInclude}
+ \hypertarget{operators_typerules}{}\section{T\-Y\-P\-E\-R\-U\-L\-E\-S Type Rules for Operators}\label{operators_typerules}
+Section\-: \hyperlink{sec_operators}{Mathematical Operators} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Starting with Free\-Mat 4.\-0, the type of {\ttfamily y} is determined according to the same rules as Matlab. These are the rules\-: 
+\begin{DoxyEnumerate}
+\item Integer types of the same class can be combined. The answer is the same type as the inputs, and the operation is performed using saturating arithmetic. Integer types can also be combined with double precision values (again, the result is of the integer type).  
+\item Single precision floating point values can be combined with double precision, logical and character array classes. The result is of class single.  
+\item Double precision floating point values can be combined with all other types. Except as noted above, the output is of double precision.  
+\end{DoxyEnumerate}These rules look strange, and they are. In general, computations are done in double precision in almost all cases. When single precision values are involved, the computations take place in single precision. 

@@ -1,0 +1,57 @@
+/*!
+\page vtkwidgets_vtkdijkstraimagecontourlineinterpolator vtkDijkstraImageContourLineInterpolator
+
+<p>
+Section: \ref sec_vtkwidgets "Visualization Toolkit Widget Classes"
+\section Usage
+ vtkDijkstraImageContourLineInterpolator interpolates and places
+ contour points on images. The class interpolates nodes by
+ computing a graph lying on the image data. By graph, we mean 
+ that the line interpolating the two end points traverses along 
+ pixels so as to form a shortest path. A Dijkstra algorithm is 
+ used to compute the path.
+ 
+ The class is meant to be used in conjunction with 
+ vtkImageActorPointPlacer. One reason for this coupling is a 
+ performance issue: both classes need to perform a cell pick, and 
+ coupling avoids multiple cell picks (cell picks are slow).  Another
+ issue is that the interpolator may need to set the image input to 
+ its vtkDijkstraImageGeodesicPath ivar.
+
+
+To create an instance of class vtkDijkstraImageContourLineInterpolator, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkDijkstraImageContourLineInterpolator
+\endverbatim
+\section Methods
+The class vtkDijkstraImageContourLineInterpolator has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkDijkstraImageContourLineInterpolator class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt> -  Standard methods for instances of this class.
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt> -  Standard methods for instances of this class.
+ </LI>
+<LI>  <tt>vtkDijkstraImageContourLineInterpolator = obj.NewInstance ()</tt> -  Standard methods for instances of this class.
+ </LI>
+<LI>  <tt>vtkDijkstraImageContourLineInterpolator = obj.SafeDownCast (vtkObject o)</tt> -  Standard methods for instances of this class.
+ </LI>
+<LI>  <tt>int = obj.InterpolateLine (vtkRenderer ren, vtkContourRepresentation rep, int idx1, int idx2)</tt> -  Subclasses that wish to interpolate a line segment must implement this.
+ For instance vtkBezierContourLineInterpolator adds nodes between idx1
+ and idx2, that allow the contour to adhere to a bezier curve.
+ </LI>
+<LI>  <tt>obj.SetCostImage (vtkImageData )</tt> -  Set the image data for the vtkDijkstraImageGeodesicPath.
+ If not set, the interpolator uses the image data input to the image actor.
+ The image actor is obtained from the expected vtkImageActorPointPlacer.
+ </LI>
+<LI>  <tt>vtkImageData = obj.GetCostImage ()</tt> -  Set the image data for the vtkDijkstraImageGeodesicPath.
+ If not set, the interpolator uses the image data input to the image actor.
+ The image actor is obtained from the expected vtkImageActorPointPlacer.
+ </LI>
+<LI>  <tt>vtkDijkstraImageGeodesicPath = obj.GetDijkstraImageGeodesicPath ()</tt> -  access to the internal dijkstra path
+ </LI>
+</UL>
+*/

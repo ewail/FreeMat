@@ -1,0 +1,73 @@
+/*!
+\page constants_inf INF Infinity Constant
+
+<p>
+Section: \ref sec_constants "Base Constants"
+\section Usage
+Returns a value that represents positive infinity 
+for both 32 and 64-bit floating point values. 
+There are several forms for the <tt>Inf</tt> function.
+The first form returns a double precision <tt>Inf</tt>.
+\verbatim
+   y = inf
+\endverbatim
+The next form takes a class name that can be either <tt>'double'</tt> 
+\verbatim
+   y = inf('double')
+\endverbatim
+or <tt>'single'</tt>:
+\verbatim
+   y = inf('single')
+\endverbatim
+With a single parameter it generates a square matrix of <tt>inf</tt>s.
+\verbatim
+   y = inf(n)
+\endverbatim
+Alternatively, you can specify the dimensions of the array via
+\verbatim
+   y = inf(m,n,p,...)
+\endverbatim
+or
+\verbatim
+   y = inf([m,n,p,...])
+\endverbatim
+Finally, you can add a classname of either <tt>'single'</tt> or <tt>'double'</tt>.
+\section Function Internals
+The infinity constant has
+several interesting properties.  In particular:
+\f[
+\begin{array}{ll}
+   \infty \times 0 & = \mathrm{NaN} \\                                             \infty \times a & = \infty \, \mathrm{for all} \, a > 0 \\   \infty \times a & = -\infty \, \mathrm{for all} \, a < 0 \\   \infty / \infty & = \mathrm{NaN} \\   \infty / 0 & = \infty 
+\end{array}
+\f]
+Note that infinities are not preserved under type conversion to integer types (see the examples below).
+\section Example
+The following examples demonstrate the various properties of the infinity constant.
+
+\if FRAGMENT
+frag_constants_inf_000.m
+0
+inf*0
+inf*2
+inf*-2
+inf/inf
+inf/0
+inf/nan
+\endif
+
+
+\verbinclude frag_constants_inf_000.m.out 
+
+Note that infinities are preserved under type conversion to floating point types (i.e., <tt>float</tt>, <tt>double</tt>, <tt>complex</tt> and <tt>dcomplex</tt> types), but not integer  types.
+
+\if FRAGMENT
+frag_constants_inf_001.m
+0
+uint32(inf)
+complex(inf)
+\endif
+
+
+\verbinclude frag_constants_inf_001.m.out 
+
+*/

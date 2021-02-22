@@ -1,0 +1,51 @@
+/*!
+\page handle_imagesc IMAGESC Image Display Function
+
+<p>
+Section: \ref sec_handle "Handle-Based Graphics"
+\section Usage
+The <tt>imagesc</tt> command has the following general syntax
+\verbatim
+  handle = imagesc(x,y,C,clim)
+\endverbatim
+where <tt>x</tt> is a two vector containing the <tt>x</tt> coordinates
+of the first and last pixels along a column, and <tt>y</tt> is a
+two vector containing the <tt>y</tt> coordinates of the first and
+last pixels along a row.  The matrix <tt>C</tt> constitutes the
+image data.  It must either be a scalar matrix, in which case
+the image is colormapped using the  <tt>colormap</tt> for the current
+figure.  If the matrix is <tt>M x N x 3</tt>, then <tt>C</tt> is intepreted
+as RGB data, and the image is not colormapped.  The <tt>clim</tt>
+argument is a pairs [low high] that specifies scaling.  You can 
+also omit the <tt>x</tt> and <tt>y</tt>, 
+\verbatim
+  handle = imagesc(C, clim)
+\endverbatim
+in which case they default to <tt>x = [1,size(C,2)]</tt> and 
+<tt>y = [1,size(C,1)]</tt>.  Finally, you can use the <tt>image</tt> function
+with only formal arguments
+\verbatim
+  handle = imagesc(properties...)
+\endverbatim
+
+\section Example
+In this example, we create an image that is <tt>512 x 512</tt> pixels
+square, and set the background to a noise pattern.  We set the central
+<tt>128 x 256</tt> pixels to be white.
+
+\if FRAGMENT
+frag_handle_imagesc_000.m
+0
+x = rand(512);
+x((-64:63)+256,(-128:127)+256) = 1.0;
+figure
+imagesc(x,[0 .5])
+colormap(gray)
+mprint image1
+\endif
+
+
+\verbinclude frag_handle_imagesc_000.m.out 
+
+
+*/

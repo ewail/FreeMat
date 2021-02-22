@@ -1,0 +1,41 @@
+#!/bin/sh
+# Script to deploy the linux bundle created by cpack -- I am sure
+# that the process can be automated from within CMake, but this
+# method works for me.
+#
+echo "Preparing $1.tar.gz for deployment..."
+echo "Deleting old directory"
+topdir=$PWD
+rm -rf $1
+echo "Unpacking TGZ"
+tar xfz $1.tar.gz
+echo "Building package"
+cd $1
+mkdir Contents
+mkdir Contents/lib
+mkdir Contents/Resources
+mv share/*/* Contents/Resources/.
+rm -rf share
+mv bin Contents/.
+cp /usr/local/lib/libQtCore.so.4 Contents/lib/.
+cp /usr/local/lib/libQtGui.so.4 Contents/lib/.
+cp /usr/local/lib/libQtNetwork.so.4 Contents/lib/.
+cp /usr/local/lib/libQtOpenGL.so.4 Contents/lib/.
+cp /usr/local/lib/libQtXml.so.4 Contents/lib/.
+cp /usr/local/lib/libQtSvg.so.4 Contents/lib/.
+cp -r /usr/local/plugins Contents/
+rm `find . -name '*.debug'`
+cd Contents/bin
+mv FreeMat FreeMat.bin
+cat >FreeMat <<END
+#!/bin/sh
+LD_LIBRARY_PATH=$PWD/../lib:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH
+$PWD/FreeMat.bin
+END
+chmod +x FreeMat
+ln -s FreeMat freemat
+cd ../..
+ln -s Contents/bin/FreeMat FreeMat
+cd $topdir
+tar cfz $1.tar.gz $1

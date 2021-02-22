@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkcommon_vtkobjectbase" kind="page">
+    <compoundname>vtkcommon_vtkobjectbase</compoundname>
+    <title>vtkObjectBase</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkcommon_1sec_vtkcommon" kindref="member">Visualization Toolkit Common Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>vtkObjectBase is the base class for all reference counted classes in the VTK. These classes include vtkCommand classes, vtkInformationKey classes, and vtkObject classes.</para><para>vtkObjectBase performs reference counting: objects that are reference counted exist as long as another object uses them. Once the last reference to a reference counted object is removed, the object will spontaneously destruct.</para><para>Constructor and destructor of the subclasses of vtkObjectBase should be protected, so that only New() and UnRegister() actually call them. Debug leaks can be used to see if there are any objects left with nonzero reference count.</para><para>To create an instance of class vtkObjectBase, simply invoke its constructor as follows <verbatim>  obj = vtkObjectBase
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkObjectBase has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkObjectBase class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName () const</computeroutput> - Return the class name as a string. This method is defined in all subclasses of vtkObjectBase with the vtkTypeRevisionMacro found in vtkSetGet.h.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput> - Return 1 if this class is the same type of (or a subclass of) the named class. Returns 0 otherwise. This method works in combination with vtkTypeRevisionMacro found in vtkSetGet.h.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.Delete ()</computeroutput> - Delete a VTK object. This method should always be used to delete an object when the New() method was used to create it. Using the C++ delete method will not work with reference counting.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.FastDelete ()</computeroutput> - Delete a reference to this object. This version will not invoke garbage collection and can potentially leak the object if it is part of a reference loop. Use this method only when it is known that the object has another reference and would not be collected if a full garbage collection check were done.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.Register (vtkObjectBase o)</computeroutput> - Increase the reference count (mark as used by another object).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.UnRegister (vtkObjectBase o)</computeroutput> - Decrease the reference count (release by another object). This has the same effect as invoking Delete() (i.e., it reduces the reference count by 1).  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetReferenceCount ()</computeroutput> - Sets the reference count. (This is very dangerous, use with care.)  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetReferenceCount (int )</computeroutput> - Sets the reference count. (This is very dangerous, use with care.)  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

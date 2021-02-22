@@ -1,0 +1,135 @@
+
+ Usage
+
+vtkImageImport provides methods needed to import image data
+from a source independent of VTK, such as a simple C array
+or a third-party pipeline. Note that the VTK convention is
+for the image voxel index (0,0,0) to be the lower-left
+corner of the image, while most 2D image formats use the
+upper-left corner. You can use vtkImageFlip to correct the
+orientation after the image has been loaded into VTK. Note
+that is also possible to import the raw data from a Python
+string instead of from a C array. The array applies on
+scalar point data only, not on cell data.
+To create an instance of class vtkImageImport, simply invoke
+its constructor as follows
+
+    obj = vtkImageImport
+
+
+
+ Methods
+
+The class vtkImageImport has several methods that can be
+used. They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkImageImport class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkImageImport = obj.NewInstance ()
+* vtkImageImport = obj.SafeDownCast (vtkObject o)
+* obj.SetDataScalarType (int ) - Set/Get the data type of
+  pixels in the imported data. This is used as the scalar
+  type of the Output. Default: Short.
+* obj.SetDataScalarTypeToDouble () - Set/Get the data type
+  of pixels in the imported data. This is used as the scalar
+  type of the Output. Default: Short.
+* obj.SetDataScalarTypeToFloat () - Set/Get the data type of
+  pixels in the imported data. This is used as the scalar
+  type of the Output. Default: Short.
+* obj.SetDataScalarTypeToInt () - Set/Get the data type of
+  pixels in the imported data. This is used as the scalar
+  type of the Output. Default: Short.
+* obj.SetDataScalarTypeToShort () - Set/Get the data type of
+  pixels in the imported data. This is used as the scalar
+  type of the Output. Default: Short.
+* obj.SetDataScalarTypeToUnsignedShort () - Set/Get the data
+  type of pixels in the imported data. This is used as the
+  scalar type of the Output. Default: Short.
+* obj.SetDataScalarTypeToUnsignedChar () - Set/Get the data
+  type of pixels in the imported data. This is used as the
+  scalar type of the Output. Default: Short.
+* int = obj.GetDataScalarType () - Set/Get the data type of
+  pixels in the imported data. This is used as the scalar
+  type of the Output. Default: Short.
+* string = obj.GetDataScalarTypeAsString () - Set/Get the
+  number of scalar components, for RGB images this must be
+  3. Default: 1.
+* obj.SetNumberOfScalarComponents (int ) - Set/Get the
+  number of scalar components, for RGB images this must be
+  3. Default: 1.
+* int = obj.GetNumberOfScalarComponents () - Set/Get the
+  number of scalar components, for RGB images this must be
+  3. Default: 1.
+* obj.SetDataExtent (int , int , int , int , int , int ) -
+  Get/Set the extent of the data buffer. The dimensions of
+  your data must be equal to (extent[1]-extent[0]+1) *
+  (extent[3]-extent[2]+1) * (extent[5]-DataExtent[4]+1). For
+  example, for a 2D image use (0,width-1, 0,height-1, 0,0).
+* obj.SetDataExtent (int a[6]) - Get/Set the extent of the
+  data buffer. The dimensions of your data must be equal to
+  (extent[1]-extent[0]+1) * (extent[3]-extent[2]+1) *
+  (extent[5]-DataExtent[4]+1). For example, for a 2D image
+  use (0,width-1, 0,height-1, 0,0).
+* int = obj. GetDataExtent () - Get/Set the extent of the
+  data buffer. The dimensions of your data must be equal to
+  (extent[1]-extent[0]+1) * (extent[3]-extent[2]+1) *
+  (extent[5]-DataExtent[4]+1). For example, for a 2D image
+  use (0,width-1, 0,height-1, 0,0).
+* obj.SetDataExtentToWholeExtent () - Set/Get the spacing
+  (typically in mm) between image voxels. Default: (1.0,
+  1.0, 1.0).
+* obj.SetDataSpacing (double , double , double ) - Set/Get
+  the spacing (typically in mm) between image voxels.
+  Default: (1.0, 1.0, 1.0).
+* obj.SetDataSpacing (double a[3]) - Set/Get the spacing
+  (typically in mm) between image voxels. Default: (1.0,
+  1.0, 1.0).
+* double = obj. GetDataSpacing () - Set/Get the spacing
+  (typically in mm) between image voxels. Default: (1.0,
+  1.0, 1.0).
+* obj.SetDataOrigin (double , double , double ) - Set/Get
+  the origin of the data, i.e. the coordinates (usually in
+  mm) of voxel (0,0,0). Default: (0.0, 0.0, 0.0).
+* obj.SetDataOrigin (double a[3]) - Set/Get the origin of
+  the data, i.e. the coordinates (usually in mm) of voxel
+  (0,0,0). Default: (0.0, 0.0, 0.0).
+* double = obj. GetDataOrigin () - Set/Get the origin of the
+  data, i.e. the coordinates (usually in mm) of voxel
+  (0,0,0). Default: (0.0, 0.0, 0.0).
+* obj.SetWholeExtent (int , int , int , int , int , int ) -
+  Get/Set the whole extent of the image. This is the largest
+  possible extent. Set the DataExtent to the extent of the
+  image in the buffer pointed to by the ImportVoidPointer.
+* obj.SetWholeExtent (int a[6]) - Get/Set the whole extent
+  of the image. This is the largest possible extent. Set the
+  DataExtent to the extent of the image in the buffer
+  pointed to by the ImportVoidPointer.
+* int = obj. GetWholeExtent () - Get/Set the whole extent of
+  the image. This is the largest possible extent. Set the
+  DataExtent to the extent of the image in the buffer
+  pointed to by the ImportVoidPointer.
+* obj.SetScalarArrayName (string ) - Set/get the scalar
+  array name for this data set. Initial value is "scalars".
+* string = obj.GetScalarArrayName () - Set/get the scalar
+  array name for this data set. Initial value is "scalars".
+* int = obj.InvokePipelineModifiedCallbacks () - Invoke the
+  appropriate callbacks
+* obj.InvokeUpdateInformationCallbacks () - Invoke the
+  appropriate callbacks
+* obj.InvokeExecuteInformationCallbacks () - Invoke the
+  appropriate callbacks
+* obj.InvokeExecuteDataCallbacks () - Invoke the appropriate
+  callbacks
+* obj.LegacyCheckWholeExtent () - Invoke the appropriate
+  callbacks
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Imaging_Classes
+* Generated on Thu Jul 25 2013 17:18:33 for FreeMat by
+  doxygen_ 1.8.1.1
+

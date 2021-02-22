@@ -1,0 +1,47 @@
+/*!
+\page vtkrendering_vtkgpuinfolist vtkGPUInfoList
+
+<p>
+Section: \ref sec_vtkrendering "Visualization Toolkit Rendering Classes"
+\section Usage
+ vtkGPUInfoList stores a list of vtkGPUInfo. An host can have
+ several GPUs. It creates and sets the list by probing the host with system
+ calls. This an abstract class. Concrete classes are OS specific.
+
+To create an instance of class vtkGPUInfoList, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkGPUInfoList
+\endverbatim
+\section Methods
+The class vtkGPUInfoList has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkGPUInfoList class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkGPUInfoList = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkGPUInfoList = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.Probe ()</tt> -  Build the list of vtkInfoGPU if not done yet.
+ Default implementation created an empty list. Useful if there is no
+ implementation available for a given architecture yet.
+ \post probed: IsProbed()
+ </LI>
+<LI>  <tt>bool = obj.IsProbed ()</tt> -  Tells if the operating system has been probed. Initial value is false.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfGPUs ()</tt> -  Return the number of GPUs.
+ \pre probed: IsProbed()
+ </LI>
+<LI>  <tt>vtkGPUInfo = obj.GetGPUInfo (int i)</tt> -  Return information about GPU i.
+ \pre probed: IsProbed()
+ \pre valid_index: i>=0 && i<GetNumberOfGPUs()
+ \post result_exists: result!=0
+ </LI>
+</UL>
+*/

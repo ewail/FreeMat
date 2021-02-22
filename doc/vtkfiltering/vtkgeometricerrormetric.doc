@@ -1,0 +1,80 @@
+/*!
+\page vtkfiltering_vtkgeometricerrormetric vtkGeometricErrorMetric
+
+<p>
+Section: \ref sec_vtkfiltering "Visualization Toolkit Filtering Classes"
+\section Usage
+ It is a concrete error metric, based on a geometric criterium:
+ the variation of the edge from a straight line.
+
+
+To create an instance of class vtkGeometricErrorMetric, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkGeometricErrorMetric
+\endverbatim
+\section Methods
+The class vtkGeometricErrorMetric has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkGeometricErrorMetric class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt> -  Standard VTK type and error macros.
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt> -  Standard VTK type and error macros.
+ </LI>
+<LI>  <tt>vtkGeometricErrorMetric = obj.NewInstance ()</tt> -  Standard VTK type and error macros.
+ </LI>
+<LI>  <tt>vtkGeometricErrorMetric = obj.SafeDownCast (vtkObject o)</tt> -  Standard VTK type and error macros.
+ </LI>
+<LI>  <tt>double = obj.GetAbsoluteGeometricTolerance ()</tt> -  Return the squared absolute geometric accuracy. See
+ SetAbsoluteGeometricTolerance() for details.
+ \post positive_result: result>0
+ </LI>
+<LI>  <tt>obj.SetAbsoluteGeometricTolerance (double value)</tt> -  Set the geometric accuracy with a squared absolute value.
+ This is the geometric object-based accuracy.
+ Subdivision will be required if the square distance between the real
+ point and the straight line passing through the vertices of the edge is
+ greater than `value'. For instance 0.01 will give better result than 0.1.
+ \pre positive_value: value>0
+ </LI>
+<LI>  <tt>obj.SetRelativeGeometricTolerance (double value, vtkGenericDataSet ds)</tt> -  Set the geometric accuracy with a value relative to the length of the
+ bounding box of the dataset. Internally compute the absolute tolerance.
+ For instance 0.01 will give better result than 0.1.
+ \pre valid_range_value: value>0 && value<1
+ \pre ds_exists: ds!=0
+ </LI>
+<LI>  <tt>int = obj.RequiresEdgeSubdivision (double leftPoint, double midPoint, double rightPoint, double alpha)</tt> -  Does the edge need to be subdivided according to the distance between
+ the line passing through its endpoints and the mid point?
+ The edge is defined by its `leftPoint' and its `rightPoint'.
+ `leftPoint', `midPoint' and `rightPoint' have to be initialized before
+ calling RequiresEdgeSubdivision().
+ Their format is global coordinates, parametric coordinates and
+ point centered attributes: xyx rst abc de...
+ `alpha' is the normalized abscissa of the midpoint along the edge.
+ (close to 0 means close to the left point, close to 1 means close to the
+ right point)
+ \pre leftPoint_exists: leftPoint!=0
+ \pre midPoint_exists: midPoint!=0
+ \pre rightPoint_exists: rightPoint!=0
+ \pre clamped_alpha: alpha>0 && alpha<1
+ \pre valid_size: sizeof(leftPoint)=sizeof(midPoint)=sizeof(rightPoint)
+          =GetAttributeCollection()->GetNumberOfPointCenteredComponents()+6
+ </LI>
+<LI>  <tt>double = obj.GetError (double leftPoint, double midPoint, double rightPoint, double alpha)</tt> -  Return the error at the mid-point. It will return an error relative to
+ the bounding box size if GetRelative() is true, a square absolute error
+ otherwise.
+ See RequiresEdgeSubdivision() for a description of the arguments.
+ \pre leftPoint_exists: leftPoint!=0
+ \pre midPoint_exists: midPoint!=0
+ \pre rightPoint_exists: rightPoint!=0
+ \pre clamped_alpha: alpha>0 && alpha<1
+ \pre valid_size: sizeof(leftPoint)=sizeof(midPoint)=sizeof(rightPoint)
+          =GetAttributeCollection()->GetNumberOfPointCenteredComponents()+6
+ \post positive_result: result>=0
+ </LI>
+<LI>  <tt>int = obj.GetRelative ()</tt> -  Return the type of output of GetError()
+ </LI>
+</UL>
+*/

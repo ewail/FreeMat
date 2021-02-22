@@ -1,0 +1,70 @@
+/*!
+\page freemat_blaslib BLASLIB Select BLAS library
+
+<p>
+Section: \ref sec_freemat "FreeMat Functions"
+\section Usage
+The <tt>blaslib</tt> function allows you to select the FreeMat blas library.
+It has two modes of operation.  The first is to select blas library:
+\verbatim
+  blaslib LIB_NAME
+\endverbatim
+If you want to see current blas library selected
+issue a <tt>blaslib</tt> command with no arguments.
+\verbatim
+   blaslib
+\endverbatim
+the returned list of libraries will include an asterix next to the library
+currently selected.  If no library is selected, FreeMat will use its internal (reference)
+ BLAS implementation, which is slow, but portable.
+
+Location of the optimized library is specified in blas.ini file which is
+installed in the binary directory (i.e. directory where FreeMat
+executable is located).
+
+The format of blas.ini file is following:
+\verbatim
+ [Linux64]
+ATLAS64\libname=/usr/lib64/atlas/libblas.so
+ATLAS64\capfnames=false
+ATLAS64\prefix=
+ATLAS64\suffix=_
+ATLAS64\desc="ATLAS BLAS. Optimized."
+\endverbatim
+Where Linux64 is the OS flavor for the blas library described below
+it. Other options are [Win32], [Linux32], [OSX]. Note that Linux is our 
+name for all unix platforms.
+<UL>
+<LI>  <tt>ATLAS64</tt> - name of the library as it will appear in the list when you
+type blaslib command in FreeMat.
+ </LI>
+<LI>  <tt>ATLAS64\\libname</tt> - path to the library. It has to be a shared library
+(Linux), DLL (Windows), Bundle (? OSX). This library has to be a Fortran
+BLAS library, not cblas!
+ </LI>
+<LI>  <tt>ATLAS64\\capfnames</tt> - does the library use capital letters for function
+names (usually false).
+ </LI>
+<LI>  <tt>ATLAS64\\prefix</tt> - prefix (characters that are put in front of) for all
+blas functions in the library (e.g. <tt>ATL_</tt> or <tt>AMD_</tt>).
+ </LI>
+<LI>  <tt>ATLAS64\\suffix</tt> - suffix (characters that are put after) for all blas
+function in the library (e.g. <tt>_</tt>)
+ </LI>
+<LI>  <tt>ATLAS64\\desc</tt> - text description of the library.
+ </LI>
+</UL>
+
+On FreeMat startup it looks at the blas.ini file, and tries to load each
+library described in the section for the given OS flavor. FreeMat will
+use the first library it can successfully load. If you want to switch
+the BLAS libraries dynamically in the running FreeMat session you need
+to use blaslib command.
+
+If FreeMat can't load any library it will default to using built in BLAS.
+
+You should be a careful when using non-default BLAS
+libraries. Some libraries do not implement all the BLAS functions
+correctly. You should run FreeMat test suite (type <tt>run_tests()</tt>) and use
+common sense when evaluating the results of numerical computations. 
+*/

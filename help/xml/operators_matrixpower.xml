@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="operators_matrixpower" kind="page">
+    <compoundname>operators_matrixpower</compoundname>
+    <title>MATRIXPOWER Matrix Power Operator</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_operators_1sec_operators" kindref="member">Mathematical Operators</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>The power operator for scalars and square matrices. This operator is really a combination of two operators, both of which have the same general syntax: <verbatim>  y = a ^ b
+</verbatim> The exact action taken by this operator, and the size and type of the output, depends on which of the two configurations of <computeroutput>a</computeroutput> and <computeroutput>b</computeroutput> is present: <orderedlist>
+<listitem>
+<para><computeroutput>a</computeroutput> is a scalar, <computeroutput>b</computeroutput> is a square matrix  </para></listitem>
+<listitem>
+<para><computeroutput>a</computeroutput> is a square matrix, <computeroutput>b</computeroutput> is a scalar  </para></listitem>
+</orderedlist>
+</para></sect1>
+<sect1 id="transforms_svd_1Function">
+<title>Internals</title>
+<para>In the first case that <computeroutput>a</computeroutput> is a scalar, and <computeroutput>b</computeroutput> is a square matrix, the matrix power is defined in terms of the eigenvalue decomposition of <computeroutput>b</computeroutput>. Let <computeroutput>b</computeroutput> have the following eigen-decomposition (problems arise with non-symmetric matrices <computeroutput>b</computeroutput>, so let us assume that <computeroutput>b</computeroutput> is symmetric): <formula id="122">\[ b = E \begin{bmatrix} \lambda_1 &amp; 0 &amp; \cdots &amp; 0 \\ 0 &amp; \lambda_2 &amp; \ddots &amp; \vdots \\ \vdots &amp; \ddots &amp; \ddots &amp; 0 \\ 0 &amp; \hdots &amp; 0 &amp; \lambda_n \end{bmatrix} E^{-1} \]</formula> Then <computeroutput>a</computeroutput> raised to the power <computeroutput>b</computeroutput> is defined as <formula id="123">\[ a^{b} = E \begin{bmatrix} a^{\lambda_1} &amp; 0 &amp; \cdots &amp; 0 \\ 0 &amp; a^{\lambda_2} &amp; \ddots &amp; \vdots \\ \vdots &amp; \ddots &amp; \ddots &amp; 0 \\ 0 &amp; \hdots &amp; 0 &amp; a^{\lambda_n} \end{bmatrix} E^{-1} \]</formula> Similarly, if <computeroutput>a</computeroutput> is a square matrix, then <computeroutput>a</computeroutput> has the following eigen-decomposition (again, suppose <computeroutput>a</computeroutput> is symmetric): <formula id="124">\[ a = E \begin{bmatrix} \lambda_1 &amp; 0 &amp; \cdots &amp; 0 \\ 0 &amp; \lambda_2 &amp; \ddots &amp; \vdots \\ \vdots &amp; \ddots &amp; \ddots &amp; 0 \\ 0 &amp; \hdots &amp; 0 &amp; \lambda_n \end{bmatrix} E^{-1} \]</formula> Then <computeroutput>a</computeroutput> raised to the power <computeroutput>b</computeroutput> is defined as <formula id="125">\[ a^{b} = E \begin{bmatrix} \lambda_1^b &amp; 0 &amp; \cdots &amp; 0 \\ 0 &amp; \lambda_2^b &amp; \ddots &amp; \vdots \\ \vdots &amp; \ddots &amp; \ddots &amp; 0 \\ 0 &amp; \hdots &amp; 0 &amp; \lambda_n^b \end{bmatrix} E^{-1} \]</formula> </para></sect1>
+<sect1 id="variables_matrix_1Examples">
+<title>Examples</title>
+<para>We first define a simple <computeroutput>2 x 2</computeroutput> symmetric matrix</para><para><verbatim>--&gt; A = 1.5
+
+A = 
+    1.5000 
+
+--&gt; B = [1,.2;.2,1]
+
+B = 
+    1.0000    0.2000 
+    0.2000    1.0000 
+</verbatim></para><para>First, we raise <computeroutput>B</computeroutput> to the (scalar power) <computeroutput>A</computeroutput>:</para><para><verbatim>--&gt; C = B^A
+
+C = 
+    1.0150    0.2995 
+    0.2995    1.0150 
+</verbatim></para><para>Next, we raise <computeroutput>A</computeroutput> to the matrix power <computeroutput>B</computeroutput>:</para><para><verbatim>--&gt; C = A^B
+
+C = 
+    1.5049    0.1218 
+    0.1218    1.5049 
+</verbatim> </para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

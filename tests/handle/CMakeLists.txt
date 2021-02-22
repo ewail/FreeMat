@@ -1,0 +1,5 @@
+ENABLE_TESTING()
+ADD_TEST(wbtest_hist_1 ${FreeMat_Loc} "-e" "-nogui" "-t" "-nogreet" "-p" "${CMAKE_SOURCE_DIR}/tests/handle" "-f" "wb_test('@$exact#y1=hist(linspace(1,100),3)','wbtest_hist_1','${CMAKE_SOURCE_DIR}/tests/reference')")
+ADD_TEST(test_plot1 ${FreeMat_Loc} "-e" "-nogui" "-t" "-nogreet" "-p" "${CMAKE_SOURCE_DIR}/tests/handle" "-f" "wrap_test('test_plot1')")
+ADD_TEST(test_image1 ${FreeMat_Loc} "-e" "-nogui" "-t" "-nogreet" "-p" "${CMAKE_SOURCE_DIR}/tests/handle" "-f" "wrap_test('test_image1')")
+ADD_TEST(test_contour1 ${FreeMat_Loc} "-e" "-nogui" "-t" "-nogreet" "-p" "${CMAKE_SOURCE_DIR}/tests/handle" "-f" "wrap_test('test_contour1')")

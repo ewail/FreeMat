@@ -1,0 +1,233 @@
+/*!
+\page vtkgraphics_vtktensorglyph vtkTensorGlyph
+
+<p>
+Section: \ref sec_vtkgraphics "Visualization Toolkit Graphics Classes"
+\section Usage
+ vtkTensorGlyph is a filter that copies a geometric representation
+ (specified as polygonal data) to every input point. The geometric
+ representation, or glyph, can be scaled and/or rotated according to
+ the tensor at the input point. Scaling and rotation is controlled
+ by the eigenvalues/eigenvectors of the tensor as follows. For each
+ tensor, the eigenvalues (and associated eigenvectors) are sorted to
+ determine the major, medium, and minor eigenvalues/eigenvectors.
+
+ If the boolean variable ThreeGlyphs is not set the major eigenvalue 
+ scales the glyph in the x-direction, the medium in the y-direction, 
+ and the minor in the  z-direction. Then, the glyph is rotated so 
+ that the glyph's local x-axis lies along the major eigenvector, 
+ y-axis along the medium eigenvector, and z-axis along the minor. 
+
+ If the boolean variable ThreeGlyphs is set three glyphs are produced, 
+ each of them oriented along an eigenvector and scaled according to the 
+ corresponding eigenvector.
+
+ If the boolean variable Symmetric is set each glyph is mirrored (2 or 6 
+ glyphs will be produced)
+
+ The x-axis of the source glyph will correspond to the eigenvector 
+ on output. Point (0,0,0) in the source will be placed in the data point.
+ Variable Length will normally correspond to the distance from the 
+ origin to the tip of the source glyph along the x-axis, 
+ but can be changed to produce other results when Symmetric is on,
+ e.g. glyphs that do not touch or that overlap.
+
+ Please note that when Symmetric is false it will generally be better 
+ to place the source glyph from (-0.5,0,0) to (0.5,0,0), i.e. centred
+ at the origin. When symmetric is true the placement from (0,0,0) to
+ (1,0,0) will generally be more convenient.
+
+ A scale factor is provided to control the amount of scaling. Also, you 
+ can turn off scaling completely if desired. The boolean variable 
+ ClampScaling controls the maximum scaling (in conjunction with
+ MaxScaleFactor.) This is useful in certain applications where 
+ singularities or large order of magnitude differences exist in 
+ the eigenvalues.
+
+ If the boolean variable ColorGlyphs is set to true the glyphs are
+ colored.  The glyphs can be colored using the input scalars
+ (SetColorModeToScalars), which is the default, or colored using the
+ eigenvalues (SetColorModeToEigenvalues).
+
+ Another instance variable, ExtractEigenvalues, has been provided to
+ control extraction of eigenvalues/eigenvectors. If this boolean is
+ false, then eigenvalues/eigenvectors are not extracted, and the
+ columns of the tensor are taken as the eigenvectors (the norm of
+ column, always positive, is the eigenvalue).  This allows
+ additional capability over the vtkGlyph3D object. That is, the
+ glyph can be oriented in three directions instead of one.
+
+To create an instance of class vtkTensorGlyph, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkTensorGlyph
+\endverbatim
+\section Methods
+The class vtkTensorGlyph has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkTensorGlyph class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkTensorGlyph = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkTensorGlyph = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetSource (vtkPolyData source)</tt> -  Specify the geometry to copy to each point. Old style. See
+ SetSourceConnection.
+ </LI>
+<LI>  <tt>vtkPolyData = obj.GetSource ()</tt> -  Specify the geometry to copy to each point. Old style. See
+ SetSourceConnection.
+ </LI>
+<LI>  <tt>obj.SetSourceConnection (int id, vtkAlgorithmOutput algOutput)</tt> -  Specify a source object at a specified table location. New style.
+ Source connection is stored in port 1. This method is equivalent
+ to SetInputConnection(1, id, outputPort).
+ </LI>
+<LI>  <tt>obj.SetSourceConnection (vtkAlgorithmOutput algOutput)</tt> -  Turn on/off scaling of glyph with eigenvalues.
+ </LI>
+<LI>  <tt>obj.SetScaling (int )</tt> -  Turn on/off scaling of glyph with eigenvalues.
+ </LI>
+<LI>  <tt>int = obj.GetScaling ()</tt> -  Turn on/off scaling of glyph with eigenvalues.
+ </LI>
+<LI>  <tt>obj.ScalingOn ()</tt> -  Turn on/off scaling of glyph with eigenvalues.
+ </LI>
+<LI>  <tt>obj.ScalingOff ()</tt> -  Turn on/off scaling of glyph with eigenvalues.
+ </LI>
+<LI>  <tt>obj.SetScaleFactor (double )</tt> -  Specify scale factor to scale object by. (Scale factor always affects
+ output even if scaling is off.)
+ </LI>
+<LI>  <tt>double = obj.GetScaleFactor ()</tt> -  Specify scale factor to scale object by. (Scale factor always affects
+ output even if scaling is off.)
+ </LI>
+<LI>  <tt>obj.SetThreeGlyphs (int )</tt> -  Turn on/off drawing three glyphs
+ </LI>
+<LI>  <tt>int = obj.GetThreeGlyphs ()</tt> -  Turn on/off drawing three glyphs
+ </LI>
+<LI>  <tt>obj.ThreeGlyphsOn ()</tt> -  Turn on/off drawing three glyphs
+ </LI>
+<LI>  <tt>obj.ThreeGlyphsOff ()</tt> -  Turn on/off drawing three glyphs
+ </LI>
+<LI>  <tt>obj.SetSymmetric (int )</tt> -  Turn on/off drawing a mirror of each glyph
+ </LI>
+<LI>  <tt>int = obj.GetSymmetric ()</tt> -  Turn on/off drawing a mirror of each glyph
+ </LI>
+<LI>  <tt>obj.SymmetricOn ()</tt> -  Turn on/off drawing a mirror of each glyph
+ </LI>
+<LI>  <tt>obj.SymmetricOff ()</tt> -  Turn on/off drawing a mirror of each glyph
+ </LI>
+<LI>  <tt>obj.SetLength (double )</tt> -  Set/Get the distance, along x, from the origin to the end of the 
+ source glyph. It is used to draw the symmetric glyphs.
+ </LI>
+<LI>  <tt>double = obj.GetLength ()</tt> -  Set/Get the distance, along x, from the origin to the end of the 
+ source glyph. It is used to draw the symmetric glyphs.
+ </LI>
+<LI>  <tt>obj.SetExtractEigenvalues (int )</tt> -  Turn on/off extraction of eigenvalues from tensor.
+ </LI>
+<LI>  <tt>obj.ExtractEigenvaluesOn ()</tt> -  Turn on/off extraction of eigenvalues from tensor.
+ </LI>
+<LI>  <tt>obj.ExtractEigenvaluesOff ()</tt> -  Turn on/off extraction of eigenvalues from tensor.
+ </LI>
+<LI>  <tt>int = obj.GetExtractEigenvalues ()</tt> -  Turn on/off extraction of eigenvalues from tensor.
+ </LI>
+<LI>  <tt>obj.SetColorGlyphs (int )</tt> -  Turn on/off coloring of glyph with input scalar data or
+ eigenvalues. If false, or input scalar data not present, then the
+ scalars from the source object are passed through the filter.
+ </LI>
+<LI>  <tt>int = obj.GetColorGlyphs ()</tt> -  Turn on/off coloring of glyph with input scalar data or
+ eigenvalues. If false, or input scalar data not present, then the
+ scalars from the source object are passed through the filter.
+ </LI>
+<LI>  <tt>obj.ColorGlyphsOn ()</tt> -  Turn on/off coloring of glyph with input scalar data or
+ eigenvalues. If false, or input scalar data not present, then the
+ scalars from the source object are passed through the filter.
+ </LI>
+<LI>  <tt>obj.ColorGlyphsOff ()</tt> -  Turn on/off coloring of glyph with input scalar data or
+ eigenvalues. If false, or input scalar data not present, then the
+ scalars from the source object are passed through the filter.
+ </LI>
+<LI>  <tt>obj.SetColorMode (int )</tt> -  Set the color mode to be used for the glyphs.  This can be set to
+ use the input scalars (default) or to use the eigenvalues at the
+ point.  If ThreeGlyphs is set and the eigenvalues are chosen for
+ coloring then each glyph is colored by the corresponding
+ eigenvalue and if not set the color corresponding to the largest
+ eigenvalue is chosen.  The recognized values are:
+ COLOR_BY_SCALARS = 0 (default)
+ COLOR_BY_EIGENVALUES = 1
+ </LI>
+<LI>  <tt>int = obj.GetColorModeMinValue ()</tt> -  Set the color mode to be used for the glyphs.  This can be set to
+ use the input scalars (default) or to use the eigenvalues at the
+ point.  If ThreeGlyphs is set and the eigenvalues are chosen for
+ coloring then each glyph is colored by the corresponding
+ eigenvalue and if not set the color corresponding to the largest
+ eigenvalue is chosen.  The recognized values are:
+ COLOR_BY_SCALARS = 0 (default)
+ COLOR_BY_EIGENVALUES = 1
+ </LI>
+<LI>  <tt>int = obj.GetColorModeMaxValue ()</tt> -  Set the color mode to be used for the glyphs.  This can be set to
+ use the input scalars (default) or to use the eigenvalues at the
+ point.  If ThreeGlyphs is set and the eigenvalues are chosen for
+ coloring then each glyph is colored by the corresponding
+ eigenvalue and if not set the color corresponding to the largest
+ eigenvalue is chosen.  The recognized values are:
+ COLOR_BY_SCALARS = 0 (default)
+ COLOR_BY_EIGENVALUES = 1
+ </LI>
+<LI>  <tt>int = obj.GetColorMode ()</tt> -  Set the color mode to be used for the glyphs.  This can be set to
+ use the input scalars (default) or to use the eigenvalues at the
+ point.  If ThreeGlyphs is set and the eigenvalues are chosen for
+ coloring then each glyph is colored by the corresponding
+ eigenvalue and if not set the color corresponding to the largest
+ eigenvalue is chosen.  The recognized values are:
+ COLOR_BY_SCALARS = 0 (default)
+ COLOR_BY_EIGENVALUES = 1
+ </LI>
+<LI>  <tt>obj.SetColorModeToScalars ()</tt> -  Set the color mode to be used for the glyphs.  This can be set to
+ use the input scalars (default) or to use the eigenvalues at the
+ point.  If ThreeGlyphs is set and the eigenvalues are chosen for
+ coloring then each glyph is colored by the corresponding
+ eigenvalue and if not set the color corresponding to the largest
+ eigenvalue is chosen.  The recognized values are:
+ COLOR_BY_SCALARS = 0 (default)
+ COLOR_BY_EIGENVALUES = 1
+ </LI>
+<LI>  <tt>obj.SetColorModeToEigenvalues ()</tt> -  Set the color mode to be used for the glyphs.  This can be set to
+ use the input scalars (default) or to use the eigenvalues at the
+ point.  If ThreeGlyphs is set and the eigenvalues are chosen for
+ coloring then each glyph is colored by the corresponding
+ eigenvalue and if not set the color corresponding to the largest
+ eigenvalue is chosen.  The recognized values are:
+ COLOR_BY_SCALARS = 0 (default)
+ COLOR_BY_EIGENVALUES = 1
+ </LI>
+<LI>  <tt>obj.SetClampScaling (int )</tt> -  Turn on/off scalar clamping. If scalar clamping is on, the ivar
+ MaxScaleFactor is used to control the maximum scale factor. (This is
+ useful to prevent uncontrolled scaling near singularities.)
+ </LI>
+<LI>  <tt>int = obj.GetClampScaling ()</tt> -  Turn on/off scalar clamping. If scalar clamping is on, the ivar
+ MaxScaleFactor is used to control the maximum scale factor. (This is
+ useful to prevent uncontrolled scaling near singularities.)
+ </LI>
+<LI>  <tt>obj.ClampScalingOn ()</tt> -  Turn on/off scalar clamping. If scalar clamping is on, the ivar
+ MaxScaleFactor is used to control the maximum scale factor. (This is
+ useful to prevent uncontrolled scaling near singularities.)
+ </LI>
+<LI>  <tt>obj.ClampScalingOff ()</tt> -  Turn on/off scalar clamping. If scalar clamping is on, the ivar
+ MaxScaleFactor is used to control the maximum scale factor. (This is
+ useful to prevent uncontrolled scaling near singularities.)
+ </LI>
+<LI>  <tt>obj.SetMaxScaleFactor (double )</tt> -  Set/Get the maximum allowable scale factor. This value is compared to the
+ combination of the scale factor times the eigenvalue. If less, the scale
+ factor is reset to the MaxScaleFactor. The boolean ClampScaling has to 
+ be "on" for this to work.
+ </LI>
+<LI>  <tt>double = obj.GetMaxScaleFactor ()</tt> -  Set/Get the maximum allowable scale factor. This value is compared to the
+ combination of the scale factor times the eigenvalue. If less, the scale
+ factor is reset to the MaxScaleFactor. The boolean ClampScaling has to 
+ be "on" for this to work.
+ </LI>
+</UL>
+*/

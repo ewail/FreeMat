@@ -1,0 +1,6 @@
+ENABLE_TESTING()
+ADD_TEST(wbtest_cat_1 ${FreeMat_Loc} "-e" "-nogui" "-t" "-nogreet" "-p" "${CMAKE_SOURCE_DIR}/tests/class" "-f" "wb_test('@$exact#y1=cat(1,x1,x2)','wbtest_cat_1','${CMAKE_SOURCE_DIR}/tests/reference')")
+ADD_TEST(wbtest_cat_2 ${FreeMat_Loc} "-e" "-nogui" "-t" "-nogreet" "-p" "${CMAKE_SOURCE_DIR}/tests/class" "-f" "wb_test('@$exact#y1=cat(2,x1,x2)','wbtest_cat_2','${CMAKE_SOURCE_DIR}/tests/reference')")
+ADD_TEST(wbtest_vertcat_1 ${FreeMat_Loc} "-e" "-nogui" "-t" "-nogreet" "-p" "${CMAKE_SOURCE_DIR}/tests/class" "-f" "wb_test('@$exact#y1=vertcat(x1,x2)','wbtest_vertcat_1','${CMAKE_SOURCE_DIR}/tests/reference')")
+ADD_TEST(wbtest_horzcat_1 ${FreeMat_Loc} "-e" "-nogui" "-t" "-nogreet" "-p" "${CMAKE_SOURCE_DIR}/tests/class" "-f" "wb_test('@$exact#y1=horzcat(x1,x2)','wbtest_horzcat_1','${CMAKE_SOURCE_DIR}/tests/reference')")
+ADD_TEST(wbtest_horzcat_2 ${FreeMat_Loc} "-e" "-nogui" "-t" "-nogreet" "-p" "${CMAKE_SOURCE_DIR}/tests/class" "-f" "wb_test('@$exact#y1=horzcat(x1)','wbtest_horzcat_2','${CMAKE_SOURCE_DIR}/tests/reference')")

@@ -1,0 +1,201 @@
+
+ Usage
+
+vtkProp3D is an abstract class used to represent an entity
+in a rendering scene (i.e., vtkProp3D is a vtkProp with an
+associated transformation matrix). It handles functions
+related to the position, orientation and scaling. It
+combines these instance variables into one 4x4
+transformation matrix as follows: [x y z 1] = [x y z 1]
+Translate(-origin) Scale(scale) Rot(y) Rot(x) Rot (z) Trans
+(origin) Trans(position). Both vtkActor and vtkVolume are
+specializations of class vtkProp. The constructor defaults
+to: origin(0,0,0) position=(0,0,0) orientation=(0,0,0), no
+user defined matrix or transform, and no texture map.
+To create an instance of class vtkProp3D, simply invoke its
+constructor as follows
+
+    obj = vtkProp3D
+
+
+
+ Methods
+
+The class vtkProp3D has several methods that can be used.
+They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkProp3D class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkProp3D = obj.NewInstance ()
+* vtkProp3D = obj.SafeDownCast (vtkObject o)
+* obj.ShallowCopy (vtkProp prop) - Shallow copy of this
+  vtkProp3D.
+* obj.SetPosition (double _arg1, double _arg2, double _arg3)
+  - Set/Get/Add the position of the Prop3D in world
+  coordinates.
+* obj.SetPosition (double _arg[3]) - Set/Get/Add the
+  position of the Prop3D in world coordinates.
+* double = obj. GetPosition () - Set/Get/Add the position of
+  the Prop3D in world coordinates.
+* obj.AddPosition (double deltaPosition[3]) - Set/Get/Add
+  the position of the Prop3D in world coordinates.
+* obj.AddPosition (double deltaX, double deltaY, double
+  deltaZ) - Set/Get/Add the position of the Prop3D in world
+  coordinates.
+* obj.SetOrigin (double _arg1, double _arg2, double _arg3) -
+  Set/Get the origin of the Prop3D. This is the point about
+  which all rotations take place.
+* obj.SetOrigin (double _arg[3]) - Set/Get the origin of the
+  Prop3D. This is the point about which all rotations take
+  place.
+* double = obj. GetOrigin () - Set/Get the origin of the
+  Prop3D. This is the point about which all rotations take
+  place.
+* obj.SetScale (double _arg1, double _arg2, double _arg3) -
+  Set/Get the scale of the actor. Scaling in performed
+  independently on the X, Y and Z axis. A scale of zero is
+  illegal and will be replaced with one.
+* obj.SetScale (double _arg[3]) - Set/Get the scale of the
+  actor. Scaling in performed independently on the X, Y and
+  Z axis. A scale of zero is illegal and will be replaced
+  with one.
+* double = obj. GetScale () - Set/Get the scale of the
+  actor. Scaling in performed independently on the X, Y and
+  Z axis. A scale of zero is illegal and will be replaced
+  with one.
+* obj.SetScale (double s) - Method to set the scale
+  isotropically
+* obj.SetUserTransform (vtkLinearTransform transform) - In
+  addition to the instance variables such as position and
+  orientation, you can add an additional transformation for
+  your own use. This transformation is concatenated with the
+  actor's internal transformation, which you implicitly
+  create through the use of SetPosition(), SetOrigin() and
+  SetOrientation().
+  If the internal transformation is identity (i.e. if you
+  don't set the Position, Origin, or Orientation) then the
+  actors final transformation will be the UserTransform,
+  concatenated with the UserMatrix if the UserMatrix is
+  present.
+* vtkLinearTransform = obj.GetUserTransform () - In addition
+  to the instance variables such as position and
+  orientation, you can add an additional transformation for
+  your own use. This transformation is concatenated with the
+  actor's internal transformation, which you implicitly
+  create through the use of SetPosition(), SetOrigin() and
+  SetOrientation().
+  If the internal transformation is identity (i.e. if you
+  don't set the Position, Origin, or Orientation) then the
+  actors final transformation will be the UserTransform,
+  concatenated with the UserMatrix if the UserMatrix is
+  present.
+* obj.SetUserMatrix (vtkMatrix4x4 matrix) - The UserMatrix
+  can be used in place of UserTransform.
+* vtkMatrix4x4 = obj.GetUserMatrix () - The UserMatrix can
+  be used in place of UserTransform.
+* obj.GetMatrix (vtkMatrix4x4 m) - Return a reference to the
+  Prop3D's 4x4 composite matrix. Get the matrix from the
+  position, origin, scale and orientation This matrix is
+  cached, so multiple GetMatrix() calls will be efficient.
+* obj.GetMatrix (double m[16]) - Return a reference to the
+  Prop3D's 4x4 composite matrix. Get the matrix from the
+  position, origin, scale and orientation This matrix is
+  cached, so multiple GetMatrix() calls will be efficient.
+* obj.GetBounds (double bounds[6]) - Get the bounds for this
+  Prop3D as (Xmin,Xmax,Ymin,Ymax,Zmin,Zmax).
+* double = obj.GetBounds () - Get the bounds for this Prop3D
+  as (Xmin,Xmax,Ymin,Ymax,Zmin,Zmax).
+* double = obj.GetCenter () - Get the center of the bounding
+  box in world coordinates.
+* double = obj.GetXRange () - Get the Prop3D's x range in
+  world coordinates.
+* double = obj.GetYRange () - Get the Prop3D's y range in
+  world coordinates.
+* double = obj.GetZRange () - Get the Prop3D's z range in
+  world coordinates.
+* double = obj.GetLength () - Get the length of the diagonal
+  of the bounding box.
+* obj.RotateX (double ) - Rotate the Prop3D in degrees about
+  the X axis using the right hand rule. The axis is the
+  Prop3D's X axis, which can change as other rotations are
+  performed. To rotate about the world X axis use RotateWXYZ
+  (angle, 1, 0, 0). This rotation is applied before all
+  others in the current transformation matrix.
+* obj.RotateY (double ) - Rotate the Prop3D in degrees about
+  the Y axis using the right hand rule. The axis is the
+  Prop3D's Y axis, which can change as other rotations are
+  performed. To rotate about the world Y axis use RotateWXYZ
+  (angle, 0, 1, 0). This rotation is applied before all
+  others in the current transformation matrix.
+* obj.RotateZ (double ) - Rotate the Prop3D in degrees about
+  the Z axis using the right hand rule. The axis is the
+  Prop3D's Z axis, which can change as other rotations are
+  performed. To rotate about the world Z axis use RotateWXYZ
+  (angle, 0, 0, 1). This rotation is applied before all
+  others in the current transformation matrix.
+* obj.RotateWXYZ (double , double , double , double ) -
+  Rotate the Prop3D in degrees about an arbitrary axis
+  specified by the last three arguments. The axis is
+  specified in world coordinates. To rotate an about its
+  model axes, use RotateX, RotateY, RotateZ.
+* obj.SetOrientation (double , double , double ) - Sets the
+  orientation of the Prop3D. Orientation is specified as X,Y
+  and Z rotations in that order, but they are performed as
+  RotateZ, RotateX, and finally RotateY.
+* obj.SetOrientation (double a[3]) - Sets the orientation of
+  the Prop3D. Orientation is specified as X,Y and Z
+  rotations in that order, but they are performed as
+  RotateZ, RotateX, and finally RotateY.
+* double = obj.GetOrientation () - Returns the orientation
+  of the Prop3D as s vector of X,Y and Z rotation. The
+  ordering in which these rotations must be done to generate
+  the same matrix is RotateZ, RotateX, and finally RotateY.
+  See also SetOrientation.
+* obj.GetOrientation (double o[3]) - Returns the orientation
+  of the Prop3D as s vector of X,Y and Z rotation. The
+  ordering in which these rotations must be done to generate
+  the same matrix is RotateZ, RotateX, and finally RotateY.
+  See also SetOrientation.
+* double = obj.GetOrientationWXYZ () - Returns the WXYZ
+  orientation of the Prop3D.
+* obj.AddOrientation (double , double , double ) - Add to
+  the current orientation. See SetOrientation and
+  GetOrientation for more details. This basically does a
+  GetOrientation, adds the passed in arguments, and then
+  calls SetOrientation.
+* obj.AddOrientation (double a[3]) - Add to the current
+  orientation. See SetOrientation and GetOrientation for
+  more details. This basically does a GetOrientation, adds
+  the passed in arguments, and then calls SetOrientation.
+* obj.PokeMatrix (vtkMatrix4x4 matrix) - This method
+  modifies the vtkProp3D so that its transformation state is
+  set to the matrix specified. The method does this by
+  setting appropriate transformation-related ivars to
+  initial values (i.e., not transformed), and placing the
+  user-supplied matrix into the UserMatrix of this
+  vtkProp3D. If the method is called again with a NULL
+  matrix, then the original state of the vtkProp3D will be
+  restored. This method is used to support picking and
+  assembly structures.
+* obj.InitPathTraversal () - Overload vtkProp's method for
+  setting up assembly paths. See the documentation for
+  vtkProp.
+* long = obj.GetMTime () - Get the vtkProp3D's mtime
+* long = obj.GetUserTransformMatrixMTime () - Get the
+  modified time of the user matrix or user transform.
+* obj.ComputeMatrix () - Generate the matrix based on ivars
+* vtkMatrix4x4 = obj.GetMatrix () - Is the matrix for this
+  actor identity
+* int = obj.GetIsIdentity () - Is the matrix for this actor
+  identity
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Rendering_Classes
+* Generated on Thu Jul 25 2013 17:18:35 for FreeMat by
+  doxygen_ 1.8.1.1
+

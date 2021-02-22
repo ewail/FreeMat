@@ -1,0 +1,109 @@
+/*!
+\page vtkio_vtkmincimagewriter vtkMINCImageWriter
+
+<p>
+Section: \ref sec_vtkio "Visualization Toolkit IO Classes"
+\section Usage
+ MINC is a NetCDF-based medical image file format that was developed
+ at the Montreal Neurological Institute in 1992. 
+ The data is written slice-by-slice, and this writer is therefore
+ suitable for streaming MINC data that is larger than the memory
+ size through VTK.  This writer can also produce files with up to
+ 4 dimensions, where the fourth dimension is provided by using
+ AddInput() to specify multiple input data sets.  If you want to
+ set header information for the file, you must supply a
+ vtkMINCImageAttributes 
+
+To create an instance of class vtkMINCImageWriter, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkMINCImageWriter
+\endverbatim
+\section Methods
+The class vtkMINCImageWriter has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkMINCImageWriter class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkMINCImageWriter = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkMINCImageWriter = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>string = obj.GetFileExtensions ()</tt> -  Get the name of this file format.
+ </LI>
+<LI>  <tt>string = obj.GetDescriptiveName ()</tt> -  Set the file name.
+ </LI>
+<LI>  <tt>obj.SetFileName (string name)</tt> -  Set the file name.
+ </LI>
+<LI>  <tt>obj.Write ()</tt> -  Write the data.  This will attempt to stream the data
+ slice-by-slice through the pipeline and out to the file,
+ unless the whole extent of the input has already been
+ updated.
+ </LI>
+<LI>  <tt>obj.SetDirectionCosines (vtkMatrix4x4 matrix)</tt> -  Set a matrix that describes the orientation of the data.  The
+ three columns of this matrix should give the unit-vector
+ directions for the VTK x, y and z dimensions respectively.  
+ The writer will use this information to determine how to map
+ the VTK dimensions to the canonical MINC dimensions, and if
+ necessary, the writer will re-order one or more dimensions
+ back-to-front to ensure that no MINC dimension ends up with
+ a direction cosines vector whose dot product with the canonical
+ unit vector for that dimension is negative.
+ </LI>
+<LI>  <tt>vtkMatrix4x4 = obj.GetDirectionCosines ()</tt> -  Set a matrix that describes the orientation of the data.  The
+ three columns of this matrix should give the unit-vector
+ directions for the VTK x, y and z dimensions respectively.  
+ The writer will use this information to determine how to map
+ the VTK dimensions to the canonical MINC dimensions, and if
+ necessary, the writer will re-order one or more dimensions
+ back-to-front to ensure that no MINC dimension ends up with
+ a direction cosines vector whose dot product with the canonical
+ unit vector for that dimension is negative.
+ </LI>
+<LI>  <tt>obj.SetRescaleSlope (double )</tt> -  Set the slope and intercept for rescaling the intensities.  The
+ default values are zero, which indicates to the reader that no
+ rescaling is to be performed.
+ </LI>
+<LI>  <tt>double = obj.GetRescaleSlope ()</tt> -  Set the slope and intercept for rescaling the intensities.  The
+ default values are zero, which indicates to the reader that no
+ rescaling is to be performed.
+ </LI>
+<LI>  <tt>obj.SetRescaleIntercept (double )</tt> -  Set the slope and intercept for rescaling the intensities.  The
+ default values are zero, which indicates to the reader that no
+ rescaling is to be performed.
+ </LI>
+<LI>  <tt>double = obj.GetRescaleIntercept ()</tt> -  Set the slope and intercept for rescaling the intensities.  The
+ default values are zero, which indicates to the reader that no
+ rescaling is to be performed.
+ </LI>
+<LI>  <tt>obj.SetImageAttributes (vtkMINCImageAttributes attributes)</tt> -  Set the image attributes, which contain patient information and
+ other useful metadata.
+ </LI>
+<LI>  <tt>vtkMINCImageAttributes = obj.GetImageAttributes ()</tt> -  Set the image attributes, which contain patient information and
+ other useful metadata.
+ </LI>
+<LI>  <tt>obj.SetStrictValidation (int )</tt> -  Set whether to validate that all variable attributes that
+ have been set are ones that are listed in the MINC standard.
+ </LI>
+<LI>  <tt>obj.StrictValidationOn ()</tt> -  Set whether to validate that all variable attributes that
+ have been set are ones that are listed in the MINC standard.
+ </LI>
+<LI>  <tt>obj.StrictValidationOff ()</tt> -  Set whether to validate that all variable attributes that
+ have been set are ones that are listed in the MINC standard.
+ </LI>
+<LI>  <tt>int = obj.GetStrictValidation ()</tt> -  Set whether to validate that all variable attributes that
+ have been set are ones that are listed in the MINC standard.
+ </LI>
+<LI>  <tt>obj.SetHistoryAddition (string )</tt> -  Set a string value to append to the history of the file.  This
+ string should describe, briefly, how the file was processed.
+ </LI>
+<LI>  <tt>string = obj.GetHistoryAddition ()</tt> -  Set a string value to append to the history of the file.  This
+ string should describe, briefly, how the file was processed.
+ </LI>
+</UL>
+*/

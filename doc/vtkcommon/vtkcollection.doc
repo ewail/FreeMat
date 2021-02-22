@@ -1,0 +1,73 @@
+/*!
+\page vtkcommon_vtkcollection vtkCollection
+
+<p>
+Section: \ref sec_vtkcommon "Visualization Toolkit Common Classes"
+\section Usage
+ vtkCollection is a general object for creating and manipulating lists
+ of objects. The lists are unsorted and allow duplicate entries. 
+ vtkCollection also serves as a base class for lists of specific types 
+ of objects.
+
+To create an instance of class vtkCollection, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkCollection
+\endverbatim
+\section Methods
+The class vtkCollection has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkCollection class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkCollection = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkCollection = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.AddItem (vtkObject )</tt> -  Add an object to the list. Does not prevent duplicate entries.
+ </LI>
+<LI>  <tt>obj.InsertItem (int i, vtkObject )</tt> -  Insert item into the list after the i'th item. Does not prevent duplicate entries.
+ If i < 0 the item is placed at the top of the list.
+ </LI>
+<LI>  <tt>obj.ReplaceItem (int i, vtkObject )</tt> -  Replace the i'th item in the collection with a
+ </LI>
+<LI>  <tt>obj.RemoveItem (int i)</tt> -  Remove the i'th item in the list.
+ Be careful if using this function during traversal of the list using 
+ GetNextItemAsObject (or GetNextItem in derived class).  The list WILL
+ be shortened if a valid index is given!  If this->Current is equal to the
+ element being removed, have it point to then next element in the list.
+ </LI>
+<LI>  <tt>obj.RemoveItem (vtkObject )</tt> -  Remove an object from the list. Removes the first object found, not
+ all occurrences. If no object found, list is unaffected.  See warning
+ in description of RemoveItem(int).
+ </LI>
+<LI>  <tt>obj.RemoveAllItems ()</tt> -  Remove all objects from the list.
+ </LI>
+<LI>  <tt>int = obj.IsItemPresent (vtkObject a)</tt> -  Search for an object and return location in list. If the return value is
+ 0, the object was not found. If the object was found, the location is
+ the return value-1.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfItems ()</tt> -  Return the number of objects in the list.
+ </LI>
+<LI>  <tt>obj.InitTraversal ()</tt> -  Initialize the traversal of the collection. This means the data pointer
+ is set at the beginning of the list.
+ </LI>
+<LI>  <tt>vtkObject = obj.GetNextItemAsObject ()</tt> -  Get the next item in the collection. NULL is returned if the collection
+ is exhausted.
+ </LI>
+<LI>  <tt>vtkObject = obj.GetItemAsObject (int i)</tt> -  Get the i'th item in the collection. NULL is returned if i is out
+ of range
+ </LI>
+<LI>  <tt>vtkCollectionIterator = obj.NewIterator ()</tt> -  Get an iterator to traverse the objects in this collection.
+ </LI>
+<LI>  <tt>obj.Register (vtkObjectBase o)</tt> -  Participate in garbage collection.
+ </LI>
+<LI>  <tt>obj.UnRegister (vtkObjectBase o)</tt> -  Participate in garbage collection.
+ </LI>
+</UL>
+*/

@@ -1,0 +1,241 @@
+
+ Usage
+
+vtkImageTracerWidget is different from other widgets in
+three distinct ways: 1) any sub-class of vtkProp can be
+input rather than just vtkProp3D, so that vtkImageActor can
+be set as the prop and then traced over, 2) the widget fires
+pick events at the input prop to decide where to move its
+handles, 3) the widget has 2D glyphs for handles instead of
+3D spheres as is done in other sub-classes of vtk3DWidget.
+This widget is primarily designed for manually tracing over
+image data. The button actions and key modifiers are as
+follows for controlling the widget: 1) left button click
+over the image, hold and drag draws a free hand line. 2)
+left button click and release erases the widget line, if it
+exists, and repositions the first handle. 3) middle button
+click starts a snap drawn line. The line is terminated by
+clicking the middle button while depressing the ctrl key. 4)
+when tracing a continuous or snap drawn line, if the last
+cursor position is within a specified tolerance to the first
+handle, the widget line will form a closed loop. 5) right
+button clicking and holding on any handle that is part of a
+snap drawn line allows handle dragging: existing line
+segments are updated accordingly. If the path is open and
+AutoClose is set to On, the path can be closed by
+repositioning the first and last points over one another. 6)
+ctrl key + right button down on any handle will erase it:
+existing snap drawn line segments are updated accordingly.
+If the line was formed by continous tracing, the line is
+deleted leaving one handle. 7) shift key + right button down
+on any snap drawn line segment will insert a handle at the
+cursor position. The line segment is split accordingly.
+To create an instance of class vtkImageTracerWidget, simply
+invoke its constructor as follows
+
+    obj = vtkImageTracerWidget
+
+
+
+ Methods
+
+The class vtkImageTracerWidget has several methods that can
+be used. They are listed below. Note that the documentation
+is translated automatically from the VTK sources, and may
+not be completely intelligible. When in doubt, consult the
+VTK website. In the methods listed below, obj is an instance
+of the vtkImageTracerWidget class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkImageTracerWidget = obj.NewInstance ()
+* vtkImageTracerWidget = obj.SafeDownCast (vtkObject o)
+* obj.SetEnabled (int ) - Methods that satisfy the
+  superclass' API.
+* obj.PlaceWidget (double bounds[6]) - Methods that satisfy
+  the superclass' API.
+* obj.PlaceWidget () - Methods that satisfy the superclass'
+  API.
+* obj.PlaceWidget (double xmin, double xmax, double ymin,
+  double ymax, double zmin, double zmax) - Set/Get the
+  handle properties (the 2D glyphs are the handles). The
+  properties of the handles when selected and normal can be
+  manipulated.
+* obj.SetHandleProperty (vtkProperty ) - Set/Get the handle
+  properties (the 2D glyphs are the handles). The properties
+  of the handles when selected and normal can be
+  manipulated.
+* vtkProperty = obj.GetHandleProperty () - Set/Get the
+  handle properties (the 2D glyphs are the handles). The
+  properties of the handles when selected and normal can be
+  manipulated.
+* obj.SetSelectedHandleProperty (vtkProperty ) - Set/Get the
+  handle properties (the 2D glyphs are the handles). The
+  properties of the handles when selected and normal can be
+  manipulated.
+* vtkProperty = obj.GetSelectedHandleProperty () - Set/Get
+  the handle properties (the 2D glyphs are the handles). The
+  properties of the handles when selected and normal can be
+  manipulated.
+* obj.SetLineProperty (vtkProperty ) - Set/Get the line
+  properties. The properties of the line when selected and
+  unselected can be manipulated.
+* vtkProperty = obj.GetLineProperty () - Set/Get the line
+  properties. The properties of the line when selected and
+  unselected can be manipulated.
+* obj.SetSelectedLineProperty (vtkProperty ) - Set/Get the
+  line properties. The properties of the line when selected
+  and unselected can be manipulated.
+* vtkProperty = obj.GetSelectedLineProperty () - Set/Get the
+  line properties. The properties of the line when selected
+  and unselected can be manipulated.
+* obj.SetViewProp (vtkProp prop) - Set the prop, usually a
+  vtkImageActor, to trace over.
+* obj.SetProjectToPlane (int ) - Force handles to be on a
+  specific ortho plane. Default is Off.
+* int = obj.GetProjectToPlane () - Force handles to be on a
+  specific ortho plane. Default is Off.
+* obj.ProjectToPlaneOn () - Force handles to be on a
+  specific ortho plane. Default is Off.
+* obj.ProjectToPlaneOff () - Force handles to be on a
+  specific ortho plane. Default is Off.
+* obj.SetProjectionNormal (int ) - Set the projection
+  normal. The normal in SetProjectionNormal is 0,1,2 for
+  YZ,XZ,XY planes respectively. Since the handles are 2D
+  glyphs, it is necessary to specify a plane on which to
+  generate them, even though ProjectToPlane may be turned
+  off.
+* int = obj.GetProjectionNormalMinValue () - Set the
+  projection normal. The normal in SetProjectionNormal is
+  0,1,2 for YZ,XZ,XY planes respectively. Since the handles
+  are 2D glyphs, it is necessary to specify a plane on which
+  to generate them, even though ProjectToPlane may be turned
+  off.
+* int = obj.GetProjectionNormalMaxValue () - Set the
+  projection normal. The normal in SetProjectionNormal is
+  0,1,2 for YZ,XZ,XY planes respectively. Since the handles
+  are 2D glyphs, it is necessary to specify a plane on which
+  to generate them, even though ProjectToPlane may be turned
+  off.
+* int = obj.GetProjectionNormal () - Set the projection
+  normal. The normal in SetProjectionNormal is 0,1,2 for
+  YZ,XZ,XY planes respectively. Since the handles are 2D
+  glyphs, it is necessary to specify a plane on which to
+  generate them, even though ProjectToPlane may be turned
+  off.
+* obj.SetProjectionNormalToXAxes () - Set the projection
+  normal. The normal in SetProjectionNormal is 0,1,2 for
+  YZ,XZ,XY planes respectively. Since the handles are 2D
+  glyphs, it is necessary to specify a plane on which to
+  generate them, even though ProjectToPlane may be turned
+  off.
+* obj.SetProjectionNormalToYAxes () - Set the projection
+  normal. The normal in SetProjectionNormal is 0,1,2 for
+  YZ,XZ,XY planes respectively. Since the handles are 2D
+  glyphs, it is necessary to specify a plane on which to
+  generate them, even though ProjectToPlane may be turned
+  off.
+* obj.SetProjectionNormalToZAxes () - Set the position of
+  the widgets' handles in terms of a plane's position. e.g.,
+  if ProjectionNormal is 0, all of the x-coordinate values
+  of the handles are set to ProjectionPosition. No attempt
+  is made to ensure that the position is within the bounds
+  of either the underlying image data or the prop on which
+  tracing is performed.
+* obj.SetProjectionPosition (double position) - Set the
+  position of the widgets' handles in terms of a plane's
+  position. e.g., if ProjectionNormal is 0, all of the x-
+  coordinate values of the handles are set to
+  ProjectionPosition. No attempt is made to ensure that the
+  position is within the bounds of either the underlying
+  image data or the prop on which tracing is performed.
+* double = obj.GetProjectionPosition () - Set the position
+  of the widgets' handles in terms of a plane's position.
+  e.g., if ProjectionNormal is 0, all of the x-coordinate
+  values of the handles are set to ProjectionPosition. No
+  attempt is made to ensure that the position is within the
+  bounds of either the underlying image data or the prop on
+  which tracing is performed.
+* obj.SetSnapToImage (int snap) - Force snapping to image
+  data while tracing. Default is Off.
+* int = obj.GetSnapToImage () - Force snapping to image data
+  while tracing. Default is Off.
+* obj.SnapToImageOn () - Force snapping to image data while
+  tracing. Default is Off.
+* obj.SnapToImageOff () - Force snapping to image data while
+  tracing. Default is Off.
+* obj.SetAutoClose (int ) - In concert with a CaptureRadius
+  value, automatically form a closed path by connecting
+  first to last path points. Default is Off.
+* int = obj.GetAutoClose () - In concert with a
+  CaptureRadius value, automatically form a closed path by
+  connecting first to last path points. Default is Off.
+* obj.AutoCloseOn () - In concert with a CaptureRadius
+  value, automatically form a closed path by connecting
+  first to last path points. Default is Off.
+* obj.AutoCloseOff () - In concert with a CaptureRadius
+  value, automatically form a closed path by connecting
+  first to last path points. Default is Off.
+* obj.SetCaptureRadius (double ) - Set/Get the capture
+  radius for automatic path closing. For image data, capture
+  radius should be half the distance between voxel/pixel
+  centers. Default is 1.0
+* double = obj.GetCaptureRadius () - Set/Get the capture
+  radius for automatic path closing. For image data, capture
+  radius should be half the distance between voxel/pixel
+  centers. Default is 1.0
+* obj.GetPath (vtkPolyData pd) - Grab the points and lines
+  that define the traced path. These point values are
+  guaranteed to be up-to-date when either the
+  InteractionEvent or EndInteraction events are invoked. The
+  user provides the vtkPolyData and the points and cells
+  representing the line are added to it.
+* vtkGlyphSource2D = obj.GetGlyphSource () - Set/Get the
+  type of snapping to image data: center of a pixel/voxel or
+  nearest point defining a pixel/voxel.
+* obj.SetImageSnapType (int ) - Set/Get the type of snapping
+  to image data: center of a pixel/voxel or nearest point
+  defining a pixel/voxel.
+* int = obj.GetImageSnapTypeMinValue () - Set/Get the type
+  of snapping to image data: center of a pixel/voxel or
+  nearest point defining a pixel/voxel.
+* int = obj.GetImageSnapTypeMaxValue () - Set/Get the type
+  of snapping to image data: center of a pixel/voxel or
+  nearest point defining a pixel/voxel.
+* int = obj.GetImageSnapType () - Set/Get the type of
+  snapping to image data: center of a pixel/voxel or nearest
+  point defining a pixel/voxel.
+* obj.SetHandlePosition (int handle, double xyz[3]) - Set/
+  Get the handle position in terms of a zero-based array of
+  handles.
+* obj.SetHandlePosition (int handle, double x, double y,
+  double z) - Set/Get the handle position in terms of a
+  zero-based array of handles.
+* obj.GetHandlePosition (int handle, double xyz[3]) - Set/
+  Get the handle position in terms of a zero-based array of
+  handles.
+* double = obj.GetHandlePosition (int handle) - Set/Get the
+  handle position in terms of a zero-based array of handles.
+* int = obj.GetNumberOfHandles () - Get the number of
+  handles.
+* obj.SetInteraction (int interact) - Enable/disable mouse
+  interaction when the widget is visible.
+* int = obj.GetInteraction () - Enable/disable mouse
+  interaction when the widget is visible.
+* obj.InteractionOn () - Enable/disable mouse interaction
+  when the widget is visible.
+* obj.InteractionOff () - Enable/disable mouse interaction
+  when the widget is visible.
+* obj.InitializeHandles (vtkPoints ) - Initialize the widget
+  with a set of points and generate lines between them. If
+  AutoClose is on it will handle the case wherein the first
+  and last points are congruent.
+* int = obj.IsClosed () - Is the path closed or open?
+* obj.SetProp (vtkProp prop) -
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Widget_Classes
+* Generated on Thu Jul 25 2013 17:18:36 for FreeMat by
+  doxygen_ 1.8.1.1
+

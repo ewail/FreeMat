@@ -1,0 +1,85 @@
+/*!
+\page curvefit_polyfit POLYFIT Fit Polynomial To Data
+
+<p>
+Section: \ref sec_curvefit "Optimization and Curve Fitting"
+\section Usage
+The <tt>polyfit</tt> routine has the following syntax
+\verbatim
+  p = polyfit(x,y,n)
+\endverbatim
+where <tt>x</tt> and <tt>y</tt> are vectors of the same size, and
+<tt>n</tt> is the degree of the approximating polynomial.  
+The resulting vector <tt>p</tt> forms the coefficients of
+the optimal polynomial (in descending degree) that fit
+<tt>y</tt> with <tt>x</tt>.  
+\section Function Internals
+The <tt>polyfit</tt> routine finds the approximating polynomial
+\f[
+   p(x) = p_1 x^n + p_2 x^{n-1} + \dots + p_n x + p_{n+1}
+\f]
+such that
+\f[
+   \sum_{i} (p(x_i) - y_i)^2
+\f]
+is minimized.  It does so by forming the Vandermonde matrix
+and solving the resulting set of equations using the backslash
+operator.  Note that the Vandermonde matrix can become poorly
+conditioned with large <tt>n</tt> quite rapidly.
+\section Example
+A classic example from Edwards and Penny, consider the problem
+of approximating a sinusoid with a polynomial.  We start with
+a vector of points evenly spaced on the unit interval, along with
+a vector of the sine of these points.
+
+\if FRAGMENT
+frag_curvefit_polyfit_000.m
+0
+x = linspace(0,1,20);
+y = sin(2*pi*x);
+plot(x,y,'r-')
+mprint polyfit1
+\endif
+
+
+\verbinclude frag_curvefit_polyfit_000.m.out 
+
+The resulting plot is shown here
+\image html polyfit1.png
+\image latex polyfit1.eps "polyfit1" width=12cm
+Next, we fit a third degree polynomial to the sine, and use
+<tt>polyval</tt> to plot it
+
+\if FRAGMENT
+frag_curvefit_polyfit_001.m
+0
+p = polyfit(x,y,3)
+f = polyval(p,x);
+plot(x,y,'r-',x,f,'ko');
+mprint polyfit2
+\endif
+
+
+\verbinclude frag_curvefit_polyfit_001.m.out 
+
+The resulting plot is shown here
+\image html polyfit2.png
+\image latex polyfit2.eps "polyfit2" width=12cm
+Increasing the order improves the fit, as
+
+\if FRAGMENT
+frag_curvefit_polyfit_002.m
+0
+p = polyfit(x,y,11)
+f = polyval(p,x);
+plot(x,y,'r-',x,f,'ko');
+mprint polyfit3
+\endif
+
+
+\verbinclude frag_curvefit_polyfit_002.m.out 
+
+The resulting plot is shown here
+\image html polyfit3.png
+\image latex polyfit3.eps "polyfit3" width=12cm
+*/

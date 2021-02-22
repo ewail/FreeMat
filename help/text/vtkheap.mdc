@@ -1,0 +1,55 @@
+
+ Usage
+
+This class is a replacement for malloc/free and new/delete
+for software that has inherent memory leak or performance
+problems. For example, external software such as the PLY
+library (vtkPLY) and VRML importer (vtkVRMLImporter) are
+often written with lots of malloc() calls but without the
+corresponding free() invocations. The class
+vtkOrderedTriangulator may create and delete millions of
+new/delete calls. This class allows the overloading of the
+C++ new operator (or other memory allocation requests) by
+using the method AllocateMemory(). Memory is deleted with an
+invocation of CleanAll() (which deletes ALL memory; any
+given memory allocation cannot be deleted). Note: a block
+size can be used to control the size of each memory
+allocation. Requests for memory are fulfilled from the block
+until the block runs out, then a new block is created.
+To create an instance of class vtkHeap, simply invoke its
+constructor as follows
+
+    obj = vtkHeap
+
+
+
+ Methods
+
+The class vtkHeap has several methods that can be used. They
+are listed below. Note that the documentation is translated
+automatically from the VTK sources, and may not be
+completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkHeap class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkHeap = obj.NewInstance ()
+* vtkHeap = obj.SafeDownCast (vtkObject o)
+* int = obj.GetNumberOfBlocks () - Get the number of
+  allocations thus far.
+* int = obj.GetNumberOfAllocations () - Get the number of
+  allocations thus far.
+* obj.Reset () - This methods resets the current allocation
+  location back to the beginning of the heap. This allows
+  reuse of previously allocated memory which may be
+  beneficial to performance in many cases.
+* string = obj.StringDup (string str) - Convenience method
+  performs string duplication.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Common_Classes
+* Generated on Thu Jul 25 2013 17:18:30 for FreeMat by
+  doxygen_ 1.8.1.1
+

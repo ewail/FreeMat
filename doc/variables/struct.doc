@@ -1,0 +1,61 @@
+/*!
+\page variables_struct STRUCT Structure Array Constructor
+
+<p>
+Section: \ref sec_variables "Variables and Arrays"
+\section Usage
+Creates an array of structures from a set of field, value pairs.
+The syntax is
+\verbatim
+   y = struct(n_1,v_1,n_2,v_2,...)
+\endverbatim
+where <tt>n_i</tt> are the names of the fields in the structure array, and
+<tt>v_i</tt> are the values.  The values <tt>v_i</tt> must either all be
+scalars, or be cell-arrays of all the same dimensions.  In the latter 
+case, the
+output structure array will have dimensions dictated by this common
+size.  Scalar entries for the <tt>v_i</tt> are replicated to fill out
+their dimensions. An error is raised if the inputs are not properly matched (i.e., are
+not pairs of field names and values), or if the size of any two non-scalar
+values cell-arrays are different.
+
+Another use of the <tt>struct</tt> function is to convert a class into a 
+structure.  This allows you to access the members of the class, directly 
+but removes the class information from the object.
+
+\section Example
+This example creates a 3-element structure array with three fields, <tt>foo</tt>
+<tt>bar</tt> and <tt>key</tt>, where the contents of <tt>foo</tt> and <tt>bar</tt> are provided 
+explicitly as cell arrays of the same size, and the contents of <tt>bar</tt> 
+are replicated from a scalar.
+
+\if FRAGMENT
+frag_variables_struct_000.m
+0
+y = struct('foo',{1,3,4},'bar',{'cheese','cola','beer'},'key',508)
+y(1)
+y(2)
+y(3)
+\endif
+
+
+\verbinclude frag_variables_struct_000.m.out 
+
+
+An alternate way to create a structure array is to initialize the last
+element of each field of the structure
+
+\if FRAGMENT
+frag_variables_struct_001.m
+0
+Test(2,3).Type = 'Beer';
+Test(2,3).Ounces = 12;
+Test(2,3).Container = 'Can';
+Test(2,3)
+Test(1,1)
+\endif
+
+
+\verbinclude frag_variables_struct_001.m.out 
+
+*/

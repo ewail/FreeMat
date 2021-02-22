@@ -1,0 +1,1033 @@
+
+\begin{DoxyItemize}
+\item \hyperlink{typecast_bin2dec}{B\-I\-N2\-D\-E\-C Convert Binary String to Decimal}  
+\item \hyperlink{typecast_bin2int}{B\-I\-N2\-I\-N\-T Convert Binary Arrays to Integer}  
+\item \hyperlink{typecast_cast}{C\-A\-S\-T Typecast Variable to Specified Type}  
+\item \hyperlink{typecast_char}{C\-H\-A\-R Convert to character array or string}  
+\item \hyperlink{typecast_complex}{C\-O\-M\-P\-L\-E\-X Create a Complex Number}  
+\item \hyperlink{typecast_dcomplex}{D\-C\-O\-M\-P\-L\-E\-X Convert to Double Precision (deprecated)}  
+\item \hyperlink{typecast_dec2bin}{D\-E\-C2\-B\-I\-N Convert Decimal to Binary String}  
+\item \hyperlink{typecast_double}{D\-O\-U\-B\-L\-E Convert to 64-\/bit Floating Point}  
+\item \hyperlink{typecast_float}{F\-L\-O\-A\-T Convert to 32-\/bit Floating Point}  
+\item \hyperlink{typecast_int16}{I\-N\-T16 Convert to Signed 16-\/bit Integer}  
+\item \hyperlink{typecast_int2bin}{I\-N\-T2\-B\-I\-N Convert Integer Arrays to Binary}  
+\item \hyperlink{typecast_int32}{I\-N\-T32 Convert to Signed 32-\/bit Integer}  
+\item \hyperlink{typecast_int64}{I\-N\-T64 Convert to Signed 64-\/bit Integer}  
+\item \hyperlink{typecast_int8}{I\-N\-T8 Convert to Signed 8-\/bit Integer}  
+\item \hyperlink{typecast_logical}{L\-O\-G\-I\-C\-A\-L Convert to Logical}  
+\item \hyperlink{typecast_single}{S\-I\-N\-G\-L\-E Convert to 32-\/bit Floating Point}  
+\item \hyperlink{typecast_string}{S\-T\-R\-I\-N\-G Convert Array to String}  
+\item \hyperlink{typecast_uint16}{U\-I\-N\-T16 Convert to Unsigned 16-\/bit Integer}  
+\item \hyperlink{typecast_uint32}{U\-I\-N\-T32 Convert to Unsigned 32-\/bit Integer}  
+\item \hyperlink{typecast_uint64}{U\-I\-N\-T64 Convert to Unsigned 64-\/bit Integer}  
+\item \hyperlink{typecast_uint8}{U\-I\-N\-T8 Convert to Unsigned 8-\/bit Integer}  
+\end{DoxyItemize}\hypertarget{typecast_bin2dec}{}\section{B\-I\-N2\-D\-E\-C Convert Binary String to Decimal}\label{typecast_bin2dec}
+Section\-: \hyperlink{sec_typecast}{Type Conversion Functions} \hypertarget{typecast_dec2bin_USAGE}{}\subsection{U\-S\-A\-G\-E}\label{typecast_dec2bin_USAGE}
+Converts a binary string to an integer. The syntax for its use is \begin{DoxyVerb}   y = bin2dec(x)
+\end{DoxyVerb}
+ where {\ttfamily x} is a binary string. If {\ttfamily x} is a matrix, then the resulting {\ttfamily y} is a column vector. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+Here we convert some numbers to bits
+
+
+\begin{DoxyVerbInclude}
+--> bin2dec('101110')
+
+ans = 
+ 46 
+
+--> bin2dec('010')
+
+ans = 
+ 2 
+\end{DoxyVerbInclude}
+ \hypertarget{typecast_bin2int}{}\section{B\-I\-N2\-I\-N\-T Convert Binary Arrays to Integer}\label{typecast_bin2int}
+Section\-: \hyperlink{sec_typecast}{Type Conversion Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Converts the binary decomposition of an integer array back to an integer array. The general syntax for its use is \begin{DoxyVerb}   y = bin2int(x)
+\end{DoxyVerb}
+ where {\ttfamily x} is a multi-\/dimensional logical array, where the last dimension indexes the bit planes (see {\ttfamily int2bin} for an example). By default, the output of {\ttfamily bin2int} is unsigned {\ttfamily uint32}. To get a signed integer, it must be typecast correctly. A second form for {\ttfamily bin2int} takes a {\ttfamily 'signed'} flag \begin{DoxyVerb}   y = bin2int(x,'signed')
+\end{DoxyVerb}
+ in which case the output is signed. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+The following piece of code demonstrates various uses of the int2bin function. First the simplest example\-:
+
+
+\begin{DoxyVerbInclude}
+--> A = [2;5;6;2]
+
+A = 
+ 2 
+ 5 
+ 6 
+ 2 
+
+--> B = int2bin(A,8)
+
+B = 
+ 0 0 0 0 0 0 1 0 
+ 0 0 0 0 0 1 0 1 
+ 0 0 0 0 0 1 1 0 
+ 0 0 0 0 0 0 1 0 
+
+--> bin2int(B)
+
+ans = 
+ 2 
+ 5 
+ 6 
+ 2 
+
+--> A = [1;2;-5;2]
+
+A = 
+  1 
+  2 
+ -5 
+  2 
+
+--> B = int2bin(A,8)
+
+B = 
+ 0 0 0 0 0 0 0 1 
+ 0 0 0 0 0 0 1 0 
+ 1 1 1 1 1 0 1 1 
+ 0 0 0 0 0 0 1 0 
+
+--> bin2int(B)
+
+ans = 
+   1 
+   2 
+ 251 
+   2 
+
+--> int32(bin2int(B))
+
+ans = 
+   1 
+   2 
+ 251 
+   2 
+\end{DoxyVerbInclude}
+\hypertarget{/home/sbasu/Devel/FreeMat/doc/typecast/bin2int.doc_Tets}{}\subsection{Tets}\label{/home/sbasu/Devel/FreeMat/doc/typecast/bin2int.doc_Tets}
+\hypertarget{typecast_cast}{}\section{C\-A\-S\-T Typecast Variable to Specified Type}\label{typecast_cast}
+Section\-: \hyperlink{sec_typecast}{Type Conversion Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+The {\ttfamily cast} function allows you to typecast a variable from one type to another. The syntax for its use is \begin{DoxyVerb}    y = cast(x,toclass)
+\end{DoxyVerb}
+ where {\ttfamily toclass} is the name of the class to cast {\ttfamily x} to. Note that the typecast must make sense, and that {\ttfamily toclass} must be one of the builtin types. The current list of supported types is 
+\begin{DoxyItemize}
+\item {\ttfamily 'cell'} for cell-\/arrays  
+\item {\ttfamily 'struct'} for structure-\/arrays  
+\item {\ttfamily 'logical'} for logical arrays  
+\item {\ttfamily 'uint8'} for unsigned 8-\/bit integers  
+\item {\ttfamily 'int8'} for signed 8-\/bit integers  
+\item {\ttfamily 'uint16'} for unsigned 16-\/bit integers  
+\item {\ttfamily 'int16'} for signed 16-\/bit integers  
+\item {\ttfamily 'uint32'} for unsigned 32-\/bit integers  
+\item {\ttfamily 'int32'} for signed 32-\/bit integers  
+\item {\ttfamily 'uint64'} for unsigned 64-\/bit integers  
+\item {\ttfamily 'int64'} for signed 64-\/bit integers  
+\item {\ttfamily 'float'} for 32-\/bit floating point numbers  
+\item {\ttfamily 'single'} is a synonym for {\ttfamily 'float'}  
+\item {\ttfamily 'double'} for 64-\/bit floating point numbers  
+\item {\ttfamily 'char'} for string arrays  
+\end{DoxyItemize}\hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+Here is an example of a typecast from a float to an 8-\/bit integer
+
+
+\begin{DoxyVerbInclude}
+--> cast(pi,'uint8')
+
+ans = 
+ 3 
+\end{DoxyVerbInclude}
+
+
+and here we cast an array of arbitrary integers to a logical array
+
+
+\begin{DoxyVerbInclude}
+--> cast([1 0 3 0],'logical')
+
+ans = 
+ 1 0 1 0 
+\end{DoxyVerbInclude}
+ \hypertarget{typecast_char}{}\section{C\-H\-A\-R Convert to character array or string}\label{typecast_char}
+Section\-: \hyperlink{sec_typecast}{Type Conversion Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+The {\ttfamily char} function can be used to convert an array into a string. It has several forms. The first form is \begin{DoxyVerb}   y = char(x)
+\end{DoxyVerb}
+ where {\ttfamily x} is a numeric array containing character codes. Free\-Mat does not currently support Unicode, so the character codes must be in the range of {\ttfamily \mbox{[}0,255\mbox{]}}. The output is a string of the same size as {\ttfamily x}. A second form is \begin{DoxyVerb}   y = char(c)
+\end{DoxyVerb}
+ where {\ttfamily c} is a cell array of strings, creates a matrix string where each row contains a string from the corresponding cell array. The third form is \begin{DoxyVerb}   y = char(s1, s2, s3, ...)
+\end{DoxyVerb}
+ where {\ttfamily si} are a character arrays. The result is a matrix string where each row contains a string from the corresponding argument. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+Here is an example of the first technique being used to generate a string containing some A\-S\-C\-I\-I characters
+
+
+\begin{DoxyVerbInclude}
+--> char([32:64;65:97])
+
+ans = 
+ !"#$%&'()*+,-./0123456789:;<=>?@
+ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`a
+\end{DoxyVerbInclude}
+
+
+In the next example, we form a character array from a set of strings in a cell array. Note that the character array is padded with spaces to make the rows all have the same length.
+
+
+\begin{DoxyVerbInclude}
+--> char({'hello','to','the','world'})
+
+ans = 
+hello
+to   
+the  
+world
+\end{DoxyVerbInclude}
+
+
+In the last example, we pass the individual strings as explicit arguments to {\ttfamily char}
+
+
+\begin{DoxyVerbInclude}
+--> char('hello','to','the','world')
+
+ans = 
+hello
+to   
+the  
+world
+\end{DoxyVerbInclude}
+ \hypertarget{typecast_complex}{}\section{C\-O\-M\-P\-L\-E\-X Create a Complex Number}\label{typecast_complex}
+Section\-: \hyperlink{sec_typecast}{Type Conversion Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Converts the two real input arguments into the real and imaginary part (respectively) of a complex number. The syntax for its use is \begin{DoxyVerb}   y = complex(x,z)
+\end{DoxyVerb}
+ where {\ttfamily x} and {\ttfamily z} are {\ttfamily n}-\/dimensional numerical arrays. The usual rules for binary operators apply (i.\-e., one of the arguments can be a scalar, if either is of type {\ttfamily single} the output is single, etc.). \hypertarget{typecast_dcomplex}{}\section{D\-C\-O\-M\-P\-L\-E\-X Convert to Double Precision (deprecated)}\label{typecast_dcomplex}
+Section\-: \hyperlink{sec_typecast}{Type Conversion Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+The {\ttfamily dcomplex} function used to convert variables into 64-\/bit complex data types in prior versions of Free\-Mat. Starting with Free\-Mat 4, the type rules are the same as Matlab, hence, there is no distinction between a 64-\/bit complex type and and 64-\/bit real type. Thus, the {\ttfamily dcomplex} function is just a synonym for {\ttfamily double}. \hypertarget{typecast_dec2bin}{}\section{D\-E\-C2\-B\-I\-N Convert Decimal to Binary String}\label{typecast_dec2bin}
+Section\-: \hyperlink{sec_typecast}{Type Conversion Functions} \hypertarget{typecast_dec2bin_USAGE}{}\subsection{U\-S\-A\-G\-E}\label{typecast_dec2bin_USAGE}
+Converts an integer to a binary string. The syntax for its use is \begin{DoxyVerb}   y = dec2bin(x,n)
+\end{DoxyVerb}
+ where {\ttfamily x} is the positive integer, and {\ttfamily n} is the number of bits to use in the representation. Alternately, if you leave {\ttfamily n} unspecified, \begin{DoxyVerb}   y = dec2bin(x)
+\end{DoxyVerb}
+ the minimum number of bits needed to represent {\ttfamily x} are used. If {\ttfamily x} is a vector, then the resulting {\ttfamily y} is a character matrix. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+Here we convert some numbers to bits
+
+
+\begin{DoxyVerbInclude}
+--> dec2bin(56)
+
+ans = 
+111000
+--> dec2bin(1039456)
+
+ans = 
+11111101110001100000
+--> dec2bin([63,73,32],5)
+
+ans = 
+11111
+01001
+00000
+\end{DoxyVerbInclude}
+ \hypertarget{typecast_double}{}\section{D\-O\-U\-B\-L\-E Convert to 64-\/bit Floating Point}\label{typecast_double}
+Section\-: \hyperlink{sec_typecast}{Type Conversion Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Converts the argument to a 64-\/bit floating point number. The syntax for its use is \begin{DoxyVerb}   y = double(x)
+\end{DoxyVerb}
+ where {\ttfamily x} is an {\ttfamily n}-\/dimensional numerical array. Conversion follows the saturation rules. Note that both {\ttfamily Na\-N} and {\ttfamily Inf} are both preserved under type conversion. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+The following piece of code demonstrates several uses of {\ttfamily double}. First, we convert from an integer (the argument is an integer because no decimal is present)\-:
+
+
+\begin{DoxyVerbInclude}
+--> double(200)
+
+ans = 
+ 200 
+\end{DoxyVerbInclude}
+
+
+In the next example, a single precision argument is passed in (the presence of the {\ttfamily f} suffix implies single precision).
+
+
+\begin{DoxyVerbInclude}
+--> double(400.0f)
+
+ans = 
+ 400 
+\end{DoxyVerbInclude}
+
+
+In the next example, a complex argument is passed in.
+
+
+\begin{DoxyVerbInclude}
+--> double(3.0+4.0*i)
+
+ans = 
+   3.0000 +  4.0000i 
+\end{DoxyVerbInclude}
+
+
+In the next example, a string argument is passed in. The string argument is converted into an integer array corresponding to the A\-S\-C\-I\-I values of each character.
+
+
+\begin{DoxyVerbInclude}
+--> double('helo')
+
+ans = 
+ 104 101 108 111 
+\end{DoxyVerbInclude}
+
+
+In the last example, a cell-\/array is passed in. For cell-\/arrays and structure arrays, the result is an error.
+
+
+\begin{DoxyVerbInclude}
+--> double({4})
+Error: Cannot perform type conversions with this type
+\end{DoxyVerbInclude}
+ \hypertarget{typecast_float}{}\section{F\-L\-O\-A\-T Convert to 32-\/bit Floating Point}\label{typecast_float}
+Section\-: \hyperlink{sec_typecast}{Type Conversion Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Converts the argument to a 32-\/bit floating point number. The syntax for its use is \begin{DoxyVerb}   y = float(x)
+\end{DoxyVerb}
+ where {\ttfamily x} is an {\ttfamily n}-\/dimensional numerical array. Conversion follows the saturation rules. Note that both {\ttfamily Na\-N} and {\ttfamily Inf} are both preserved under type conversion. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+The following piece of code demonstrates several uses of {\ttfamily float}. First, we convert from an integer (the argument is an integer because no decimal is present)\-:
+
+
+\begin{DoxyVerbInclude}
+--> float(200)
+
+ans = 
+ 200 
+\end{DoxyVerbInclude}
+
+
+In the next example, a double precision argument is passed in
+
+
+\begin{DoxyVerbInclude}
+--> float(400.0)
+
+ans = 
+ 400 
+\end{DoxyVerbInclude}
+
+
+In the next example, a complex argument is passed in.
+
+
+\begin{DoxyVerbInclude}
+--> float(3.0+4.0*i)
+
+ans = 
+   3.0000 +  4.0000i 
+\end{DoxyVerbInclude}
+
+
+In the next example, a string argument is passed in. The string argument is converted into an integer array corresponding to the A\-S\-C\-I\-I values of each character.
+
+
+\begin{DoxyVerbInclude}
+--> float('helo')
+
+ans = 
+ 104 101 108 111 
+\end{DoxyVerbInclude}
+
+
+In the last example, a cell-\/array is passed in. For cell-\/arrays and structure arrays, the result is an error.
+
+
+\begin{DoxyVerbInclude}
+--> float({4})
+Error: Cannot perform type conversions with this type
+\end{DoxyVerbInclude}
+ \hypertarget{typecast_int16}{}\section{I\-N\-T16 Convert to Signed 16-\/bit Integer}\label{typecast_int16}
+Section\-: \hyperlink{sec_typecast}{Type Conversion Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Converts the argument to an signed 16-\/bit Integer. The syntax for its use is \begin{DoxyVerb}   y = int16(x)
+\end{DoxyVerb}
+ where {\ttfamily x} is an {\ttfamily n}-\/dimensional numerical array. Conversion follows the saturation rules (e.\-g., if {\ttfamily x} is outside the normal range for a signed 16-\/bit integer of {\ttfamily \mbox{[}-\/32767,32767\mbox{]}}, it is truncated to that range). Note that both {\ttfamily Na\-N} and {\ttfamily Inf} both map to 0. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+The following piece of code demonstrates several uses of {\ttfamily int16}. First, the routine uses
+
+
+\begin{DoxyVerbInclude}
+--> int16(100)
+
+ans = 
+ 100 
+
+--> int16(-100)
+
+ans = 
+ -100 
+\end{DoxyVerbInclude}
+
+
+In the next example, an integer outside the range of the type is passed in. The result is truncated to the range of the data type.
+
+
+\begin{DoxyVerbInclude}
+--> int16(40000)
+
+ans = 
+ 32767 
+\end{DoxyVerbInclude}
+
+
+In the next example, a positive double precision argument is passed in. The result is the signed integer that is closest to the argument.
+
+
+\begin{DoxyVerbInclude}
+--> int16(pi)
+
+ans = 
+ 3 
+\end{DoxyVerbInclude}
+
+
+In the next example, a complex argument is passed in. The result is the signed complex integer that is closest to the argument.
+
+
+\begin{DoxyVerbInclude}
+--> int16(5+2*i)
+
+ans = 
+   5.0000 +  2.0000i 
+\end{DoxyVerbInclude}
+
+
+In the next example, a string argument is passed in. The string argument is converted into an integer array corresponding to the A\-S\-C\-I\-I values of each character.
+
+
+\begin{DoxyVerbInclude}
+--> int16('helo')
+
+ans = 
+ 104 101 108 111 
+\end{DoxyVerbInclude}
+
+
+In the last example, a cell-\/array is passed in. For cell-\/arrays and structure arrays, the result is an error.
+
+
+\begin{DoxyVerbInclude}
+--> int16({4})
+Error: Cannot perform type conversions with this type
+\end{DoxyVerbInclude}
+ \hypertarget{typecast_int2bin}{}\section{I\-N\-T2\-B\-I\-N Convert Integer Arrays to Binary}\label{typecast_int2bin}
+Section\-: \hyperlink{sec_typecast}{Type Conversion Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Computes the binary decomposition of an integer array to the specified number of bits. The general syntax for its use is \begin{DoxyVerb}   y = int2bin(x,n)
+\end{DoxyVerb}
+ where {\ttfamily x} is a multi-\/dimensional integer array, and {\ttfamily n} is the number of bits to expand it to. The output array {\ttfamily y} has one extra dimension to it than the input. The bits are expanded along this extra dimension. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+The following piece of code demonstrates various uses of the int2bin function. First the simplest example\-:
+
+
+\begin{DoxyVerbInclude}
+--> A = [2;5;6;2]
+
+A = 
+ 2 
+ 5 
+ 6 
+ 2 
+
+--> int2bin(A,8)
+
+ans = 
+ 0 0 0 0 0 0 1 0 
+ 0 0 0 0 0 1 0 1 
+ 0 0 0 0 0 1 1 0 
+ 0 0 0 0 0 0 1 0 
+
+--> A = [1;2;-5;2]
+
+A = 
+  1 
+  2 
+ -5 
+  2 
+
+--> int2bin(A,8)
+
+ans = 
+ 0 0 0 0 0 0 0 1 
+ 0 0 0 0 0 0 1 0 
+ 1 1 1 1 1 0 1 1 
+ 0 0 0 0 0 0 1 0 
+\end{DoxyVerbInclude}
+ \hypertarget{typecast_int32}{}\section{I\-N\-T32 Convert to Signed 32-\/bit Integer}\label{typecast_int32}
+Section\-: \hyperlink{sec_typecast}{Type Conversion Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Converts the argument to an signed 32-\/bit Integer. The syntax for its use is \begin{DoxyVerb}   y = int32(x)
+\end{DoxyVerb}
+ where {\ttfamily x} is an {\ttfamily n}-\/dimensional numerical array. Conversion follows the saturation rules (e.\-g., if {\ttfamily x} is outside the normal range for a signed 32-\/bit integer of {\ttfamily \mbox{[}-\/2147483647,2147483647\mbox{]}}, it is truncated to that range). Note that both {\ttfamily Na\-N} and {\ttfamily Inf} both map to 0. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+The following piece of code demonstrates several uses of {\ttfamily int32}. First, the routine uses
+
+
+\begin{DoxyVerbInclude}
+--> int32(100)
+
+ans = 
+ 100 
+
+--> int32(-100)
+
+ans = 
+ -100 
+\end{DoxyVerbInclude}
+
+
+In the next example, an integer outside the range of the type is passed in. The result is truncated to the range of the data type.
+
+
+\begin{DoxyVerbInclude}
+--> int32(40e9)
+
+ans = 
+ 2147483647 
+\end{DoxyVerbInclude}
+
+
+In the next example, a positive double precision argument is passed in. The result is the signed integer that is closest to the argument.
+
+
+\begin{DoxyVerbInclude}
+--> int32(pi)
+
+ans = 
+ 3 
+\end{DoxyVerbInclude}
+
+
+In the next example, a complex argument is passed in. The result is the signed complex integer that is closest to the argument.
+
+
+\begin{DoxyVerbInclude}
+--> int32(5+2*i)
+
+ans = 
+   5.0000 +  2.0000i 
+\end{DoxyVerbInclude}
+
+
+In the next example, a string argument is passed in. The string argument is converted into an integer array corresponding to the A\-S\-C\-I\-I values of each character.
+
+
+\begin{DoxyVerbInclude}
+--> int32('helo')
+
+ans = 
+ 104 101 108 111 
+\end{DoxyVerbInclude}
+
+
+In the last example, a cell-\/array is passed in. For cell-\/arrays and structure arrays, the result is an error.
+
+
+\begin{DoxyVerbInclude}
+--> int32({4})
+Error: Cannot perform type conversions with this type
+\end{DoxyVerbInclude}
+ \hypertarget{typecast_int64}{}\section{I\-N\-T64 Convert to Signed 64-\/bit Integer}\label{typecast_int64}
+Section\-: \hyperlink{sec_typecast}{Type Conversion Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Converts the argument to an signed 64-\/bit Integer. The syntax for its use is \begin{DoxyVerb}   y = int64(x)
+\end{DoxyVerb}
+ where {\ttfamily x} is an {\ttfamily n}-\/dimensional numerical array. Conversion follows the saturation rules (e.\-g., if {\ttfamily x} is outside the normal range for a signed 64-\/bit integer of {\ttfamily \mbox{[}-\/2$^\wedge$63+1,2$^\wedge$63-\/1\mbox{]}}, it is truncated to that range). Note that both {\ttfamily Na\-N} and {\ttfamily Inf} both map to 0. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+The following piece of code demonstrates several uses of {\ttfamily int64}. First, the routine uses
+
+
+\begin{DoxyVerbInclude}
+--> int64(100)
+
+ans = 
+ 100 
+
+--> int64(-100)
+
+ans = 
+ -100 
+\end{DoxyVerbInclude}
+
+
+In the next example, an integer outside the range of the type is passed in. The result is truncated to the range of the data type.
+
+
+\begin{DoxyVerbInclude}
+--> int64(40e9)
+
+ans = 
+ 40000000000 
+\end{DoxyVerbInclude}
+
+
+In the next example, a positive double precision argument is passed in. The result is the signed integer that is closest to the argument.
+
+
+\begin{DoxyVerbInclude}
+--> int64(pi)
+
+ans = 
+ 3 
+\end{DoxyVerbInclude}
+
+
+In the next example, a complex argument is passed in. The result is the complex signed integer that is closest to the argument.
+
+
+\begin{DoxyVerbInclude}
+--> int64(5+2*i)
+
+ans = 
+   5.0000 +  2.0000i 
+\end{DoxyVerbInclude}
+
+
+In the next example, a string argument is passed in. The string argument is converted into an integer array corresponding to the A\-S\-C\-I\-I values of each character.
+
+
+\begin{DoxyVerbInclude}
+--> int64('helo')
+
+ans = 
+ 104 101 108 111 
+\end{DoxyVerbInclude}
+
+
+In the last example, a cell-\/array is passed in. For cell-\/arrays and structure arrays, the result is an error.
+
+
+\begin{DoxyVerbInclude}
+--> int64({4})
+Error: Cannot perform type conversions with this type
+\end{DoxyVerbInclude}
+ \hypertarget{typecast_int8}{}\section{I\-N\-T8 Convert to Signed 8-\/bit Integer}\label{typecast_int8}
+Section\-: \hyperlink{sec_typecast}{Type Conversion Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Converts the argument to an signed 8-\/bit Integer. The syntax for its use is \begin{DoxyVerb}   y = int8(x)
+\end{DoxyVerb}
+ where {\ttfamily x} is an {\ttfamily n}-\/dimensional numerical array. Conversion follows the saturation rules (e.\-g., if {\ttfamily x} is outside the normal range for a signed 8-\/bit integer of {\ttfamily \mbox{[}-\/127,127\mbox{]}}, it is truncated to that range. Note that both {\ttfamily Na\-N} and {\ttfamily Inf} both map to 0. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+The following piece of code demonstrates several uses of {\ttfamily int8}. First, the routine uses
+
+
+\begin{DoxyVerbInclude}
+--> int8(100)
+
+ans = 
+ 100 
+
+--> int8(-100)
+
+ans = 
+ -100 
+\end{DoxyVerbInclude}
+
+
+In the next example, an integer outside the range of the type is passed in. The result is truncated to the range of the type.
+
+
+\begin{DoxyVerbInclude}
+--> int8(400)
+
+ans = 
+ 127 
+\end{DoxyVerbInclude}
+
+
+In the next example, a positive double precision argument is passed in. The result is the signed integer that is closest to the argument.
+
+
+\begin{DoxyVerbInclude}
+--> int8(pi)
+
+ans = 
+ 3 
+\end{DoxyVerbInclude}
+
+
+In the next example, a complex argument is passed in. The result is the signed complex integer that is closest to the argument.
+
+
+\begin{DoxyVerbInclude}
+--> int8(5+2*i)
+
+ans = 
+   5.0000 +  2.0000i 
+\end{DoxyVerbInclude}
+
+
+In the next example, a string argument is passed in. The string argument is converted into an integer array corresponding to the A\-S\-C\-I\-I values of each character.
+
+
+\begin{DoxyVerbInclude}
+--> int8('helo')
+
+ans = 
+ 104 101 108 111 
+\end{DoxyVerbInclude}
+
+
+In the last example, a cell-\/array is passed in. For cell-\/arrays and structure arrays, the result is an error.
+
+
+\begin{DoxyVerbInclude}
+--> int8({4})
+Error: Cannot perform type conversions with this type
+\end{DoxyVerbInclude}
+ \hypertarget{typecast_logical}{}\section{L\-O\-G\-I\-C\-A\-L Convert to Logical}\label{typecast_logical}
+Section\-: \hyperlink{sec_typecast}{Type Conversion Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Converts the argument to a logical array. The syntax for its use is \begin{DoxyVerb}   y = logical(x)
+\end{DoxyVerb}
+ where {\ttfamily x} is an {\ttfamily n}-\/dimensional numerical array. Any nonzero element maps to a logical 1. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+Here we convert an integer array to {\ttfamily logical}\-:
+
+
+\begin{DoxyVerbInclude}
+--> logical([1,2,3,0,0,0,5,2,2])
+
+ans = 
+ 1 1 1 0 0 0 1 1 1 
+\end{DoxyVerbInclude}
+
+
+The same example with double precision values\-:
+
+
+\begin{DoxyVerbInclude}
+--> logical([pi,pi,0,e,0,-1])
+
+ans = 
+ 1 1 0 1 0 1 
+\end{DoxyVerbInclude}
+ \hypertarget{typecast_single}{}\section{S\-I\-N\-G\-L\-E Convert to 32-\/bit Floating Point}\label{typecast_single}
+Section\-: \hyperlink{sec_typecast}{Type Conversion Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+A synonym for the {\ttfamily float} function, converts the argument to a 32-\/bit floating point number. The syntax for its use is \begin{DoxyVerb}   y = single(x)
+\end{DoxyVerb}
+ where {\ttfamily x} is an {\ttfamily n}-\/dimensional numerical array. Conversion follows the general C rules. Note that both {\ttfamily Na\-N} and {\ttfamily Inf} are both preserved under type conversion. \hypertarget{typecast_string}{}\section{S\-T\-R\-I\-N\-G Convert Array to String}\label{typecast_string}
+Section\-: \hyperlink{sec_typecast}{Type Conversion Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Converts the argument array into a string. The syntax for its use is \begin{DoxyVerb}   y = string(x)
+\end{DoxyVerb}
+ where {\ttfamily x} is an {\ttfamily n}-\/dimensional numerical array. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+Here we take an array containing A\-S\-C\-I\-I codes for a string, and convert it into a string.
+
+
+\begin{DoxyVerbInclude}
+--> a = [104,101,108,108,111]
+
+a = 
+ 104 101 108 108 111 
+
+--> string(a)
+
+ans = 
+hello
+\end{DoxyVerbInclude}
+ \hypertarget{typecast_uint16}{}\section{U\-I\-N\-T16 Convert to Unsigned 16-\/bit Integer}\label{typecast_uint16}
+Section\-: \hyperlink{sec_typecast}{Type Conversion Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Converts the argument to an unsigned 16-\/bit Integer. The syntax for its use is \begin{DoxyVerb}   y = uint16(x)
+\end{DoxyVerb}
+ where {\ttfamily x} is an {\ttfamily n}-\/dimensional numerical array. Conversion follows saturation rules (e.\-g., if {\ttfamily x} is outside the normal range for an unsigned 16-\/bit integer of {\ttfamily \mbox{[}0,65535\mbox{]}}, it is truncated to that range. Note that both {\ttfamily Na\-N} and {\ttfamily Inf} both map to 0. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+The following piece of code demonstrates several uses of {\ttfamily uint16}.
+
+
+\begin{DoxyVerbInclude}
+--> uint16(200)
+
+ans = 
+ 200 
+\end{DoxyVerbInclude}
+
+
+In the next example, an integer outside the range of the type is passed in. The result is truncated to the maximum value of the data type.
+
+
+\begin{DoxyVerbInclude}
+--> uint16(99400)
+
+ans = 
+ 65535 
+\end{DoxyVerbInclude}
+
+
+In the next example, a negative integer is passed in. The result is truncated to zero.
+
+
+\begin{DoxyVerbInclude}
+--> uint16(-100)
+
+ans = 
+ 0 
+\end{DoxyVerbInclude}
+
+
+In the next example, a positive double precision argument is passed in. The result is the unsigned integer that is closest to the argument.
+
+
+\begin{DoxyVerbInclude}
+--> uint16(pi)
+
+ans = 
+ 3 
+\end{DoxyVerbInclude}
+
+
+In the next example, a complex argument is passed in. The result is the complex unsigned integer that is closest to the argument.
+
+
+\begin{DoxyVerbInclude}
+--> uint16(5+2*i)
+
+ans = 
+   5.0000 +  2.0000i 
+\end{DoxyVerbInclude}
+
+
+In the next example, a string argument is passed in. The string argument is converted into an integer array corresponding to the A\-S\-C\-I\-I values of each character.
+
+
+\begin{DoxyVerbInclude}
+--> uint16('helo')
+
+ans = 
+ 104 101 108 111 
+\end{DoxyVerbInclude}
+
+
+In the last example, a cell-\/array is passed in. For cell-\/arrays and structure arrays, the result is an error.
+
+
+\begin{DoxyVerbInclude}
+--> uint16({4})
+Error: Cannot perform type conversions with this type
+\end{DoxyVerbInclude}
+ \hypertarget{typecast_uint32}{}\section{U\-I\-N\-T32 Convert to Unsigned 32-\/bit Integer}\label{typecast_uint32}
+Section\-: \hyperlink{sec_typecast}{Type Conversion Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Converts the argument to an unsigned 32-\/bit Integer. The syntax for its use is \begin{DoxyVerb}   y = uint32(x)
+\end{DoxyVerb}
+ where {\ttfamily x} is an {\ttfamily n}-\/dimensional numerical array. Conversion follows saturation rules (e.\-g., if {\ttfamily x} is outside the normal range for an unsigned 32-\/bit integer of {\ttfamily \mbox{[}0,4294967295\mbox{]}}, it is truncated to that range. Note that both {\ttfamily Na\-N} and {\ttfamily Inf} both map to 0. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+The following piece of code demonstrates several uses of {\ttfamily uint32}.
+
+
+\begin{DoxyVerbInclude}
+--> uint32(200)
+
+ans = 
+ 200 
+\end{DoxyVerbInclude}
+
+
+In the next example, an integer outside the range of the type is passed in. The result is truncated to the maximum value of the data type.
+
+
+\begin{DoxyVerbInclude}
+--> uint32(40e9)
+
+ans = 
+ 4294967295 
+\end{DoxyVerbInclude}
+
+
+In the next example, a negative integer is passed in. The result is truncated to zero.
+
+
+\begin{DoxyVerbInclude}
+--> uint32(-100)
+
+ans = 
+ 0 
+\end{DoxyVerbInclude}
+
+
+In the next example, a positive double precision argument is passed in. The result is the unsigned integer that is closest to the argument.
+
+
+\begin{DoxyVerbInclude}
+--> uint32(pi)
+
+ans = 
+ 3 
+\end{DoxyVerbInclude}
+
+
+In the next example, a complex argument is passed in. The result is the complex unsigned integer that is closest to the argument.
+
+
+\begin{DoxyVerbInclude}
+--> uint32(5+2*i)
+
+ans = 
+   5.0000 +  2.0000i 
+\end{DoxyVerbInclude}
+
+
+In the next example, a string argument is passed in. The string argument is converted into an integer array corresponding to the A\-S\-C\-I\-I values of each character.
+
+
+\begin{DoxyVerbInclude}
+--> uint32('helo')
+
+ans = 
+ 104 101 108 111 
+\end{DoxyVerbInclude}
+
+
+In the last example, a cell-\/array is passed in. For cell-\/arrays and structure arrays, the result is an error.
+
+
+\begin{DoxyVerbInclude}
+--> uint32({4})
+Error: Cannot perform type conversions with this type
+\end{DoxyVerbInclude}
+ \hypertarget{typecast_uint64}{}\section{U\-I\-N\-T64 Convert to Unsigned 64-\/bit Integer}\label{typecast_uint64}
+Section\-: \hyperlink{sec_typecast}{Type Conversion Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Converts the argument to an unsigned 64-\/bit Integer. The syntax for its use is \begin{DoxyVerb}   y = uint64(x)
+\end{DoxyVerb}
+ where {\ttfamily x} is an {\ttfamily n}-\/dimensional numerical array. Conversion follows saturation rules (e.\-g., if {\ttfamily x} is outside the normal range for an unsigned 64-\/bit integer of {\ttfamily \mbox{[}0,2$^\wedge$64-\/1\mbox{]}}, it is truncated to that range. Note that both {\ttfamily Na\-N} and {\ttfamily Inf} both map to 0. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+The following piece of code demonstrates several uses of {\ttfamily uint64}.
+
+
+\begin{DoxyVerbInclude}
+--> uint64(200)
+
+ans = 
+ 200 
+\end{DoxyVerbInclude}
+
+
+In the next example, an integer outside the range of the type is passed in. The result is truncated to the maximum value of the data type.
+
+
+\begin{DoxyVerbInclude}
+--> uint64(40e9)
+
+ans = 
+ 40000000000 
+\end{DoxyVerbInclude}
+
+
+In the next example, a negative integer is passed in. The result is zero.
+
+
+\begin{DoxyVerbInclude}
+--> uint64(-100)
+
+ans = 
+ 0 
+\end{DoxyVerbInclude}
+
+
+In the next example, a positive double precision argument is passed in. The result is the unsigned integer that is closest to the argument.
+
+
+\begin{DoxyVerbInclude}
+--> uint64(pi)
+
+ans = 
+ 3 
+\end{DoxyVerbInclude}
+
+
+In the next example, a complex argument is passed in. The result is the complex unsigned integer that is closest to the argument.
+
+
+\begin{DoxyVerbInclude}
+--> uint64(5+2*i)
+
+ans = 
+   5.0000 +  2.0000i 
+\end{DoxyVerbInclude}
+
+
+In the next example, a string argument is passed in. The string argument is converted into an integer array corresponding to the A\-S\-C\-I\-I values of each character.
+
+
+\begin{DoxyVerbInclude}
+--> uint64('helo')
+
+ans = 
+ 104 101 108 111 
+\end{DoxyVerbInclude}
+
+
+In the last example, a cell-\/array is passed in. For cell-\/arrays and structure arrays, the result is an error.
+
+
+\begin{DoxyVerbInclude}
+--> uint64({4})
+Error: Cannot perform type conversions with this type
+\end{DoxyVerbInclude}
+ \hypertarget{typecast_uint8}{}\section{U\-I\-N\-T8 Convert to Unsigned 8-\/bit Integer}\label{typecast_uint8}
+Section\-: \hyperlink{sec_typecast}{Type Conversion Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Converts the argument to an unsigned 8-\/bit Integer. The syntax for its use is \begin{DoxyVerb}   y = uint8(x)
+\end{DoxyVerb}
+ where {\ttfamily x} is an {\ttfamily n}-\/dimensional numerical array. Conversion follows saturation rules (e.\-g., if {\ttfamily x} is outside the normal range for an unsigned 8-\/bit integer of {\ttfamily \mbox{[}0,255\mbox{]}}, it is truncated to that range. Note that both {\ttfamily Na\-N} and {\ttfamily Inf} both map to 0. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+The following piece of code demonstrates several uses of {\ttfamily uint8}.
+
+
+\begin{DoxyVerbInclude}
+--> uint8(200)
+
+ans = 
+ 200 
+\end{DoxyVerbInclude}
+
+
+In the next example, an integer outside the range of the type is passed in. The result is truncated to the maximum value of the data type.
+
+
+\begin{DoxyVerbInclude}
+--> uint8(400)
+
+ans = 
+ 255 
+\end{DoxyVerbInclude}
+
+
+In the next example, a negative integer is passed in. The result is trunated to zero.
+
+
+\begin{DoxyVerbInclude}
+--> uint8(-100)
+
+ans = 
+ 0 
+\end{DoxyVerbInclude}
+
+
+In the next example, a positive double precision argument is passed in. The result is the unsigned integer that is closest to the argument.
+
+
+\begin{DoxyVerbInclude}
+--> uint8(pi)
+
+ans = 
+ 3 
+\end{DoxyVerbInclude}
+
+
+In the next example, a complex argument is passed in. The result is complex unsigned integer that is closest to the argument.
+
+
+\begin{DoxyVerbInclude}
+--> uint8(5+2*i)
+
+ans = 
+   5.0000 +  2.0000i 
+\end{DoxyVerbInclude}
+
+
+In the next example, a string argument is passed in. The string argument is converted into an integer array corresponding to the A\-S\-C\-I\-I values of each character.
+
+
+\begin{DoxyVerbInclude}
+--> uint8('helo')
+
+ans = 
+ 104 101 108 111 
+\end{DoxyVerbInclude}
+
+
+In the last example, a cell-\/array is passed in. For cell-\/arrays and structure arrays, the result is an error.
+
+
+\begin{DoxyVerbInclude}
+--> uint8({4})
+Error: Cannot perform type conversions with this type
+\end{DoxyVerbInclude}
+ 

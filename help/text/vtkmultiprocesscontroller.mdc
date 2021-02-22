@@ -1,0 +1,577 @@
+
+ Usage
+
+vtkMultiProcessController is used to control multiple
+processes in a distributed computing environment. It has
+methods for executing single/multiple method(s) on multiple
+processors, triggering registered callbacks (Remote Methods)
+(AddRMI(), TriggerRMI()) and communication. Please note that
+the communication is done using the communicator which is
+accessible to the user. Therefore it is possible to get the
+communicator with GetCommunicator() and use it to send and
+receive data. This is the encouraged communication method.
+The internal (RMI) communications are done using a second
+internal communicator (called RMICommunicator).
+To create an instance of class vtkMultiProcessController,
+simply invoke its constructor as follows
+
+    obj = vtkMultiProcessController
+
+
+
+ Methods
+
+The class vtkMultiProcessController has several methods that
+can be used. They are listed below. Note that the
+documentation is translated automatically from the VTK
+sources, and may not be completely intelligible. When in
+doubt, consult the VTK website. In the methods listed below,
+obj is an instance of the vtkMultiProcessController class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkMultiProcessController = obj.NewInstance ()
+* vtkMultiProcessController = obj.SafeDownCast (vtkObject o)
+* obj.Finalize () - This method is for cleaning up. If a
+  subclass needs to clean up process communication (i.e.
+  MPI) it would over ride this method.
+* obj.Finalize (int finalizedExternally) - This method is
+  for cleaning up. If a subclass needs to clean up process
+  communication (i.e. MPI) it would over ride this method.
+  Provided for finalization outside vtk.
+* obj.SetNumberOfProcesses (int num) - Set the number of
+  processes you will be using. This defaults to the maximum
+  number available. If you set this to a value higher than
+  the default, you will get an error.
+* int = obj.GetNumberOfProcesses () - Set the number of
+  processes you will be using. This defaults to the maximum
+  number available. If you set this to a value higher than
+  the default, you will get an error.
+* obj.SingleMethodExecute () - Execute the SingleMethod (as
+  define by SetSingleMethod) using this->NumberOfProcesses
+  processes. This will only return when all the processes
+  finish executing their methods.
+* obj.MultipleMethodExecute () - Execute the MultipleMethods
+  (as define by calling SetMultipleMethod for each of the
+  required this->NumberOfProcesses methods) using this-
+  >NumberOfProcesses processes.
+* int = obj.GetLocalProcessId () - Tells you which process
+  [0, NumProcess) you are in.
+* obj.CreateOutputWindow () - This method can be used to
+  tell the controller to create a special output window in
+  which all messages are preceded by the process id.
+* vtkMultiProcessController = obj.CreateSubController
+  (vtkProcessGroup group) - Creates a new controller with
+  the processes specified by the given group. The new
+  controller will already be initialized for you. You are
+  responsible for deleting the controller once you are done.
+  It is invalid to pass this method a group with a different
+  communicator than is used by this controller. This
+  operation is collective accross all processes defined in
+  the group. It is undefined what will happen if the group
+  is not the same on all processes. This method must be
+  called by all processes in the controller regardless of
+  whether they are in the group. NULL is returned on all
+  process not in the group.
+* vtkMultiProcessController = obj.PartitionController (int
+  localColor, int localKey) - Partitions this controller
+  based on a coloring. That is, each process passes in a
+  color. All processes with the same color are grouped into
+  the same partition. The processes are ordered by their
+  self-assigned key. Lower keys have lower process ids. Ties
+  are broken by the current process ids. (For example, if
+  all the keys are 0, then the resulting processes will be
+  ordered in the same way.) This method returns a new
+  controller to each process that represents the local
+  partition. This is basically the same operation as
+  MPI_Comm_split.
+* obj.TriggerBreakRMIs () - A conveniance method. Called on
+  process 0 to break "ProcessRMIs" loop on all other
+  processes.
+* obj.TriggerRMI (int remoteProcessId, string arg, int tag)
+  - Convenience method when there is no argument.
+* obj.TriggerRMI (int remoteProcessId, int tag) - This is a
+  convenicence method to trigger an RMI call on all the
+  "children" of the current node. The children of the
+  current node can be determined by drawing a binary tree
+  starting at node 0 and then assigned nodes ids
+  incrementally in a breadth-first fashion from left to
+  right. This is designed to be used when trigger an RMI
+  call on all satellites from the root node.
+* obj.TriggerRMIOnAllChildren (string arg, int tag) - This
+  is a convenicence method to trigger an RMI call on all the
+  "children" of the current node. The children of the
+  current node can be determined by drawing a binary tree
+  starting at node 0 and then assigned nodes ids
+  incrementally in a breadth-first fashion from left to
+  right. This is designed to be used when trigger an RMI
+  call on all satellites from the root node.
+* obj.TriggerRMIOnAllChildren (int tag) - Calling this
+  method gives control to the controller to start processing
+  RMIs. Possible return values are: RMI_NO_ERROR,
+  RMI_TAG_ERROR : rmi tag could not be received,
+  RMI_ARG_ERROR : rmi arg could not be received. If
+  reportErrors is false, no vtkErrorMacro is called.
+  ProcessRMIs() calls ProcessRMIs(int) with reportErrors =
+  0. If dont_loop is 1, this call just process one RMI
+  message and exits.
+* int = obj.ProcessRMIs (int reportErrors, int dont_loop) -
+  Calling this method gives control to the controller to
+  start processing RMIs. Possible return values are:
+  RMI_NO_ERROR, RMI_TAG_ERROR : rmi tag could not be
+  received, RMI_ARG_ERROR : rmi arg could not be received.
+  If reportErrors is false, no vtkErrorMacro is called.
+  ProcessRMIs() calls ProcessRMIs(int) with reportErrors =
+  0. If dont_loop is 1, this call just process one RMI
+  message and exits.
+* int = obj.ProcessRMIs () - Calling this method gives
+  control to the controller to start processing RMIs.
+  Possible return values are: RMI_NO_ERROR, RMI_TAG_ERROR :
+  rmi tag could not be received, RMI_ARG_ERROR : rmi arg
+  could not be received. If reportErrors is false, no
+  vtkErrorMacro is called. ProcessRMIs() calls ProcessRMIs
+  (int) with reportErrors = 0. If dont_loop is 1, this call
+  just process one RMI message and exits.
+* obj.SetBreakFlag (int ) - Setting this flag to 1 will
+  cause the ProcessRMIs loop to return. This also causes
+  vtkUpStreamPorts to return from their WaitForUpdate loops.
+* int = obj.GetBreakFlag () - Setting this flag to 1 will
+  cause the ProcessRMIs loop to return. This also causes
+  vtkUpStreamPorts to return from their WaitForUpdate loops.
+* vtkCommunicator = obj.GetCommunicator () - Returns the
+  communicator associated with this controller. A default
+  communicator is created in constructor.
+* obj.Barrier () - This method can be used to synchronize
+  processes.
+* int = obj.Send (int data, vtkIdType length, int
+  remoteProcessId, int tag) - This method sends data to
+  another process. Tag eliminates ambiguity when multiple
+  sends or receives exist in the same process. It is
+  recommended to use custom tag number over 100.
+  vtkMultiProcessController has reserved tags between 1 and
+  4. vtkCommunicator has reserved tags between 10 and 16.
+* int = obj.Send (int data, vtkIdType length, int
+  remoteProcessId, int tag) - This method sends data to
+  another process. Tag eliminates ambiguity when multiple
+  sends or receives exist in the same process. It is
+  recommended to use custom tag number over 100.
+  vtkMultiProcessController has reserved tags between 1 and
+  4. vtkCommunicator has reserved tags between 10 and 16.
+* int = obj.Send (long data, vtkIdType length, int
+  remoteProcessId, int tag) - This method sends data to
+  another process. Tag eliminates ambiguity when multiple
+  sends or receives exist in the same process. It is
+  recommended to use custom tag number over 100.
+  vtkMultiProcessController has reserved tags between 1 and
+  4. vtkCommunicator has reserved tags between 10 and 16.
+* int = obj.Send (string data, vtkIdType length, int
+  remoteProcessId, int tag) - This method sends data to
+  another process. Tag eliminates ambiguity when multiple
+  sends or receives exist in the same process. It is
+  recommended to use custom tag number over 100.
+  vtkMultiProcessController has reserved tags between 1 and
+  4. vtkCommunicator has reserved tags between 10 and 16.
+* int = obj.Send (string data, vtkIdType length, int
+  remoteProcessId, int tag) - This method sends data to
+  another process. Tag eliminates ambiguity when multiple
+  sends or receives exist in the same process. It is
+  recommended to use custom tag number over 100.
+  vtkMultiProcessController has reserved tags between 1 and
+  4. vtkCommunicator has reserved tags between 10 and 16.
+* int = obj.Send (float data, vtkIdType length, int
+  remoteProcessId, int tag) - This method sends data to
+  another process. Tag eliminates ambiguity when multiple
+  sends or receives exist in the same process. It is
+  recommended to use custom tag number over 100.
+  vtkMultiProcessController has reserved tags between 1 and
+  4. vtkCommunicator has reserved tags between 10 and 16.
+* int = obj.Send (double data, vtkIdType length, int
+  remoteProcessId, int tag) - This method sends data to
+  another process. Tag eliminates ambiguity when multiple
+  sends or receives exist in the same process. It is
+  recommended to use custom tag number over 100.
+  vtkMultiProcessController has reserved tags between 1 and
+  4. vtkCommunicator has reserved tags between 10 and 16.
+* int = obj.Send (vtkDataObject data, int remoteId, int tag)
+  - This method sends data to another process. Tag
+  eliminates ambiguity when multiple sends or receives exist
+  in the same process. It is recommended to use custom tag
+  number over 100. vtkMultiProcessController has reserved
+  tags between 1 and 4. vtkCommunicator has reserved tags
+  between 10 and 16.
+* int = obj.Send (vtkDataArray data, int remoteId, int tag)
+  - This method sends data to another process. Tag
+  eliminates ambiguity when multiple sends or receives exist
+  in the same process. It is recommended to use custom tag
+  number over 100. vtkMultiProcessController has reserved
+  tags between 1 and 4. vtkCommunicator has reserved tags
+  between 10 and 16.
+* int = obj.Receive (int data, vtkIdType maxlength, int
+  remoteProcessId, int tag) - This method receives data from
+  a corresponding send. It blocks until the receive is
+  finished. It calls methods in "data" to communicate the
+  sending data. In the overrloads that take in a maxlength
+  argument, this length is the maximum length of the message
+  to receive. If the maxlength is less than the length of
+  the message sent by the sender, an error will be flagged.
+  Once a message is received, use the GetCount() method to
+  determine the actual size of the data received.
+* int = obj.Receive (int data, vtkIdType maxlength, int
+  remoteProcessId, int tag) - This method receives data from
+  a corresponding send. It blocks until the receive is
+  finished. It calls methods in "data" to communicate the
+  sending data. In the overrloads that take in a maxlength
+  argument, this length is the maximum length of the message
+  to receive. If the maxlength is less than the length of
+  the message sent by the sender, an error will be flagged.
+  Once a message is received, use the GetCount() method to
+  determine the actual size of the data received.
+* int = obj.Receive (long data, vtkIdType maxlength, int
+  remoteProcessId, int tag) - This method receives data from
+  a corresponding send. It blocks until the receive is
+  finished. It calls methods in "data" to communicate the
+  sending data. In the overrloads that take in a maxlength
+  argument, this length is the maximum length of the message
+  to receive. If the maxlength is less than the length of
+  the message sent by the sender, an error will be flagged.
+  Once a message is received, use the GetCount() method to
+  determine the actual size of the data received.
+* int = obj.Receive (string data, vtkIdType maxlength, int
+  remoteProcessId, int tag) - This method receives data from
+  a corresponding send. It blocks until the receive is
+  finished. It calls methods in "data" to communicate the
+  sending data. In the overrloads that take in a maxlength
+  argument, this length is the maximum length of the message
+  to receive. If the maxlength is less than the length of
+  the message sent by the sender, an error will be flagged.
+  Once a message is received, use the GetCount() method to
+  determine the actual size of the data received.
+* int = obj.Receive (string data, vtkIdType maxlength, int
+  remoteProcessId, int tag) - This method receives data from
+  a corresponding send. It blocks until the receive is
+  finished. It calls methods in "data" to communicate the
+  sending data. In the overrloads that take in a maxlength
+  argument, this length is the maximum length of the message
+  to receive. If the maxlength is less than the length of
+  the message sent by the sender, an error will be flagged.
+  Once a message is received, use the GetCount() method to
+  determine the actual size of the data received.
+* int = obj.Receive (float data, vtkIdType maxlength, int
+  remoteProcessId, int tag) - This method receives data from
+  a corresponding send. It blocks until the receive is
+  finished. It calls methods in "data" to communicate the
+  sending data. In the overrloads that take in a maxlength
+  argument, this length is the maximum length of the message
+  to receive. If the maxlength is less than the length of
+  the message sent by the sender, an error will be flagged.
+  Once a message is received, use the GetCount() method to
+  determine the actual size of the data received.
+* int = obj.Receive (double data, vtkIdType maxlength, int
+  remoteProcessId, int tag) - This method receives data from
+  a corresponding send. It blocks until the receive is
+  finished. It calls methods in "data" to communicate the
+  sending data. In the overrloads that take in a maxlength
+  argument, this length is the maximum length of the message
+  to receive. If the maxlength is less than the length of
+  the message sent by the sender, an error will be flagged.
+  Once a message is received, use the GetCount() method to
+  determine the actual size of the data received.
+* int = obj.Receive (vtkDataObject data, int remoteId, int
+  tag) - This method receives data from a corresponding
+  send. It blocks until the receive is finished. It calls
+  methods in "data" to communicate the sending data. In the
+  overrloads that take in a maxlength argument, this length
+  is the maximum length of the message to receive. If the
+  maxlength is less than the length of the message sent by
+  the sender, an error will be flagged. Once a message is
+  received, use the GetCount() method to determine the
+  actual size of the data received.
+* int = obj.Receive (vtkDataArray data, int remoteId, int
+  tag) - This method receives data from a corresponding
+  send. It blocks until the receive is finished. It calls
+  methods in "data" to communicate the sending data. In the
+  overrloads that take in a maxlength argument, this length
+  is the maximum length of the message to receive. If the
+  maxlength is less than the length of the message sent by
+  the sender, an error will be flagged. Once a message is
+  received, use the GetCount() method to determine the
+  actual size of the data received.
+* vtkDataObject = obj.ReceiveDataObject (int remoteId, int
+  tag) - This method receives data from a corresponding
+  send. It blocks until the receive is finished. It calls
+  methods in "data" to communicate the sending data. In the
+  overrloads that take in a maxlength argument, this length
+  is the maximum length of the message to receive. If the
+  maxlength is less than the length of the message sent by
+  the sender, an error will be flagged. Once a message is
+  received, use the GetCount() method to determine the
+  actual size of the data received.
+* vtkIdType = obj.GetCount () - Returns the number of words
+  received by the most recent Receive(). Note that this is
+  not the number of bytes received, but the number of items
+  of the data-type received by the most recent Receive() eg.
+  if Receive(int*,..) was used, then this returns the number
+  of ints received; if Receive(double*,..) was used, then
+  this returns the number of doubles received etc. The
+  return value is valid only after a successful Receive().
+* int = obj.Broadcast (int data, vtkIdType length, int
+  srcProcessId) - Broadcast sends the array in the process
+  with id srcProcessId to all of the other processes. All
+  processes must call these method with the same arguments
+  in order for it to complete.
+* int = obj.Broadcast (long data, vtkIdType length, int
+  srcProcessId) - Broadcast sends the array in the process
+  with id srcProcessId to all of the other processes. All
+  processes must call these method with the same arguments
+  in order for it to complete.
+* int = obj.Broadcast (string data, vtkIdType length, int
+  srcProcessId) - Broadcast sends the array in the process
+  with id srcProcessId to all of the other processes. All
+  processes must call these method with the same arguments
+  in order for it to complete.
+* int = obj.Broadcast (string data, vtkIdType length, int
+  srcProcessId) - Broadcast sends the array in the process
+  with id srcProcessId to all of the other processes. All
+  processes must call these method with the same arguments
+  in order for it to complete.
+* int = obj.Broadcast (float data, vtkIdType length, int
+  srcProcessId) - Broadcast sends the array in the process
+  with id srcProcessId to all of the other processes. All
+  processes must call these method with the same arguments
+  in order for it to complete.
+* int = obj.Broadcast (double data, vtkIdType length, int
+  srcProcessId) - Broadcast sends the array in the process
+  with id srcProcessId to all of the other processes. All
+  processes must call these method with the same arguments
+  in order for it to complete.
+* int = obj.Broadcast (vtkDataObject data, int srcProcessId)
+  - Broadcast sends the array in the process with id
+  srcProcessId to all of the other processes. All processes
+  must call these method with the same arguments in order
+  for it to complete.
+* int = obj.Broadcast (vtkDataArray data, int srcProcessId)
+  - Gather collects arrays in the process with id
+  destProcessId. Each process (including the destination)
+  sends the contents of its send buffer to the destination
+  process. The destination process receives the messages and
+  stores them in rank order. The length argument (which must
+  be the same on all processes) is the length of the
+  sendBuffers. The recvBuffer (on te destination process)
+  must be of length length*numProcesses. Gather is the
+  inverse operation of Scatter.
+* int = obj.Gather (int sendBuffer, int recvBuffer,
+  vtkIdType length, int destProcessId) - Gather collects
+  arrays in the process with id destProcessId. Each process
+  (including the destination) sends the contents of its send
+  buffer to the destination process. The destination process
+  receives the messages and stores them in rank order. The
+  length argument (which must be the same on all processes)
+  is the length of the sendBuffers. The recvBuffer (on te
+  destination process) must be of length
+  length*numProcesses. Gather is the inverse operation of
+  Scatter.
+* int = obj.Gather (long sendBuffer, long recvBuffer,
+  vtkIdType length, int destProcessId) - Gather collects
+  arrays in the process with id destProcessId. Each process
+  (including the destination) sends the contents of its send
+  buffer to the destination process. The destination process
+  receives the messages and stores them in rank order. The
+  length argument (which must be the same on all processes)
+  is the length of the sendBuffers. The recvBuffer (on te
+  destination process) must be of length
+  length*numProcesses. Gather is the inverse operation of
+  Scatter.
+* int = obj.Gather (string sendBuffer, string recvBuffer,
+  vtkIdType length, int destProcessId) - Gather collects
+  arrays in the process with id destProcessId. Each process
+  (including the destination) sends the contents of its send
+  buffer to the destination process. The destination process
+  receives the messages and stores them in rank order. The
+  length argument (which must be the same on all processes)
+  is the length of the sendBuffers. The recvBuffer (on te
+  destination process) must be of length
+  length*numProcesses. Gather is the inverse operation of
+  Scatter.
+* int = obj.Gather (string sendBuffer, string recvBuffer,
+  vtkIdType length, int destProcessId) - Gather collects
+  arrays in the process with id destProcessId. Each process
+  (including the destination) sends the contents of its send
+  buffer to the destination process. The destination process
+  receives the messages and stores them in rank order. The
+  length argument (which must be the same on all processes)
+  is the length of the sendBuffers. The recvBuffer (on te
+  destination process) must be of length
+  length*numProcesses. Gather is the inverse operation of
+  Scatter.
+* int = obj.Gather (float sendBuffer, float recvBuffer,
+  vtkIdType length, int destProcessId) - Gather collects
+  arrays in the process with id destProcessId. Each process
+  (including the destination) sends the contents of its send
+  buffer to the destination process. The destination process
+  receives the messages and stores them in rank order. The
+  length argument (which must be the same on all processes)
+  is the length of the sendBuffers. The recvBuffer (on te
+  destination process) must be of length
+  length*numProcesses. Gather is the inverse operation of
+  Scatter.
+* int = obj.Gather (double sendBuffer, double recvBuffer,
+  vtkIdType length, int destProcessId) - Gather collects
+  arrays in the process with id destProcessId. Each process
+  (including the destination) sends the contents of its send
+  buffer to the destination process. The destination process
+  receives the messages and stores them in rank order. The
+  length argument (which must be the same on all processes)
+  is the length of the sendBuffers. The recvBuffer (on te
+  destination process) must be of length
+  length*numProcesses. Gather is the inverse operation of
+  Scatter.
+* int = obj.Gather (vtkDataArray sendBuffer, vtkDataArray
+  recvBuffer, int destProcessId) - GatherV is the vector
+  variant of Gather. It extends the functionality of Gather
+  by allowing a varying count of data from each process.
+  GatherV collects arrays in the process with id
+  destProcessId. Each process (including the destination)
+  sends the contents of its send buffer to the destination
+  process. The destination process receives the messages and
+  stores them in rank order. The sendLength argument defines
+  how much the local process sends to destProcessId and
+  recvLengths is an array containing the amount
+  destProcessId receives from each process, in rank order.
+* int = obj.Scatter (int sendBuffer, int recvBuffer,
+  vtkIdType length, int srcProcessId) - Scatter takes an
+  array in the process with id srcProcessId and distributes
+  it. Each process (including the source) receives a portion
+  of the send buffer. Process 0 receives the first length
+  values, process 1 receives the second length values, and
+  so on. Scatter is the inverse operation of Gather.
+* int = obj.Scatter (long sendBuffer, long recvBuffer,
+  vtkIdType length, int srcProcessId) - Scatter takes an
+  array in the process with id srcProcessId and distributes
+  it. Each process (including the source) receives a portion
+  of the send buffer. Process 0 receives the first length
+  values, process 1 receives the second length values, and
+  so on. Scatter is the inverse operation of Gather.
+* int = obj.Scatter (string sendBuffer, string recvBuffer,
+  vtkIdType length, int srcProcessId) - Scatter takes an
+  array in the process with id srcProcessId and distributes
+  it. Each process (including the source) receives a portion
+  of the send buffer. Process 0 receives the first length
+  values, process 1 receives the second length values, and
+  so on. Scatter is the inverse operation of Gather.
+* int = obj.Scatter (string sendBuffer, string recvBuffer,
+  vtkIdType length, int srcProcessId) - Scatter takes an
+  array in the process with id srcProcessId and distributes
+  it. Each process (including the source) receives a portion
+  of the send buffer. Process 0 receives the first length
+  values, process 1 receives the second length values, and
+  so on. Scatter is the inverse operation of Gather.
+* int = obj.Scatter (float sendBuffer, float recvBuffer,
+  vtkIdType length, int srcProcessId) - Scatter takes an
+  array in the process with id srcProcessId and distributes
+  it. Each process (including the source) receives a portion
+  of the send buffer. Process 0 receives the first length
+  values, process 1 receives the second length values, and
+  so on. Scatter is the inverse operation of Gather.
+* int = obj.Scatter (double sendBuffer, double recvBuffer,
+  vtkIdType length, int srcProcessId) - Scatter takes an
+  array in the process with id srcProcessId and distributes
+  it. Each process (including the source) receives a portion
+  of the send buffer. Process 0 receives the first length
+  values, process 1 receives the second length values, and
+  so on. Scatter is the inverse operation of Gather.
+* int = obj.Scatter (vtkDataArray sendBuffer, vtkDataArray
+  recvBuffer, int srcProcessId) - ScatterV is the vector
+  variant of Scatter. It extends the functionality of
+  Scatter by allowing a varying count of data to each
+  process. ScatterV takes an array in the process with id
+  srcProcessId and distributes it. Each process (including
+  the source) receives a portion of the send buffer defined
+  by the sendLengths and offsets arrays.
+* int = obj.AllGather (int sendBuffer, int recvBuffer,
+  vtkIdType length) - Same as gather except that the result
+  ends up on all processes.
+* int = obj.AllGather (long sendBuffer, long recvBuffer,
+  vtkIdType length) - Same as gather except that the result
+  ends up on all processes.
+* int = obj.AllGather (string sendBuffer, string recvBuffer,
+  vtkIdType length) - Same as gather except that the result
+  ends up on all processes.
+* int = obj.AllGather (string sendBuffer, string recvBuffer,
+  vtkIdType length) - Same as gather except that the result
+  ends up on all processes.
+* int = obj.AllGather (float sendBuffer, float recvBuffer,
+  vtkIdType length) - Same as gather except that the result
+  ends up on all processes.
+* int = obj.AllGather (double sendBuffer, double recvBuffer,
+  vtkIdType length) - Same as gather except that the result
+  ends up on all processes.
+* int = obj.AllGather (vtkDataArray sendBuffer, vtkDataArray
+  recvBuffer) - Same as GatherV except that the result is
+  placed in all processes.
+* int = obj.Reduce (int sendBuffer, int recvBuffer,
+  vtkIdType length, int operation, int destProcessId) -
+  Reduce an array to the given destination process. This
+  version of Reduce takes an identifier defined in the
+  vtkCommunicator::StandardOperations enum to define the
+  operation.
+* int = obj.Reduce (long sendBuffer, long recvBuffer,
+  vtkIdType length, int operation, int destProcessId) -
+  Reduce an array to the given destination process. This
+  version of Reduce takes an identifier defined in the
+  vtkCommunicator::StandardOperations enum to define the
+  operation.
+* int = obj.Reduce (string sendBuffer, string recvBuffer,
+  vtkIdType length, int operation, int destProcessId) -
+  Reduce an array to the given destination process. This
+  version of Reduce takes an identifier defined in the
+  vtkCommunicator::StandardOperations enum to define the
+  operation.
+* int = obj.Reduce (string sendBuffer, string recvBuffer,
+  vtkIdType length, int operation, int destProcessId) -
+  Reduce an array to the given destination process. This
+  version of Reduce takes an identifier defined in the
+  vtkCommunicator::StandardOperations enum to define the
+  operation.
+* int = obj.Reduce (float sendBuffer, float recvBuffer,
+  vtkIdType length, int operation, int destProcessId) -
+  Reduce an array to the given destination process. This
+  version of Reduce takes an identifier defined in the
+  vtkCommunicator::StandardOperations enum to define the
+  operation.
+* int = obj.Reduce (double sendBuffer, double recvBuffer,
+  vtkIdType length, int operation, int destProcessId) -
+  Reduce an array to the given destination process. This
+  version of Reduce takes an identifier defined in the
+  vtkCommunicator::StandardOperations enum to define the
+  operation.
+* int = obj.Reduce (vtkDataArray sendBuffer, vtkDataArray
+  recvBuffer, int operation, int destProcessId) - Same as
+  Reduce except that the result is placed in all of the
+  processes.
+* int = obj.AllReduce (int sendBuffer, int recvBuffer,
+  vtkIdType length, int operation) - Same as Reduce except
+  that the result is placed in all of the processes.
+* int = obj.AllReduce (long sendBuffer, long recvBuffer,
+  vtkIdType length, int operation) - Same as Reduce except
+  that the result is placed in all of the processes.
+* int = obj.AllReduce (string sendBuffer, string recvBuffer,
+  vtkIdType length, int operation) - Same as Reduce except
+  that the result is placed in all of the processes.
+* int = obj.AllReduce (string sendBuffer, string recvBuffer,
+  vtkIdType length, int operation) - Same as Reduce except
+  that the result is placed in all of the processes.
+* int = obj.AllReduce (float sendBuffer, float recvBuffer,
+  vtkIdType length, int operation) - Same as Reduce except
+  that the result is placed in all of the processes.
+* int = obj.AllReduce (double sendBuffer, double recvBuffer,
+  vtkIdType length, int operation) - Same as Reduce except
+  that the result is placed in all of the processes.
+* int = obj.AllReduce (vtkDataArray sendBuffer, vtkDataArray
+  recvBuffer, int operation)
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Parallel_Classes
+* Generated on Thu Jul 25 2013 17:18:34 for FreeMat by
+  doxygen_ 1.8.1.1
+

@@ -1,0 +1,90 @@
+/*!
+\page vtkrendering_vtkpixelbufferobject vtkPixelBufferObject
+
+<p>
+Section: \ref sec_vtkrendering "Visualization Toolkit Rendering Classes"
+\section Usage
+ Provides low-level access to GPU memory. Used to pass raw data to GPU. 
+ The data is uploaded into a pixel buffer.
+
+To create an instance of class vtkPixelBufferObject, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkPixelBufferObject
+\endverbatim
+\section Methods
+The class vtkPixelBufferObject has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkPixelBufferObject class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkPixelBufferObject = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkPixelBufferObject = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetContext (vtkRenderWindow context)</tt> -  Get/Set the context. Context must be a vtkOpenGLRenderWindow. 
+ This does not increase the reference count of the 
+ context to avoid reference loops.
+ SetContext() may raise an error is the OpenGL context does not support the
+ required OpenGL extensions.
+ </LI>
+<LI>  <tt>vtkRenderWindow = obj.GetContext ()</tt> -  Get/Set the context. Context must be a vtkOpenGLRenderWindow. 
+ This does not increase the reference count of the 
+ context to avoid reference loops.
+ SetContext() may raise an error is the OpenGL context does not support the
+ required OpenGL extensions.
+ </LI>
+<LI>  <tt>int = obj.GetUsage ()</tt> -  Usage is a performance hint.
+ Valid values are:
+ - StreamDraw specified once by A, used few times S
+ - StreamRead specified once by R, queried a few times by A
+ - StreamCopy specified once by R, used a few times S
+ - StaticDraw specified once by A, used many times S
+ - StaticRead specificed once by R, queried many times by A
+ - StaticCopy specified once by R, used many times S
+ - DynamicDraw respecified repeatedly by A, used many times S
+ - DynamicRead respecified repeatedly by R, queried many times by A
+ - DynamicCopy respecified repeatedly by R, used many times S
+ A: the application
+ S: as the source for GL drawing and image specification commands.
+ R: reading data from the GL
+ Initial value is StaticDraw, as in OpenGL spec.
+ </LI>
+<LI>  <tt>obj.SetUsage (int )</tt> -  Usage is a performance hint.
+ Valid values are:
+ - StreamDraw specified once by A, used few times S
+ - StreamRead specified once by R, queried a few times by A
+ - StreamCopy specified once by R, used a few times S
+ - StaticDraw specified once by A, used many times S
+ - StaticRead specificed once by R, queried many times by A
+ - StaticCopy specified once by R, used many times S
+ - DynamicDraw respecified repeatedly by A, used many times S
+ - DynamicRead respecified repeatedly by R, queried many times by A
+ - DynamicCopy respecified repeatedly by R, used many times S
+ A: the application
+ S: as the source for GL drawing and image specification commands.
+ R: reading data from the GL
+ Initial value is StaticDraw, as in OpenGL spec.
+ </LI>
+<LI>  <tt>int = obj.GetType ()</tt> -  Get the type with which the data is loaded into the GPU.
+ eg. VTK_FLOAT for float32, VTK_CHAR for byte, VTK_UNSIGNED_CHAR for
+ unsigned byte etc.
+ </LI>
+<LI>  <tt>int = obj.GetSize ()</tt> -  Get the size of the data loaded into the GPU. Size is in the number of
+ elements of the uploaded Type.
+ </LI>
+<LI>  <tt>int = obj.GetHandle ()</tt> -  Get the openGL buffer handle.
+ </LI>
+<LI>  <tt>obj.BindToPackedBuffer ()</tt>
+ </LI>
+<LI>  <tt>obj.BindToUnPackedBuffer ()</tt> -  Inactivate the buffer.
+ </LI>
+<LI>  <tt>obj.UnBind ()</tt> -  Inactivate the buffer.
+ </LI>
+</UL>
+*/

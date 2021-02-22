@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkfiltering_vtkgenericattributecollection" kind="page">
+    <compoundname>vtkfiltering_vtkgenericattributecollection</compoundname>
+    <title>vtkGenericAttributeCollection</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkfiltering_1sec_vtkfiltering" kindref="member">Visualization Toolkit Filtering Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>vtkGenericAttributeCollection is a class that collects attributes (represented by vtkGenericAttribute).</para><para>To create an instance of class vtkGenericAttributeCollection, simply invoke its constructor as follows <verbatim>  obj = vtkGenericAttributeCollection
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkGenericAttributeCollection has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkGenericAttributeCollection class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput> - Standard type definition and print methods for a VTK class.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput> - Standard type definition and print methods for a VTK class.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkGenericAttributeCollection = obj.NewInstance ()</computeroutput> - Standard type definition and print methods for a VTK class.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkGenericAttributeCollection = obj.SafeDownCast (vtkObject o)</computeroutput> - Standard type definition and print methods for a VTK class.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetNumberOfAttributes ()</computeroutput> - Return the number of attributes (e.g., instances of vtkGenericAttribute) in the collection. <simplesect kind="post"><para>positive_result: result&gt;=0  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetNumberOfComponents ()</computeroutput> - Return the number of components. This is the sum of all components found in all attributes. <simplesect kind="post"><para>positive_result: result&gt;=0  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetNumberOfPointCenteredComponents ()</computeroutput> - Return the number of components. This is the sum of all components found in all point centered attributes. <simplesect kind="post"><para>positive_result: result&gt;=0  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetMaxNumberOfComponents ()</computeroutput> - Maximum number of components encountered among all attributes. <simplesect kind="post"><para>positive_result: result&gt;=0 </para><simplesectsep/><para>valid_result: result&lt;=GetNumberOfComponents()  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>long = obj.GetActualMemorySize ()</computeroutput> - Actual size of the data in kilobytes; only valid after the pipeline has updated. It is guaranteed to be greater than or equal to the memory required to represent the data.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsEmpty ()</computeroutput> - Indicate whether the collection contains any attributes. <simplesect kind="post"><para>definition: result==(GetNumberOfAttributes()==0)  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>vtkGenericAttribute = obj.GetAttribute (int i)</computeroutput> - Return a pointer to the ith instance of vtkGenericAttribute. <simplesect kind="pre"><para>not_empty: !IsEmpty() </para><simplesectsep/><para>valid_i: i&gt;=0 &amp;&amp; i&lt;GetNumberOfAttributes() </para></simplesect>
+<simplesect kind="post"><para>result_exists: result!=0  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>int = obj.FindAttribute (string name)</computeroutput> - Return the index of the attribute named `name&apos;. Return the non-negative index if found. Return -1 otherwise. <simplesect kind="pre"><para>name_exists: name!=0 </para></simplesect>
+<simplesect kind="post"><para>valid_result: (result==-1) || (result&gt;=0) &amp;&amp; (result&lt;=GetNumberOfAttributes())  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetAttributeIndex (int i)</computeroutput> - Return the index of the first component of attribute `i&apos; in an array of format attrib0comp0 attrib0comp1 ... attrib4comp0 ... <simplesect kind="pre"><para>valid_i: i&gt;=0 &amp;&amp; i&lt;GetNumberOfAttributes() </para><simplesectsep/><para>is_point_centered: GetAttribute(i)-&gt;GetCentering()==vtkPointCentered  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.InsertNextAttribute (vtkGenericAttribute a)</computeroutput> - Add the attribute `a&apos; to the end of the collection. <simplesect kind="pre"><para>a_exists: a!=0 </para></simplesect>
+<simplesect kind="post"><para>more_items: GetNumberOfAttributes()==old GetNumberOfAttributes()+1 </para><simplesectsep/><para>a_is_set: GetAttribute(GetNumberOfAttributes()-1)==a  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.InsertAttribute (int i, vtkGenericAttribute a)</computeroutput> - Replace the attribute at index `i&apos; by `a&apos;. <simplesect kind="pre"><para>not_empty: !IsEmpty() </para><simplesectsep/><para>a_exists: a!=0 </para><simplesectsep/><para>valid_i: i&gt;=0 &amp;&amp; i&lt;GetNumberOfAttributes() </para></simplesect>
+<simplesect kind="post"><para>same_size: GetNumberOfAttributes()==old GetNumberOfAttributes() </para><simplesectsep/><para>item_is_set: GetAttribute(i)==a  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.RemoveAttribute (int i)</computeroutput> - Remove the attribute at `i&apos;. <simplesect kind="pre"><para>not_empty: !IsEmpty() </para><simplesectsep/><para>valid_i: i&gt;=0 &amp;&amp; i&lt;GetNumberOfAttributes() </para></simplesect>
+<simplesect kind="post"><para>fewer_items: GetNumberOfAttributes()==old GetNumberOfAttributes()-1  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.Reset ()</computeroutput> - Remove all attributes. <simplesect kind="post"><para>is_empty: GetNumberOfAttributes()==0  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.DeepCopy (vtkGenericAttributeCollection other)</computeroutput> - Copy, without reference counting, the other attribute array. <simplesect kind="pre"><para>other_exists: other!=0 </para><simplesectsep/><para>not_self: other!=this </para></simplesect>
+<simplesect kind="post"><para>same_size: GetNumberOfAttributes()==other-&gt;GetNumberOfAttributes()  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.ShallowCopy (vtkGenericAttributeCollection other)</computeroutput> - Copy, via reference counting, the other attribute array. <simplesect kind="pre"><para>other_exists: other!=0 </para><simplesectsep/><para>not_self: other!=this </para></simplesect>
+<simplesect kind="post"><para>same_size: GetNumberOfAttributes()==other-&gt;GetNumberOfAttributes()  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>long = obj.GetMTime ()</computeroutput> - vtkAttributeCollection is a composite object and needs to check each member of its collection for modified time.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetActiveAttribute ()</computeroutput> - Index of the attribute to be processed (not necessarily scalar). <simplesect kind="pre"><para>not_empty: !IsEmpty() </para></simplesect>
+<simplesect kind="post"><para>valid_result: result&gt;=0 &amp;&amp; result&lt;GetNumberOfAttributes()  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetActiveComponent ()</computeroutput> - Component of the active attribute to be processed. -1 means module. <simplesect kind="pre"><para>not_empty: GetNumberOfAttributes()&gt;0 </para></simplesect>
+<simplesect kind="post"><para>valid_result: result&gt;=-1 &amp;&amp; result&lt;GetAttribute(GetActiveAttribute())-&gt;GetNumberOfComponents()  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.SetActiveAttribute (int attribute, int component)</computeroutput> - Set the scalar attribute to be processed. -1 means module. <simplesect kind="pre"><para>not_empty: !IsEmpty() </para><simplesectsep/><para>valid_attribute: attribute&gt;=0 &amp;&amp; attribute&lt;GetNumberOfAttributes() </para><simplesectsep/><para>valid_component: component&gt;=-1 &amp;&amp; component&lt;GetAttribute(attribute)-&gt;GetNumberOfComponents() </para></simplesect>
+<simplesect kind="post"><para>is_set: GetActiveAttribute()==attribute &amp;&amp; GetActiveComponent()==component  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetNumberOfAttributesToInterpolate ()</computeroutput> - Number of attributes to interpolate. <simplesect kind="pre"><para>not_empty: !IsEmpty() </para></simplesect>
+<simplesect kind="post"><para>positive_result: result&gt;=0  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>int = obj.HasAttribute (int size, int attributes, int attribute)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetAttributesToInterpolate (int size, int attributes)</computeroutput> - Set the attributes to interpolate. <simplesect kind="pre"><para>not_empty: !IsEmpty() </para><simplesectsep/><para>positive_size: size&gt;=0 </para><simplesectsep/><para>valid_attributes: size&gt;0 implies attributes!=0 </para><simplesectsep/><para>valid_attributes_contents: attributes!=0 implies !HasAttributes(size,attributes,GetActiveAttribute()) </para></simplesect>
+<simplesect kind="post"><para>is_set: (GetNumberOfAttributesToInterpolate()==size)&amp;&amp; (GetAttributesToInterpolate()==attributes)  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.SetAttributesToInterpolateToAll ()</computeroutput> - Set the attributes to interpolate. <simplesect kind="pre"><para>not_empty: !IsEmpty() </para><simplesectsep/><para>positive_size: size&gt;=0 </para><simplesectsep/><para>valid_attributes: size&gt;0 implies attributes!=0 </para><simplesectsep/><para>valid_attributes_contents: attributes!=0 implies !HasAttributes(size,attributes,GetActiveAttribute()) </para></simplesect>
+<simplesect kind="post"><para>is_set: (GetNumberOfAttributesToInterpolate()==size)&amp;&amp; (GetAttributesToInterpolate()==attributes)  </para></simplesect>
+</para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

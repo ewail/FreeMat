@@ -1,0 +1,112 @@
+/*!
+\page vtkgraphics_vtkselectenclosedpoints vtkSelectEnclosedPoints
+
+<p>
+Section: \ref sec_vtkgraphics "Visualization Toolkit Graphics Classes"
+\section Usage
+ vtkSelectEnclosedPoints is a filter that evaluates all the input points to
+ determine whether they are in an enclosed surface. The filter produces a
+ (0,1) mask (in the form of a vtkDataArray) that indicates whether points 
+ are outside (mask value=0) or inside (mask value=1) a provided surface.
+ (The name of the output vtkDataArray is "SelectedPointsArray".)
+
+ After running the filter, it is possible to query it as to whether a point 
+ is inside/outside by invoking the IsInside(ptId) method.
+
+To create an instance of class vtkSelectEnclosedPoints, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkSelectEnclosedPoints
+\endverbatim
+\section Methods
+The class vtkSelectEnclosedPoints has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkSelectEnclosedPoints class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkSelectEnclosedPoints = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkSelectEnclosedPoints = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetSurface (vtkPolyData pd)</tt> -  Set the surface to be used to test for containment. Two methods are 
+ provided: one directly for vtkPolyData, and one for the output of a
+ filter.
+ </LI>
+<LI>  <tt>obj.SetSurfaceConnection (vtkAlgorithmOutput algOutput)</tt> -  Set the surface to be used to test for containment. Two methods are 
+ provided: one directly for vtkPolyData, and one for the output of a
+ filter.
+ </LI>
+<LI>  <tt>vtkPolyData = obj.GetSurface ()</tt> -  Return a pointer to the enclosing surface.
+ </LI>
+<LI>  <tt>vtkPolyData = obj.GetSurface (vtkInformationVector sourceInfo)</tt> -  Return a pointer to the enclosing surface.
+ </LI>
+<LI>  <tt>obj.SetInsideOut (int )</tt> -  By default, points inside the surface are marked inside or sent to
+ the output. If InsideOut is on, then the points outside the surface
+ are marked inside.
+ </LI>
+<LI>  <tt>obj.InsideOutOn ()</tt> -  By default, points inside the surface are marked inside or sent to
+ the output. If InsideOut is on, then the points outside the surface
+ are marked inside.
+ </LI>
+<LI>  <tt>obj.InsideOutOff ()</tt> -  By default, points inside the surface are marked inside or sent to
+ the output. If InsideOut is on, then the points outside the surface
+ are marked inside.
+ </LI>
+<LI>  <tt>int = obj.GetInsideOut ()</tt> -  By default, points inside the surface are marked inside or sent to
+ the output. If InsideOut is on, then the points outside the surface
+ are marked inside.
+ </LI>
+<LI>  <tt>obj.SetCheckSurface (int )</tt> -  Specify whether to check the surface for closure. If on, then the
+ algorithm first checks to see if the surface is closed and manifold.
+ </LI>
+<LI>  <tt>obj.CheckSurfaceOn ()</tt> -  Specify whether to check the surface for closure. If on, then the
+ algorithm first checks to see if the surface is closed and manifold.
+ </LI>
+<LI>  <tt>obj.CheckSurfaceOff ()</tt> -  Specify whether to check the surface for closure. If on, then the
+ algorithm first checks to see if the surface is closed and manifold.
+ </LI>
+<LI>  <tt>int = obj.GetCheckSurface ()</tt> -  Specify whether to check the surface for closure. If on, then the
+ algorithm first checks to see if the surface is closed and manifold.
+ </LI>
+<LI>  <tt>int = obj.IsInside (vtkIdType inputPtId)</tt> -  Query an input point id as to whether it is inside or outside. Note that
+ the result requires that the filter execute first.
+ </LI>
+<LI>  <tt>obj.SetTolerance (double )</tt> -  Specify the tolerance on the intersection. The tolerance is expressed
+ as a fraction of the bounding box of the enclosing surface.
+ </LI>
+<LI>  <tt>double = obj.GetToleranceMinValue ()</tt> -  Specify the tolerance on the intersection. The tolerance is expressed
+ as a fraction of the bounding box of the enclosing surface.
+ </LI>
+<LI>  <tt>double = obj.GetToleranceMaxValue ()</tt> -  Specify the tolerance on the intersection. The tolerance is expressed
+ as a fraction of the bounding box of the enclosing surface.
+ </LI>
+<LI>  <tt>double = obj.GetTolerance ()</tt> -  Specify the tolerance on the intersection. The tolerance is expressed
+ as a fraction of the bounding box of the enclosing surface.
+ </LI>
+<LI>  <tt>obj.Initialize (vtkPolyData surface)</tt> -  This is a backdoor that can be used to test many points for containment.
+ First initialize the instance, then repeated calls to IsInsideSurface()
+ can be used without rebuilding the search structures. The complete
+ method releases memory.
+ </LI>
+<LI>  <tt>int = obj.IsInsideSurface (double x, double y, double z)</tt> -  This is a backdoor that can be used to test many points for containment.
+ First initialize the instance, then repeated calls to IsInsideSurface()
+ can be used without rebuilding the search structures. The complete
+ method releases memory.
+ </LI>
+<LI>  <tt>int = obj.IsInsideSurface (double x[3])</tt> -  This is a backdoor that can be used to test many points for containment.
+ First initialize the instance, then repeated calls to IsInsideSurface()
+ can be used without rebuilding the search structures. The complete
+ method releases memory.
+ </LI>
+<LI>  <tt>obj.Complete ()</tt> -  This is a backdoor that can be used to test many points for containment.
+ First initialize the instance, then repeated calls to IsInsideSurface()
+ can be used without rebuilding the search structures. The complete
+ method releases memory.
+ </LI>
+</UL>
+*/

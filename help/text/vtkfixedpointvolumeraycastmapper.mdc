@@ -1,0 +1,391 @@
+
+ Usage
+
+This is a software ray caster for rendering volumes in
+vtkImageData. It works with all input data types and up to
+four components. It performs composite or MIP rendering, and
+can be intermixed with geometric data. Space leaping is used
+to speed up the rendering process. In addition, calculation
+are performed in 15 bit fixed point precision. This mapper
+is threaded, and will interleave scan lines across
+processors.
+This mapper is a good replacement for vtkVolumeRayCastMapper
+EXCEPT:
+
+* it does not do isosurface ray casting
+* it does only interpolate before classify compositing
+* it does only maximum scalar value MIP
+
+The vtkVolumeRayCastMapper CANNOT be used in these instances
+when a vtkFixedPointVolumeRayCastMapper can be used:
+
+* if the data is not unsigned char or unsigned short
+* if the data has more than one component
+
+This mapper handles all data type from unsigned char through
+double. However, some of the internal calcultions are
+performed in float and therefore even the full float range
+may cause problems for this mapper (both in scalar data
+values and in spacing between samples).
+Space leaping is performed by creating a sub-sampled volume.
+4x4x4 cells in the original volume are represented by a min,
+max, and combined gradient and flag value. The min max
+volume has three unsigned shorts per 4x4x4 group of cells
+from the original volume - one reprenting the minumum scalar
+index (the scalar value adjusted to fit in the 15 bit
+range), the maximum scalar index, and a third unsigned short
+which is both the maximum gradient opacity in the
+neighborhood (an unsigned char) and the flag that is filled
+in for the current lookup tables to indicate whether this
+region can be skipped.
+To create an instance of class
+vtkFixedPointVolumeRayCastMapper, simply invoke its
+constructor as follows
+
+    obj = vtkFixedPointVolumeRayCastMapper
+
+
+
+ Methods
+
+The class vtkFixedPointVolumeRayCastMapper has several
+methods that can be used. They are listed below. Note that
+the documentation is translated automatically from the VTK
+sources, and may not be completely intelligible. When in
+doubt, consult the VTK website. In the methods listed below,
+obj is an instance of the vtkFixedPointVolumeRayCastMapper
+class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkFixedPointVolumeRayCastMapper = obj.NewInstance ()
+* vtkFixedPointVolumeRayCastMapper = obj.SafeDownCast
+  (vtkObject o)
+* obj.SetSampleDistance (float ) - Set/Get the distance
+  between samples used for rendering when
+  AutoAdjustSampleDistances is off, or when this mapper has
+  more than 1 second allocated to it for rendering.
+* float = obj.GetSampleDistance () - Set/Get the distance
+  between samples used for rendering when
+  AutoAdjustSampleDistances is off, or when this mapper has
+  more than 1 second allocated to it for rendering.
+* obj.SetInteractiveSampleDistance (float ) - Set/Get the
+  distance between samples when interactive rendering is
+  happening. In this case, interactive is defined as this
+  volume mapper having less than 1 second allocated for
+  rendering. When AutoAdjustSampleDistance is On, and the
+  allocated render time is less than 1 second, then this
+  InteractiveSampleDistance will be used instead of the
+  SampleDistance above.
+* float = obj.GetInteractiveSampleDistance () - Set/Get the
+  distance between samples when interactive rendering is
+  happening. In this case, interactive is defined as this
+  volume mapper having less than 1 second allocated for
+  rendering. When AutoAdjustSampleDistance is On, and the
+  allocated render time is less than 1 second, then this
+  InteractiveSampleDistance will be used instead of the
+  SampleDistance above.
+* obj.SetImageSampleDistance (float ) - Sampling distance in
+  the XY image dimensions. Default value of 1 meaning 1 ray
+  cast per pixel. If set to 0.5, 4 rays will be cast per
+  pixel. If set to 2.0, 1 ray will be cast for every 4 (2 by
+  2) pixels. This value will be adjusted to meet a desired
+  frame rate when AutoAdjustSampleDistances is on.
+* float = obj.GetImageSampleDistanceMinValue () - Sampling
+  distance in the XY image dimensions. Default value of 1
+  meaning 1 ray cast per pixel. If set to 0.5, 4 rays will
+  be cast per pixel. If set to 2.0, 1 ray will be cast for
+  every 4 (2 by 2) pixels. This value will be adjusted to
+  meet a desired frame rate when AutoAdjustSampleDistances
+  is on.
+* float = obj.GetImageSampleDistanceMaxValue () - Sampling
+  distance in the XY image dimensions. Default value of 1
+  meaning 1 ray cast per pixel. If set to 0.5, 4 rays will
+  be cast per pixel. If set to 2.0, 1 ray will be cast for
+  every 4 (2 by 2) pixels. This value will be adjusted to
+  meet a desired frame rate when AutoAdjustSampleDistances
+  is on.
+* float = obj.GetImageSampleDistance () - Sampling distance
+  in the XY image dimensions. Default value of 1 meaning 1
+  ray cast per pixel. If set to 0.5, 4 rays will be cast per
+  pixel. If set to 2.0, 1 ray will be cast for every 4 (2 by
+  2) pixels. This value will be adjusted to meet a desired
+  frame rate when AutoAdjustSampleDistances is on.
+* obj.SetMinimumImageSampleDistance (float ) - This is the
+  minimum image sample distance allow when the image sample
+  distance is being automatically adjusted.
+* float = obj.GetMinimumImageSampleDistanceMinValue () -
+  This is the minimum image sample distance allow when the
+  image sample distance is being automatically adjusted.
+* float = obj.GetMinimumImageSampleDistanceMaxValue () -
+  This is the minimum image sample distance allow when the
+  image sample distance is being automatically adjusted.
+* float = obj.GetMinimumImageSampleDistance () - This is the
+  minimum image sample distance allow when the image sample
+  distance is being automatically adjusted.
+* obj.SetMaximumImageSampleDistance (float ) - This is the
+  maximum image sample distance allow when the image sample
+  distance is being automatically adjusted.
+* float = obj.GetMaximumImageSampleDistanceMinValue () -
+  This is the maximum image sample distance allow when the
+  image sample distance is being automatically adjusted.
+* float = obj.GetMaximumImageSampleDistanceMaxValue () -
+  This is the maximum image sample distance allow when the
+  image sample distance is being automatically adjusted.
+* float = obj.GetMaximumImageSampleDistance () - This is the
+  maximum image sample distance allow when the image sample
+  distance is being automatically adjusted.
+* obj.SetAutoAdjustSampleDistances (int ) - If
+  AutoAdjustSampleDistances is on, the the
+  ImageSampleDistance and the SampleDistance will be varied
+  to achieve the allocated render time of this prop
+  (controlled by the desired update rate and any culling in
+  use). If this is an interactive render (more than 1 frame
+  per second) the SampleDistance will be increased,
+  otherwise it will not be altered (a binary decision, as
+  opposed to the ImageSampleDistance which will vary
+  continuously).
+* int = obj.GetAutoAdjustSampleDistancesMinValue () - If
+  AutoAdjustSampleDistances is on, the the
+  ImageSampleDistance and the SampleDistance will be varied
+  to achieve the allocated render time of this prop
+  (controlled by the desired update rate and any culling in
+  use). If this is an interactive render (more than 1 frame
+  per second) the SampleDistance will be increased,
+  otherwise it will not be altered (a binary decision, as
+  opposed to the ImageSampleDistance which will vary
+  continuously).
+* int = obj.GetAutoAdjustSampleDistancesMaxValue () - If
+  AutoAdjustSampleDistances is on, the the
+  ImageSampleDistance and the SampleDistance will be varied
+  to achieve the allocated render time of this prop
+  (controlled by the desired update rate and any culling in
+  use). If this is an interactive render (more than 1 frame
+  per second) the SampleDistance will be increased,
+  otherwise it will not be altered (a binary decision, as
+  opposed to the ImageSampleDistance which will vary
+  continuously).
+* int = obj.GetAutoAdjustSampleDistances () - If
+  AutoAdjustSampleDistances is on, the the
+  ImageSampleDistance and the SampleDistance will be varied
+  to achieve the allocated render time of this prop
+  (controlled by the desired update rate and any culling in
+  use). If this is an interactive render (more than 1 frame
+  per second) the SampleDistance will be increased,
+  otherwise it will not be altered (a binary decision, as
+  opposed to the ImageSampleDistance which will vary
+  continuously).
+* obj.AutoAdjustSampleDistancesOn () - If
+  AutoAdjustSampleDistances is on, the the
+  ImageSampleDistance and the SampleDistance will be varied
+  to achieve the allocated render time of this prop
+  (controlled by the desired update rate and any culling in
+  use). If this is an interactive render (more than 1 frame
+  per second) the SampleDistance will be increased,
+  otherwise it will not be altered (a binary decision, as
+  opposed to the ImageSampleDistance which will vary
+  continuously).
+* obj.AutoAdjustSampleDistancesOff () - If
+  AutoAdjustSampleDistances is on, the the
+  ImageSampleDistance and the SampleDistance will be varied
+  to achieve the allocated render time of this prop
+  (controlled by the desired update rate and any culling in
+  use). If this is an interactive render (more than 1 frame
+  per second) the SampleDistance will be increased,
+  otherwise it will not be altered (a binary decision, as
+  opposed to the ImageSampleDistance which will vary
+  continuously).
+* obj.SetLockSampleDistanceToInputSpacing (int ) -
+  Automatically compute the sample distance from the data
+  spacing. When the number of voxels is 8, the sample
+  distance will be roughly 1/200 the average voxel size. The
+  distance will grow proportionally to numVoxels^(1/3) until
+  it reaches 1/2 average voxel size when number of voxels is
+  1E6. Note that ScalarOpacityUnitDistance is still taken
+  into account and if different than 1, will effect the
+  sample distance.
+* int = obj.GetLockSampleDistanceToInputSpacingMinValue () -
+  Automatically compute the sample distance from the data
+  spacing. When the number of voxels is 8, the sample
+  distance will be roughly 1/200 the average voxel size. The
+  distance will grow proportionally to numVoxels^(1/3) until
+  it reaches 1/2 average voxel size when number of voxels is
+  1E6. Note that ScalarOpacityUnitDistance is still taken
+  into account and if different than 1, will effect the
+  sample distance.
+* int = obj.GetLockSampleDistanceToInputSpacingMaxValue () -
+  Automatically compute the sample distance from the data
+  spacing. When the number of voxels is 8, the sample
+  distance will be roughly 1/200 the average voxel size. The
+  distance will grow proportionally to numVoxels^(1/3) until
+  it reaches 1/2 average voxel size when number of voxels is
+  1E6. Note that ScalarOpacityUnitDistance is still taken
+  into account and if different than 1, will effect the
+  sample distance.
+* int = obj.GetLockSampleDistanceToInputSpacing () -
+  Automatically compute the sample distance from the data
+  spacing. When the number of voxels is 8, the sample
+  distance will be roughly 1/200 the average voxel size. The
+  distance will grow proportionally to numVoxels^(1/3) until
+  it reaches 1/2 average voxel size when number of voxels is
+  1E6. Note that ScalarOpacityUnitDistance is still taken
+  into account and if different than 1, will effect the
+  sample distance.
+* obj.LockSampleDistanceToInputSpacingOn () - Automatically
+  compute the sample distance from the data spacing. When
+  the number of voxels is 8, the sample distance will be
+  roughly 1/200 the average voxel size. The distance will
+  grow proportionally to numVoxels^(1/3) until it reaches 1/
+  2 average voxel size when number of voxels is 1E6. Note
+  that ScalarOpacityUnitDistance is still taken into account
+  and if different than 1, will effect the sample distance.
+* obj.LockSampleDistanceToInputSpacingOff () - Automatically
+  compute the sample distance from the data spacing. When
+  the number of voxels is 8, the sample distance will be
+  roughly 1/200 the average voxel size. The distance will
+  grow proportionally to numVoxels^(1/3) until it reaches 1/
+  2 average voxel size when number of voxels is 1E6. Note
+  that ScalarOpacityUnitDistance is still taken into account
+  and if different than 1, will effect the sample distance.
+* obj.SetNumberOfThreads (int num) - Set/Get the number of
+  threads to use. This by default is equal to the number of
+  available processors detected.
+* int = obj.GetNumberOfThreads () - Set/Get the number of
+  threads to use. This by default is equal to the number of
+  available processors detected.
+* obj.SetIntermixIntersectingGeometry (int ) - If
+  IntermixIntersectingGeometry is turned on, the zbuffer
+  will be captured and used to limit the traversal of the
+  rays.
+* int = obj.GetIntermixIntersectingGeometryMinValue () - If
+  IntermixIntersectingGeometry is turned on, the zbuffer
+  will be captured and used to limit the traversal of the
+  rays.
+* int = obj.GetIntermixIntersectingGeometryMaxValue () - If
+  IntermixIntersectingGeometry is turned on, the zbuffer
+  will be captured and used to limit the traversal of the
+  rays.
+* int = obj.GetIntermixIntersectingGeometry () - If
+  IntermixIntersectingGeometry is turned on, the zbuffer
+  will be captured and used to limit the traversal of the
+  rays.
+* obj.IntermixIntersectingGeometryOn () - If
+  IntermixIntersectingGeometry is turned on, the zbuffer
+  will be captured and used to limit the traversal of the
+  rays.
+* obj.IntermixIntersectingGeometryOff () - If
+  IntermixIntersectingGeometry is turned on, the zbuffer
+  will be captured and used to limit the traversal of the
+  rays.
+* float = obj.ComputeRequiredImageSampleDistance (float
+  desiredTime, vtkRenderer ren) - What is the image sample
+  distance required to achieve the desired time? A version
+  of this method is provided that does not require the
+  volume argument since if you are using an LODProp3D you
+  may not know this information. If you use this version you
+  must be certain that the ray cast mapper is only used for
+  one volume (and not shared among multiple volumes)
+* float = obj.ComputeRequiredImageSampleDistance (float
+  desiredTime, vtkRenderer ren, vtkVolume vol) - What is the
+  image sample distance required to achieve the desired
+  time? A version of this method is provided that does not
+  require the volume argument since if you are using an
+  LODProp3D you may not know this information. If you use
+  this version you must be certain that the ray cast mapper
+  is only used for one volume (and not shared among multiple
+  volumes)
+* vtkRenderWindow = obj.GetRenderWindow ()
+* vtkFixedPointVolumeRayCastMIPHelper = obj.GetMIPHelper ()
+* vtkFixedPointVolumeRayCastCompositeHelper =
+  obj.GetCompositeHelper ()
+* vtkFixedPointVolumeRayCastCompositeGOHelper =
+  obj.GetCompositeGOHelper ()
+* vtkFixedPointVolumeRayCastCompositeGOShadeHelper =
+  obj.GetCompositeGOShadeHelper ()
+* vtkFixedPointVolumeRayCastCompositeShadeHelper =
+  obj.GetCompositeShadeHelper ()
+* float = obj. GetTableShift ()
+* float = obj. GetTableScale ()
+* int = obj.GetShadingRequired ()
+* int = obj.GetGradientOpacityRequired ()
+* vtkDataArray = obj.GetCurrentScalars ()
+* vtkDataArray = obj.GetPreviousScalars ()
+* vtkVolume = obj.GetVolume ()
+* obj.ComputeRayInfo (int x, int y, int pos[3], int dir[3],
+  int numSteps)
+* obj.InitializeRayInfo (vtkVolume vol)
+* int = obj.ShouldUseNearestNeighborInterpolation (vtkVolume
+  vol)
+* obj.SetRayCastImage (vtkFixedPointRayCastImage ) - Set /
+  Get the underlying image object. One will be automatically
+  created - only need to set it when using from an AMR
+  mapper which renders multiple times into the same image.
+* vtkFixedPointRayCastImage = obj.GetRayCastImage () - Set /
+  Get the underlying image object. One will be automatically
+  created - only need to set it when using from an AMR
+  mapper which renders multiple times into the same image.
+* int = obj.PerImageInitialization (vtkRenderer , vtkVolume
+  , int , double , double , int )
+* obj.PerVolumeInitialization (vtkRenderer , vtkVolume )
+* obj.PerSubVolumeInitialization (vtkRenderer , vtkVolume ,
+  int )
+* obj.RenderSubVolume ()
+* obj.DisplayRenderedImage (vtkRenderer , vtkVolume )
+* obj.AbortRender ()
+* obj.CreateCanonicalView (vtkVolume volume, vtkImageData
+  image, int blend_mode, double viewDirection[3], double
+  viewUp[3])
+* float = obj.GetEstimatedRenderTime (vtkRenderer ren,
+  vtkVolume vol) - Get an estimate of the rendering time for
+  a given volume / renderer. Only valid if this mapper has
+  been used to render that volume for that renderer
+  previously. Estimate is good when the viewing parameters
+  have not changed much since that last render.
+* float = obj.GetEstimatedRenderTime (vtkRenderer ren) -
+  Set/Get the window / level applied to the final color.
+  This allows brightness / contrast adjustments on the final
+  image. window is the width of the window. level is the
+  center of the window. Initial window value is 1.0 Initial
+  level value is 0.5 window cannot be null but can be
+  negative, this way values will be reversed. |window| can
+  be larger than 1.0 level can be any real value.
+* obj.SetFinalColorWindow (float ) - Set/Get the window /
+  level applied to the final color. This allows brightness /
+  contrast adjustments on the final image. window is the
+  width of the window. level is the center of the window.
+  Initial window value is 1.0 Initial level value is 0.5
+  window cannot be null but can be negative, this way values
+  will be reversed. |window| can be larger than 1.0 level
+  can be any real value.
+* float = obj.GetFinalColorWindow () - Set/Get the window /
+  level applied to the final color. This allows brightness /
+  contrast adjustments on the final image. window is the
+  width of the window. level is the center of the window.
+  Initial window value is 1.0 Initial level value is 0.5
+  window cannot be null but can be negative, this way values
+  will be reversed. |window| can be larger than 1.0 level
+  can be any real value.
+* obj.SetFinalColorLevel (float ) - Set/Get the window /
+  level applied to the final color. This allows brightness /
+  contrast adjustments on the final image. window is the
+  width of the window. level is the center of the window.
+  Initial window value is 1.0 Initial level value is 0.5
+  window cannot be null but can be negative, this way values
+  will be reversed. |window| can be larger than 1.0 level
+  can be any real value.
+* float = obj.GetFinalColorLevel () - Set/Get the window /
+  level applied to the final color. This allows brightness /
+  contrast adjustments on the final image. window is the
+  width of the window. level is the center of the window.
+  Initial window value is 1.0 Initial level value is 0.5
+  window cannot be null but can be negative, this way values
+  will be reversed. |window| can be larger than 1.0 level
+  can be any real value.
+* int = obj.GetFlipMIPComparison ()
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Volume_Rendering_Classes
+* Generated on Thu Jul 25 2013 17:18:36 for FreeMat by
+  doxygen_ 1.8.1.1
+

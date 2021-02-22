@@ -1,0 +1,136 @@
+/*!
+\page vtkhybrid_vtktemporalshiftscale vtkTemporalShiftScale
+
+<p>
+Section: \ref sec_vtkhybrid "Visualization Toolkit Hybrid Classes"
+\section Usage
+ vtkTemporalShiftScale  modify the time range or time steps of
+ the data without changing the data itself. The data is not resampled
+ by this filter, only the information accompanying the data is modified.
+
+To create an instance of class vtkTemporalShiftScale, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkTemporalShiftScale
+\endverbatim
+\section Methods
+The class vtkTemporalShiftScale has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkTemporalShiftScale class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkTemporalShiftScale = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkTemporalShiftScale = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetPreShift (double )</tt> -  Apply a translation to the data before scaling.
+ To convert T{5,100} to T{0,1} use Preshift=-5, Scale=1/95, PostShift=0
+ To convert T{5,105} to T{5,10} use Preshift=-5, Scale=5/100, PostShift=5
+ </LI>
+<LI>  <tt>double = obj.GetPreShift ()</tt> -  Apply a translation to the data before scaling.
+ To convert T{5,100} to T{0,1} use Preshift=-5, Scale=1/95, PostShift=0
+ To convert T{5,105} to T{5,10} use Preshift=-5, Scale=5/100, PostShift=5
+ </LI>
+<LI>  <tt>obj.SetPostShift (double )</tt> -  Apply a translation to the time
+ </LI>
+<LI>  <tt>double = obj.GetPostShift ()</tt> -  Apply a translation to the time
+ </LI>
+<LI>  <tt>obj.SetScale (double )</tt> -  Apply a scale to the time.
+ </LI>
+<LI>  <tt>double = obj.GetScale ()</tt> -  Apply a scale to the time.
+ </LI>
+<LI>  <tt>obj.SetPeriodic (int )</tt> -  If Periodic is true, requests for time will be wrapped around so that 
+ the source appears to be a periodic time source. If data exists for times
+ {0,N-1}, setting periodic to true will cause time 0 to be produced when time
+ N, 2N, 2N etc is requested. This effectively gives the source the ability to
+ generate time data indefinitely in a loop.
+ When combined with Shift/Scale, the time becomes periodic in the 
+ shifted and scaled time frame of reference.
+ Note: Since the input time may not start at zero, the wrapping of time
+ from the end of one period to the start of the next, will subtract the
+ initial time - a source with T{5..6} repeated periodicaly will have output
+ time {5..6..7..8} etc. 
+ </LI>
+<LI>  <tt>int = obj.GetPeriodic ()</tt> -  If Periodic is true, requests for time will be wrapped around so that 
+ the source appears to be a periodic time source. If data exists for times
+ {0,N-1}, setting periodic to true will cause time 0 to be produced when time
+ N, 2N, 2N etc is requested. This effectively gives the source the ability to
+ generate time data indefinitely in a loop.
+ When combined with Shift/Scale, the time becomes periodic in the 
+ shifted and scaled time frame of reference.
+ Note: Since the input time may not start at zero, the wrapping of time
+ from the end of one period to the start of the next, will subtract the
+ initial time - a source with T{5..6} repeated periodicaly will have output
+ time {5..6..7..8} etc. 
+ </LI>
+<LI>  <tt>obj.PeriodicOn ()</tt> -  If Periodic is true, requests for time will be wrapped around so that 
+ the source appears to be a periodic time source. If data exists for times
+ {0,N-1}, setting periodic to true will cause time 0 to be produced when time
+ N, 2N, 2N etc is requested. This effectively gives the source the ability to
+ generate time data indefinitely in a loop.
+ When combined with Shift/Scale, the time becomes periodic in the 
+ shifted and scaled time frame of reference.
+ Note: Since the input time may not start at zero, the wrapping of time
+ from the end of one period to the start of the next, will subtract the
+ initial time - a source with T{5..6} repeated periodicaly will have output
+ time {5..6..7..8} etc. 
+ </LI>
+<LI>  <tt>obj.PeriodicOff ()</tt> -  If Periodic is true, requests for time will be wrapped around so that 
+ the source appears to be a periodic time source. If data exists for times
+ {0,N-1}, setting periodic to true will cause time 0 to be produced when time
+ N, 2N, 2N etc is requested. This effectively gives the source the ability to
+ generate time data indefinitely in a loop.
+ When combined with Shift/Scale, the time becomes periodic in the 
+ shifted and scaled time frame of reference.
+ Note: Since the input time may not start at zero, the wrapping of time
+ from the end of one period to the start of the next, will subtract the
+ initial time - a source with T{5..6} repeated periodicaly will have output
+ time {5..6..7..8} etc. 
+ </LI>
+<LI>  <tt>obj.SetPeriodicEndCorrection (int )</tt> -  if Periodic time is enabled, this flag determines if the last time step is the same
+ as the first. If PeriodicEndCorrection is true, then it is assumed that the input
+ data goes from 0-1 (or whatever scaled/shifted actual time) and time 1 is the
+ same as time 0 so that steps will be 0,1,2,3...N,1,2,3...N,1,2,3 where step N
+ is the same as 0 and step 0 is not repeated. When this flag is false
+ the data is assumed to be literal and output is of the form 0,1,2,3...N,0,1,2,3...
+ By default this flag is ON
+ </LI>
+<LI>  <tt>int = obj.GetPeriodicEndCorrection ()</tt> -  if Periodic time is enabled, this flag determines if the last time step is the same
+ as the first. If PeriodicEndCorrection is true, then it is assumed that the input
+ data goes from 0-1 (or whatever scaled/shifted actual time) and time 1 is the
+ same as time 0 so that steps will be 0,1,2,3...N,1,2,3...N,1,2,3 where step N
+ is the same as 0 and step 0 is not repeated. When this flag is false
+ the data is assumed to be literal and output is of the form 0,1,2,3...N,0,1,2,3...
+ By default this flag is ON
+ </LI>
+<LI>  <tt>obj.PeriodicEndCorrectionOn ()</tt> -  if Periodic time is enabled, this flag determines if the last time step is the same
+ as the first. If PeriodicEndCorrection is true, then it is assumed that the input
+ data goes from 0-1 (or whatever scaled/shifted actual time) and time 1 is the
+ same as time 0 so that steps will be 0,1,2,3...N,1,2,3...N,1,2,3 where step N
+ is the same as 0 and step 0 is not repeated. When this flag is false
+ the data is assumed to be literal and output is of the form 0,1,2,3...N,0,1,2,3...
+ By default this flag is ON
+ </LI>
+<LI>  <tt>obj.PeriodicEndCorrectionOff ()</tt> -  if Periodic time is enabled, this flag determines if the last time step is the same
+ as the first. If PeriodicEndCorrection is true, then it is assumed that the input
+ data goes from 0-1 (or whatever scaled/shifted actual time) and time 1 is the
+ same as time 0 so that steps will be 0,1,2,3...N,1,2,3...N,1,2,3 where step N
+ is the same as 0 and step 0 is not repeated. When this flag is false
+ the data is assumed to be literal and output is of the form 0,1,2,3...N,0,1,2,3...
+ By default this flag is ON
+ </LI>
+<LI>  <tt>obj.SetMaximumNumberOfPeriods (double )</tt> -  if Periodic time is enabled, this controls how many time periods time is reported 
+ for. A filter cannot output an infinite number of time steps and therefore a finite
+ number of periods is generated when reporting time.
+ </LI>
+<LI>  <tt>double = obj.GetMaximumNumberOfPeriods ()</tt> -  if Periodic time is enabled, this controls how many time periods time is reported 
+ for. A filter cannot output an infinite number of time steps and therefore a finite
+ number of periods is generated when reporting time.
+ </LI>
+</UL>
+*/

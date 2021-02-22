@@ -1,0 +1,64 @@
+
+ Usage
+
+There are several ways to use clim to adjust the color
+limits of a plot. The various syntaxes are
+
+     clim
+     clim([lo,hi])
+     clim('auto')
+     clim('manual')
+     clim('mode')
+     clim(handle,...)
+
+The first form (without arguments), returns a 2-vector
+containing the current limits. The second form sets the
+limits on the plot to [lo,hi]. The third and fourth form set
+the mode for the limit to auto and manual respectively. In
+auto mode, FreeMat chooses the range for the axis
+automatically. The clim('mode') form returns the current
+mode for the axis (either 'auto' or 'manual').
+Switching to manual mode does not change the limits, it
+simply allows you to modify them (and disables the automatic
+adjustment of the limits as more objects are added to the
+plot). Also, if you specify a set of limits explicitly, the
+mode is set to manual
+Finally, you can specify the handle of an axis to manipulate
+instead of using the current one.
+
+
+ Example
+
+Here is an example of using clim to change the effective
+window and level onto an image. First, the image with
+default limits
+
+  --> x = repmat(linspace(-1,1),[100,1]); y = x';
+  --> z = exp(-x.^2-y.^2);
+  --> image(z);
+  --> min(z(:))
+
+  ans =
+      0.1353
+
+  --> max(z(:))
+
+  ans =
+      0.9998
+
+which results in
+ clim1.png
+Next, we change the colorscale of the image using the clim
+function
+
+  --> image(z);
+  --> clim([0,0.2]);
+
+which results in
+ clim2.png
+
+* FreeMat_Documentation
+* Handle-Based_Graphics
+* Generated on Thu Jul 25 2013 17:17:16 for FreeMat by
+  doxygen_ 1.8.1.1
+

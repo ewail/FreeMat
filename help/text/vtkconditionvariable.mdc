@@ -1,0 +1,65 @@
+
+ Usage
+
+vtkConditionVariable allows the locking of variables which
+are accessed through different threads. This header file
+also defines vtkSimpleConditionVariable which is not a
+subclass of vtkObject.
+The win32 implementation is based on notes provided by
+Douglas C. Schmidt and Irfan Pyarali, Department of Computer
+Science, Washington University, St. Louis, Missouri. http://
+www.cs.wustl.edu/~schmidt/win32-cv-1.html
+To create an instance of class vtkConditionVariable, simply
+invoke its constructor as follows
+
+    obj = vtkConditionVariable
+
+
+
+ Methods
+
+The class vtkConditionVariable has several methods that can
+be used. They are listed below. Note that the documentation
+is translated automatically from the VTK sources, and may
+not be completely intelligible. When in doubt, consult the
+VTK website. In the methods listed below, obj is an instance
+of the vtkConditionVariable class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkConditionVariable = obj.NewInstance ()
+* vtkConditionVariable = obj.SafeDownCast (vtkObject o)
+* obj.Signal () - Wake one thread waiting for the condition
+  to change.
+* obj.Broadcast () - Wake all threads waiting for the
+  condition to change.
+* int = obj.Wait (vtkMutexLock mutex) - Wait for the
+  condition to change. Upon entry, the mutex must be locked
+  and the lock held by the calling thread. Upon exit, the
+  mutex will be locked and held by the calling thread.
+  Between entry and exit, the mutex will be unlocked and may
+  be held by other threads.
+
+
+    Parameters:
+
+        mutex The mutex that should be locked on entry and
+              will be locked on exit (but not in between)
+
+
+
+
+    Return values:
+
+                      function returns 0. Should a thread be
+        Normally,this interrupted by a signal, a non-zero
+                      value may be returned.
+
+
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Common_Classes
+* Generated on Thu Jul 25 2013 17:18:30 for FreeMat by
+  doxygen_ 1.8.1.1
+

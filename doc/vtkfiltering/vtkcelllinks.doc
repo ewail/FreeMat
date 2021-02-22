@@ -1,0 +1,79 @@
+/*!
+\page vtkfiltering_vtkcelllinks vtkCellLinks
+
+<p>
+Section: \ref sec_vtkfiltering "Visualization Toolkit Filtering Classes"
+\section Usage
+ vtkCellLinks is a supplemental object to vtkCellArray and vtkCellTypes, 
+ enabling access from points to the cells using the points. vtkCellLinks is
+ a list of Links, each link represents a dynamic list of cell id's using the 
+ point. The information provided by this object can be used to determine 
+ neighbors and construct other local topological information.
+
+To create an instance of class vtkCellLinks, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkCellLinks
+\endverbatim
+\section Methods
+The class vtkCellLinks has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkCellLinks class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkCellLinks = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkCellLinks = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.Allocate (vtkIdType numLinks, vtkIdType ext)</tt> -  Allocate the specified number of links (i.e., number of points) that
+ will be built.
+ </LI>
+<LI>  <tt>short = obj.GetNcells (vtkIdType ptId)</tt> -  Get the number of cells using the point specified by ptId.
+ </LI>
+<LI>  <tt>obj.BuildLinks (vtkDataSet data)</tt> -  Build the link list array.
+ </LI>
+<LI>  <tt>obj.BuildLinks (vtkDataSet data, vtkCellArray Connectivity)</tt> -  Build the link list array.
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetCells (vtkIdType ptId)</tt> -  Return a list of cell ids using the point.
+ </LI>
+<LI>  <tt>vtkIdType = obj.InsertNextPoint (int numLinks)</tt> -  Insert a new point into the cell-links data structure. The size parameter
+ is the initial size of the list.
+ </LI>
+<LI>  <tt>obj.InsertNextCellReference (vtkIdType ptId, vtkIdType cellId)</tt> -  Insert a cell id into the list of cells (at the end) using the cell id 
+ provided. (Make sure to extend the link list (if necessary) using the
+ method ResizeCellList().)
+ </LI>
+<LI>  <tt>obj.DeletePoint (vtkIdType ptId)</tt> -  Delete point (and storage) by destroying links to using cells.
+ </LI>
+<LI>  <tt>obj.RemoveCellReference (vtkIdType cellId, vtkIdType ptId)</tt> -  Delete the reference to the cell (cellId) from the point (ptId). This
+ removes the reference to the cellId from the cell list, but does not
+ resize the list (recover memory with ResizeCellList(), if necessary).
+ </LI>
+<LI>  <tt>obj.AddCellReference (vtkIdType cellId, vtkIdType ptId)</tt> -  Add the reference to the cell (cellId) from the point (ptId). This
+ adds a reference to the cellId from the cell list, but does not resize
+ the list (extend memory with ResizeCellList(), if necessary).
+ </LI>
+<LI>  <tt>obj.ResizeCellList (vtkIdType ptId, int size)</tt> -  Change the length of a point's link list (i.e., list of cells using a
+ point) by the size specified.
+ </LI>
+<LI>  <tt>obj.Squeeze ()</tt> -  Reclaim any unused memory.
+ </LI>
+<LI>  <tt>obj.Reset ()</tt> -  Reset to a state of no entries without freeing the memory.
+ </LI>
+<LI>  <tt>long = obj.GetActualMemorySize ()</tt> -  Return the memory in kilobytes consumed by this cell links array. 
+ Used to support streaming and reading/writing data. The value 
+ returned is guaranteed to be greater than or equal to the memory 
+ required to actually represent the data represented by this object. 
+ The information returned is valid only after the pipeline has 
+ been updated.
+ </LI>
+<LI>  <tt>obj.DeepCopy (vtkCellLinks src)</tt> -  Standard DeepCopy method.  Since this object contains no reference
+ to other objects, there is no ShallowCopy.
+ </LI>
+</UL>
+*/

@@ -1,0 +1,19 @@
+% Test sparse matrix array column deletion
+function x = test_sparse71
+[yi1,zi1] = sparse_test_mat('int32',300,400);
+[yf1,zf1] = sparse_test_mat('float',300,400);
+[yd1,zd1] = sparse_test_mat('double',300,400);
+[yc1,zc1] = sparse_test_mat('complex',300,400);
+[yz1,zz1] = sparse_test_mat('dcomplex',300,400);
+ndxc = randi(ones(100,1),400*ones(100,1));
+yi1(:,ndxc) = [];
+yf1(:,ndxc) = [];
+yd1(:,ndxc) = [];
+yc1(:,ndxc) = [];
+yz1(:,ndxc) = [];
+zi1(:,ndxc) = [];
+zf1(:,ndxc) = [];
+zd1(:,ndxc) = [];
+zc1(:,ndxc) = [];
+zz1(:,ndxc) = [];
+x = testeq(yi1,zi1) & testeq(yf1,zf1) & testeq(yd1,zd1) & testeq(yc1,zc1) & testeq(yz1,zz1);

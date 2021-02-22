@@ -1,0 +1,98 @@
+
+ Usage
+
+This filter preserves all the topology of the input, but
+only a subset of arrays are passed to the output. Add an
+array to be passed to the output data object with AddArray
+(). If RemoveArrays is on, the specified arrays will be the
+ones that are removed instead of the ones that are kept.
+Arrays with special attributes (scalars, pedigree ids, etc.)
+will retain those attributes in the output.
+By default, only those field types with at least one array
+specified through AddArray will be processed. If instead
+UseFieldTypes is turned on, you explicitly set which field
+types to process with AddFieldType.
+Example 1:
+
+   passArray->AddArray(vtkDataObject::POINT, "velocity");
+
+The output will have only that one array "velocity" in the
+point data, but cell and field data will be untouched.
+Example 2:
+
+   passArray->AddArray(vtkDataObject::POINT, "velocity");
+   passArray->UseFieldTypesOn();
+   passArray->AddFieldType(vtkDataObject::POINT);
+   passArray->AddFieldType(vtkDataObject::CELL);
+
+The point data would still contain the single array, but the
+cell data would be cleared since you did not specify any
+arrays to pass. Field data would still be untouched.
+To create an instance of class vtkPassArrays, simply invoke
+its constructor as follows
+
+    obj = vtkPassArrays
+
+
+
+ Methods
+
+The class vtkPassArrays has several methods that can be
+used. They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkPassArrays class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkPassArrays = obj.NewInstance ()
+* vtkPassArrays = obj.SafeDownCast (vtkObject o)
+* obj.AddArray (int fieldType, string name) - Adds an array
+  to pass through. fieldType where the array that should be
+  passed (point data, cell data, etc.). It should be one of
+  the constants defined in the vtkDataObject::AttributeTypes
+  enumeration.
+* obj.ClearArrays () - Clear all arrays to pass through.
+* obj.SetRemoveArrays (bool ) - Instead of passing only the
+  specified arrays, remove the specified arrays and keep all
+  other arrays. Default is off.
+* bool = obj.GetRemoveArrays () - Instead of passing only
+  the specified arrays, remove the specified arrays and keep
+  all other arrays. Default is off.
+* obj.RemoveArraysOn () - Instead of passing only the
+  specified arrays, remove the specified arrays and keep all
+  other arrays. Default is off.
+* obj.RemoveArraysOff () - Instead of passing only the
+  specified arrays, remove the specified arrays and keep all
+  other arrays. Default is off.
+* obj.SetUseFieldTypes (bool ) - Process only those field
+  types explicitly specified with AddFieldType. Otherwise,
+  processes field types associated with at least one
+  specified array. Default is off.
+* bool = obj.GetUseFieldTypes () - Process only those field
+  types explicitly specified with AddFieldType. Otherwise,
+  processes field types associated with at least one
+  specified array. Default is off.
+* obj.UseFieldTypesOn () - Process only those field types
+  explicitly specified with AddFieldType. Otherwise,
+  processes field types associated with at least one
+  specified array. Default is off.
+* obj.UseFieldTypesOff () - Process only those field types
+  explicitly specified with AddFieldType. Otherwise,
+  processes field types associated with at least one
+  specified array. Default is off.
+* obj.AddFieldType (int fieldType) - Add a field type to
+  process. fieldType where the array that should be passed
+  (point data, cell data, etc.). It should be one of the
+  constants defined in the vtkDataObject::AttributeTypes
+  enumeration. NOTE: These are only used if UseFieldType is
+  turned on.
+* obj.ClearFieldTypes () - Clear all field types to process.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Infovis_Classes
+* Generated on Thu Jul 25 2013 17:18:33 for FreeMat by
+  doxygen_ 1.8.1.1
+

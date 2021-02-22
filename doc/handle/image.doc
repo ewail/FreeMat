@@ -1,0 +1,85 @@
+/*!
+\page handle_image IMAGE Image Display Function
+
+<p>
+Section: \ref sec_handle "Handle-Based Graphics"
+\section Usage
+The <tt>image</tt> command has the following general syntax
+\verbatim
+  handle = image(x,y,C,properties...)
+\endverbatim
+where <tt>x</tt> is a two vector containing the <tt>x</tt> coordinates
+of the first and last pixels along a column, and <tt>y</tt> is a
+two vector containing the <tt>y</tt> coordinates of the first and
+last pixels along a row.  The matrix <tt>C</tt> constitutes the
+image data.  It must either be a scalar matrix, in which case
+the image is colormapped using the  <tt>colormap</tt> for the current
+figure.  If the matrix is <tt>M x N x 3</tt>, then <tt>C</tt> is intepreted
+as RGB data, and the image is not colormapped.  The <tt>properties</tt>
+argument is a set of <tt>property/value</tt> pairs that affect the
+final image.  You can also omit the <tt>x</tt> and <tt>y</tt>, 
+\verbatim
+  handle = image(C, properties...)
+\endverbatim
+in which case they default to <tt>x = [1,size(C,2)]</tt> and 
+<tt>y = [1,size(C,1)]</tt>.  Finally, you can use the <tt>image</tt> function
+with only formal arguments
+\verbatim
+  handle = image(properties...)
+\endverbatim
+
+To support legacy FreeMat code, you can also use the following
+form of <tt>image</tt>
+\verbatim
+  image(C, zoomfactor)
+\endverbatim
+which is equivalent to <tt>image(C)</tt> with the axes removed so that
+the image takes up the full figure window, and the size of the
+figure window adjusted to achieve the desired zoom factor using the
+<tt>zoom</tt> command.
+\section Example
+In this example, we create an image that is <tt>512 x 512</tt> pixels
+square, and set the background to a noise pattern.  We set the central
+<tt>128 x 256</tt> pixels to be white.
+
+\if FRAGMENT
+frag_handle_image_000.m
+0
+x = rand(512);
+x((-64:63)+256,(-128:127)+256) = 1.0;
+figure
+image(x)
+colormap(gray)
+mprint image1
+\endif
+
+
+\verbinclude frag_handle_image_000.m.out 
+
+
+The resulting image looks like:
+\image html image1.png
+\image latex image1.eps "image1" width=12cm
+Here is an example of an RGB image 
+
+\if FRAGMENT
+frag_handle_image_001.m
+0
+t = linspace(0,1);
+red = t'*t;
+green = t'*(t.^2);
+blue = t'*(0*t+1);
+A(:,:,1) = red; 
+A(:,:,2) = green; 
+A(:,:,3) = blue;
+image(A);
+mprint image2
+\endif
+
+
+\verbinclude frag_handle_image_001.m.out 
+
+The resulting image looks like:
+\image html image2.png
+\image latex image2.eps "image2" width=12cm
+*/

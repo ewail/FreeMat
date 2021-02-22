@@ -1,0 +1,95 @@
+
+ Usage
+
+vtkLODActor is an actor that stores multiple levels of
+detail (LOD) and can automatically switch between them. It
+selects which level of detail to use based on how much time
+it has been allocated to render. Currently a very simple
+method of TotalTime/NumberOfActors is used. (In the future
+this should be modified to dynamically allocate the
+rendering time between different actors based on their
+needs.)
+There are three levels of detail by default. The top level
+is just the normal data. The lowest level of detail is a
+simple bounding box outline of the actor. The middle level
+of detail is a point cloud of a fixed number of points that
+have been randomly sampled from the mapper's input data.
+Point attributes are copied over to the point cloud. These
+two lower levels of detail are accomplished by creating
+instances of a vtkOutlineFilter (low-res) and vtkMaskPoints
+(medium-res). Additional levels of detail can be add using
+the AddLODMapper() method.
+To control the frame rate, you typically set the
+vtkRenderWindowInteractor DesiredUpdateRate and
+StillUpdateRate. This then will cause vtkLODActor to adjust
+its LOD to fulfill the requested update rate.
+For greater control on levels of detail, see also
+vtkLODProp3D. That class allows arbitrary definition of each
+LOD.
+To create an instance of class vtkLODActor, simply invoke
+its constructor as follows
+
+    obj = vtkLODActor
+
+
+
+ Methods
+
+The class vtkLODActor has several methods that can be used.
+They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkLODActor class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkLODActor = obj.NewInstance ()
+* vtkLODActor = obj.SafeDownCast (vtkObject o)
+* obj.Render (vtkRenderer , vtkMapper ) - This causes the
+  actor to be rendered. It, in turn, will render the actor's
+  property and then mapper.
+* int = obj.RenderOpaqueGeometry (vtkViewport viewport) -
+  This method is used internally by the rendering process.
+  We overide the superclass method to properly set the
+  estimated render time.
+* obj.ReleaseGraphicsResources (vtkWindow ) - Release any
+  graphics resources that are being consumed by this actor.
+  The parameter window could be used to determine which
+  graphic resources to release.
+* obj.AddLODMapper (vtkMapper mapper) - Add another level of
+  detail. They do not have to be in any order of complexity.
+* obj.SetLowResFilter (vtkPolyDataAlgorithm ) - You may plug
+  in your own filters to decimate/subsample the input. The
+  default is to use a vtkOutlineFilter (low-res) and
+  vtkMaskPoints (medium-res).
+* obj.SetMediumResFilter (vtkPolyDataAlgorithm ) - You may
+  plug in your own filters to decimate/subsample the input.
+  The default is to use a vtkOutlineFilter (low-res) and
+  vtkMaskPoints (medium-res).
+* vtkPolyDataAlgorithm = obj.GetLowResFilter () - You may
+  plug in your own filters to decimate/subsample the input.
+  The default is to use a vtkOutlineFilter (low-res) and
+  vtkMaskPoints (medium-res).
+* vtkPolyDataAlgorithm = obj.GetMediumResFilter () - You may
+  plug in your own filters to decimate/subsample the input.
+  The default is to use a vtkOutlineFilter (low-res) and
+  vtkMaskPoints (medium-res).
+* int = obj.GetNumberOfCloudPoints () - Set/Get the number
+  of random points for the point cloud.
+* obj.SetNumberOfCloudPoints (int ) - Set/Get the number of
+  random points for the point cloud.
+* vtkMapperCollection = obj.GetLODMappers () - All the
+  mappers for different LODs are stored here. The order is
+  not important.
+* obj.Modified () - When this objects gets modified, this
+  method also modifies the object.
+* obj.ShallowCopy (vtkProp prop) - Shallow copy of an LOD
+  actor. Overloads the virtual vtkProp method.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Rendering_Classes
+* Generated on Thu Jul 25 2013 17:18:35 for FreeMat by
+  doxygen_ 1.8.1.1
+

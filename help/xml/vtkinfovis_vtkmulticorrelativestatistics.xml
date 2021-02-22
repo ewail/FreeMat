@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkinfovis_vtkmulticorrelativestatistics" kind="page">
+    <compoundname>vtkinfovis_vtkmulticorrelativestatistics</compoundname>
+    <title>vtkMultiCorrelativeStatistics</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkinfovis_1sec_vtkinfovis" kindref="member">Visualization Toolkit Infovis Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>Given a selection of sets of columns of interest, this class provides the following functionalities, depending on the execution mode it is executed in: Learn: calculates means, unbiased variance and covariance estimators of column pairs coefficient. More precisely, Learn calculates the averages and centered variance/covariance sums; if <computeroutput>finalize</computeroutput> is set to true (default), the final statistics are calculated. The output metadata on port OUTPUT_MODEL is a multiblock dataset containing at a minimum one vtkTable holding the raw sums in a sparse matrix style. If <emphasis>finalize</emphasis> is true, then one additional vtkTable will be present for each requested set of column correlations. These additional tables contain column averages, the upper triangular portion of the covariance matrix (in the upper right hand portion of the table) and the Cholesky decomposition of the covariance matrix (in the lower portion of the table beneath the covariance triangle). The leftmost column will be a vector of column averages. The last entry in the column averages vector is the number of samples. As an example, consider a request for a 3-column correlation with columns named ColA, ColB, and ColC. The resulting table will look like this: <preformatted>
+      Column  |Mean     |ColA     |ColB     |ColC
+      <mdash/><mdash/><ndash/>+<mdash/><mdash/><mdash/>+<mdash/><mdash/><mdash/>+<mdash/><mdash/><mdash/>+<mdash/><mdash/><mdash/>
+      ColA    |avg(A)   |cov(A,A) |cov(A,B) |cov(A,C)
+      ColB    |avg(B)   |chol(1,1)|cov(B,B) |cov(B,C)
+      ColC    |avg(C)   |chol(2,1)|chol(2,2)|cov(C,C)
+      Cholesky|length(A)|chol(3,1)|chol(3,2)|chol(3,3)
+   </preformatted> Assess: given a set of results matrices as specified above in input port INPUT_MODEL and tabular data on input port INPUT_DATA that contains column names matching those of the tables on input port INPUT_MODEL, the assess mode computes the relative deviation of each observation in port INPUT_DATA&apos;s table according to the linear correlations implied by each table in port INPUT_MODEL.</para><para>.SECTION Thanks Thanks to Philippe Pebay, Jackson Mayo, and David Thompson of Sandia National Laboratories for implementing this class.</para><para>To create an instance of class vtkMultiCorrelativeStatistics, simply invoke its constructor as follows <verbatim>  obj = vtkMultiCorrelativeStatistics
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkMultiCorrelativeStatistics has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkMultiCorrelativeStatistics class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkMultiCorrelativeStatistics = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkMultiCorrelativeStatistics = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.Aggregate (vtkDataObjectCollection , vtkDataObject )</computeroutput> - Given a collection of models, calculate aggregate model  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

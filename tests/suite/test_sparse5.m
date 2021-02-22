@@ -1,0 +1,12 @@
+function x = test_sparse5
+a = complex([0,0,2,0;0,0,1,1;1,0,0,0] + i*[3,0,3,0;0,0,1,0;0,3,5,2]);
+b = float([4,5,0,3]);
+c = float([0,0]);
+d = float([2+5*i,3]);
+A = sparse(a);
+B = sparse(b);
+C = sparse(c);
+D = sparse(d);
+j = [a;c,d;b];
+J = [A;C,D;B];
+x = testeq(j,J);

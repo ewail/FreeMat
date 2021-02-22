@@ -1,0 +1,571 @@
+
+ Usage
+
+vtkRenderer provides an abstract specification for
+renderers. A renderer is an object that controls the
+rendering process for objects. Rendering is the process of
+converting geometry, a specification for lights, and a
+camera view into an image. vtkRenderer also performs
+coordinate transformation between world coordinates, view
+coordinates (the computer graphics rendering coordinate
+system), and display coordinates (the actual screen
+coordinates on the display device). Certain advanced
+rendering features such as two-sided lighting can also be
+controlled.
+To create an instance of class vtkRenderer, simply invoke
+its constructor as follows
+
+    obj = vtkRenderer
+
+
+
+ Methods
+
+The class vtkRenderer has several methods that can be used.
+They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkRenderer class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkRenderer = obj.NewInstance ()
+* vtkRenderer = obj.SafeDownCast (vtkObject o)
+* obj.AddActor (vtkProp p) - Add/Remove different types of
+  props to the renderer. These methods are all synonyms to
+  AddViewProp and RemoveViewProp. They are here for
+  convenience and backwards compatibility.
+* obj.AddVolume (vtkProp p) - Add/Remove different types of
+  props to the renderer. These methods are all synonyms to
+  AddViewProp and RemoveViewProp. They are here for
+  convenience and backwards compatibility.
+* obj.RemoveActor (vtkProp p) - Add/Remove different types
+  of props to the renderer. These methods are all synonyms
+  to AddViewProp and RemoveViewProp. They are here for
+  convenience and backwards compatibility.
+* obj.RemoveVolume (vtkProp p) - Add/Remove different types
+  of props to the renderer. These methods are all synonyms
+  to AddViewProp and RemoveViewProp. They are here for
+  convenience and backwards compatibility.
+* obj.AddLight (vtkLight ) - Add a light to the list of
+  lights.
+* obj.RemoveLight (vtkLight ) - Remove a light from the list
+  of lights.
+* obj.RemoveAllLights () - Remove all lights from the list
+  of lights.
+* vtkLightCollection = obj.GetLights () - Return the
+  collection of lights.
+* obj.SetLightCollection (vtkLightCollection lights) - Set
+  the collection of lights. We cannot name it SetLights
+  because of TestSetGet
+
+
+    Precondition:
+        lights_exist: lights!=0
+
+
+
+    Postcondition:
+        lights_set: lights==this->GetLights()
+
+* obj.CreateLight (void ) - Create and add a light to
+  renderer.
+* vtkLight = obj.MakeLight () - Create a new Light sutible
+  for use with this type of Renderer. For example, a
+  vtkMesaRenderer should create a vtkMesaLight in this
+  function. The default is to just call vtkLight::New.
+* int = obj.GetTwoSidedLighting () - Turn on/off two-sided
+  lighting of surfaces. If two-sided lighting is off, then
+  only the side of the surface facing the light(s) will be
+  lit, and the other side dark. If two-sided lighting on,
+  both sides of the surface will be lit.
+* obj.SetTwoSidedLighting (int ) - Turn on/off two-sided
+  lighting of surfaces. If two-sided lighting is off, then
+  only the side of the surface facing the light(s) will be
+  lit, and the other side dark. If two-sided lighting on,
+  both sides of the surface will be lit.
+* obj.TwoSidedLightingOn () - Turn on/off two-sided lighting
+  of surfaces. If two-sided lighting is off, then only the
+  side of the surface facing the light(s) will be lit, and
+  the other side dark. If two-sided lighting on, both sides
+  of the surface will be lit.
+* obj.TwoSidedLightingOff () - Turn on/off two-sided
+  lighting of surfaces. If two-sided lighting is off, then
+  only the side of the surface facing the light(s) will be
+  lit, and the other side dark. If two-sided lighting on,
+  both sides of the surface will be lit.
+* obj.SetLightFollowCamera (int ) - Turn on/off the
+  automatic repositioning of lights as the camera moves. If
+  LightFollowCamera is on, lights that are designated as
+  Headlights or CameraLights will be adjusted to move with
+  this renderer's camera. If LightFollowCamera is off, the
+  lights will not be adjusted.
+  (Note: In previous versions of vtk, this light-tracking
+  functionality was part of the interactors, not the
+  renderer. For backwards compatibility, the older, more
+  limited interactor behavior is enabled by default. To
+  disable this mode, turn the interactor's LightFollowCamera
+  flag OFF, and leave the renderer's LightFollowCamera flag
+  ON.)
+* int = obj.GetLightFollowCamera () - Turn on/off the
+  automatic repositioning of lights as the camera moves. If
+  LightFollowCamera is on, lights that are designated as
+  Headlights or CameraLights will be adjusted to move with
+  this renderer's camera. If LightFollowCamera is off, the
+  lights will not be adjusted.
+  (Note: In previous versions of vtk, this light-tracking
+  functionality was part of the interactors, not the
+  renderer. For backwards compatibility, the older, more
+  limited interactor behavior is enabled by default. To
+  disable this mode, turn the interactor's LightFollowCamera
+  flag OFF, and leave the renderer's LightFollowCamera flag
+  ON.)
+* obj.LightFollowCameraOn () - Turn on/off the automatic
+  repositioning of lights as the camera moves. If
+  LightFollowCamera is on, lights that are designated as
+  Headlights or CameraLights will be adjusted to move with
+  this renderer's camera. If LightFollowCamera is off, the
+  lights will not be adjusted.
+  (Note: In previous versions of vtk, this light-tracking
+  functionality was part of the interactors, not the
+  renderer. For backwards compatibility, the older, more
+  limited interactor behavior is enabled by default. To
+  disable this mode, turn the interactor's LightFollowCamera
+  flag OFF, and leave the renderer's LightFollowCamera flag
+  ON.)
+* obj.LightFollowCameraOff () - Turn on/off the automatic
+  repositioning of lights as the camera moves. If
+  LightFollowCamera is on, lights that are designated as
+  Headlights or CameraLights will be adjusted to move with
+  this renderer's camera. If LightFollowCamera is off, the
+  lights will not be adjusted.
+  (Note: In previous versions of vtk, this light-tracking
+  functionality was part of the interactors, not the
+  renderer. For backwards compatibility, the older, more
+  limited interactor behavior is enabled by default. To
+  disable this mode, turn the interactor's LightFollowCamera
+  flag OFF, and leave the renderer's LightFollowCamera flag
+  ON.)
+* int = obj.GetAutomaticLightCreation () - Turn on/off a
+  flag which disables the automatic light creation
+  capability. Normally in VTK if no lights are associated
+  with the renderer, then a light is automatically created.
+  However, in special circumstances this feature is
+  undesirable, so the following boolean is provided to
+  disable automatic light creation. (Turn
+  AutomaticLightCreation off if you do not want lights to be
+  created.)
+* obj.SetAutomaticLightCreation (int ) - Turn on/off a flag
+  which disables the automatic light creation capability.
+  Normally in VTK if no lights are associated with the
+  renderer, then a light is automatically created. However,
+  in special circumstances this feature is undesirable, so
+  the following boolean is provided to disable automatic
+  light creation. (Turn AutomaticLightCreation off if you do
+  not want lights to be created.)
+* obj.AutomaticLightCreationOn () - Turn on/off a flag which
+  disables the automatic light creation capability. Normally
+  in VTK if no lights are associated with the renderer, then
+  a light is automatically created. However, in special
+  circumstances this feature is undesirable, so the
+  following boolean is provided to disable automatic light
+  creation. (Turn AutomaticLightCreation off if you do not
+  want lights to be created.)
+* obj.AutomaticLightCreationOff () - Turn on/off a flag
+  which disables the automatic light creation capability.
+  Normally in VTK if no lights are associated with the
+  renderer, then a light is automatically created. However,
+  in special circumstances this feature is undesirable, so
+  the following boolean is provided to disable automatic
+  light creation. (Turn AutomaticLightCreation off if you do
+  not want lights to be created.)
+* int = obj.UpdateLightsGeometryToFollowCamera (void ) - Ask
+  the lights in the scene that are not in world space (for
+  instance, Headlights or CameraLights that are attached to
+  the camera) to update their geometry to match the active
+  camera.
+* vtkVolumeCollection = obj.GetVolumes () - Return the
+  collection of volumes.
+* vtkActorCollection = obj.GetActors () - Return any actors
+  in this renderer.
+* obj.SetActiveCamera (vtkCamera ) - Specify the camera to
+  use for this renderer.
+* vtkCamera = obj.GetActiveCamera () - Get the current
+  camera. If there is not camera assigned to the renderer
+  already, a new one is created automatically. This does not
+  reset the camera.
+* vtkCamera = obj.MakeCamera () - Create a new Camera
+  sutible for use with this type of Renderer. For example, a
+  vtkMesaRenderer should create a vtkMesaCamera in this
+  function. The default is to just call vtkCamera::New.
+* obj.SetErase (int ) - When this flag is off, the renderer
+  will not erase the background or the Zbuffer. It is used
+  to have overlapping renderers. Both the RenderWindow Erase
+  and Render Erase must be on for the camera to clear the
+  renderer. By default, Erase is on.
+* int = obj.GetErase () - When this flag is off, the
+  renderer will not erase the background or the Zbuffer. It
+  is used to have overlapping renderers. Both the
+  RenderWindow Erase and Render Erase must be on for the
+  camera to clear the renderer. By default, Erase is on.
+* obj.EraseOn () - When this flag is off, the renderer will
+  not erase the background or the Zbuffer. It is used to
+  have overlapping renderers. Both the RenderWindow Erase
+  and Render Erase must be on for the camera to clear the
+  renderer. By default, Erase is on.
+* obj.EraseOff () - When this flag is off, the renderer will
+  not erase the background or the Zbuffer. It is used to
+  have overlapping renderers. Both the RenderWindow Erase
+  and Render Erase must be on for the camera to clear the
+  renderer. By default, Erase is on.
+* obj.SetDraw (int ) - When this flag is off, render
+  commands are ignored. It is used to either multiplex a
+  vtkRenderWindow or render only part of a vtkRenderWindow.
+  By default, Draw is on.
+* int = obj.GetDraw () - When this flag is off, render
+  commands are ignored. It is used to either multiplex a
+  vtkRenderWindow or render only part of a vtkRenderWindow.
+  By default, Draw is on.
+* obj.DrawOn () - When this flag is off, render commands are
+  ignored. It is used to either multiplex a vtkRenderWindow
+  or render only part of a vtkRenderWindow. By default, Draw
+  is on.
+* obj.DrawOff () - When this flag is off, render commands
+  are ignored. It is used to either multiplex a
+  vtkRenderWindow or render only part of a vtkRenderWindow.
+  By default, Draw is on.
+* obj.AddCuller (vtkCuller ) - Add an culler to the list of
+  cullers.
+* obj.RemoveCuller (vtkCuller ) - Remove an actor from the
+  list of cullers.
+* vtkCullerCollection = obj.GetCullers () - Return the
+  collection of cullers.
+* obj.SetAmbient (double , double , double ) - Set the
+  intensity of ambient lighting.
+* obj.SetAmbient (double a[3]) - Set the intensity of
+  ambient lighting.
+* double = obj. GetAmbient () - Set the intensity of ambient
+  lighting.
+* obj.SetAllocatedRenderTime (double ) - Set/Get the amount
+  of time this renderer is allowed to spend rendering its
+  scene. This is used by vtkLODActor's.
+* double = obj.GetAllocatedRenderTime () - Set/Get the
+  amount of time this renderer is allowed to spend rendering
+  its scene. This is used by vtkLODActor's.
+* double = obj.GetTimeFactor () - Get the ratio between
+  allocated time and actual render time. TimeFactor has been
+  taken out of the render process. It is still computed in
+  case someone finds it useful. It may be taken away in the
+  future.
+* obj.Render () - CALLED BY vtkRenderWindow ONLY. End-user
+  pass your way and call vtkRenderWindow::Render(). Create
+  an image. This is a superclass method which will in turn
+  call the DeviceRender method of Subclasses of vtkRenderer.
+* obj.DeviceRender () - Create an image. Subclasses of
+  vtkRenderer must implement this method.
+* obj.DeviceRenderTranslucentPolygonalGeometry () - Render
+  translucent polygonal geometry. Default implementation
+  just call UpdateTranslucentPolygonalGeometry(). Subclasses
+  of vtkRenderer that can deal with depth peeling must
+  override this method. It updates boolean ivar
+  LastRenderingUsedDepthPeeling.
+* obj.Clear () - Clear the image to the background color.
+* int = obj.VisibleActorCount () - Returns the number of
+  visible actors.
+* int = obj.VisibleVolumeCount () - Returns the number of
+  visible volumes.
+* obj.ComputeVisiblePropBounds (double bounds[6]) - Compute
+  the bounding box of all the visible props Used in
+  ResetCamera() and ResetCameraClippingRange()
+* double = obj.ComputeVisiblePropBounds () - Wrapper-
+  friendly version of ComputeVisiblePropBounds
+* obj.ResetCameraClippingRange () - Reset the camera
+  clipping range based on the bounds of the visible actors.
+  This ensures that no props are cut off
+* obj.ResetCameraClippingRange (double bounds[6]) - Reset
+  the camera clipping range based on a bounding box. This
+  method is called from ResetCameraClippingRange()
+* obj.ResetCameraClippingRange (double xmin, double xmax,
+  double ymin, double ymax, double zmin, double zmax) -
+  Reset the camera clipping range based on a bounding box.
+  This method is called from ResetCameraClippingRange()
+* obj.SetNearClippingPlaneTolerance (double ) - Specify
+  tolerance for near clipping plane distance to the camera
+  as a percentage of the far clipping plane distance. By
+  default this will be set to 0.01 for 16 bit zbuffers and
+  0.001 for higher depth z buffers
+* double = obj.GetNearClippingPlaneToleranceMinValue () -
+  Specify tolerance for near clipping plane distance to the
+  camera as a percentage of the far clipping plane distance.
+  By default this will be set to 0.01 for 16 bit zbuffers
+  and 0.001 for higher depth z buffers
+* double = obj.GetNearClippingPlaneToleranceMaxValue () -
+  Specify tolerance for near clipping plane distance to the
+  camera as a percentage of the far clipping plane distance.
+  By default this will be set to 0.01 for 16 bit zbuffers
+  and 0.001 for higher depth z buffers
+* double = obj.GetNearClippingPlaneTolerance () - Specify
+  tolerance for near clipping plane distance to the camera
+  as a percentage of the far clipping plane distance. By
+  default this will be set to 0.01 for 16 bit zbuffers and
+  0.001 for higher depth z buffers
+* obj.ResetCamera () - Automatically set up the camera based
+  on the visible actors. The camera will reposition itself
+  to view the center point of the actors, and move along its
+  initial view plane normal (i.e., vector defined from
+  camera position to focal point) so that all of the actors
+  can be seen.
+* obj.ResetCamera (double bounds[6]) - Automatically set up
+  the camera based on a specified bounding box (xmin,xmax,
+  ymin,ymax, zmin,zmax). Camera will reposition itself so
+  that its focal point is the center of the bounding box,
+  and adjust its distance and position to preserve its
+  initial view plane normal (i.e., vector defined from
+  camera position to focal point). Note: is the view plane
+  is parallel to the view up axis, the view up axis will be
+  reset to one of the three coordinate axes.
+* obj.ResetCamera (double xmin, double xmax, double ymin,
+  double ymax, double zmin, double zmax) - Alternative
+  version of ResetCamera(bounds[6]);
+* obj.SetRenderWindow (vtkRenderWindow ) - Specify the
+  rendering window in which to draw. This is automatically
+  set when the renderer is created by MakeRenderer. The user
+  probably shouldn't ever need to call this method.
+* vtkRenderWindow = obj.GetRenderWindow () - Specify the
+  rendering window in which to draw. This is automatically
+  set when the renderer is created by MakeRenderer. The user
+  probably shouldn't ever need to call this method.
+* vtkWindow = obj.GetVTKWindow () - Specify the rendering
+  window in which to draw. This is automatically set when
+  the renderer is created by MakeRenderer. The user probably
+  shouldn't ever need to call this method.
+* obj.SetBackingStore (int ) - Turn on/off using backing
+  store. This may cause the re-rendering time to be slightly
+  slower when the view changes. But it is much faster when
+  the image has not changed, such as during an expose event.
+* int = obj.GetBackingStore () - Turn on/off using backing
+  store. This may cause the re-rendering time to be slightly
+  slower when the view changes. But it is much faster when
+  the image has not changed, such as during an expose event.
+* obj.BackingStoreOn () - Turn on/off using backing store.
+  This may cause the re-rendering time to be slightly slower
+  when the view changes. But it is much faster when the
+  image has not changed, such as during an expose event.
+* obj.BackingStoreOff () - Turn on/off using backing store.
+  This may cause the re-rendering time to be slightly slower
+  when the view changes. But it is much faster when the
+  image has not changed, such as during an expose event.
+* obj.SetInteractive (int ) - Turn on/off interactive
+  status. An interactive renderer is one that can receive
+  events from an interactor. Should only be set if there are
+  multiple renderers in the same section of the viewport.
+* int = obj.GetInteractive () - Turn on/off interactive
+  status. An interactive renderer is one that can receive
+  events from an interactor. Should only be set if there are
+  multiple renderers in the same section of the viewport.
+* obj.InteractiveOn () - Turn on/off interactive status. An
+  interactive renderer is one that can receive events from
+  an interactor. Should only be set if there are multiple
+  renderers in the same section of the viewport.
+* obj.InteractiveOff () - Turn on/off interactive status. An
+  interactive renderer is one that can receive events from
+  an interactor. Should only be set if there are multiple
+  renderers in the same section of the viewport.
+* obj.SetLayer (int ) - Set/Get the layer that this renderer
+  belongs to. This is only used if there are layered
+  renderers.
+* int = obj.GetLayer () - Set/Get the layer that this
+  renderer belongs to. This is only used if there are
+  layered renderers.
+* obj.SetPreserveDepthBuffer (int ) - Normally a renderer is
+  treated as transparent if Layer > 0. To treat a renderer
+  at Layer 0 as transparent, set this flag to true.
+* int = obj.GetPreserveDepthBuffer () - Normally a renderer
+  is treated as transparent if Layer > 0. To treat a
+  renderer at Layer 0 as transparent, set this flag to true.
+* obj.PreserveDepthBufferOn () - Normally a renderer is
+  treated as transparent if Layer > 0. To treat a renderer
+  at Layer 0 as transparent, set this flag to true.
+* obj.PreserveDepthBufferOff () - Normally a renderer is
+  treated as transparent if Layer > 0. To treat a renderer
+  at Layer 0 as transparent, set this flag to true.
+* int = obj.Transparent () - Returns a boolean indicating if
+  this renderer is transparent. It is transparent if it is
+  not in the deepest layer of its render window.
+* obj.WorldToView () - Convert world point coordinates to
+  view coordinates.
+* obj.ViewToWorld () - Convert view point coordinates to
+  world coordinates.
+* double = obj.GetZ (int x, int y) - Given a pixel location,
+  return the Z value. The z value is normalized (0,1)
+  between the front and back clipping planes.
+* long = obj.GetMTime () - Return the MTime of the renderer
+  also considering its ivars.
+* double = obj.GetLastRenderTimeInSeconds () - Get the time
+  required, in seconds, for the last Render call.
+* int = obj.GetNumberOfPropsRendered () - Should be used
+  internally only during a render Get the number of props
+  that were rendered using a RenderOpaqueGeometry or
+  RenderTranslucentPolygonalGeometry call. This is used to
+  know if something is in the frame buffer.
+* vtkAssemblyPath = obj.PickProp (double selectionX, double
+  selectionY) - Return the prop (via a vtkAssemblyPath) that
+  has the highest z value at the given x, y position in the
+  viewport. Basically, the top most prop that renders the
+  pixel at selectionX, selectionY will be returned. If
+  nothing was picked then NULL is returned. This method
+  selects from the renderers Prop list.
+* vtkAssemblyPath = obj.PickProp (double selectionX1, double
+  selectionY1, double selectionX2, double selectionY2) -
+  Return the prop (via a vtkAssemblyPath) that has the
+  highest z value at the given x, y position in the
+  viewport. Basically, the top most prop that renders the
+  pixel at selectionX, selectionY will be returned. If
+  nothing was picked then NULL is returned. This method
+  selects from the renderers Prop list.
+* obj.StereoMidpoint () - Do anything necessary between
+  rendering the left and right viewpoints in a stereo
+  render. Doesn't do anything except in the derived
+  vtkIceTRenderer in ParaView.
+* double = obj.GetTiledAspectRatio () - Compute the aspect
+  ratio of this renderer for the current tile. When tiled
+  displays are used the aspect ratio of the renderer for a
+  given tile may be diferent that the aspect ratio of the
+  renderer when rendered in it entirity
+* int = obj.IsActiveCameraCreated () - Turn on/off rendering
+  of translucent material with depth peeling technique. The
+  render window must have alpha bits (ie call
+  SetAlphaBitPlanes(1)) and no multisample buffer (ie call
+  SetMultiSamples(0) ) to support depth peeling. If
+  UseDepthPeeling is on and the GPU supports it, depth
+  peeling is used for rendering translucent materials. If
+  UseDepthPeeling is off, alpha blending is used. Initial
+  value is off.
+* obj.SetUseDepthPeeling (int ) - Turn on/off rendering of
+  translucent material with depth peeling technique. The
+  render window must have alpha bits (ie call
+  SetAlphaBitPlanes(1)) and no multisample buffer (ie call
+  SetMultiSamples(0) ) to support depth peeling. If
+  UseDepthPeeling is on and the GPU supports it, depth
+  peeling is used for rendering translucent materials. If
+  UseDepthPeeling is off, alpha blending is used. Initial
+  value is off.
+* int = obj.GetUseDepthPeeling () - Turn on/off rendering of
+  translucent material with depth peeling technique. The
+  render window must have alpha bits (ie call
+  SetAlphaBitPlanes(1)) and no multisample buffer (ie call
+  SetMultiSamples(0) ) to support depth peeling. If
+  UseDepthPeeling is on and the GPU supports it, depth
+  peeling is used for rendering translucent materials. If
+  UseDepthPeeling is off, alpha blending is used. Initial
+  value is off.
+* obj.UseDepthPeelingOn () - Turn on/off rendering of
+  translucent material with depth peeling technique. The
+  render window must have alpha bits (ie call
+  SetAlphaBitPlanes(1)) and no multisample buffer (ie call
+  SetMultiSamples(0) ) to support depth peeling. If
+  UseDepthPeeling is on and the GPU supports it, depth
+  peeling is used for rendering translucent materials. If
+  UseDepthPeeling is off, alpha blending is used. Initial
+  value is off.
+* obj.UseDepthPeelingOff () - Turn on/off rendering of
+  translucent material with depth peeling technique. The
+  render window must have alpha bits (ie call
+  SetAlphaBitPlanes(1)) and no multisample buffer (ie call
+  SetMultiSamples(0) ) to support depth peeling. If
+  UseDepthPeeling is on and the GPU supports it, depth
+  peeling is used for rendering translucent materials. If
+  UseDepthPeeling is off, alpha blending is used. Initial
+  value is off.
+* obj.SetOcclusionRatio (double ) - In case of use of depth
+  peeling technique for rendering translucent material,
+  define the threshold under which the algorithm stops to
+  iterate over peel layers. This is the ratio of the number
+  of pixels that have been touched by the last layer over
+  the total number of pixels of the viewport area. Initial
+  value is 0.0, meaning rendering have to be exact. Greater
+  values may speed-up the rendering with small impact on the
+  quality.
+* double = obj.GetOcclusionRatioMinValue () - In case of use
+  of depth peeling technique for rendering translucent
+  material, define the threshold under which the algorithm
+  stops to iterate over peel layers. This is the ratio of
+  the number of pixels that have been touched by the last
+  layer over the total number of pixels of the viewport
+  area. Initial value is 0.0, meaning rendering have to be
+  exact. Greater values may speed-up the rendering with
+  small impact on the quality.
+* double = obj.GetOcclusionRatioMaxValue () - In case of use
+  of depth peeling technique for rendering translucent
+  material, define the threshold under which the algorithm
+  stops to iterate over peel layers. This is the ratio of
+  the number of pixels that have been touched by the last
+  layer over the total number of pixels of the viewport
+  area. Initial value is 0.0, meaning rendering have to be
+  exact. Greater values may speed-up the rendering with
+  small impact on the quality.
+* double = obj.GetOcclusionRatio () - In case of use of
+  depth peeling technique for rendering translucent
+  material, define the threshold under which the algorithm
+  stops to iterate over peel layers. This is the ratio of
+  the number of pixels that have been touched by the last
+  layer over the total number of pixels of the viewport
+  area. Initial value is 0.0, meaning rendering have to be
+  exact. Greater values may speed-up the rendering with
+  small impact on the quality.
+* obj.SetMaximumNumberOfPeels (int ) - In case of depth
+  peeling, define the maximum number of peeling layers.
+  Initial value is 4. A special value of 0 means no maximum
+  limit. It has to be a positive value.
+* int = obj.GetMaximumNumberOfPeels () - In case of depth
+  peeling, define the maximum number of peeling layers.
+  Initial value is 4. A special value of 0 means no maximum
+  limit. It has to be a positive value.
+* int = obj.GetLastRenderingUsedDepthPeeling () - Tells if
+  the last call to DeviceRenderTranslucentPolygonalGeometry
+  () actually used depth peeling. Initial value is false.
+* obj.SetDelegate (vtkRendererDelegate d) - Set/Get a custom
+  Render call. Allows to hook a Render call from an external
+  project.It will be used in place of vtkRenderer::Render()
+  if it is not NULL and its Used ivar is set to true.
+  Initial value is NULL.
+* vtkRendererDelegate = obj.GetDelegate () - Set/Get a
+  custom Render call. Allows to hook a Render call from an
+  external project.It will be used in place of vtkRenderer::
+  Render() if it is not NULL and its Used ivar is set to
+  true. Initial value is NULL.
+* obj.SetPass (vtkRenderPass p) - Set/Get a custom render
+  pass. Initial value is NULL.
+* vtkRenderPass = obj.GetPass () - Set/Get a custom render
+  pass. Initial value is NULL.
+* vtkHardwareSelector = obj.GetSelector () - Get the current
+  hardware selector. If the Selector is set, it implies the
+  current render pass is for selection. Mappers/Properties
+  may choose to behave differently when rendering for
+  hardware selection.
+* obj.SetBackgroundTexture (vtkTexture ) - Set/Get the
+  texture to be used for the background. If set and enabled
+  this gets the priority over the gradient background.
+* vtkTexture = obj.GetBackgroundTexture () - Set/Get the
+  texture to be used for the background. If set and enabled
+  this gets the priority over the gradient background.
+* obj.SetTexturedBackground (bool ) - Set/Get whether this
+  viewport should have a textured background. Default is
+  off.
+* bool = obj.GetTexturedBackground () - Set/Get whether this
+  viewport should have a textured background. Default is
+  off.
+* obj.TexturedBackgroundOn () - Set/Get whether this
+  viewport should have a textured background. Default is
+  off.
+* obj.TexturedBackgroundOff () - Set/Get whether this
+  viewport should have a textured background. Default is
+  off.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Rendering_Classes
+* Generated on Thu Jul 25 2013 17:18:35 for FreeMat by
+  doxygen_ 1.8.1.1
+

@@ -1,0 +1,64 @@
+
+ Usage
+
+vtkSplitField is used to split a multi-component field
+(vtkDataArray) into multiple single component fields. The
+new fields are put in the same field data as the original
+field. The output arrays are of the same type as the input
+array. Example:
+
+   sf->SetInputField("gradient", vtkSplitField::POINT_DATA);
+   sf->Split(0, "firstcomponent");
+
+tells vtkSplitField to extract the first component of the
+field called gradient and create an array called
+firstcomponent (the new field will be in the output's point
+data). The same can be done from Tcl:
+
+   sf SetInputField gradient POINT_DATA
+   sf Split 0 firstcomponent
+
+   AttributeTypes: SCALARS, VECTORS, NORMALS, TCOORDS,
+  TENSORS
+   Field locations: DATA_OBJECT, POINT_DATA, CELL_DATA
+
+Note that, by default, the original array is also passed
+through.
+To create an instance of class vtkSplitField, simply invoke
+its constructor as follows
+
+    obj = vtkSplitField
+
+
+
+ Methods
+
+The class vtkSplitField has several methods that can be
+used. They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkSplitField class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkSplitField = obj.NewInstance ()
+* vtkSplitField = obj.SafeDownCast (vtkObject o)
+* obj.SetInputField (int attributeType, int fieldLoc) - Use
+  the given attribute in the field data given by fieldLoc as
+  input.
+* obj.SetInputField (string name, int fieldLoc) - Use the
+  array with given name in the field data given by fieldLoc
+  as input.
+* obj.SetInputField (string name, string fieldLoc) - Helper
+  method used by other language bindings. Allows the caller
+  to specify arguments as strings instead of enums.
+* obj.Split (int component, string arrayName) - Create a new
+  array with the given component.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Graphics_Classes
+* Generated on Thu Jul 25 2013 17:18:32 for FreeMat by
+  doxygen_ 1.8.1.1
+

@@ -1,0 +1,82 @@
+/*!
+\page vtkfiltering_vtksimplescalartree vtkSimpleScalarTree
+
+<p>
+Section: \ref sec_vtkfiltering "Visualization Toolkit Filtering Classes"
+\section Usage
+ vtkSimpleScalarTree creates a pointerless binary tree that helps search for
+ cells that lie within a particular scalar range. This object is used to
+ accelerate some contouring (and other scalar-based techniques).
+ 
+ The tree consists of an array of (min,max) scalar range pairs per node in
+ the tree. The (min,max) range is determined from looking at the range of
+ the children of the tree node. If the node is a leaf, then the range is
+ determined by scanning the range of scalar data in n cells in the
+ dataset. The n cells are determined by arbitrary selecting cell ids from
+ id(i) to id(i+n), and where n is specified using the BranchingFactor
+ ivar. Note that leaf node i=0 contains the scalar range computed from
+ cell ids (0,n-1); leaf node i=1 contains the range from cell ids (n,2n-1);
+ and so on. The implication is that there are no direct lists of cell ids
+ per leaf node, instead the cell ids are implicitly known.
+
+To create an instance of class vtkSimpleScalarTree, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkSimpleScalarTree
+\endverbatim
+\section Methods
+The class vtkSimpleScalarTree has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkSimpleScalarTree class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt> -  Standard type related macros and PrintSelf() method.
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt> -  Standard type related macros and PrintSelf() method.
+ </LI>
+<LI>  <tt>vtkSimpleScalarTree = obj.NewInstance ()</tt> -  Standard type related macros and PrintSelf() method.
+ </LI>
+<LI>  <tt>vtkSimpleScalarTree = obj.SafeDownCast (vtkObject o)</tt> -  Standard type related macros and PrintSelf() method.
+ </LI>
+<LI>  <tt>obj.SetBranchingFactor (int )</tt> -  Set the branching factor for the tree. This is the number of
+ children per tree node. Smaller values (minimum is 2) mean deeper
+ trees and more memory overhead. Larger values mean shallower
+ trees, less memory usage, but worse performance.
+ </LI>
+<LI>  <tt>int = obj.GetBranchingFactorMinValue ()</tt> -  Set the branching factor for the tree. This is the number of
+ children per tree node. Smaller values (minimum is 2) mean deeper
+ trees and more memory overhead. Larger values mean shallower
+ trees, less memory usage, but worse performance.
+ </LI>
+<LI>  <tt>int = obj.GetBranchingFactorMaxValue ()</tt> -  Set the branching factor for the tree. This is the number of
+ children per tree node. Smaller values (minimum is 2) mean deeper
+ trees and more memory overhead. Larger values mean shallower
+ trees, less memory usage, but worse performance.
+ </LI>
+<LI>  <tt>int = obj.GetBranchingFactor ()</tt> -  Set the branching factor for the tree. This is the number of
+ children per tree node. Smaller values (minimum is 2) mean deeper
+ trees and more memory overhead. Larger values mean shallower
+ trees, less memory usage, but worse performance.
+ </LI>
+<LI>  <tt>int = obj.GetLevel ()</tt> -  Get the level of the scalar tree. This value may change each time the
+ scalar tree is built and the branching factor changes.
+ </LI>
+<LI>  <tt>obj.SetMaxLevel (int )</tt> -  Set the maximum allowable level for the tree. 
+ </LI>
+<LI>  <tt>int = obj.GetMaxLevelMinValue ()</tt> -  Set the maximum allowable level for the tree. 
+ </LI>
+<LI>  <tt>int = obj.GetMaxLevelMaxValue ()</tt> -  Set the maximum allowable level for the tree. 
+ </LI>
+<LI>  <tt>int = obj.GetMaxLevel ()</tt> -  Set the maximum allowable level for the tree. 
+ </LI>
+<LI>  <tt>obj.BuildTree ()</tt> -  Construct the scalar tree from the dataset provided. Checks build times
+ and modified time from input and reconstructs the tree if necessary.
+ </LI>
+<LI>  <tt>obj.Initialize ()</tt> -  Initialize locator. Frees memory and resets object as appropriate.
+ </LI>
+<LI>  <tt>obj.InitTraversal (double scalarValue)</tt> -  Begin to traverse the cells based on a scalar value. Returned cells
+ will have scalar values that span the scalar value specified.
+ </LI>
+</UL>
+*/

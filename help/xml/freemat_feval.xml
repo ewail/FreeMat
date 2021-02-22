@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="freemat_feval" kind="page">
+    <compoundname>freemat_feval</compoundname>
+    <title>FEVAL Evaluate a Function</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_freemat_1sec_freemat" kindref="member">FreeMat Functions</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>The <computeroutput>feval</computeroutput> function executes a function using its name. The syntax of <computeroutput>feval</computeroutput> is <verbatim>  [y1,y2,...,yn] = feval(f,x1,x2,...,xm)
+</verbatim> where <computeroutput>f</computeroutput> is the name of the function to evaluate, and <computeroutput>xi</computeroutput> are the arguments to the function, and <computeroutput>yi</computeroutput> are the return values.</para><para>Alternately, <computeroutput>f</computeroutput> can be a function handle to a function (see the section on <computeroutput>function handles</computeroutput> for more information).</para><para>Finally, FreeMat also supports <computeroutput>f</computeroutput> being a user defined class in which case it will atttempt to invoke the <computeroutput>subsref</computeroutput> method of the class. </para></sect1>
+<sect1 id="variables_struct_1Example">
+<title>Example</title>
+<para>Here is an example of using <computeroutput>feval</computeroutput> to call the <computeroutput>cos</computeroutput> function indirectly.</para><para><verbatim>--&gt; feval(&apos;cos&apos;,pi/4)
+
+ans = 
+    0.7071 
+</verbatim></para><para>Now, we call it through a function handle</para><para><verbatim>--&gt; c = @cos
+
+c = 
+ @cos
+--&gt; feval(c,pi/4)
+
+ans = 
+    0.7071 
+</verbatim></para><para>Here we construct an inline object (which is a user-defined class) and use <computeroutput>feval</computeroutput> to call it</para><para><verbatim>--&gt; afunc = inline(&apos;cos(t)+sin(t)&apos;,&apos;t&apos;)
+
+afunc = 
+  inline function object
+  f(t) = cos(t)+sin(t)
+--&gt; feval(afunc,pi)
+
+ans = 
+   -1.0000 
+
+--&gt; afunc(pi)
+
+ans = 
+   -1.0000 
+</verbatim></para><para>In both cases, (the <computeroutput>feval</computeroutput> call and the direct invokation), FreeMat calls the <computeroutput>subsref</computeroutput> method of the class, which computes the requested function. </para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

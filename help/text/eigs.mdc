@@ -1,0 +1,111 @@
+
+ Usage
+
+Computes the eigendecomsition of a sparse square matrix. The
+eigs function has several forms. The most general form is
+
+    [V,D] = eigs(A,k,sigma)
+
+where A is the matrix to analyze, k is the number of
+eigenvalues to compute and sigma determines which
+eigenvallues to solve for. Valid values for sigma are 'lm' -
+largest magnitude 'sm' - smallest magnitude 'la' - largest
+algebraic (for real symmetric problems) 'sa' - smallest
+algebraic (for real symmetric problems) 'be' - both ends
+(for real symmetric problems) 'lr' - largest real part 'sr'
+- smallest real part 'li' - largest imaginary part 'si' -
+smallest imaginary part scalar - find the eigenvalues
+closest to sigma. The returned matrix V contains the
+eigenvectors, and D stores the eigenvalues. The related form
+
+     d = eigs(A,k,sigma)
+
+computes only the eigenvalues and not the eigenvectors. If
+sigma is omitted, as in the forms
+
+    [V,D] = eigs(A,k)
+
+and
+
+    d = eigs(A,k)
+
+then eigs returns the largest magnitude eigenvalues (and
+optionally the associated eigenvectors). As an even simpler
+form, the forms
+
+    [V,D] = eigs(A)
+
+and
+
+    d = eigs(A)
+
+then eigs returns the six largest magnitude eigenvalues of A
+and optionally the eigenvectors. The eigs function uses
+ARPACK to compute the eigenvectors and/or eigenvalues. Note
+that due to a limitation in the interface into ARPACK from
+FreeMat, the number of eigenvalues that are to be computed
+must be strictly smaller than the number of columns (or
+rows) in the matrix.
+
+
+ Example
+
+Here is an example of using eigs to calculate eigenvalues of
+a matrix, and a comparison of the results with eig
+
+  --> a = sparse(rand(9));
+  --> eigs(a)
+
+  ans =
+     4.1831 +  0.0000i
+     0.3249 -  0.5504i
+     0.3249 +  0.5504i
+     0.5932 -  0.1774i
+     0.5932 +  0.1774i
+    -0.5572 +  0.0000i
+
+  --> eig(full(a))
+
+  ans =
+     4.1831 +  0.0000i
+     0.5932 +  0.1774i
+     0.5932 -  0.1774i
+     0.3249 +  0.5504i
+     0.3249 -  0.5504i
+    -0.5572 +  0.0000i
+    -0.1285 +  0.0901i
+    -0.1285 -  0.0901i
+    -0.3219 +  0.0000i
+
+Next, we exercise some of the variants of eigs:
+
+  --> eigs(a,4,'sm')
+
+  ans =
+    -0.1285 +  0.0901i
+    -0.1285 -  0.0901i
+    -0.3219 +  0.0000i
+    -0.5572 +  0.0000i
+
+  --> eigs(a,4,'lr')
+
+  ans =
+     4.1831 +  0.0000i
+     0.5932 +  0.1774i
+     0.5932 -  0.1774i
+     0.3249 +  0.5504i
+
+  --> eigs(a,4,'sr')
+
+  ans =
+    -0.5572 +  0.0000i
+    -0.3219 +  0.0000i
+    -0.1285 +  0.0901i
+    -0.1285 -  0.0901i
+
+
+* FreeMat_Documentation
+* Sparse_Matrix_Support
+* Generated on Thu Jul 25 2013 17:18:26 for FreeMat by
+  doxygen_ 1.8.1.1
+

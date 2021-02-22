@@ -1,0 +1,95 @@
+/*!
+\page vtkrendering_vtkdefaultpainter vtkDefaultPainter
+
+<p>
+Section: \ref sec_vtkrendering "Visualization Toolkit Rendering Classes"
+\section Usage
+ This painter does not do any actual rendering.
+ Sets up a default pipeline of painters to mimick the behaiour of 
+ old vtkPolyDataMapper. The chain is as follows:
+ input--> vtkScalarsToColorsPainter --> vtkClipPlanesPainter -->
+ vtkDisplayListPainter --> vtkCompositePainter -->
+ vtkCoincidentTopologyResolutionPainter -->
+ vtkLightingPainter --> vtkRepresentationPainter --> 
+ \<Delegate of vtkDefaultPainter\>.
+ Typically, the delegate of the default painter be one that is capable of r
+ rendering graphics primitives or a vtkChooserPainter which can select appropriate
+ painters to do the rendering.
+
+To create an instance of class vtkDefaultPainter, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkDefaultPainter
+\endverbatim
+\section Methods
+The class vtkDefaultPainter has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkDefaultPainter class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkDefaultPainter = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkDefaultPainter = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetScalarsToColorsPainter (vtkScalarsToColorsPainter )</tt> -  Get/Set the painter that maps scalars to colors.
+ </LI>
+<LI>  <tt>vtkScalarsToColorsPainter = obj.GetScalarsToColorsPainter ()</tt> -  Get/Set the painter that maps scalars to colors.
+ </LI>
+<LI>  <tt>obj.SetClipPlanesPainter (vtkClipPlanesPainter )</tt> -  Get/Set the painter that handles clipping.
+ </LI>
+<LI>  <tt>vtkClipPlanesPainter = obj.GetClipPlanesPainter ()</tt> -  Get/Set the painter that handles clipping.
+ </LI>
+<LI>  <tt>obj.SetDisplayListPainter (vtkDisplayListPainter )</tt> -  Get/Set the painter that builds display lists.
+ </LI>
+<LI>  <tt>vtkDisplayListPainter = obj.GetDisplayListPainter ()</tt> -  Get/Set the painter that builds display lists.
+ </LI>
+<LI>  <tt>obj.SetCompositePainter (vtkCompositePainter )</tt> -  Get/Set the painter used to handle composite datasets.
+ </LI>
+<LI>  <tt>vtkCompositePainter = obj.GetCompositePainter ()</tt> -  Get/Set the painter used to handle composite datasets.
+ </LI>
+<LI>  <tt>obj.SetCoincidentTopologyResolutionPainter (vtkCoincidentTopologyResolutionPainter )</tt> -  Painter used to resolve coincident topology.
+ </LI>
+<LI>  <tt>vtkCoincidentTopologyResolutionPainter = obj.GetCoincidentTopologyResolutionPainter ()</tt> -  Painter used to resolve coincident topology.
+ </LI>
+<LI>  <tt>obj.SetLightingPainter (vtkLightingPainter )</tt> -  Get/Set the painter that controls lighting.
+ </LI>
+<LI>  <tt>vtkLightingPainter = obj.GetLightingPainter ()</tt> -  Get/Set the painter that controls lighting.
+ </LI>
+<LI>  <tt>obj.SetRepresentationPainter (vtkRepresentationPainter )</tt> -  Painter used to convert polydata to Wireframe/Points representation.
+ </LI>
+<LI>  <tt>vtkRepresentationPainter = obj.GetRepresentationPainter ()</tt> -  Painter used to convert polydata to Wireframe/Points representation.
+ </LI>
+<LI>  <tt>obj.SetDelegatePainter (vtkPainter )</tt> -  Set/Get the painter to which this painter should propagare its draw calls.
+ These methods are overridden so that the delegate is set
+ to the end of the Painter Chain.
+ </LI>
+<LI>  <tt>vtkPainter = obj.GetDelegatePainter ()</tt> -  Overridden to setup the chain of painter depending on the 
+ actor representation. The chain is rebuilt if
+ this->MTime has changed 
+ since last BuildPainterChain();
+ Building of the chain does not depend on input polydata,
+ hence it does not check if the input has changed at all.
+ </LI>
+<LI>  <tt>obj.Render (vtkRenderer renderer, vtkActor actor, long typeflags, bool forceCompileOnly)</tt> -  Overridden to setup the chain of painter depending on the 
+ actor representation. The chain is rebuilt if
+ this->MTime has changed 
+ since last BuildPainterChain();
+ Building of the chain does not depend on input polydata,
+ hence it does not check if the input has changed at all.
+ </LI>
+<LI>  <tt>obj.ReleaseGraphicsResources (vtkWindow )</tt> -  Release any graphics resources that are being consumed by this painter.
+ The parameter window could be used to determine which graphic
+ resources to release. 
+ The call is propagated to the delegate painter, if any.
+ </LI>
+<LI>  <tt>obj.UpdateBounds (double bounds[6])</tt> -  Expand or shrink the estimated bounds based on the geometric
+ transformations applied in the painter. The bounds are left unchanged
+ if the painter does not change the geometry.
+ </LI>
+</UL>
+*/

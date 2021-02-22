@@ -1,0 +1,128 @@
+/*!
+\page vtkrendering_vtkassembly vtkAssembly
+
+<p>
+Section: \ref sec_vtkrendering "Visualization Toolkit Rendering Classes"
+\section Usage
+ vtkAssembly is an object that groups vtkProp3Ds, its subclasses, and
+ other assemblies into a tree-like hierarchy. The vtkProp3Ds and
+ assemblies can then be transformed together by transforming just the root
+ assembly of the hierarchy.
+
+ A vtkAssembly object can be used in place of an vtkProp3D since it is a
+ subclass of vtkProp3D. The difference is that vtkAssembly maintains a list
+ of vtkProp3D instances (its "parts") that form the assembly. Then, any
+ operation that transforms (i.e., scales, rotates, translates) the parent
+ assembly will transform all its parts.  Note that this process is
+ recursive: you can create groups consisting of assemblies and/or
+ vtkProp3Ds to arbitrary depth.
+
+ To add an assembly to the renderer's list of props, you only need to
+ add the root of the assembly. During rendering, the parts of the
+ assembly are rendered during a hierarchical traversal process.
+
+To create an instance of class vtkAssembly, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkAssembly
+\endverbatim
+\section Methods
+The class vtkAssembly has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkAssembly class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkAssembly = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkAssembly = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.AddPart (vtkProp3D )</tt> -  Add a part to the list of parts.
+ </LI>
+<LI>  <tt>obj.RemovePart (vtkProp3D )</tt> -  Remove a part from the list of parts,
+ </LI>
+<LI>  <tt>vtkProp3DCollection = obj.GetParts ()</tt> -  Return the parts (direct descendants) of this assembly.
+ </LI>
+<LI>  <tt>obj.GetActors (vtkPropCollection )</tt> -  For some exporters and other other operations we must be
+ able to collect all the actors or volumes. These methods
+ are used in that process.
+ </LI>
+<LI>  <tt>obj.GetVolumes (vtkPropCollection )</tt> -  For some exporters and other other operations we must be
+ able to collect all the actors or volumes. These methods
+ are used in that process.
+ </LI>
+<LI>  <tt>int = obj.RenderOpaqueGeometry (vtkViewport ren)</tt> -  Render this assembly and all its parts. 
+ The rendering process is recursive.
+ Note that a mapper need not be defined. If not defined, then no geometry 
+ will be drawn for this assembly. This allows you to create "logical"
+ assemblies; that is, assemblies that only serve to group and transform
+ its parts.
+ </LI>
+<LI>  <tt>int = obj.RenderTranslucentPolygonalGeometry (vtkViewport ren)</tt> -  Render this assembly and all its parts. 
+ The rendering process is recursive.
+ Note that a mapper need not be defined. If not defined, then no geometry 
+ will be drawn for this assembly. This allows you to create "logical"
+ assemblies; that is, assemblies that only serve to group and transform
+ its parts.
+ </LI>
+<LI>  <tt>int = obj.RenderVolumetricGeometry (vtkViewport ren)</tt> -  Render this assembly and all its parts. 
+ The rendering process is recursive.
+ Note that a mapper need not be defined. If not defined, then no geometry 
+ will be drawn for this assembly. This allows you to create "logical"
+ assemblies; that is, assemblies that only serve to group and transform
+ its parts.
+ </LI>
+<LI>  <tt>int = obj.HasTranslucentPolygonalGeometry ()</tt> -  Does this prop have some translucent polygonal geometry?
+ </LI>
+<LI>  <tt>obj.ReleaseGraphicsResources (vtkWindow )</tt> -  Release any graphics resources that are being consumed by this actor.
+ The parameter window could be used to determine which graphic
+ resources to release.
+ </LI>
+<LI>  <tt>obj.InitPathTraversal ()</tt> -  Methods to traverse the parts of an assembly. Each part (starting from
+ the root) will appear properly transformed and with the correct
+ properties (depending upon the ApplyProperty and ApplyTransform ivars).
+ Note that the part appears as an instance of vtkProp. These methods
+ should be contrasted to those that traverse the list of parts using
+ GetParts().  GetParts() returns a list of children of this assembly, not
+ necessarily with the correct transformation or properties. To use the
+ methods below - first invoke InitPathTraversal() followed by repeated
+ calls to GetNextPath().  GetNextPath() returns a NULL pointer when the
+ list is exhausted.
+ </LI>
+<LI>  <tt>vtkAssemblyPath = obj.GetNextPath ()</tt> -  Methods to traverse the parts of an assembly. Each part (starting from
+ the root) will appear properly transformed and with the correct
+ properties (depending upon the ApplyProperty and ApplyTransform ivars).
+ Note that the part appears as an instance of vtkProp. These methods
+ should be contrasted to those that traverse the list of parts using
+ GetParts().  GetParts() returns a list of children of this assembly, not
+ necessarily with the correct transformation or properties. To use the
+ methods below - first invoke InitPathTraversal() followed by repeated
+ calls to GetNextPath().  GetNextPath() returns a NULL pointer when the
+ list is exhausted.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfPaths ()</tt> -  Methods to traverse the parts of an assembly. Each part (starting from
+ the root) will appear properly transformed and with the correct
+ properties (depending upon the ApplyProperty and ApplyTransform ivars).
+ Note that the part appears as an instance of vtkProp. These methods
+ should be contrasted to those that traverse the list of parts using
+ GetParts().  GetParts() returns a list of children of this assembly, not
+ necessarily with the correct transformation or properties. To use the
+ methods below - first invoke InitPathTraversal() followed by repeated
+ calls to GetNextPath().  GetNextPath() returns a NULL pointer when the
+ list is exhausted.
+ </LI>
+<LI>  <tt>obj.GetBounds (double bounds[6])</tt> -  Get the bounds for the assembly as (Xmin,Xmax,Ymin,Ymax,Zmin,Zmax).
+ </LI>
+<LI>  <tt>double = obj.GetBounds ()</tt> -  Get the bounds for the assembly as (Xmin,Xmax,Ymin,Ymax,Zmin,Zmax).
+ </LI>
+<LI>  <tt>long = obj.GetMTime ()</tt> -  Override default GetMTime method to also consider all of the
+ assembly's parts.
+ </LI>
+<LI>  <tt>obj.ShallowCopy (vtkProp prop)</tt> -  Shallow copy of an assembly. Overloads the virtual vtkProp method.
+ </LI>
+</UL>
+*/

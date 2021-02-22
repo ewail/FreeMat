@@ -1,0 +1,43 @@
+/*!
+\page random_randgamma RANDGAMMA Generate Gamma-Distributed Random Variable
+
+<p>
+Section: \ref sec_random "Random Number Generation"
+\section Usage
+Generates random variables with a gamma distribution.  The general
+syntax for its use is
+\verbatim
+   y = randgamma(a,r),
+\endverbatim
+where <tt>a</tt> and <tt>r</tt> are vectors describing the parameters of the
+gamma distribution.  Roughly speaking, if <tt>a</tt> is the mean time between
+changes of a Poisson random process, and we wait for the <tt>r</tt> change,
+the resulting wait time is Gamma distributed with parameters <tt>a</tt> 
+and <tt>r</tt>.
+\section Function Internals
+The Gamma distribution arises in Poisson random processes.  It represents
+the waiting time to the occurance of the <tt>r</tt>-th event in a process with
+mean time <tt>a</tt> between events.  The probability distribution of a Gamma
+random variable is
+\f[
+   P(x) = \frac{a^r x^{r-1} e^{-ax}}{\Gamma(r)}.
+\f]
+Note also that for integer values of <tt>r</tt> that a Gamma random variable
+is effectively the sum of <tt>r</tt> exponential random variables with parameter
+<tt>a</tt>.
+\section Example
+Here we use the <tt>randgamma</tt> function to generate Gamma-distributed
+random variables, and then generate them again using the <tt>randexp</tt>
+function.
+
+\if FRAGMENT
+frag_random_randgamma_000.m
+0
+randgamma(1,15*ones(1,9))
+sum(randexp(ones(15,9)))
+\endif
+
+
+\verbinclude frag_random_randgamma_000.m.out 
+
+*/

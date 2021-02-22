@@ -1,0 +1,108 @@
+/*!
+\page array_find FIND Find Non-zero Elements of An Array
+
+<p>
+Section: \ref sec_array "Array Generation and Manipulations"
+\section Usage
+Returns a vector that contains the indicies of all non-zero elements 
+in an array.  The usage is
+\verbatim
+   y = find(x)
+\endverbatim
+The indices returned are generalized column indices, meaning that if 
+the array <tt>x</tt> is of size <tt>[d1,d2,...,dn]</tt>, and the
+element <tt>x(i1,i2,...,in)</tt> is nonzero, then <tt>y</tt>
+will contain the integer
+\f[
+   i_1 + (i_2-1) d_1 + (i_3-1) d_1 d_2 + \dots
+\f]
+The second syntax for the <tt>find</tt> command is
+\verbatim
+   [r,c] = find(x)
+\endverbatim
+which returns the row and column index of the nonzero entries of <tt>x</tt>.
+The third syntax for the <tt>find</tt> command also returns the values
+\verbatim
+   [r,c,v] = find(x).
+\endverbatim
+Note that if the argument is a row vector, then the returned vectors
+are also row vectors. This form is particularly useful for converting 
+sparse matrices into IJV form.
+
+The <tt>find</tt> command also supports some additional arguments.  Each of the
+above forms can be combined with an integer indicating how many results
+to return:
+\verbatim
+   y = find(x,k)
+\endverbatim
+where <tt>k</tt> is the maximum number of results to return.  This form will return
+the first <tt>k</tt> results.  You can also specify an optional flag indicating 
+whether to take the first or last <tt>k</tt> values:
+\verbatim
+   y = find(x,k,'first')
+   y = find(x,k,'last')
+\endverbatim
+in the case of the <tt>'last'</tt> argument, the last <tt>k</tt> values are returned.
+\section Example
+Some simple examples of its usage, and some common uses of <tt>find</tt> in FreeMat programs.
+
+\if FRAGMENT
+frag_array_find_000.m
+0
+a = [1,2,5,2,4];
+find(a==2)
+\endif
+
+
+\verbinclude frag_array_find_000.m.out 
+
+Here is an example of using find to replace elements of <tt>A</tt> that are <tt>0</tt> with the number <tt>5</tt>.
+
+\if FRAGMENT
+frag_array_find_001.m
+0
+A = [1,0,3;0,2,1;3,0,0]
+n = find(A==0)
+A(n) = 5
+\endif
+
+
+\verbinclude frag_array_find_001.m.out 
+
+Incidentally, a better way to achieve the same concept is:
+
+\if FRAGMENT
+frag_array_find_002.m
+0
+A = [1,0,3;0,2,1;3,0,0]
+A(A==0) = 5
+\endif
+
+
+\verbinclude frag_array_find_002.m.out 
+
+Now, we can also return the indices as row and column indices using the two argument
+form of <tt>find</tt>:
+
+\if FRAGMENT
+frag_array_find_003.m
+0
+A = [1,0,3;0,2,1;3,0,0]
+[r,c] = find(A)
+\endif
+
+
+\verbinclude frag_array_find_003.m.out 
+
+Or the three argument form of <tt>find</tt>, which returns the value also:
+
+\if FRAGMENT
+frag_array_find_004.m
+0
+[r,c,v] = find(A)
+\endif
+
+
+\verbinclude frag_array_find_004.m.out 
+
+*/

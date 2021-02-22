@@ -1,0 +1,329 @@
+/*!
+\page handle_axisproperties AXISPROPERTIES Axis Object Properties
+
+<p>
+Section: \ref sec_handle "Handle-Based Graphics"
+\section Usage
+Below is a summary of the properties for the axis. 
+<UL>
+<LI>  <tt>activepositionproperty</tt> - <tt>four vector</tt> - Not used.
+ </LI>
+<LI>  <tt>alim</tt> - <tt>two vector</tt> - Controls the mapping of 
+ transparency.  The vector <tt>[a_1,a_2]</tt>@ defines the scale for transparency.
+ Plots then map <tt>a_1</tt> to a completely opaque value, and <tt>a_2</tt> to a 
+ completely transparent value.  This mapping is applied to the alpha
+ data of the plot data.
+ </LI>
+<LI>  <tt>alimmode</tt> - <tt>{'auto','manual'}</tt> - For <tt>auto</tt> mode, we 
+ map the alpha ranges of all objects in the plot to a full scale.
+ For <tt>manual</tt> mode, we use the <tt>alim</tt> vector.
+ </LI>
+<LI>  <tt>ambientlightcolor</tt> - <tt>colorspec</tt> - Not used.
+ </LI>
+<LI>  <tt>box</tt> - <tt>On/Off</tt> - Not used.
+ </LI>
+<LI>  <tt>cameraposition</tt> - <tt>three vector</tt> - Set the position for the
+ camera in axis space.
+ </LI>
+<LI>  <tt>camerapositionmode</tt> - <tt>{'auto','manual'}</tt> - For <tt>manual</tt>
+ mode, the camera position is picked up from the <tt>cameraposition</tt> vector.
+ For <tt>auto</tt> mode, the camera position is set to be centered on the 
+ <tt>x</tt> and <tt>y</tt> axis limits, and beyond the <tt>z</tt> maximum limit.
+ </LI>
+<LI>  <tt>cameratarget</tt> - <tt>three vector</tt> - Defines the point in axis
+ space that the camera is targetted at.
+ </LI>
+<LI>  <tt>cameratargetmode</tt> - <tt>{'auto','manual'}</tt> - For <tt>manual</tt>
+ mode the camera target is picked up from the <tt>cameratarget</tt> vector.  For
+ <tt>auto</tt> mode, the camera target is chosen to be the center of the 
+ three axes.
+ </LI>
+<LI>  <tt>cameraupvector</tt> - <tt>three vector</tt> - Defines the upwards vector
+ for the camera (what is ultimately mapped to the vertical axis of the
+ plot or screen).  This vector must not be parallel to the vector that
+ is defined by the optical axis (i.e., the one connecting the target to the
+ camera position).
+ </LI>
+<LI>  <tt>cameraupvectormode</tt> - <tt>{'auto','manual'}</tt> - For <tt>manual</tt>
+ mode, the camera up vector is picked up from the <tt>cameraupvector</tt>.  The
+ <tt>auto</tt> mode chooses the up vector to point along the positive <tt>y</tt> axis.
+ </LI>
+<LI>  <tt>cameraviewangle</tt> - <tt>scalar</tt> - Not used.
+ </LI>
+<LI>  <tt>cameraviewanglemode</tt> - <tt>{'auto','manual'}</tt> - Not used.
+ </LI>
+<LI>  <tt>children</tt> - <tt>vector of handles</tt> - A vector containing handles to
+ children of the current axis.  Be careful as to how you manipulate this
+ vector.  FreeMat uses a reference counting mechanism for graphics objects,
+ so if you remove a handle from the <tt>children</tt> property of an axis, and
+ you have not added it to the <tt>children</tt> property of another object, it
+ will be deleted.
+ </LI>
+<LI>  <tt>clim</tt> - <tt>two vector</tt> - The color range vector.  This vector
+ contains two values that dictate how children of this axis get mapped
+ to the colormap.  Values between the two endpoints of this vector are mapped
+ to the extremes of the colormap.
+ </LI>
+<LI>  <tt>climmode</tt> - <tt>{'auto','manual'}</tt> - For <tt>auto</tt> mode, the color limits
+ are chosen to span the colordata for all of the children objects.  For <tt>manual</tt>
+ mode, the color mapping is based on <tt>clim</tt>.
+ </LI>
+<LI>  <tt>clipping</tt> - <tt>{'on','off'}</tt> - Not used.
+ </LI>
+<LI>  <tt>color</tt> - <tt>colorspec</tt> - The color used to draw the background box
+ for the axes.  Defaults to white.
+ </LI>
+<LI>  <tt>colororder</tt> - <tt>color vector</tt> - A vector of color specs (in 
+ RGB) that are cycled between when drawing line plots into this axis.
+ The default is order blue,green,red,cyan,magenta,yellow,black.
+ </LI>
+<LI>  <tt>datalimits</tt> - <tt>six vector</tt> - A vector that contains the x, y and z
+ limits of the data for children of the current axis.  Changes to this
+ property are ignored - it is calculated by FreeMat based on the datasets.
+ </LI>
+<LI>  <tt>dataaspectratio</tt> - <tt>three vector</tt> - A vector that describes the
+ aspect ratio of the data.  You can think of this as the relative scaling of 
+ units for each axis.  For example, if one unit along the x axis is twice
+ as long as one unit along the y axis, you would specify a data aspect 
+ ratio of <tt>[2,1,1]</tt>.
+ </LI>
+<LI>  <tt>dataaspectratiomode</tt> - <tt>{'auto','manual'}</tt> - When the data aspect 
+ ratio is set to <tt>manual</tt>, the data is scaled by the data aspect ratio before
+ being plotted.  When the data aspect ratio mode is <tt>auto</tt> a complex set of
+ rules are applied to determine how the data should be scaled.  If <tt>dataaspectratio</tt>
+ mode is <tt>auto</tt> and <tt>plotboxaspectratio</tt> is <tt>auto</tt>, then the default data aspect
+ ratio is set to <tt>[1,1,1]</tt> and the default plot box aspect ratio is chosen proportional
+ to <tt>[xrange,yrange,zrange]</tt>, where <tt>xrange</tt> is the span of data along the <tt>x</tt>
+ axis, and similarly for <tt>yrange</tt> and <tt>zrange</tt>.  If <tt>plotboxaspectratio</tt> is set to
+ <tt>[px,py,pz]</tt>, then the <tt>dataaspectratio</tt> is set to <tt>[xrange/px,yrange/py,zrange/pz]</tt>.
+ If one of the axes has been specified manually, then the data will be scaled to fit
+ the axes as well as possible.
+ </LI>
+<LI>  <tt>fontangle</tt> - <tt>{'normal','italic','oblique'}</tt> - The angle of the fonts used
+ for text labels (e.g., tick labels).
+ </LI>
+<LI>  <tt>fontsize</tt> - <tt>scalar</tt> - The size of fonts used for text labels (tick labels).
+ </LI>
+<LI>  <tt>fontunits</tt> - Not used.
+ </LI>
+<LI>  <tt>fontweight</tt> - <tt>{'normal','bold','light','demi'}</tt> - The weight of the font used
+ for tick labels.
+ </LI>
+<LI>  <tt>gridlinestyle</tt> - <tt>{'-','--',':','-.','none'}</tt> - The line style to use for 
+ drawing the grid lines.  Defaults to <tt>':'</tt>.
+ </LI>
+<LI>  <tt>handlevisibility</tt> - Not used.
+ </LI>
+<LI>  <tt>hittest</tt> - Not used.
+ </LI>
+<LI>  <tt>interruptible</tt> - Not used.
+ </LI>
+<LI>  <tt>layer</tt> - Not used.
+ </LI>
+<LI>  <tt>linestyleorder</tt> - <tt>linestyle vector</tt> - A vector of linestyles that are cycled
+ through when plotted line series.
+ </LI>
+<LI>  <tt>linewidth</tt> - <tt>scalar</tt> - The width of line used to draw grid lines, axis lines, 
+ and other lines.
+ </LI>
+<LI>  <tt>minorgridlinestyle</tt> - <tt>{'-','--',':','-.','none'}</tt> - The line style used for
+ drawing grid lines through minor ticks.
+ </LI>
+<LI>  <tt>nextplot</tt> - <tt>{'add','replace','replacechildren'}</tt> - Controls how the next plot
+ interacts with the axis.  If it is set to <tt>'add'</tt> the next plot will be added to the
+ current axis.  If it is set to <tt>'replace'</tt> the new plot replaces all of the previous
+ children.
+ </LI>
+<LI>  <tt>outerposition</tt> - <tt>four vector</tt> - Specifies the coordinates of the outermost
+ box that contains the axis relative to the containing figure.  This vector is in normalized
+ coordinates and corresponds to the <tt>x, y, width, height</tt> coordinates of the box.
+ </LI>
+<LI>  <tt>parent</tt> - <tt>handle</tt> - The handle for the containing object (a figure).
+ </LI>
+<LI>  <tt>plotboxaspectratio</tt> - <tt>three vector</tt> - Controls the aspect ratio of the plot
+ box.  See the entry under <tt>dataaspectratio</tt> for details on how FreeMat uses this
+ vector in combination with the axis limits and the <tt>plotboxaspectratio</tt> to determine
+ how to scale the data. 
+ </LI>
+<LI>  <tt>plotboxaspectratiomode</tt> - <tt>{'auto','manual'}</tt> - The plot box aspect ratio mode
+ interacts with the <tt>dataaspectratiomode</tt> and the axis limits.
+ </LI>
+<LI>  <tt>position</tt> - <tt>fourvector</tt> - The normalized coordinates of the plot box space.
+ Should be inside the rectable defined by <tt>outerposition</tt>.
+ </LI>
+<LI>  <tt>positionmode</tt> - <tt>{'auto','manual'}</tt> - the position mode is normally <tt>'auto'</tt>
+ which means that FreeMat computes the position vector to fit the plot inside the <tt>outerposition</tt>
+ vector.  If you set the <tt>position</tt> vector manually (using a <tt>set</tt> command), this <tt>mode</tt>
+ flag becomes <tt>'manual'</tt> and remains that way until reset to @|'auto'.
+ </LI>
+<LI>  <tt>projection</tt> - Not used.
+ </LI>
+<LI>  <tt>selected</tt> - Not used.
+ </LI>
+<LI>  <tt>selectionhighlight</tt> - Not used.
+ </LI>
+<LI>  <tt>tag</tt> - A string that can be set to tag the axes with a name.
+ </LI>
+<LI>  <tt>textheight</tt> - <tt>scalar</tt> - This value is set by FreeMat to the height of the
+ current font in pixels.  
+ </LI>
+<LI>  <tt>tickdir</tt> - <tt>{'in','out'}</tt> - The direction of ticks.  Defaults to <tt>'in'</tt> for 2D
+ plots, and <tt>'out'</tt> for 3D plots if <tt>tickdirmode</tt> is <tt>auto</tt>.
+ </LI>
+<LI>  <tt>tickdirmode</tt> - <tt>{'auto','manual'}</tt> - When set to <tt>'auto'</tt> the <tt>tickdir</tt> 
+ defaults to <tt>'in'</tt> for 2D plots, and <tt>'out'</tt> for 3D plots.
+ </LI>
+<LI>  <tt>ticklength</tt> - <tt>two vector</tt> - The first element is the length of the tick in 
+ 2D plots, and the second is the length of the tick in the 3D plots.  The lengths are 
+ described as fractions of the longer dimension (width or height).
+ </LI>
+<LI>  <tt>tightinset</tt> - Not used.
+ </LI>
+<LI>  <tt>title</tt> - <tt>handle</tt> - The handle of the label used to represent the title of
+ the plot.
+ </LI>
+<LI>  <tt>type</tt> - <tt>string</tt> - Takes the value of <tt>'axes'</tt> for objects of the axes type.
+ </LI>
+<LI>  <tt>units</tt> - Not used.
+ </LI>
+<LI>  <tt>userdata</tt> - <tt>array</tt> - An arbitrary array you can set to anything you want.
+ </LI>
+<LI>  <tt>visible</tt> - <tt>{'on','off'}</tt> - If set to <tt>'on'</tt> the axes are drawn as normal.
+ If set to <tt>'off'</tt>, only the children of the axes are drawn. The plot box, axis lines,
+ and tick labels are not drawn.
+ </LI>
+<LI>  <tt>xaxislocation</tt> - <tt>{'top','bottom'}</tt> - Controls placement of the x axis.
+ </LI>
+<LI>  <tt>yaxislocation</tt> - <tt>{'left','right'}</tt> - Controls placement of the y axis.
+ </LI>
+<LI>  <tt>xcolor</tt> - <tt>colorspec</tt> - The color of the x elements including the the x axis
+ line, ticks, grid lines and tick labels
+ </LI>
+<LI>  <tt>ycolor</tt> - <tt>colorspec</tt> - The color of the y elements including the the y axis
+ line, ticks, grid lines and tick labels.
+ </LI>
+<LI>  <tt>zcolor</tt> - <tt>colorspec</tt> - The color of the z elements including the the z axis
+ line, ticks, grid lines and tick labels.
+ </LI>
+<LI>  <tt>xdir</tt> - <tt>{'normal','reverse'}</tt> - For <tt>normal</tt>, axes are drawn as you
+ would expect (e.g, in default 2D mode, the x axis has values increasing from left
+ to right.  For <tt>reverse</tt>, the x axis has values increasing from right to left.
+ </LI>
+<LI>  <tt>ydir</tt> - <tt>{'normal','reverse'}</tt> - For <tt>normal</tt>, axes are drawn as you
+ would expect (e.g, in default 2D mode, the y axis has values increasing from bottom
+ to top.  For <tt>reverse</tt>, the y axis has values increasing from top to bottom.
+ </LI>
+<LI>  <tt>zdir</tt> - <tt>{'normal','reverse'}</tt> - For <tt>normal</tt>, axes are drawn as you
+ would expect. In default 3D mode, the z axis has values increasing in some direction
+ (usually up).  For <tt>reverse</tt> the z axis increases in the opposite direction.
+ </LI>
+<LI>  <tt>xgrid</tt> - <tt>{'on','off'}</tt> - Set to <tt>on</tt> to draw grid lines from ticks on
+ the x axis.
+ </LI>
+<LI>  <tt>ygrid</tt> - <tt>{'on','off'}</tt> - Set to <tt>on</tt> to draw grid lines from ticks on
+ the y axis.
+ </LI>
+<LI>  <tt>zgrid</tt> - <tt>{'on','off'}</tt> - Set to <tt>on</tt> to draw grid lines from ticks on
+ the z axis.
+ </LI>
+<LI>  <tt>xlabel</tt> - <tt>handle</tt> - The handle of the text label attached to the x axis.
+ The position of that label and the rotation angle is computed automatically by
+ FreeMat.
+ </LI>
+<LI>  <tt>ylabel</tt> - <tt>handle</tt> - The handle of the text label attached to the y axis.
+ The position of that label and the rotation angle is computed automatically by
+ FreeMat.
+ </LI>
+<LI>  <tt>zlabel</tt> - <tt>handle</tt> - The handle of the text label attached to the z axis.
+ The position of that label and the rotation angle is computed automatically by
+ FreeMat.
+ </LI>
+<LI>  <tt>xlim</tt> - <tt>two vector</tt> - Contains the limits of the data along the x axis.
+ These are set automatically for <tt>xlimmode</tt>.  When manually set it allows you to
+ zoom into the data.  The first element of this vector should be the smallest x value
+ you want mapped to the axis, and the second element should be the largest.
+ </LI>
+<LI>  <tt>ylim</tt> - <tt>two vector</tt> - Contains the limits of the data along the y axis.
+ These are set automatically for <tt>ylimmode</tt>.  When manually set it allows you to
+ zoom into the data.  The first element of this vector should be the smallest y value
+ you want mapped to the axis, and the second element should be the largest.
+ </LI>
+<LI>  <tt>zlim</tt> - <tt>two vector</tt> - Contains the limits of the data along the z axis.
+ These are set automatically for <tt>zlimmode</tt>.  When manually set it allows you to
+ zoom into the data.  The first element of this vector should be the smallest z value
+ you want mapped to the axis, and the second element should be the largest.
+ </LI>
+<LI>  <tt>xlimmode</tt> - <tt>{'auto','manual'}</tt> - Determines if <tt>xlim</tt> is determined
+ automatically or if it is determined manually.  When determined automatically, it
+ is chosen to span the data range (at least).
+ </LI>
+<LI>  <tt>ylimmode</tt> - <tt>{'auto','manual'}</tt> - Determines if <tt>ylim</tt> is determined
+ automatically or if it is determined manually.  When determined automatically, it
+ is chosen to span the data range (at least).
+ </LI>
+<LI>  <tt>zlimmode</tt> - <tt>{'auto','manual'}</tt> - Determines if <tt>zlim</tt> is determined
+ automatically or if it is determined manually.  When determined automatically, it
+ is chosen to span the data range (at least).
+ </LI>
+<LI>  <tt>xminorgrid</tt> - <tt>{'on','off'}</tt> - Set to <tt>on</tt> to draw grid lines from minor ticks on
+ the x axis.
+ </LI>
+<LI>  <tt>yminorgrid</tt> - <tt>{'on','off'}</tt> - Set to <tt>on</tt> to draw grid lines from minor ticks on
+ the y axis.
+ </LI>
+<LI>  <tt>zminorgrid</tt> - <tt>{'on','off'}</tt> - Set to <tt>on</tt> to draw grid lines from minor ticks on
+ the z axis.
+ </LI>
+<LI>  <tt>xscale</tt> - <tt>{'linear','log'}</tt> - Determines if the data on the x axis is linear or
+ logarithmically scaled.
+ </LI>
+<LI>  <tt>yscale</tt> - <tt>{'linear','log'}</tt> - Determines if the data on the y axis is linear or
+ logarithmically scaled.
+ </LI>
+<LI>  <tt>zscale</tt> - <tt>{'linear','log'}</tt> - Determines if the data on the z axis is linear or
+ logarithmically scaled.
+ </LI>
+<LI>  <tt>xtick</tt> - <tt>vector</tt> - A vector of x coordinates where ticks are placed on the 
+ x axis.  Setting this vector allows you complete control over the placement of ticks on 
+ the axis.
+ </LI>
+<LI>  <tt>ytick</tt> - <tt>vector</tt> - A vector of y coordinates where ticks are placed on the 
+ y axis.  Setting this vector allows you complete control over the placement of ticks on 
+ the axis.
+ </LI>
+<LI>  <tt>ztick</tt> - <tt>vector</tt> - A vector of z coordinates where ticks are placed on the 
+ z axis.  Setting this vector allows you complete control over the placement of ticks on 
+ the axis.
+ </LI>
+<LI>  <tt>xticklabel</tt> - <tt>string vector</tt> - A string vector, of the form <tt>'string</tt>string|string'|
+ that contains labels to assign to the labels on the axis.  If this vector is shorter than
+ <tt>xtick</tt>, then FreeMat will cycle through the elements of this vector to fill out the labels.
+ </LI>
+<LI>  <tt>yticklabel</tt> - <tt>string vector</tt> - A string vector, of the form <tt>'string</tt>string|string'|
+ that contains labels to assign to the labels on the axis.  If this vector is shorter than
+ <tt>ytick</tt>, then FreeMat will cycle through the elements of this vector to fill out the labels.
+ </LI>
+<LI>  <tt>zticklabel</tt> - <tt>string vector</tt> - A string vector, of the form <tt>'string</tt>string|string'|
+ that contains labels to assign to the labels on the axis.  If this vector is shorter than
+ <tt>ztick</tt>, then FreeMat will cycle through the elements of this vector to fill out the labels.
+ </LI>
+<LI>  <tt>xtickmode</tt> - <tt>{'auto','manual'}</tt> - Set to <tt>'auto'</tt> if you want FreeMat to calculate
+ the tick locations.  Setting <tt>'xtick'</tt> will cause this property to switch to <tt>'manual'</tt>.
+ </LI>
+<LI>  <tt>ytickmode</tt> - <tt>{'auto','manual'}</tt> - Set to <tt>'auto'</tt> if you want FreeMat to calculate
+ the tick locations.  Setting <tt>'ytick'</tt> will cause this property to switch to <tt>'manual'</tt>.
+ </LI>
+<LI>  <tt>ztickmode</tt> - <tt>{'auto','manual'}</tt> - Set to <tt>'auto'</tt> if you want FreeMat to calculate
+ the tick locations.  Setting <tt>'ztick'</tt> will cause this property to switch to <tt>'manual'</tt>.
+ </LI>
+<LI>  <tt>xticklabelmode</tt> - <tt>{'auto','manual'}</tt> - Set to <tt>'auto'</tt> if you want FreeMat to
+ set the tick labels.  This will be based on the vector <tt>xtick</tt>.
+ </LI>
+<LI>  <tt>yticklabelmode</tt> - <tt>{'auto','manual'}</tt> - Set to <tt>'auto'</tt> if you want FreeMat to
+ set the tick labels.  This will be based on the vector <tt>ytick</tt>.
+ </LI>
+<LI>  <tt>zticklabelmode</tt> - <tt>{'auto','manual'}</tt> - Set to <tt>'auto'</tt> if you want FreeMat to
+ set the tick labels.  This will be based on the vector <tt>ztick</tt>.
+ </LI>
+</UL>
+*/

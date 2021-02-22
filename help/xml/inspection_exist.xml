@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="inspection_exist" kind="page">
+    <compoundname>inspection_exist</compoundname>
+    <title>EXIST Test for Existence</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_inspection_1sec_inspection" kindref="member">Inspection Functions</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>Tests for the existence of a variable, function, directory or file. The general syntax for its use is <verbatim>  y = exist(item,kind)
+</verbatim> where <computeroutput>item</computeroutput> is a string containing the name of the item to look for, and <computeroutput>kind</computeroutput> is a string indicating the type of the search. The <computeroutput>kind</computeroutput> must be one of <itemizedlist>
+<listitem>
+<para><computeroutput>&apos;builtin&apos;</computeroutput> checks for built-in functions  </para></listitem>
+<listitem>
+<para><computeroutput>&apos;dir&apos;</computeroutput> checks for directories  </para></listitem>
+<listitem>
+<para><computeroutput>&apos;file&apos;</computeroutput> checks for files  </para></listitem>
+<listitem>
+<para><computeroutput>&apos;var&apos;</computeroutput> checks for variables  </para></listitem>
+<listitem>
+<para><computeroutput>&apos;all&apos;</computeroutput> checks all possibilities (same as leaving out <computeroutput>kind</computeroutput>)  </para></listitem>
+</itemizedlist>
+You can also leave the <computeroutput>kind</computeroutput> specification out, in which case the calling syntax is <verbatim>  y = exist(item)
+</verbatim> The return code is one of the following: <itemizedlist>
+<listitem>
+<para>0 - if <computeroutput>item</computeroutput> does not exist  </para></listitem>
+<listitem>
+<para>1 - if <computeroutput>item</computeroutput> is a variable in the workspace  </para></listitem>
+<listitem>
+<para>2 - if <computeroutput>item</computeroutput> is an M file on the search path, a full pathname to a file, or an ordinary file on your search path  </para></listitem>
+<listitem>
+<para>5 - if <computeroutput>item</computeroutput> is a built-in FreeMat function  </para></listitem>
+<listitem>
+<para>7 - if <computeroutput>item</computeroutput> is a directory  </para></listitem>
+</itemizedlist>
+Note: previous to version <computeroutput>1.10</computeroutput>, <computeroutput>exist</computeroutput> used a different notion of existence for variables: a variable was said to exist if it was defined and non-empty. This test is now performed by <computeroutput>isset</computeroutput>. </para></sect1>
+<sect1 id="variables_struct_1Example">
+<title>Example</title>
+<para>Some examples of the <computeroutput>exist</computeroutput> function. Note that generally <computeroutput>exist</computeroutput> is used in functions to test for keywords. For example, <verbatim>  function y = testfunc(a, b, c)
+  if (~exist(&apos;c&apos;))
+    % c was not defined, so establish a default
+    c = 13;
+  end
+  y = a + b + c;
+</verbatim> An example of <computeroutput>exist</computeroutput> in action.</para><para><verbatim>--&gt; a = randn(3,5,2)
+
+a = 
+
+(:,:,1) = 
+    0.7785    0.6357    1.7582    1.5784   -0.8470 
+    0.7235    1.0468   -0.6919   -0.6796    0.4767 
+    0.2100    0.0865    1.5704   -0.1267    2.1381 
+
+(:,:,2) = 
+    1.5525   -0.2908   -1.4220    1.1076    0.2419 
+    0.1652   -0.5668   -0.8018   -0.5975    0.8483 
+    0.3147   -0.1109   -0.5203    0.5851    1.1503 
+
+--&gt; b = []
+
+b = 
+  []
+--&gt; who
+  Variable Name       Type   Flags             Size
+              a    double                    [3x5x2]
+              b    double                    [0x0]
+--&gt; exist(&apos;a&apos;)
+
+ans = 
+ 1 
+
+--&gt; exist(&apos;b&apos;)
+
+ans = 
+ 1 
+
+--&gt; exist(&apos;c&apos;)
+
+ans = 
+ 0 
+</verbatim> </para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

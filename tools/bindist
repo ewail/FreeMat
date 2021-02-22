@@ -1,0 +1,34 @@
+#!/bin/sh
+
+QTBASE=qt-x11-opensource-src-4.5.2
+QTFILE="$QTBASE.tar.gz"
+
+if [ -e $QTFILE ]
+then
+  echo "Already have QT"
+else
+  wget -nc "ftp://ftp.qtsoftware.com/qt/source/$QTFILE"
+fi
+
+if [ -d $QTBASE ]
+then
+  echo "Already unpacked QT"
+else
+  echo "Unpacking QT"
+  tar xfz $QTFILE
+fi
+
+BASE=$PWD
+cd $QTBASE
+if [ -e bin/qmake ]
+then
+  echo "Already configured"
+else
+./configure -prefix $BASE -fast -no-qt3support -no-xmlpatterns -no-phonon -no-phonon-backend -no-webkit -no-scripttools -no-mmx -no-3dnow -no-sse -no-sse2 -qt-zlib -qt-gif -qt-libtiff -qt-libpng -qt-libmng -qt-libjpeg -no-openssl -no-nis -no-cups -no-iconv -no-dbus -no-nas-sound -no-xrandr -no-xrender -no-xinput -no-glib -no-mitshm
+fi
+
+make
+make install
+
+
+

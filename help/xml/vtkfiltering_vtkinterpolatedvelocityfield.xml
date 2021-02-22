@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkfiltering_vtkinterpolatedvelocityfield" kind="page">
+    <compoundname>vtkfiltering_vtkinterpolatedvelocityfield</compoundname>
+    <title>vtkInterpolatedVelocityField</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkfiltering_1sec_vtkfiltering" kindref="member">Visualization Toolkit Filtering Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>vtkInterpolatedVelocityField acts as a continuous velocity field via cell interpolation on a vtkDataSet, NumberOfIndependentVariables = 4 (x,y,z,t) and NumberOfFunctions = 3 (u,v,w). As a concrete sub-class of vtkAbstractInterpolatedVelocityField, this class adopts two levels of cell caching for faster though less robust cell location than its sibling class vtkCellLocatorInterpolatedVelocityField. Level #0 begins with intra-cell caching. Specifically, if the previous cell is valid and the nex point is still within it, ( vtkCell::EvaluatePosition() returns 1, coupled with the new parametric coordinates and weights ), the function values are interpolated and vtkCell::EvaluatePosition() is invoked only. If it fails, level #1 follows by inter-cell location of the target cell (that contains the next point). By inter-cell, the previous cell gives an important clue / guess or serves as an immediate neighbor to aid in the location of the target cell (as is typically the case with integrating a streamline across cells) by means of vtkDataSet:: FindCell(). If this still fails, a global cell search is invoked via vtkDataSet::FindCell().</para><para>Regardless of inter-cell or global search, vtkPointLocator is employed as a crucial tool underlying the cell locator. The use of vtkPointLocator casues vtkInterpolatedVelocityField to return false target cells for datasets defined on complex grids.</para><para>To create an instance of class vtkInterpolatedVelocityField, simply invoke its constructor as follows <verbatim>  obj = vtkInterpolatedVelocityField
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkInterpolatedVelocityField has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkInterpolatedVelocityField class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkInterpolatedVelocityField = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkInterpolatedVelocityField = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.AddDataSet (vtkDataSet dataset)</computeroutput> - Add a dataset used for the implicit function evaluation. If more than one dataset is added, the evaluation point is searched in all until a match is found. THIS FUNCTION DOES NOT CHANGE THE REFERENCE COUNT OF DATASET FOR THREAD SAFETY REASONS.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.FunctionValues (double x, double f)</computeroutput> - Evaluate the velocity field f at point (x, y, z).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetLastCellId (vtkIdType c, int dataindex)</computeroutput> - Set the cell id cached by the last evaluation within a specified dataset.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetLastCellId (vtkIdType c)</computeroutput>  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

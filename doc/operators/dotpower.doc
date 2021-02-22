@@ -1,0 +1,75 @@
+/*!
+\page operators_dotpower DOTPOWER Element-wise Power Operator
+
+<p>
+Section: \ref sec_operators "Mathematical Operators"
+\section Usage
+Raises one numerical array to another array (elementwise).  There are three operators all with the same general syntax:
+\verbatim
+  y = a .^ b
+\endverbatim
+The result <tt>y</tt> depends on which of the following three situations applies to the arguments <tt>a</tt> and <tt>b</tt>:
+<OL>
+  <LI> <tt>a</tt> is a scalar, <tt>b</tt> is an arbitrary <tt>n</tt>-dimensional numerical array, in which case the output is <tt>a</tt> raised to the power of each element of <tt>b</tt>, and the output is the same size as <tt>b</tt>.
+</LI>
+  <LI> <tt>a</tt> is an <tt>n</tt>-dimensional numerical array, and <tt>b</tt> is a scalar, then the output is the same size as <tt>a</tt>, and is defined by each element of <tt>a</tt> raised to the power <tt>b</tt>.
+</LI>
+  <LI> <tt>a</tt> and <tt>b</tt> are both <tt>n</tt>-dimensional numerical arrays of <strong>the same size</strong>.  In this case, each element of the output is the corresponding element of <tt>a</tt> raised to the power defined by the corresponding element of <tt>b</tt>.
+</LI>
+</OL>
+
+The rules for manipulating types has changed in FreeMat 4.0.  See <tt>typerules</tt>
+for more details.
+
+\section Function Internals
+There are three formulae for this operator.  For the first form
+\f[
+y(m_1,\ldots,m_d) = a^{b(m_1,\ldots,m_d)},
+\f]
+and the second form
+\f[
+y(m_1,\ldots,m_d) = a(m_1,\ldots,m_d)^b,
+\f]
+and in the third form
+\f[
+y(m_1,\ldots,m_d) = a(m_1,\ldots,m_d)^{b(m_1,\ldots,m_d)}.
+\f]
+\section Examples
+We demonstrate the three forms of the dot-power operator using some simple examples.  First, the case of a scalar raised to a series of values.
+
+\if FRAGMENT
+frag_operators_dotpower_000.m
+0
+a = 2
+b = 1:4
+c = a.^b
+\endif
+
+
+\verbinclude frag_operators_dotpower_000.m.out 
+
+The second case shows a vector raised to a scalar.
+
+\if FRAGMENT
+frag_operators_dotpower_001.m
+0
+c = b.^a
+\endif
+
+
+\verbinclude frag_operators_dotpower_001.m.out 
+
+The third case shows the most general use of the dot-power operator.
+
+\if FRAGMENT
+frag_operators_dotpower_002.m
+0
+A = [1,2;3,2]
+B = [2,1.5;0.5,0.6]
+C = A.^B
+\endif
+
+
+\verbinclude frag_operators_dotpower_002.m.out 
+
+*/

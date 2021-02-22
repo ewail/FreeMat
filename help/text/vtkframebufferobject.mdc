@@ -1,0 +1,117 @@
+
+ Usage
+
+Encapsulates an OpenGL Frame Buffer Object. For use by
+vtkOpenGLFBORenderWindow, not to be used directly.
+To create an instance of class vtkFrameBufferObject, simply
+invoke its constructor as follows
+
+    obj = vtkFrameBufferObject
+
+
+
+ Methods
+
+The class vtkFrameBufferObject has several methods that can
+be used. They are listed below. Note that the documentation
+is translated automatically from the VTK sources, and may
+not be completely intelligible. When in doubt, consult the
+VTK website. In the methods listed below, obj is an instance
+of the vtkFrameBufferObject class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkFrameBufferObject = obj.NewInstance ()
+* vtkFrameBufferObject = obj.SafeDownCast (vtkObject o)
+* obj.SetContext (vtkRenderWindow context) - Get/Set the
+  context. Context must be a vtkOpenGLRenderWindow. This
+  does not increase the reference count of the context to
+  avoid reference loops. SetContext() may raise an error is
+  the OpenGL context does not support the required OpenGL
+  extensions.
+* vtkRenderWindow = obj.GetContext () - Get/Set the context.
+  Context must be a vtkOpenGLRenderWindow. This does not
+  increase the reference count of the context to avoid
+  reference loops. SetContext() may raise an error is the
+  OpenGL context does not support the required OpenGL
+  extensions.
+* bool = obj.Start (int width, int height, bool
+  shaderSupportsTextureInt) - User must take care that
+  width/height match the dimensions of the user defined
+  texture attachments. This method makes the "active
+  buffers" the buffers that will get drawn into by
+  subsequent drawing calls. Note that this does not clear
+  the render buffers i.e. no glClear() calls are made by
+  either of these methods. It's up to the caller to clear
+  the buffers if needed.
+* bool = obj.StartNonOrtho (int width, int height, bool
+  shaderSupportsTextureInt) - User must take care that
+  width/height match the dimensions of the user defined
+  texture attachments. This method makes the "active
+  buffers" the buffers that will get drawn into by
+  subsequent drawing calls. Note that this does not clear
+  the render buffers i.e. no glClear() calls are made by
+  either of these methods. It's up to the caller to clear
+  the buffers if needed.
+* obj.RenderQuad (int minX, int maxX, int minY, int maxY) -
+  Renders a quad at the given location with pixel
+  coordinates. This method is provided as a convenience,
+  since we often render quads in a FBO.
+
+
+    Precondition:
+        positive_minX: minX>=0
+        increasing_x: minX<=maxX
+        valid_maxX: maxX<LastSize[0]
+        positive_minY: minY>=0
+        increasing_y: minY<=maxY
+        valid_maxY: maxY<LastSize[1]
+
+* obj.Bind () - Save the current framebuffer and make the
+  frame buffer active. Multiple calls to Bind has no effect.
+* obj.UnBind () - Restore the framebuffer saved with the
+  call to Bind(). Multiple calls to UnBind has no effect.
+* obj.SetActiveBuffer (int index) - Choose the buffer to
+  render into. This is available only if the
+  GL_ARB_draw_buffers extension is supported by the card.
+* obj.SetActiveBuffers (int numbuffers, int indices[]) -
+  Choose the buffer to render into. This is available only
+  if the GL_ARB_draw_buffers extension is supported by the
+  card.
+* obj.SetColorBuffer (int index, vtkTextureObject texture,
+  int zslice)
+* vtkTextureObject = obj.GetColorBuffer (int index)
+* obj.RemoveColorBuffer (int index)
+* obj.RemoveAllColorBuffers ()
+* obj.SetDepthBuffer (vtkTextureObject depthTexture) - Set
+  the texture to use as depth buffer.
+* obj.RemoveDepthBuffer () - Set the texture to use as depth
+  buffer.
+* obj.SetDepthBufferNeeded (bool ) - If true, the frame
+  buffer object will be initialized with a depth buffer.
+  Initial value is true.
+* bool = obj.GetDepthBufferNeeded () - If true, the frame
+  buffer object will be initialized with a depth buffer.
+  Initial value is true.
+* obj.SetNumberOfRenderTargets (int ) - Set/Get the number
+  of render targets to render into at once.
+* int = obj.GetNumberOfRenderTargets () - Set/Get the number
+  of render targets to render into at once.
+* int = obj.GetMaximumNumberOfActiveTargets () - Returns the
+  maximum number of targets that can be rendered to at one
+  time. This limits the active targets set by
+  SetActiveTargets(). The return value is valid only if
+  GetContext is non-null.
+* int = obj.GetMaximumNumberOfRenderTargets () - Returns the
+  maximum number of render targets available. This limits
+  the available attachement points for SetColorAttachment().
+  The return value is valid only if GetContext is non-null.
+* int = obj. GetLastSize () - Dimensions in pixels of the
+  framebuffer.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Rendering_Classes
+* Generated on Thu Jul 25 2013 17:18:35 for FreeMat by
+  doxygen_ 1.8.1.1
+

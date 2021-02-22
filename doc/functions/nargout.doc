@@ -1,0 +1,57 @@
+/*!
+\page functions_nargout NARGOUT Number of Output Arguments
+
+<p>
+Section: \ref sec_functions "Functions and Scripts"
+\section Usage
+The <tt>nargout</tt> function computes the number of return values requested from
+a function when it was called.  The general syntax for its use
+\verbatim
+   y = nargout
+\endverbatim
+FreeMat allows for
+fewer return values to be requested from a function than were declared,
+and <tt>nargout</tt> can be used to determine exactly what subset of 
+the functions outputs are required.  
+
+You can also use <tt>nargout</tt> on a function handle to return the
+number of input arguments expected by the function
+\verbatim
+  y = nargout(fun)
+\endverbatim
+where <tt>fun</tt> is the name of the function (e.g. <tt>'sin'</tt>) or 
+a function handle.
+\section Example
+Here is a function that is declared to return five 
+values, and that simply prints the value of <tt>nargout</tt>
+each time it is called.
+
+\if FILE
+nargouttest.m
+function [a1,a2,a3,a4,a5] = nargouttest
+  printf('nargout = %d\n',nargout);
+  a1 = 1; a2 = 2; a3 = 3; a4 = 4; a5 = 5;
+\endif
+\verbatim
+     nargouttest.m
+\endverbatim
+
+\verbinclude nargouttest.m
+
+
+\if FRAGMENT
+frag_functions_nargout_000.m
+0
+a1 = nargouttest
+[a1,a2] = nargouttest
+[a1,a2,a3] = nargouttest
+[a1,a2,a3,a4,a5] = nargouttest
+nargout('sin')
+y = @sin
+nargout(y)
+\endif
+
+
+\verbinclude frag_functions_nargout_000.m.out 
+
+*/

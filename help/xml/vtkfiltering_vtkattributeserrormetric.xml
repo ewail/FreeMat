@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkfiltering_vtkattributeserrormetric" kind="page">
+    <compoundname>vtkfiltering_vtkattributeserrormetric</compoundname>
+    <title>vtkAttributesErrorMetric</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkfiltering_1sec_vtkfiltering" kindref="member">Visualization Toolkit Filtering Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>It is a concrete error metric, based on an attribute criterium: the variation of the active attribute/component value from a linear ramp</para><para>To create an instance of class vtkAttributesErrorMetric, simply invoke its constructor as follows <verbatim>  obj = vtkAttributesErrorMetric
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkAttributesErrorMetric has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkAttributesErrorMetric class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput> - Standard VTK type and error macros.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput> - Standard VTK type and error macros.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkAttributesErrorMetric = obj.NewInstance ()</computeroutput> - Standard VTK type and error macros.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkAttributesErrorMetric = obj.SafeDownCast (vtkObject o)</computeroutput> - Standard VTK type and error macros.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetAbsoluteAttributeTolerance ()</computeroutput> - Absolute tolerance of the active scalar (attribute+component). Subdivision is required if the square distance between the real attribute at the mid point on the edge and the interpolated attribute is greater than AbsoluteAttributeTolerance. This is the attribute accuracy. 0.01 will give better result than 0.1.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetAbsoluteAttributeTolerance (double value)</computeroutput> - Set the absolute attribute accuracy to `value&apos;. See GetAbsoluteAttributeTolerance() for details. It is particularly useful when some concrete implementation of vtkGenericAttribute does not support GetRange() request, called internally in SetAttributeTolerance(). It may happen when the implementation support higher order attributes but cannot compute the range. <simplesect kind="pre"><para>valid_range_value: value&gt;0  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetAttributeTolerance ()</computeroutput> - Relative tolerance of the active scalar (attribute+component). Subdivision is required if the square distance between the real attribute at the mid point on the edge and the interpolated attribute is greater than AttributeTolerance. This is the attribute accuracy. 0.01 will give better result than 0.1.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetAttributeTolerance (double value)</computeroutput> - Set the relative attribute accuracy to `value&apos;. See GetAttributeTolerance() for details. <simplesect kind="pre"><para>valid_range_value: value&gt;0 &amp;&amp; value&lt;1  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>int = obj.RequiresEdgeSubdivision (double leftPoint, double midPoint, double rightPoint, double alpha)</computeroutput> - Does the edge need to be subdivided according to the distance between the value of the active attribute/component at the midpoint and the mean value between the endpoints? The edge is defined by its `leftPoint&apos; and its `rightPoint&apos;. `leftPoint&apos;, `midPoint&apos; and `rightPoint&apos; have to be initialized before calling RequiresEdgeSubdivision(). Their format is global coordinates, parametric coordinates and point centered attributes: xyx rst abc de... `alpha&apos; is the normalized abscissa of the midpoint along the edge. (close to 0 means close to the left point, close to 1 means close to the right point) <simplesect kind="pre"><para>leftPoint_exists: leftPoint!=0 </para><simplesectsep/><para>midPoint_exists: midPoint!=0 </para><simplesectsep/><para>rightPoint_exists: rightPoint!=0 </para><simplesectsep/><para>clamped_alpha: alpha&gt;0 &amp;&amp; alpha&lt;1 </para><simplesectsep/><para>valid_size: sizeof(leftPoint)=sizeof(midPoint)=sizeof(rightPoint) =GetAttributeCollection()-&gt;GetNumberOfPointCenteredComponents()+6  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetError (double leftPoint, double midPoint, double rightPoint, double alpha)</computeroutput> - Return the error at the mid-point. The type of error depends on the state of the concrete error metric. For instance, it can return an absolute or relative error metric. See RequiresEdgeSubdivision() for a description of the arguments. <simplesect kind="pre"><para>leftPoint_exists: leftPoint!=0 </para><simplesectsep/><para>midPoint_exists: midPoint!=0 </para><simplesectsep/><para>rightPoint_exists: rightPoint!=0 </para><simplesectsep/><para>clamped_alpha: alpha&gt;0 &amp;&amp; alpha&lt;1 </para><simplesectsep/><para>valid_size: sizeof(leftPoint)=sizeof(midPoint)=sizeof(rightPoint) =GetAttributeCollection()-&gt;GetNumberOfPointCenteredComponents()+6 </para></simplesect>
+<simplesect kind="post"><para>positive_result: result&gt;=0  </para></simplesect>
+</para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

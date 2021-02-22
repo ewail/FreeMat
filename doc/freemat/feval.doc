@@ -1,0 +1,64 @@
+/*!
+\page freemat_feval FEVAL Evaluate a Function
+
+<p>
+Section: \ref sec_freemat "FreeMat Functions"
+\section Usage
+The <tt>feval</tt> function executes a function using its name.
+The syntax of <tt>feval</tt> is
+\verbatim
+  [y1,y2,...,yn] = feval(f,x1,x2,...,xm)
+\endverbatim
+where <tt>f</tt> is the name of the function to evaluate, and
+<tt>xi</tt> are the arguments to the function, and <tt>yi</tt> are the
+return values.
+
+Alternately, <tt>f</tt> can be a function handle to a function
+(see the section on <tt>function handles</tt> for more information).
+
+Finally, FreeMat also supports <tt>f</tt> being a user defined class
+in which case it will atttempt to invoke the <tt>subsref</tt> method
+of the class.
+\section Example
+Here is an example of using <tt>feval</tt> to call the <tt>cos</tt> 
+function indirectly.
+
+\if FRAGMENT
+frag_freemat_feval_000.m
+0
+feval('cos',pi/4)
+\endif
+
+
+\verbinclude frag_freemat_feval_000.m.out 
+
+Now, we call it through a function handle
+
+\if FRAGMENT
+frag_freemat_feval_001.m
+0
+c = @cos
+feval(c,pi/4)
+\endif
+
+
+\verbinclude frag_freemat_feval_001.m.out 
+
+Here we construct an inline object (which is a user-defined class)
+and use <tt>feval</tt> to call it
+
+\if FRAGMENT
+frag_freemat_feval_002.m
+0
+afunc = inline('cos(t)+sin(t)','t')
+feval(afunc,pi)
+afunc(pi)
+\endif
+
+
+\verbinclude frag_freemat_feval_002.m.out 
+
+In both cases, (the <tt>feval</tt> call and the direct invokation), FreeMat
+calls the <tt>subsref</tt> method of the class, which computes the requested 
+function.
+*/

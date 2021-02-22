@@ -1,0 +1,276 @@
+/*!
+\page vtkcommon_vtkinformation vtkInformation
+
+<p>
+Section: \ref sec_vtkcommon "Visualization Toolkit Common Classes"
+\section Usage
+ vtkInformation represents information and/or data for one input or
+ one output of a vtkAlgorithm.  It maps from keys to values of
+ several data types.  Instances of this class are collected in
+ vtkInformationVector instances and passed to
+ vtkAlgorithm::ProcessRequest calls.  The information and
+ data referenced by the instance on a particular input or output
+ define the request made to the vtkAlgorithm instance.
+
+To create an instance of class vtkInformation, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkInformation
+\endverbatim
+\section Methods
+The class vtkInformation has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkInformation class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkInformation = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkInformation = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.Modified ()</tt> -  Modified signature with no arguments that calls Modified
+ on vtkObject superclass.
+ </LI>
+<LI>  <tt>obj.Modified (vtkInformationKey key)</tt> -  Modified signature that takes an information key as an argument.
+ Sets the new MTime and invokes a modified event with the
+ information key as call data.
+ </LI>
+<LI>  <tt>obj.Clear ()</tt> -  Clear all information entries.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfKeys ()</tt> -  Return the number of keys in this information object (as would be returned
+ by iterating over the keys).
+ </LI>
+<LI>  <tt>obj.Copy (vtkInformation from, int deep)</tt> -  Copy all information entries from the given vtkInformation
+ instance.  Any previously existing entries are removed.  If
+ deep==1, a deep copy of the information structure is performed (new
+ instances of any contained vtkInformation and vtkInformationVector
+ objects are created).
+ </LI>
+<LI>  <tt>obj.CopyEntry (vtkInformation from, vtkInformationKey key, int deep)</tt> -  Copy the key/value pair associated with the given key in the
+ given information object.  If deep=1, a deep copy of the information
+ structure is performed (new instances of any contained vtkInformation and
+ vtkInformationVector objects are created).
+ </LI>
+<LI>  <tt>obj.CopyEntry (vtkInformation from, vtkInformationDataObjectKey key, int deep)</tt> -  Copy the key/value pair associated with the given key in the
+ given information object.  If deep=1, a deep copy of the information
+ structure is performed (new instances of any contained vtkInformation and
+ vtkInformationVector objects are created).
+ </LI>
+<LI>  <tt>obj.CopyEntry (vtkInformation from, vtkInformationDoubleVectorKey key, int deep)</tt> -  Copy the key/value pair associated with the given key in the
+ given information object.  If deep=1, a deep copy of the information
+ structure is performed (new instances of any contained vtkInformation and
+ vtkInformationVector objects are created).
+ </LI>
+<LI>  <tt>obj.CopyEntry (vtkInformation from, vtkInformationInformationKey key, int deep)</tt> -  Copy the key/value pair associated with the given key in the
+ given information object.  If deep=1, a deep copy of the information
+ structure is performed (new instances of any contained vtkInformation and
+ vtkInformationVector objects are created).
+ </LI>
+<LI>  <tt>obj.CopyEntry (vtkInformation from, vtkInformationInformationVectorKey key, int deep)</tt> -  Copy the key/value pair associated with the given key in the
+ given information object.  If deep=1, a deep copy of the information
+ structure is performed (new instances of any contained vtkInformation and
+ vtkInformationVector objects are created).
+ </LI>
+<LI>  <tt>obj.CopyEntry (vtkInformation from, vtkInformationIntegerKey key, int deep)</tt> -  Copy the key/value pair associated with the given key in the
+ given information object.  If deep=1, a deep copy of the information
+ structure is performed (new instances of any contained vtkInformation and
+ vtkInformationVector objects are created).
+ </LI>
+<LI>  <tt>obj.CopyEntry (vtkInformation from, vtkInformationIntegerVectorKey key, int deep)</tt> -  Copy the key/value pair associated with the given key in the
+ given information object.  If deep=1, a deep copy of the information
+ structure is performed (new instances of any contained vtkInformation and
+ vtkInformationVector objects are created).
+ </LI>
+<LI>  <tt>obj.CopyEntry (vtkInformation from, vtkInformationRequestKey key, int deep)</tt> -  Copy the key/value pair associated with the given key in the
+ given information object.  If deep=1, a deep copy of the information
+ structure is performed (new instances of any contained vtkInformation and
+ vtkInformationVector objects are created).
+ </LI>
+<LI>  <tt>obj.CopyEntry (vtkInformation from, vtkInformationStringKey key, int deep)</tt> -  Copy the key/value pair associated with the given key in the
+ given information object.  If deep=1, a deep copy of the information
+ structure is performed (new instances of any contained vtkInformation and
+ vtkInformationVector objects are created).
+ </LI>
+<LI>  <tt>obj.CopyEntry (vtkInformation from, vtkInformationStringVectorKey key, int deep)</tt> -  Copy the key/value pair associated with the given key in the
+ given information object.  If deep=1, a deep copy of the information
+ structure is performed (new instances of any contained vtkInformation and
+ vtkInformationVector objects are created).
+ </LI>
+<LI>  <tt>obj.CopyEntry (vtkInformation from, vtkInformationUnsignedLongKey key, int deep)</tt> -  Copy the key/value pair associated with the given key in the
+ given information object.  If deep=1, a deep copy of the information
+ structure is performed (new instances of any contained vtkInformation and
+ vtkInformationVector objects are created).
+ </LI>
+<LI>  <tt>obj.CopyEntries (vtkInformation from, vtkInformationKeyVectorKey key, int deep)</tt> -  Use the given key to lookup a list of other keys in the given
+ information object.  The key/value pairs associated with these
+ other keys will be copied.  If deep==1, a deep copy of the
+ information structure is performed.
+ </LI>
+<LI>  <tt>int = obj.Has (vtkInformationKey key)</tt> -  Check whether the given key appears in this information object.
+ </LI>
+<LI>  <tt>obj.Remove (vtkInformationKey key)</tt> -  Remove the given key and its data from this information object.
+ </LI>
+<LI>  <tt>obj.Set (vtkInformationRequestKey key)</tt> -  Get/Set a request-valued entry.
+ </LI>
+<LI>  <tt>obj.Remove (vtkInformationRequestKey key)</tt> -  Get/Set a request-valued entry.
+ </LI>
+<LI>  <tt>int = obj.Has (vtkInformationRequestKey key)</tt> -  Get/Set a request-valued entry.
+ </LI>
+<LI>  <tt>obj.Set (vtkInformationIntegerKey key, int value)</tt> -  Get/Set an integer-valued entry.
+ </LI>
+<LI>  <tt>int = obj.Get (vtkInformationIntegerKey key)</tt> -  Get/Set an integer-valued entry.
+ </LI>
+<LI>  <tt>obj.Remove (vtkInformationIntegerKey key)</tt> -  Get/Set an integer-valued entry.
+ </LI>
+<LI>  <tt>int = obj.Has (vtkInformationIntegerKey key)</tt> -  Get/Set an integer-valued entry.
+ </LI>
+<LI>  <tt>obj.Set (vtkInformationIdTypeKey key, vtkIdType value)</tt> -  Get/Set a vtkIdType-valued entry.
+ </LI>
+<LI>  <tt>vtkIdType = obj.Get (vtkInformationIdTypeKey key)</tt> -  Get/Set a vtkIdType-valued entry.
+ </LI>
+<LI>  <tt>obj.Remove (vtkInformationIdTypeKey key)</tt> -  Get/Set a vtkIdType-valued entry.
+ </LI>
+<LI>  <tt>int = obj.Has (vtkInformationIdTypeKey key)</tt> -  Get/Set a vtkIdType-valued entry.
+ </LI>
+<LI>  <tt>obj.Set (vtkInformationDoubleKey key, double value)</tt> -  Get/Set an double-valued entry.
+ </LI>
+<LI>  <tt>double = obj.Get (vtkInformationDoubleKey key)</tt> -  Get/Set an double-valued entry.
+ </LI>
+<LI>  <tt>obj.Remove (vtkInformationDoubleKey key)</tt> -  Get/Set an double-valued entry.
+ </LI>
+<LI>  <tt>int = obj.Has (vtkInformationDoubleKey key)</tt> -  Get/Set an double-valued entry.
+ </LI>
+<LI>  <tt>obj.Append (vtkInformationIntegerVectorKey key, int value)</tt> -  Get/Set an integer-vector-valued entry.
+ </LI>
+<LI>  <tt>obj.Set (vtkInformationIntegerVectorKey key, int value, int length)</tt> -  Get/Set an integer-vector-valued entry.
+ </LI>
+<LI>  <tt>obj.Set (vtkInformationIntegerVectorKey key, int value1, int value2, int value3)</tt> -  Get/Set an integer-vector-valued entry.
+ </LI>
+<LI>  <tt>obj.Set (vtkInformationIntegerVectorKey key, int value1, int value2, int value3, int value4, int value5, int value6)</tt> -  Get/Set an integer-vector-valued entry.
+ </LI>
+<LI>  <tt>int = obj.Get (vtkInformationIntegerVectorKey key, int idx)</tt> -  Get/Set an integer-vector-valued entry.
+ </LI>
+<LI>  <tt>obj.Get (vtkInformationIntegerVectorKey key, int value)</tt> -  Get/Set an integer-vector-valued entry.
+ </LI>
+<LI>  <tt>int = obj.Length (vtkInformationIntegerVectorKey key)</tt> -  Get/Set an integer-vector-valued entry.
+ </LI>
+<LI>  <tt>obj.Remove (vtkInformationIntegerVectorKey key)</tt> -  Get/Set an integer-vector-valued entry.
+ </LI>
+<LI>  <tt>int = obj.Has (vtkInformationIntegerVectorKey key)</tt> -  Get/Set an integer-vector-valued entry.
+ </LI>
+<LI>  <tt>obj.Append (vtkInformationStringVectorKey key, string value)</tt> -  Get/Set a string-vector-valued entry.
+ </LI>
+<LI>  <tt>obj.Set (vtkInformationStringVectorKey key, string value, int idx)</tt> -  Get/Set a string-vector-valued entry.
+ </LI>
+<LI>  <tt>string = obj.Get (vtkInformationStringVectorKey key, int idx)</tt> -  Get/Set a string-vector-valued entry.
+ </LI>
+<LI>  <tt>int = obj.Length (vtkInformationStringVectorKey key)</tt> -  Get/Set a string-vector-valued entry.
+ </LI>
+<LI>  <tt>obj.Remove (vtkInformationStringVectorKey key)</tt> -  Get/Set a string-vector-valued entry.
+ </LI>
+<LI>  <tt>int = obj.Has (vtkInformationStringVectorKey key)</tt> -  Get/Set a string-vector-valued entry.
+ </LI>
+<LI>  <tt>obj.Set (vtkInformationIntegerPointerKey key, int value, int length)</tt> -  Get/Set an integer-pointer-valued entry.
+ </LI>
+<LI>  <tt>obj.Get (vtkInformationIntegerPointerKey key, int value)</tt> -  Get/Set an integer-pointer-valued entry.
+ </LI>
+<LI>  <tt>int = obj.Length (vtkInformationIntegerPointerKey key)</tt> -  Get/Set an integer-pointer-valued entry.
+ </LI>
+<LI>  <tt>obj.Remove (vtkInformationIntegerPointerKey key)</tt> -  Get/Set an integer-pointer-valued entry.
+ </LI>
+<LI>  <tt>int = obj.Has (vtkInformationIntegerPointerKey key)</tt> -  Get/Set an integer-pointer-valued entry.
+ </LI>
+<LI>  <tt>obj.Set (vtkInformationUnsignedLongKey key, long value)</tt> -  Get/Set an unsigned-long-valued entry.
+ </LI>
+<LI>  <tt>long = obj.Get (vtkInformationUnsignedLongKey key)</tt> -  Get/Set an unsigned-long-valued entry.
+ </LI>
+<LI>  <tt>obj.Remove (vtkInformationUnsignedLongKey key)</tt> -  Get/Set an unsigned-long-valued entry.
+ </LI>
+<LI>  <tt>int = obj.Has (vtkInformationUnsignedLongKey key)</tt> -  Get/Set an unsigned-long-valued entry.
+ </LI>
+<LI>  <tt>obj.Append (vtkInformationDoubleVectorKey key, double value)</tt> -  Get/Set an double-vector-valued entry.
+ </LI>
+<LI>  <tt>obj.Set (vtkInformationDoubleVectorKey key, double value, int length)</tt> -  Get/Set an double-vector-valued entry.
+ </LI>
+<LI>  <tt>obj.Set (vtkInformationDoubleVectorKey key, double value1, double value2, double value3)</tt> -  Get/Set an double-vector-valued entry.
+ </LI>
+<LI>  <tt>obj.Set (vtkInformationDoubleVectorKey key, double value1, double value2, double value3, double value4, double value5, double value6)</tt> -  Get/Set an double-vector-valued entry.
+ </LI>
+<LI>  <tt>double = obj.Get (vtkInformationDoubleVectorKey key, int idx)</tt> -  Get/Set an double-vector-valued entry.
+ </LI>
+<LI>  <tt>obj.Get (vtkInformationDoubleVectorKey key, double value)</tt> -  Get/Set an double-vector-valued entry.
+ </LI>
+<LI>  <tt>int = obj.Length (vtkInformationDoubleVectorKey key)</tt> -  Get/Set an double-vector-valued entry.
+ </LI>
+<LI>  <tt>obj.Remove (vtkInformationDoubleVectorKey key)</tt> -  Get/Set an double-vector-valued entry.
+ </LI>
+<LI>  <tt>int = obj.Has (vtkInformationDoubleVectorKey key)</tt> -  Get/Set an double-vector-valued entry.
+ </LI>
+<LI>  <tt>obj.Append (vtkInformationKeyVectorKey key, vtkInformationKey value)</tt> -  Get/Set an InformationKey-vector-valued entry.
+ </LI>
+<LI>  <tt>obj.AppendUnique (vtkInformationKeyVectorKey key, vtkInformationKey value)</tt> -  Get/Set an InformationKey-vector-valued entry.
+ </LI>
+<LI>  <tt>obj.Remove (vtkInformationKeyVectorKey key, vtkInformationKey value)</tt> -  Get/Set an InformationKey-vector-valued entry.
+ </LI>
+<LI>  <tt>vtkInformationKey = obj.Get (vtkInformationKeyVectorKey key, int idx)</tt> -  Get/Set an InformationKey-vector-valued entry.
+ </LI>
+<LI>  <tt>int = obj.Length (vtkInformationKeyVectorKey key)</tt> -  Get/Set an InformationKey-vector-valued entry.
+ </LI>
+<LI>  <tt>obj.Remove (vtkInformationKeyVectorKey key)</tt> -  Get/Set an InformationKey-vector-valued entry.
+ </LI>
+<LI>  <tt>int = obj.Has (vtkInformationKeyVectorKey key)</tt> -  Get/Set an InformationKey-vector-valued entry.
+ </LI>
+<LI>  <tt>obj.Set (vtkInformationStringKey key, string )</tt> -  Get/Set a string-valued entry.
+ </LI>
+<LI>  <tt>string = obj.Get (vtkInformationStringKey key)</tt> -  Get/Set a string-valued entry.
+ </LI>
+<LI>  <tt>obj.Remove (vtkInformationStringKey key)</tt> -  Get/Set a string-valued entry.
+ </LI>
+<LI>  <tt>int = obj.Has (vtkInformationStringKey key)</tt> -  Get/Set a string-valued entry.
+ </LI>
+<LI>  <tt>obj.Set (vtkInformationInformationKey key, vtkInformation )</tt> -  Get/Set an entry storing another vtkInformation instance.
+ </LI>
+<LI>  <tt>vtkInformation = obj.Get (vtkInformationInformationKey key)</tt> -  Get/Set an entry storing another vtkInformation instance.
+ </LI>
+<LI>  <tt>obj.Remove (vtkInformationInformationKey key)</tt> -  Get/Set an entry storing another vtkInformation instance.
+ </LI>
+<LI>  <tt>int = obj.Has (vtkInformationInformationKey key)</tt> -  Get/Set an entry storing another vtkInformation instance.
+ </LI>
+<LI>  <tt>obj.Set (vtkInformationInformationVectorKey key, vtkInformationVector )</tt> -  Get/Set an entry storing a vtkInformationVector instance.
+ </LI>
+<LI>  <tt>vtkInformationVector = obj.Get (vtkInformationInformationVectorKey key)</tt> -  Get/Set an entry storing a vtkInformationVector instance.
+ </LI>
+<LI>  <tt>obj.Remove (vtkInformationInformationVectorKey key)</tt> -  Get/Set an entry storing a vtkInformationVector instance.
+ </LI>
+<LI>  <tt>int = obj.Has (vtkInformationInformationVectorKey key)</tt> -  Get/Set an entry storing a vtkInformationVector instance.
+ </LI>
+<LI>  <tt>obj.Set (vtkInformationObjectBaseKey key, vtkObjectBase )</tt> -  Get/Set an entry storing a vtkObjectBase instance.
+ </LI>
+<LI>  <tt>vtkObjectBase = obj.Get (vtkInformationObjectBaseKey key)</tt> -  Get/Set an entry storing a vtkObjectBase instance.
+ </LI>
+<LI>  <tt>obj.Remove (vtkInformationObjectBaseKey key)</tt> -  Get/Set an entry storing a vtkObjectBase instance.
+ </LI>
+<LI>  <tt>int = obj.Has (vtkInformationObjectBaseKey key)</tt> -  Get/Set an entry storing a vtkObjectBase instance.
+ </LI>
+<LI>  <tt>obj.Set (vtkInformationDataObjectKey key, vtkDataObject )</tt> -  Get/Set an entry storing a vtkDataObject instance.
+ </LI>
+<LI>  <tt>vtkDataObject = obj.Get (vtkInformationDataObjectKey key)</tt> -  Get/Set an entry storing a vtkDataObject instance.
+ </LI>
+<LI>  <tt>obj.Remove (vtkInformationDataObjectKey key)</tt> -  Get/Set an entry storing a vtkDataObject instance.
+ </LI>
+<LI>  <tt>int = obj.Has (vtkInformationDataObjectKey key)</tt> -  Get/Set an entry storing a vtkDataObject instance.
+ </LI>
+<LI>  <tt>obj.Register (vtkObjectBase o)</tt> -  Initiate garbage collection when a reference is removed.
+ </LI>
+<LI>  <tt>obj.UnRegister (vtkObjectBase o)</tt> -  Initiate garbage collection when a reference is removed.
+ </LI>
+<LI>  <tt>obj.SetRequest (vtkInformationRequestKey request)</tt> -  Get/Set the Request ivar
+ </LI>
+<LI>  <tt>vtkInformationRequestKey = obj.GetRequest ()</tt> -  Get/Set the Request ivar
+ </LI>
+</UL>
+*/

@@ -1,0 +1,80 @@
+
+ Usage
+
+Retrieves information about a file or directory. The first
+version uses the syntax
+
+     y = fileattrib(filename)
+
+where filename is the name of a file or directory. The
+returned structure contains several entries, corresponding
+to the attributes of the file. Here is a list of the
+entries, and their meaning:
+
+* Name - the full pathname for the file
+* archive - not used, set to 0
+* system - not used, set to 0
+* hidden - set to 1 for a hidden file, and 0 else.
+* directory - set to 1 for a directory, and 0 for a file.
+* UserRead - set to 1 if the user has read permission, 0
+  otherwise.
+* UserWrite - set to 1 if the user has write permission, 0
+  otherwise.
+* UserExecute - set to 1 if the user has execute permission,
+  0 otherwise.
+* GroupRead - set to 1 if the group has read permission, 0
+  otherwise.
+* GroupWrite - set to 1 if the group has write permission, 0
+  otherwise.
+* GroupExecute - set to 1 if the group has execute
+  permission, 0 otherwise.
+* OtherRead - set to 1 if the world has read permission, 0
+  otherwise.
+* OtherWrite - set to 1 if the world has write permission, 0
+  otherwise.
+* OtherExecute - set to 1 if the world has execute
+  permission, 0 otherwise.
+
+You can also provide a wildcard filename to get the
+attributes for a set of files e.g.,
+
+     y = fileattrib('foo*')
+
+You can also use fileattrib to change the attributes of a
+file and/or directories. To change attributes, use one of
+the following syntaxes
+
+     y = fileattrib(filename,attributelist)
+     y = fileattrib(filename,attributelist,userlist)
+     y = fileattrib(filename,attributelist,userlist,'s')
+
+where attributelist is a string that consists of a list of
+attributes, each preceeded by a + to enable the attribute,
+and - to disable the attribute. The valid list of attributes
+that can be changed are
+
+* 'w' - change write permissions
+* 'r' - change read permissions
+* 'x' - change execute permissions
+
+for example, '-w +r' would indicate removal of write
+permissions and addition of read permissions. The userlist
+is a string that lists the realm of the permission changes.
+If it is not specified, it defaults to 'u'.
+
+* 'u' - user or owner permissions
+* 'g' - group permissions
+* 'o' - other permissions ("world" in normal Unix
+  terminology)
+* 'a' - equivalent to 'ugo'.
+
+Finally, if you specify a 's' for the last argument, the
+attribute change is applied recursively, so that setting the
+attributes for a directory will apply to all the entries
+within the directory.
+
+* FreeMat_Documentation
+* Operating_System_Functions
+* Generated on Thu Jul 25 2013 17:17:45 for FreeMat by
+  doxygen_ 1.8.1.1
+

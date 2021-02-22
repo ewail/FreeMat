@@ -1,0 +1,61 @@
+/*!
+\page functions_special SPECIAL Special Calling Syntax
+
+<p>
+Section: \ref sec_functions "Functions and Scripts"
+\section Usage
+To reduce the effort to call certain functions, FreeMat supports
+a special calling syntax for functions that take string arguments.
+In particular, the three following syntaxes are equivalent, with
+one caveat:
+\verbatim
+   functionname('arg1','arg2',...,'argn')
+\endverbatim
+or the parenthesis and commas can be removed
+\verbatim
+   functionname 'arg1' 'arg2' ... 'argn'
+\endverbatim
+The quotes are also optional (providing, of course, that the
+argument strings have no spaces in them)
+\verbatim
+   functionname arg1 arg2 ... argn
+\endverbatim
+This special syntax enables you to type <tt>hold on</tt> instead of
+the more cumbersome <tt>hold('on')</tt>.  The caveat is that FreeMat
+currently only recognizes the special calling syntax as the
+first statement on a line of input.  Thus, the following construction
+\verbatim
+  for i=1:10; plot(vec(i)); hold on; end
+\endverbatim
+would not work.  This limitation may be removed in a future
+version.
+\section Example
+Here is a function that takes two string arguments and
+returns the concatenation of them.
+
+\if FILE
+strcattest.m
+function strcattest(str1,str2)
+  str3 = [str1,str2];
+  printf('str1 = %s, str2 = %s, str3 = %s\n',str1,str2,str3);
+\endif
+\verbatim
+     strcattest.m
+\endverbatim
+
+\verbinclude strcattest.m
+
+We call <tt>strcattest</tt> using all three syntaxes.
+
+\if FRAGMENT
+frag_functions_special_000.m
+0
+strcattest('hi','ho')
+strcattest 'hi' 'ho'
+strcattest hi ho
+\endif
+
+
+\verbinclude frag_functions_special_000.m.out 
+
+*/

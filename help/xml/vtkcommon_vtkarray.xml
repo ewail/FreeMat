@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkcommon_vtkarray" kind="page">
+    <compoundname>vtkcommon_vtkarray</compoundname>
+    <title>vtkArray</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkcommon_1sec_vtkcommon" kindref="member">Visualization Toolkit Common Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>vtkArray is the root of a hierarchy of arrays that can be used to store data with any number of dimensions. It provides an abstract interface for retrieving and setting array attributes that are independent of the type of values stored in the array - such as the number of dimensions, extents along each dimension, and number of values stored in the array.</para><para>To get and set array values, the vtkTypedArray template class derives from vtkArray and provides type-specific methods for retrieval and update.</para><para>Two concrete derivatives of vtkTypedArray are provided at the moment: vtkDenseArray and vtkSparseArray, which provide dense and sparse storage for arbitrary-dimension data, respectively. Toolkit users can create their own concrete derivatives that implement alternative storage strategies, such as compressed-sparse-row, etc. You could also create an array that provided read-only access to &apos;virtual&apos; data, such as an array that returned a Fibonacci sequence, etc.</para><para>To create an instance of class vtkArray, simply invoke its constructor as follows <verbatim>  obj = vtkArray
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkArray has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkArray class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkArray = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkArray = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>bool = obj.IsDense ()</computeroutput> - Returns true iff the underlying array storage is &quot;dense&quot;, i.e. that GetSize() and GetNonNullSize() will always return the same value. If not, the array is &quot;sparse&quot;.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.Resize (vtkIdType i)</computeroutput> - Resizes the array to the given extents (number of dimensions and size of each dimension). Note that concrete implementations of vtkArray may place constraints on the the extents that they will store, so you cannot assume that GetExtents() will always return the same value passed to Resize().</para><para>The contents of the array are undefined after calling Resize() - you should initialize its contents accordingly. In particular, dimension-labels will be undefined, dense array values will be undefined, and sparse arrays will be empty.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.Resize (vtkIdType i, vtkIdType j)</computeroutput> - Resizes the array to the given extents (number of dimensions and size of each dimension). Note that concrete implementations of vtkArray may place constraints on the the extents that they will store, so you cannot assume that GetExtents() will always return the same value passed to Resize().</para><para>The contents of the array are undefined after calling Resize() - you should initialize its contents accordingly. In particular, dimension-labels will be undefined, dense array values will be undefined, and sparse arrays will be empty.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.Resize (vtkIdType i, vtkIdType j, vtkIdType k)</computeroutput> - Resizes the array to the given extents (number of dimensions and size of each dimension). Note that concrete implementations of vtkArray may place constraints on the the extents that they will store, so you cannot assume that GetExtents() will always return the same value passed to Resize().</para><para>The contents of the array are undefined after calling Resize() - you should initialize its contents accordingly. In particular, dimension-labels will be undefined, dense array values will be undefined, and sparse arrays will be empty.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkIdType = obj.GetDimensions ()</computeroutput> - Returns the number of dimensions stored in the array. Note that this is the same as calling GetExtents().GetDimensions().  </para></listitem>
+<listitem>
+<para><computeroutput>vtkIdType = obj.GetSize ()</computeroutput> - Returns the number of values stored in the array. Note that this is the same as calling GetExtents().GetSize(), and represents the maximum number of values that could ever be stored using the current extents. This is equal to the number of values stored in a dense array, but may be larger than the number of values stored in a sparse array.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkIdType = obj.GetNonNullSize ()</computeroutput> - Returns the number of non-null values stored in the array. Note that this value will equal GetSize() for dense arrays, and will be less-than-or-equal to GetSize() for sparse arrays.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetName (vtkStdString &amp;name)</computeroutput> - Sets the array name.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkStdString = obj.GetName ()</computeroutput> - Returns the array name.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetDimensionLabel (vtkIdType i, vtkStdString &amp;label)</computeroutput> - Sets the label for the i-th array dimension.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkStdString = obj.GetDimensionLabel (vtkIdType i)</computeroutput> - Returns the label for the i-th array dimension.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkArray = obj.DeepCopy ()</computeroutput> - Returns a new array that is a deep copy of this array.  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

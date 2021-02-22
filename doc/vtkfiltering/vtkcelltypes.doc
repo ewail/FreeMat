@@ -1,0 +1,70 @@
+/*!
+\page vtkfiltering_vtkcelltypes vtkCellTypes
+
+<p>
+Section: \ref sec_vtkfiltering "Visualization Toolkit Filtering Classes"
+\section Usage
+ This class is a supplemental object to vtkCellArray to allow random access
+ into cells as well as representing cell type information.  The "location"
+ field is the location in the vtkCellArray list in terms of an integer
+ offset.  An integer offset was used instead of a pointer for easy storage
+ and inter-process communication. The type information is defined in the
+ file vtkCellType.h.
+
+
+To create an instance of class vtkCellTypes, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkCellTypes
+\endverbatim
+\section Methods
+The class vtkCellTypes has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkCellTypes class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkCellTypes = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkCellTypes = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>int = obj.Allocate (int sz, int ext)</tt> -  Allocate memory for this array. Delete old storage only if necessary.
+ </LI>
+<LI>  <tt>obj.InsertCell (int id, char type, int loc)</tt> -  Add a cell at specified id.
+ </LI>
+<LI>  <tt>int = obj.InsertNextCell (char type, int loc)</tt> -  Add a cell to the object in the next available slot.
+ </LI>
+<LI>  <tt>obj.SetCellTypes (int ncells, vtkUnsignedCharArray cellTypes, vtkIntArray cellLocations)</tt> -  Specify a group of cell types.
+ </LI>
+<LI>  <tt>int = obj.GetCellLocation (int cellId)</tt> -  Return the location of the cell in the associated vtkCellArray.
+ </LI>
+<LI>  <tt>obj.DeleteCell (vtkIdType cellId)</tt> -  Delete cell by setting to NULL cell type.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfTypes ()</tt> -  Return the number of types in the list.
+ </LI>
+<LI>  <tt>int = obj.IsType (char type)</tt> -  Return 1 if type specified is contained in list; 0 otherwise.
+ </LI>
+<LI>  <tt>int = obj.InsertNextType (char type)</tt> -  Add the type specified to the end of the list. Range checking is performed.
+ </LI>
+<LI>  <tt>char = obj.GetCellType (int cellId)</tt> -  Return the type of cell.
+ </LI>
+<LI>  <tt>obj.Squeeze ()</tt> -  Reclaim any extra memory.
+ </LI>
+<LI>  <tt>obj.Reset ()</tt> -  Initialize object without releasing memory.
+ </LI>
+<LI>  <tt>long = obj.GetActualMemorySize ()</tt> -  Return the memory in kilobytes consumed by this cell type array. 
+ Used to support streaming and reading/writing data. The value 
+ returned is guaranteed to be greater than or equal to the memory 
+ required to actually represent the data represented by this object. 
+ The information returned is valid only after the pipeline has 
+ been updated.
+ </LI>
+<LI>  <tt>obj.DeepCopy (vtkCellTypes src)</tt> -  Standard DeepCopy method.  Since this object contains no reference
+ to other objects, there is no ShallowCopy.
+ </LI>
+</UL>
+*/

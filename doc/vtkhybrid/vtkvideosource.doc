@@ -1,0 +1,232 @@
+/*!
+\page vtkhybrid_vtkvideosource vtkVideoSource
+
+<p>
+Section: \ref sec_vtkhybrid "Visualization Toolkit Hybrid Classes"
+\section Usage
+ vtkVideoSource is a superclass for video input interfaces for VTK.
+ The goal is to provide an interface which is very similar to the
+ interface of a VCR, where the 'tape' is an internal frame buffer
+ capable of holding a preset number of video frames.  Specialized
+ versions of this class record input from various video input sources.
+ This base class records input from a noise source.
+
+To create an instance of class vtkVideoSource, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkVideoSource
+\endverbatim
+\section Methods
+The class vtkVideoSource has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkVideoSource class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkVideoSource = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkVideoSource = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.Record ()</tt> -  Record incoming video at the specified FrameRate.  The recording
+ continues indefinitely until Stop() is called. 
+ </LI>
+<LI>  <tt>obj.Play ()</tt> -  Play through the 'tape' sequentially at the specified frame rate.
+ If you have just finished Recoding, you should call Rewind() first.
+ </LI>
+<LI>  <tt>obj.Stop ()</tt> -  Stop recording or playing.
+ </LI>
+<LI>  <tt>obj.Rewind ()</tt> -  Rewind to the frame with the earliest timestamp.  Record operations
+ will start on the following frame, therefore if you want to re-record
+ over this frame you must call Seek(-1) before calling Grab() or Record().
+ </LI>
+<LI>  <tt>obj.FastForward ()</tt> -  FastForward to the last frame that was recorded (i.e. to the frame
+ that has the most recent timestamp).
+ </LI>
+<LI>  <tt>obj.Seek (int n)</tt> -  Seek forwards or backwards by the specified number of frames
+ (positive is forward, negative is backward).
+ </LI>
+<LI>  <tt>obj.Grab ()</tt> -  Grab a single video frame.
+ </LI>
+<LI>  <tt>int = obj.GetRecording ()</tt> -  Are we in record mode? (record mode and play mode are mutually
+ exclusive).
+ </LI>
+<LI>  <tt>int = obj.GetPlaying ()</tt> -  Are we in play mode? (record mode and play mode are mutually
+ exclusive).
+ </LI>
+<LI>  <tt>obj.SetFrameSize (int x, int y, int z)</tt> -  Set the full-frame size.  This must be an allowed size for the device,
+ the device may either refuse a request for an illegal frame size or
+ automatically choose a new frame size.
+ The default is usually 320x240x1, but can be device specific.  
+ The 'depth' should always be 1 (unless you have a device that
+ can handle 3D acquisition).
+ </LI>
+<LI>  <tt>obj.SetFrameSize (int dim[3])</tt> -  Set the full-frame size.  This must be an allowed size for the device,
+ the device may either refuse a request for an illegal frame size or
+ automatically choose a new frame size.
+ The default is usually 320x240x1, but can be device specific.  
+ The 'depth' should always be 1 (unless you have a device that
+ can handle 3D acquisition).
+ </LI>
+<LI>  <tt>int = obj. GetFrameSize ()</tt> -  Set the full-frame size.  This must be an allowed size for the device,
+ the device may either refuse a request for an illegal frame size or
+ automatically choose a new frame size.
+ The default is usually 320x240x1, but can be device specific.  
+ The 'depth' should always be 1 (unless you have a device that
+ can handle 3D acquisition).
+ </LI>
+<LI>  <tt>obj.SetFrameRate (float rate)</tt> -  Request a particular frame rate (default 30 frames per second).
+ </LI>
+<LI>  <tt>float = obj.GetFrameRate ()</tt> -  Request a particular frame rate (default 30 frames per second).
+ </LI>
+<LI>  <tt>obj.SetOutputFormat (int format)</tt> -  Set the output format.  This must be appropriate for device,
+ usually only VTK_LUMINANCE, VTK_RGB, and VTK_RGBA are supported.
+ </LI>
+<LI>  <tt>obj.SetOutputFormatToLuminance ()</tt> -  Set the output format.  This must be appropriate for device,
+ usually only VTK_LUMINANCE, VTK_RGB, and VTK_RGBA are supported.
+ </LI>
+<LI>  <tt>obj.SetOutputFormatToRGB ()</tt> -  Set the output format.  This must be appropriate for device,
+ usually only VTK_LUMINANCE, VTK_RGB, and VTK_RGBA are supported.
+ </LI>
+<LI>  <tt>obj.SetOutputFormatToRGBA ()</tt> -  Set the output format.  This must be appropriate for device,
+ usually only VTK_LUMINANCE, VTK_RGB, and VTK_RGBA are supported.
+ </LI>
+<LI>  <tt>int = obj.GetOutputFormat ()</tt> -  Set the output format.  This must be appropriate for device,
+ usually only VTK_LUMINANCE, VTK_RGB, and VTK_RGBA are supported.
+ </LI>
+<LI>  <tt>obj.SetFrameBufferSize (int FrameBufferSize)</tt> -  Set size of the frame buffer, i.e. the number of frames that
+ the 'tape' can store.
+ </LI>
+<LI>  <tt>int = obj.GetFrameBufferSize ()</tt> -  Set size of the frame buffer, i.e. the number of frames that
+ the 'tape' can store.
+ </LI>
+<LI>  <tt>obj.SetNumberOfOutputFrames (int )</tt> -  Set the number of frames to copy to the output on each execute.
+ The frames will be concatenated along the Z dimension, with the 
+ most recent frame first.
+ Default: 1
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfOutputFrames ()</tt> -  Set the number of frames to copy to the output on each execute.
+ The frames will be concatenated along the Z dimension, with the 
+ most recent frame first.
+ Default: 1
+ </LI>
+<LI>  <tt>obj.AutoAdvanceOn ()</tt> -  Set whether to automatically advance the buffer before each grab. 
+ Default: on
+ </LI>
+<LI>  <tt>obj.AutoAdvanceOff ()</tt> -  Set whether to automatically advance the buffer before each grab. 
+ Default: on
+ </LI>
+<LI>  <tt>obj.SetAutoAdvance (int )</tt> -  Set whether to automatically advance the buffer before each grab. 
+ Default: on
+ </LI>
+<LI>  <tt>int = obj.GetAutoAdvance ()</tt> -  Set whether to automatically advance the buffer before each grab. 
+ Default: on
+ </LI>
+<LI>  <tt>obj.SetClipRegion (int r[6])</tt> -  Set the clip rectangle for the frames.  The video will be clipped 
+ before it is copied into the framebuffer.  Changing the ClipRegion
+ will destroy the current contents of the framebuffer.
+ The default ClipRegion is (0,VTK_INT_MAX,0,VTK_INT_MAX,0,VTK_INT_MAX).
+ </LI>
+<LI>  <tt>obj.SetClipRegion (int x0, int x1, int y0, int y1, int z0, int z1)</tt> -  Set the clip rectangle for the frames.  The video will be clipped 
+ before it is copied into the framebuffer.  Changing the ClipRegion
+ will destroy the current contents of the framebuffer.
+ The default ClipRegion is (0,VTK_INT_MAX,0,VTK_INT_MAX,0,VTK_INT_MAX).
+ </LI>
+<LI>  <tt>int = obj. GetClipRegion ()</tt> -  Set the clip rectangle for the frames.  The video will be clipped 
+ before it is copied into the framebuffer.  Changing the ClipRegion
+ will destroy the current contents of the framebuffer.
+ The default ClipRegion is (0,VTK_INT_MAX,0,VTK_INT_MAX,0,VTK_INT_MAX).
+ </LI>
+<LI>  <tt>obj.SetOutputWholeExtent (int , int , int , int , int , int )</tt> -  Get/Set the WholeExtent of the output.  This can be used to either
+ clip or pad the video frame.  This clipping/padding is done when
+ the frame is copied to the output, and does not change the contents
+ of the framebuffer.  This is useful e.g. for expanding 
+ the output size to a power of two for texture mapping.  The
+ default is (0,-1,0,-1,0,-1) which causes the entire frame to be
+ copied to the output.
+ </LI>
+<LI>  <tt>obj.SetOutputWholeExtent (int  a[6])</tt> -  Get/Set the WholeExtent of the output.  This can be used to either
+ clip or pad the video frame.  This clipping/padding is done when
+ the frame is copied to the output, and does not change the contents
+ of the framebuffer.  This is useful e.g. for expanding 
+ the output size to a power of two for texture mapping.  The
+ default is (0,-1,0,-1,0,-1) which causes the entire frame to be
+ copied to the output.
+ </LI>
+<LI>  <tt>int = obj. GetOutputWholeExtent ()</tt> -  Get/Set the WholeExtent of the output.  This can be used to either
+ clip or pad the video frame.  This clipping/padding is done when
+ the frame is copied to the output, and does not change the contents
+ of the framebuffer.  This is useful e.g. for expanding 
+ the output size to a power of two for texture mapping.  The
+ default is (0,-1,0,-1,0,-1) which causes the entire frame to be
+ copied to the output.
+ </LI>
+<LI>  <tt>obj.SetDataSpacing (double , double , double )</tt> -  Set/Get the pixel spacing. 
+ Default: (1.0,1.0,1.0)
+ </LI>
+<LI>  <tt>obj.SetDataSpacing (double  a[3])</tt> -  Set/Get the pixel spacing. 
+ Default: (1.0,1.0,1.0)
+ </LI>
+<LI>  <tt>double = obj. GetDataSpacing ()</tt> -  Set/Get the pixel spacing. 
+ Default: (1.0,1.0,1.0)
+ </LI>
+<LI>  <tt>obj.SetDataOrigin (double , double , double )</tt> -  Set/Get the coordinates of the lower, left corner of the frame. 
+ Default: (0.0,0.0,0.0)
+ </LI>
+<LI>  <tt>obj.SetDataOrigin (double  a[3])</tt> -  Set/Get the coordinates of the lower, left corner of the frame. 
+ Default: (0.0,0.0,0.0)
+ </LI>
+<LI>  <tt>double = obj. GetDataOrigin ()</tt> -  Set/Get the coordinates of the lower, left corner of the frame. 
+ Default: (0.0,0.0,0.0)
+ </LI>
+<LI>  <tt>obj.SetOpacity (float )</tt> -  For RGBA output only (4 scalar components), set the opacity.  This
+ will not modify the existing contents of the framebuffer, only
+ subsequently grabbed frames.
+ </LI>
+<LI>  <tt>float = obj.GetOpacity ()</tt> -  For RGBA output only (4 scalar components), set the opacity.  This
+ will not modify the existing contents of the framebuffer, only
+ subsequently grabbed frames.
+ </LI>
+<LI>  <tt>int = obj.GetFrameCount ()</tt> -  This value is incremented each time a frame is grabbed.
+ reset it to zero (or any other value) at any time.
+ </LI>
+<LI>  <tt>obj.SetFrameCount (int )</tt> -  This value is incremented each time a frame is grabbed.
+ reset it to zero (or any other value) at any time.
+ </LI>
+<LI>  <tt>int = obj.GetFrameIndex ()</tt> -  Get the frame index relative to the 'beginning of the tape'.  This
+ value wraps back to zero if it increases past the FrameBufferSize.
+ </LI>
+<LI>  <tt>double = obj.GetFrameTimeStamp (int frame)</tt> -  Get a time stamp in seconds (resolution of milliseconds) for
+ a video frame.   Time began on Jan 1, 1970.  You can specify
+ a number (negative or positive) to specify the position of the
+ video frame relative to the current frame.
+ </LI>
+<LI>  <tt>double = obj.GetFrameTimeStamp ()</tt> -  Get a time stamp in seconds (resolution of milliseconds) for
+ the Output.  Time began on Jan 1, 1970.  This timestamp is only
+ valid after the Output has been Updated.
+ </LI>
+<LI>  <tt>obj.Initialize ()</tt> -  Initialize the hardware.  This is called automatically
+ on the first Update or Grab.
+ </LI>
+<LI>  <tt>int = obj.GetInitialized ()</tt> -  Initialize the hardware.  This is called automatically
+ on the first Update or Grab.
+ </LI>
+<LI>  <tt>obj.ReleaseSystemResources ()</tt> -  Release the video driver.  This method must be called before
+ application exit, or else the application might hang during
+ exit.  
+ </LI>
+<LI>  <tt>obj.InternalGrab ()</tt> -  The internal function which actually does the grab.  You will
+ definitely want to override this if you develop a vtkVideoSource
+ subclass. 
+ </LI>
+<LI>  <tt>obj.SetStartTimeStamp (double t)</tt> -  And internal variable which marks the beginning of a Record session.
+ These methods are for internal use only.
+ </LI>
+<LI>  <tt>double = obj.GetStartTimeStamp ()</tt> -  And internal variable which marks the beginning of a Record session.
+ These methods are for internal use only.
+ </LI>
+</UL>
+*/

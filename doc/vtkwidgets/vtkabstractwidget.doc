@@ -1,0 +1,140 @@
+/*!
+\page vtkwidgets_vtkabstractwidget vtkAbstractWidget
+
+<p>
+Section: \ref sec_vtkwidgets "Visualization Toolkit Widget Classes"
+\section Usage
+ The vtkAbstractWidget defines an API and implements methods common to all
+ widgets using the interaction/representation design. In this design, the
+ term interaction means that part of the widget that performs event
+ handling, while the representation corresponds to a vtkProp (or the
+ subclass vtkWidgetRepresentation) used to represent the
+ widget. vtkAbstractWidget also implements some methods common to all
+ subclasses.
+
+ Note that vtkAbstractWidget provides access to the
+ vtkWidgetEventTranslator.  This class is responsible for translating VTK
+ events (defined in vtkCommand.h) into widget events (defined in
+ vtkWidgetEvent.h).  This class can be manipulated so that different VTK
+ events can be mapped into widget events, thereby allowing the modification
+ of event bindings. Each subclass of vtkAbstractWidget defines the events
+ to which it responds.
+
+
+To create an instance of class vtkAbstractWidget, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkAbstractWidget
+\endverbatim
+\section Methods
+The class vtkAbstractWidget has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkAbstractWidget class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt> -  Standard macros implementing standard VTK methods.
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt> -  Standard macros implementing standard VTK methods.
+ </LI>
+<LI>  <tt>vtkAbstractWidget = obj.NewInstance ()</tt> -  Standard macros implementing standard VTK methods.
+ </LI>
+<LI>  <tt>vtkAbstractWidget = obj.SafeDownCast (vtkObject o)</tt> -  Standard macros implementing standard VTK methods.
+ </LI>
+<LI>  <tt>obj.SetEnabled (int )</tt> -  Methods for activating this widget. Note that the widget representation
+ must be specified or the widget will not appear.
+ ProcessEvents (On by default) must be On for Enabled widget to respond 
+ to interaction. If ProcessEvents is Off, enabling/disabling a widget 
+ merely affects the visibility of the representation.
+ </LI>
+<LI>  <tt>obj.SetProcessEvents (int )</tt> -  Methods to change the whether the widget responds to interaction.
+ Set this to Off to disable interaction. On by default.
+ Subclasses must overide SetProcessEvents() to make sure
+ that they pass on the flag to all component widgets.
+ </LI>
+<LI>  <tt>int = obj.GetProcessEventsMinValue ()</tt> -  Methods to change the whether the widget responds to interaction.
+ Set this to Off to disable interaction. On by default.
+ Subclasses must overide SetProcessEvents() to make sure
+ that they pass on the flag to all component widgets.
+ </LI>
+<LI>  <tt>int = obj.GetProcessEventsMaxValue ()</tt> -  Methods to change the whether the widget responds to interaction.
+ Set this to Off to disable interaction. On by default.
+ Subclasses must overide SetProcessEvents() to make sure
+ that they pass on the flag to all component widgets.
+ </LI>
+<LI>  <tt>int = obj.GetProcessEvents ()</tt> -  Methods to change the whether the widget responds to interaction.
+ Set this to Off to disable interaction. On by default.
+ Subclasses must overide SetProcessEvents() to make sure
+ that they pass on the flag to all component widgets.
+ </LI>
+<LI>  <tt>obj.ProcessEventsOn ()</tt> -  Methods to change the whether the widget responds to interaction.
+ Set this to Off to disable interaction. On by default.
+ Subclasses must overide SetProcessEvents() to make sure
+ that they pass on the flag to all component widgets.
+ </LI>
+<LI>  <tt>obj.ProcessEventsOff ()</tt> -  Methods to change the whether the widget responds to interaction.
+ Set this to Off to disable interaction. On by default.
+ Subclasses must overide SetProcessEvents() to make sure
+ that they pass on the flag to all component widgets.
+ </LI>
+<LI>  <tt>vtkWidgetEventTranslator = obj.GetEventTranslator ()</tt> -  Create the default widget representation if one is not set. The
+ representation defines the geometry of the widget (i.e., how it appears)
+ as well as providing special methods for manipulting the state and
+ appearance of the widget.
+ </LI>
+<LI>  <tt>obj.CreateDefaultRepresentation ()</tt> -  Create the default widget representation if one is not set. The
+ representation defines the geometry of the widget (i.e., how it appears)
+ as well as providing special methods for manipulting the state and
+ appearance of the widget.
+ </LI>
+<LI>  <tt>obj.Render ()</tt> -  This method is called by subclasses when a render method is to be
+ invoked on the vtkRenderWindowInteractor. This method should be called
+ (instead of vtkRenderWindow::Render() because it has built into it
+ optimizations for minimizing renders and/or speeding renders.
+ </LI>
+<LI>  <tt>obj.SetParent (vtkAbstractWidget parent)</tt> -  Specifying a parent to this widget is used when creating composite
+ widgets. It is an internal method not meant to be used by the public.
+ When a widget has a parent, it defers the rendering to the parent. It
+ may also defer managing the cursor (see ManagesCursor ivar).
+ </LI>
+<LI>  <tt>vtkAbstractWidget = obj.GetParent ()</tt> -  Specifying a parent to this widget is used when creating composite
+ widgets. It is an internal method not meant to be used by the public.
+ When a widget has a parent, it defers the rendering to the parent. It
+ may also defer managing the cursor (see ManagesCursor ivar).
+ </LI>
+<LI>  <tt>vtkWidgetRepresentation = obj.GetRepresentation ()</tt> -  Turn on or off the management of the cursor. Cursor management is
+ typically disabled for subclasses when composite widgets are
+ created. For example, vtkHandleWidgets are often used to create
+ composite widgets, and the parent widget takes over the cursor
+ management.
+ </LI>
+<LI>  <tt>obj.SetManagesCursor (int )</tt> -  Turn on or off the management of the cursor. Cursor management is
+ typically disabled for subclasses when composite widgets are
+ created. For example, vtkHandleWidgets are often used to create
+ composite widgets, and the parent widget takes over the cursor
+ management.
+ </LI>
+<LI>  <tt>int = obj.GetManagesCursor ()</tt> -  Turn on or off the management of the cursor. Cursor management is
+ typically disabled for subclasses when composite widgets are
+ created. For example, vtkHandleWidgets are often used to create
+ composite widgets, and the parent widget takes over the cursor
+ management.
+ </LI>
+<LI>  <tt>obj.ManagesCursorOn ()</tt> -  Turn on or off the management of the cursor. Cursor management is
+ typically disabled for subclasses when composite widgets are
+ created. For example, vtkHandleWidgets are often used to create
+ composite widgets, and the parent widget takes over the cursor
+ management.
+ </LI>
+<LI>  <tt>obj.ManagesCursorOff ()</tt> -  Turn on or off the management of the cursor. Cursor management is
+ typically disabled for subclasses when composite widgets are
+ created. For example, vtkHandleWidgets are often used to create
+ composite widgets, and the parent widget takes over the cursor
+ management.
+ </LI>
+<LI>  <tt>obj.SetPriority (float )</tt> -  Override the superclass method. This will automatically change the
+ priority of the widget. Unlike the superclass documentation, no 
+ methods such as SetInteractor to null and reset it etc. are necessary
+ </LI>
+</UL>
+*/

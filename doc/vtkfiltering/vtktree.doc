@@ -1,0 +1,69 @@
+/*!
+\page vtkfiltering_vtktree vtkTree
+
+<p>
+Section: \ref sec_vtkfiltering "Visualization Toolkit Filtering Classes"
+\section Usage
+ vtkTree is a connected directed graph with no cycles. A tree is a type of
+ directed graph, so works with all graph algorithms.
+
+ vtkTree is a read-only data structure.
+ To construct a tree, create an instance of vtkMutableDirectedGraph.
+ Add vertices and edges with AddVertex() and AddEdge(). You may alternately
+ start by adding a single vertex as the root then call graph->AddChild(parent)
+ which adds a new vertex and connects the parent to the child.
+ The tree MUST have all edges in the proper direction, from parent to child.
+ After building the tree, call tree->CheckedShallowCopy(graph) to copy the
+ structure into a vtkTree. This method will return false if the graph is
+ an invalid tree.
+
+ vtkTree provides some convenience methods for obtaining the parent and
+ children of a vertex, for finding the root, and determining if a vertex
+ is a leaf (a vertex with no children).
+
+
+To create an instance of class vtkTree, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkTree
+\endverbatim
+\section Methods
+The class vtkTree has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkTree class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkTree = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkTree = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetDataObjectType ()</tt> -  Get the root vertex of the tree.
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetRoot ()</tt> -  Get the root vertex of the tree.
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetNumberOfChildren (vtkIdType v)</tt> -  Get the i-th child of a parent vertex.
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetChild (vtkIdType v, vtkIdType i)</tt> -  Get the i-th child of a parent vertex.
+ </LI>
+<LI>  <tt>obj.GetChildren (vtkIdType v, vtkAdjacentVertexIterator it)</tt> -  Get the parent of a vertex.
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetParent (vtkIdType v)</tt> -  Get the parent of a vertex.
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetLevel (vtkIdType v)</tt> -  Get the level of the vertex in the tree.  The root vertex has level 0.
+ Returns -1 if the vertex id is < 0 or greater than the number of vertices
+ in the tree.
+ </LI>
+<LI>  <tt>bool = obj.IsLeaf (vtkIdType vertex)</tt> -  Return whether the vertex is a leaf (i.e. it has no children).
+ </LI>
+<LI>  <tt>obj.ReorderChildren (vtkIdType parent, vtkIdTypeArray children)</tt> -  Reorder the children of a parent vertex.
+ The children array must contain all the children of parent,
+ just in a different order.
+ This does not change the topology of the tree.
+ </LI>
+</UL>
+*/

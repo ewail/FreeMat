@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="thread_threadkill" kind="page">
+    <compoundname>thread_threadkill</compoundname>
+    <title>THREADKILL Halt execution of a thread</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_thread_1sec_thread" kindref="member">FreeMat Threads</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>The <computeroutput>threadkill</computeroutput> function stops (or attempts to stop) execution of the given thread. It works only for functions defined in M-files (i.e., not for built in or imported functions), and it works by setting a flag that causes the thread to stop execution at the next available statement. The syntax for this function is <verbatim>  threadkill(handle)
+</verbatim> where <computeroutput>handle</computeroutput> is the value returned by a <computeroutput>threadnew</computeroutput> call. Note that the <computeroutput>threadkill</computeroutput> function returns immediately. It is still your responsibility to call <computeroutput>threadfree</computeroutput> to free the thread you have halted.</para><para>You cannot kill the main thread (thread id <computeroutput>1</computeroutput>). </para></sect1>
+<sect1 id="variables_struct_1Example">
+<title>Example</title>
+<para>Here is an example of stopping a runaway thread using <computeroutput>threadkill</computeroutput>. Note that the thread function in this case is an M-file function. We start by setting up a free running counter, where we can access the counter from the global variables.</para><para><verbatim>     freecount.m
+</verbatim></para><para><verbatim>function freecount
+  global count
+  if (~exist(&apos;count&apos;)) count = 0; end  % Initialize the counter
+  while (1)
+    count = count + 1;                 % Update the counter
+  end
+</verbatim></para><para>We now launch this function in a thread, and use <computeroutput>threadkill</computeroutput> to stop it:</para><para><verbatim>--&gt; a = threadnew;
+--&gt; global count                   % register the global variable count
+--&gt; count = 0;
+--&gt; threadstart(a,&apos;freecount&apos;,0)   % start the thread
+--&gt; count                          % it is counting
+
+ans = 
+ 0 
+
+--&gt; sleep(1)                       % Wait a bit
+--&gt; count                          % it is still counting
+
+ans = 
+ 225458 
+
+--&gt; threadkill(a)                  % kill the counter
+--&gt; threadwait(a,1000)             % wait for it to finish
+
+ans = 
+ 1 
+
+--&gt; count                          % The count will no longer increase
+
+ans = 
+ 225497 
+
+--&gt; sleep(1)
+--&gt; count
+
+ans = 
+ 225497 
+
+--&gt; threadfree(a)
+</verbatim> </para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,88 @@
+
+ Usage
+
+The vtkCenteredSliderWidget is used to adjust a scalar value
+in an application. This class measures deviations form the
+center point on the slider. Moving the slider modifies the
+value of the widget, which can be used to set parameters on
+other objects. Note that the actual appearance of the widget
+depends on the specific representation for the widget.
+To use this widget, set the widget representation. The
+representation is assumed to consist of a tube, two end
+caps, and a slider (the details may vary depending on the
+particulars of the representation). Then in the
+representation you will typically set minimum and maximum
+value, as well as the current value. The position of the
+slider must also be set, as well as various properties.
+Note that the value should be obtain from the widget, not
+from the representation. Also note that Minimum and Maximum
+values are in terms of value per second. The value you get
+from this widget's GetValue method is multiplied by time.
+.SECTION Event Bindings By default, the widget responds to
+the following VTK events (i.e., it watches the
+vtkRenderWindowInteractor for these events):
+
+   If the slider bead is selected:
+     LeftButtonPressEvent - select slider (if on slider)
+     LeftButtonReleaseEvent - release slider (if selected)
+     MouseMoveEvent - move slider
+   If the end caps or slider tube are selected:
+     LeftButtonPressEvent - move (or animate) to cap or
+  point on tube;
+
+Note that the event bindings described above can be changed
+using this class's vtkWidgetEventTranslator. This class
+translates VTK events into the vtkCenteredSliderWidget's
+widget events:
+
+     vtkWidgetEvent::Select &ndash; some part of the widget
+  has been selected
+     vtkWidgetEvent::EndSelect &ndash; the selection process
+  has completed
+     vtkWidgetEvent::Move &ndash; a request for slider
+  motion has been invoked
+
+In turn, when these widget events are processed, the
+vtkCenteredSliderWidget invokes the following VTK events on
+itself (which observers can listen for):
+
+     vtkCommand::StartInteractionEvent (on vtkWidgetEvent::
+  Select)
+     vtkCommand::EndInteractionEvent (on vtkWidgetEvent::
+  EndSelect)
+     vtkCommand::InteractionEvent (on vtkWidgetEvent::Move)
+
+To create an instance of class vtkCenteredSliderWidget,
+simply invoke its constructor as follows
+
+    obj = vtkCenteredSliderWidget
+
+
+
+ Methods
+
+The class vtkCenteredSliderWidget has several methods that
+can be used. They are listed below. Note that the
+documentation is translated automatically from the VTK
+sources, and may not be completely intelligible. When in
+doubt, consult the VTK website. In the methods listed below,
+obj is an instance of the vtkCenteredSliderWidget class.
+
+* string = obj.GetClassName () - Standard macros.
+* int = obj.IsA (string name) - Standard macros.
+* vtkCenteredSliderWidget = obj.NewInstance () - Standard
+  macros.
+* vtkCenteredSliderWidget = obj.SafeDownCast (vtkObject o) -
+  Standard macros.
+* obj.SetRepresentation (vtkSliderRepresentation r) - Create
+  the default widget representation if one is not set.
+* obj.CreateDefaultRepresentation () - Create the default
+  widget representation if one is not set.
+* double = obj.GetValue () - Get the value fo this widget.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Widget_Classes
+* Generated on Thu Jul 25 2013 17:18:36 for FreeMat by
+  doxygen_ 1.8.1.1
+

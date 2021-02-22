@@ -1,0 +1,207 @@
+/*!
+\page vtkrendering_vtkinteractorobserver vtkInteractorObserver
+
+<p>
+Section: \ref sec_vtkrendering "Visualization Toolkit Rendering Classes"
+\section Usage
+ vtkInteractorObserver is an abstract superclass for subclasses that observe
+ events invoked by vtkRenderWindowInteractor. These subclasses are 
+ typically things like 3D widgets; objects that interact with actors
+ in the scene, or interactively probe the scene for information.
+
+ vtkInteractorObserver defines the method SetInteractor() and enables and
+ disables the processing of events by the vtkInteractorObserver. Use the
+ methods EnabledOn() or SetEnabled(1) to turn on the interactor observer,
+ and the methods EnabledOff() or SetEnabled(0) to turn off the interactor.
+ Initial value is 0.
+
+ To support interactive manipulation of objects, this class (and
+ subclasses) invoke the events StartInteractionEvent, InteractionEvent, and
+ EndInteractionEvent.  These events are invoked when the
+ vtkInteractorObserver enters a state where rapid response is desired:
+ mouse motion, etc. The events can be used, for example, to set the desired
+ update frame rate (StartInteractionEvent), operate on data or update a
+ pipeline (InteractionEvent), and set the desired frame rate back to normal
+ values (EndInteractionEvent). Two other events, EnableEvent and
+ DisableEvent, are invoked when the interactor observer is enabled or
+ disabled.
+
+To create an instance of class vtkInteractorObserver, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkInteractorObserver
+\endverbatim
+\section Methods
+The class vtkInteractorObserver has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkInteractorObserver class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkInteractorObserver = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkInteractorObserver = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetEnabled (int )</tt> -  Methods for turning the interactor observer on and off, and determining
+ its state. All subclasses must provide the SetEnabled() method.
+ Enabling a vtkInteractorObserver has the side effect of adding
+ observers; disabling it removes the observers. Prior to enabling the
+ vtkInteractorObserver you must set the render window interactor (via
+ SetInteractor()). Initial value is 0.
+ </LI>
+<LI>  <tt>int = obj.GetEnabled ()</tt> -  Methods for turning the interactor observer on and off, and determining
+ its state. All subclasses must provide the SetEnabled() method.
+ Enabling a vtkInteractorObserver has the side effect of adding
+ observers; disabling it removes the observers. Prior to enabling the
+ vtkInteractorObserver you must set the render window interactor (via
+ SetInteractor()). Initial value is 0.
+ </LI>
+<LI>  <tt>obj.EnabledOn ()</tt> -  Methods for turning the interactor observer on and off, and determining
+ its state. All subclasses must provide the SetEnabled() method.
+ Enabling a vtkInteractorObserver has the side effect of adding
+ observers; disabling it removes the observers. Prior to enabling the
+ vtkInteractorObserver you must set the render window interactor (via
+ SetInteractor()). Initial value is 0.
+ </LI>
+<LI>  <tt>obj.EnabledOff ()</tt> -  Methods for turning the interactor observer on and off, and determining
+ its state. All subclasses must provide the SetEnabled() method.
+ Enabling a vtkInteractorObserver has the side effect of adding
+ observers; disabling it removes the observers. Prior to enabling the
+ vtkInteractorObserver you must set the render window interactor (via
+ SetInteractor()). Initial value is 0.
+ </LI>
+<LI>  <tt>obj.On ()</tt> -  Methods for turning the interactor observer on and off, and determining
+ its state. All subclasses must provide the SetEnabled() method.
+ Enabling a vtkInteractorObserver has the side effect of adding
+ observers; disabling it removes the observers. Prior to enabling the
+ vtkInteractorObserver you must set the render window interactor (via
+ SetInteractor()). Initial value is 0.
+ </LI>
+<LI>  <tt>obj.Off ()</tt> -  This method is used to associate the widget with the render window
+ interactor.  Observers of the appropriate events invoked in the render
+ window interactor are set up as a result of this method invocation.
+ The SetInteractor() method must be invoked prior to enabling the
+ vtkInteractorObserver.
+ </LI>
+<LI>  <tt>obj.SetInteractor (vtkRenderWindowInteractor iren)</tt> -  This method is used to associate the widget with the render window
+ interactor.  Observers of the appropriate events invoked in the render
+ window interactor are set up as a result of this method invocation.
+ The SetInteractor() method must be invoked prior to enabling the
+ vtkInteractorObserver.
+ </LI>
+<LI>  <tt>vtkRenderWindowInteractor = obj.GetInteractor ()</tt> -  This method is used to associate the widget with the render window
+ interactor.  Observers of the appropriate events invoked in the render
+ window interactor are set up as a result of this method invocation.
+ The SetInteractor() method must be invoked prior to enabling the
+ vtkInteractorObserver.
+ </LI>
+<LI>  <tt>obj.SetPriority (float )</tt> -  Set/Get the priority at which events are processed. This is used when
+ multiple interactor observers are used simultaneously. The default value
+ is 0.0 (lowest priority.) Note that when multiple interactor observer
+ have the same priority, then the last observer added will process the
+ event first. (Note: once the SetInteractor() method has been called,
+ changing the priority does not effect event processing. You will have
+ to SetInteractor(NULL), change priority, and then SetInteractor(iren)
+ to have the priority take effect.)
+ </LI>
+<LI>  <tt>float = obj.GetPriorityMinValue ()</tt> -  Set/Get the priority at which events are processed. This is used when
+ multiple interactor observers are used simultaneously. The default value
+ is 0.0 (lowest priority.) Note that when multiple interactor observer
+ have the same priority, then the last observer added will process the
+ event first. (Note: once the SetInteractor() method has been called,
+ changing the priority does not effect event processing. You will have
+ to SetInteractor(NULL), change priority, and then SetInteractor(iren)
+ to have the priority take effect.)
+ </LI>
+<LI>  <tt>float = obj.GetPriorityMaxValue ()</tt> -  Set/Get the priority at which events are processed. This is used when
+ multiple interactor observers are used simultaneously. The default value
+ is 0.0 (lowest priority.) Note that when multiple interactor observer
+ have the same priority, then the last observer added will process the
+ event first. (Note: once the SetInteractor() method has been called,
+ changing the priority does not effect event processing. You will have
+ to SetInteractor(NULL), change priority, and then SetInteractor(iren)
+ to have the priority take effect.)
+ </LI>
+<LI>  <tt>float = obj.GetPriority ()</tt> -  Set/Get the priority at which events are processed. This is used when
+ multiple interactor observers are used simultaneously. The default value
+ is 0.0 (lowest priority.) Note that when multiple interactor observer
+ have the same priority, then the last observer added will process the
+ event first. (Note: once the SetInteractor() method has been called,
+ changing the priority does not effect event processing. You will have
+ to SetInteractor(NULL), change priority, and then SetInteractor(iren)
+ to have the priority take effect.)
+ </LI>
+<LI>  <tt>obj.SetKeyPressActivation (int )</tt> -  Enable/Disable of the use of a keypress to turn on and off the
+ interactor observer. (By default, the keypress is 'i' for "interactor
+ observer".)  Set the KeyPressActivationValue to change which key
+ activates the widget.)
+ </LI>
+<LI>  <tt>int = obj.GetKeyPressActivation ()</tt> -  Enable/Disable of the use of a keypress to turn on and off the
+ interactor observer. (By default, the keypress is 'i' for "interactor
+ observer".)  Set the KeyPressActivationValue to change which key
+ activates the widget.)
+ </LI>
+<LI>  <tt>obj.KeyPressActivationOn ()</tt> -  Enable/Disable of the use of a keypress to turn on and off the
+ interactor observer. (By default, the keypress is 'i' for "interactor
+ observer".)  Set the KeyPressActivationValue to change which key
+ activates the widget.)
+ </LI>
+<LI>  <tt>obj.KeyPressActivationOff ()</tt> -  Enable/Disable of the use of a keypress to turn on and off the
+ interactor observer. (By default, the keypress is 'i' for "interactor
+ observer".)  Set the KeyPressActivationValue to change which key
+ activates the widget.)
+ </LI>
+<LI>  <tt>obj.SetKeyPressActivationValue (char )</tt> -  Specify which key press value to use to activate the interactor observer
+ (if key press activation is enabled). By default, the key press
+ activation value is 'i'. Note: once the SetInteractor() method is
+ invoked, changing the key press activation value will not affect the key
+ press until SetInteractor(NULL)/SetInteractor(iren) is called.
+ </LI>
+<LI>  <tt>char = obj.GetKeyPressActivationValue ()</tt> -  Specify which key press value to use to activate the interactor observer
+ (if key press activation is enabled). By default, the key press
+ activation value is 'i'. Note: once the SetInteractor() method is
+ invoked, changing the key press activation value will not affect the key
+ press until SetInteractor(NULL)/SetInteractor(iren) is called.
+ </LI>
+<LI>  <tt>vtkRenderer = obj.GetDefaultRenderer ()</tt> -  Set/Get the default renderer to use when activating the interactor 
+ observer. Normally when the widget is activated (SetEnabled(1) or when 
+ keypress activation takes place), the renderer over which the mouse
+ pointer is positioned is used. Alternatively, you can specify the
+ renderer to bind the interactor to when the interactor observer is
+ activated. 
+ </LI>
+<LI>  <tt>obj.SetDefaultRenderer (vtkRenderer )</tt> -  Set/Get the default renderer to use when activating the interactor 
+ observer. Normally when the widget is activated (SetEnabled(1) or when 
+ keypress activation takes place), the renderer over which the mouse
+ pointer is positioned is used. Alternatively, you can specify the
+ renderer to bind the interactor to when the interactor observer is
+ activated. 
+ </LI>
+<LI>  <tt>vtkRenderer = obj.GetCurrentRenderer ()</tt> -  Set/Get the current renderer. Normally when the widget is activated 
+ (SetEnabled(1) or when keypress activation takes place), the renderer
+ over which the mouse pointer is positioned is used and assigned to
+ this Ivar. Alternatively, you might want to set the CurrentRenderer
+ explicitly.
+ WARNING: note that if the DefaultRenderer Ivar is set (see above), 
+ it will always override the parameter passed to SetCurrentRenderer,
+ unless it is NULL.
+ (i.e., SetCurrentRenderer(foo) = SetCurrentRenderer(DefaultRenderer).
+ </LI>
+<LI>  <tt>obj.SetCurrentRenderer (vtkRenderer )</tt> -  Set/Get the current renderer. Normally when the widget is activated 
+ (SetEnabled(1) or when keypress activation takes place), the renderer
+ over which the mouse pointer is positioned is used and assigned to
+ this Ivar. Alternatively, you might want to set the CurrentRenderer
+ explicitly.
+ WARNING: note that if the DefaultRenderer Ivar is set (see above), 
+ it will always override the parameter passed to SetCurrentRenderer,
+ unless it is NULL.
+ (i.e., SetCurrentRenderer(foo) = SetCurrentRenderer(DefaultRenderer).
+ </LI>
+<LI>  <tt>obj.OnChar ()</tt> -  Sets up the keypress-i event. 
+ </LI>
+</UL>
+*/

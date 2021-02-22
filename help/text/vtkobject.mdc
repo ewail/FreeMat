@@ -1,0 +1,127 @@
+
+ Usage
+
+vtkObject is the base class for most objects in the
+visualization toolkit. vtkObject provides methods for
+tracking modification time, debugging, printing, and event
+callbacks. Most objects created within the VTK framework
+should be a subclass of vtkObject or one of its children.
+The few exceptions tend to be very small helper classes that
+usually never get instantiated or situations where multiple
+inheritance gets in the way. vtkObject also performs
+reference counting: objects that are reference counted exist
+as long as another object uses them. Once the last reference
+to a reference counted object is removed, the object will
+spontaneously destruct.
+To create an instance of class vtkObject, simply invoke its
+constructor as follows
+
+    obj = vtkObject
+
+
+
+ Methods
+
+The class vtkObject has several methods that can be used.
+They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkObject class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkObject = obj.NewInstance ()
+* vtkObject = obj.SafeDownCast (vtkObject o)
+* obj.DebugOn () - Turn debugging output on.
+* obj.DebugOff () - Turn debugging output off.
+* char = obj.GetDebug () - Get the value of the debug flag.
+* obj.SetDebug (char debugFlag) - Set the value of the debug
+  flag. A non-zero value turns debugging on.
+* obj.Modified () - Update the modification time for this
+  object. Many filters rely on the modification time to
+  determine if they need to recompute their data. The
+  modification time is a unique monotonically increasing
+  unsigned long integer.
+* long = obj.GetMTime () - Return this object's modified
+  time.
+* obj.RemoveObserver (long tag) - Allow people to add/
+  remove/invoke observers (callbacks) to any VTK object.
+  This is an implementation of the subject/observer design
+  pattern. An observer is added by specifying an event to
+  respond to and a vtkCommand to execute. It returns an
+  unsigned long tag which can be used later to remove the
+  event or retrieve the command. When events are invoked,
+  the observers are called in the order they were added. If
+  a priority value is specified, then the higher priority
+  commands are called first. A command may set an abort flag
+  to stop processing of the event. (See vtkCommand.h for
+  more information.)
+* obj.RemoveObservers (long event) - Allow people to add/
+  remove/invoke observers (callbacks) to any VTK object.
+  This is an implementation of the subject/observer design
+  pattern. An observer is added by specifying an event to
+  respond to and a vtkCommand to execute. It returns an
+  unsigned long tag which can be used later to remove the
+  event or retrieve the command. When events are invoked,
+  the observers are called in the order they were added. If
+  a priority value is specified, then the higher priority
+  commands are called first. A command may set an abort flag
+  to stop processing of the event. (See vtkCommand.h for
+  more information.)
+* obj.RemoveObservers (string event) - Allow people to add/
+  remove/invoke observers (callbacks) to any VTK object.
+  This is an implementation of the subject/observer design
+  pattern. An observer is added by specifying an event to
+  respond to and a vtkCommand to execute. It returns an
+  unsigned long tag which can be used later to remove the
+  event or retrieve the command. When events are invoked,
+  the observers are called in the order they were added. If
+  a priority value is specified, then the higher priority
+  commands are called first. A command may set an abort flag
+  to stop processing of the event. (See vtkCommand.h for
+  more information.)
+* obj.RemoveAllObservers () - Allow people to add/remove/
+  invoke observers (callbacks) to any VTK object. This is an
+  implementation of the subject/observer design pattern. An
+  observer is added by specifying an event to respond to and
+  a vtkCommand to execute. It returns an unsigned long tag
+  which can be used later to remove the event or retrieve
+  the command. When events are invoked, the observers are
+  called in the order they were added. If a priority value
+  is specified, then the higher priority commands are called
+  first. A command may set an abort flag to stop processing
+  of the event. (See vtkCommand.h for more information.)
+* int = obj.HasObserver (long event) - Allow people to add/
+  remove/invoke observers (callbacks) to any VTK object.
+  This is an implementation of the subject/observer design
+  pattern. An observer is added by specifying an event to
+  respond to and a vtkCommand to execute. It returns an
+  unsigned long tag which can be used later to remove the
+  event or retrieve the command. When events are invoked,
+  the observers are called in the order they were added. If
+  a priority value is specified, then the higher priority
+  commands are called first. A command may set an abort flag
+  to stop processing of the event. (See vtkCommand.h for
+  more information.)
+* int = obj.HasObserver (string event) - Allow people to
+  add/remove/invoke observers (callbacks) to any VTK object.
+  This is an implementation of the subject/observer design
+  pattern. An observer is added by specifying an event to
+  respond to and a vtkCommand to execute. It returns an
+  unsigned long tag which can be used later to remove the
+  event or retrieve the command. When events are invoked,
+  the observers are called in the order they were added. If
+  a priority value is specified, then the higher priority
+  commands are called first. A command may set an abort flag
+  to stop processing of the event. (See vtkCommand.h for
+  more information.)
+* int = obj.InvokeEvent (long event)
+* int = obj.InvokeEvent (string event)
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Common_Classes
+* Generated on Thu Jul 25 2013 17:18:30 for FreeMat by
+  doxygen_ 1.8.1.1
+

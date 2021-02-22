@@ -1,0 +1,134 @@
+/*!
+\page vtkhybrid_vtkpolydatasilhouette vtkPolyDataSilhouette
+
+<p>
+Section: \ref sec_vtkhybrid "Visualization Toolkit Hybrid Classes"
+\section Usage
+ vtkPolyDataSilhouette extracts a subset of a polygonal mesh edges to
+ generate an outline (silhouette) of the corresponding 3D object. In
+ addition, this filter can also extracts sharp edges (aka feature angles).
+ In order to use this filter you must specify the a point of view (origin) or
+ a direction (vector).  given this direction or origin, a silhouette is
+ generated wherever the surface's normal is orthogonal to the view direction.
+
+
+To create an instance of class vtkPolyDataSilhouette, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkPolyDataSilhouette
+\endverbatim
+\section Methods
+The class vtkPolyDataSilhouette has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkPolyDataSilhouette class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkPolyDataSilhouette = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkPolyDataSilhouette = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetEnableFeatureAngle (int )</tt> -  Enables or Disables generation of silhouette edges along sharp edges
+ </LI>
+<LI>  <tt>int = obj.GetEnableFeatureAngle ()</tt> -  Enables or Disables generation of silhouette edges along sharp edges
+ </LI>
+<LI>  <tt>obj.SetFeatureAngle (double )</tt> -  Sets/Gets minimal angle for sharp edges detection. Default is 60
+ </LI>
+<LI>  <tt>double = obj.GetFeatureAngle ()</tt> -  Sets/Gets minimal angle for sharp edges detection. Default is 60
+ </LI>
+<LI>  <tt>obj.SetBorderEdges (int )</tt> -  Enables or Disables generation of border edges. Note: borders exist only
+ in case of non closed surface
+ </LI>
+<LI>  <tt>int = obj.GetBorderEdges ()</tt> -  Enables or Disables generation of border edges. Note: borders exist only
+ in case of non closed surface
+ </LI>
+<LI>  <tt>obj.BorderEdgesOn ()</tt> -  Enables or Disables generation of border edges. Note: borders exist only
+ in case of non closed surface
+ </LI>
+<LI>  <tt>obj.BorderEdgesOff ()</tt> -  Enables or Disables generation of border edges. Note: borders exist only
+ in case of non closed surface
+ </LI>
+<LI>  <tt>obj.SetPieceInvariant (int )</tt> -  Enables or Disables piece invariance. This is usefull when dealing with
+ multi-block data sets. Note: requires one level of ghost cells
+ </LI>
+<LI>  <tt>int = obj.GetPieceInvariant ()</tt> -  Enables or Disables piece invariance. This is usefull when dealing with
+ multi-block data sets. Note: requires one level of ghost cells
+ </LI>
+<LI>  <tt>obj.PieceInvariantOn ()</tt> -  Enables or Disables piece invariance. This is usefull when dealing with
+ multi-block data sets. Note: requires one level of ghost cells
+ </LI>
+<LI>  <tt>obj.PieceInvariantOff ()</tt> -  Enables or Disables piece invariance. This is usefull when dealing with
+ multi-block data sets. Note: requires one level of ghost cells
+ </LI>
+<LI>  <tt>obj.SetDirection (int )</tt> -  Specify how view direction is computed. By default, the
+ camera origin (eye) is used.
+ </LI>
+<LI>  <tt>int = obj.GetDirection ()</tt> -  Specify how view direction is computed. By default, the
+ camera origin (eye) is used.
+ </LI>
+<LI>  <tt>obj.SetDirectionToSpecifiedVector ()</tt> -  Specify how view direction is computed. By default, the
+ camera origin (eye) is used.
+ </LI>
+<LI>  <tt>obj.SetDirectionToSpecifiedOrigin ()</tt> -  Specify how view direction is computed. By default, the
+ camera origin (eye) is used.
+ </LI>
+<LI>  <tt>obj.SetDirectionToCameraVector ()</tt> -  Specify how view direction is computed. By default, the
+ camera origin (eye) is used.
+ </LI>
+<LI>  <tt>obj.SetDirectionToCameraOrigin ()</tt> -  Specify a camera that is used to define the view direction.  This ivar
+ only has effect if the direction is set to VTK_DIRECTION_CAMERA_ORIGIN or
+ VTK_DIRECTION_CAMERA_VECTOR, and a camera is specified.
+ </LI>
+<LI>  <tt>obj.SetCamera (vtkCamera )</tt> -  Specify a camera that is used to define the view direction.  This ivar
+ only has effect if the direction is set to VTK_DIRECTION_CAMERA_ORIGIN or
+ VTK_DIRECTION_CAMERA_VECTOR, and a camera is specified.
+ </LI>
+<LI>  <tt>vtkCamera = obj.GetCamera ()</tt> -  Specify a camera that is used to define the view direction.  This ivar
+ only has effect if the direction is set to VTK_DIRECTION_CAMERA_ORIGIN or
+ VTK_DIRECTION_CAMERA_VECTOR, and a camera is specified.
+ </LI>
+<LI>  <tt>obj.SetProp3D (vtkProp3D )</tt> -  Specify a transformation matrix (via the vtkProp3D::GetMatrix() method)
+ that is used to include the effects of transformation. This ivar only has
+ effect if the direction is set to VTK_DIRECTION_CAMERA_ORIGIN or
+ VTK_DIRECTION_CAMERA_VECTOR, and a camera is specified. Specifying the
+ vtkProp3D is optional.
+ </LI>
+<LI>  <tt>vtkProp3D = obj.GetProp3D ()</tt> -  Specify a transformation matrix (via the vtkProp3D::GetMatrix() method)
+ that is used to include the effects of transformation. This ivar only has
+ effect if the direction is set to VTK_DIRECTION_CAMERA_ORIGIN or
+ VTK_DIRECTION_CAMERA_VECTOR, and a camera is specified. Specifying the
+ vtkProp3D is optional.
+ </LI>
+<LI>  <tt>obj.SetVector (double , double , double )</tt> -  Set/Get the sort direction. This ivar only has effect if the sort
+ direction is set to SetDirectionToSpecifiedVector(). The edge detection
+ occurs in the direction of the vector.
+ </LI>
+<LI>  <tt>obj.SetVector (double  a[3])</tt> -  Set/Get the sort direction. This ivar only has effect if the sort
+ direction is set to SetDirectionToSpecifiedVector(). The edge detection
+ occurs in the direction of the vector.
+ </LI>
+<LI>  <tt>double = obj. GetVector ()</tt> -  Set/Get the sort direction. This ivar only has effect if the sort
+ direction is set to SetDirectionToSpecifiedVector(). The edge detection
+ occurs in the direction of the vector.
+ </LI>
+<LI>  <tt>obj.SetOrigin (double , double , double )</tt> -  Set/Get the sort origin. This ivar only has effect if the sort direction
+ is set to SetDirectionToSpecifiedOrigin(). The edge detection occurs in
+ the direction of the origin to each edge's center.
+ </LI>
+<LI>  <tt>obj.SetOrigin (double  a[3])</tt> -  Set/Get the sort origin. This ivar only has effect if the sort direction
+ is set to SetDirectionToSpecifiedOrigin(). The edge detection occurs in
+ the direction of the origin to each edge's center.
+ </LI>
+<LI>  <tt>double = obj. GetOrigin ()</tt> -  Set/Get the sort origin. This ivar only has effect if the sort direction
+ is set to SetDirectionToSpecifiedOrigin(). The edge detection occurs in
+ the direction of the origin to each edge's center.
+ </LI>
+<LI>  <tt>long = obj.GetMTime ()</tt> -  Return MTime also considering the dependent objects: the camera
+ and/or the prop3D.
+ </LI>
+</UL>
+*/

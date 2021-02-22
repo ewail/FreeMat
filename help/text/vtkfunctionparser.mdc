@@ -1,0 +1,156 @@
+
+ Usage
+
+vtkFunctionParser is a class that takes in a mathematical
+expression as a char string, parses it, and evaluates it at
+the specified values of the variables in the input string.
+You can use the "if" operator to create conditional
+expressions such as if ( test, trueresult, falseresult).
+These evaluate the boolean valued test expression and then
+evaluate either the trueresult or the falseresult expression
+to produce a final (scalar or vector valued) value. "test"
+may contain <,>,=,|,&amp;, and () and all three
+subexpressions can evaluate arbitrary function operators
+(ln, cos, +, if, etc)
+.SECTION Thanks Thomas Dunne
+(thoma.nosp@m.s.du.nosp@m.nne@i.nosp@m.wr.u.nosp@m.ni-
+he.nosp@m.idel.nosp@m.berg..nosp@m.de) for adding code for
+two-parameter-parsing and a few functions (sign, min, max).
+Sid Sydoriak (sxs@l.nosp@m.anl..nosp@m.gov) for adding
+boolean operations and conditional expressions and for
+fixing a variety of bugs.
+To create an instance of class vtkFunctionParser, simply
+invoke its constructor as follows
+
+    obj = vtkFunctionParser
+
+
+
+ Methods
+
+The class vtkFunctionParser has several methods that can be
+used. They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkFunctionParser class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkFunctionParser = obj.NewInstance ()
+* vtkFunctionParser = obj.SafeDownCast (vtkObject o)
+* obj.SetFunction (string function)
+* string = obj.GetFunction ()
+* int = obj.IsScalarResult () - Check whether the result is
+  a scalar result. If it isn't, then either the result is a
+  vector or an error has occurred.
+* int = obj.IsVectorResult () - Check whether the result is
+  a vector result. If it isn't, then either the result is
+  scalar or an error has occurred.
+* double = obj.GetScalarResult () - Get a scalar result from
+  evaluating the input function.
+* double = obj.GetVectorResult () - Get a vector result from
+  evaluating the input function.
+* obj.GetVectorResult (double result[3]) - Get a vector
+  result from evaluating the input function.
+* obj.SetScalarVariableValue (string variableName, double
+  value) - Set the value of a scalar variable. If a variable
+  with this name exists, then its value will be set to the
+  new value. If there is not already a variable with this
+  name, variableName will be added to the list of variables,
+  and its value will be set to the new value.
+* obj.SetScalarVariableValue (int i, double value) - Set the
+  value of a scalar variable. If a variable with this name
+  exists, then its value will be set to the new value. If
+  there is not already a variable with this name,
+  variableName will be added to the list of variables, and
+  its value will be set to the new value.
+* double = obj.GetScalarVariableValue (string variableName)
+  - Get the value of a scalar variable.
+* double = obj.GetScalarVariableValue (int i) - Get the
+  value of a scalar variable.
+* obj.SetVectorVariableValue (string variableName, double
+  xValue, double yValue, double zValue) - Set the value of a
+  vector variable. If a variable with this name exists, then
+  its value will be set to the new value. If there is not
+  already a variable with this name, variableName will be
+  added to the list of variables, and its value will be set
+  to the new value.
+* obj.SetVectorVariableValue (string variableName, double
+  values[3]) - Set the value of a vector variable. If a
+  variable with this name exists, then its value will be set
+  to the new value. If there is not already a variable with
+  this name, variableName will be added to the list of
+  variables, and its value will be set to the new value.
+* obj.SetVectorVariableValue (int i, double xValue, double
+  yValue, double zValue) - Set the value of a vector
+  variable. If a variable with this name exists, then its
+  value will be set to the new value. If there is not
+  already a variable with this name, variableName will be
+  added to the list of variables, and its value will be set
+  to the new value.
+* obj.SetVectorVariableValue (int i, double values[3]) - Set
+  the value of a vector variable. If a variable with this
+  name exists, then its value will be set to the new value.
+  If there is not already a variable with this name,
+  variableName will be added to the list of variables, and
+  its value will be set to the new value.
+* double = obj.GetVectorVariableValue (string variableName)
+  - Get the value of a vector variable.
+* obj.GetVectorVariableValue (string variableName, double
+  value[3]) - Get the value of a vector variable.
+* double = obj.GetVectorVariableValue (int i) - Get the
+  value of a vector variable.
+* obj.GetVectorVariableValue (int i, double value[3]) - Get
+  the value of a vector variable.
+* int = obj.GetNumberOfScalarVariables () - Get the number
+  of scalar variables.
+* int = obj.GetNumberOfVectorVariables () - Get the number
+  of vector variables.
+* string = obj.GetScalarVariableName (int i) - Get the ith
+  scalar variable name.
+* string = obj.GetVectorVariableName (int i) - Get the ith
+  vector variable name.
+* obj.RemoveAllVariables () - Remove all the current
+  variables.
+* obj.RemoveScalarVariables () - Remove all the scalar
+  variables.
+* obj.RemoveVectorVariables () - Remove all the vector
+  variables.
+* obj.SetReplaceInvalidValues (int ) - When
+  ReplaceInvalidValues is on, all invalid values (such as
+  sqrt(-2), note that function parser does not handle
+  complex numbers) will be replaced by ReplacementValue.
+  Otherwise an error will be reported
+* int = obj.GetReplaceInvalidValues () - When
+  ReplaceInvalidValues is on, all invalid values (such as
+  sqrt(-2), note that function parser does not handle
+  complex numbers) will be replaced by ReplacementValue.
+  Otherwise an error will be reported
+* obj.ReplaceInvalidValuesOn () - When ReplaceInvalidValues
+  is on, all invalid values (such as sqrt(-2), note that
+  function parser does not handle complex numbers) will be
+  replaced by ReplacementValue. Otherwise an error will be
+  reported
+* obj.ReplaceInvalidValuesOff () - When ReplaceInvalidValues
+  is on, all invalid values (such as sqrt(-2), note that
+  function parser does not handle complex numbers) will be
+  replaced by ReplacementValue. Otherwise an error will be
+  reported
+* obj.SetReplacementValue (double ) - When
+  ReplaceInvalidValues is on, all invalid values (such as
+  sqrt(-2), note that function parser does not handle
+  complex numbers) will be replaced by ReplacementValue.
+  Otherwise an error will be reported
+* double = obj.GetReplacementValue () - When
+  ReplaceInvalidValues is on, all invalid values (such as
+  sqrt(-2), note that function parser does not handle
+  complex numbers) will be replaced by ReplacementValue.
+  Otherwise an error will be reported
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Common_Classes
+* Generated on Thu Jul 25 2013 17:18:30 for FreeMat by
+  doxygen_ 1.8.1.1
+

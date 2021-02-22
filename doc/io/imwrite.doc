@@ -1,0 +1,57 @@
+/*!
+\page io_imwrite IMWRITE Write Matrix to Image File
+
+<p>
+Section: \ref sec_io "Input/Ouput Functions"
+\section Usage
+Write the image data from the matrix into a given file.  Note that
+FreeMat's support for <tt>imwrite</tt> is not complete.
+You can write images in the <tt>jpg,png,xpm,ppm</tt> and some other formats.
+The syntax for its use is
+\verbatim
+  imwrite(A, filename)
+  imwrite(A, map, filename)
+  imwrite(A, map, filename, 'Alpha', alpha)
+
+or Octave-style syntax:
+  imwrite(filename, A)
+  imwrite(filename, A, map)
+  imwrite(filename, A, map, alpha)
+\endverbatim
+where <tt>filename</tt> is the name of the file to write to.  The input array 
+<tt>A</tt> contains the image data (2D for gray or indexed, and 3D for color).  
+If <tt>A</tt> is an integer array (int8, uint8, int16, uint16, int32, uint32), 
+the values of its elements should be within 0-255.  If <tt>A</tt> is a 
+floating-point array (float or double), the value of its elements should
+be in the range [0,1].  <tt>map</tt> contains the colormap information
+(for indexed images), and <tt>alpha</tt> the alphamap (transparency).
+\section Example
+Here is a simple example of <tt>imread</tt>/<tt>imwrite</tt>.  First, we generate
+a grayscale image and save it to an image file.
+
+\if FRAGMENT
+frag_io_imwrite_000.m
+0
+a =  uint8(255*rand(64));
+figure(1), image(a), colormap(gray)
+title('image to save')
+imwrite(a, 'test.bmp')
+\endif
+
+
+\verbinclude frag_io_imwrite_000.m.out 
+
+Then, we read image file and show it:
+
+\if FRAGMENT
+frag_io_imwrite_001.m
+0
+b = imread('test.bmp');
+figure(2), image(b), colormap(gray)
+title('loaded image')
+\endif
+
+
+\verbinclude frag_io_imwrite_001.m.out 
+
+*/

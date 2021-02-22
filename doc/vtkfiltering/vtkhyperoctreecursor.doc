@@ -1,0 +1,96 @@
+/*!
+\page vtkfiltering_vtkhyperoctreecursor vtkHyperOctreeCursor
+
+<p>
+Section: \ref sec_vtkfiltering "Visualization Toolkit Filtering Classes"
+\section Usage
+ Objects that can traverse hyperoctree nodes. It is an abstract class.
+ Cursors are created by the hyperoctree.
+
+To create an instance of class vtkHyperOctreeCursor, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkHyperOctreeCursor
+\endverbatim
+\section Methods
+The class vtkHyperOctreeCursor has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkHyperOctreeCursor class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkHyperOctreeCursor = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkHyperOctreeCursor = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetLeafId ()</tt> -  Return the index of the current leaf in the data arrays.
+ \pre is_leaf: CurrentIsLeaf()
+ </LI>
+<LI>  <tt>int = obj.CurrentIsLeaf ()</tt> -  Is the node pointed by the cursor a leaf?
+ </LI>
+<LI>  <tt>int = obj.CurrentIsRoot ()</tt> -  Is the node pointed by the cursor the root?
+ </LI>
+<LI>  <tt>int = obj.GetCurrentLevel ()</tt> -  Return the level of the node pointed by the cursor.
+ \post positive_result: result>=0
+ </LI>
+<LI>  <tt>int = obj.GetChildIndex ()</tt> -  Return the child number of the current node relative to its parent.
+ \pre not_root: !CurrentIsRoot().
+ \post valid_range: result>=0 && result<GetNumberOfChildren()
+ </LI>
+<LI>  <tt>int = obj.CurrentIsTerminalNode ()</tt>
+ </LI>
+<LI>  <tt>obj.ToRoot ()</tt> -  Move the cursor the root node.
+ \pre can be root
+ \post is_root: CurrentIsRoot()
+ </LI>
+<LI>  <tt>obj.ToParent ()</tt> -  Move the cursor to the parent of the current node.
+ \pre not_root: !CurrentIsRoot()
+ </LI>
+<LI>  <tt>obj.ToChild (int child)</tt> -  Move the cursor to child `child' of the current node.
+ \pre not_leaf: !CurrentIsLeaf()
+ \pre valid_child: child>=0 && child<this->GetNumberOfChildren()
+ </LI>
+<LI>  <tt>obj.ToSameNode (vtkHyperOctreeCursor other)</tt> -  Move the cursor to the same node pointed by `other'.
+ \pre other_exists: other!=0
+ \pre same_hyperoctree: this->SameTree(other);
+ \post equal: this->IsEqual(other)
+ </LI>
+<LI>  <tt>int = obj.IsEqual (vtkHyperOctreeCursor other)</tt> -  Is `this' equal to `other'?
+ \pre other_exists: other!=0
+ \pre same_hyperoctree: this->SameTree(other);
+ </LI>
+<LI>  <tt>vtkHyperOctreeCursor = obj.Clone ()</tt> -  Create a copy of `this'.
+ \post results_exists:result!=0
+ \post same_tree: result->SameTree(this)
+ </LI>
+<LI>  <tt>int = obj.SameTree (vtkHyperOctreeCursor other)</tt> -  Are `this' and `other' pointing on the same hyperoctree?
+ \pre other_exists: other!=0
+ </LI>
+<LI>  <tt>int = obj.GetIndex (int d)</tt> -  Return the index in dimension `d', as if the node was a cell of a
+ uniform grid of 1<<GetCurrentLevel() cells in each dimension.
+ \pre valid_range: d>=0 && d<GetDimension()
+ \post valid_result: result>=0 && result<(1<<GetCurrentLevel())
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfChildren ()</tt> -  Return the number of children for each node of the tree.
+ \post positive_number: result>0
+ </LI>
+<LI>  <tt>int = obj.GetDimension ()</tt> -  Return the dimension of the tree.
+ \post positive_result: result>0
+ </LI>
+<LI>  <tt>obj.MoveToNode (int indices, int level)</tt> -  Move to the node described by its indices in each dimension and
+ at a given level. If there is actually a node or a leaf at this
+ location, Found() returns true. Otherwise, Found() returns false and the
+ cursor moves to the closest parent of the query. It can be the root in the
+ worst case.
+ \pre indices_exists: indices!=0
+ \pre valid_size: sizeof(indices)==GetDimension()
+ \pre valid_level: level>=0
+ </LI>
+<LI>  <tt>int = obj.Found ()</tt>
+ </LI>
+</UL>
+*/

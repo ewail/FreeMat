@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="signal_conv2" kind="page">
+    <compoundname>signal_conv2</compoundname>
+    <title>CONV2 Matrix Convolution</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_signal_1sec_signal" kindref="member">Signal Processing Functions</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>The <computeroutput>conv2</computeroutput> function performs a two-dimensional convolution of matrix arguments. The syntax for its use is <verbatim>    Z = conv2(X,Y)
+</verbatim> which performs the full 2-D convolution of <computeroutput>X</computeroutput> and <computeroutput>Y</computeroutput>. If the input matrices are of size <computeroutput>[xm,xn]</computeroutput> and <computeroutput>[ym,yn]</computeroutput> respectively, then the output is of size <computeroutput>[xm+ym-1,xn+yn-1]</computeroutput>. Another form is <verbatim>    Z = conv2(hcol,hrow,X)
+</verbatim> where <computeroutput>hcol</computeroutput> and <computeroutput>hrow</computeroutput> are vectors. In this form, <computeroutput>conv2</computeroutput> first convolves <computeroutput>Y</computeroutput> along the columns with <computeroutput>hcol</computeroutput>, and then convolves <computeroutput>Y</computeroutput> along the rows with <computeroutput>hrow</computeroutput>. This is equivalent to <computeroutput>conv2(hcol(:)*hrow(:)&apos;,Y)</computeroutput>.</para><para>You can also provide an optional <computeroutput>shape</computeroutput> argument to <computeroutput>conv2</computeroutput> via either <verbatim>    Z = conv2(X,Y,&apos;shape&apos;)
+    Z = conv2(hcol,hrow,X,&apos;shape&apos;)
+</verbatim> where <computeroutput>shape</computeroutput> is one of the following strings <itemizedlist>
+<listitem>
+<para><computeroutput>&apos;full&apos;</computeroutput> - compute the full convolution result - this is the default if no <computeroutput>shape</computeroutput> argument is provided.  </para></listitem>
+<listitem>
+<para><computeroutput>&apos;same&apos;</computeroutput> - returns the central part of the result that is the same size as <computeroutput>X</computeroutput>.  </para></listitem>
+<listitem>
+<para><computeroutput>&apos;valid&apos;</computeroutput> - returns the portion of the convolution that is computed without the zero-padded edges. In this situation, <computeroutput>Z</computeroutput> has size <computeroutput>[xm-ym+1,xn-yn+1]</computeroutput> when <computeroutput>xm&gt;=ym</computeroutput> and <computeroutput>xn&gt;=yn</computeroutput>. Otherwise <computeroutput>conv2</computeroutput> returns an empty matrix.  </para></listitem>
+</itemizedlist>
+</para></sect1>
+<sect1 id="transforms_svd_1Function">
+<title>Internals</title>
+<para>The convolution is computed explicitly using the definition: <formula id="151">\[ Z(m,n) = \sum_{k} \sum_{j} X(k,j) Y(m-k,n-j) \]</formula> If the full output is requested, then <computeroutput>m</computeroutput> ranges over <computeroutput>0 &lt;= m &lt; xm+ym-1</computeroutput> and <computeroutput>n</computeroutput> ranges over <computeroutput>0 &lt;= n &lt; xn+yn-1</computeroutput>. For the case where <computeroutput>shape</computeroutput> is <computeroutput>&apos;same&apos;</computeroutput>, the output ranges over <computeroutput>(ym-1)/2 &lt;= m &lt; xm + (ym-1)/2</computeroutput> and <computeroutput>(yn-1)/2 &lt;= n &lt; xn + (yn-1)/2</computeroutput>. </para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

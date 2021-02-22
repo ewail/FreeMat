@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkgraphics_vtktablebasedclipdataset" kind="page">
+    <compoundname>vtkgraphics_vtktablebasedclipdataset</compoundname>
+    <title>vtkTableBasedClipDataSet</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkgraphics_1sec_vtkgraphics" kindref="member">Visualization Toolkit Graphics Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>vtkTableBasedClipDataSet is a filter that clips any type of dataset using either any subclass of vtkImplicitFunction or an input scalar point data array. Clipping means that it actually &quot;cuts&quot; through the cells of the dataset, returning everything outside the specified implicit function (or greater than the scalar value) including &quot;pieces&quot; of a cell (Note to compare this with vtkExtractGeometry, which pulls out entire, uncut cells). The output of this filter is a vtkUnstructuredGrid data.</para><para>To use this filter, you need to decide whether an implicit function or an input scalar point data array is used for clipping. For the former case, 1) define an implicit function 2) provide it to this filter via SetClipFunction() If a clipping function is not specified, or GenerateClipScalars is off( the default), the input scalar point data array is then employed for clipping.</para><para>You can also specify a scalar (iso-)value, which is used to decide what is inside and outside the implicit function. You can also reverse the sense of what inside/outside is by setting IVAR InsideOut. The clipping algorithm proceeds by computing an implicit function value or using the input scalar point data value for each point in the dataset. This is compared against the scalar (iso-)value to determine the inside/outside status.</para><para>Although this filter sometimes (but rarely) may resort to the sibling class vtkClipDataSet for handling some special grids (such as cylinders or cones with capping faces in the form of a vtkPolyData), it itself is able to deal with most grids. It is worth mentioning that vtkTableBasedClipDataSet is capable of addressing the artifacts that may occur with vtkClipDataSet due to the possibly inconsistent triagulation modes between neighboring cells. In addition, the former is much faster than the latter. Furthermore, the former produces less cells (with ratio usually being 5~6) than by the latter in the output. In other words, this filter retains the original cells (i.e., without triangulation / tetrahedralization) wherever possible. All these advantages are gained by adopting the unique clipping and triangulation tables proposed by VisIt.</para><para>To create an instance of class vtkTableBasedClipDataSet, simply invoke its constructor as follows <verbatim>  obj = vtkTableBasedClipDataSet
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkTableBasedClipDataSet has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkTableBasedClipDataSet class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkTableBasedClipDataSet = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkTableBasedClipDataSet = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>long = obj.GetMTime ()</computeroutput> - Get the MTime for which the point locator and clip function are consdiered.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetInsideOut (int )</computeroutput> - Set/Get the InsideOut flag. With this flag off, a vertex is considered inside (the implicit function or the isosurface) if the (function or scalar) value is greater than IVAR Value. With this flag on, a vertex is considered inside (the implicit function or the isosurface) if the (function or scalar) value is less than or equal to IVAR Value. This flag is off by default.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetInsideOut ()</computeroutput> - Set/Get the InsideOut flag. With this flag off, a vertex is considered inside (the implicit function or the isosurface) if the (function or scalar) value is greater than IVAR Value. With this flag on, a vertex is considered inside (the implicit function or the isosurface) if the (function or scalar) value is less than or equal to IVAR Value. This flag is off by default.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.InsideOutOn ()</computeroutput> - Set/Get the InsideOut flag. With this flag off, a vertex is considered inside (the implicit function or the isosurface) if the (function or scalar) value is greater than IVAR Value. With this flag on, a vertex is considered inside (the implicit function or the isosurface) if the (function or scalar) value is less than or equal to IVAR Value. This flag is off by default.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.InsideOutOff ()</computeroutput> - Set/Get the InsideOut flag. With this flag off, a vertex is considered inside (the implicit function or the isosurface) if the (function or scalar) value is greater than IVAR Value. With this flag on, a vertex is considered inside (the implicit function or the isosurface) if the (function or scalar) value is less than or equal to IVAR Value. This flag is off by default.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetValue (double )</computeroutput> - Set/Get the clipping value of the implicit function (if an implicit function is applied) or scalar data array (if a scalar data array is used), with 0.0 as the default value. This value is ignored if flag UseValueAsOffset is true AND a clip function is defined.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetValue ()</computeroutput> - Set/Get the clipping value of the implicit function (if an implicit function is applied) or scalar data array (if a scalar data array is used), with 0.0 as the default value. This value is ignored if flag UseValueAsOffset is true AND a clip function is defined.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetUseValueAsOffset (bool )</computeroutput> - Set/Get flag UseValueAsOffset, with true as the default value. With this flag on, IVAR Value is used as an offset parameter to the implicit function. Value is used only when clipping using a scalar array.  </para></listitem>
+<listitem>
+<para><computeroutput>bool = obj.GetUseValueAsOffset ()</computeroutput> - Set/Get flag UseValueAsOffset, with true as the default value. With this flag on, IVAR Value is used as an offset parameter to the implicit function. Value is used only when clipping using a scalar array.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.UseValueAsOffsetOn ()</computeroutput> - Set/Get flag UseValueAsOffset, with true as the default value. With this flag on, IVAR Value is used as an offset parameter to the implicit function. Value is used only when clipping using a scalar array.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.UseValueAsOffsetOff ()</computeroutput> - Set/Get flag UseValueAsOffset, with true as the default value. With this flag on, IVAR Value is used as an offset parameter to the implicit function. Value is used only when clipping using a scalar array.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetClipFunction (vtkImplicitFunction )</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkImplicitFunction = obj.GetClipFunction ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetGenerateClipScalars (int )</computeroutput> - Set/Get flag GenerateClipScalars, with 0 as the default value. With this flag on, the scalar point data values obtained by evaluating the implicit function will be exported to the output. Note that this flag requries that an implicit function be provided.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetGenerateClipScalars ()</computeroutput> - Set/Get flag GenerateClipScalars, with 0 as the default value. With this flag on, the scalar point data values obtained by evaluating the implicit function will be exported to the output. Note that this flag requries that an implicit function be provided.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GenerateClipScalarsOn ()</computeroutput> - Set/Get flag GenerateClipScalars, with 0 as the default value. With this flag on, the scalar point data values obtained by evaluating the implicit function will be exported to the output. Note that this flag requries that an implicit function be provided.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GenerateClipScalarsOff ()</computeroutput> - Set/Get flag GenerateClipScalars, with 0 as the default value. With this flag on, the scalar point data values obtained by evaluating the implicit function will be exported to the output. Note that this flag requries that an implicit function be provided.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetLocator (vtkIncrementalPointLocator locator)</computeroutput> - Set/Get a point locator locator for merging duplicate points. By default, an instance of vtkMergePoints is used. Note that this IVAR is provided in this class only because this filter may resort to its sibling class vtkClipDataSet when processing some special grids (such as cylinders or cones with capping faces in the form of a vtkPolyData) while the latter requires a point locator. This filter itself does not need a locator.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkIncrementalPointLocator = obj.GetLocator ()</computeroutput> - Set/Get a point locator locator for merging duplicate points. By default, an instance of vtkMergePoints is used. Note that this IVAR is provided in this class only because this filter may resort to its sibling class vtkClipDataSet when processing some special grids (such as cylinders or cones with capping faces in the form of a vtkPolyData) while the latter requires a point locator. This filter itself does not need a locator.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetMergeTolerance (double )</computeroutput> - Set/Get the tolerance used for merging duplicate points near the clipping intersection cells. This tolerance may prevent the generation of degenerate primitives. Note that only 3D cells actually use this IVAR.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetMergeToleranceMinValue ()</computeroutput> - Set/Get the tolerance used for merging duplicate points near the clipping intersection cells. This tolerance may prevent the generation of degenerate primitives. Note that only 3D cells actually use this IVAR.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetMergeToleranceMaxValue ()</computeroutput> - Set/Get the tolerance used for merging duplicate points near the clipping intersection cells. This tolerance may prevent the generation of degenerate primitives. Note that only 3D cells actually use this IVAR.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetMergeTolerance ()</computeroutput> - Set/Get the tolerance used for merging duplicate points near the clipping intersection cells. This tolerance may prevent the generation of degenerate primitives. Note that only 3D cells actually use this IVAR.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.CreateDefaultLocator ()</computeroutput> - Create a default point locator when none is specified. The point locator is used to merge coincident points.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetGenerateClippedOutput (int )</computeroutput> - Set/Get whether a second output is generated. The second output contains the polygonal data that is clipped away by the iso-surface.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetGenerateClippedOutput ()</computeroutput> - Set/Get whether a second output is generated. The second output contains the polygonal data that is clipped away by the iso-surface.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GenerateClippedOutputOn ()</computeroutput> - Set/Get whether a second output is generated. The second output contains the polygonal data that is clipped away by the iso-surface.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GenerateClippedOutputOff ()</computeroutput> - Set/Get whether a second output is generated. The second output contains the polygonal data that is clipped away by the iso-surface.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkUnstructuredGrid = obj.GetClippedOutput ()</computeroutput> - Return the clipped output.  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

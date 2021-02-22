@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="flow_try" kind="page">
+    <compoundname>flow_try</compoundname>
+    <title>TRY-CATCH Try and Catch Statement</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_flow_1sec_flow" kindref="member">Flow Control</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>The <computeroutput>try</computeroutput> and <computeroutput>catch</computeroutput> statements are used for error handling and control. A concept present in <computeroutput>C++</computeroutput>, the <computeroutput>try</computeroutput> and <computeroutput>catch</computeroutput> statements are used with two statement blocks as follows <verbatim>   try
+     statements_1
+   catch
+     statements_2
+   end
+</verbatim> The meaning of this construction is: try to execute <computeroutput>statements_1</computeroutput>, and if any errors occur during the execution, then execute the code in <computeroutput>statements_2</computeroutput>. An error can either be a FreeMat generated error (such as a syntax error in the use of a built in function), or an error raised with the <computeroutput>error</computeroutput> command. </para></sect1>
+<sect1 id="variables_matrix_1Examples">
+<title>Examples</title>
+<para>Here is an example of a function that uses error control via <computeroutput>try</computeroutput> and <computeroutput>catch</computeroutput> to check for failures in <computeroutput>fopen</computeroutput>.</para><para><verbatim>     read_file.m
+</verbatim></para><para><verbatim>function c = read_file(filename)
+try
+   fp = fopen(filename,&apos;r&apos;);
+   c = fgetline(fp);
+   fclose(fp);
+catch
+   c = [&apos;could not open file because of error :&apos; lasterr]
+end
+</verbatim></para><para>Now we try it on an example file - first one that does not exist, and then on one that we create (so that we know it exists).</para><para><verbatim>--&gt; read_file(&apos;this_filename_is_invalid&apos;)
+
+c = 
+could not open file because of error :Invalid handle!
+
+ans = 
+could not open file because of error :Invalid handle!
+--&gt; fp = fopen(&apos;test_text.txt&apos;,&apos;w&apos;);
+--&gt; fprintf(fp,&apos;a line of text\n&apos;);
+--&gt; fclose(fp);
+--&gt; read_file(&apos;test_text.txt&apos;)
+
+ans = 
+a line of text
+</verbatim> </para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

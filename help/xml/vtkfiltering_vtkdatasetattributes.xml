@@ -1,0 +1,248 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkfiltering_vtkdatasetattributes" kind="page">
+    <compoundname>vtkfiltering_vtkdatasetattributes</compoundname>
+    <title>vtkDataSetAttributes</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkfiltering_1sec_vtkfiltering" kindref="member">Visualization Toolkit Filtering Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>vtkDataSetAttributes is a class that is used to represent and manipulate attribute data (e.g., scalars, vectors, normals, texture coordinates, tensors, global ids, pedigree ids, and field data).</para><para>This adds to vtkFieldData the ability to pick one of the arrays from the field as the currently active array for each attribute type. In other words, you pick one array to be called &quot;THE&quot; Scalars, and then filters down the pipeline will treat that array specially. For example vtkContourFilter will contour &quot;THE&quot; Scalar array unless a different array is asked for.</para><para>Additionally vtkDataSetAttributes provides methods that filters call to pass data through, copy data into, and interpolate from Fields. PassData passes entire arrays from the source to the destination. Copy passes through some subset of the tuples from the source to the destination. Interpolate interpolates from the chosen tuple(s) in the source data, using the provided weights, to produce new tuples in the destination. Each attribute type has pass, copy and interpolate &quot;copy&quot; flags that can be set in the destination to choose which attribute arrays will be transfered from the source to the destination.</para><para>Finally this class provides a mechanism to determine which attributes a group of sources have in common, and to copy tuples from a source into the destination, for only those attributes that are held by all.</para><para>To create an instance of class vtkDataSetAttributes, simply invoke its constructor as follows <verbatim>  obj = vtkDataSetAttributes
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkDataSetAttributes has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkDataSetAttributes class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkDataSetAttributes = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkDataSetAttributes = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.Initialize ()</computeroutput> - Initialize all of the object&apos;s data to NULL Also, clear the copy flags.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.Update ()</computeroutput> - Deep copy of data (i.e., create new data arrays and copy from input data). Ignores the copy flags but preserves them in the output.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.DeepCopy (vtkFieldData pd)</computeroutput> - Deep copy of data (i.e., create new data arrays and copy from input data). Ignores the copy flags but preserves them in the output.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ShallowCopy (vtkFieldData pd)</computeroutput> - Shallow copy of data (i.e., use reference counting). Ignores the copy flags but preserves them in the output.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.SetScalars (vtkDataArray da)</computeroutput> - Set/Get the scalar data.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.SetActiveScalars (string name)</computeroutput> - Set/Get the scalar data.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkDataArray = obj.GetScalars ()</computeroutput> - Set/Get the scalar data.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.SetVectors (vtkDataArray da)</computeroutput> - Set/Get the vector data.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.SetActiveVectors (string name)</computeroutput> - Set/Get the vector data.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkDataArray = obj.GetVectors ()</computeroutput> - Set/Get the vector data.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.SetNormals (vtkDataArray da)</computeroutput> - Set/get the normal data.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.SetActiveNormals (string name)</computeroutput> - Set/get the normal data.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkDataArray = obj.GetNormals ()</computeroutput> - Set/get the normal data.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.SetTCoords (vtkDataArray da)</computeroutput> - Set/Get the texture coordinate data.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.SetActiveTCoords (string name)</computeroutput> - Set/Get the texture coordinate data.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkDataArray = obj.GetTCoords ()</computeroutput> - Set/Get the texture coordinate data.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.SetTensors (vtkDataArray da)</computeroutput> - Set/Get the tensor data.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.SetActiveTensors (string name)</computeroutput> - Set/Get the tensor data.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkDataArray = obj.GetTensors ()</computeroutput> - Set/Get the tensor data.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.SetGlobalIds (vtkDataArray da)</computeroutput> - Set/Get the global id data.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.SetActiveGlobalIds (string name)</computeroutput> - Set/Get the global id data.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkDataArray = obj.GetGlobalIds ()</computeroutput> - Set/Get the global id data.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.SetPedigreeIds (vtkAbstractArray da)</computeroutput> - Set/Get the pedigree id data.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.SetActivePedigreeIds (string name)</computeroutput> - Set/Get the pedigree id data.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkAbstractArray = obj.GetPedigreeIds ()</computeroutput> - Set/Get the pedigree id data.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkDataArray = obj.GetScalars (string name)</computeroutput> - This will first look for an array with the correct name. If one exists, it is returned. Otherwise, the name argument is ignored, and the active attribute is returned.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkDataArray = obj.GetVectors (string name)</computeroutput> - This will first look for an array with the correct name. If one exists, it is returned. Otherwise, the name argument is ignored, and the active attribute is returned.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkDataArray = obj.GetNormals (string name)</computeroutput> - This will first look for an array with the correct name. If one exists, it is returned. Otherwise, the name argument is ignored, and the active attribute is returned.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkDataArray = obj.GetTCoords (string name)</computeroutput> - This will first look for an array with the correct name. If one exists, it is returned. Otherwise, the name argument is ignored, and the active attribute is returned.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkDataArray = obj.GetTensors (string name)</computeroutput> - This will first look for an array with the correct name. If one exists, it is returned. Otherwise, the name argument is ignored, and the active attribute is returned.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkDataArray = obj.GetGlobalIds (string name)</computeroutput> - This will first look for an array with the correct name. If one exists, it is returned. Otherwise, the name argument is ignored, and the active attribute is returned.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkAbstractArray = obj.GetPedigreeIds (string name)</computeroutput> - This will first look for an array with the correct name. If one exists, it is returned. Otherwise, the name argument is ignored, and the active attribute is returned.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.SetActiveAttribute (string name, int attributeType)</computeroutput> - Make the array with the given name the active attribute. Attribute types are: vtkDataSetAttributes::SCALARS = 0 vtkDataSetAttributes::VECTORS = 1 vtkDataSetAttributes::NORMALS = 2 vtkDataSetAttributes::TCOORDS = 3 vtkDataSetAttributes::TENSORS = 4 vtkDataSetAttributes::GLOBALIDS = 5 vtkDataSetAttributes::PEDIGREEIDS = 6 Returns the index of the array if succesful, -1 if the array is not in the list of arrays.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.SetActiveAttribute (int index, int attributeType)</computeroutput> - Make the array with the given index the active attribute.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GetAttributeIndices (int indexArray)</computeroutput> - Get the field data array indices corresponding to scalars, vectors, tensors, etc.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsArrayAnAttribute (int idx)</computeroutput> - Determine whether a data array of index idx is considered a data set attribute (i.e., scalar, vector, tensor, etc). Return less-than zero if it is, otherwise an index 0&lt;=idx&lt;NUM_ATTRIBUTES to indicate which attribute.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkDataArray = obj.GetAttribute (int attributeType)</computeroutput> - Return an attribute given the attribute type (see vtkDataSetAttributes::AttributeTypes). Some attributes (such as PEDIGREEIDS) may not be vtkDataArray subclass, so in that case use GetAbstractAttribute().  </para></listitem>
+<listitem>
+<para><computeroutput>vtkAbstractArray = obj.GetAbstractAttribute (int attributeType)</computeroutput> - Return an attribute given the attribute type (see vtkDataSetAttributes::AttributeTypes). This is the same as GetAttribute(), except that the returned array is a vtkAbstractArray instead of vtkDataArray. Some attributes (such as PEDIGREEIDS) may not be vtkDataArray subclass.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.RemoveArray (string name)</computeroutput> - Remove an array (with the given name) from the list of arrays.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetCopyAttribute (int index, int value, int ctypeALLCOPY)</computeroutput> - Specify whether to copy the data attribute referred to by index. ctype selects from the AttributeCopyOperations. If ctype is set to ALLCOPY, then COPYTUPLE, INTERPOLATE, and PASSDATA are set to value. If value is 0, copying is disallowed. otherwise it is allowed.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetCopyScalars (int i, int ctypeALLCOPY)</computeroutput> - Turn on/off the copying of scalar data. ctype is one of the AttributeCopyOperations, and controls copy, interpolate and passdata behavior. For set, ctype=ALLCOPY means set all three flags to the same value. For get, ctype=ALLCOPY returns true only if all three flags are true.</para><para>During copying, interpolation and passdata, the following rules are followed for each array:<orderedlist>
+<listitem><para>If the copy/interpolate/pass flag for an attribute is set (on or off), it is applied. This overrides rules 2 and 3.</para></listitem><listitem><para>If the copy flag for an array is set (on or off), it is applied This overrides rule 3.</para></listitem><listitem><para>If CopyAllOn is set, copy the array. If CopyAllOff is set, do not copy the array  </para></listitem></orderedlist>
+</para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetCopyScalars (int ctypeALLCOPY)</computeroutput> - Turn on/off the copying of scalar data. ctype is one of the AttributeCopyOperations, and controls copy, interpolate and passdata behavior. For set, ctype=ALLCOPY means set all three flags to the same value. For get, ctype=ALLCOPY returns true only if all three flags are true.</para><para>During copying, interpolation and passdata, the following rules are followed for each array:<orderedlist>
+<listitem><para>If the copy/interpolate/pass flag for an attribute is set (on or off), it is applied. This overrides rules 2 and 3.</para></listitem><listitem><para>If the copy flag for an array is set (on or off), it is applied This overrides rule 3.</para></listitem><listitem><para>If CopyAllOn is set, copy the array. If CopyAllOff is set, do not copy the array  </para></listitem></orderedlist>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.CopyScalarsOn ()</computeroutput> - Turn on/off the copying of scalar data. ctype is one of the AttributeCopyOperations, and controls copy, interpolate and passdata behavior. For set, ctype=ALLCOPY means set all three flags to the same value. For get, ctype=ALLCOPY returns true only if all three flags are true.</para><para>During copying, interpolation and passdata, the following rules are followed for each array:<orderedlist>
+<listitem><para>If the copy/interpolate/pass flag for an attribute is set (on or off), it is applied. This overrides rules 2 and 3.</para></listitem><listitem><para>If the copy flag for an array is set (on or off), it is applied This overrides rule 3.</para></listitem><listitem><para>If CopyAllOn is set, copy the array. If CopyAllOff is set, do not copy the array  </para></listitem></orderedlist>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.CopyScalarsOff ()</computeroutput> - Turn on/off the copying of scalar data. ctype is one of the AttributeCopyOperations, and controls copy, interpolate and passdata behavior. For set, ctype=ALLCOPY means set all three flags to the same value. For get, ctype=ALLCOPY returns true only if all three flags are true.</para><para>During copying, interpolation and passdata, the following rules are followed for each array:<orderedlist>
+<listitem><para>If the copy/interpolate/pass flag for an attribute is set (on or off), it is applied. This overrides rules 2 and 3.</para></listitem><listitem><para>If the copy flag for an array is set (on or off), it is applied This overrides rule 3.</para></listitem><listitem><para>If CopyAllOn is set, copy the array. If CopyAllOff is set, do not copy the array  </para></listitem></orderedlist>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.SetCopyVectors (int i, int ctypeALLCOPY)</computeroutput> - Turn on/off the copying of vector data. ctype is one of the AttributeCopyOperations, and controls copy, interpolate and passdata behavior. For set, ctype=ALLCOPY means set all three flags to the same value. For get, ctype=ALLCOPY returns true only if all three flags are true.</para><para>During copying, interpolation and passdata, the following rules are followed for each array:<orderedlist>
+<listitem><para>If the copy/interpolate/pass flag for an attribute is set (on or off), it is applied. This overrides rules 2 and 3.</para></listitem><listitem><para>If the copy flag for an array is set (on or off), it is applied This overrides rule 3.</para></listitem><listitem><para>If CopyAllOn is set, copy the array. If CopyAllOff is set, do not copy the array  </para></listitem></orderedlist>
+</para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetCopyVectors (int ctypeALLCOPY)</computeroutput> - Turn on/off the copying of vector data. ctype is one of the AttributeCopyOperations, and controls copy, interpolate and passdata behavior. For set, ctype=ALLCOPY means set all three flags to the same value. For get, ctype=ALLCOPY returns true only if all three flags are true.</para><para>During copying, interpolation and passdata, the following rules are followed for each array:<orderedlist>
+<listitem><para>If the copy/interpolate/pass flag for an attribute is set (on or off), it is applied. This overrides rules 2 and 3.</para></listitem><listitem><para>If the copy flag for an array is set (on or off), it is applied This overrides rule 3.</para></listitem><listitem><para>If CopyAllOn is set, copy the array. If CopyAllOff is set, do not copy the array  </para></listitem></orderedlist>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.CopyVectorsOn ()</computeroutput> - Turn on/off the copying of vector data. ctype is one of the AttributeCopyOperations, and controls copy, interpolate and passdata behavior. For set, ctype=ALLCOPY means set all three flags to the same value. For get, ctype=ALLCOPY returns true only if all three flags are true.</para><para>During copying, interpolation and passdata, the following rules are followed for each array:<orderedlist>
+<listitem><para>If the copy/interpolate/pass flag for an attribute is set (on or off), it is applied. This overrides rules 2 and 3.</para></listitem><listitem><para>If the copy flag for an array is set (on or off), it is applied This overrides rule 3.</para></listitem><listitem><para>If CopyAllOn is set, copy the array. If CopyAllOff is set, do not copy the array  </para></listitem></orderedlist>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.CopyVectorsOff ()</computeroutput> - Turn on/off the copying of vector data. ctype is one of the AttributeCopyOperations, and controls copy, interpolate and passdata behavior. For set, ctype=ALLCOPY means set all three flags to the same value. For get, ctype=ALLCOPY returns true only if all three flags are true.</para><para>During copying, interpolation and passdata, the following rules are followed for each array:<orderedlist>
+<listitem><para>If the copy/interpolate/pass flag for an attribute is set (on or off), it is applied. This overrides rules 2 and 3.</para></listitem><listitem><para>If the copy flag for an array is set (on or off), it is applied This overrides rule 3.</para></listitem><listitem><para>If CopyAllOn is set, copy the array. If CopyAllOff is set, do not copy the array  </para></listitem></orderedlist>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.SetCopyNormals (int i, int ctypeALLCOPY)</computeroutput> - Turn on/off the copying of normals data. ctype is one of the AttributeCopyOperations, and controls copy, interpolate and passdata behavior. For set, ctype=ALLCOPY means set all three flags to the same value. For get, ctype=ALLCOPY returns true only if all three flags are true.</para><para>During copying, interpolation and passdata, the following rules are followed for each array:<orderedlist>
+<listitem><para>If the copy/interpolate/pass flag for an attribute is set (on or off), it is applied. This overrides rules 2 and 3.</para></listitem><listitem><para>If the copy flag for an array is set (on or off), it is applied This overrides rule 3.</para></listitem><listitem><para>If CopyAllOn is set, copy the array. If CopyAllOff is set, do not copy the array  </para></listitem></orderedlist>
+</para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetCopyNormals (int ctypeALLCOPY)</computeroutput> - Turn on/off the copying of normals data. ctype is one of the AttributeCopyOperations, and controls copy, interpolate and passdata behavior. For set, ctype=ALLCOPY means set all three flags to the same value. For get, ctype=ALLCOPY returns true only if all three flags are true.</para><para>During copying, interpolation and passdata, the following rules are followed for each array:<orderedlist>
+<listitem><para>If the copy/interpolate/pass flag for an attribute is set (on or off), it is applied. This overrides rules 2 and 3.</para></listitem><listitem><para>If the copy flag for an array is set (on or off), it is applied This overrides rule 3.</para></listitem><listitem><para>If CopyAllOn is set, copy the array. If CopyAllOff is set, do not copy the array  </para></listitem></orderedlist>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.CopyNormalsOn ()</computeroutput> - Turn on/off the copying of normals data. ctype is one of the AttributeCopyOperations, and controls copy, interpolate and passdata behavior. For set, ctype=ALLCOPY means set all three flags to the same value. For get, ctype=ALLCOPY returns true only if all three flags are true.</para><para>During copying, interpolation and passdata, the following rules are followed for each array:<orderedlist>
+<listitem><para>If the copy/interpolate/pass flag for an attribute is set (on or off), it is applied. This overrides rules 2 and 3.</para></listitem><listitem><para>If the copy flag for an array is set (on or off), it is applied This overrides rule 3.</para></listitem><listitem><para>If CopyAllOn is set, copy the array. If CopyAllOff is set, do not copy the array  </para></listitem></orderedlist>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.CopyNormalsOff ()</computeroutput> - Turn on/off the copying of normals data. ctype is one of the AttributeCopyOperations, and controls copy, interpolate and passdata behavior. For set, ctype=ALLCOPY means set all three flags to the same value. For get, ctype=ALLCOPY returns true only if all three flags are true.</para><para>During copying, interpolation and passdata, the following rules are followed for each array:<orderedlist>
+<listitem><para>If the copy/interpolate/pass flag for an attribute is set (on or off), it is applied. This overrides rules 2 and 3.</para></listitem><listitem><para>If the copy flag for an array is set (on or off), it is applied This overrides rule 3.</para></listitem><listitem><para>If CopyAllOn is set, copy the array. If CopyAllOff is set, do not copy the array  </para></listitem></orderedlist>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.SetCopyTCoords (int i, int ctypeALLCOPY)</computeroutput> - Turn on/off the copying of texture coordinates data. ctype is one of the AttributeCopyOperations, and controls copy, interpolate and passdata behavior. For set, ctype=ALLCOPY means set all three flags to the same value. For get, ctype=ALLCOPY returns true only if all three flags are true.</para><para>During copying, interpolation and passdata, the following rules are followed for each array:<orderedlist>
+<listitem><para>If the copy/interpolate/pass flag for an attribute is set (on or off), it is applied. This overrides rules 2 and 3.</para></listitem><listitem><para>If the copy flag for an array is set (on or off), it is applied This overrides rule 3.</para></listitem><listitem><para>If CopyAllOn is set, copy the array. If CopyAllOff is set, do not copy the array  </para></listitem></orderedlist>
+</para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetCopyTCoords (int ctypeALLCOPY)</computeroutput> - Turn on/off the copying of texture coordinates data. ctype is one of the AttributeCopyOperations, and controls copy, interpolate and passdata behavior. For set, ctype=ALLCOPY means set all three flags to the same value. For get, ctype=ALLCOPY returns true only if all three flags are true.</para><para>During copying, interpolation and passdata, the following rules are followed for each array:<orderedlist>
+<listitem><para>If the copy/interpolate/pass flag for an attribute is set (on or off), it is applied. This overrides rules 2 and 3.</para></listitem><listitem><para>If the copy flag for an array is set (on or off), it is applied This overrides rule 3.</para></listitem><listitem><para>If CopyAllOn is set, copy the array. If CopyAllOff is set, do not copy the array  </para></listitem></orderedlist>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.CopyTCoordsOn ()</computeroutput> - Turn on/off the copying of texture coordinates data. ctype is one of the AttributeCopyOperations, and controls copy, interpolate and passdata behavior. For set, ctype=ALLCOPY means set all three flags to the same value. For get, ctype=ALLCOPY returns true only if all three flags are true.</para><para>During copying, interpolation and passdata, the following rules are followed for each array:<orderedlist>
+<listitem><para>If the copy/interpolate/pass flag for an attribute is set (on or off), it is applied. This overrides rules 2 and 3.</para></listitem><listitem><para>If the copy flag for an array is set (on or off), it is applied This overrides rule 3.</para></listitem><listitem><para>If CopyAllOn is set, copy the array. If CopyAllOff is set, do not copy the array  </para></listitem></orderedlist>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.CopyTCoordsOff ()</computeroutput> - Turn on/off the copying of texture coordinates data. ctype is one of the AttributeCopyOperations, and controls copy, interpolate and passdata behavior. For set, ctype=ALLCOPY means set all three flags to the same value. For get, ctype=ALLCOPY returns true only if all three flags are true.</para><para>During copying, interpolation and passdata, the following rules are followed for each array:<orderedlist>
+<listitem><para>If the copy/interpolate/pass flag for an attribute is set (on or off), it is applied. This overrides rules 2 and 3.</para></listitem><listitem><para>If the copy flag for an array is set (on or off), it is applied This overrides rule 3.</para></listitem><listitem><para>If CopyAllOn is set, copy the array. If CopyAllOff is set, do not copy the array  </para></listitem></orderedlist>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.SetCopyTensors (int i, int ctypeALLCOPY)</computeroutput> - Turn on/off the copying of tensor data. ctype is one of the AttributeCopyOperations, and controls copy, interpolate and passdata behavior. For set, ctype=ALLCOPY means set all three flags to the same value. For get, ctype=ALLCOPY returns true only if all three flags are true.</para><para>During copying, interpolation and passdata, the following rules are followed for each array:<orderedlist>
+<listitem><para>If the copy/interpolate/pass flag for an attribute is set (on or off), it is applied. This overrides rules 2 and 3.</para></listitem><listitem><para>If the copy flag for an array is set (on or off), it is applied This overrides rule 3.</para></listitem><listitem><para>If CopyAllOn is set, copy the array. If CopyAllOff is set, do not copy the array  </para></listitem></orderedlist>
+</para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetCopyTensors (int ctypeALLCOPY)</computeroutput> - Turn on/off the copying of tensor data. ctype is one of the AttributeCopyOperations, and controls copy, interpolate and passdata behavior. For set, ctype=ALLCOPY means set all three flags to the same value. For get, ctype=ALLCOPY returns true only if all three flags are true.</para><para>During copying, interpolation and passdata, the following rules are followed for each array:<orderedlist>
+<listitem><para>If the copy/interpolate/pass flag for an attribute is set (on or off), it is applied. This overrides rules 2 and 3.</para></listitem><listitem><para>If the copy flag for an array is set (on or off), it is applied This overrides rule 3.</para></listitem><listitem><para>If CopyAllOn is set, copy the array. If CopyAllOff is set, do not copy the array  </para></listitem></orderedlist>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.CopyTensorsOn ()</computeroutput> - Turn on/off the copying of tensor data. ctype is one of the AttributeCopyOperations, and controls copy, interpolate and passdata behavior. For set, ctype=ALLCOPY means set all three flags to the same value. For get, ctype=ALLCOPY returns true only if all three flags are true.</para><para>During copying, interpolation and passdata, the following rules are followed for each array:<orderedlist>
+<listitem><para>If the copy/interpolate/pass flag for an attribute is set (on or off), it is applied. This overrides rules 2 and 3.</para></listitem><listitem><para>If the copy flag for an array is set (on or off), it is applied This overrides rule 3.</para></listitem><listitem><para>If CopyAllOn is set, copy the array. If CopyAllOff is set, do not copy the array  </para></listitem></orderedlist>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.CopyTensorsOff ()</computeroutput> - Turn on/off the copying of tensor data. ctype is one of the AttributeCopyOperations, and controls copy, interpolate and passdata behavior. For set, ctype=ALLCOPY means set all three flags to the same value. For get, ctype=ALLCOPY returns true only if all three flags are true.</para><para>During copying, interpolation and passdata, the following rules are followed for each array:<orderedlist>
+<listitem><para>If the copy/interpolate/pass flag for an attribute is set (on or off), it is applied. This overrides rules 2 and 3.</para></listitem><listitem><para>If the copy flag for an array is set (on or off), it is applied This overrides rule 3.</para></listitem><listitem><para>If CopyAllOn is set, copy the array. If CopyAllOff is set, do not copy the array  </para></listitem></orderedlist>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.SetCopyGlobalIds (int i, int ctypeALLCOPY)</computeroutput> - Turn on/off the copying of global id data. ctype is one of the AttributeCopyOperations, and controls copy, interpolate and passdata behavior. For set, ctype=ALLCOPY means set all three flags to the same value. For get, ctype=ALLCOPY returns true only if all three flags are true.</para><para>During copying, interpolation and passdata, the following rules are followed for each array:<orderedlist>
+<listitem><para>If the copy/interpolate/pass for an attribute is set (on or off), it is applied. This overrides rules 2 and 3.</para></listitem><listitem><para>If the copy flag for an array is set (on or off), it is applied This overrides rule 3.</para></listitem><listitem><para>If CopyAllOn is set, copy the array. If CopyAllOff is set, do not copy the array  </para></listitem></orderedlist>
+</para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetCopyGlobalIds (int ctypeALLCOPY)</computeroutput> - Turn on/off the copying of global id data. ctype is one of the AttributeCopyOperations, and controls copy, interpolate and passdata behavior. For set, ctype=ALLCOPY means set all three flags to the same value. For get, ctype=ALLCOPY returns true only if all three flags are true.</para><para>During copying, interpolation and passdata, the following rules are followed for each array:<orderedlist>
+<listitem><para>If the copy/interpolate/pass for an attribute is set (on or off), it is applied. This overrides rules 2 and 3.</para></listitem><listitem><para>If the copy flag for an array is set (on or off), it is applied This overrides rule 3.</para></listitem><listitem><para>If CopyAllOn is set, copy the array. If CopyAllOff is set, do not copy the array  </para></listitem></orderedlist>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.CopyGlobalIdsOn ()</computeroutput> - Turn on/off the copying of global id data. ctype is one of the AttributeCopyOperations, and controls copy, interpolate and passdata behavior. For set, ctype=ALLCOPY means set all three flags to the same value. For get, ctype=ALLCOPY returns true only if all three flags are true.</para><para>During copying, interpolation and passdata, the following rules are followed for each array:<orderedlist>
+<listitem><para>If the copy/interpolate/pass for an attribute is set (on or off), it is applied. This overrides rules 2 and 3.</para></listitem><listitem><para>If the copy flag for an array is set (on or off), it is applied This overrides rule 3.</para></listitem><listitem><para>If CopyAllOn is set, copy the array. If CopyAllOff is set, do not copy the array  </para></listitem></orderedlist>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.CopyGlobalIdsOff ()</computeroutput> - Turn on/off the copying of global id data. ctype is one of the AttributeCopyOperations, and controls copy, interpolate and passdata behavior. For set, ctype=ALLCOPY means set all three flags to the same value. For get, ctype=ALLCOPY returns true only if all three flags are true.</para><para>During copying, interpolation and passdata, the following rules are followed for each array:<orderedlist>
+<listitem><para>If the copy/interpolate/pass for an attribute is set (on or off), it is applied. This overrides rules 2 and 3.</para></listitem><listitem><para>If the copy flag for an array is set (on or off), it is applied This overrides rule 3.</para></listitem><listitem><para>If CopyAllOn is set, copy the array. If CopyAllOff is set, do not copy the array  </para></listitem></orderedlist>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.SetCopyPedigreeIds (int i, int ctypeALLCOPY)</computeroutput> - Turn on/off the copying of pedigree id data. ctype is one of the AttributeCopyOperations, and controls copy, interpolate and passdata behavior. For set, ctype=ALLCOPY means set all three flags to the same value. For get, ctype=ALLCOPY returns true only if all three flags are true.</para><para>During copying, interpolation and passdata, the following rules are followed for each array:<orderedlist>
+<listitem><para>If the copy/interpolate/pass for an attribute is set (on or off), it is applied. This overrides rules 2 and 3.</para></listitem><listitem><para>If the copy flag for an array is set (on or off), it is applied This overrides rule 3.</para></listitem><listitem><para>If CopyAllOn is set, copy the array. If CopyAllOff is set, do not copy the array  </para></listitem></orderedlist>
+</para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetCopyPedigreeIds (int ctypeALLCOPY)</computeroutput> - Turn on/off the copying of pedigree id data. ctype is one of the AttributeCopyOperations, and controls copy, interpolate and passdata behavior. For set, ctype=ALLCOPY means set all three flags to the same value. For get, ctype=ALLCOPY returns true only if all three flags are true.</para><para>During copying, interpolation and passdata, the following rules are followed for each array:<orderedlist>
+<listitem><para>If the copy/interpolate/pass for an attribute is set (on or off), it is applied. This overrides rules 2 and 3.</para></listitem><listitem><para>If the copy flag for an array is set (on or off), it is applied This overrides rule 3.</para></listitem><listitem><para>If CopyAllOn is set, copy the array. If CopyAllOff is set, do not copy the array  </para></listitem></orderedlist>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.CopyPedigreeIdsOn ()</computeroutput> - Turn on/off the copying of pedigree id data. ctype is one of the AttributeCopyOperations, and controls copy, interpolate and passdata behavior. For set, ctype=ALLCOPY means set all three flags to the same value. For get, ctype=ALLCOPY returns true only if all three flags are true.</para><para>During copying, interpolation and passdata, the following rules are followed for each array:<orderedlist>
+<listitem><para>If the copy/interpolate/pass for an attribute is set (on or off), it is applied. This overrides rules 2 and 3.</para></listitem><listitem><para>If the copy flag for an array is set (on or off), it is applied This overrides rule 3.</para></listitem><listitem><para>If CopyAllOn is set, copy the array. If CopyAllOff is set, do not copy the array  </para></listitem></orderedlist>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.CopyPedigreeIdsOff ()</computeroutput> - Turn on/off the copying of pedigree id data. ctype is one of the AttributeCopyOperations, and controls copy, interpolate and passdata behavior. For set, ctype=ALLCOPY means set all three flags to the same value. For get, ctype=ALLCOPY returns true only if all three flags are true.</para><para>During copying, interpolation and passdata, the following rules are followed for each array:<orderedlist>
+<listitem><para>If the copy/interpolate/pass for an attribute is set (on or off), it is applied. This overrides rules 2 and 3.</para></listitem><listitem><para>If the copy flag for an array is set (on or off), it is applied This overrides rule 3.</para></listitem><listitem><para>If CopyAllOn is set, copy the array. If CopyAllOff is set, do not copy the array  </para></listitem></orderedlist>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.CopyAllOn (int ctypeALLCOPY)</computeroutput> - Turn on copying of all data. ctype is one of the AttributeCopyOperations, and controls copy, interpolate and passdata behavior. For set, ctype=ALLCOPY means set all three flags to the same value. For get, ctype=ALLCOPY returns true only if all three flags are true.</para><para>During copying, interpolation and passdata, the following rules are followed for each array:<orderedlist>
+<listitem><para>If the copy/interpolate/pass flag for an attribute is set (on or off), it is applied. This overrides rules 2 and 3.</para></listitem><listitem><para>If the copy flag for an array is set (on or off), it is applied This overrides rule 3.</para></listitem><listitem><para>If CopyAllOn is set, copy the array. If CopyAllOff is set, do not copy the array  </para></listitem></orderedlist>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.CopyAllOff (int ctypeALLCOPY)</computeroutput> - Turn off copying of all data. ctype is one of the AttributeCopyOperations, and controls copy, interpolate and passdata behavior. For set, ctype=ALLCOPY means set all three flags to the same value. For get, ctype=ALLCOPY returns true only if all three flags are true.</para><para>During copying, interpolation and passdata, the following rules are followed for each array:<orderedlist>
+<listitem><para>If the copy/interpolate/pass flag for an attribute is set (on or off), it is applied. This overrides rules 2 and 3.</para></listitem><listitem><para>If the copy flag for an array is set (on or off), it is applied This overrides rule 3.</para></listitem><listitem><para>If CopyAllOn is set, copy the array. If CopyAllOff is set, do not copy the array  </para></listitem></orderedlist>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.PassData (vtkFieldData fd)</computeroutput> - Pass entire arrays of input data through to output. Obey the &quot;copy&quot; flags. When passing a field, the following copying rules are followed: 1) Check if a field is an attribute, if yes and if there is a PASSDATA copy flag for that attribute (on or off), obey the flag for that attribute, ignore (2) and (3), 2) if there is a copy field for that field (on or off), obey the flag, ignore (3) 3) obey CopyAllOn/Off  </para></listitem>
+<listitem>
+<para><computeroutput>obj.CopyAllocate (vtkDataSetAttributes pd, vtkIdType sze, vtkIdType ext)</computeroutput> - Allocates point data for point-by-point (or cell-by-cell) copy operation. If sze=0, then use the input DataSetAttributes to create (i.e., find initial size of) new objects; otherwise use the sze variable. Note that pd HAS to be the vtkDataSetAttributes object which will later be used with CopyData. If this is not the case, consider using the alternative forms of CopyAllocate and CopyData. ext is no longer used. If shallowCopyArrays is true, input arrays are copied to the output instead of new ones being allocated.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.CopyAllocate (vtkDataSetAttributes pd, vtkIdType sze, vtkIdType ext, int shallowCopyArrays)</computeroutput> - Allocates point data for point-by-point (or cell-by-cell) copy operation. If sze=0, then use the input DataSetAttributes to create (i.e., find initial size of) new objects; otherwise use the sze variable. Note that pd HAS to be the vtkDataSetAttributes object which will later be used with CopyData. If this is not the case, consider using the alternative forms of CopyAllocate and CopyData. ext is no longer used. If shallowCopyArrays is true, input arrays are copied to the output instead of new ones being allocated.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.CopyStructuredData (vtkDataSetAttributes inDsa, int inExt, int outExt)</computeroutput> - This method is used to copy data arrays in images. You should call &quot;CopyAllocate&quot; before calling this method.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.CopyData (vtkDataSetAttributes fromPd, vtkIdType fromId, vtkIdType toId)</computeroutput> - Copy the attribute data from one id to another. Make sure CopyAllocate() has been invoked before using this method. When copying a field, the following copying rules are followed: 1) Check if a field is an attribute, if yes and if there is a COPYTUPLE copy flag for that attribute (on or off), obey the flag for that attribute, ignore (2) and (3), 2) if there is a copy field for that field (on or off), obey the flag, ignore (3) 3) obey CopyAllOn/Off  </para></listitem>
+<listitem>
+<para><computeroutput>obj.CopyTuple (vtkAbstractArray fromData, vtkAbstractArray toData, vtkIdType fromId, vtkIdType toId)</computeroutput> - Copy a tuple of data from one data array to another. This method assumes that the fromData and toData objects are of the same type, and have the same number of components. This is true if you invoke CopyAllocate() or InterpolateAllocate().  </para></listitem>
+<listitem>
+<para><computeroutput>obj.InterpolateAllocate (vtkDataSetAttributes pd, vtkIdType sze, vtkIdType ext)</computeroutput> - Initialize point interpolation method. Note that pd HAS to be the vtkDataSetAttributes object which will later be used with InterpolatePoint or InterpolateEdge. ext is no longer used. If shallowCopyArrays is true, input arrays are copied to the output instead of new ones being allocated.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.InterpolateAllocate (vtkDataSetAttributes pd, vtkIdType sze, vtkIdType ext, int shallowCopyArrays)</computeroutput> - Initialize point interpolation method. Note that pd HAS to be the vtkDataSetAttributes object which will later be used with InterpolatePoint or InterpolateEdge. ext is no longer used. If shallowCopyArrays is true, input arrays are copied to the output instead of new ones being allocated.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.InterpolatePoint (vtkDataSetAttributes fromPd, vtkIdType toId, vtkIdList ids, double weights)</computeroutput> - Interpolate data set attributes from other data set attributes given cell or point ids and associated interpolation weights. If the INTERPOLATION copy flag is set to 0 for an array, interpolation is prevented. If the flag is set to 1, weighted interpolation occurs. If the flag is set to 2, nearest neighbor interpolation is used.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.InterpolateEdge (vtkDataSetAttributes fromPd, vtkIdType toId, vtkIdType p1, vtkIdType p2, double t)</computeroutput> - Interpolate data from the two points p1,p2 (forming an edge) and an interpolation factor, t, along the edge. The weight ranges from (0,1), with t=0 located at p1. Make sure that the method InterpolateAllocate() has been invoked before using this method. If the INTERPOLATION copy flag is set to 0 for an array, interpolation is prevented. If the flag is set to 1, weighted interpolation occurs. If the flag is set to 2, nearest neighbor interpolation is used.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.InterpolateTime (vtkDataSetAttributes from1, vtkDataSetAttributes from2, vtkIdType id, double t)</computeroutput> - Interpolate data from the same id (point or cell) at different points in time (parameter t). Two input data set attributes objects are input. The parameter t lies between (0&lt;=t&lt;=1). IMPORTANT: it is assumed that the number of attributes and number of components is the same for both from1 and from2, and the type of data for from1 and from2 are the same. Make sure that the method InterpolateAllocate() has been invoked before using this method. If the INTERPOLATION copy flag is set to 0 for an array, interpolation is prevented. If the flag is set to 1, weighted interpolation occurs. If the flag is set to 2, nearest neighbor interpolation is used.  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

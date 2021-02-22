@@ -1,0 +1,91 @@
+/*!
+\page vtkrendering_vtkuniformvariables vtkUniformVariables
+
+<p>
+Section: \ref sec_vtkrendering "Visualization Toolkit Rendering Classes"
+\section Usage
+ vtkUniformVariables is a list of uniform variables attached to either a
+ vtkShader2 object or to a vtkShaderProgram2. Uniform variables on
+ a vtkShaderProgram2 override values of uniform variables on a vtkShader2.
+
+To create an instance of class vtkUniformVariables, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkUniformVariables
+\endverbatim
+\section Methods
+The class vtkUniformVariables has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkUniformVariables class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkUniformVariables = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkUniformVariables = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetUniformi (string name, int numberOfComponents, int value)</tt> -  Set an integer uniform variable.
+ \pre name_exists: name!=0
+ \pre value_exists: value!=0
+ \pre valid_numberOfComponents: numberOfComponents>=1 && numberOfComponents<=4
+ </LI>
+<LI>  <tt>obj.SetUniformf (string name, int numberOfComponents, float value)</tt> -  Set an float uniform variable.
+ \pre name_exists: name!=0
+ \pre value_exists: value!=0
+ \pre valid_numberOfComponents: numberOfComponents>=1 && numberOfComponents<=4
+ </LI>
+<LI>  <tt>obj.SetUniformiv (string name, int numberOfComponents, int numberOfElements, int value)</tt> -  Set an array of integer uniform variables.
+ The array `value' is of size `numberOfElements'*`numberOfComponents.'.
+ \pre name_exists: name!=0
+ \pre value_exists: value!=0
+ \pre valid_numberOfComponents: numberOfComponents>=1 && numberOfComponents<=4
+ \pre valid_numberOfElements: numberOfElements>=1
+ </LI>
+<LI>  <tt>obj.SetUniformfv (string name, int numberOfComponents, int numberOfElements, float value)</tt> -  Set an array of float uniform variables.
+ The array `value' is of size `numberOfElements'*`numberOfComponents.'.
+ \pre name_exists: name!=0
+ \pre value_exists: value!=0
+ \pre valid_numberOfComponents: numberOfComponents>=1 && numberOfComponents<=4
+ \pre valid_numberOfElements: numberOfElements>=1
+ </LI>
+<LI>  <tt>obj.SetUniformMatrix (string name, int rows, int columns, float value)</tt> -  Set a matrix uniform variable.
+ \pre name_exists: name!=0
+ \pre value_exists: value!=0
+ \pre valid_rows:  rows>=2 && rows<=4
+ \pre valid_columns: columns>=2 && columns<=4
+ </LI>
+<LI>  <tt>obj.RemoveUniform (string name)</tt> -  Remove uniform `name' from the list.
+ </LI>
+<LI>  <tt>obj.RemoveAllUniforms ()</tt> -  Remove all uniforms from the list.
+ </LI>
+<LI>  <tt>obj.Send (string name, int uniformIndex)</tt> -  \pre need a valid OpenGL context and a shader program in use.
+ </LI>
+<LI>  <tt>obj.Start ()</tt> -  Place the internal cursor on the first uniform.
+ </LI>
+<LI>  <tt>bool = obj.IsAtEnd ()</tt> -  Is the iteration done?
+ </LI>
+<LI>  <tt>string = obj.GetCurrentName ()</tt> -  Name of the uniform at the current cursor position.
+ \pre not_done: !this->IsAtEnd()
+ </LI>
+<LI>  <tt>obj.SendCurrentUniform (int uniformIndex)</tt> -  \pre need a valid OpenGL context and a shader program in use.
+ \pre not_done: !this->IsAtEnd()
+ </LI>
+<LI>  <tt>obj.Next ()</tt> -  Move the cursor to the next uniform.
+ \pre not_done: !this->IsAtEnd()
+ </LI>
+<LI>  <tt>obj.DeepCopy (vtkUniformVariables other)</tt> -  Copy all the variables from `other'. Any existing variable will be
+ deleted first.
+ \pre other_exists: other!=0
+ \pre not_self: other!=this
+ </LI>
+<LI>  <tt>obj.Merge (vtkUniformVariables other)</tt> -  Copy all the variables from `other'. Any existing variable will be
+ overwritten.
+ \pre other_exists: other!=0
+ \pre not_self: other!=this
+ </LI>
+</UL>
+*/

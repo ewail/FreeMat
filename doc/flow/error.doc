@@ -1,0 +1,55 @@
+/*!
+\page flow_error ERROR Causes an Error Condition Raised
+
+<p>
+Section: \ref sec_flow "Flow Control"
+\section Usage
+The <tt>error</tt> function causes an error condition (exception
+to be raised).  The general syntax for its use is
+\verbatim
+   error(s),
+\endverbatim
+where <tt>s</tt> is the string message describing the error.  The
+<tt>error</tt> function is usually used in conjunction with <tt>try</tt>
+and <tt>catch</tt> to provide error handling.  If the string <tt>s</tt>,
+then (to conform to the MATLAB API), <tt>error</tt> does nothing.
+\section Example
+Here is a simple example of an <tt>error</tt> being issued by a function
+<tt>evenoddtest</tt>:
+
+\if FILE
+evenoddtest.m
+function evenoddtest(n)
+  if (n==0)
+    error('zero is neither even nor odd');
+  elseif ( n ~= fix(n) )
+    error('expecting integer argument');
+  end;
+  if (n==int32(n/2)*2)
+    printf('%d is even\n',n);
+  else
+    printf('%d is odd\n',n);
+  end
+\endif
+\verbatim
+     evenoddtest.m
+\endverbatim
+
+\verbinclude evenoddtest.m
+
+The normal command line prompt <tt>--></tt> simply prints the error
+that occured.
+
+\if FRAGMENT
+frag_flow_error_000.m
+2
+evenoddtest(4)
+evenoddtest(5)
+evenoddtest(0)
+evenoddtest(pi)
+\endif
+
+
+\verbinclude frag_flow_error_000.m.out 
+
+*/

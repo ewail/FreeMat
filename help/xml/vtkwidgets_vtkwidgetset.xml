@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkwidgets_vtkwidgetset" kind="page">
+    <compoundname>vtkwidgets_vtkwidgetset</compoundname>
+    <title>vtkWidgetSet</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkwidgets_1sec_vtkwidgets" kindref="member">Visualization Toolkit Widget Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>The class synchronizes a set of vtkAbstractWidget(s). Widgets typically invoke &quot;Actions&quot; that drive the geometry/behaviour of their representations in response to interactor events. Interactor interactions on a render window are mapped into &quot;Callbacks&quot; by the widget, from which &quot;Actions&quot; are dispatched to the entire set. This architecture allows us to tie widgets existing in different render windows together. For instance a HandleWidget might exist on the sagittal view. Moving it around should update the representations of the corresponding handle widget that lies on the axial and coronal and volume views as well.</para><para>.SECTION User API A user would use this class as follows. <verbatim> vtkWidgetSet *set = vtkWidgetSet::New();
+ vtkParallelopipedWidget *w1 = vtkParallelopipedWidget::New();
+ set-&gt;AddWidget(w1);
+ w1-&gt;SetInteractor(axialRenderWindow-&gt;GetInteractor());
+ vtkParallelopipedWidget *w2 = vtkParallelopipedWidget::New();
+ set-&gt;AddWidget(w2);
+ w2-&gt;SetInteractor(coronalRenderWindow-&gt;GetInteractor());
+ vtkParallelopipedWidget *w3 = vtkParallelopipedWidget::New();
+ set-&gt;AddWidget(w3);
+ w3-&gt;SetInteractor(sagittalRenderWindow-&gt;GetInteractor());
+ set-&gt;SetEnabled(1);</verbatim></para><para>.SECTION Motivation The motivation for this class is really to provide a usable API to tie together multiple widgets of the same kind. To enable this, subclasses of vtkAbstractWidget, must be written as follows: They will generally have callback methods mapped to some user interaction such as: <verbatim> this-&gt;CallbackMapper-&gt;SetCallbackMethod(vtkCommand::LeftButtonPressEvent,
+                         vtkEvent::NoModifier, 0, 0, NULL, 
+                         vtkPaintbrushWidget::BeginDrawStrokeEvent,
+                         this, vtkPaintbrushWidget::BeginDrawCallback);</verbatim> The callback invoked when the left button is pressed looks like: <verbatim> void vtkPaintbrushWidget::BeginDrawCallback(vtkAbstractWidget *w)
+ {
+   vtkPaintbrushWidget *self = vtkPaintbrushWidget::SafeDownCast(w);
+   self-&gt;WidgetSet-&gt;DispatchAction(self, &amp;vtkPaintbrushWidget::BeginDrawAction);
+ }</verbatim> The actual code for handling the drawing is written in the BeginDrawAction method. <verbatim> void vtkPaintbrushWidget::BeginDrawAction( vtkPaintbrushWidget *dispatcher)
+ {
+ // Do stuff to draw... 
+ // Here dispatcher is the widget that was interacted with, the one that
+ // dispatched an action to all the other widgets in its group. You may, if
+ // necessary find it helpful to get parameters from it.
+ //   For instance for a ResizeAction:
+ //     if (this != dispatcher)
+ //       {
+ //       double *newsize = dispatcher-&gt;GetRepresentation()-&gt;GetSize();
+ //       this-&gt;WidgetRep-&gt;SetSize(newsize);
+ //       }
+ //     else
+ //       {
+ //       this-&gt;WidgetRep-&gt;IncrementSizeByDelta();
+ //       }
+ }</verbatim></para><para>To create an instance of class vtkWidgetSet, simply invoke its constructor as follows <verbatim>  obj = vtkWidgetSet
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkWidgetSet has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkWidgetSet class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput> - Standard methods for a VTK class.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput> - Standard methods for a VTK class.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkWidgetSet = obj.NewInstance ()</computeroutput> - Standard methods for a VTK class.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkWidgetSet = obj.SafeDownCast (vtkObject o)</computeroutput> - Standard methods for a VTK class.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetEnabled (int )</computeroutput> - Method for activiating and deactiviating all widgets in the group.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.EnabledOn ()</computeroutput> - Method for activiating and deactiviating all widgets in the group.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.EnabledOff ()</computeroutput> - Method for activiating and deactiviating all widgets in the group.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.AddWidget (vtkAbstractWidget )</computeroutput> - Add a widget to the set.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.RemoveWidget (vtkAbstractWidget )</computeroutput> - Remove a widget from the set  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetNumberOfWidgets ()</computeroutput> - Get number of widgets in the set.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkAbstractWidget = obj.GetNthWidget (int )</computeroutput> - Get the Nth widget in the set.  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

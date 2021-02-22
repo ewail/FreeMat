@@ -1,0 +1,93 @@
+/*!
+\page vtkio_vtksqlitequery vtkSQLiteQuery
+
+<p>
+Section: \ref sec_vtkio "Visualization Toolkit IO Classes"
+\section Usage
+
+ This is an implementation of vtkSQLQuery for SQLite databases.  See
+ the documentation for vtkSQLQuery for information about what the
+ methods do.
+
+ .SECTION Bugs
+
+ Sometimes Execute() will return false (meaning an error) but
+ GetLastErrorText() winds up null.  I am not certain why this is
+ happening.
+
+ .SECTION Thanks
+ Thanks to Andrew Wilson from Sandia National Laboratories for implementing
+ this class.
+
+
+To create an instance of class vtkSQLiteQuery, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkSQLiteQuery
+\endverbatim
+\section Methods
+The class vtkSQLiteQuery has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkSQLiteQuery class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkSQLiteQuery = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkSQLiteQuery = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>bool = obj.SetQuery (string query)</tt> -  Set the SQL query string.  This must be performed before
+ Execute() or BindParameter() can be called.
+ </LI>
+<LI>  <tt>bool = obj.Execute ()</tt> -  Execute the query.  This must be performed
+ before any field name or data access functions
+ are used.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfFields ()</tt> -  The number of fields in the query result.
+ </LI>
+<LI>  <tt>string = obj.GetFieldName (int i)</tt> -  Return the name of the specified query field.
+ </LI>
+<LI>  <tt>int = obj.GetFieldType (int i)</tt> -  Return the type of the field, using the constants defined in vtkType.h.
+ </LI>
+<LI>  <tt>bool = obj.NextRow ()</tt> -  Advance row, return false if past end.
+ </LI>
+<LI>  <tt>bool = obj.HasError ()</tt> -  Return true if there is an error on the current query.
+ </LI>
+<LI>  <tt>bool = obj.BeginTransaction ()</tt> -  Begin, abort (roll back), or commit a transaction.
+ </LI>
+<LI>  <tt>bool = obj.RollbackTransaction ()</tt> -  Begin, abort (roll back), or commit a transaction.
+ </LI>
+<LI>  <tt>bool = obj.CommitTransaction ()</tt> -  Begin, abort (roll back), or commit a transaction.
+ </LI>
+<LI>  <tt>string = obj.GetLastErrorText ()</tt> -  Get the last error text from the query
+ </LI>
+<LI>  <tt>bool = obj.BindParameter (int index, int value)</tt> -  The following methods bind a parameter value to a placeholder in
+ the SQL string.  See the documentation for vtkSQLQuery for
+ further explanation.  The driver makes internal copies of string
+ and BLOB parameters so you don't need to worry about keeping them
+ in scope until the query finishes executing.
+ </LI>
+<LI>  <tt>bool = obj.BindParameter (int index, float value)</tt> -  The following methods bind a parameter value to a placeholder in
+ the SQL string.  See the documentation for vtkSQLQuery for
+ further explanation.  The driver makes internal copies of string
+ and BLOB parameters so you don't need to worry about keeping them
+ in scope until the query finishes executing.
+ </LI>
+<LI>  <tt>bool = obj.BindParameter (int index, double value)</tt> -  The following methods bind a parameter value to a placeholder in
+ the SQL string.  See the documentation for vtkSQLQuery for
+ further explanation.  The driver makes internal copies of string
+ and BLOB parameters so you don't need to worry about keeping them
+ in scope until the query finishes executing.
+ </LI>
+<LI>  <tt>bool = obj.BindParameter (int index, string stringValue)</tt> -  Bind a string value -- string must be null-terminated
+ </LI>
+<LI>  <tt>bool = obj.ClearParameterBindings ()</tt> -  Bind a blob value.  Not all databases support blobs as a data
+ type.  Check vtkSQLDatabase::IsSupported(VTK_SQL_FEATURE_BLOB) to
+ make sure.
+ </LI>
+</UL>
+*/

@@ -1,0 +1,44 @@
+/*!
+\page array_rcond RCOND Reciprocal Condition Number Estimate
+
+<p>
+Section: \ref sec_array "Array Generation and Manipulations"
+\section Usage
+The <tt>rcond</tt> function is a FreeMat wrapper around LAPACKs
+function <tt>XGECON</tt>, which estimates the 1-norm condition
+number (reciprocal).  For the details of the algorithm see
+the LAPACK documentation.  The syntax for its use is
+\verbatim
+   x = rcond(A)
+\endverbatim
+where <tt>A</tt> is a matrix.
+\section Example
+Here is the reciprocal condition number for a random square
+matrix
+
+\if FRAGMENT
+frag_array_rcond_000.m
+0
+A = rand(30);
+rcond(A)
+\endif
+
+
+\verbinclude frag_array_rcond_000.m.out 
+
+And here we calculate the same value using the definition of
+(reciprocal) condition number
+
+\if FRAGMENT
+frag_array_rcond_001.m
+0
+1/(norm(A,1)*norm(inv(A),1))
+\endif
+
+
+\verbinclude frag_array_rcond_001.m.out 
+
+Note that the values are very similar.  LAPACKs <tt>rcond</tt>
+function is far more efficient than the explicit calculation
+(which is also used by the <tt>cond</tt> function.
+*/

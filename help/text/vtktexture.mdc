@@ -1,0 +1,187 @@
+
+ Usage
+
+vtkTexture is an object that handles loading and binding of
+texture maps. It obtains its data from an input image data
+dataset type. Thus you can create visualization pipelines to
+read, process, and construct textures. Note that textures
+will only work if texture coordinates are also defined, and
+if the rendering system supports texture.
+Instances of vtkTexture are associated with actors via the
+actor's SetTexture() method. Actors can share texture maps
+(this is encouraged to save memory resources.)
+To create an instance of class vtkTexture, simply invoke its
+constructor as follows
+
+    obj = vtkTexture
+
+
+
+ Methods
+
+The class vtkTexture has several methods that can be used.
+They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkTexture class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkTexture = obj.NewInstance ()
+* vtkTexture = obj.SafeDownCast (vtkObject o)
+* obj.Render (vtkRenderer ren) - Renders a texture map. It
+  first checks the object's modified time to make sure the
+  texture maps Input is valid, then it invokes the Load()
+  method.
+* obj.PostRender (vtkRenderer ) - Cleans up after the
+  texture rendering to restore the state of the graphics
+  context.
+* obj.ReleaseGraphicsResources (vtkWindow ) - Release any
+  graphics resources that are being consumed by this
+  texture. The parameter window could be used to determine
+  which graphic resources to release.
+* obj.Load (vtkRenderer ) - Abstract interface to renderer.
+  Each concrete subclass of vtkTexture will load its data
+  into graphics system in response to this method
+  invocation.
+* int = obj.GetRepeat () - Turn on/off the repetition of the
+  texture map when the texture coords extend beyond the
+  [0,1] range.
+* obj.SetRepeat (int ) - Turn on/off the repetition of the
+  texture map when the texture coords extend beyond the
+  [0,1] range.
+* obj.RepeatOn () - Turn on/off the repetition of the
+  texture map when the texture coords extend beyond the
+  [0,1] range.
+* obj.RepeatOff () - Turn on/off the repetition of the
+  texture map when the texture coords extend beyond the
+  [0,1] range.
+* int = obj.GetEdgeClamp () - Turn on/off the clamping of
+  the texture map when the texture coords extend beyond the
+  [0,1] range. Only used when Repeat is off, and edge
+  clamping is supported by the graphics card.
+* obj.SetEdgeClamp (int ) - Turn on/off the clamping of the
+  texture map when the texture coords extend beyond the
+  [0,1] range. Only used when Repeat is off, and edge
+  clamping is supported by the graphics card.
+* obj.EdgeClampOn () - Turn on/off the clamping of the
+  texture map when the texture coords extend beyond the
+  [0,1] range. Only used when Repeat is off, and edge
+  clamping is supported by the graphics card.
+* obj.EdgeClampOff () - Turn on/off the clamping of the
+  texture map when the texture coords extend beyond the
+  [0,1] range. Only used when Repeat is off, and edge
+  clamping is supported by the graphics card.
+* int = obj.GetInterpolate () - Turn on/off linear
+  interpolation of the texture map when rendering.
+* obj.SetInterpolate (int ) - Turn on/off linear
+  interpolation of the texture map when rendering.
+* obj.InterpolateOn () - Turn on/off linear interpolation of
+  the texture map when rendering.
+* obj.InterpolateOff () - Turn on/off linear interpolation
+  of the texture map when rendering.
+* obj.SetQuality (int ) - Force texture quality to 16-bit or
+  32-bit. This might not be supported on all machines.
+* int = obj.GetQuality () - Force texture quality to 16-bit
+  or 32-bit. This might not be supported on all machines.
+* obj.SetQualityToDefault () - Force texture quality to 16-
+  bit or 32-bit. This might not be supported on all
+  machines.
+* obj.SetQualityTo16Bit () - Force texture quality to 16-bit
+  or 32-bit. This might not be supported on all machines.
+* obj.SetQualityTo32Bit () - Force texture quality to 16-bit
+  or 32-bit. This might not be supported on all machines.
+* int = obj.GetMapColorScalarsThroughLookupTable () - Turn
+  on/off the mapping of color scalars through the lookup
+  table. The default is Off. If Off, unsigned char scalars
+  will be used directly as texture. If On, scalars will be
+  mapped through the lookup table to generate 4-component
+  unsigned char scalars. This ivar does not affect other
+  scalars like unsigned short, float, etc. These scalars are
+  always mapped through lookup tables.
+* obj.SetMapColorScalarsThroughLookupTable (int ) - Turn on/
+  off the mapping of color scalars through the lookup table.
+  The default is Off. If Off, unsigned char scalars will be
+  used directly as texture. If On, scalars will be mapped
+  through the lookup table to generate 4-component unsigned
+  char scalars. This ivar does not affect other scalars like
+  unsigned short, float, etc. These scalars are always
+  mapped through lookup tables.
+* obj.MapColorScalarsThroughLookupTableOn () - Turn on/off
+  the mapping of color scalars through the lookup table. The
+  default is Off. If Off, unsigned char scalars will be used
+  directly as texture. If On, scalars will be mapped through
+  the lookup table to generate 4-component unsigned char
+  scalars. This ivar does not affect other scalars like
+  unsigned short, float, etc. These scalars are always
+  mapped through lookup tables.
+* obj.MapColorScalarsThroughLookupTableOff () - Turn on/off
+  the mapping of color scalars through the lookup table. The
+  default is Off. If Off, unsigned char scalars will be used
+  directly as texture. If On, scalars will be mapped through
+  the lookup table to generate 4-component unsigned char
+  scalars. This ivar does not affect other scalars like
+  unsigned short, float, etc. These scalars are always
+  mapped through lookup tables.
+* obj.SetLookupTable (vtkScalarsToColors ) - Specify the
+  lookup table to convert scalars if necessary
+* vtkScalarsToColors = obj.GetLookupTable () - Specify the
+  lookup table to convert scalars if necessary
+* vtkUnsignedCharArray = obj.GetMappedScalars () - Get
+  Mapped Scalars
+* obj.SetTransform (vtkTransform transform) - Set a
+  transform on the texture which allows one to scale, rotate
+  and translate the texture.
+* vtkTransform = obj.GetTransform () - Set a transform on
+  the texture which allows one to scale, rotate and
+  translate the texture.
+* int = obj.GetBlendingMode () - Used to specify how the
+  texture will blend its RGB and Alpha values with other
+  textures and the fragment the texture is rendered upon.
+* obj.SetBlendingMode (int ) - Used to specify how the
+  texture will blend its RGB and Alpha values with other
+  textures and the fragment the texture is rendered upon.
+* bool = obj.GetPremultipliedAlpha () - Whether the texture
+  colors are premultiplied by alpha. Initial value is false.
+* obj.SetPremultipliedAlpha (bool ) - Whether the texture
+  colors are premultiplied by alpha. Initial value is false.
+* obj.PremultipliedAlphaOn () - Whether the texture colors
+  are premultiplied by alpha. Initial value is false.
+* obj.PremultipliedAlphaOff () - Whether the texture colors
+  are premultiplied by alpha. Initial value is false.
+* int = obj.GetRestrictPowerOf2ImageSmaller () - When the
+  texture is forced to be a power of 2, the default behavior
+  is for the "new" image's dimensions to be greater than or
+  equal to with respects to the original. Setting
+  RestrictPowerOf2ImageSmaller to be 1 (or ON) with force
+  the new image's dimensions to be less than or equal to
+  with respects to the original.
+* obj.SetRestrictPowerOf2ImageSmaller (int ) - When the
+  texture is forced to be a power of 2, the default behavior
+  is for the "new" image's dimensions to be greater than or
+  equal to with respects to the original. Setting
+  RestrictPowerOf2ImageSmaller to be 1 (or ON) with force
+  the new image's dimensions to be less than or equal to
+  with respects to the original.
+* obj.RestrictPowerOf2ImageSmallerOn () - When the texture
+  is forced to be a power of 2, the default behavior is for
+  the "new" image's dimensions to be greater than or equal
+  to with respects to the original. Setting
+  RestrictPowerOf2ImageSmaller to be 1 (or ON) with force
+  the new image's dimensions to be less than or equal to
+  with respects to the original.
+* obj.RestrictPowerOf2ImageSmallerOff () - When the texture
+  is forced to be a power of 2, the default behavior is for
+  the "new" image's dimensions to be greater than or equal
+  to with respects to the original. Setting
+  RestrictPowerOf2ImageSmaller to be 1 (or ON) with force
+  the new image's dimensions to be less than or equal to
+  with respects to the original.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Rendering_Classes
+* Generated on Thu Jul 25 2013 17:18:35 for FreeMat by
+  doxygen_ 1.8.1.1
+

@@ -1,0 +1,202 @@
+/*!
+\page vtkwidgets_vtkspherewidget vtkSphereWidget
+
+<p>
+Section: \ref sec_vtkwidgets "Visualization Toolkit Widget Classes"
+\section Usage
+ This 3D widget defines a sphere that can be interactively placed in a
+ scene. 
+
+ To use this object, just invoke SetInteractor() with the argument of the
+ method a vtkRenderWindowInteractor.  You may also wish to invoke
+ "PlaceWidget()" to initially position the widget. The interactor will act
+ normally until the "i" key (for "interactor") is pressed, at which point the
+ vtkSphereWidget will appear. (See superclass documentation for information
+ about changing this behavior.) 
+ Events that occur outside of the widget (i.e., no part of
+ the widget is picked) are propagated to any other registered obsevers
+ (such as the interaction style).  Turn off the widget by pressing the "i"
+ key again (or invoke the Off() method).
+
+ The vtkSphereWidget has several methods that can be used in conjunction
+ with other VTK objects. The Set/GetThetaResolution() and
+ Set/GetPhiResolution() methods control the number of subdivisions of the
+ sphere in the theta and phi directions; the GetPolyData() method can be
+ used to get the polygonal representation and can be used for things like
+ seeding streamlines. The GetSphere() method returns a sphere implicit
+ function that can be used for cutting and clipping. Typical usage of the
+ widget is to make use of the StartInteractionEvent, InteractionEvent, and
+ EndInteractionEvent events. The InteractionEvent is called on mouse
+ motion; the other two events are called on button down and button up
+ (any mouse button).
+
+ Some additional features of this class include the ability to control the
+ properties of the widget. You can set the properties of the selected and
+ unselected representations of the sphere. 
+
+To create an instance of class vtkSphereWidget, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkSphereWidget
+\endverbatim
+\section Methods
+The class vtkSphereWidget has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkSphereWidget class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkSphereWidget = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkSphereWidget = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetEnabled (int )</tt> -  Methods that satisfy the superclass' API.
+ </LI>
+<LI>  <tt>obj.PlaceWidget (double bounds[6])</tt> -  Methods that satisfy the superclass' API.
+ </LI>
+<LI>  <tt>obj.PlaceWidget ()</tt> -  Methods that satisfy the superclass' API.
+ </LI>
+<LI>  <tt>obj.PlaceWidget (double xmin, double xmax, double ymin, double ymax, double zmin, double zmax)</tt> -  Set the representation of the sphere. Different representations are
+ useful depending on the application. The default is 
+ VTK_SPHERE_WIREFRAME.
+ </LI>
+<LI>  <tt>obj.SetRepresentation (int )</tt> -  Set the representation of the sphere. Different representations are
+ useful depending on the application. The default is 
+ VTK_SPHERE_WIREFRAME.
+ </LI>
+<LI>  <tt>int = obj.GetRepresentationMinValue ()</tt> -  Set the representation of the sphere. Different representations are
+ useful depending on the application. The default is 
+ VTK_SPHERE_WIREFRAME.
+ </LI>
+<LI>  <tt>int = obj.GetRepresentationMaxValue ()</tt> -  Set the representation of the sphere. Different representations are
+ useful depending on the application. The default is 
+ VTK_SPHERE_WIREFRAME.
+ </LI>
+<LI>  <tt>int = obj.GetRepresentation ()</tt> -  Set the representation of the sphere. Different representations are
+ useful depending on the application. The default is 
+ VTK_SPHERE_WIREFRAME.
+ </LI>
+<LI>  <tt>obj.SetRepresentationToOff ()</tt> -  Set the representation of the sphere. Different representations are
+ useful depending on the application. The default is 
+ VTK_SPHERE_WIREFRAME.
+ </LI>
+<LI>  <tt>obj.SetRepresentationToWireframe ()</tt> -  Set the representation of the sphere. Different representations are
+ useful depending on the application. The default is 
+ VTK_SPHERE_WIREFRAME.
+ </LI>
+<LI>  <tt>obj.SetRepresentationToSurface ()</tt> -  Set/Get the resolution of the sphere in the Theta direction.
+ The default is 16.
+ </LI>
+<LI>  <tt>obj.SetThetaResolution (int r)</tt> -  Set/Get the resolution of the sphere in the Theta direction.
+ The default is 16.
+ </LI>
+<LI>  <tt>int = obj.GetThetaResolution ()</tt> -  Set/Get the resolution of the sphere in the Phi direction.
+ The default is 8.
+ </LI>
+<LI>  <tt>obj.SetPhiResolution (int r)</tt> -  Set/Get the resolution of the sphere in the Phi direction.
+ The default is 8.
+ </LI>
+<LI>  <tt>int = obj.GetPhiResolution ()</tt> -  Set/Get the radius of sphere. Default is .5.
+ </LI>
+<LI>  <tt>obj.SetRadius (double r)</tt> -  Set/Get the radius of sphere. Default is .5.
+ </LI>
+<LI>  <tt>double = obj.GetRadius ()</tt> -  Set/Get the center of the sphere.
+ </LI>
+<LI>  <tt>obj.SetCenter (double x, double y, double z)</tt> -  Set/Get the center of the sphere.
+ </LI>
+<LI>  <tt>obj.SetCenter (double x[3])</tt> -  Set/Get the center of the sphere.
+ </LI>
+<LI>  <tt>double = obj.GetCenter ()</tt> -  Set/Get the center of the sphere.
+ </LI>
+<LI>  <tt>obj.GetCenter (double xyz[3])</tt> -  Enable translation and scaling of the widget. By default, the widget
+ can be translated and rotated.
+ </LI>
+<LI>  <tt>obj.SetTranslation (int )</tt> -  Enable translation and scaling of the widget. By default, the widget
+ can be translated and rotated.
+ </LI>
+<LI>  <tt>int = obj.GetTranslation ()</tt> -  Enable translation and scaling of the widget. By default, the widget
+ can be translated and rotated.
+ </LI>
+<LI>  <tt>obj.TranslationOn ()</tt> -  Enable translation and scaling of the widget. By default, the widget
+ can be translated and rotated.
+ </LI>
+<LI>  <tt>obj.TranslationOff ()</tt> -  Enable translation and scaling of the widget. By default, the widget
+ can be translated and rotated.
+ </LI>
+<LI>  <tt>obj.SetScale (int )</tt> -  Enable translation and scaling of the widget. By default, the widget
+ can be translated and rotated.
+ </LI>
+<LI>  <tt>int = obj.GetScale ()</tt> -  Enable translation and scaling of the widget. By default, the widget
+ can be translated and rotated.
+ </LI>
+<LI>  <tt>obj.ScaleOn ()</tt> -  Enable translation and scaling of the widget. By default, the widget
+ can be translated and rotated.
+ </LI>
+<LI>  <tt>obj.ScaleOff ()</tt> -  Enable translation and scaling of the widget. By default, the widget
+ can be translated and rotated.
+ </LI>
+<LI>  <tt>obj.SetHandleVisibility (int )</tt> -  The handle sits on the surface of the sphere and may be moved around
+ the surface by picking (left mouse) and then moving. The position
+ of the handle can be retrieved, this is useful for positioning cameras
+ and lights. By default, the handle is turned off.
+ </LI>
+<LI>  <tt>int = obj.GetHandleVisibility ()</tt> -  The handle sits on the surface of the sphere and may be moved around
+ the surface by picking (left mouse) and then moving. The position
+ of the handle can be retrieved, this is useful for positioning cameras
+ and lights. By default, the handle is turned off.
+ </LI>
+<LI>  <tt>obj.HandleVisibilityOn ()</tt> -  The handle sits on the surface of the sphere and may be moved around
+ the surface by picking (left mouse) and then moving. The position
+ of the handle can be retrieved, this is useful for positioning cameras
+ and lights. By default, the handle is turned off.
+ </LI>
+<LI>  <tt>obj.HandleVisibilityOff ()</tt> -  The handle sits on the surface of the sphere and may be moved around
+ the surface by picking (left mouse) and then moving. The position
+ of the handle can be retrieved, this is useful for positioning cameras
+ and lights. By default, the handle is turned off.
+ </LI>
+<LI>  <tt>obj.SetHandleDirection (double , double , double )</tt> -  Set/Get the direction vector of the handle relative to the center of
+ the sphere. The direction of the handle is from the sphere center to
+ the handle position.
+ </LI>
+<LI>  <tt>obj.SetHandleDirection (double  a[3])</tt> -  Set/Get the direction vector of the handle relative to the center of
+ the sphere. The direction of the handle is from the sphere center to
+ the handle position.
+ </LI>
+<LI>  <tt>double = obj. GetHandleDirection ()</tt> -  Set/Get the direction vector of the handle relative to the center of
+ the sphere. The direction of the handle is from the sphere center to
+ the handle position.
+ </LI>
+<LI>  <tt>double = obj. GetHandlePosition ()</tt> -  Get the position of the handle.
+ </LI>
+<LI>  <tt>obj.GetPolyData (vtkPolyData pd)</tt> -  Grab the polydata (including points) that defines the sphere.  The
+ polydata consists of n+1 points, where n is the resolution of the
+ sphere. These point values are guaranteed to be up-to-date when either the
+ InteractionEvent or EndInteraction events are invoked. The user provides
+ the vtkPolyData and the points and polysphere are added to it.
+ </LI>
+<LI>  <tt>obj.GetSphere (vtkSphere sphere)</tt> -  Get the spherical implicit function defined by this widget.  Note that
+ vtkSphere is a subclass of vtkImplicitFunction, meaning that it can be
+ used by a variety of filters to perform clipping, cutting, and selection
+ of data.
+ </LI>
+<LI>  <tt>vtkProperty = obj.GetSphereProperty ()</tt> -  Get the sphere properties. The properties of the sphere when selected 
+ and unselected can be manipulated.
+ </LI>
+<LI>  <tt>vtkProperty = obj.GetSelectedSphereProperty ()</tt> -  Get the sphere properties. The properties of the sphere when selected 
+ and unselected can be manipulated.
+ </LI>
+<LI>  <tt>vtkProperty = obj.GetHandleProperty ()</tt> -  Get the handle properties (the little ball on the sphere is the
+ handle). The properties of the handle when selected and unselected
+ can be  manipulated.
+ </LI>
+<LI>  <tt>vtkProperty = obj.GetSelectedHandleProperty ()</tt> -  Get the handle properties (the little ball on the sphere is the
+ handle). The properties of the handle when selected and unselected
+ can be  manipulated.
+ </LI>
+</UL>
+*/

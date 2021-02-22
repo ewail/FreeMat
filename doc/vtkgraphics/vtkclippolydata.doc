@@ -1,0 +1,146 @@
+/*!
+\page vtkgraphics_vtkclippolydata vtkClipPolyData
+
+<p>
+Section: \ref sec_vtkgraphics "Visualization Toolkit Graphics Classes"
+\section Usage
+ vtkClipPolyData is a filter that clips polygonal data using either
+ any subclass of vtkImplicitFunction, or the input scalar
+ data. Clipping means that it actually "cuts" through the cells of
+ the dataset, returning everything inside of the specified implicit
+ function (or greater than the scalar value) including "pieces" of
+ a cell. (Compare this with vtkExtractGeometry, which pulls out
+ entire, uncut cells.) The output of this filter is polygonal data.
+
+ To use this filter, you must decide if you will be clipping with an
+ implicit function, or whether you will be using the input scalar
+ data.  If you want to clip with an implicit function, you must:
+ 1) define an implicit function
+ 2) set it with the SetClipFunction method
+ 3) apply the GenerateClipScalarsOn method
+ If a ClipFunction is not specified, or GenerateClipScalars is off
+ (the default), then the input's scalar data will be used to clip
+ the polydata.
+
+ You can also specify a scalar value, which is used to
+ decide what is inside and outside of the implicit function. You can
+ also reverse the sense of what inside/outside is by setting the
+ InsideOut instance variable. (The cutting algorithm proceeds by
+ computing an implicit function value or using the input scalar data
+ for each point in the dataset. This is compared to the scalar value
+ to determine inside/outside.)
+
+ This filter can be configured to compute a second output. The
+ second output is the polygonal data that is clipped away. Set the
+ GenerateClippedData boolean on if you wish to access this output data.
+
+To create an instance of class vtkClipPolyData, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkClipPolyData
+\endverbatim
+\section Methods
+The class vtkClipPolyData has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkClipPolyData class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkClipPolyData = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkClipPolyData = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetValue (double )</tt> -  Set the clipping value of the implicit function (if clipping with
+ implicit function) or scalar value (if clipping with
+ scalars). The default value is 0.0. 
+ </LI>
+<LI>  <tt>double = obj.GetValue ()</tt> -  Set the clipping value of the implicit function (if clipping with
+ implicit function) or scalar value (if clipping with
+ scalars). The default value is 0.0. 
+ </LI>
+<LI>  <tt>obj.SetInsideOut (int )</tt> -  Set/Get the InsideOut flag. When off, a vertex is considered
+ inside the implicit function if its value is greater than the
+ Value ivar. When InsideOutside is turned on, a vertex is
+ considered inside the implicit function if its implicit function
+ value is less than or equal to the Value ivar.  InsideOut is off
+ by default.
+ </LI>
+<LI>  <tt>int = obj.GetInsideOut ()</tt> -  Set/Get the InsideOut flag. When off, a vertex is considered
+ inside the implicit function if its value is greater than the
+ Value ivar. When InsideOutside is turned on, a vertex is
+ considered inside the implicit function if its implicit function
+ value is less than or equal to the Value ivar.  InsideOut is off
+ by default.
+ </LI>
+<LI>  <tt>obj.InsideOutOn ()</tt> -  Set/Get the InsideOut flag. When off, a vertex is considered
+ inside the implicit function if its value is greater than the
+ Value ivar. When InsideOutside is turned on, a vertex is
+ considered inside the implicit function if its implicit function
+ value is less than or equal to the Value ivar.  InsideOut is off
+ by default.
+ </LI>
+<LI>  <tt>obj.InsideOutOff ()</tt> -  Set/Get the InsideOut flag. When off, a vertex is considered
+ inside the implicit function if its value is greater than the
+ Value ivar. When InsideOutside is turned on, a vertex is
+ considered inside the implicit function if its implicit function
+ value is less than or equal to the Value ivar.  InsideOut is off
+ by default.
+ </LI>
+<LI>  <tt>obj.SetClipFunction (vtkImplicitFunction )</tt>
+ </LI>
+<LI>  <tt>vtkImplicitFunction = obj.GetClipFunction ()</tt>
+ </LI>
+<LI>  <tt>obj.SetGenerateClipScalars (int )</tt> -  If this flag is enabled, then the output scalar values will be 
+ interpolated from the implicit function values, and not the 
+ input scalar data. If you enable this flag but do not provide an
+ implicit function an error will be reported.
+ </LI>
+<LI>  <tt>int = obj.GetGenerateClipScalars ()</tt> -  If this flag is enabled, then the output scalar values will be 
+ interpolated from the implicit function values, and not the 
+ input scalar data. If you enable this flag but do not provide an
+ implicit function an error will be reported.
+ </LI>
+<LI>  <tt>obj.GenerateClipScalarsOn ()</tt> -  If this flag is enabled, then the output scalar values will be 
+ interpolated from the implicit function values, and not the 
+ input scalar data. If you enable this flag but do not provide an
+ implicit function an error will be reported.
+ </LI>
+<LI>  <tt>obj.GenerateClipScalarsOff ()</tt> -  If this flag is enabled, then the output scalar values will be 
+ interpolated from the implicit function values, and not the 
+ input scalar data. If you enable this flag but do not provide an
+ implicit function an error will be reported.
+ </LI>
+<LI>  <tt>obj.SetGenerateClippedOutput (int )</tt> -  Control whether a second output is generated. The second output
+ contains the polygonal data that's been clipped away.
+ </LI>
+<LI>  <tt>int = obj.GetGenerateClippedOutput ()</tt> -  Control whether a second output is generated. The second output
+ contains the polygonal data that's been clipped away.
+ </LI>
+<LI>  <tt>obj.GenerateClippedOutputOn ()</tt> -  Control whether a second output is generated. The second output
+ contains the polygonal data that's been clipped away.
+ </LI>
+<LI>  <tt>obj.GenerateClippedOutputOff ()</tt> -  Control whether a second output is generated. The second output
+ contains the polygonal data that's been clipped away.
+ </LI>
+<LI>  <tt>vtkPolyData = obj.GetClippedOutput ()</tt> -  Return the Clipped output.
+ </LI>
+<LI>  <tt>vtkAlgorithmOutput = obj.GetClippedOutputPort ()</tt> -  Specify a spatial locator for merging points. By default, an
+ instance of vtkMergePoints is used.
+ </LI>
+<LI>  <tt>obj.SetLocator (vtkIncrementalPointLocator locator)</tt> -  Specify a spatial locator for merging points. By default, an
+ instance of vtkMergePoints is used.
+ </LI>
+<LI>  <tt>vtkIncrementalPointLocator = obj.GetLocator ()</tt> -  Specify a spatial locator for merging points. By default, an
+ instance of vtkMergePoints is used.
+ </LI>
+<LI>  <tt>obj.CreateDefaultLocator ()</tt> -  Create default locator. Used to create one when none is specified. The 
+ locator is used to merge coincident points.
+ </LI>
+<LI>  <tt>long = obj.GetMTime ()</tt> -  Return the mtime also considering the locator and clip function.
+ </LI>
+</UL>
+*/

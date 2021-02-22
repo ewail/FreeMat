@@ -1,0 +1,93 @@
+/*!
+\page num_ode45 ODE45 Numerical Solution of ODEs
+
+<p>
+Section: \ref sec_num "Numerical Methods"
+\section Usage
+ function [t,y] = ode45(f,tspan,y0,options,varargin)
+ function SOL   = ode45(f,tspan,y0,options,varargin)
+
+ ode45 is a solver for ordinary differential equations and initial value problems.
+ To solve the ODE
+\verbatim
+      y'(t) =  f(t,y)
+      y(0)  =  y0
+\endverbatim
+ over the interval tspan=[t0 t1], you can use ode45. For example, to solve
+ the ode
+
+      y'   =  y
+      y(0) =  1
+
+ whose exact solution is y(t)=exp(t), over the interval t0=0, t1=3, do
+
+\if FRAGMENT
+frag_num_ode45_000.m
+0
+      [t,y]=ode45(@(t,y) y,[0 3],1)
+\endif
+
+
+\verbinclude frag_num_ode45_000.m.out 
+
+ If you want a dense output (i.e., an output that also contains an interpolating
+ spline), use instead
+
+\if FRAGMENT
+frag_num_ode45_001.m
+0
+      SOL=ode45(@(t,y) y,[0 3],1)
+\endif
+
+
+\verbinclude frag_num_ode45_001.m.out 
+
+ You can view the result using
+\verbatim
+      plot(0:0.01:3,deval(SOL,0:0.01:3))
+\endverbatim
+ You will notice that this function is available for "every" value of t, while
+
+      plot(t,y,'o-')
+
+ is only available at a few points.
+
+ The optional argument 'options' is a structure. It may contain any of the
+ following fields:
+
+ 'AbsTol'      - Absolute tolerance, default is 1e-6.
+ 'RelTol'      - Relative tolerance, default is 1e-3.
+ 'MaxStep'     - Maximum step size, default is (tspan(2)-tspan(1))/10
+ 'InitialStep' - Initial step size, default is maxstep/100
+ 'Stepper'     - To override the default Fehlberg integrator
+ 'Events'      - To provide an event function
+ 'Projection'  - To provide a projection function
+
+ The varargin is ignored by this function, but is passed to all your callbacks, i.e.,
+ f, the event function and the projection function.
+
+ ==Event Function==
+
+ The event function can be used to detect situations where the integrator should stop,
+ possibly because the right-hand-side has changed, because of a collision, etc...
+
+ An event function should look like
+
+    function [val,isterminal,direction]=event(t,y,...)
+
+ The return values are:
+
+ val        - the value of the event function.
+ isterminal - whether or not this event should cause termination of the integrator.
+ direction  - 1=upcrossings only matter, -1=downcrossings only, 0=both.
+
+ == Projection function ==
+
+ For geometric integration, you can provide a projection function which will be
+ called after each time step. The projection function has the following signature:
+
+     function yn=project(t,yn,...);
+
+ If the output yn is very different from the input yn, the quality of interpolation
+ may decrease.
+*/

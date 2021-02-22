@@ -1,0 +1,122 @@
+/*!
+\page vtkinfovis_vtksqlgraphreader vtkSQLGraphReader
+
+<p>
+Section: \ref sec_vtkinfovis "Visualization Toolkit Infovis Classes"
+\section Usage
+
+ Creates a vtkGraph using one or two vtkSQLQuery's.  The first (required)
+ query must have one row for each arc in the graph.
+ The query must have two columns which represent the source and target
+ node ids.
+
+ The second (optional) query has one row for each node in the graph.
+ The table must have a field whose values match those in the arc table.
+ If the node table is not given, 
+ a node will be created for each unique source or target identifier 
+ in the arc table.
+
+ The source, target, and node ID fields must be of the same type, 
+ and must be either vtkStringArray or a subclass of vtkDataArray.
+
+ All columns in the queries, including the source, target, and node index
+ fields, are copied into the arc data and node data of the resulting
+ vtkGraph.  If the node query is not given, the node data will contain
+ a single "id" column with the same type as the source/target id arrays.
+
+ If parallel arcs are collected, not all the arc data is not copied into 
+ the output.  Only the source and target id arrays will be transferred.
+ An additional vtkIdTypeArray column called "weight" is created which 
+ contains the number of times each arc appeared in the input.
+
+ If the node query contains positional data, the user may specify the
+ names of these fields.
+ These arrays must be data arrays.  The z-coordinate array is optional,
+ and if not given the z-coordinates are set to zero.
+
+To create an instance of class vtkSQLGraphReader, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkSQLGraphReader
+\endverbatim
+\section Methods
+The class vtkSQLGraphReader has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkSQLGraphReader class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkSQLGraphReader = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkSQLGraphReader = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetDirected (bool )</tt> -  When set, creates a directed graph, as opposed to an undirected graph.
+ </LI>
+<LI>  <tt>bool = obj.GetDirected ()</tt> -  When set, creates a directed graph, as opposed to an undirected graph.
+ </LI>
+<LI>  <tt>obj.DirectedOn ()</tt> -  When set, creates a directed graph, as opposed to an undirected graph.
+ </LI>
+<LI>  <tt>obj.DirectedOff ()</tt> -  When set, creates a directed graph, as opposed to an undirected graph.
+ </LI>
+<LI>  <tt>obj.SetVertexQuery (vtkSQLQuery q)</tt> -  The query that retrieves the node information.
+ </LI>
+<LI>  <tt>vtkSQLQuery = obj.GetVertexQuery ()</tt> -  The query that retrieves the node information.
+ </LI>
+<LI>  <tt>obj.SetEdgeQuery (vtkSQLQuery q)</tt> -  The query that retrieves the arc information.
+ </LI>
+<LI>  <tt>vtkSQLQuery = obj.GetEdgeQuery ()</tt> -  The query that retrieves the arc information.
+ </LI>
+<LI>  <tt>obj.SetSourceField (string )</tt> -  The name of the field in the arc query for the source node of each arc.
+ </LI>
+<LI>  <tt>string = obj.GetSourceField ()</tt> -  The name of the field in the arc query for the source node of each arc.
+ </LI>
+<LI>  <tt>obj.SetTargetField (string )</tt> -  The name of the field in the arc query for the target node of each arc.
+ </LI>
+<LI>  <tt>string = obj.GetTargetField ()</tt> -  The name of the field in the arc query for the target node of each arc.
+ </LI>
+<LI>  <tt>obj.SetVertexIdField (string )</tt> -  The name of the field in the node query for the node ID.
+ </LI>
+<LI>  <tt>string = obj.GetVertexIdField ()</tt> -  The name of the field in the node query for the node ID.
+ </LI>
+<LI>  <tt>obj.SetXField (string )</tt> -  The name of the field in the node query for the node's x coordinate.
+ </LI>
+<LI>  <tt>string = obj.GetXField ()</tt> -  The name of the field in the node query for the node's x coordinate.
+ </LI>
+<LI>  <tt>obj.SetYField (string )</tt> -  The name of the field in the node query for the node's y coordinate.
+ </LI>
+<LI>  <tt>string = obj.GetYField ()</tt> -  The name of the field in the node query for the node's y coordinate.
+ </LI>
+<LI>  <tt>obj.SetZField (string )</tt> -  The name of the field in the node query for the node's z coordinate.
+ </LI>
+<LI>  <tt>string = obj.GetZField ()</tt> -  The name of the field in the node query for the node's z coordinate.
+ </LI>
+<LI>  <tt>obj.SetCollapseEdges (bool )</tt> -  When set, creates a graph with no parallel arcs.
+ Parallel arcs are combined into one arc.
+ No cell fields are passed to the output, except the vtkGhostLevels array if
+ it exists, but a new field "weight" is created that holds the number of 
+ duplicates of that arc in the input.
+ </LI>
+<LI>  <tt>bool = obj.GetCollapseEdges ()</tt> -  When set, creates a graph with no parallel arcs.
+ Parallel arcs are combined into one arc.
+ No cell fields are passed to the output, except the vtkGhostLevels array if
+ it exists, but a new field "weight" is created that holds the number of 
+ duplicates of that arc in the input.
+ </LI>
+<LI>  <tt>obj.CollapseEdgesOn ()</tt> -  When set, creates a graph with no parallel arcs.
+ Parallel arcs are combined into one arc.
+ No cell fields are passed to the output, except the vtkGhostLevels array if
+ it exists, but a new field "weight" is created that holds the number of 
+ duplicates of that arc in the input.
+ </LI>
+<LI>  <tt>obj.CollapseEdgesOff ()</tt> -  When set, creates a graph with no parallel arcs.
+ Parallel arcs are combined into one arc.
+ No cell fields are passed to the output, except the vtkGhostLevels array if
+ it exists, but a new field "weight" is created that holds the number of 
+ duplicates of that arc in the input.
+ </LI>
+</UL>
+*/

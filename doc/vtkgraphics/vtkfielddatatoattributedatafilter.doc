@@ -1,0 +1,310 @@
+/*!
+\page vtkgraphics_vtkfielddatatoattributedatafilter vtkFieldDataToAttributeDataFilter
+
+<p>
+Section: \ref sec_vtkgraphics "Visualization Toolkit Graphics Classes"
+\section Usage
+ vtkFieldDataToAttributeDataFilter is a class that maps field data into
+ dataset attributes. The input to this filter is any type of dataset and
+ the output is the same dataset (geometry/topology) with new attribute data
+ (attribute data is passed through if not replaced during filter
+ execution).
+
+ To use this filter you must specify which field data from the input
+ dataset to use. There are three possibilities: the cell field data, the
+ point field data, or the field data associated with the data object
+ superclass. Then you specify which attribute data to create: either cell
+ attribute data or point attribute data.  Finally, you must define how to
+ construct the various attribute data types (e.g., scalars, vectors,
+ normals, etc.) from the arrays and the components of the arrays from the
+ field data. This is done by associating components in the input field with
+ components making up the attribute data. For example, you would specify a
+ scalar with three components (RGB) by assigning components from the field
+ for the R, then G, then B values of the scalars.  You may also have to
+ specify component ranges (for each R-G-B) to make sure that the number of
+ R, G, and B values is the same. Also, you may want to normalize the
+ components which helps distribute the data uniformly.
+
+ This filter is often used in conjunction with
+ vtkDataObjectToDataSetFilter.  vtkDataObjectToDataSetFilter filter
+ generates dataset topology and geometry and passes its input field data
+ along to its output. Then this filter is used to generate the attribute
+ data to go along with the dataset.
+
+To create an instance of class vtkFieldDataToAttributeDataFilter, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkFieldDataToAttributeDataFilter
+\endverbatim
+\section Methods
+The class vtkFieldDataToAttributeDataFilter has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkFieldDataToAttributeDataFilter class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkFieldDataToAttributeDataFilter = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkFieldDataToAttributeDataFilter = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetInputField (int )</tt> -  Specify which field data to use to generate the output attribute
+ data. There are three choices: the field data associated with the
+ vtkDataObject superclass; the point field attribute data; and the cell
+ field attribute data.
+ </LI>
+<LI>  <tt>int = obj.GetInputField ()</tt> -  Specify which field data to use to generate the output attribute
+ data. There are three choices: the field data associated with the
+ vtkDataObject superclass; the point field attribute data; and the cell
+ field attribute data.
+ </LI>
+<LI>  <tt>obj.SetInputFieldToDataObjectField ()</tt> -  Specify which field data to use to generate the output attribute
+ data. There are three choices: the field data associated with the
+ vtkDataObject superclass; the point field attribute data; and the cell
+ field attribute data.
+ </LI>
+<LI>  <tt>obj.SetInputFieldToPointDataField ()</tt> -  Specify which field data to use to generate the output attribute
+ data. There are three choices: the field data associated with the
+ vtkDataObject superclass; the point field attribute data; and the cell
+ field attribute data.
+ </LI>
+<LI>  <tt>obj.SetInputFieldToCellDataField ()</tt> -  Specify which field data to use to generate the output attribute
+ data. There are three choices: the field data associated with the
+ vtkDataObject superclass; the point field attribute data; and the cell
+ field attribute data.
+ </LI>
+<LI>  <tt>obj.SetOutputAttributeData (int )</tt> -  Specify which attribute data to output: point or cell data attributes.
+ </LI>
+<LI>  <tt>int = obj.GetOutputAttributeData ()</tt> -  Specify which attribute data to output: point or cell data attributes.
+ </LI>
+<LI>  <tt>obj.SetOutputAttributeDataToCellData ()</tt> -  Specify which attribute data to output: point or cell data attributes.
+ </LI>
+<LI>  <tt>obj.SetOutputAttributeDataToPointData ()</tt> -  Specify which attribute data to output: point or cell data attributes.
+ </LI>
+<LI>  <tt>obj.SetScalarComponent (int comp, string arrayName, int arrayComp, int min, int max, int normalize)</tt> -  Define the component(s) of the field to be used for the scalar
+ components.  Note that the parameter comp must lie between (0,4). To
+ define the field component to use you specify an array name and the
+ component in that array. The (min,max) values are the range of data in
+ the component you wish to extract.
+ </LI>
+<LI>  <tt>obj.SetScalarComponent (int comp, string arrayName, int arrayComp)</tt> -  Define the component(s) of the field to be used for the scalar
+ components.  Note that the parameter comp must lie between (0,4). To
+ define the field component to use you specify an array name and the
+ component in that array. The (min,max) values are the range of data in
+ the component you wish to extract.
+ </LI>
+<LI>  <tt>string = obj.GetScalarComponentArrayName (int comp)</tt> -  Define the component(s) of the field to be used for the scalar
+ components.  Note that the parameter comp must lie between (0,4). To
+ define the field component to use you specify an array name and the
+ component in that array. The (min,max) values are the range of data in
+ the component you wish to extract.
+ </LI>
+<LI>  <tt>int = obj.GetScalarComponentArrayComponent (int comp)</tt> -  Define the component(s) of the field to be used for the scalar
+ components.  Note that the parameter comp must lie between (0,4). To
+ define the field component to use you specify an array name and the
+ component in that array. The (min,max) values are the range of data in
+ the component you wish to extract.
+ </LI>
+<LI>  <tt>int = obj.GetScalarComponentMinRange (int comp)</tt> -  Define the component(s) of the field to be used for the scalar
+ components.  Note that the parameter comp must lie between (0,4). To
+ define the field component to use you specify an array name and the
+ component in that array. The (min,max) values are the range of data in
+ the component you wish to extract.
+ </LI>
+<LI>  <tt>int = obj.GetScalarComponentMaxRange (int comp)</tt> -  Define the component(s) of the field to be used for the scalar
+ components.  Note that the parameter comp must lie between (0,4). To
+ define the field component to use you specify an array name and the
+ component in that array. The (min,max) values are the range of data in
+ the component you wish to extract.
+ </LI>
+<LI>  <tt>int = obj.GetScalarComponentNormalizeFlag (int comp)</tt> -  Define the component(s) of the field to be used for the scalar
+ components.  Note that the parameter comp must lie between (0,4). To
+ define the field component to use you specify an array name and the
+ component in that array. The (min,max) values are the range of data in
+ the component you wish to extract.
+ </LI>
+<LI>  <tt>obj.SetVectorComponent (int comp, string arrayName, int arrayComp, int min, int max, int normalize)</tt> -  Define the component(s) of the field to be used for the vector
+ components.  Note that the parameter comp must lie between (0,3). To
+ define the field component to use you specify an array name and the
+ component in that array. The (min,max) values are the range of data in
+ the component you wish to extract.
+ </LI>
+<LI>  <tt>obj.SetVectorComponent (int comp, string arrayName, int arrayComp)</tt> -  Define the component(s) of the field to be used for the vector
+ components.  Note that the parameter comp must lie between (0,3). To
+ define the field component to use you specify an array name and the
+ component in that array. The (min,max) values are the range of data in
+ the component you wish to extract.
+ </LI>
+<LI>  <tt>string = obj.GetVectorComponentArrayName (int comp)</tt> -  Define the component(s) of the field to be used for the vector
+ components.  Note that the parameter comp must lie between (0,3). To
+ define the field component to use you specify an array name and the
+ component in that array. The (min,max) values are the range of data in
+ the component you wish to extract.
+ </LI>
+<LI>  <tt>int = obj.GetVectorComponentArrayComponent (int comp)</tt> -  Define the component(s) of the field to be used for the vector
+ components.  Note that the parameter comp must lie between (0,3). To
+ define the field component to use you specify an array name and the
+ component in that array. The (min,max) values are the range of data in
+ the component you wish to extract.
+ </LI>
+<LI>  <tt>int = obj.GetVectorComponentMinRange (int comp)</tt> -  Define the component(s) of the field to be used for the vector
+ components.  Note that the parameter comp must lie between (0,3). To
+ define the field component to use you specify an array name and the
+ component in that array. The (min,max) values are the range of data in
+ the component you wish to extract.
+ </LI>
+<LI>  <tt>int = obj.GetVectorComponentMaxRange (int comp)</tt> -  Define the component(s) of the field to be used for the vector
+ components.  Note that the parameter comp must lie between (0,3). To
+ define the field component to use you specify an array name and the
+ component in that array. The (min,max) values are the range of data in
+ the component you wish to extract.
+ </LI>
+<LI>  <tt>int = obj.GetVectorComponentNormalizeFlag (int comp)</tt> -  Define the component(s) of the field to be used for the vector
+ components.  Note that the parameter comp must lie between (0,3). To
+ define the field component to use you specify an array name and the
+ component in that array. The (min,max) values are the range of data in
+ the component you wish to extract.
+ </LI>
+<LI>  <tt>obj.SetNormalComponent (int comp, string arrayName, int arrayComp, int min, int max, int normalize)</tt> -  Define the component(s) of the field to be used for the normal
+ components.  Note that the parameter comp must lie between (0,3). To
+ define the field component to use you specify an array name and the
+ component in that array. The (min,max) values are the range of data in
+ the component you wish to extract.
+ </LI>
+<LI>  <tt>obj.SetNormalComponent (int comp, string arrayName, int arrayComp)</tt> -  Define the component(s) of the field to be used for the normal
+ components.  Note that the parameter comp must lie between (0,3). To
+ define the field component to use you specify an array name and the
+ component in that array. The (min,max) values are the range of data in
+ the component you wish to extract.
+ </LI>
+<LI>  <tt>string = obj.GetNormalComponentArrayName (int comp)</tt> -  Define the component(s) of the field to be used for the normal
+ components.  Note that the parameter comp must lie between (0,3). To
+ define the field component to use you specify an array name and the
+ component in that array. The (min,max) values are the range of data in
+ the component you wish to extract.
+ </LI>
+<LI>  <tt>int = obj.GetNormalComponentArrayComponent (int comp)</tt> -  Define the component(s) of the field to be used for the normal
+ components.  Note that the parameter comp must lie between (0,3). To
+ define the field component to use you specify an array name and the
+ component in that array. The (min,max) values are the range of data in
+ the component you wish to extract.
+ </LI>
+<LI>  <tt>int = obj.GetNormalComponentMinRange (int comp)</tt> -  Define the component(s) of the field to be used for the normal
+ components.  Note that the parameter comp must lie between (0,3). To
+ define the field component to use you specify an array name and the
+ component in that array. The (min,max) values are the range of data in
+ the component you wish to extract.
+ </LI>
+<LI>  <tt>int = obj.GetNormalComponentMaxRange (int comp)</tt> -  Define the component(s) of the field to be used for the normal
+ components.  Note that the parameter comp must lie between (0,3). To
+ define the field component to use you specify an array name and the
+ component in that array. The (min,max) values are the range of data in
+ the component you wish to extract.
+ </LI>
+<LI>  <tt>int = obj.GetNormalComponentNormalizeFlag (int comp)</tt> -  Define the component(s) of the field to be used for the normal
+ components.  Note that the parameter comp must lie between (0,3). To
+ define the field component to use you specify an array name and the
+ component in that array. The (min,max) values are the range of data in
+ the component you wish to extract.
+ </LI>
+<LI>  <tt>obj.SetTensorComponent (int comp, string arrayName, int arrayComp, int min, int max, int normalize)</tt> -  Define the components of the field to be used for the tensor
+ components.  Note that the parameter comp must lie between (0,9). To
+ define the field component to use you specify an array name and the
+ component in that array. The (min,max) values are the range of data in
+ the component you wish to extract.
+ </LI>
+<LI>  <tt>obj.SetTensorComponent (int comp, string arrayName, int arrayComp)</tt> -  Define the components of the field to be used for the tensor
+ components.  Note that the parameter comp must lie between (0,9). To
+ define the field component to use you specify an array name and the
+ component in that array. The (min,max) values are the range of data in
+ the component you wish to extract.
+ </LI>
+<LI>  <tt>string = obj.GetTensorComponentArrayName (int comp)</tt> -  Define the components of the field to be used for the tensor
+ components.  Note that the parameter comp must lie between (0,9). To
+ define the field component to use you specify an array name and the
+ component in that array. The (min,max) values are the range of data in
+ the component you wish to extract.
+ </LI>
+<LI>  <tt>int = obj.GetTensorComponentArrayComponent (int comp)</tt> -  Define the components of the field to be used for the tensor
+ components.  Note that the parameter comp must lie between (0,9). To
+ define the field component to use you specify an array name and the
+ component in that array. The (min,max) values are the range of data in
+ the component you wish to extract.
+ </LI>
+<LI>  <tt>int = obj.GetTensorComponentMinRange (int comp)</tt> -  Define the components of the field to be used for the tensor
+ components.  Note that the parameter comp must lie between (0,9). To
+ define the field component to use you specify an array name and the
+ component in that array. The (min,max) values are the range of data in
+ the component you wish to extract.
+ </LI>
+<LI>  <tt>int = obj.GetTensorComponentMaxRange (int comp)</tt> -  Define the components of the field to be used for the tensor
+ components.  Note that the parameter comp must lie between (0,9). To
+ define the field component to use you specify an array name and the
+ component in that array. The (min,max) values are the range of data in
+ the component you wish to extract.
+ </LI>
+<LI>  <tt>int = obj.GetTensorComponentNormalizeFlag (int comp)</tt> -  Define the components of the field to be used for the tensor
+ components.  Note that the parameter comp must lie between (0,9). To
+ define the field component to use you specify an array name and the
+ component in that array. The (min,max) values are the range of data in
+ the component you wish to extract.
+ </LI>
+<LI>  <tt>obj.SetTCoordComponent (int comp, string arrayName, int arrayComp, int min, int max, int normalize)</tt> -  Define the components of the field to be used for the cell texture coord
+ components.  Note that the parameter comp must lie between (0,9). To
+ define the field component to use you specify an array name and the
+ component in that array. The (min,max) values are the range of data in
+ the component you wish to extract.
+ </LI>
+<LI>  <tt>obj.SetTCoordComponent (int comp, string arrayName, int arrayComp)</tt> -  Define the components of the field to be used for the cell texture coord
+ components.  Note that the parameter comp must lie between (0,9). To
+ define the field component to use you specify an array name and the
+ component in that array. The (min,max) values are the range of data in
+ the component you wish to extract.
+ </LI>
+<LI>  <tt>string = obj.GetTCoordComponentArrayName (int comp)</tt> -  Define the components of the field to be used for the cell texture coord
+ components.  Note that the parameter comp must lie between (0,9). To
+ define the field component to use you specify an array name and the
+ component in that array. The (min,max) values are the range of data in
+ the component you wish to extract.
+ </LI>
+<LI>  <tt>int = obj.GetTCoordComponentArrayComponent (int comp)</tt> -  Define the components of the field to be used for the cell texture coord
+ components.  Note that the parameter comp must lie between (0,9). To
+ define the field component to use you specify an array name and the
+ component in that array. The (min,max) values are the range of data in
+ the component you wish to extract.
+ </LI>
+<LI>  <tt>int = obj.GetTCoordComponentMinRange (int comp)</tt> -  Define the components of the field to be used for the cell texture coord
+ components.  Note that the parameter comp must lie between (0,9). To
+ define the field component to use you specify an array name and the
+ component in that array. The (min,max) values are the range of data in
+ the component you wish to extract.
+ </LI>
+<LI>  <tt>int = obj.GetTCoordComponentMaxRange (int comp)</tt> -  Define the components of the field to be used for the cell texture coord
+ components.  Note that the parameter comp must lie between (0,9). To
+ define the field component to use you specify an array name and the
+ component in that array. The (min,max) values are the range of data in
+ the component you wish to extract.
+ </LI>
+<LI>  <tt>int = obj.GetTCoordComponentNormalizeFlag (int comp)</tt> -  Define the components of the field to be used for the cell texture coord
+ components.  Note that the parameter comp must lie between (0,9). To
+ define the field component to use you specify an array name and the
+ component in that array. The (min,max) values are the range of data in
+ the component you wish to extract.
+ </LI>
+<LI>  <tt>obj.SetDefaultNormalize (int )</tt> -  Set the default Normalize() flag for those methods setting a default
+ Normalize value (e.g., SetScalarComponents).
+ </LI>
+<LI>  <tt>int = obj.GetDefaultNormalize ()</tt> -  Set the default Normalize() flag for those methods setting a default
+ Normalize value (e.g., SetScalarComponents).
+ </LI>
+<LI>  <tt>obj.DefaultNormalizeOn ()</tt> -  Set the default Normalize() flag for those methods setting a default
+ Normalize value (e.g., SetScalarComponents).
+ </LI>
+<LI>  <tt>obj.DefaultNormalizeOff ()</tt> -  Set the default Normalize() flag for those methods setting a default
+ Normalize value (e.g., SetScalarComponents).
+ </LI>
+</UL>
+*/

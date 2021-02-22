@@ -1,0 +1,189 @@
+/*!
+\page vtkgraphics_vtkthreshold vtkThreshold
+
+<p>
+Section: \ref sec_vtkgraphics "Visualization Toolkit Graphics Classes"
+\section Usage
+ vtkThreshold is a filter that extracts cells from any dataset type that
+ satisfy a threshold criterion. A cell satisfies the criterion if the
+ scalar value of (every or any) point satisfies the criterion. The
+ criterion can take three forms: 1) greater than a particular value; 2)
+ less than a particular value; or 3) between two values. The output of this
+ filter is an unstructured grid.
+
+ Note that scalar values are available from the point and cell attribute
+ data.  By default, point data is used to obtain scalars, but you can
+ control this behavior. See the AttributeMode ivar below.
+
+ By default only the first scalar value is used in the decision. Use the ComponentMode
+ and SelectedComponent ivars to control this behavior.
+
+To create an instance of class vtkThreshold, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkThreshold
+\endverbatim
+\section Methods
+The class vtkThreshold has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkThreshold class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkThreshold = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkThreshold = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.ThresholdByLower (double lower)</tt> -  Criterion is cells whose scalars are less or equal to lower threshold.
+ </LI>
+<LI>  <tt>obj.ThresholdByUpper (double upper)</tt> -  Criterion is cells whose scalars are greater or equal to upper threshold.
+ </LI>
+<LI>  <tt>obj.ThresholdBetween (double lower, double upper)</tt> -  Criterion is cells whose scalars are between lower and upper thresholds
+ (inclusive of the end values).
+ </LI>
+<LI>  <tt>double = obj.GetUpperThreshold ()</tt> -  Get the Upper and Lower thresholds.
+ </LI>
+<LI>  <tt>double = obj.GetLowerThreshold ()</tt> -  Get the Upper and Lower thresholds.
+ </LI>
+<LI>  <tt>obj.SetAttributeMode (int )</tt> -  Control how the filter works with scalar point data and cell attribute
+ data.  By default (AttributeModeToDefault), the filter will use point
+ data, and if no point data is available, then cell data is
+ used. Alternatively you can explicitly set the filter to use point data
+ (AttributeModeToUsePointData) or cell data (AttributeModeToUseCellData).
+ </LI>
+<LI>  <tt>int = obj.GetAttributeMode ()</tt> -  Control how the filter works with scalar point data and cell attribute
+ data.  By default (AttributeModeToDefault), the filter will use point
+ data, and if no point data is available, then cell data is
+ used. Alternatively you can explicitly set the filter to use point data
+ (AttributeModeToUsePointData) or cell data (AttributeModeToUseCellData).
+ </LI>
+<LI>  <tt>obj.SetAttributeModeToDefault ()</tt> -  Control how the filter works with scalar point data and cell attribute
+ data.  By default (AttributeModeToDefault), the filter will use point
+ data, and if no point data is available, then cell data is
+ used. Alternatively you can explicitly set the filter to use point data
+ (AttributeModeToUsePointData) or cell data (AttributeModeToUseCellData).
+ </LI>
+<LI>  <tt>obj.SetAttributeModeToUsePointData ()</tt> -  Control how the filter works with scalar point data and cell attribute
+ data.  By default (AttributeModeToDefault), the filter will use point
+ data, and if no point data is available, then cell data is
+ used. Alternatively you can explicitly set the filter to use point data
+ (AttributeModeToUsePointData) or cell data (AttributeModeToUseCellData).
+ </LI>
+<LI>  <tt>obj.SetAttributeModeToUseCellData ()</tt> -  Control how the filter works with scalar point data and cell attribute
+ data.  By default (AttributeModeToDefault), the filter will use point
+ data, and if no point data is available, then cell data is
+ used. Alternatively you can explicitly set the filter to use point data
+ (AttributeModeToUsePointData) or cell data (AttributeModeToUseCellData).
+ </LI>
+<LI>  <tt>string = obj.GetAttributeModeAsString ()</tt> -  Control how the filter works with scalar point data and cell attribute
+ data.  By default (AttributeModeToDefault), the filter will use point
+ data, and if no point data is available, then cell data is
+ used. Alternatively you can explicitly set the filter to use point data
+ (AttributeModeToUsePointData) or cell data (AttributeModeToUseCellData).
+ </LI>
+<LI>  <tt>obj.SetComponentMode (int )</tt> -  Control how the decision of in / out is made with multi-component data.
+ The choices are to use the selected component (specified in the
+ SelectedComponent ivar), or to look at all components. When looking at
+ all components, the evaluation can pass if all the components satisfy
+ the rule (UseAll) or if any satisfy is (UseAny). The default value is
+ UseSelected.
+ </LI>
+<LI>  <tt>int = obj.GetComponentModeMinValue ()</tt> -  Control how the decision of in / out is made with multi-component data.
+ The choices are to use the selected component (specified in the
+ SelectedComponent ivar), or to look at all components. When looking at
+ all components, the evaluation can pass if all the components satisfy
+ the rule (UseAll) or if any satisfy is (UseAny). The default value is
+ UseSelected.
+ </LI>
+<LI>  <tt>int = obj.GetComponentModeMaxValue ()</tt> -  Control how the decision of in / out is made with multi-component data.
+ The choices are to use the selected component (specified in the
+ SelectedComponent ivar), or to look at all components. When looking at
+ all components, the evaluation can pass if all the components satisfy
+ the rule (UseAll) or if any satisfy is (UseAny). The default value is
+ UseSelected.
+ </LI>
+<LI>  <tt>int = obj.GetComponentMode ()</tt> -  Control how the decision of in / out is made with multi-component data.
+ The choices are to use the selected component (specified in the
+ SelectedComponent ivar), or to look at all components. When looking at
+ all components, the evaluation can pass if all the components satisfy
+ the rule (UseAll) or if any satisfy is (UseAny). The default value is
+ UseSelected.
+ </LI>
+<LI>  <tt>obj.SetComponentModeToUseSelected ()</tt> -  Control how the decision of in / out is made with multi-component data.
+ The choices are to use the selected component (specified in the
+ SelectedComponent ivar), or to look at all components. When looking at
+ all components, the evaluation can pass if all the components satisfy
+ the rule (UseAll) or if any satisfy is (UseAny). The default value is
+ UseSelected.
+ </LI>
+<LI>  <tt>obj.SetComponentModeToUseAll ()</tt> -  Control how the decision of in / out is made with multi-component data.
+ The choices are to use the selected component (specified in the
+ SelectedComponent ivar), or to look at all components. When looking at
+ all components, the evaluation can pass if all the components satisfy
+ the rule (UseAll) or if any satisfy is (UseAny). The default value is
+ UseSelected.
+ </LI>
+<LI>  <tt>obj.SetComponentModeToUseAny ()</tt> -  Control how the decision of in / out is made with multi-component data.
+ The choices are to use the selected component (specified in the
+ SelectedComponent ivar), or to look at all components. When looking at
+ all components, the evaluation can pass if all the components satisfy
+ the rule (UseAll) or if any satisfy is (UseAny). The default value is
+ UseSelected.
+ </LI>
+<LI>  <tt>string = obj.GetComponentModeAsString ()</tt> -  Control how the decision of in / out is made with multi-component data.
+ The choices are to use the selected component (specified in the
+ SelectedComponent ivar), or to look at all components. When looking at
+ all components, the evaluation can pass if all the components satisfy
+ the rule (UseAll) or if any satisfy is (UseAny). The default value is
+ UseSelected.
+ </LI>
+<LI>  <tt>obj.SetSelectedComponent (int )</tt> -  When the component mode is UseSelected, this ivar indicated the selected
+ component. The default value is 0.
+ </LI>
+<LI>  <tt>int = obj.GetSelectedComponentMinValue ()</tt> -  When the component mode is UseSelected, this ivar indicated the selected
+ component. The default value is 0.
+ </LI>
+<LI>  <tt>int = obj.GetSelectedComponentMaxValue ()</tt> -  When the component mode is UseSelected, this ivar indicated the selected
+ component. The default value is 0.
+ </LI>
+<LI>  <tt>int = obj.GetSelectedComponent ()</tt> -  When the component mode is UseSelected, this ivar indicated the selected
+ component. The default value is 0.
+ </LI>
+<LI>  <tt>obj.SetAllScalars (int )</tt> -  If using scalars from point data, all scalars for all points in a cell 
+ must satisfy the threshold criterion if AllScalars is set. Otherwise, 
+ just a single scalar value satisfying the threshold criterion enables
+ will extract the cell.
+ </LI>
+<LI>  <tt>int = obj.GetAllScalars ()</tt> -  If using scalars from point data, all scalars for all points in a cell 
+ must satisfy the threshold criterion if AllScalars is set. Otherwise, 
+ just a single scalar value satisfying the threshold criterion enables
+ will extract the cell.
+ </LI>
+<LI>  <tt>obj.AllScalarsOn ()</tt> -  If using scalars from point data, all scalars for all points in a cell 
+ must satisfy the threshold criterion if AllScalars is set. Otherwise, 
+ just a single scalar value satisfying the threshold criterion enables
+ will extract the cell.
+ </LI>
+<LI>  <tt>obj.AllScalarsOff ()</tt> -  If using scalars from point data, all scalars for all points in a cell 
+ must satisfy the threshold criterion if AllScalars is set. Otherwise, 
+ just a single scalar value satisfying the threshold criterion enables
+ will extract the cell.
+ </LI>
+<LI>  <tt>obj.SetPointsDataTypeToDouble ()</tt> -  Set the data type of the output points (See the data types defined in 
+ vtkType.h). The default data type is float.
+ </LI>
+<LI>  <tt>obj.SetPointsDataTypeToFloat ()</tt> -  Set the data type of the output points (See the data types defined in 
+ vtkType.h). The default data type is float.
+ </LI>
+<LI>  <tt>obj.SetPointsDataType (int )</tt> -  Set the data type of the output points (See the data types defined in 
+ vtkType.h). The default data type is float.
+ </LI>
+<LI>  <tt>int = obj.GetPointsDataType ()</tt> -  Set the data type of the output points (See the data types defined in 
+ vtkType.h). The default data type is float.
+ </LI>
+</UL>
+*/

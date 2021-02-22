@@ -1,0 +1,85 @@
+/*!
+\page vtkcommon_vtkfastnumericconversion vtkFastNumericConversion
+
+<p>
+Section: \ref sec_vtkcommon "Visualization Toolkit Common Classes"
+\section Usage
+ vtkFastNumericConversion uses a portable (assuming IEEE format) method for
+ converting single and double precision floating point values to a fixed
+ point representation. This allows fast integer floor operations on
+ platforms, such as Intel X86, in which CPU floating point conversion
+ algorithms are very slow. It is based on the techniques described in Chris
+ Hecker's article, "Let's Get to the (Floating) Point", in Game Developer
+ Magazine, Feb/Mar 1996, and the techniques described in Michael Herf's
+ website, http://www.stereopsis.com/FPU.html.  The Hecker article can be
+ found at http://www.d6.com/users/checker/pdfs/gdmfp.pdf.  Unfortunately,
+ each of these techniques is incomplete, and doesn't convert properly, in a
+ way that depends on how many bits are reserved for fixed point fractional
+ use, due to failing to properly account for the default round-towards-even
+ rounding mode of the X86. Thus, my implementation incorporates some
+ rounding correction that undoes the rounding that the FPU performs during
+ denormalization of the floating point value. Note that the rounding affect
+ I'm talking about here is not the effect on the fistp instruction, but
+ rather the effect that occurs during the denormalization of a value that
+ occurs when adding it to a much larger value. The bits must be shifted to
+ the right, and when a "1" bit falls off the edge, the rounding mode
+ determines what happens next, in order to avoid completely "losing" the
+ 1-bit. Furthermore, my implementation works on Linux, where the default
+ precision mode is 64-bit extended precision.
+
+To create an instance of class vtkFastNumericConversion, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkFastNumericConversion
+\endverbatim
+\section Methods
+The class vtkFastNumericConversion has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkFastNumericConversion class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkFastNumericConversion = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkFastNumericConversion = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>int = obj.TestQuickFloor (double val)</tt> -  Wrappable method for script-testing of correct cross-platform
+ functionality
+ </LI>
+<LI>  <tt>int = obj.TestSafeFloor (double val)</tt> -  Wrappable method for script-testing of correct cross-platform
+ functionality
+ </LI>
+<LI>  <tt>int = obj.TestRound (double val)</tt> -  Wrappable method for script-testing of correct cross-platform
+ functionality
+ </LI>
+<LI>  <tt>int = obj.TestConvertFixedPointIntPart (double val)</tt> -  Wrappable method for script-testing of correct cross-platform
+ functionality
+ </LI>
+<LI>  <tt>int = obj.TestConvertFixedPointFracPart (double val)</tt> -  Wrappable method for script-testing of correct cross-platform
+ functionality
+ </LI>
+<LI>  <tt>obj.SetReservedFracBits (int bits)</tt> -  Set the number of bits reserved for fractional precision that are
+ maintained as part of the flooring process. This number affects the
+ flooring arithmetic. It may be useful if the factional part is to be
+ used to index into a lookup table of some sort. However, if you are only
+ interested in knowing the fractional remainder after flooring, there
+ doesn't appear to be any advantage to using these bits, either in terms
+ of a lookup table, or by directly multiplying by some unit fraction,
+ over simply subtracting the floored value from the original value. Note
+ that since only 32 bits are used for the entire fixed point
+ representation, increasing the number of reserved fractional bits
+ reduces the range of integer values that can be floored to.
+ Add one to the requested number of fractional bits, to make
+ the conversion safe with respect to rounding mode. This is the
+ same as the difference between QuickFloor and SafeFloor.
+ </LI>
+<LI>  <tt>obj.PerformanceTests (void )</tt> -  Conduct timing tests so that the usefulness of this class can be
+ ascertained on whatever platform it is being used. Output can be
+ retrieved via Print method.
+ </LI>
+</UL>
+*/

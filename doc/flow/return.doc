@@ -1,0 +1,90 @@
+/*!
+\page flow_return RETURN Return From Function
+
+<p>
+Section: \ref sec_flow "Flow Control"
+\section Usage
+The <tt>return</tt> statement is used to immediately return from
+a function, or to return from a <tt>keyboard</tt> session.  The
+syntax for its use is
+\verbatim
+  return
+\endverbatim
+Inside a function, a <tt>return</tt> statement causes FreeMat
+to exit the function immediately.  When a <tt>keyboard</tt> session
+is active, the <tt>return</tt> statement causes execution to
+resume where the <tt>keyboard</tt> session started.
+\section Example
+In the first example, we define a function that uses a
+<tt>return</tt> to exit the function if a certain test condition
+is satisfied.
+
+\if FILE
+return_func.m
+function ret = return_func(a,b)
+  ret = 'a is greater';
+  if (a > b)
+    return;
+  end
+  ret = 'b is greater';
+  printf('finishing up...\n');
+\endif
+\verbatim
+     return_func.m
+\endverbatim
+
+\verbinclude return_func.m
+
+Next we exercise the function with a few simple test
+cases:
+
+\if FRAGMENT
+frag_flow_return_000.m
+0
+return_func(1,3)
+return_func(5,2)
+\endif
+
+
+\verbinclude frag_flow_return_000.m.out 
+
+In the second example, we take the function and rewrite
+it to use a <tt>keyboard</tt> statement inside the <tt>if</tt> statement.
+
+\if FILE
+return_func2.m
+function ret = return_func2(a,b)
+  if (a > b)
+     ret = 'a is greater';
+     keyboard;
+  else
+     ret = 'b is greater';
+  end
+  printf('finishing up...\n');
+\endif
+\verbatim
+     return_func2.m
+\endverbatim
+
+\verbinclude return_func2.m
+
+Now, we call the function with a larger first argument, which
+triggers the <tt>keyboard</tt> session.  After verifying a few
+values inside the <tt>keyboard</tt> session, we issue a <tt>return</tt>
+statement to resume execution.
+
+\if FRAGMENT
+frag_flow_return_001.m
+0
+return_func2(2,4)
+return_func2(5,1)
+ret
+a
+b
+return
+\endif
+
+
+\verbinclude frag_flow_return_001.m.out 
+
+*/

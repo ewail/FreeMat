@@ -1,0 +1,60 @@
+/*!
+\page random_randbeta RANDBETA Beta Deviate Random Number Generator
+
+<p>
+Section: \ref sec_random "Random Number Generation"
+\section Usage
+Creates an array of beta random deviates based on the supplied
+two parameters. The general syntax for <tt>randbeta</tt> is 
+\verbatim
+   y = randbeta(alpha, beta)
+\endverbatim
+where <tt>alpha</tt> and <tt>beta</tt> are the two parameters of the 
+random deviate.  There are three forms for calling <tt>randbeta</tt>.
+The first uses two vectors <tt>alpha</tt> and <tt>beta</tt> of the same
+size, in which case the output <tt>y</tt> is the same size as both
+inputs, and each deviate uses the corresponding values of <tt>alpha</tt>
+and <tt>beta</tt> from the arguments.  In the other forms, either
+<tt>alpha</tt> or <tt>beta</tt> are scalars.
+\section Function Internals
+The probability density function (PDF) of a beta random variable
+is
+\f[
+f(x) = x^(a-1) * (1-x)^(b-1) / B(a,b)
+\f]
+for <tt>x</tt> between 0 and 1.  The function <tt>B(a,b)</tt> is defined so
+that the integral of <tt>f(x)</tt> is 1.
+\section Example
+Here is a plot of the PDF of a beta random variable with <tt>a=3</tt>,
+<tt>b=7</tt>.
+
+\if FRAGMENT
+frag_random_randbeta_000.m
+0
+a = 3; b = 7;
+x = (0:100)/100; t = x.^(a-1).*(1-x).^(b-1); 
+t = t/(sum(t)*.01);
+plot(x,t);
+mprint betapdf
+\endif
+
+
+\verbinclude frag_random_randbeta_000.m.out 
+
+which is plotted as
+\image html betapdf.png
+\image latex betapdf.eps "betapdf" width=12cm
+If we generate a few random deviates with these values,
+we see they are distributed around the peak of roughly
+<tt>0.25</tt>.
+
+\if FRAGMENT
+frag_random_randbeta_001.m
+0
+randbeta(3*ones(1,5),7*ones(1,5))
+\endif
+
+
+\verbinclude frag_random_randbeta_001.m.out 
+
+*/

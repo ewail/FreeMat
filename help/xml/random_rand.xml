@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="random_rand" kind="page">
+    <compoundname>random_rand</compoundname>
+    <title>RAND Uniform Random Number Generator</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_random_1sec_random" kindref="member">Random Number Generation</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>Creates an array of pseudo-random numbers of the specified size. The numbers are uniformly distributed on <computeroutput>[0,1)</computeroutput>. Two seperate syntaxes are possible. The first syntax specifies the array dimensions as a sequence of scalar dimensions: <verbatim>  y = rand(d1,d2,...,dn).
+</verbatim> The resulting array has the given dimensions, and is filled with random numbers. The type of <computeroutput>y</computeroutput> is <computeroutput>double</computeroutput>, a 64-bit floating point array. To get arrays of other types, use the typecast functions.</para><para>The second syntax specifies the array dimensions as a vector, where each element in the vector specifies a dimension length: <verbatim>  y = rand([d1,d2,...,dn]).
+</verbatim> This syntax is more convenient for calling <computeroutput>rand</computeroutput> using a variable for the argument.</para><para>Finally, <computeroutput>rand</computeroutput> supports two additional forms that allow you to manipulate the state of the random number generator. The first retrieves the state <verbatim>  y = rand(&apos;state&apos;)
+</verbatim> which is a 625 length integer vector. The second form sets the state <verbatim>  rand(&apos;state&apos;,y)
+</verbatim> or alternately, you can reset the random number generator with <verbatim>  rand(&apos;state&apos;,0)
+</verbatim> </para></sect1>
+<sect1 id="variables_struct_1Example">
+<title>Example</title>
+<para>The following example demonstrates an example of using the first form of the <computeroutput>rand</computeroutput> function.</para><para><verbatim>--&gt; rand(2,2,2)
+
+ans = 
+
+(:,:,1) = 
+    0.8539    0.1733 
+    0.0415    0.1300 
+
+(:,:,2) = 
+    0.7163    0.5752 
+    0.5953    0.3728 
+</verbatim></para><para>The second example demonstrates the second form of the <computeroutput>rand</computeroutput> function.</para><para><verbatim>--&gt; rand([2,2,2])
+
+ans = 
+
+(:,:,1) = 
+    0.4992    0.2797 
+    0.6513    0.3209 
+
+(:,:,2) = 
+    0.6244    0.7774 
+    0.0934    0.1820 
+</verbatim></para><para>The third example computes the mean and variance of a large number of uniform random numbers. Recall that the mean should be <computeroutput>1/2</computeroutput>, and the variance should be <computeroutput>1/12 ~ 0.083</computeroutput>.</para><para><verbatim>--&gt; x = rand(1,10000);
+--&gt; mean(x)
+
+ans = 
+    0.4952 
+
+--&gt; var(x)
+
+ans = 
+    0.0845 
+</verbatim></para><para>Now, we use the state manipulation functions of <computeroutput>rand</computeroutput> to exactly reproduce a random sequence. Note that unlike using <computeroutput>seed</computeroutput>, we can exactly control where the random number generator starts by saving the state.</para><para><verbatim>--&gt; rand(&apos;state&apos;,0)    % restores us to startup conditions
+--&gt; a = rand(1,3)      % random sequence 1
+
+a = 
+    0.3759    0.0183    0.9134 
+
+--&gt; b = rand(&apos;state&apos;); % capture the state vector
+--&gt; c = rand(1,3)      % random sequence 2  
+
+c = 
+    0.3580    0.7604    0.8077 
+
+--&gt; rand(&apos;state&apos;,b);   % restart the random generator so...
+--&gt; c = rand(1,3)      % we get random sequence 2 again
+
+c = 
+    0.3580    0.7604    0.8077 
+</verbatim> </para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,166 @@
+
+ Usage
+
+vtkPolyDataNormals is a filter that computes point normals
+for a polygonal mesh. The filter can reorder polygons to
+insure consistent orientation across polygon neighbors.
+Sharp edges can be split and points duplicated with separate
+normals to give crisp (rendered) surface definition. It is
+also possible to globally flip the normal orientation.
+The algorithm works by determining normals for each polygon
+and then averaging them at shared points. When sharp edges
+are present, the edges are split and new points generated to
+prevent blurry edges (due to Gouraud shading).
+To create an instance of class vtkPolyDataNormals, simply
+invoke its constructor as follows
+
+    obj = vtkPolyDataNormals
+
+
+
+ Methods
+
+The class vtkPolyDataNormals has several methods that can be
+used. They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkPolyDataNormals class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkPolyDataNormals = obj.NewInstance ()
+* vtkPolyDataNormals = obj.SafeDownCast (vtkObject o)
+* obj.SetFeatureAngle (double ) - Specify the angle that
+  defines a sharp edge. If the difference in angle across
+  neighboring polygons is greater than this value, the
+  shared edge is considered "sharp".
+* double = obj.GetFeatureAngleMinValue () - Specify the
+  angle that defines a sharp edge. If the difference in
+  angle across neighboring polygons is greater than this
+  value, the shared edge is considered "sharp".
+* double = obj.GetFeatureAngleMaxValue () - Specify the
+  angle that defines a sharp edge. If the difference in
+  angle across neighboring polygons is greater than this
+  value, the shared edge is considered "sharp".
+* double = obj.GetFeatureAngle () - Specify the angle that
+  defines a sharp edge. If the difference in angle across
+  neighboring polygons is greater than this value, the
+  shared edge is considered "sharp".
+* obj.SetSplitting (int ) - Turn on/off the splitting of
+  sharp edges.
+* int = obj.GetSplitting () - Turn on/off the splitting of
+  sharp edges.
+* obj.SplittingOn () - Turn on/off the splitting of sharp
+  edges.
+* obj.SplittingOff () - Turn on/off the splitting of sharp
+  edges.
+* obj.SetConsistency (int ) - Turn on/off the enforcement of
+  consistent polygon ordering.
+* int = obj.GetConsistency () - Turn on/off the enforcement
+  of consistent polygon ordering.
+* obj.ConsistencyOn () - Turn on/off the enforcement of
+  consistent polygon ordering.
+* obj.ConsistencyOff () - Turn on/off the enforcement of
+  consistent polygon ordering.
+* obj.SetAutoOrientNormals (int ) - Turn on/off the
+  automatic determination of correct normal orientation.
+  NOTE: This assumes a completely closed surface (i.e. no
+  boundary edges) and no non-manifold edges. If these
+  constraints do not hold, all bets are off. This option
+  adds some computational complexity, and is useful if you
+  don't want to have to inspect the rendered image to
+  determine whether to turn on the FlipNormals flag.
+  However, this flag can work with the FlipNormals flag, and
+  if both are set, all the normals in the output will point
+  "inward".
+* int = obj.GetAutoOrientNormals () - Turn on/off the
+  automatic determination of correct normal orientation.
+  NOTE: This assumes a completely closed surface (i.e. no
+  boundary edges) and no non-manifold edges. If these
+  constraints do not hold, all bets are off. This option
+  adds some computational complexity, and is useful if you
+  don't want to have to inspect the rendered image to
+  determine whether to turn on the FlipNormals flag.
+  However, this flag can work with the FlipNormals flag, and
+  if both are set, all the normals in the output will point
+  "inward".
+* obj.AutoOrientNormalsOn () - Turn on/off the automatic
+  determination of correct normal orientation. NOTE: This
+  assumes a completely closed surface (i.e. no boundary
+  edges) and no non-manifold edges. If these constraints do
+  not hold, all bets are off. This option adds some
+  computational complexity, and is useful if you don't want
+  to have to inspect the rendered image to determine whether
+  to turn on the FlipNormals flag. However, this flag can
+  work with the FlipNormals flag, and if both are set, all
+  the normals in the output will point "inward".
+* obj.AutoOrientNormalsOff () - Turn on/off the automatic
+  determination of correct normal orientation. NOTE: This
+  assumes a completely closed surface (i.e. no boundary
+  edges) and no non-manifold edges. If these constraints do
+  not hold, all bets are off. This option adds some
+  computational complexity, and is useful if you don't want
+  to have to inspect the rendered image to determine whether
+  to turn on the FlipNormals flag. However, this flag can
+  work with the FlipNormals flag, and if both are set, all
+  the normals in the output will point "inward".
+* obj.SetComputePointNormals (int ) - Turn on/off the
+  computation of point normals.
+* int = obj.GetComputePointNormals () - Turn on/off the
+  computation of point normals.
+* obj.ComputePointNormalsOn () - Turn on/off the computation
+  of point normals.
+* obj.ComputePointNormalsOff () - Turn on/off the
+  computation of point normals.
+* obj.SetComputeCellNormals (int ) - Turn on/off the
+  computation of cell normals.
+* int = obj.GetComputeCellNormals () - Turn on/off the
+  computation of cell normals.
+* obj.ComputeCellNormalsOn () - Turn on/off the computation
+  of cell normals.
+* obj.ComputeCellNormalsOff () - Turn on/off the computation
+  of cell normals.
+* obj.SetFlipNormals (int ) - Turn on/off the global
+  flipping of normal orientation. Flipping reverves the
+  meaning of front and back for Frontface and Backface
+  culling in vtkProperty. Flipping modifies both the normal
+  direction and the order of a cell's points.
+* int = obj.GetFlipNormals () - Turn on/off the global
+  flipping of normal orientation. Flipping reverves the
+  meaning of front and back for Frontface and Backface
+  culling in vtkProperty. Flipping modifies both the normal
+  direction and the order of a cell's points.
+* obj.FlipNormalsOn () - Turn on/off the global flipping of
+  normal orientation. Flipping reverves the meaning of front
+  and back for Frontface and Backface culling in
+  vtkProperty. Flipping modifies both the normal direction
+  and the order of a cell's points.
+* obj.FlipNormalsOff () - Turn on/off the global flipping of
+  normal orientation. Flipping reverves the meaning of front
+  and back for Frontface and Backface culling in
+  vtkProperty. Flipping modifies both the normal direction
+  and the order of a cell's points.
+* obj.SetNonManifoldTraversal (int ) - Turn on/off traversal
+  across non-manifold edges. This will prevent problems
+  where the consistency of polygonal ordering is corrupted
+  due to topological loops.
+* int = obj.GetNonManifoldTraversal () - Turn on/off
+  traversal across non-manifold edges. This will prevent
+  problems where the consistency of polygonal ordering is
+  corrupted due to topological loops.
+* obj.NonManifoldTraversalOn () - Turn on/off traversal
+  across non-manifold edges. This will prevent problems
+  where the consistency of polygonal ordering is corrupted
+  due to topological loops.
+* obj.NonManifoldTraversalOff () - Turn on/off traversal
+  across non-manifold edges. This will prevent problems
+  where the consistency of polygonal ordering is corrupted
+  due to topological loops.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Graphics_Classes
+* Generated on Thu Jul 25 2013 17:18:32 for FreeMat by
+  doxygen_ 1.8.1.1
+

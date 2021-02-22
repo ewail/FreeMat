@@ -1,0 +1,77 @@
+/*!
+\page vtkio_vtkvolumereader vtkVolumeReader
+
+<p>
+Section: \ref sec_vtkio "Visualization Toolkit IO Classes"
+\section Usage
+ vtkVolumeReader is a source object that reads image files.
+
+ VolumeReader creates structured point datasets. The dimension of the 
+ dataset depends upon the number of files read. Reading a single file 
+ results in a 2D image, while reading more than one file results in a 
+ 3D volume.
+
+ File names are created using FilePattern and FilePrefix as follows:
+ sprintf (filename, FilePattern, FilePrefix, number);
+ where number is in the range ImageRange[0] to ImageRange[1]. If
+ ImageRange[1] <= ImageRange[0], then slice number ImageRange[0] is
+ read. Thus to read an image set ImageRange[0] = ImageRange[1] = slice 
+ number. The default behavior is to read a single file (i.e., image slice 1).
+
+ The DataMask instance variable is used to read data files with imbedded
+ connectivity or segmentation information. For example, some data has
+ the high order bit set to indicate connected surface. The DataMask allows
+ you to select this data. Other important ivars include HeaderSize, which
+ allows you to skip over initial info, and SwapBytes, which turns on/off
+ byte swapping. Consider using vtkImageReader as a replacement.
+
+To create an instance of class vtkVolumeReader, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkVolumeReader
+\endverbatim
+\section Methods
+The class vtkVolumeReader has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkVolumeReader class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkVolumeReader = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkVolumeReader = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetFilePrefix (string )</tt> -  Specify file prefix for the image file(s).
+ </LI>
+<LI>  <tt>string = obj.GetFilePrefix ()</tt> -  Specify file prefix for the image file(s).
+ </LI>
+<LI>  <tt>obj.SetFilePattern (string )</tt> -  The sprintf format used to build filename from FilePrefix and number.
+ </LI>
+<LI>  <tt>string = obj.GetFilePattern ()</tt> -  The sprintf format used to build filename from FilePrefix and number.
+ </LI>
+<LI>  <tt>obj.SetImageRange (int , int )</tt> -  Set the range of files to read.
+ </LI>
+<LI>  <tt>obj.SetImageRange (int  a[2])</tt> -  Set the range of files to read.
+ </LI>
+<LI>  <tt>int = obj. GetImageRange ()</tt> -  Set the range of files to read.
+ </LI>
+<LI>  <tt>obj.SetDataSpacing (double , double , double )</tt> -  Specify the spacing for the data.
+ </LI>
+<LI>  <tt>obj.SetDataSpacing (double  a[3])</tt> -  Specify the spacing for the data.
+ </LI>
+<LI>  <tt>double = obj. GetDataSpacing ()</tt> -  Specify the spacing for the data.
+ </LI>
+<LI>  <tt>obj.SetDataOrigin (double , double , double )</tt> -  Specify the origin for the data.
+ </LI>
+<LI>  <tt>obj.SetDataOrigin (double  a[3])</tt> -  Specify the origin for the data.
+ </LI>
+<LI>  <tt>double = obj. GetDataOrigin ()</tt> -  Specify the origin for the data.
+ </LI>
+<LI>  <tt>vtkImageData = obj.GetImage (int ImageNumber)</tt> -  Other objects make use of this method.
+ </LI>
+</UL>
+*/

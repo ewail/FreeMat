@@ -1,0 +1,13 @@
+function y = fitfunc_func1(init,junk)
+ c = 2;
+ d = 0;
+ init2 = [c,d];
+ y2 = [1:100]*3;
+ weights2 = y2*0+1;
+ tol2 = 1.e-08;
+ junk2 = rand(100);
+ [xopt2,yopt2] = fitfun('fitfunc_func2',init2,y2,weights2,tol2,junk2);
+ a = init(1);
+ b = init(2);
+ x = [1:100];
+ y = a*x + b;

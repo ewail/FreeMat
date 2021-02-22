@@ -1,0 +1,118 @@
+
+ Usage
+
+Most widgets in VTK have a need to translate of 2D display
+coordinates (as reported by the RenderWindowInteractor) to
+3D world coordinates. This class is an abstraction of this
+functionality. A few subclasses are listed below:
+1) vtkFocalPlanePointPlacer: This class converts 2D display
+positions to world positions such that they lie on the focal
+plane.
+2) vtkPolygonalSurfacePointPlacer: Converts 2D display
+positions to world positions such that they lie on the
+surface of one or more specified polydatas.
+3) vtkImageActorPointPlacer: Converts 2D display positions
+to world positions such that they lie on an ImageActor
+4) vtkBoundedPlanePointPlacer: Converts 2D display positions
+to world positions such that they lie within a set of
+specified bounding planes.
+5) vtkTerrainDataPointPlacer: Converts 2D display positions
+to world positions such that they lie on a height field.
+Point placers provide an extensible framework to specify
+constraints on points. The methods ComputeWorldPosition,
+ValidateDisplayPosition and ValidateWorldPosition may be
+overridden to dictate whether a world or display position is
+allowed. These classes are currently used by the
+HandleWidget and the ContourWidget to allow various
+constraints to be enforced on the placement of their
+handles.
+To create an instance of class vtkPointPlacer, simply invoke
+its constructor as follows
+
+    obj = vtkPointPlacer
+
+
+
+ Methods
+
+The class vtkPointPlacer has several methods that can be
+used. They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkPointPlacer class.
+
+* string = obj.GetClassName () - Standard methods for
+  instances of this class.
+* int = obj.IsA (string name) - Standard methods for
+  instances of this class.
+* vtkPointPlacer = obj.NewInstance () - Standard methods for
+  instances of this class.
+* vtkPointPlacer = obj.SafeDownCast (vtkObject o) - Standard
+  methods for instances of this class.
+* int = obj.ComputeWorldPosition (vtkRenderer ren, double
+  displayPos[2], double worldPos[3], double worldOrient[9])
+  - Given a renderer and a display position in pixel
+  coordinates, compute the world position and orientation
+  where this point will be placed. This method is typically
+  used by the representation to place the point initially. A
+  return value of 1 indicates that constraints of the placer
+  are met.
+* int = obj.ComputeWorldPosition (vtkRenderer ren, double
+  displayPos[2], double refWorldPos[3], double worldPos[3],
+  double worldOrient[9]) - Given a renderer, a display
+  position, and a reference world position, compute the new
+  world position and orientation of this point. This method
+  is typically used by the representation to move the point.
+  A return value of 1 indicates that constraints of the
+  placer are met.
+* int = obj.ValidateWorldPosition (double worldPos[3]) -
+  Given a world position check the validity of this position
+  according to the constraints of the placer.
+* int = obj.ValidateDisplayPosition (vtkRenderer , double
+  displayPos[2]) - Given a display position, check the
+  validity of this position.
+* int = obj.ValidateWorldPosition (double worldPos[3],
+  double worldOrient[9]) - Given a world position and a
+  world orientation, validate it according to the
+  constraints of the placer.
+* int = obj.UpdateWorldPosition (vtkRenderer ren, double
+  worldPos[3], double worldOrient[9]) - Given a current
+  renderer, world position and orientation, update them
+  according to the constraints of the placer. This method is
+  typically used when UpdateContour is called on the
+  representation, which must be called after changes are
+  made to the constraints in the placer. A return value of 1
+  indicates that the point has been updated. A return value
+  of 0 indicates that the point could not be updated and was
+  left alone. By default this is a no-op - leaving the point
+  as is.
+* int = obj.UpdateInternalState () - Set/get the tolerance
+  used when performing computations in display coordinates.
+* obj.SetPixelTolerance (int ) - Set/get the tolerance used
+  when performing computations in display coordinates.
+* int = obj.GetPixelToleranceMinValue () - Set/get the
+  tolerance used when performing computations in display
+  coordinates.
+* int = obj.GetPixelToleranceMaxValue () - Set/get the
+  tolerance used when performing computations in display
+  coordinates.
+* int = obj.GetPixelTolerance () - Set/get the tolerance
+  used when performing computations in display coordinates.
+* obj.SetWorldTolerance (double ) - Set/get the tolerance
+  used when performing computations in world coordinates.
+* double = obj.GetWorldToleranceMinValue () - Set/get the
+  tolerance used when performing computations in world
+  coordinates.
+* double = obj.GetWorldToleranceMaxValue () - Set/get the
+  tolerance used when performing computations in world
+  coordinates.
+* double = obj.GetWorldTolerance () - Set/get the tolerance
+  used when performing computations in world coordinates.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Widget_Classes
+* Generated on Thu Jul 25 2013 17:18:36 for FreeMat by
+  doxygen_ 1.8.1.1
+

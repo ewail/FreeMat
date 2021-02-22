@@ -1,0 +1,117 @@
+
+ Usage
+
+It is a concrete error metric, based on a geometric
+criterium: the variation of the edge from a straight line.
+To create an instance of class vtkGeometricErrorMetric,
+simply invoke its constructor as follows
+
+    obj = vtkGeometricErrorMetric
+
+
+
+ Methods
+
+The class vtkGeometricErrorMetric has several methods that
+can be used. They are listed below. Note that the
+documentation is translated automatically from the VTK
+sources, and may not be completely intelligible. When in
+doubt, consult the VTK website. In the methods listed below,
+obj is an instance of the vtkGeometricErrorMetric class.
+
+* string = obj.GetClassName () - Standard VTK type and error
+  macros.
+* int = obj.IsA (string name) - Standard VTK type and error
+  macros.
+* vtkGeometricErrorMetric = obj.NewInstance () - Standard
+  VTK type and error macros.
+* vtkGeometricErrorMetric = obj.SafeDownCast (vtkObject o) -
+  Standard VTK type and error macros.
+* double = obj.GetAbsoluteGeometricTolerance () - Return the
+  squared absolute geometric accuracy. See
+  SetAbsoluteGeometricTolerance() for details.
+
+
+    Postcondition:
+        positive_result: result>0
+
+* obj.SetAbsoluteGeometricTolerance (double value) - Set the
+  geometric accuracy with a squared absolute value. This is
+  the geometric object-based accuracy. Subdivision will be
+  required if the square distance between the real point and
+  the straight line passing through the vertices of the edge
+  is greater than `value'. For instance 0.01 will give
+  better result than 0.1.
+
+
+    Precondition:
+        positive_value: value>0
+
+* obj.SetRelativeGeometricTolerance (double value,
+  vtkGenericDataSet ds) - Set the geometric accuracy with a
+  value relative to the length of the bounding box of the
+  dataset. Internally compute the absolute tolerance. For
+  instance 0.01 will give better result than 0.1.
+
+
+    Precondition:
+        valid_range_value: value>0 &amp;&amp; value<1
+        ds_exists: ds!=0
+
+* int = obj.RequiresEdgeSubdivision (double leftPoint,
+  double midPoint, double rightPoint, double alpha) - Does
+  the edge need to be subdivided according to the distance
+  between the line passing through its endpoints and the mid
+  point? The edge is defined by its `leftPoint' and its
+  `rightPoint'. `leftPoint', `midPoint' and `rightPoint'
+  have to be initialized before calling
+  RequiresEdgeSubdivision(). Their format is global
+  coordinates, parametric coordinates and point centered
+  attributes: xyx rst abc de... `alpha' is the normalized
+  abscissa of the midpoint along the edge. (close to 0 means
+  close to the left point, close to 1 means close to the
+  right point)
+
+
+    Precondition:
+        leftPoint_exists: leftPoint!=0
+        midPoint_exists: midPoint!=0
+        rightPoint_exists: rightPoint!=0
+        clamped_alpha: alpha>0 &amp;&amp; alpha<1
+        valid_size: sizeof(leftPoint)=sizeof
+        (midPoint)=sizeof(rightPoint)
+        =GetAttributeCollection()-
+        >GetNumberOfPointCenteredComponents()+6
+
+* double = obj.GetError (double leftPoint, double midPoint,
+  double rightPoint, double alpha) - Return the error at the
+  mid-point. It will return an error relative to the
+  bounding box size if GetRelative() is true, a square
+  absolute error otherwise. See RequiresEdgeSubdivision()
+  for a description of the arguments.
+
+
+    Precondition:
+        leftPoint_exists: leftPoint!=0
+        midPoint_exists: midPoint!=0
+        rightPoint_exists: rightPoint!=0
+        clamped_alpha: alpha>0 &amp;&amp; alpha<1
+        valid_size: sizeof(leftPoint)=sizeof
+        (midPoint)=sizeof(rightPoint)
+        =GetAttributeCollection()-
+        >GetNumberOfPointCenteredComponents()+6
+
+
+
+    Postcondition:
+        positive_result: result>=0
+
+* int = obj.GetRelative () - Return the type of output of
+  GetError()
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Filtering_Classes
+* Generated on Thu Jul 25 2013 17:18:30 for FreeMat by
+  doxygen_ 1.8.1.1
+

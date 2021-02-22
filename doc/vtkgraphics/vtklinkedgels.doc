@@ -1,0 +1,65 @@
+/*!
+\page vtkgraphics_vtklinkedgels vtkLinkEdgels
+
+<p>
+Section: \ref sec_vtkgraphics "Visualization Toolkit Graphics Classes"
+\section Usage
+ vtkLinkEdgels links edgels into digital curves which are then stored 
+ as polylines. The algorithm works one pixel at a time only looking at
+ its immediate neighbors. There is a GradientThreshold that can be set 
+ that eliminates any pixels with a smaller gradient value. This can
+ be used as the lower threshold of a two value edgel thresholding. 
+
+ For the remaining edgels, links are first tried for the four
+ connected neighbors.  A successful neighbor will satisfy three
+ tests. First both edgels must be above the gradient
+ threshold. Second, the difference between the orientation between
+ the two edgels (Alpha) and each edgels orientation (Phi) must be
+ less than LinkThreshold. Third, the difference between the two
+ edgels Phi values must be less than PhiThreshold.
+ The most successful link is selected. The measure is simply the 
+ sum of the three angle differences (actually stored as the sum of
+ the cosines). If none of the four connect neighbors succeeds, then
+ the eight connect neighbors are examined using the same method.
+  
+ This filter requires gradient information so you will need to use
+ a vtkImageGradient at some point prior to this filter.  Typically
+ a vtkNonMaximumSuppression filter is also used. vtkThresholdEdgels
+ can be used to complete the two value edgel thresholding as used
+ in a Canny edge detector. The vtkSubpixelPositionEdgels filter 
+ can also be used after this filter to adjust the edgel locations.
+
+To create an instance of class vtkLinkEdgels, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkLinkEdgels
+\endverbatim
+\section Methods
+The class vtkLinkEdgels has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkLinkEdgels class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkLinkEdgels = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkLinkEdgels = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetLinkThreshold (double )</tt> -  Set/Get the threshold for Phi vs. Alpha link thresholding.
+ </LI>
+<LI>  <tt>double = obj.GetLinkThreshold ()</tt> -  Set/Get the threshold for Phi vs. Alpha link thresholding.
+ </LI>
+<LI>  <tt>obj.SetPhiThreshold (double )</tt> -  Set/get the threshold for Phi vs. Phi link thresholding.
+ </LI>
+<LI>  <tt>double = obj.GetPhiThreshold ()</tt> -  Set/get the threshold for Phi vs. Phi link thresholding.
+ </LI>
+<LI>  <tt>obj.SetGradientThreshold (double )</tt> -  Set/Get the threshold for image gradient thresholding.
+ </LI>
+<LI>  <tt>double = obj.GetGradientThreshold ()</tt> -  Set/Get the threshold for image gradient thresholding.
+ </LI>
+</UL>
+*/

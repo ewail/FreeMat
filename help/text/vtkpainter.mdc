@@ -1,0 +1,90 @@
+
+ Usage
+
+This defines the interface for a Painter. Painters are
+helpers used by Mapper to perform the rendering. The mapper
+sets up a chain of painters and passes the render request to
+the painter. Every painter may have a delegate painter to
+which the render request is forwarded. The Painter may
+modify the request or data before passing it to the delegate
+painter. All the information to control the rendering must
+be passed to the painter using the vtkInformation object. A
+concrete painter may read special keys from the
+vtkInformation object and affect the rendering.
+To create an instance of class vtkPainter, simply invoke its
+constructor as follows
+
+    obj = vtkPainter
+
+
+
+ Methods
+
+The class vtkPainter has several methods that can be used.
+They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkPainter class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkPainter = obj.NewInstance ()
+* vtkPainter = obj.SafeDownCast (vtkObject o)
+* vtkInformation = obj.GetInformation () - Get/Set the
+  information object associated with this painter.
+* obj.SetInformation (vtkInformation ) - Get/Set the
+  information object associated with this painter.
+* vtkPainter = obj.GetDelegatePainter () - Set/Get the
+  painter to which this painter should propagare its draw
+  calls.
+* obj.SetDelegatePainter (vtkPainter ) - Set/Get the painter
+  to which this painter should propagare its draw calls.
+* obj.Register (vtkObjectBase o) - Take part in garbage
+  collection.
+* obj.UnRegister (vtkObjectBase o) - Take part in garbage
+  collection.
+* obj.Render (vtkRenderer renderer, vtkActor actor, long
+  typeflags, bool forceCompileOnly) - Generates rendering
+  primitives of appropriate type(s). Multiple types of
+  primitives can be requested by or-ring the primitive
+  flags. Default implementation calls UpdateDelegatePainter
+  () to update the deletagate painter and then calls
+  RenderInternal(). forceCompileOnly is passed to the
+  display list painters.
+* obj.ReleaseGraphicsResources (vtkWindow ) - Release any
+  graphics resources that are being consumed by this
+  painter. The parameter window could be used to determine
+  which graphic resources to release. The call is propagated
+  to the delegate painter, if any.
+* obj.SetProgress (double ) - Set/Get the execution progress
+  of a process object.
+* double = obj.GetProgressMinValue () - Set/Get the
+  execution progress of a process object.
+* double = obj.GetProgressMaxValue () - Set/Get the
+  execution progress of a process object.
+* double = obj.GetProgress () - Set/Get the execution
+  progress of a process object.
+* double = obj.GetTimeToDraw () - Get the time required to
+  draw the geometry last time it was rendered. Default
+  implementation adds the current TimeToDraw with that of
+  the delegate painter.
+* obj.UpdateBounds (double bounds[6]) - Expand or shrink the
+  estimated bounds of the object based on the geometric
+  transformations performed in the painter. If the painter
+  does not modify the geometry, the bounds are passed
+  through.
+* obj.SetInput (vtkDataObject ) - Set the data object to
+  paint. Currently we only support one data object per
+  painter chain.
+* vtkDataObject = obj.GetInput () - Set the data object to
+  paint. Currently we only support one data object per
+  painter chain.
+* vtkDataObject = obj.GetOutput ()
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Rendering_Classes
+* Generated on Thu Jul 25 2013 17:18:35 for FreeMat by
+  doxygen_ 1.8.1.1
+

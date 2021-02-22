@@ -1,0 +1,57 @@
+/*!
+\page vtkio_vtkdatacompressor vtkDataCompressor
+
+<p>
+Section: \ref sec_vtkio "Visualization Toolkit IO Classes"
+\section Usage
+ vtkDataCompressor provides a universal interface for data
+ compression.  Subclasses provide one compression method and one
+ decompression method.  The public interface to all compressors
+ remains the same, and is defined by this class.
+
+To create an instance of class vtkDataCompressor, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkDataCompressor
+\endverbatim
+\section Methods
+The class vtkDataCompressor has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkDataCompressor class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkDataCompressor = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkDataCompressor = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>long = obj.GetMaximumCompressionSpace (long size)</tt> -  Get the maximum space that may be needed to store data of the
+ given uncompressed size after compression.  This is the minimum
+ size of the output buffer that can be passed to the four-argument
+ Compress method.
+ </LI>
+<LI>  <tt>long = obj.Compress (string uncompressedData, long uncompressedSize, string compressedData, long compressionSpace)</tt> -  Compress the given input data buffer into the given output
+ buffer.  The size of the output buffer must be at least as large
+ as the value given by GetMaximumCompressionSpace for the given
+ input size.
+ </LI>
+<LI>  <tt>long = obj.Uncompress (string compressedData, long compressedSize, string uncompressedData, long uncompressedSize)</tt> -  Uncompress the given input data into the given output buffer.
+ The size of the uncompressed data must be known by the caller.
+ It should be transmitted from the compressor by a means outside
+ of this class.
+ </LI>
+<LI>  <tt>vtkUnsignedCharArray = obj.Compress (string uncompressedData, long uncompressedSize)</tt> -  Compress the given data.  A vtkUnsignedCharArray containing the
+ compressed data is returned with a reference count of 1.
+ </LI>
+<LI>  <tt>vtkUnsignedCharArray = obj.Uncompress (string compressedData, long compressedSize, long uncompressedSize)</tt> -  Uncompress the given data.  A vtkUnsignedCharArray containing the
+ compressed data is returned with a reference count of 1.  The
+ size of the uncompressed data must be known by the caller.  It
+ should be transmitted from the compressor by a means outside of
+ this class.
+ </LI>
+</UL>
+*/

@@ -1,0 +1,119 @@
+/*!
+\page vtkrendering_vtkshadowmappass vtkShadowMapPass
+
+<p>
+Section: \ref sec_vtkrendering "Visualization Toolkit Rendering Classes"
+\section Usage
+ Render the opaque polygonal geometry of a scene with shadow maps (a
+ technique to render hard shadows in hardware).
+
+ This pass expects an initialized depth buffer and color buffer.
+ Initialized buffers means they have been cleared with farest z-value and
+ background color/gradient/transparent color.
+ An opaque pass may have been performed right after the initialization.
+
+
+
+ Its delegate is usually set to a vtkOpaquePass.
+
+ .SECTION Implementation
+ The first pass of the algorithm is to generate a shadow map per light
+ (depth map from the light point of view) by rendering the opaque objects
+ with the OCCLUDER property keys.
+ The second pass is to render the opaque objects with the RECEIVER keys.
+
+
+To create an instance of class vtkShadowMapPass, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkShadowMapPass
+\endverbatim
+\section Methods
+The class vtkShadowMapPass has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkShadowMapPass class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkShadowMapPass = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkShadowMapPass = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.ReleaseGraphicsResources (vtkWindow w)</tt> -  Release graphics resources and ask components to release their own
+ resources.
+ \pre w_exists: w!=0
+ </LI>
+<LI>  <tt>vtkRenderPass = obj.GetOpaquePass ()</tt> -  Delegate for rendering the opaque polygonal geometry.
+ If it is NULL, nothing will be rendered and a warning will be emitted.
+ It is usually set to a vtkTranslucentPass.
+ Initial value is a NULL pointer.
+ </LI>
+<LI>  <tt>obj.SetOpaquePass (vtkRenderPass opaquePass)</tt> -  Delegate for rendering the opaque polygonal geometry.
+ If it is NULL, nothing will be rendered and a warning will be emitted.
+ It is usually set to a vtkTranslucentPass.
+ Initial value is a NULL pointer.
+ </LI>
+<LI>  <tt>vtkRenderPass = obj.GetCompositeZPass ()</tt> -  Delegate for rendering the opaque polygonal geometry.
+ If it is NULL, nothing will be rendered and a warning will be emitted.
+ It is usually set to a vtkTranslucentPass.
+ Initial value is a NULL pointer.
+ </LI>
+<LI>  <tt>obj.SetCompositeZPass (vtkRenderPass opaquePass)</tt> -  Delegate for rendering the opaque polygonal geometry.
+ If it is NULL, nothing will be rendered and a warning will be emitted.
+ It is usually set to a vtkTranslucentPass.
+ Initial value is a NULL pointer.
+ </LI>
+<LI>  <tt>obj.SetResolution (int )</tt> -  Set/Get the number of pixels in each dimension of the shadow maps
+ (shadow maps are square). Initial value is 256. The greater the better.
+ Resolution does not have to be a power-of-two value.
+ </LI>
+<LI>  <tt>int = obj.GetResolution ()</tt> -  Set/Get the number of pixels in each dimension of the shadow maps
+ (shadow maps are square). Initial value is 256. The greater the better.
+ Resolution does not have to be a power-of-two value.
+ </LI>
+<LI>  <tt>obj.SetPolygonOffsetFactor (float )</tt> -  Factor used to scale the maximum depth slope of a polygon (definition
+ from OpenGL 2.1 spec section 3.5.5 "Depth Offset" page 112). This is
+ used during the creation the shadow maps (not during mapping of the
+ shadow maps onto the geometry)
+ Play with this value and PolygonOffsetUnits to solve self-shadowing.
+ Valid values can be either positive or negative.
+ Initial value is 1.1f (recommended by the nVidia presentation about
+ Shadow Mapping by Cass Everitt). 3.1f works well with the regression test.
+ </LI>
+<LI>  <tt>float = obj.GetPolygonOffsetFactor ()</tt> -  Factor used to scale the maximum depth slope of a polygon (definition
+ from OpenGL 2.1 spec section 3.5.5 "Depth Offset" page 112). This is
+ used during the creation the shadow maps (not during mapping of the
+ shadow maps onto the geometry)
+ Play with this value and PolygonOffsetUnits to solve self-shadowing.
+ Valid values can be either positive or negative.
+ Initial value is 1.1f (recommended by the nVidia presentation about
+ Shadow Mapping by Cass Everitt). 3.1f works well with the regression test.
+ </LI>
+<LI>  <tt>obj.SetPolygonOffsetUnits (float )</tt> -  Factor used to scale an implementation dependent constant that relates
+ to the usable resolution of the depth buffer (definition from OpenGL 2.1
+ spec section 3.5.5 "Depth Offset" page 112). This is
+ used during the creation the shadow maps (not during mapping of the
+ shadow maps onto the geometry)
+ Play with this value and PolygonOffsetFactor to solve self-shadowing.
+ Valid values can be either positive or negative.
+ Initial value is 4.0f (recommended by the nVidia presentation about
+ Shadow Mapping by Cass Everitt). 10.0f works well with the regression
+ test.
+ </LI>
+<LI>  <tt>float = obj.GetPolygonOffsetUnits ()</tt> -  Factor used to scale an implementation dependent constant that relates
+ to the usable resolution of the depth buffer (definition from OpenGL 2.1
+ spec section 3.5.5 "Depth Offset" page 112). This is
+ used during the creation the shadow maps (not during mapping of the
+ shadow maps onto the geometry)
+ Play with this value and PolygonOffsetFactor to solve self-shadowing.
+ Valid values can be either positive or negative.
+ Initial value is 4.0f (recommended by the nVidia presentation about
+ Shadow Mapping by Cass Everitt). 10.0f works well with the regression
+ test.
+ </LI>
+</UL>
+*/

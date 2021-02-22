@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkrendering_vtkmapper" kind="page">
+    <compoundname>vtkrendering_vtkmapper</compoundname>
+    <title>vtkMapper</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkrendering_1sec_vtkrendering" kindref="member">Visualization Toolkit Rendering Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>vtkMapper is an abstract class to specify interface between data and graphics primitives. Subclasses of vtkMapper map data through a lookuptable and control the creation of rendering primitives that interface to the graphics library. The mapping can be controlled by supplying a lookup table and specifying a scalar range to map data through.</para><para>There are several important control mechanisms affecting the behavior of this object. The ScalarVisibility flag controls whether scalar data (if any) controls the color of the associated actor(s) that refer to the mapper. The ScalarMode ivar is used to determine whether scalar point data or cell data is used to color the object. By default, point data scalars are used unless there are none, in which cell scalars are used. Or you can explicitly control whether to use point or cell scalar data. Finally, the mapping of scalars through the lookup table varies depending on the setting of the ColorMode flag. See the documentation for the appropriate methods for an explanation.</para><para>Another important feature of this class is whether to use immediate mode rendering (ImmediateModeRenderingOn) or display list rendering (ImmediateModeRenderingOff). If display lists are used, a data structure is constructed (generally in the rendering library) which can then be rapidly traversed and rendered by the rendering library. The disadvantage of display lists is that they require additionally memory which may affect the performance of the system.</para><para>Another important feature of the mapper is the ability to shift the z-buffer to resolve coincident topology. For example, if you&apos;d like to draw a mesh with some edges a different color, and the edges lie on the mesh, this feature can be useful to get nice looking lines. (See the ResolveCoincidentTopology-related methods.)</para><para>To create an instance of class vtkMapper, simply invoke its constructor as follows <verbatim>  obj = vtkMapper
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkMapper has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkMapper class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkMapper = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkMapper = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ShallowCopy (vtkAbstractMapper m)</computeroutput> - Make a shallow copy of this mapper.  </para></listitem>
+<listitem>
+<para><computeroutput>long = obj.GetMTime ()</computeroutput> - Overload standard modified time function. If lookup table is modified, then this object is modified as well.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.Render (vtkRenderer ren, vtkActor a)</computeroutput> - Method initiates the mapping process. Generally sent by the actor as each frame is rendered.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ReleaseGraphicsResources (vtkWindow )</computeroutput> - Release any graphics resources that are being consumed by this mapper. The parameter window could be used to determine which graphic resources to release.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetLookupTable (vtkScalarsToColors lut)</computeroutput> - Specify a lookup table for the mapper to use.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkScalarsToColors = obj.GetLookupTable ()</computeroutput> - Specify a lookup table for the mapper to use.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.CreateDefaultLookupTable ()</computeroutput> - Create default lookup table. Generally used to create one when none is available with the scalar data.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetScalarVisibility (int )</computeroutput> - Turn on/off flag to control whether scalar data is used to color objects.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetScalarVisibility ()</computeroutput> - Turn on/off flag to control whether scalar data is used to color objects.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ScalarVisibilityOn ()</computeroutput> - Turn on/off flag to control whether scalar data is used to color objects.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ScalarVisibilityOff ()</computeroutput> - Turn on/off flag to control whether scalar data is used to color objects.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetStatic (int )</computeroutput> - Turn on/off flag to control whether the mapper&apos;s data is static. Static data means that the mapper does not propagate updates down the pipeline, greatly decreasing the time it takes to update many mappers. This should only be used if the data never changes.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetStatic ()</computeroutput> - Turn on/off flag to control whether the mapper&apos;s data is static. Static data means that the mapper does not propagate updates down the pipeline, greatly decreasing the time it takes to update many mappers. This should only be used if the data never changes.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.StaticOn ()</computeroutput> - Turn on/off flag to control whether the mapper&apos;s data is static. Static data means that the mapper does not propagate updates down the pipeline, greatly decreasing the time it takes to update many mappers. This should only be used if the data never changes.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.StaticOff ()</computeroutput> - Turn on/off flag to control whether the mapper&apos;s data is static. Static data means that the mapper does not propagate updates down the pipeline, greatly decreasing the time it takes to update many mappers. This should only be used if the data never changes.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetColorMode (int )</computeroutput> - Control how the scalar data is mapped to colors. By default (ColorModeToDefault), unsigned char scalars are treated as colors, and NOT mapped through the lookup table, while everything else is. Setting ColorModeToMapScalars means that all scalar data will be mapped through the lookup table. (Note that for multi-component scalars, the particular component to use for mapping can be specified using the SelectColorArray() method.)  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetColorMode ()</computeroutput> - Control how the scalar data is mapped to colors. By default (ColorModeToDefault), unsigned char scalars are treated as colors, and NOT mapped through the lookup table, while everything else is. Setting ColorModeToMapScalars means that all scalar data will be mapped through the lookup table. (Note that for multi-component scalars, the particular component to use for mapping can be specified using the SelectColorArray() method.)  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetColorModeToDefault ()</computeroutput> - Control how the scalar data is mapped to colors. By default (ColorModeToDefault), unsigned char scalars are treated as colors, and NOT mapped through the lookup table, while everything else is. Setting ColorModeToMapScalars means that all scalar data will be mapped through the lookup table. (Note that for multi-component scalars, the particular component to use for mapping can be specified using the SelectColorArray() method.)  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetColorModeToMapScalars ()</computeroutput> - Control how the scalar data is mapped to colors. By default (ColorModeToDefault), unsigned char scalars are treated as colors, and NOT mapped through the lookup table, while everything else is. Setting ColorModeToMapScalars means that all scalar data will be mapped through the lookup table. (Note that for multi-component scalars, the particular component to use for mapping can be specified using the SelectColorArray() method.)  </para></listitem>
+<listitem>
+<para><computeroutput>string = obj.GetColorModeAsString ()</computeroutput> - Return the method of coloring scalar data.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetInterpolateScalarsBeforeMapping (int )</computeroutput> - By default, vertex color is used to map colors to a surface. Colors are interpolated after being mapped. This option avoids color interpolation by using a one dimensional texture map for the colors.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetInterpolateScalarsBeforeMapping ()</computeroutput> - By default, vertex color is used to map colors to a surface. Colors are interpolated after being mapped. This option avoids color interpolation by using a one dimensional texture map for the colors.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.InterpolateScalarsBeforeMappingOn ()</computeroutput> - By default, vertex color is used to map colors to a surface. Colors are interpolated after being mapped. This option avoids color interpolation by using a one dimensional texture map for the colors.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.InterpolateScalarsBeforeMappingOff ()</computeroutput> - By default, vertex color is used to map colors to a surface. Colors are interpolated after being mapped. This option avoids color interpolation by using a one dimensional texture map for the colors.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetUseLookupTableScalarRange (int )</computeroutput> - Control whether the mapper sets the lookuptable range based on its own ScalarRange, or whether it will use the LookupTable ScalarRange regardless of it&apos;s own setting. By default the Mapper is allowed to set the LookupTable range, but users who are sharing LookupTables between mappers/actors will probably wish to force the mapper to use the LookupTable unchanged.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetUseLookupTableScalarRange ()</computeroutput> - Control whether the mapper sets the lookuptable range based on its own ScalarRange, or whether it will use the LookupTable ScalarRange regardless of it&apos;s own setting. By default the Mapper is allowed to set the LookupTable range, but users who are sharing LookupTables between mappers/actors will probably wish to force the mapper to use the LookupTable unchanged.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.UseLookupTableScalarRangeOn ()</computeroutput> - Control whether the mapper sets the lookuptable range based on its own ScalarRange, or whether it will use the LookupTable ScalarRange regardless of it&apos;s own setting. By default the Mapper is allowed to set the LookupTable range, but users who are sharing LookupTables between mappers/actors will probably wish to force the mapper to use the LookupTable unchanged.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.UseLookupTableScalarRangeOff ()</computeroutput> - Control whether the mapper sets the lookuptable range based on its own ScalarRange, or whether it will use the LookupTable ScalarRange regardless of it&apos;s own setting. By default the Mapper is allowed to set the LookupTable range, but users who are sharing LookupTables between mappers/actors will probably wish to force the mapper to use the LookupTable unchanged.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetScalarRange (double , double )</computeroutput> - Specify range in terms of scalar minimum and maximum (smin,smax). These values are used to map scalars into lookup table. Has no effect when UseLookupTableScalarRange is true.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetScalarRange (double a[2])</computeroutput> - Specify range in terms of scalar minimum and maximum (smin,smax). These values are used to map scalars into lookup table. Has no effect when UseLookupTableScalarRange is true.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj. GetScalarRange ()</computeroutput> - Specify range in terms of scalar minimum and maximum (smin,smax). These values are used to map scalars into lookup table. Has no effect when UseLookupTableScalarRange is true.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetImmediateModeRendering (int )</computeroutput> - Turn on/off flag to control whether data is rendered using immediate mode or note. Immediate mode rendering tends to be slower but it can handle larger datasets. The default value is immediate mode off. If you are having problems rendering a large dataset you might want to consider using immediate more rendering.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetImmediateModeRendering ()</computeroutput> - Turn on/off flag to control whether data is rendered using immediate mode or note. Immediate mode rendering tends to be slower but it can handle larger datasets. The default value is immediate mode off. If you are having problems rendering a large dataset you might want to consider using immediate more rendering.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ImmediateModeRenderingOn ()</computeroutput> - Turn on/off flag to control whether data is rendered using immediate mode or note. Immediate mode rendering tends to be slower but it can handle larger datasets. The default value is immediate mode off. If you are having problems rendering a large dataset you might want to consider using immediate more rendering.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ImmediateModeRenderingOff ()</computeroutput> - Turn on/off flag to control whether data is rendered using immediate mode or note. Immediate mode rendering tends to be slower but it can handle larger datasets. The default value is immediate mode off. If you are having problems rendering a large dataset you might want to consider using immediate more rendering.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetScalarMode (int )</computeroutput> - Control how the filter works with scalar point data and cell attribute data. By default (ScalarModeToDefault), the filter will use point data, and if no point data is available, then cell data is used. Alternatively you can explicitly set the filter to use point data (ScalarModeToUsePointData) or cell data (ScalarModeToUseCellData). You can also choose to get the scalars from an array in point field data (ScalarModeToUsePointFieldData) or cell field data (ScalarModeToUseCellFieldData). If scalars are coming from a field data array, you must call SelectColorArray before you call GetColors. When ScalarMode is set to use Field Data (ScalarModeToFieldData), you must call SelectColorArray to choose the field data array to be used to color cells. In this mode, if the poly data has triangle strips, the field data is treated as the celldata for each mini-cell formed by a triangle in the strip rather than the entire strip.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetScalarMode ()</computeroutput> - Control how the filter works with scalar point data and cell attribute data. By default (ScalarModeToDefault), the filter will use point data, and if no point data is available, then cell data is used. Alternatively you can explicitly set the filter to use point data (ScalarModeToUsePointData) or cell data (ScalarModeToUseCellData). You can also choose to get the scalars from an array in point field data (ScalarModeToUsePointFieldData) or cell field data (ScalarModeToUseCellFieldData). If scalars are coming from a field data array, you must call SelectColorArray before you call GetColors. When ScalarMode is set to use Field Data (ScalarModeToFieldData), you must call SelectColorArray to choose the field data array to be used to color cells. In this mode, if the poly data has triangle strips, the field data is treated as the celldata for each mini-cell formed by a triangle in the strip rather than the entire strip.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetScalarModeToDefault ()</computeroutput> - Control how the filter works with scalar point data and cell attribute data. By default (ScalarModeToDefault), the filter will use point data, and if no point data is available, then cell data is used. Alternatively you can explicitly set the filter to use point data (ScalarModeToUsePointData) or cell data (ScalarModeToUseCellData). You can also choose to get the scalars from an array in point field data (ScalarModeToUsePointFieldData) or cell field data (ScalarModeToUseCellFieldData). If scalars are coming from a field data array, you must call SelectColorArray before you call GetColors. When ScalarMode is set to use Field Data (ScalarModeToFieldData), you must call SelectColorArray to choose the field data array to be used to color cells. In this mode, if the poly data has triangle strips, the field data is treated as the celldata for each mini-cell formed by a triangle in the strip rather than the entire strip.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetScalarModeToUsePointData ()</computeroutput> - Control how the filter works with scalar point data and cell attribute data. By default (ScalarModeToDefault), the filter will use point data, and if no point data is available, then cell data is used. Alternatively you can explicitly set the filter to use point data (ScalarModeToUsePointData) or cell data (ScalarModeToUseCellData). You can also choose to get the scalars from an array in point field data (ScalarModeToUsePointFieldData) or cell field data (ScalarModeToUseCellFieldData). If scalars are coming from a field data array, you must call SelectColorArray before you call GetColors. When ScalarMode is set to use Field Data (ScalarModeToFieldData), you must call SelectColorArray to choose the field data array to be used to color cells. In this mode, if the poly data has triangle strips, the field data is treated as the celldata for each mini-cell formed by a triangle in the strip rather than the entire strip.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetScalarModeToUseCellData ()</computeroutput> - Control how the filter works with scalar point data and cell attribute data. By default (ScalarModeToDefault), the filter will use point data, and if no point data is available, then cell data is used. Alternatively you can explicitly set the filter to use point data (ScalarModeToUsePointData) or cell data (ScalarModeToUseCellData). You can also choose to get the scalars from an array in point field data (ScalarModeToUsePointFieldData) or cell field data (ScalarModeToUseCellFieldData). If scalars are coming from a field data array, you must call SelectColorArray before you call GetColors. When ScalarMode is set to use Field Data (ScalarModeToFieldData), you must call SelectColorArray to choose the field data array to be used to color cells. In this mode, if the poly data has triangle strips, the field data is treated as the celldata for each mini-cell formed by a triangle in the strip rather than the entire strip.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetScalarModeToUsePointFieldData ()</computeroutput> - Control how the filter works with scalar point data and cell attribute data. By default (ScalarModeToDefault), the filter will use point data, and if no point data is available, then cell data is used. Alternatively you can explicitly set the filter to use point data (ScalarModeToUsePointData) or cell data (ScalarModeToUseCellData). You can also choose to get the scalars from an array in point field data (ScalarModeToUsePointFieldData) or cell field data (ScalarModeToUseCellFieldData). If scalars are coming from a field data array, you must call SelectColorArray before you call GetColors. When ScalarMode is set to use Field Data (ScalarModeToFieldData), you must call SelectColorArray to choose the field data array to be used to color cells. In this mode, if the poly data has triangle strips, the field data is treated as the celldata for each mini-cell formed by a triangle in the strip rather than the entire strip.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetScalarModeToUseCellFieldData ()</computeroutput> - Control how the filter works with scalar point data and cell attribute data. By default (ScalarModeToDefault), the filter will use point data, and if no point data is available, then cell data is used. Alternatively you can explicitly set the filter to use point data (ScalarModeToUsePointData) or cell data (ScalarModeToUseCellData). You can also choose to get the scalars from an array in point field data (ScalarModeToUsePointFieldData) or cell field data (ScalarModeToUseCellFieldData). If scalars are coming from a field data array, you must call SelectColorArray before you call GetColors. When ScalarMode is set to use Field Data (ScalarModeToFieldData), you must call SelectColorArray to choose the field data array to be used to color cells. In this mode, if the poly data has triangle strips, the field data is treated as the celldata for each mini-cell formed by a triangle in the strip rather than the entire strip.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetScalarModeToUseFieldData ()</computeroutput> - When ScalarMode is set to UsePointFieldData or UseCellFieldData, you can specify which array to use for coloring using these methods. The lookup table will decide how to convert vectors to colors.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SelectColorArray (int arrayNum)</computeroutput> - When ScalarMode is set to UsePointFieldData or UseCellFieldData, you can specify which array to use for coloring using these methods. The lookup table will decide how to convert vectors to colors.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SelectColorArray (string arrayName)</computeroutput> - When ScalarMode is set to UsePointFieldData or UseCellFieldData, you can specify which array to use for coloring using these methods. The lookup table will decide how to convert vectors to colors.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ColorByArrayComponent (int arrayNum, int component)</computeroutput> - Legacy: These methods used to be used to specify the array component. It is better to do this in the lookup table.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ColorByArrayComponent (string arrayName, int component)</computeroutput> - Legacy: These methods used to be used to specify the array component. It is better to do this in the lookup table.  </para></listitem>
+<listitem>
+<para><computeroutput>string = obj.GetArrayName ()</computeroutput> - Get the array name or number and component to color by.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetArrayId ()</computeroutput> - Get the array name or number and component to color by.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetArrayAccessMode ()</computeroutput> - Get the array name or number and component to color by.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetArrayComponent ()</computeroutput> - Return the method for obtaining scalar data.  </para></listitem>
+<listitem>
+<para><computeroutput>string = obj.GetScalarModeAsString ()</computeroutput> - Return the method for obtaining scalar data.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetBounds ()</computeroutput> - Return bounding box (array of six doubles) of data expressed as (xmin,xmax, ymin,ymax, zmin,zmax).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GetBounds (double bounds[6])</computeroutput> - Return bounding box (array of six doubles) of data expressed as (xmin,xmax, ymin,ymax, zmin,zmax).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetRenderTime (double time)</computeroutput> - This instance variable is used by vtkLODActor to determine which mapper to use. It is an estimate of the time necessary to render. Setting the render time does not modify the mapper.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetRenderTime ()</computeroutput> - This instance variable is used by vtkLODActor to determine which mapper to use. It is an estimate of the time necessary to render. Setting the render time does not modify the mapper.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkDataSet = obj.GetInputAsDataSet ()</computeroutput> - Map the scalars (if there are any scalars and ScalarVisibility is on) through the lookup table, returning an unsigned char RGBA array. This is typically done as part of the rendering process. The alpha parameter allows the blending of the scalars with an additional alpha (typically which comes from a vtkActor, etc.)  </para></listitem>
+<listitem>
+<para><computeroutput>vtkUnsignedCharArray = obj.MapScalars (double alpha)</computeroutput> - Map the scalars (if there are any scalars and ScalarVisibility is on) through the lookup table, returning an unsigned char RGBA array. This is typically done as part of the rendering process. The alpha parameter allows the blending of the scalars with an additional alpha (typically which comes from a vtkActor, etc.)  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetScalarMaterialMode (int )</computeroutput> - Set/Get the light-model color mode.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetScalarMaterialMode ()</computeroutput> - Set/Get the light-model color mode.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetScalarMaterialModeToDefault ()</computeroutput> - Set/Get the light-model color mode.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetScalarMaterialModeToAmbient ()</computeroutput> - Set/Get the light-model color mode.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetScalarMaterialModeToDiffuse ()</computeroutput> - Set/Get the light-model color mode.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetScalarMaterialModeToAmbientAndDiffuse ()</computeroutput> - Set/Get the light-model color mode.  </para></listitem>
+<listitem>
+<para><computeroutput>string = obj.GetScalarMaterialModeAsString ()</computeroutput> - Return the light-model color mode.  </para></listitem>
+<listitem>
+<para><computeroutput>bool = obj.GetSupportsSelection ()</computeroutput> - WARNING: INTERNAL METHOD - NOT INTENDED FOR GENERAL USE DO NOT USE THIS METHOD OUTSIDE OF THE RENDERING PROCESS Used by vtkHardwareSelector to determine if the prop supports hardware selection.  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,48 @@
+/*!
+\page vtkgraphics_vtkdataobjectgenerator vtkDataObjectGenerator
+
+<p>
+Section: \ref sec_vtkgraphics "Visualization Toolkit Graphics Classes"
+\section Usage
+ vtkDataObjectGenerator parses a string and produces dataobjects from the
+ dataobject template names it sees in the string. For example, if the string
+ contains "ID1" the generator will create a vtkImageData. "UF1", "RG1", 
+ "SG1", "PD1", and "UG1" will produce vtkUniformGrid, vtkRectilinearGrid,
+ vtkStructuredGrid, vtkPolyData and vtkUnstructuredGrid respectively.
+ "PD2" will produce an alternate vtkPolyData. You 
+ can compose composite datasets from the atomic ones listed above
+ by placing them within one of the two composite dataset identifiers
+ - "MB{}" or "HB[]". "MB{ ID1 PD1 MB{} }" for example will create a 
+ vtkMultiBlockDataSet consisting of three blocks: image data, poly data, 
+ multi-block (empty). Hierarchical Box data sets additionally require
+ the notion of groups, declared within "()" braces, to specify AMR depth.
+ "HB[ (UF1)(UF1)(UF1) ]" will create a vtkHierarchicalBoxDataSet representing
+ an octree that is three levels deep, in which the firstmost cell in each level
+ is refined.
+
+To create an instance of class vtkDataObjectGenerator, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkDataObjectGenerator
+\endverbatim
+\section Methods
+The class vtkDataObjectGenerator has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkDataObjectGenerator class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkDataObjectGenerator = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkDataObjectGenerator = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetProgram (string )</tt> -  The string that will be parsed to specify a dataobject structure.
+ </LI>
+<LI>  <tt>string = obj.GetProgram ()</tt> -  The string that will be parsed to specify a dataobject structure.
+ </LI>
+</UL>
+*/

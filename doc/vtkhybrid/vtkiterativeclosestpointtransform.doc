@@ -1,0 +1,156 @@
+/*!
+\page vtkhybrid_vtkiterativeclosestpointtransform vtkIterativeClosestPointTransform
+
+<p>
+Section: \ref sec_vtkhybrid "Visualization Toolkit Hybrid Classes"
+\section Usage
+ Match two surfaces using the iterative closest point (ICP) algorithm.
+ The core of the algorithm is to match each vertex in one surface with 
+ the closest surface point on the other, then apply the transformation
+ that modify one surface to best match the other (in a least square sense).
+ This has to be iterated to get proper convergence of the surfaces.
+ .SECTION Note
+ Use vtkTransformPolyDataFilter to apply the resulting ICP transform to 
+ your data. You might also set it to your actor's user transform.
+ .SECTION Note
+ This class makes use of vtkLandmarkTransform internally to compute the
+ best fit. Use the GetLandmarkTransform member to get a pointer to that
+ transform and set its parameters. You might, for example, constrain the
+ number of degrees of freedom of the solution (i.e. rigid body, similarity,
+ etc.) by checking the vtkLandmarkTransform documentation for its SetMode
+ member.
+
+To create an instance of class vtkIterativeClosestPointTransform, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkIterativeClosestPointTransform
+\endverbatim
+\section Methods
+The class vtkIterativeClosestPointTransform has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkIterativeClosestPointTransform class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkIterativeClosestPointTransform = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkIterativeClosestPointTransform = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetSource (vtkDataSet source)</tt> -  Specify the source and target data sets.
+ </LI>
+<LI>  <tt>obj.SetTarget (vtkDataSet target)</tt> -  Specify the source and target data sets.
+ </LI>
+<LI>  <tt>vtkDataSet = obj.GetSource ()</tt> -  Specify the source and target data sets.
+ </LI>
+<LI>  <tt>vtkDataSet = obj.GetTarget ()</tt> -  Specify the source and target data sets.
+ </LI>
+<LI>  <tt>obj.SetLocator (vtkCellLocator locator)</tt> -  Set/Get a spatial locator for speeding up the search process. 
+ An instance of vtkCellLocator is used by default.
+ </LI>
+<LI>  <tt>vtkCellLocator = obj.GetLocator ()</tt> -  Set/Get a spatial locator for speeding up the search process. 
+ An instance of vtkCellLocator is used by default.
+ </LI>
+<LI>  <tt>obj.SetMaximumNumberOfIterations (int )</tt> -  Set/Get the  maximum number of iterations. Default is 50.
+ </LI>
+<LI>  <tt>int = obj.GetMaximumNumberOfIterations ()</tt> -  Set/Get the  maximum number of iterations. Default is 50.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfIterations ()</tt> -  Get the number of iterations since the last update
+ </LI>
+<LI>  <tt>obj.SetCheckMeanDistance (int )</tt> -  Force the algorithm to check the mean distance between two iterations.
+ Default is Off.
+ </LI>
+<LI>  <tt>int = obj.GetCheckMeanDistance ()</tt> -  Force the algorithm to check the mean distance between two iterations.
+ Default is Off.
+ </LI>
+<LI>  <tt>obj.CheckMeanDistanceOn ()</tt> -  Force the algorithm to check the mean distance between two iterations.
+ Default is Off.
+ </LI>
+<LI>  <tt>obj.CheckMeanDistanceOff ()</tt> -  Force the algorithm to check the mean distance between two iterations.
+ Default is Off.
+ </LI>
+<LI>  <tt>obj.SetMeanDistanceMode (int )</tt> -  Specify the mean distance mode. This mode expresses how the mean 
+ distance is computed. The RMS mode is the square root of the average
+ of the sum of squares of the closest point distances. The Absolute
+ Value mode is the mean of the sum of absolute values of the closest
+ point distances. The default is VTK_ICP_MODE_RMS
+ </LI>
+<LI>  <tt>int = obj.GetMeanDistanceModeMinValue ()</tt> -  Specify the mean distance mode. This mode expresses how the mean 
+ distance is computed. The RMS mode is the square root of the average
+ of the sum of squares of the closest point distances. The Absolute
+ Value mode is the mean of the sum of absolute values of the closest
+ point distances. The default is VTK_ICP_MODE_RMS
+ </LI>
+<LI>  <tt>int = obj.GetMeanDistanceModeMaxValue ()</tt> -  Specify the mean distance mode. This mode expresses how the mean 
+ distance is computed. The RMS mode is the square root of the average
+ of the sum of squares of the closest point distances. The Absolute
+ Value mode is the mean of the sum of absolute values of the closest
+ point distances. The default is VTK_ICP_MODE_RMS
+ </LI>
+<LI>  <tt>int = obj.GetMeanDistanceMode ()</tt> -  Specify the mean distance mode. This mode expresses how the mean 
+ distance is computed. The RMS mode is the square root of the average
+ of the sum of squares of the closest point distances. The Absolute
+ Value mode is the mean of the sum of absolute values of the closest
+ point distances. The default is VTK_ICP_MODE_RMS
+ </LI>
+<LI>  <tt>obj.SetMeanDistanceModeToRMS ()</tt> -  Specify the mean distance mode. This mode expresses how the mean 
+ distance is computed. The RMS mode is the square root of the average
+ of the sum of squares of the closest point distances. The Absolute
+ Value mode is the mean of the sum of absolute values of the closest
+ point distances. The default is VTK_ICP_MODE_RMS
+ </LI>
+<LI>  <tt>obj.SetMeanDistanceModeToAbsoluteValue ()</tt> -  Specify the mean distance mode. This mode expresses how the mean 
+ distance is computed. The RMS mode is the square root of the average
+ of the sum of squares of the closest point distances. The Absolute
+ Value mode is the mean of the sum of absolute values of the closest
+ point distances. The default is VTK_ICP_MODE_RMS
+ </LI>
+<LI>  <tt>string = obj.GetMeanDistanceModeAsString ()</tt> -  Specify the mean distance mode. This mode expresses how the mean 
+ distance is computed. The RMS mode is the square root of the average
+ of the sum of squares of the closest point distances. The Absolute
+ Value mode is the mean of the sum of absolute values of the closest
+ point distances. The default is VTK_ICP_MODE_RMS
+ </LI>
+<LI>  <tt>obj.SetMaximumMeanDistance (double )</tt> -  Set/Get the maximum mean distance between two iteration. If the mean
+ distance is lower than this, the convergence stops. The default 
+ is 0.01.
+ </LI>
+<LI>  <tt>double = obj.GetMaximumMeanDistance ()</tt> -  Set/Get the maximum mean distance between two iteration. If the mean
+ distance is lower than this, the convergence stops. The default 
+ is 0.01.
+ </LI>
+<LI>  <tt>double = obj.GetMeanDistance ()</tt> -  Get the mean distance between the last two iterations.
+ </LI>
+<LI>  <tt>obj.SetMaximumNumberOfLandmarks (int )</tt> -  Set/Get the maximum number of landmarks sampled in your dataset.
+ If your dataset is dense, then you will typically not need all the 
+ points to compute the ICP transform. The default is 200.
+ </LI>
+<LI>  <tt>int = obj.GetMaximumNumberOfLandmarks ()</tt> -  Set/Get the maximum number of landmarks sampled in your dataset.
+ If your dataset is dense, then you will typically not need all the 
+ points to compute the ICP transform. The default is 200.
+ </LI>
+<LI>  <tt>obj.SetStartByMatchingCentroids (int )</tt> -  Starts the process by translating source centroid to target centroid.
+ The default is Off.
+ </LI>
+<LI>  <tt>int = obj.GetStartByMatchingCentroids ()</tt> -  Starts the process by translating source centroid to target centroid.
+ The default is Off.
+ </LI>
+<LI>  <tt>obj.StartByMatchingCentroidsOn ()</tt> -  Starts the process by translating source centroid to target centroid.
+ The default is Off.
+ </LI>
+<LI>  <tt>obj.StartByMatchingCentroidsOff ()</tt> -  Starts the process by translating source centroid to target centroid.
+ The default is Off.
+ </LI>
+<LI>  <tt>vtkLandmarkTransform = obj.GetLandmarkTransform ()</tt> -  Get the internal landmark transform. Use it to constrain the number of
+ degrees of freedom of the solution (i.e. rigid body, similarity, etc.).
+ </LI>
+<LI>  <tt>obj.Inverse ()</tt> -  Invert the transformation.  This is done by switching the
+ source and target.
+ </LI>
+<LI>  <tt>vtkAbstractTransform = obj.MakeTransform ()</tt> -  Make another transform of the same type.
+ </LI>
+</UL>
+*/

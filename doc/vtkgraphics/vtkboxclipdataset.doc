@@ -1,0 +1,115 @@
+/*!
+\page vtkgraphics_vtkboxclipdataset vtkBoxClipDataSet
+
+<p>
+Section: \ref sec_vtkgraphics "Visualization Toolkit Graphics Classes"
+\section Usage
+ Clipping means that is actually 'cuts' through the cells of the dataset,
+ returning tetrahedral cells inside of the box.
+ The output of this filter is an unstructured grid.
+
+ This filter can be configured to compute a second output. The
+ second output is the part of the cell that is clipped away. Set the
+ GenerateClippedData boolean on if you wish to access this output data.
+
+ The vtkBoxClipDataSet will triangulate all types of 3D cells (i.e, create tetrahedra).
+ This is necessary to preserve compatibility across face neighbors.
+
+ To use this filter,you can decide if you will be clipping with a box or a hexahedral box.
+ 1) Set orientation 
+    if(SetOrientation(0)): box (parallel with coordinate axis)
+       SetBoxClip(xmin,xmax,ymin,ymax,zmin,zmax)  
+    if(SetOrientation(1)): hexahedral box (Default)
+       SetBoxClip(n[0],o[0],n[1],o[1],n[2],o[2],n[3],o[3],n[4],o[4],n[5],o[5])  
+       PlaneNormal[] normal of each plane
+       PlanePoint[] point on the plane 
+ 2) Apply the GenerateClipScalarsOn() 
+ 3) Execute clipping  Update();
+
+To create an instance of class vtkBoxClipDataSet, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkBoxClipDataSet
+\endverbatim
+\section Methods
+The class vtkBoxClipDataSet has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkBoxClipDataSet class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkBoxClipDataSet = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkBoxClipDataSet = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetBoxClip (double xmin, double xmax, double ymin, double ymax, double zmin, double zmax)</tt>
+ </LI>
+<LI>  <tt>obj.SetBoxClip (double n0, double o0, double n1, double o1, double n2, double o2, double n3, double o3, double n4, double o4, double n5, double o5)</tt>
+ </LI>
+<LI>  <tt>obj.SetGenerateClipScalars (int )</tt> -  If this flag is enabled, then the output scalar values will be 
+ interpolated, and not the input scalar data.
+ </LI>
+<LI>  <tt>int = obj.GetGenerateClipScalars ()</tt> -  If this flag is enabled, then the output scalar values will be 
+ interpolated, and not the input scalar data.
+ </LI>
+<LI>  <tt>obj.GenerateClipScalarsOn ()</tt> -  If this flag is enabled, then the output scalar values will be 
+ interpolated, and not the input scalar data.
+ </LI>
+<LI>  <tt>obj.GenerateClipScalarsOff ()</tt> -  If this flag is enabled, then the output scalar values will be 
+ interpolated, and not the input scalar data.
+ </LI>
+<LI>  <tt>obj.SetGenerateClippedOutput (int )</tt> -  Control whether a second output is generated. The second output
+ contains the polygonal data that's been clipped away.
+ </LI>
+<LI>  <tt>int = obj.GetGenerateClippedOutput ()</tt> -  Control whether a second output is generated. The second output
+ contains the polygonal data that's been clipped away.
+ </LI>
+<LI>  <tt>obj.GenerateClippedOutputOn ()</tt> -  Control whether a second output is generated. The second output
+ contains the polygonal data that's been clipped away.
+ </LI>
+<LI>  <tt>obj.GenerateClippedOutputOff ()</tt> -  Control whether a second output is generated. The second output
+ contains the polygonal data that's been clipped away.
+ </LI>
+<LI>  <tt>vtkUnstructuredGrid = obj.GetClippedOutput ()</tt> -  Return the Clipped output.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfOutputs ()</tt> -  Return the Clipped output.
+ </LI>
+<LI>  <tt>obj.SetLocator (vtkIncrementalPointLocator locator)</tt> -  Specify a spatial locator for merging points. By default, an
+ instance of vtkMergePoints is used.
+ </LI>
+<LI>  <tt>vtkIncrementalPointLocator = obj.GetLocator ()</tt> -  Specify a spatial locator for merging points. By default, an
+ instance of vtkMergePoints is used.
+ </LI>
+<LI>  <tt>obj.CreateDefaultLocator ()</tt> -  Create default locator. Used to create one when none is specified. The 
+ locator is used to merge coincident points.
+ </LI>
+<LI>  <tt>long = obj.GetMTime ()</tt> -  Return the mtime also considering the locator.
+ </LI>
+<LI>  <tt>int = obj.GetOrientation ()</tt> -  Tells if clipping happens with a box parallel with coordinate axis
+ (0) or with an hexahedral box (1). Initial value is 1.
+ </LI>
+<LI>  <tt>obj.SetOrientation (int )</tt> -  Tells if clipping happens with a box parallel with coordinate axis
+ (0) or with an hexahedral box (1). Initial value is 1.
+ </LI>
+<LI>  <tt>obj.ClipBox (vtkPoints newPoints, vtkGenericCell cell, vtkIncrementalPointLocator locator, vtkCellArray tets, vtkPointData inPD, vtkPointData outPD, vtkCellData inCD, vtkIdType cellId, vtkCellData outCD)</tt>
+ </LI>
+<LI>  <tt>obj.ClipHexahedron (vtkPoints newPoints, vtkGenericCell cell, vtkIncrementalPointLocator locator, vtkCellArray tets, vtkPointData inPD, vtkPointData outPD, vtkCellData inCD, vtkIdType cellId, vtkCellData outCD)</tt>
+ </LI>
+<LI>  <tt>obj.ClipBox2D (vtkPoints newPoints, vtkGenericCell cell, vtkIncrementalPointLocator locator, vtkCellArray tets, vtkPointData inPD, vtkPointData outPD, vtkCellData inCD, vtkIdType cellId, vtkCellData outCD)</tt>
+ </LI>
+<LI>  <tt>obj.ClipHexahedron2D (vtkPoints newPoints, vtkGenericCell cell, vtkIncrementalPointLocator locator, vtkCellArray tets, vtkPointData inPD, vtkPointData outPD, vtkCellData inCD, vtkIdType cellId, vtkCellData outCD)</tt>
+ </LI>
+<LI>  <tt>obj.ClipBox1D (vtkPoints newPoints, vtkGenericCell cell, vtkIncrementalPointLocator locator, vtkCellArray lines, vtkPointData inPD, vtkPointData outPD, vtkCellData inCD, vtkIdType cellId, vtkCellData outCD)</tt>
+ </LI>
+<LI>  <tt>obj.ClipHexahedron1D (vtkPoints newPoints, vtkGenericCell cell, vtkIncrementalPointLocator locator, vtkCellArray lines, vtkPointData inPD, vtkPointData outPD, vtkCellData inCD, vtkIdType cellId, vtkCellData outCD)</tt>
+ </LI>
+<LI>  <tt>obj.ClipBox0D (vtkGenericCell cell, vtkIncrementalPointLocator locator, vtkCellArray verts, vtkPointData inPD, vtkPointData outPD, vtkCellData inCD, vtkIdType cellId, vtkCellData outCD)</tt>
+ </LI>
+<LI>  <tt>obj.ClipHexahedron0D (vtkGenericCell cell, vtkIncrementalPointLocator locator, vtkCellArray verts, vtkPointData inPD, vtkPointData outPD, vtkCellData inCD, vtkIdType cellId, vtkCellData outCD)</tt>
+ </LI>
+</UL>
+*/

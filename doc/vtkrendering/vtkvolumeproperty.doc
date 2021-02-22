@@ -1,0 +1,430 @@
+/*!
+\page vtkrendering_vtkvolumeproperty vtkVolumeProperty
+
+<p>
+Section: \ref sec_vtkrendering "Visualization Toolkit Rendering Classes"
+\section Usage
+ vtkVolumeProperty is used to represent common properties associated 
+ with volume rendering. This includes properties for determining the type
+ of interpolation to use when sampling a volume, the color of a volume, 
+ the scalar opacity of a volume, the gradient opacity of a volume, and the 
+ shading parameters of a volume.
+
+ When the scalar opacity or the gradient opacity of a volume is not set,
+ then the function is defined to be a constant value of 1.0. When a
+ scalar and gradient opacity are both set simultaneously, then the opacity
+ is defined to be the product of the scalar opacity and gradient opacity 
+ transfer functions.
+ 
+ Most properties can be set per "component" for volume mappers that
+ support multiple independent components. If you are using 2 component
+ data as LV or 4 component data as RGBV (as specified in the mapper) 
+ only the first scalar opacity and gradient opacity transfer functions
+ will be used (and all color functions will be ignored). Omitting the
+ index parameter on the Set/Get methods will access index = 0.
+
+To create an instance of class vtkVolumeProperty, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkVolumeProperty
+\endverbatim
+\section Methods
+The class vtkVolumeProperty has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkVolumeProperty class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkVolumeProperty = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkVolumeProperty = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.DeepCopy (vtkVolumeProperty p)</tt>
+ </LI>
+<LI>  <tt>long = obj.GetMTime ()</tt> -  Get the modified time for this object (or the properties registered
+ with this object).
+ </LI>
+<LI>  <tt>obj.SetIndependentComponents (int )</tt> -  Does the data have independent components, or do some define color 
+ only? If IndependentComponents is On (the default) then each component 
+ will be independently passed through a lookup table to determine RGBA, 
+ shaded. Some volume Mappers can handle 1 to 4 component 
+ unsigned char or unsigned short data (see each mapper header file to
+ determine functionality). If IndependentComponents is Off, then you 
+ must have either 2 or 4 component data. For 2 component data, the 
+ first is passed through the first color transfer function and the 
+ second component is passed through the first opacity transfer function. 
+ Normals will be generated off of the second component. For 4 component 
+ data, the first three will directly represent RGB (no lookup table). 
+ The fourth component will be passed through the first scalar opacity 
+ transfer function for opacity. Normals will be generated from the fourth 
+ component.
+ </LI>
+<LI>  <tt>int = obj.GetIndependentComponentsMinValue ()</tt> -  Does the data have independent components, or do some define color 
+ only? If IndependentComponents is On (the default) then each component 
+ will be independently passed through a lookup table to determine RGBA, 
+ shaded. Some volume Mappers can handle 1 to 4 component 
+ unsigned char or unsigned short data (see each mapper header file to
+ determine functionality). If IndependentComponents is Off, then you 
+ must have either 2 or 4 component data. For 2 component data, the 
+ first is passed through the first color transfer function and the 
+ second component is passed through the first opacity transfer function. 
+ Normals will be generated off of the second component. For 4 component 
+ data, the first three will directly represent RGB (no lookup table). 
+ The fourth component will be passed through the first scalar opacity 
+ transfer function for opacity. Normals will be generated from the fourth 
+ component.
+ </LI>
+<LI>  <tt>int = obj.GetIndependentComponentsMaxValue ()</tt> -  Does the data have independent components, or do some define color 
+ only? If IndependentComponents is On (the default) then each component 
+ will be independently passed through a lookup table to determine RGBA, 
+ shaded. Some volume Mappers can handle 1 to 4 component 
+ unsigned char or unsigned short data (see each mapper header file to
+ determine functionality). If IndependentComponents is Off, then you 
+ must have either 2 or 4 component data. For 2 component data, the 
+ first is passed through the first color transfer function and the 
+ second component is passed through the first opacity transfer function. 
+ Normals will be generated off of the second component. For 4 component 
+ data, the first three will directly represent RGB (no lookup table). 
+ The fourth component will be passed through the first scalar opacity 
+ transfer function for opacity. Normals will be generated from the fourth 
+ component.
+ </LI>
+<LI>  <tt>int = obj.GetIndependentComponents ()</tt> -  Does the data have independent components, or do some define color 
+ only? If IndependentComponents is On (the default) then each component 
+ will be independently passed through a lookup table to determine RGBA, 
+ shaded. Some volume Mappers can handle 1 to 4 component 
+ unsigned char or unsigned short data (see each mapper header file to
+ determine functionality). If IndependentComponents is Off, then you 
+ must have either 2 or 4 component data. For 2 component data, the 
+ first is passed through the first color transfer function and the 
+ second component is passed through the first opacity transfer function. 
+ Normals will be generated off of the second component. For 4 component 
+ data, the first three will directly represent RGB (no lookup table). 
+ The fourth component will be passed through the first scalar opacity 
+ transfer function for opacity. Normals will be generated from the fourth 
+ component.
+ </LI>
+<LI>  <tt>obj.IndependentComponentsOn ()</tt> -  Does the data have independent components, or do some define color 
+ only? If IndependentComponents is On (the default) then each component 
+ will be independently passed through a lookup table to determine RGBA, 
+ shaded. Some volume Mappers can handle 1 to 4 component 
+ unsigned char or unsigned short data (see each mapper header file to
+ determine functionality). If IndependentComponents is Off, then you 
+ must have either 2 or 4 component data. For 2 component data, the 
+ first is passed through the first color transfer function and the 
+ second component is passed through the first opacity transfer function. 
+ Normals will be generated off of the second component. For 4 component 
+ data, the first three will directly represent RGB (no lookup table). 
+ The fourth component will be passed through the first scalar opacity 
+ transfer function for opacity. Normals will be generated from the fourth 
+ component.
+ </LI>
+<LI>  <tt>obj.IndependentComponentsOff ()</tt> -  Does the data have independent components, or do some define color 
+ only? If IndependentComponents is On (the default) then each component 
+ will be independently passed through a lookup table to determine RGBA, 
+ shaded. Some volume Mappers can handle 1 to 4 component 
+ unsigned char or unsigned short data (see each mapper header file to
+ determine functionality). If IndependentComponents is Off, then you 
+ must have either 2 or 4 component data. For 2 component data, the 
+ first is passed through the first color transfer function and the 
+ second component is passed through the first opacity transfer function. 
+ Normals will be generated off of the second component. For 4 component 
+ data, the first three will directly represent RGB (no lookup table). 
+ The fourth component will be passed through the first scalar opacity 
+ transfer function for opacity. Normals will be generated from the fourth 
+ component.
+ </LI>
+<LI>  <tt>obj.SetInterpolationType (int )</tt> -  Set the interpolation type for sampling a volume. Initial value is
+ VTK_NEAREST_INTERPOLATION.
+ </LI>
+<LI>  <tt>int = obj.GetInterpolationTypeMinValue ()</tt> -  Set the interpolation type for sampling a volume. Initial value is
+ VTK_NEAREST_INTERPOLATION.
+ </LI>
+<LI>  <tt>int = obj.GetInterpolationTypeMaxValue ()</tt> -  Set the interpolation type for sampling a volume. Initial value is
+ VTK_NEAREST_INTERPOLATION.
+ </LI>
+<LI>  <tt>int = obj.GetInterpolationType ()</tt> -  Set the interpolation type for sampling a volume. Initial value is
+ VTK_NEAREST_INTERPOLATION.
+ </LI>
+<LI>  <tt>obj.SetInterpolationTypeToNearest ()</tt> -  Set the interpolation type for sampling a volume. Initial value is
+ VTK_NEAREST_INTERPOLATION.
+ </LI>
+<LI>  <tt>obj.SetInterpolationTypeToLinear ()</tt> -  Set the interpolation type for sampling a volume. Initial value is
+ VTK_NEAREST_INTERPOLATION.
+ </LI>
+<LI>  <tt>string = obj.GetInterpolationTypeAsString (void )</tt> -  Set the interpolation type for sampling a volume. Initial value is
+ VTK_NEAREST_INTERPOLATION.
+ </LI>
+<LI>  <tt>obj.SetComponentWeight (int index, double value)</tt> -  Set/Get the scalar component weights
+ </LI>
+<LI>  <tt>double = obj.GetComponentWeight (int index)</tt> -  Set/Get the scalar component weights
+ </LI>
+<LI>  <tt>obj.SetColor (int index, vtkPiecewiseFunction function)</tt> -  Set the color of a volume to a gray level transfer function
+ for the component indicated by index. This will set the
+ color channels for this component to 1.
+ </LI>
+<LI>  <tt>obj.SetColor (vtkPiecewiseFunction f)</tt> -  Set the color of a volume to a gray level transfer function
+ for the component indicated by index. This will set the
+ color channels for this component to 1.
+ </LI>
+<LI>  <tt>obj.SetColor (int index, vtkColorTransferFunction function)</tt> -  Set the color of a volume to an RGB transfer function
+ for the component indicated by index. This will set the
+ color channels for this component to 3.
+ This will also recompute the color channels
+ </LI>
+<LI>  <tt>obj.SetColor (vtkColorTransferFunction f)</tt> -  Set the color of a volume to an RGB transfer function
+ for the component indicated by index. This will set the
+ color channels for this component to 3.
+ This will also recompute the color channels
+ </LI>
+<LI>  <tt>int = obj.GetColorChannels (int index)</tt> -  Get the number of color channels in the transfer function
+ for the given component.
+ </LI>
+<LI>  <tt>int = obj.GetColorChannels ()</tt> -  Get the number of color channels in the transfer function
+ for the given component.
+ </LI>
+<LI>  <tt>vtkPiecewiseFunction = obj.GetGrayTransferFunction (int index)</tt> -  Get the gray transfer function.
+ If no transfer function has been set for this component, a default one
+ is created and returned.
+ </LI>
+<LI>  <tt>vtkPiecewiseFunction = obj.GetGrayTransferFunction ()</tt> -  Get the gray transfer function.
+ If no transfer function has been set for this component, a default one
+ is created and returned.
+ </LI>
+<LI>  <tt>vtkColorTransferFunction = obj.GetRGBTransferFunction (int index)</tt> -  Get the RGB transfer function for the given component.
+ If no transfer function has been set for this component, a default one
+ is created and returned.
+ </LI>
+<LI>  <tt>vtkColorTransferFunction = obj.GetRGBTransferFunction ()</tt> -  Get the RGB transfer function for the given component.
+ If no transfer function has been set for this component, a default one
+ is created and returned.
+ </LI>
+<LI>  <tt>obj.SetScalarOpacity (int index, vtkPiecewiseFunction function)</tt> -  Set the opacity of a volume to an opacity transfer function based
+ on scalar value for the component indicated by index. 
+ </LI>
+<LI>  <tt>obj.SetScalarOpacity (vtkPiecewiseFunction f)</tt> -  Set the opacity of a volume to an opacity transfer function based
+ on scalar value for the component indicated by index. 
+ </LI>
+<LI>  <tt>vtkPiecewiseFunction = obj.GetScalarOpacity (int index)</tt> -  Get the scalar opacity transfer function for the given component.
+ If no transfer function has been set for this component, a default one
+ is created and returned.
+ </LI>
+<LI>  <tt>vtkPiecewiseFunction = obj.GetScalarOpacity ()</tt> -  Get the scalar opacity transfer function for the given component.
+ If no transfer function has been set for this component, a default one
+ is created and returned.
+ </LI>
+<LI>  <tt>obj.SetScalarOpacityUnitDistance (int index, double distance)</tt> -  Set/Get the unit distance on which the scalar opacity transfer function
+ is defined. By default this is 1.0, meaning that over a distance of
+ 1.0 units, a given opacity (from the transfer function) is accumulated.
+ This is adjusted for the actual sampling distance during rendering.
+ </LI>
+<LI>  <tt>obj.SetScalarOpacityUnitDistance (double distance)</tt> -  Set/Get the unit distance on which the scalar opacity transfer function
+ is defined. By default this is 1.0, meaning that over a distance of
+ 1.0 units, a given opacity (from the transfer function) is accumulated.
+ This is adjusted for the actual sampling distance during rendering.
+ </LI>
+<LI>  <tt>double = obj.GetScalarOpacityUnitDistance (int index)</tt> -  Set/Get the unit distance on which the scalar opacity transfer function
+ is defined. By default this is 1.0, meaning that over a distance of
+ 1.0 units, a given opacity (from the transfer function) is accumulated.
+ This is adjusted for the actual sampling distance during rendering.
+ </LI>
+<LI>  <tt>double = obj.GetScalarOpacityUnitDistance ()</tt> -  Set the opacity of a volume to an opacity transfer function based
+ on gradient magnitude for the given component.
+ </LI>
+<LI>  <tt>obj.SetGradientOpacity (int index, vtkPiecewiseFunction function)</tt> -  Set the opacity of a volume to an opacity transfer function based
+ on gradient magnitude for the given component.
+ </LI>
+<LI>  <tt>obj.SetGradientOpacity (vtkPiecewiseFunction function)</tt> -  Get the gradient magnitude opacity transfer function for
+ the given component.
+ If no transfer function has been set for this component, a default one
+ is created and returned.
+ This default function is always returned if DisableGradientOpacity is On
+ for that component.
+ </LI>
+<LI>  <tt>vtkPiecewiseFunction = obj.GetGradientOpacity (int index)</tt> -  Get the gradient magnitude opacity transfer function for
+ the given component.
+ If no transfer function has been set for this component, a default one
+ is created and returned.
+ This default function is always returned if DisableGradientOpacity is On
+ for that component.
+ </LI>
+<LI>  <tt>vtkPiecewiseFunction = obj.GetGradientOpacity ()</tt> -  Enable/Disable the gradient opacity function for the given component. 
+ If set to true, any call to GetGradientOpacity() will return a default
+ function for this component. Note that the gradient opacity function is 
+ still stored, it is not set or reset and can be retrieved using 
+ GetStoredGradientOpacity().
+ </LI>
+<LI>  <tt>obj.SetDisableGradientOpacity (int index, int value)</tt> -  Enable/Disable the gradient opacity function for the given component. 
+ If set to true, any call to GetGradientOpacity() will return a default
+ function for this component. Note that the gradient opacity function is 
+ still stored, it is not set or reset and can be retrieved using 
+ GetStoredGradientOpacity().
+ </LI>
+<LI>  <tt>obj.SetDisableGradientOpacity (int value)</tt> -  Enable/Disable the gradient opacity function for the given component. 
+ If set to true, any call to GetGradientOpacity() will return a default
+ function for this component. Note that the gradient opacity function is 
+ still stored, it is not set or reset and can be retrieved using 
+ GetStoredGradientOpacity().
+ </LI>
+<LI>  <tt>obj.DisableGradientOpacityOn (int index)</tt> -  Enable/Disable the gradient opacity function for the given component. 
+ If set to true, any call to GetGradientOpacity() will return a default
+ function for this component. Note that the gradient opacity function is 
+ still stored, it is not set or reset and can be retrieved using 
+ GetStoredGradientOpacity().
+ </LI>
+<LI>  <tt>obj.DisableGradientOpacityOn ()</tt> -  Enable/Disable the gradient opacity function for the given component. 
+ If set to true, any call to GetGradientOpacity() will return a default
+ function for this component. Note that the gradient opacity function is 
+ still stored, it is not set or reset and can be retrieved using 
+ GetStoredGradientOpacity().
+ </LI>
+<LI>  <tt>obj.DisableGradientOpacityOff (int index)</tt> -  Enable/Disable the gradient opacity function for the given component. 
+ If set to true, any call to GetGradientOpacity() will return a default
+ function for this component. Note that the gradient opacity function is 
+ still stored, it is not set or reset and can be retrieved using 
+ GetStoredGradientOpacity().
+ </LI>
+<LI>  <tt>obj.DisableGradientOpacityOff ()</tt> -  Enable/Disable the gradient opacity function for the given component. 
+ If set to true, any call to GetGradientOpacity() will return a default
+ function for this component. Note that the gradient opacity function is 
+ still stored, it is not set or reset and can be retrieved using 
+ GetStoredGradientOpacity().
+ </LI>
+<LI>  <tt>int = obj.GetDisableGradientOpacity (int index)</tt> -  Enable/Disable the gradient opacity function for the given component. 
+ If set to true, any call to GetGradientOpacity() will return a default
+ function for this component. Note that the gradient opacity function is 
+ still stored, it is not set or reset and can be retrieved using 
+ GetStoredGradientOpacity().
+ </LI>
+<LI>  <tt>int = obj.GetDisableGradientOpacity ()</tt> -  Enable/Disable the gradient opacity function for the given component. 
+ If set to true, any call to GetGradientOpacity() will return a default
+ function for this component. Note that the gradient opacity function is 
+ still stored, it is not set or reset and can be retrieved using 
+ GetStoredGradientOpacity().
+ </LI>
+<LI>  <tt>vtkPiecewiseFunction = obj.GetStoredGradientOpacity (int index)</tt> -  Enable/Disable the gradient opacity function for the given component. 
+ If set to true, any call to GetGradientOpacity() will return a default
+ function for this component. Note that the gradient opacity function is 
+ still stored, it is not set or reset and can be retrieved using 
+ GetStoredGradientOpacity().
+ </LI>
+<LI>  <tt>vtkPiecewiseFunction = obj.GetStoredGradientOpacity ()</tt> -  Set/Get the shading of a volume. If shading is turned off, then
+ the mapper for the volume will not perform shading calculations.
+ If shading is turned on, the mapper may perform shading 
+ calculations - in some cases shading does not apply (for example,
+ in a maximum intensity projection) and therefore shading will
+ not be performed even if this flag is on. For a compositing type
+ of mapper, turning shading off is generally the same as setting
+ ambient=1, diffuse=0, specular=0. Shading can be independently
+ turned on/off per component.
+ </LI>
+<LI>  <tt>obj.SetShade (int index, int value)</tt> -  Set/Get the shading of a volume. If shading is turned off, then
+ the mapper for the volume will not perform shading calculations.
+ If shading is turned on, the mapper may perform shading 
+ calculations - in some cases shading does not apply (for example,
+ in a maximum intensity projection) and therefore shading will
+ not be performed even if this flag is on. For a compositing type
+ of mapper, turning shading off is generally the same as setting
+ ambient=1, diffuse=0, specular=0. Shading can be independently
+ turned on/off per component.
+ </LI>
+<LI>  <tt>obj.SetShade (int value)</tt> -  Set/Get the shading of a volume. If shading is turned off, then
+ the mapper for the volume will not perform shading calculations.
+ If shading is turned on, the mapper may perform shading 
+ calculations - in some cases shading does not apply (for example,
+ in a maximum intensity projection) and therefore shading will
+ not be performed even if this flag is on. For a compositing type
+ of mapper, turning shading off is generally the same as setting
+ ambient=1, diffuse=0, specular=0. Shading can be independently
+ turned on/off per component.
+ </LI>
+<LI>  <tt>int = obj.GetShade (int index)</tt> -  Set/Get the shading of a volume. If shading is turned off, then
+ the mapper for the volume will not perform shading calculations.
+ If shading is turned on, the mapper may perform shading 
+ calculations - in some cases shading does not apply (for example,
+ in a maximum intensity projection) and therefore shading will
+ not be performed even if this flag is on. For a compositing type
+ of mapper, turning shading off is generally the same as setting
+ ambient=1, diffuse=0, specular=0. Shading can be independently
+ turned on/off per component.
+ </LI>
+<LI>  <tt>int = obj.GetShade ()</tt> -  Set/Get the shading of a volume. If shading is turned off, then
+ the mapper for the volume will not perform shading calculations.
+ If shading is turned on, the mapper may perform shading 
+ calculations - in some cases shading does not apply (for example,
+ in a maximum intensity projection) and therefore shading will
+ not be performed even if this flag is on. For a compositing type
+ of mapper, turning shading off is generally the same as setting
+ ambient=1, diffuse=0, specular=0. Shading can be independently
+ turned on/off per component.
+ </LI>
+<LI>  <tt>obj.ShadeOn (int index)</tt> -  Set/Get the shading of a volume. If shading is turned off, then
+ the mapper for the volume will not perform shading calculations.
+ If shading is turned on, the mapper may perform shading 
+ calculations - in some cases shading does not apply (for example,
+ in a maximum intensity projection) and therefore shading will
+ not be performed even if this flag is on. For a compositing type
+ of mapper, turning shading off is generally the same as setting
+ ambient=1, diffuse=0, specular=0. Shading can be independently
+ turned on/off per component.
+ </LI>
+<LI>  <tt>obj.ShadeOn ()</tt> -  Set/Get the shading of a volume. If shading is turned off, then
+ the mapper for the volume will not perform shading calculations.
+ If shading is turned on, the mapper may perform shading 
+ calculations - in some cases shading does not apply (for example,
+ in a maximum intensity projection) and therefore shading will
+ not be performed even if this flag is on. For a compositing type
+ of mapper, turning shading off is generally the same as setting
+ ambient=1, diffuse=0, specular=0. Shading can be independently
+ turned on/off per component.
+ </LI>
+<LI>  <tt>obj.ShadeOff (int index)</tt> -  Set/Get the shading of a volume. If shading is turned off, then
+ the mapper for the volume will not perform shading calculations.
+ If shading is turned on, the mapper may perform shading 
+ calculations - in some cases shading does not apply (for example,
+ in a maximum intensity projection) and therefore shading will
+ not be performed even if this flag is on. For a compositing type
+ of mapper, turning shading off is generally the same as setting
+ ambient=1, diffuse=0, specular=0. Shading can be independently
+ turned on/off per component.
+ </LI>
+<LI>  <tt>obj.ShadeOff ()</tt> -  Set/Get the ambient lighting coefficient.
+ </LI>
+<LI>  <tt>obj.SetAmbient (int index, double value)</tt> -  Set/Get the ambient lighting coefficient.
+ </LI>
+<LI>  <tt>obj.SetAmbient (double value)</tt> -  Set/Get the ambient lighting coefficient.
+ </LI>
+<LI>  <tt>double = obj.GetAmbient (int index)</tt> -  Set/Get the ambient lighting coefficient.
+ </LI>
+<LI>  <tt>double = obj.GetAmbient ()</tt> -  Set/Get the diffuse lighting coefficient.
+ </LI>
+<LI>  <tt>obj.SetDiffuse (int index, double value)</tt> -  Set/Get the diffuse lighting coefficient.
+ </LI>
+<LI>  <tt>obj.SetDiffuse (double value)</tt> -  Set/Get the diffuse lighting coefficient.
+ </LI>
+<LI>  <tt>double = obj.GetDiffuse (int index)</tt> -  Set/Get the diffuse lighting coefficient.
+ </LI>
+<LI>  <tt>double = obj.GetDiffuse ()</tt> -  Set/Get the specular lighting coefficient.
+ </LI>
+<LI>  <tt>obj.SetSpecular (int index, double value)</tt> -  Set/Get the specular lighting coefficient.
+ </LI>
+<LI>  <tt>obj.SetSpecular (double value)</tt> -  Set/Get the specular lighting coefficient.
+ </LI>
+<LI>  <tt>double = obj.GetSpecular (int index)</tt> -  Set/Get the specular lighting coefficient.
+ </LI>
+<LI>  <tt>double = obj.GetSpecular ()</tt> -  Set/Get the specular power.
+ </LI>
+<LI>  <tt>obj.SetSpecularPower (int index, double value)</tt> -  Set/Get the specular power.
+ </LI>
+<LI>  <tt>obj.SetSpecularPower (double value)</tt> -  Set/Get the specular power.
+ </LI>
+<LI>  <tt>double = obj.GetSpecularPower (int index)</tt> -  Set/Get the specular power.
+ </LI>
+<LI>  <tt>double = obj.GetSpecularPower ()</tt>
+ </LI>
+</UL>
+*/

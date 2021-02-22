@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkhybrid_vtktemporalinterpolator" kind="page">
+    <compoundname>vtkhybrid_vtktemporalinterpolator</compoundname>
+    <title>vtkTemporalInterpolator</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkhybrid_1sec_vtkhybrid" kindref="member">Visualization Toolkit Hybrid Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>vtkTemporalInterpolator interpolates between two time steps to produce new data for an arbitrary T. vtkTemporalInterpolator has three modes of operation. The default mode is to produce a continuous range of time values as output, which enables a filter downstream to request any value of T within the range. The second mode of operation is enabled by setting DiscreteTimeStepInterval to a non zero value. When this mode is activated, the filter will report a finite number of Time steps separated by deltaT between the original range of values. This mode is useful when a dataset of N time steps has one (or more) missing datasets for certain T values and you simply wish to smooth over the missing steps but otherwise use the original data. The third mode of operation is enabled by setting ResampleFactor to a non zero positive integer value. When this mode is activated, the filter will report a finite number of Time steps which contain the original steps, plus N new values between each original step 1/ResampleFactor time units apart. Note that if the input time steps are irregular, then using ResampleFactor will produce an irregular sequence of regular steps between each of the original irregular steps (clear enough, yes?).</para><para>Higher order interpolation schemes will require changes to the API as most calls assume only two timesteps are used.</para><para>To create an instance of class vtkTemporalInterpolator, simply invoke its constructor as follows <verbatim>  obj = vtkTemporalInterpolator
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkTemporalInterpolator has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkTemporalInterpolator class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkTemporalInterpolator = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkTemporalInterpolator = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetDiscreteTimeStepInterval (double )</computeroutput> - If you require a discrete number of outputs steps, to be generated from an input source - for example, you required N steps separated by T, then set DiscreteTimeStepInterval to T and you will get TIME_RANGE/DiscreteTimeStepInterval steps This is a useful option to use if you have a dataset with one missing time step and wish to &apos;fill-in&apos; the missing data with an interpolated value from the steps either side  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetDiscreteTimeStepInterval ()</computeroutput> - If you require a discrete number of outputs steps, to be generated from an input source - for example, you required N steps separated by T, then set DiscreteTimeStepInterval to T and you will get TIME_RANGE/DiscreteTimeStepInterval steps This is a useful option to use if you have a dataset with one missing time step and wish to &apos;fill-in&apos; the missing data with an interpolated value from the steps either side  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetResampleFactor (int )</computeroutput> - When ResampleFactor is a non zero positive integer, each pair of input time steps will be interpolated between with the number of steps specified. For example an input of 1,2,3,4,5 and a resample factor of 10, will produce steps 0f 1.0, 1.1, 1.2.....1.9, 2.0 etc NB. Irregular input steps will produce irregular output steps. Resample factor wuill only be used if DiscreteTimeStepInterval is zero otherwise the DiscreteTimeStepInterval takes precedence  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetResampleFactor ()</computeroutput> - When ResampleFactor is a non zero positive integer, each pair of input time steps will be interpolated between with the number of steps specified. For example an input of 1,2,3,4,5 and a resample factor of 10, will produce steps 0f 1.0, 1.1, 1.2.....1.9, 2.0 etc NB. Irregular input steps will produce irregular output steps. Resample factor wuill only be used if DiscreteTimeStepInterval is zero otherwise the DiscreteTimeStepInterval takes precedence  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

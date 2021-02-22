@@ -1,0 +1,281 @@
+/*!
+\page vtkwidgets_vtkimplicitplanewidget vtkImplicitPlaneWidget
+
+<p>
+Section: \ref sec_vtkwidgets "Visualization Toolkit Widget Classes"
+\section Usage
+ This 3D widget defines an infinite plane that can be interactively placed
+ in a scene. The widget is represented by a plane with a normal vector; the
+ plane is contained by a bounding box, and where the plane intersects the
+ bounding box the edges are shown (possibly tubed). The normal can be
+ selected and moved to rotate the plane; the plane itself can be selected
+ and translated in various directions. As the plane is moved, the implicit
+ plane function and polygon (representing the plane cut against the bounding
+ box) is updated.
+
+ To use this object, just invoke SetInteractor() with the argument of the
+ method a vtkRenderWindowInteractor.  You may also wish to invoke
+ "PlaceWidget()" to initially position the widget. If the "i" key (for
+ "interactor") is pressed, the vtkImplicitPlaneWidget will appear. (See
+ superclass documentation for information about changing this behavior.)
+ If you select the normal vector, the plane can be arbitrarily rotated. The
+ plane can be translated along the normal by selecting the plane and moving
+ it. The plane (the plane origin) can also be arbitrary moved by selecting
+ the plane with the middle mouse button. The right mouse button can be used
+ to uniformly scale the bounding box (moving "up" the box scales larger;
+ moving "down" the box scales smaller). Events that occur outside of the
+ widget (i.e., no part of the widget is picked) are propagated to any other
+ registered obsevers (such as the interaction style).  Turn off the widget
+ by pressing the "i" key again (or invoke the Off() method).
+
+ The vtkImplicitPlaneWidget has several methods that can be used in
+ conjunction with other VTK objects.  The GetPolyData() method can be used
+ to get a polygonal representation (the single polygon clipped by the
+ bounding box).  Typical usage of the widget is to make use of the
+ StartInteractionEvent, InteractionEvent, and EndInteractionEvent
+ events. The InteractionEvent is called on mouse motion; the other two
+ events are called on button down and button up (either left or right
+ button). (Note: there is also a PlaceWidgetEvent that is invoked when
+ the widget is placed with PlaceWidget().)
+
+ Some additional features of this class include the ability to control the
+ properties of the widget. You do this by setting property values on the
+ normal vector (selected and unselected properties); the plane (selected
+ and unselected properties); the outline (selected and unselected
+ properties); and the edges. The edges may also be tubed or not.
+
+To create an instance of class vtkImplicitPlaneWidget, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkImplicitPlaneWidget
+\endverbatim
+\section Methods
+The class vtkImplicitPlaneWidget has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkImplicitPlaneWidget class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkImplicitPlaneWidget = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkImplicitPlaneWidget = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetEnabled (int )</tt> -  Methods that satisfy the superclass' API.
+ </LI>
+<LI>  <tt>obj.PlaceWidget (double bounds[6])</tt> -  Methods that satisfy the superclass' API.
+ </LI>
+<LI>  <tt>obj.PlaceWidget ()</tt> -  Methods that satisfy the superclass' API.
+ </LI>
+<LI>  <tt>obj.PlaceWidget (double xmin, double xmax, double ymin, double ymax, double zmin, double zmax)</tt> -  Get the origin of the plane.
+ </LI>
+<LI>  <tt>obj.SetOrigin (double x, double y, double z)</tt> -  Get the origin of the plane.
+ </LI>
+<LI>  <tt>obj.SetOrigin (double x[3])</tt> -  Get the origin of the plane.
+ </LI>
+<LI>  <tt>double = obj.GetOrigin ()</tt> -  Get the origin of the plane.
+ </LI>
+<LI>  <tt>obj.GetOrigin (double xyz[3])</tt> -  Get the origin of the plane.
+ </LI>
+<LI>  <tt>obj.SetNormal (double x, double y, double z)</tt> -  Get the normal to the plane.
+ </LI>
+<LI>  <tt>obj.SetNormal (double x[3])</tt> -  Get the normal to the plane.
+ </LI>
+<LI>  <tt>double = obj.GetNormal ()</tt> -  Get the normal to the plane.
+ </LI>
+<LI>  <tt>obj.GetNormal (double xyz[3])</tt> -  Get the normal to the plane.
+ </LI>
+<LI>  <tt>obj.SetNormalToXAxis (int )</tt> -  Force the plane widget to be aligned with one of the x-y-z axes.
+ If one axis is set on, the other two will be set off.
+ Remember that when the state changes, a ModifiedEvent is invoked.
+ This can be used to snap the plane to the axes if it is orginally
+ not aligned.
+ </LI>
+<LI>  <tt>int = obj.GetNormalToXAxis ()</tt> -  Force the plane widget to be aligned with one of the x-y-z axes.
+ If one axis is set on, the other two will be set off.
+ Remember that when the state changes, a ModifiedEvent is invoked.
+ This can be used to snap the plane to the axes if it is orginally
+ not aligned.
+ </LI>
+<LI>  <tt>obj.NormalToXAxisOn ()</tt> -  Force the plane widget to be aligned with one of the x-y-z axes.
+ If one axis is set on, the other two will be set off.
+ Remember that when the state changes, a ModifiedEvent is invoked.
+ This can be used to snap the plane to the axes if it is orginally
+ not aligned.
+ </LI>
+<LI>  <tt>obj.NormalToXAxisOff ()</tt> -  Force the plane widget to be aligned with one of the x-y-z axes.
+ If one axis is set on, the other two will be set off.
+ Remember that when the state changes, a ModifiedEvent is invoked.
+ This can be used to snap the plane to the axes if it is orginally
+ not aligned.
+ </LI>
+<LI>  <tt>obj.SetNormalToYAxis (int )</tt> -  Force the plane widget to be aligned with one of the x-y-z axes.
+ If one axis is set on, the other two will be set off.
+ Remember that when the state changes, a ModifiedEvent is invoked.
+ This can be used to snap the plane to the axes if it is orginally
+ not aligned.
+ </LI>
+<LI>  <tt>int = obj.GetNormalToYAxis ()</tt> -  Force the plane widget to be aligned with one of the x-y-z axes.
+ If one axis is set on, the other two will be set off.
+ Remember that when the state changes, a ModifiedEvent is invoked.
+ This can be used to snap the plane to the axes if it is orginally
+ not aligned.
+ </LI>
+<LI>  <tt>obj.NormalToYAxisOn ()</tt> -  Force the plane widget to be aligned with one of the x-y-z axes.
+ If one axis is set on, the other two will be set off.
+ Remember that when the state changes, a ModifiedEvent is invoked.
+ This can be used to snap the plane to the axes if it is orginally
+ not aligned.
+ </LI>
+<LI>  <tt>obj.NormalToYAxisOff ()</tt> -  Force the plane widget to be aligned with one of the x-y-z axes.
+ If one axis is set on, the other two will be set off.
+ Remember that when the state changes, a ModifiedEvent is invoked.
+ This can be used to snap the plane to the axes if it is orginally
+ not aligned.
+ </LI>
+<LI>  <tt>obj.SetNormalToZAxis (int )</tt> -  Force the plane widget to be aligned with one of the x-y-z axes.
+ If one axis is set on, the other two will be set off.
+ Remember that when the state changes, a ModifiedEvent is invoked.
+ This can be used to snap the plane to the axes if it is orginally
+ not aligned.
+ </LI>
+<LI>  <tt>int = obj.GetNormalToZAxis ()</tt> -  Force the plane widget to be aligned with one of the x-y-z axes.
+ If one axis is set on, the other two will be set off.
+ Remember that when the state changes, a ModifiedEvent is invoked.
+ This can be used to snap the plane to the axes if it is orginally
+ not aligned.
+ </LI>
+<LI>  <tt>obj.NormalToZAxisOn ()</tt> -  Force the plane widget to be aligned with one of the x-y-z axes.
+ If one axis is set on, the other two will be set off.
+ Remember that when the state changes, a ModifiedEvent is invoked.
+ This can be used to snap the plane to the axes if it is orginally
+ not aligned.
+ </LI>
+<LI>  <tt>obj.NormalToZAxisOff ()</tt> -  Force the plane widget to be aligned with one of the x-y-z axes.
+ If one axis is set on, the other two will be set off.
+ Remember that when the state changes, a ModifiedEvent is invoked.
+ This can be used to snap the plane to the axes if it is orginally
+ not aligned.
+ </LI>
+<LI>  <tt>obj.SetTubing (int )</tt> -  Turn on/off tubing of the wire outline of the plane. The tube thickens
+ the line by wrapping with a vtkTubeFilter.
+ </LI>
+<LI>  <tt>int = obj.GetTubing ()</tt> -  Turn on/off tubing of the wire outline of the plane. The tube thickens
+ the line by wrapping with a vtkTubeFilter.
+ </LI>
+<LI>  <tt>obj.TubingOn ()</tt> -  Turn on/off tubing of the wire outline of the plane. The tube thickens
+ the line by wrapping with a vtkTubeFilter.
+ </LI>
+<LI>  <tt>obj.TubingOff ()</tt> -  Turn on/off tubing of the wire outline of the plane. The tube thickens
+ the line by wrapping with a vtkTubeFilter.
+ </LI>
+<LI>  <tt>obj.SetDrawPlane (int plane)</tt> -  Enable/disable the drawing of the plane. In some cases the plane
+ interferes with the object that it is operating on (i.e., the
+ plane interferes with the cut surface it produces producing
+ z-buffer artifacts.)
+ </LI>
+<LI>  <tt>int = obj.GetDrawPlane ()</tt> -  Enable/disable the drawing of the plane. In some cases the plane
+ interferes with the object that it is operating on (i.e., the
+ plane interferes with the cut surface it produces producing
+ z-buffer artifacts.)
+ </LI>
+<LI>  <tt>obj.DrawPlaneOn ()</tt> -  Enable/disable the drawing of the plane. In some cases the plane
+ interferes with the object that it is operating on (i.e., the
+ plane interferes with the cut surface it produces producing
+ z-buffer artifacts.)
+ </LI>
+<LI>  <tt>obj.DrawPlaneOff ()</tt> -  Enable/disable the drawing of the plane. In some cases the plane
+ interferes with the object that it is operating on (i.e., the
+ plane interferes with the cut surface it produces producing
+ z-buffer artifacts.)
+ </LI>
+<LI>  <tt>obj.SetOutlineTranslation (int )</tt> -  Turn on/off the ability to translate the bounding box by grabbing it
+ with the left mouse button.
+ </LI>
+<LI>  <tt>int = obj.GetOutlineTranslation ()</tt> -  Turn on/off the ability to translate the bounding box by grabbing it
+ with the left mouse button.
+ </LI>
+<LI>  <tt>obj.OutlineTranslationOn ()</tt> -  Turn on/off the ability to translate the bounding box by grabbing it
+ with the left mouse button.
+ </LI>
+<LI>  <tt>obj.OutlineTranslationOff ()</tt> -  Turn on/off the ability to translate the bounding box by grabbing it
+ with the left mouse button.
+ </LI>
+<LI>  <tt>obj.SetOutsideBounds (int )</tt> -  Turn on/off the ability to move the widget outside of the input's bound
+ </LI>
+<LI>  <tt>int = obj.GetOutsideBounds ()</tt> -  Turn on/off the ability to move the widget outside of the input's bound
+ </LI>
+<LI>  <tt>obj.OutsideBoundsOn ()</tt> -  Turn on/off the ability to move the widget outside of the input's bound
+ </LI>
+<LI>  <tt>obj.OutsideBoundsOff ()</tt> -  Turn on/off the ability to move the widget outside of the input's bound
+ </LI>
+<LI>  <tt>obj.SetScaleEnabled (int )</tt> -  Turn on/off the ability to scale with the mouse
+ </LI>
+<LI>  <tt>int = obj.GetScaleEnabled ()</tt> -  Turn on/off the ability to scale with the mouse
+ </LI>
+<LI>  <tt>obj.ScaleEnabledOn ()</tt> -  Turn on/off the ability to scale with the mouse
+ </LI>
+<LI>  <tt>obj.ScaleEnabledOff ()</tt> -  Turn on/off the ability to scale with the mouse
+ </LI>
+<LI>  <tt>obj.SetOriginTranslation (int )</tt> -  Turn on/off the ability to translate the origin (sphere)
+ with the left mouse button.
+ </LI>
+<LI>  <tt>int = obj.GetOriginTranslation ()</tt> -  Turn on/off the ability to translate the origin (sphere)
+ with the left mouse button.
+ </LI>
+<LI>  <tt>obj.OriginTranslationOn ()</tt> -  Turn on/off the ability to translate the origin (sphere)
+ with the left mouse button.
+ </LI>
+<LI>  <tt>obj.OriginTranslationOff ()</tt> -  Turn on/off the ability to translate the origin (sphere)
+ with the left mouse button.
+ </LI>
+<LI>  <tt>obj.SetDiagonalRatio (double )</tt> -  By default the arrow is 30% of the diagonal length. DiagonalRatio control
+ this ratio in the interval [0-2]
+ </LI>
+<LI>  <tt>double = obj.GetDiagonalRatioMinValue ()</tt> -  By default the arrow is 30% of the diagonal length. DiagonalRatio control
+ this ratio in the interval [0-2]
+ </LI>
+<LI>  <tt>double = obj.GetDiagonalRatioMaxValue ()</tt> -  By default the arrow is 30% of the diagonal length. DiagonalRatio control
+ this ratio in the interval [0-2]
+ </LI>
+<LI>  <tt>double = obj.GetDiagonalRatio ()</tt> -  By default the arrow is 30% of the diagonal length. DiagonalRatio control
+ this ratio in the interval [0-2]
+ </LI>
+<LI>  <tt>obj.GetPolyData (vtkPolyData pd)</tt> -  Grab the polydata that defines the plane. The polydata contains a single
+ polygon that is clipped by the bounding box.
+ </LI>
+<LI>  <tt>vtkPolyDataAlgorithm = obj.GetPolyDataAlgorithm ()</tt> -  Satisfies superclass API.  This returns a pointer to the underlying
+ PolyData (which represents the plane).
+ </LI>
+<LI>  <tt>obj.GetPlane (vtkPlane plane)</tt> -  Get the implicit function for the plane. The user must provide the
+ instance of the class vtkPlane. Note that vtkPlane is a subclass of
+ vtkImplicitFunction, meaning that it can be used by a variety of filters
+ to perform clipping, cutting, and selection of data.
+ </LI>
+<LI>  <tt>obj.UpdatePlacement ()</tt> -  Satisfies the superclass API.  This will change the state of the widget
+ to match changes that have been made to the underlying PolyDataSource
+ </LI>
+<LI>  <tt>obj.SizeHandles ()</tt> -  Control widget appearance
+ </LI>
+<LI>  <tt>vtkProperty = obj.GetNormalProperty ()</tt> -  Get the properties on the normal (line and cone).
+ </LI>
+<LI>  <tt>vtkProperty = obj.GetSelectedNormalProperty ()</tt> -  Get the properties on the normal (line and cone).
+ </LI>
+<LI>  <tt>vtkProperty = obj.GetPlaneProperty ()</tt> -  Get the plane properties. The properties of the plane when selected
+ and unselected can be manipulated.
+ </LI>
+<LI>  <tt>vtkProperty = obj.GetSelectedPlaneProperty ()</tt> -  Get the plane properties. The properties of the plane when selected
+ and unselected can be manipulated.
+ </LI>
+<LI>  <tt>vtkProperty = obj.GetOutlineProperty ()</tt> -  Get the property of the outline.
+ </LI>
+<LI>  <tt>vtkProperty = obj.GetSelectedOutlineProperty ()</tt> -  Get the property of the outline.
+ </LI>
+<LI>  <tt>vtkProperty = obj.GetEdgesProperty ()</tt> -  Get the property of the intersection edges. (This property also
+ applies to the edges when tubed.)
+ </LI>
+</UL>
+*/

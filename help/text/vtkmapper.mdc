@@ -1,0 +1,447 @@
+
+ Usage
+
+vtkMapper is an abstract class to specify interface between
+data and graphics primitives. Subclasses of vtkMapper map
+data through a lookuptable and control the creation of
+rendering primitives that interface to the graphics library.
+The mapping can be controlled by supplying a lookup table
+and specifying a scalar range to map data through.
+There are several important control mechanisms affecting the
+behavior of this object. The ScalarVisibility flag controls
+whether scalar data (if any) controls the color of the
+associated actor(s) that refer to the mapper. The ScalarMode
+ivar is used to determine whether scalar point data or cell
+data is used to color the object. By default, point data
+scalars are used unless there are none, in which cell
+scalars are used. Or you can explicitly control whether to
+use point or cell scalar data. Finally, the mapping of
+scalars through the lookup table varies depending on the
+setting of the ColorMode flag. See the documentation for the
+appropriate methods for an explanation.
+Another important feature of this class is whether to use
+immediate mode rendering (ImmediateModeRenderingOn) or
+display list rendering (ImmediateModeRenderingOff). If
+display lists are used, a data structure is constructed
+(generally in the rendering library) which can then be
+rapidly traversed and rendered by the rendering library. The
+disadvantage of display lists is that they require
+additionally memory which may affect the performance of the
+system.
+Another important feature of the mapper is the ability to
+shift the z-buffer to resolve coincident topology. For
+example, if you'd like to draw a mesh with some edges a
+different color, and the edges lie on the mesh, this feature
+can be useful to get nice looking lines. (See the
+ResolveCoincidentTopology-related methods.)
+To create an instance of class vtkMapper, simply invoke its
+constructor as follows
+
+    obj = vtkMapper
+
+
+
+ Methods
+
+The class vtkMapper has several methods that can be used.
+They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkMapper class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkMapper = obj.NewInstance ()
+* vtkMapper = obj.SafeDownCast (vtkObject o)
+* obj.ShallowCopy (vtkAbstractMapper m) - Make a shallow
+  copy of this mapper.
+* long = obj.GetMTime () - Overload standard modified time
+  function. If lookup table is modified, then this object is
+  modified as well.
+* obj.Render (vtkRenderer ren, vtkActor a) - Method
+  initiates the mapping process. Generally sent by the actor
+  as each frame is rendered.
+* obj.ReleaseGraphicsResources (vtkWindow ) - Release any
+  graphics resources that are being consumed by this mapper.
+  The parameter window could be used to determine which
+  graphic resources to release.
+* obj.SetLookupTable (vtkScalarsToColors lut) - Specify a
+  lookup table for the mapper to use.
+* vtkScalarsToColors = obj.GetLookupTable () - Specify a
+  lookup table for the mapper to use.
+* obj.CreateDefaultLookupTable () - Create default lookup
+  table. Generally used to create one when none is available
+  with the scalar data.
+* obj.SetScalarVisibility (int ) - Turn on/off flag to
+  control whether scalar data is used to color objects.
+* int = obj.GetScalarVisibility () - Turn on/off flag to
+  control whether scalar data is used to color objects.
+* obj.ScalarVisibilityOn () - Turn on/off flag to control
+  whether scalar data is used to color objects.
+* obj.ScalarVisibilityOff () - Turn on/off flag to control
+  whether scalar data is used to color objects.
+* obj.SetStatic (int ) - Turn on/off flag to control whether
+  the mapper's data is static. Static data means that the
+  mapper does not propagate updates down the pipeline,
+  greatly decreasing the time it takes to update many
+  mappers. This should only be used if the data never
+  changes.
+* int = obj.GetStatic () - Turn on/off flag to control
+  whether the mapper's data is static. Static data means
+  that the mapper does not propagate updates down the
+  pipeline, greatly decreasing the time it takes to update
+  many mappers. This should only be used if the data never
+  changes.
+* obj.StaticOn () - Turn on/off flag to control whether the
+  mapper's data is static. Static data means that the mapper
+  does not propagate updates down the pipeline, greatly
+  decreasing the time it takes to update many mappers. This
+  should only be used if the data never changes.
+* obj.StaticOff () - Turn on/off flag to control whether the
+  mapper's data is static. Static data means that the mapper
+  does not propagate updates down the pipeline, greatly
+  decreasing the time it takes to update many mappers. This
+  should only be used if the data never changes.
+* obj.SetColorMode (int ) - Control how the scalar data is
+  mapped to colors. By default (ColorModeToDefault),
+  unsigned char scalars are treated as colors, and NOT
+  mapped through the lookup table, while everything else is.
+  Setting ColorModeToMapScalars means that all scalar data
+  will be mapped through the lookup table. (Note that for
+  multi-component scalars, the particular component to use
+  for mapping can be specified using the SelectColorArray()
+  method.)
+* int = obj.GetColorMode () - Control how the scalar data is
+  mapped to colors. By default (ColorModeToDefault),
+  unsigned char scalars are treated as colors, and NOT
+  mapped through the lookup table, while everything else is.
+  Setting ColorModeToMapScalars means that all scalar data
+  will be mapped through the lookup table. (Note that for
+  multi-component scalars, the particular component to use
+  for mapping can be specified using the SelectColorArray()
+  method.)
+* obj.SetColorModeToDefault () - Control how the scalar data
+  is mapped to colors. By default (ColorModeToDefault),
+  unsigned char scalars are treated as colors, and NOT
+  mapped through the lookup table, while everything else is.
+  Setting ColorModeToMapScalars means that all scalar data
+  will be mapped through the lookup table. (Note that for
+  multi-component scalars, the particular component to use
+  for mapping can be specified using the SelectColorArray()
+  method.)
+* obj.SetColorModeToMapScalars () - Control how the scalar
+  data is mapped to colors. By default (ColorModeToDefault),
+  unsigned char scalars are treated as colors, and NOT
+  mapped through the lookup table, while everything else is.
+  Setting ColorModeToMapScalars means that all scalar data
+  will be mapped through the lookup table. (Note that for
+  multi-component scalars, the particular component to use
+  for mapping can be specified using the SelectColorArray()
+  method.)
+* string = obj.GetColorModeAsString () - Return the method
+  of coloring scalar data.
+* obj.SetInterpolateScalarsBeforeMapping (int ) - By
+  default, vertex color is used to map colors to a surface.
+  Colors are interpolated after being mapped. This option
+  avoids color interpolation by using a one dimensional
+  texture map for the colors.
+* int = obj.GetInterpolateScalarsBeforeMapping () - By
+  default, vertex color is used to map colors to a surface.
+  Colors are interpolated after being mapped. This option
+  avoids color interpolation by using a one dimensional
+  texture map for the colors.
+* obj.InterpolateScalarsBeforeMappingOn () - By default,
+  vertex color is used to map colors to a surface. Colors
+  are interpolated after being mapped. This option avoids
+  color interpolation by using a one dimensional texture map
+  for the colors.
+* obj.InterpolateScalarsBeforeMappingOff () - By default,
+  vertex color is used to map colors to a surface. Colors
+  are interpolated after being mapped. This option avoids
+  color interpolation by using a one dimensional texture map
+  for the colors.
+* obj.SetUseLookupTableScalarRange (int ) - Control whether
+  the mapper sets the lookuptable range based on its own
+  ScalarRange, or whether it will use the LookupTable
+  ScalarRange regardless of it's own setting. By default the
+  Mapper is allowed to set the LookupTable range, but users
+  who are sharing LookupTables between mappers/actors will
+  probably wish to force the mapper to use the LookupTable
+  unchanged.
+* int = obj.GetUseLookupTableScalarRange () - Control
+  whether the mapper sets the lookuptable range based on its
+  own ScalarRange, or whether it will use the LookupTable
+  ScalarRange regardless of it's own setting. By default the
+  Mapper is allowed to set the LookupTable range, but users
+  who are sharing LookupTables between mappers/actors will
+  probably wish to force the mapper to use the LookupTable
+  unchanged.
+* obj.UseLookupTableScalarRangeOn () - Control whether the
+  mapper sets the lookuptable range based on its own
+  ScalarRange, or whether it will use the LookupTable
+  ScalarRange regardless of it's own setting. By default the
+  Mapper is allowed to set the LookupTable range, but users
+  who are sharing LookupTables between mappers/actors will
+  probably wish to force the mapper to use the LookupTable
+  unchanged.
+* obj.UseLookupTableScalarRangeOff () - Control whether the
+  mapper sets the lookuptable range based on its own
+  ScalarRange, or whether it will use the LookupTable
+  ScalarRange regardless of it's own setting. By default the
+  Mapper is allowed to set the LookupTable range, but users
+  who are sharing LookupTables between mappers/actors will
+  probably wish to force the mapper to use the LookupTable
+  unchanged.
+* obj.SetScalarRange (double , double ) - Specify range in
+  terms of scalar minimum and maximum (smin,smax). These
+  values are used to map scalars into lookup table. Has no
+  effect when UseLookupTableScalarRange is true.
+* obj.SetScalarRange (double a[2]) - Specify range in terms
+  of scalar minimum and maximum (smin,smax). These values
+  are used to map scalars into lookup table. Has no effect
+  when UseLookupTableScalarRange is true.
+* double = obj. GetScalarRange () - Specify range in terms
+  of scalar minimum and maximum (smin,smax). These values
+  are used to map scalars into lookup table. Has no effect
+  when UseLookupTableScalarRange is true.
+* obj.SetImmediateModeRendering (int ) - Turn on/off flag to
+  control whether data is rendered using immediate mode or
+  note. Immediate mode rendering tends to be slower but it
+  can handle larger datasets. The default value is immediate
+  mode off. If you are having problems rendering a large
+  dataset you might want to consider using immediate more
+  rendering.
+* int = obj.GetImmediateModeRendering () - Turn on/off flag
+  to control whether data is rendered using immediate mode
+  or note. Immediate mode rendering tends to be slower but
+  it can handle larger datasets. The default value is
+  immediate mode off. If you are having problems rendering a
+  large dataset you might want to consider using immediate
+  more rendering.
+* obj.ImmediateModeRenderingOn () - Turn on/off flag to
+  control whether data is rendered using immediate mode or
+  note. Immediate mode rendering tends to be slower but it
+  can handle larger datasets. The default value is immediate
+  mode off. If you are having problems rendering a large
+  dataset you might want to consider using immediate more
+  rendering.
+* obj.ImmediateModeRenderingOff () - Turn on/off flag to
+  control whether data is rendered using immediate mode or
+  note. Immediate mode rendering tends to be slower but it
+  can handle larger datasets. The default value is immediate
+  mode off. If you are having problems rendering a large
+  dataset you might want to consider using immediate more
+  rendering.
+* obj.SetScalarMode (int ) - Control how the filter works
+  with scalar point data and cell attribute data. By default
+  (ScalarModeToDefault), the filter will use point data, and
+  if no point data is available, then cell data is used.
+  Alternatively you can explicitly set the filter to use
+  point data (ScalarModeToUsePointData) or cell data
+  (ScalarModeToUseCellData). You can also choose to get the
+  scalars from an array in point field data
+  (ScalarModeToUsePointFieldData) or cell field data
+  (ScalarModeToUseCellFieldData). If scalars are coming from
+  a field data array, you must call SelectColorArray before
+  you call GetColors. When ScalarMode is set to use Field
+  Data (ScalarModeToFieldData), you must call
+  SelectColorArray to choose the field data array to be used
+  to color cells. In this mode, if the poly data has
+  triangle strips, the field data is treated as the celldata
+  for each mini-cell formed by a triangle in the strip
+  rather than the entire strip.
+* int = obj.GetScalarMode () - Control how the filter works
+  with scalar point data and cell attribute data. By default
+  (ScalarModeToDefault), the filter will use point data, and
+  if no point data is available, then cell data is used.
+  Alternatively you can explicitly set the filter to use
+  point data (ScalarModeToUsePointData) or cell data
+  (ScalarModeToUseCellData). You can also choose to get the
+  scalars from an array in point field data
+  (ScalarModeToUsePointFieldData) or cell field data
+  (ScalarModeToUseCellFieldData). If scalars are coming from
+  a field data array, you must call SelectColorArray before
+  you call GetColors. When ScalarMode is set to use Field
+  Data (ScalarModeToFieldData), you must call
+  SelectColorArray to choose the field data array to be used
+  to color cells. In this mode, if the poly data has
+  triangle strips, the field data is treated as the celldata
+  for each mini-cell formed by a triangle in the strip
+  rather than the entire strip.
+* obj.SetScalarModeToDefault () - Control how the filter
+  works with scalar point data and cell attribute data. By
+  default (ScalarModeToDefault), the filter will use point
+  data, and if no point data is available, then cell data is
+  used. Alternatively you can explicitly set the filter to
+  use point data (ScalarModeToUsePointData) or cell data
+  (ScalarModeToUseCellData). You can also choose to get the
+  scalars from an array in point field data
+  (ScalarModeToUsePointFieldData) or cell field data
+  (ScalarModeToUseCellFieldData). If scalars are coming from
+  a field data array, you must call SelectColorArray before
+  you call GetColors. When ScalarMode is set to use Field
+  Data (ScalarModeToFieldData), you must call
+  SelectColorArray to choose the field data array to be used
+  to color cells. In this mode, if the poly data has
+  triangle strips, the field data is treated as the celldata
+  for each mini-cell formed by a triangle in the strip
+  rather than the entire strip.
+* obj.SetScalarModeToUsePointData () - Control how the
+  filter works with scalar point data and cell attribute
+  data. By default (ScalarModeToDefault), the filter will
+  use point data, and if no point data is available, then
+  cell data is used. Alternatively you can explicitly set
+  the filter to use point data (ScalarModeToUsePointData) or
+  cell data (ScalarModeToUseCellData). You can also choose
+  to get the scalars from an array in point field data
+  (ScalarModeToUsePointFieldData) or cell field data
+  (ScalarModeToUseCellFieldData). If scalars are coming from
+  a field data array, you must call SelectColorArray before
+  you call GetColors. When ScalarMode is set to use Field
+  Data (ScalarModeToFieldData), you must call
+  SelectColorArray to choose the field data array to be used
+  to color cells. In this mode, if the poly data has
+  triangle strips, the field data is treated as the celldata
+  for each mini-cell formed by a triangle in the strip
+  rather than the entire strip.
+* obj.SetScalarModeToUseCellData () - Control how the filter
+  works with scalar point data and cell attribute data. By
+  default (ScalarModeToDefault), the filter will use point
+  data, and if no point data is available, then cell data is
+  used. Alternatively you can explicitly set the filter to
+  use point data (ScalarModeToUsePointData) or cell data
+  (ScalarModeToUseCellData). You can also choose to get the
+  scalars from an array in point field data
+  (ScalarModeToUsePointFieldData) or cell field data
+  (ScalarModeToUseCellFieldData). If scalars are coming from
+  a field data array, you must call SelectColorArray before
+  you call GetColors. When ScalarMode is set to use Field
+  Data (ScalarModeToFieldData), you must call
+  SelectColorArray to choose the field data array to be used
+  to color cells. In this mode, if the poly data has
+  triangle strips, the field data is treated as the celldata
+  for each mini-cell formed by a triangle in the strip
+  rather than the entire strip.
+* obj.SetScalarModeToUsePointFieldData () - Control how the
+  filter works with scalar point data and cell attribute
+  data. By default (ScalarModeToDefault), the filter will
+  use point data, and if no point data is available, then
+  cell data is used. Alternatively you can explicitly set
+  the filter to use point data (ScalarModeToUsePointData) or
+  cell data (ScalarModeToUseCellData). You can also choose
+  to get the scalars from an array in point field data
+  (ScalarModeToUsePointFieldData) or cell field data
+  (ScalarModeToUseCellFieldData). If scalars are coming from
+  a field data array, you must call SelectColorArray before
+  you call GetColors. When ScalarMode is set to use Field
+  Data (ScalarModeToFieldData), you must call
+  SelectColorArray to choose the field data array to be used
+  to color cells. In this mode, if the poly data has
+  triangle strips, the field data is treated as the celldata
+  for each mini-cell formed by a triangle in the strip
+  rather than the entire strip.
+* obj.SetScalarModeToUseCellFieldData () - Control how the
+  filter works with scalar point data and cell attribute
+  data. By default (ScalarModeToDefault), the filter will
+  use point data, and if no point data is available, then
+  cell data is used. Alternatively you can explicitly set
+  the filter to use point data (ScalarModeToUsePointData) or
+  cell data (ScalarModeToUseCellData). You can also choose
+  to get the scalars from an array in point field data
+  (ScalarModeToUsePointFieldData) or cell field data
+  (ScalarModeToUseCellFieldData). If scalars are coming from
+  a field data array, you must call SelectColorArray before
+  you call GetColors. When ScalarMode is set to use Field
+  Data (ScalarModeToFieldData), you must call
+  SelectColorArray to choose the field data array to be used
+  to color cells. In this mode, if the poly data has
+  triangle strips, the field data is treated as the celldata
+  for each mini-cell formed by a triangle in the strip
+  rather than the entire strip.
+* obj.SetScalarModeToUseFieldData () - When ScalarMode is
+  set to UsePointFieldData or UseCellFieldData, you can
+  specify which array to use for coloring using these
+  methods. The lookup table will decide how to convert
+  vectors to colors.
+* obj.SelectColorArray (int arrayNum) - When ScalarMode is
+  set to UsePointFieldData or UseCellFieldData, you can
+  specify which array to use for coloring using these
+  methods. The lookup table will decide how to convert
+  vectors to colors.
+* obj.SelectColorArray (string arrayName) - When ScalarMode
+  is set to UsePointFieldData or UseCellFieldData, you can
+  specify which array to use for coloring using these
+  methods. The lookup table will decide how to convert
+  vectors to colors.
+* obj.ColorByArrayComponent (int arrayNum, int component) -
+  Legacy: These methods used to be used to specify the array
+  component. It is better to do this in the lookup table.
+* obj.ColorByArrayComponent (string arrayName, int
+  component) - Legacy: These methods used to be used to
+  specify the array component. It is better to do this in
+  the lookup table.
+* string = obj.GetArrayName () - Get the array name or
+  number and component to color by.
+* int = obj.GetArrayId () - Get the array name or number and
+  component to color by.
+* int = obj.GetArrayAccessMode () - Get the array name or
+  number and component to color by.
+* int = obj.GetArrayComponent () - Return the method for
+  obtaining scalar data.
+* string = obj.GetScalarModeAsString () - Return the method
+  for obtaining scalar data.
+* double = obj.GetBounds () - Return bounding box (array of
+  six doubles) of data expressed as (xmin,xmax, ymin,ymax,
+  zmin,zmax).
+* obj.GetBounds (double bounds[6]) - Return bounding box
+  (array of six doubles) of data expressed as (xmin,xmax,
+  ymin,ymax, zmin,zmax).
+* obj.SetRenderTime (double time) - This instance variable
+  is used by vtkLODActor to determine which mapper to use.
+  It is an estimate of the time necessary to render. Setting
+  the render time does not modify the mapper.
+* double = obj.GetRenderTime () - This instance variable is
+  used by vtkLODActor to determine which mapper to use. It
+  is an estimate of the time necessary to render. Setting
+  the render time does not modify the mapper.
+* vtkDataSet = obj.GetInputAsDataSet () - Map the scalars
+  (if there are any scalars and ScalarVisibility is on)
+  through the lookup table, returning an unsigned char RGBA
+  array. This is typically done as part of the rendering
+  process. The alpha parameter allows the blending of the
+  scalars with an additional alpha (typically which comes
+  from a vtkActor, etc.)
+* vtkUnsignedCharArray = obj.MapScalars (double alpha) - Map
+  the scalars (if there are any scalars and ScalarVisibility
+  is on) through the lookup table, returning an unsigned
+  char RGBA array. This is typically done as part of the
+  rendering process. The alpha parameter allows the blending
+  of the scalars with an additional alpha (typically which
+  comes from a vtkActor, etc.)
+* obj.SetScalarMaterialMode (int ) - Set/Get the light-model
+  color mode.
+* int = obj.GetScalarMaterialMode () - Set/Get the light-
+  model color mode.
+* obj.SetScalarMaterialModeToDefault () - Set/Get the light-
+  model color mode.
+* obj.SetScalarMaterialModeToAmbient () - Set/Get the light-
+  model color mode.
+* obj.SetScalarMaterialModeToDiffuse () - Set/Get the light-
+  model color mode.
+* obj.SetScalarMaterialModeToAmbientAndDiffuse () - Set/Get
+  the light-model color mode.
+* string = obj.GetScalarMaterialModeAsString () - Return the
+  light-model color mode.
+* bool = obj.GetSupportsSelection () - WARNING: INTERNAL
+  METHOD - NOT INTENDED FOR GENERAL USE DO NOT USE THIS
+  METHOD OUTSIDE OF THE RENDERING PROCESS Used by
+  vtkHardwareSelector to determine if the prop supports
+  hardware selection.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Rendering_Classes
+* Generated on Thu Jul 25 2013 17:18:35 for FreeMat by
+  doxygen_ 1.8.1.1
+

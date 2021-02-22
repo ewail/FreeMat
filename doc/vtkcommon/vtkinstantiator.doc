@@ -1,0 +1,64 @@
+/*!
+\page vtkcommon_vtkinstantiator vtkInstantiator
+
+<p>
+Section: \ref sec_vtkcommon "Visualization Toolkit Common Classes"
+\section Usage
+ vtkInstantiator provides an interface to create an instance of any
+ VTK class from its name.  Instances are created through registered
+ pointers to functions returning the objects.  New classes can also be
+ registered with the creator.  VTK libraries automatically register
+ their classes with the creator when they are loaded.  Instances are
+ created using the static New() method, so the normal vtkObjectFactory
+ mechanism is still invoked.
+
+ When using this class from language wrappers (Tcl, Python, or Java),
+ the vtkInstantiator should be able to create any class from any kit
+ that has been loaded.
+
+ In C++ code, one should include the header for each kit from which
+ one wishes to create instances through vtkInstantiator.  This is
+ necessary to ensure proper linking when building static libraries.
+ Be careful, though, because including each kit's header means every
+ class from that kit will be linked into your executable whether or
+ not the class is used.  The headers are:
+
+   vtkCommon          - vtkCommonInstantiator.h
+   vtkFiltering       - vtkFilteringInstantiator.h
+   vtkIO              - vtkIOInstantiator.h
+   vtkImaging         - vtkImagingInstantiator.h
+   vtkGraphics        - vtkGraphicsInstantiator.h
+   vtkRendering       - vtkRenderingInstantiator.h
+   vtkVolumeRendering - vtkVolumeRenderingInstantiator.h
+   vtkHybrid          - vtkHybridInstantiator.h
+   vtkParallel        - vtkParallelInstantiator.h
+
+ The VTK_MAKE_INSTANTIATOR() command in CMake is used to automatically
+ generate the creator registration for each VTK library.  It can also
+ be used to create registration code for VTK-style user libraries
+ that are linked to vtkCommon.  After using this command to register
+ classes from a new library, the generated header must be included.
+
+
+To create an instance of class vtkInstantiator, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkInstantiator
+\endverbatim
+\section Methods
+The class vtkInstantiator has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkInstantiator class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkInstantiator = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkInstantiator = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+</UL>
+*/

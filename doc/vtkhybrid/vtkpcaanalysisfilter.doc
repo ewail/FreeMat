@@ -1,0 +1,88 @@
+/*!
+\page vtkhybrid_vtkpcaanalysisfilter vtkPCAAnalysisFilter
+
+<p>
+Section: \ref sec_vtkhybrid "Visualization Toolkit Hybrid Classes"
+\section Usage
+
+ vtkPCAAnalysisFilter is a filter that takes as input a set of aligned
+ pointsets (any object derived from vtkPointSet) and performs
+ a principal component analysis of the coordinates. 
+ This can be used to visualise the major or minor modes of variation
+ seen in a set of similar biological objects with corresponding
+ landmarks.
+ vtkPCAAnalysisFilter is designed to work with the output from
+ the vtkProcrustesAnalysisFilter
+ 
+ Call SetNumberOfInputs(n) before calling SetInput(0) ... SetInput(n-1).
+ Retrieve the outputs using GetOutput(0) ... GetOutput(n-1).
+
+ vtkPCAAnalysisFilter is an implementation of (for example):
+
+ T. Cootes et al. : Active Shape Models - their training and application.
+ Computer Vision and Image Understanding, 61(1):38-59, 1995.
+
+ The material can also be found in Tim Cootes' ever-changing online report
+ published at his website:
+ http://www.isbe.man.ac.uk/~bim/
+
+
+To create an instance of class vtkPCAAnalysisFilter, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkPCAAnalysisFilter
+\endverbatim
+\section Methods
+The class vtkPCAAnalysisFilter has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkPCAAnalysisFilter class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkPCAAnalysisFilter = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkPCAAnalysisFilter = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>vtkFloatArray = obj.GetEvals ()</tt> -  Get the vector of eigenvalues sorted in descending order
+ </LI>
+<LI>  <tt>obj.SetNumberOfInputs (int n)</tt> -  Specify how many pointsets are going to be given as input.
+ </LI>
+<LI>  <tt>obj.SetInput (int idx, vtkPointSet p)</tt> -  Specify the input pointset with index idx.
+ Call SetNumberOfInputs before calling this function.
+ </LI>
+<LI>  <tt>obj.SetInput (int idx, vtkDataObject input)</tt> -  Specify the input pointset with index idx.
+ Call SetNumberOfInputs before calling this function.
+ </LI>
+<LI>  <tt>vtkPointSet = obj.GetInput (int idx)</tt> -  Retrieve the input with index idx (usually only used for pipeline
+ tracing).
+ </LI>
+<LI>  <tt>obj.GetParameterisedShape (vtkFloatArray b, vtkPointSet shape)</tt> -  Fills the shape with:
+
+ mean + b[0] * sqrt(eigenvalue[0]) * eigenvector[0]
+      + b[1] * sqrt(eigenvalue[1]) * eigenvector[1]
+ ...
+      + b[sizeb-1] * sqrt(eigenvalue[bsize-1]) * eigenvector[bsize-1]
+
+ here b are the parameters expressed in standard deviations
+ bsize is the number of parameters in the b vector
+ This function assumes that shape is allready allocated
+ with the right size, it just moves the points.
+ </LI>
+<LI>  <tt>obj.GetShapeParameters (vtkPointSet shape, vtkFloatArray b, int bsize)</tt> -  Return the bsize parameters b that best model the given shape
+ (in standard deviations). 
+ That is that the given shape will be approximated by:
+
+ shape ~ mean + b[0] * sqrt(eigenvalue[0]) * eigenvector[0]
+              + b[1] * sqrt(eigenvalue[1]) * eigenvector[1]
+         ...
+              + b[bsize-1] * sqrt(eigenvalue[bsize-1]) * eigenvector[bsize-1]
+ </LI>
+<LI>  <tt>int = obj.GetModesRequiredFor (double proportion)</tt> -  Retrieve how many modes are necessary to model the given proportion of the variation.
+ proportion should be between 0 and 1
+ </LI>
+</UL>
+*/

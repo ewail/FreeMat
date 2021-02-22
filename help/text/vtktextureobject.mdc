@@ -1,0 +1,417 @@
+
+ Usage
+
+vtkTextureObject represents an OpenGL texture object. It
+provides API to create textures using data already loaded
+into pixel buffer objects. It can also be used to create
+textures without uploading any data.
+To create an instance of class vtkTextureObject, simply
+invoke its constructor as follows
+
+    obj = vtkTextureObject
+
+
+
+ Methods
+
+The class vtkTextureObject has several methods that can be
+used. They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkTextureObject class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkTextureObject = obj.NewInstance ()
+* vtkTextureObject = obj.SafeDownCast (vtkObject o)
+* obj.SetContext (vtkRenderWindow ) - Get/Set the context.
+  This does not increase the reference count of the context
+  to avoid reference loops. SetContext() may raise an error
+  is the OpenGL context does not support the required OpenGL
+  extensions.
+* vtkRenderWindow = obj.GetContext () - Get/Set the context.
+  This does not increase the reference count of the context
+  to avoid reference loops. SetContext() may raise an error
+  is the OpenGL context does not support the required OpenGL
+  extensions.
+* int = obj.GetWidth () - Get the texture dimensions. These
+  are the properties of the OpenGL texture this instance
+  represents.
+* int = obj.GetHeight () - Get the texture dimensions. These
+  are the properties of the OpenGL texture this instance
+  represents.
+* int = obj.GetDepth () - Get the texture dimensions. These
+  are the properties of the OpenGL texture this instance
+  represents.
+* int = obj.GetComponents () - Get the texture dimensions.
+  These are the properties of the OpenGL texture this
+  instance represents.
+* int = obj.GetNumberOfDimensions ()
+* int = obj.GetTarget () - Returns OpenGL texture target to
+  which the texture is/can be bound.
+* int = obj.GetHandle () - Returns the OpenGL handle.
+* obj.Bind () - Activate the texture. The texture must have
+  been created using Create(). RenderWindow must be set
+  before calling this.
+* obj.UnBind () - Activate the texture. The texture must
+  have been created using Create(). RenderWindow must be set
+  before calling this.
+* bool = obj.IsBound () - Tells if the texture object is
+  bound to the active texture image unit. (a texture object
+  can be bound to multiple texture image unit).
+* obj.SendParameters () - Send all the texture object
+  parameters to the hardware if not done yet.
+
+
+    Precondition:
+        is_bound: IsBound()
+
+* bool = obj.Create1D (int numComps, vtkPixelBufferObject
+  pbo, bool shaderSupportsTextureInt) - Create a 1D texture
+  using the PBO. Eventually we may start supporting creating
+  a texture from subset of data in the PBO, but for
+  simplicity we'll begin with entire PBO data. numComps must
+  be in [1-4]. shaderSupportsTextureInt is true if the
+  shader has an alternate implementation supporting sampler
+  with integer values. Even if the card supports texture
+  int, it does not mean that the implementor of the shader
+  made a version that supports texture int.
+* bool = obj.Create2D (int width, int height, int numComps,
+  vtkPixelBufferObject pbo, bool shaderSupportsTextureInt) -
+  Create a 2D texture using the PBO. Eventually we may start
+  supporting creating a texture from subset of data in the
+  PBO, but for simplicity we'll begin with entire PBO data.
+  numComps must be in [1-4].
+* bool = obj.CreateDepth (int width, int height, int
+  internalFormat, vtkPixelBufferObject pbo) - Create a 2D
+  depth texture using a PBO.
+
+
+    Precondition:
+        : valid_internalFormat: internalFormat>=0 &amp;&amp;
+        internalFormat<NumberOfDepthFormats
+
+* bool = obj.AllocateDepth (int width, int height, int
+  internalFormat) - Create a 2D depth texture but does not
+  initialize its values.
+* bool = obj.Allocate1D (int width, int numComps, int
+  vtkType) - Create a 1D color texture but does not
+  initialize its values. Internal format is deduced from
+  numComps and vtkType.
+* bool = obj.Allocate2D (int width, int height, int
+  numComps, int vtkType) - Create a 2D color texture but
+  does not initialize its values. Internal format is deduced
+  from numComps and vtkType.
+* bool = obj.Allocate3D (int width, int height, int depth,
+  int numComps, int vtkType) - Create a 3D color texture but
+  does not initialize its values. Internal format is deduced
+  from numComps and vtkType.
+* bool = obj.Create3D (int width, int height, int depth, int
+  numComps, vtkPixelBufferObject pbo, bool
+  shaderSupportsTextureInt) - Create a 3D texture using the
+  PBO. Eventually we may start supporting creating a texture
+  from subset of data in the PBO, but for simplicity we'll
+  begin with entire PBO data. numComps must be in [1-4].
+* bool = obj.Create2D (int width, int height, int numComps,
+  int vtktype, bool shaderSupportsTextureInt) - Create
+  texture without uploading any data. To create a
+  DEPTH_COMPONENT texture, vtktype must be set to VTK_VOID
+  and numComps must be 1.
+* bool = obj.Create3D (int width, int height, int depth, int
+  numComps, int vtktype, bool shaderSupportsTextureInt) -
+  Create texture without uploading any data. To create a
+  DEPTH_COMPONENT texture, vtktype must be set to VTK_VOID
+  and numComps must be 1.
+* vtkPixelBufferObject = obj.Download () - This is used to
+  download raw data from the texture into a pixel bufer. The
+  pixel buffer API can then be used to download the pixel
+  buffer data to CPU arrays. The caller takes on the
+  responsibility of deleting the returns
+  vtkPixelBufferObject once it done with it.
+* int = obj.GetDataType () - Get the data type for the
+  texture as a vtk type int i.e. VTK_INT etc.
+* int = obj.GetInternalFormat (int vtktype, int numComps,
+  bool shaderSupportsTextureInt)
+* int = obj.GetFormat (int vtktype, int numComps, bool
+  shaderSupportsTextureInt)
+* int = obj.GetWrapS () - Wrap mode for the first texture
+  coordinate "s" Valid values are:
+
+  o Clamp
+  o ClampToEdge
+  o Repeat
+  o ClampToBorder
+  o MirroredRepeat Initial value is Repeat (as in OpenGL
+    spec)
+
+* obj.SetWrapS (int ) - Wrap mode for the first texture
+  coordinate "s" Valid values are:
+
+  o Clamp
+  o ClampToEdge
+  o Repeat
+  o ClampToBorder
+  o MirroredRepeat Initial value is Repeat (as in OpenGL
+    spec)
+
+* int = obj.GetWrapT () - Wrap mode for the first texture
+  coordinate "t" Valid values are:
+
+  o Clamp
+  o ClampToEdge
+  o Repeat
+  o ClampToBorder
+  o MirroredRepeat Initial value is Repeat (as in OpenGL
+    spec)
+
+* obj.SetWrapT (int ) - Wrap mode for the first texture
+  coordinate "t" Valid values are:
+
+  o Clamp
+  o ClampToEdge
+  o Repeat
+  o ClampToBorder
+  o MirroredRepeat Initial value is Repeat (as in OpenGL
+    spec)
+
+* int = obj.GetWrapR () - Wrap mode for the first texture
+  coordinate "r" Valid values are:
+
+  o Clamp
+  o ClampToEdge
+  o Repeat
+  o ClampToBorder
+  o MirroredRepeat Initial value is Repeat (as in OpenGL
+    spec)
+
+* obj.SetWrapR (int ) - Wrap mode for the first texture
+  coordinate "r" Valid values are:
+
+  o Clamp
+  o ClampToEdge
+  o Repeat
+  o ClampToBorder
+  o MirroredRepeat Initial value is Repeat (as in OpenGL
+    spec)
+
+* int = obj.GetMinificationFilter () - Minification filter
+  mode. Valid values are:
+
+  o Nearest
+  o Linear
+  o NearestMipmapNearest
+  o NearestMipmapLinear
+  o LinearMipmapNearest
+  o LinearMipmapLinear Initial value is Nearest (note
+    initial value in OpenGL spec is NearestMipMapLinear but
+    this is error-prone because it makes the texture object
+    incomplete. ).
+
+* obj.SetMinificationFilter (int ) - Minification filter
+  mode. Valid values are:
+
+  o Nearest
+  o Linear
+  o NearestMipmapNearest
+  o NearestMipmapLinear
+  o LinearMipmapNearest
+  o LinearMipmapLinear Initial value is Nearest (note
+    initial value in OpenGL spec is NearestMipMapLinear but
+    this is error-prone because it makes the texture object
+    incomplete. ).
+
+* bool = obj.GetLinearMagnification () - Tells if the
+  magnification mode is linear (true) or nearest (false).
+  Initial value is false (initial value in OpenGL spec is
+  true).
+* obj.SetLinearMagnification (bool ) - Tells if the
+  magnification mode is linear (true) or nearest (false).
+  Initial value is false (initial value in OpenGL spec is
+  true).
+* obj.SetBorderColor (float , float , float , float ) -
+  Border Color (RGBA). Each component is in [0.0f,1.0f].
+  Initial value is (0.0f,0.0f,0.0f,0.0f), as in OpenGL spec.
+* obj.SetBorderColor (float a[4]) - Border Color (RGBA).
+  Each component is in [0.0f,1.0f]. Initial value is
+  (0.0f,0.0f,0.0f,0.0f), as in OpenGL spec.
+* float = obj. GetBorderColor () - Border Color (RGBA). Each
+  component is in [0.0f,1.0f]. Initial value is
+  (0.0f,0.0f,0.0f,0.0f), as in OpenGL spec.
+* obj.SetPriority (float ) - Priority of the texture object
+  to be resident on the card for higher performance in the
+  range [0.0f,1.0f]. Initial value is 1.0f, as in OpenGL
+  spec.
+* float = obj.GetPriority () - Priority of the texture
+  object to be resident on the card for higher performance
+  in the range [0.0f,1.0f]. Initial value is 1.0f, as in
+  OpenGL spec.
+* obj.SetMinLOD (float ) - Lower-clamp the computed LOD
+  against this value. Any float value is valid. Initial
+  value is -1000.0f, as in OpenGL spec.
+* float = obj.GetMinLOD () - Lower-clamp the computed LOD
+  against this value. Any float value is valid. Initial
+  value is -1000.0f, as in OpenGL spec.
+* obj.SetMaxLOD (float ) - Upper-clamp the computed LOD
+  against this value. Any float value is valid. Initial
+  value is 1000.0f, as in OpenGL spec.
+* float = obj.GetMaxLOD () - Upper-clamp the computed LOD
+  against this value. Any float value is valid. Initial
+  value is 1000.0f, as in OpenGL spec.
+* obj.SetBaseLevel (int ) - Level of detail of the first
+  texture image. A texture object is a list of texture
+  images. It is a non-negative integer value. Initial value
+  is 0, as in OpenGL spec.
+* int = obj.GetBaseLevel () - Level of detail of the first
+  texture image. A texture object is a list of texture
+  images. It is a non-negative integer value. Initial value
+  is 0, as in OpenGL spec.
+* obj.SetMaxLevel (int ) - Level of detail of the first
+  texture image. A texture object is a list of texture
+  images. It is a non-negative integer value. Initial value
+  is 1000, as in OpenGL spec.
+* int = obj.GetMaxLevel () - Level of detail of the first
+  texture image. A texture object is a list of texture
+  images. It is a non-negative integer value. Initial value
+  is 1000, as in OpenGL spec.
+* bool = obj.GetDepthTextureCompare () - Tells if the output
+  of a texture unit with a depth texture uses comparison or
+  not. Comparison happens between D_t the depth texture
+  value in the range [0,1] and with R the interpolated third
+  texture coordinate clamped to range [0,1]. The result of
+  the comparison is noted `r'. If this flag is false, r=D_t.
+  Initial value is false, as in OpenGL spec. Ignored if the
+  texture object is not a depth texture.
+* obj.SetDepthTextureCompare (bool ) - Tells if the output
+  of a texture unit with a depth texture uses comparison or
+  not. Comparison happens between D_t the depth texture
+  value in the range [0,1] and with R the interpolated third
+  texture coordinate clamped to range [0,1]. The result of
+  the comparison is noted `r'. If this flag is false, r=D_t.
+  Initial value is false, as in OpenGL spec. Ignored if the
+  texture object is not a depth texture.
+* int = obj.GetDepthTextureCompareFunction () - In case
+  DepthTextureCompare is true, specify the comparison
+  function in use. The result of the comparison is noted
+  `r'. Valid values are:
+
+  o Value
+  o Lequal: r=R<=Dt ? 1.0 : 0.0
+  o Gequal: r=R>=Dt ? 1.0 : 0.0
+  o Less: r=R<D_t ? 1.0 : 0.0
+  o Greater: r=R>Dt ? 1.0 : 0.0
+  o Equal: r=R==Dt ? 1.0 : 0.0
+  o NotEqual: r=R!=Dt ? 1.0 : 0.0
+  o AlwaysTrue: r=1.0
+  o Never: r=0.0 If the magnification of minification factor
+    are not nearest, percentage closer filtering (PCF) is
+    used: R is compared to several D_t and r is the average
+    of the comparisons (it is NOT the average of D_t
+    compared once to R). Initial value is Lequal, as in
+    OpenGL spec. Ignored if the texture object is not a
+    depth texture.
+
+* obj.SetDepthTextureCompareFunction (int ) - In case
+  DepthTextureCompare is true, specify the comparison
+  function in use. The result of the comparison is noted
+  `r'. Valid values are:
+
+  o Value
+  o Lequal: r=R<=Dt ? 1.0 : 0.0
+  o Gequal: r=R>=Dt ? 1.0 : 0.0
+  o Less: r=R<D_t ? 1.0 : 0.0
+  o Greater: r=R>Dt ? 1.0 : 0.0
+  o Equal: r=R==Dt ? 1.0 : 0.0
+  o NotEqual: r=R!=Dt ? 1.0 : 0.0
+  o AlwaysTrue: r=1.0
+  o Never: r=0.0 If the magnification of minification factor
+    are not nearest, percentage closer filtering (PCF) is
+    used: R is compared to several D_t and r is the average
+    of the comparisons (it is NOT the average of D_t
+    compared once to R). Initial value is Lequal, as in
+    OpenGL spec. Ignored if the texture object is not a
+    depth texture.
+
+* int = obj.GetDepthTextureMode () - Defines the mapping
+  from depth component `r' to RGBA components. Ignored if
+  the texture object is not a depth texture. Valid modes
+  are:
+
+  o Luminance: (R,G,B,A)=(r,r,r,1)
+  o Intensity: (R,G,B,A)=(r,r,r,r)
+  o Alpha: (R.G.B.A)=(0,0,0,r) Initial value is Luminance,
+    as in OpenGL spec.
+
+* obj.SetDepthTextureMode (int ) - Defines the mapping from
+  depth component `r' to RGBA components. Ignored if the
+  texture object is not a depth texture. Valid modes are:
+
+  o Luminance: (R,G,B,A)=(r,r,r,1)
+  o Intensity: (R,G,B,A)=(r,r,r,r)
+  o Alpha: (R.G.B.A)=(0,0,0,r) Initial value is Luminance,
+    as in OpenGL spec.
+
+* bool = obj.GetGenerateMipmap () - Tells the hardware to
+  generate mipmap textures from the first texture image at
+  BaseLevel. Initial value is false, as in OpenGL spec.
+* obj.SetGenerateMipmap (bool ) - Tells the hardware to
+  generate mipmap textures from the first texture image at
+  BaseLevel. Initial value is false, as in OpenGL spec.
+* obj.CopyToFrameBuffer (int srcXmin, int srcYmin, int
+  srcXmax, int srcYmax, int dstXmin, int dstYmin, int width,
+  int height) - Copy a sub-part of the texture (src) in the
+  current framebuffer at location (dstXmin,dstYmin).
+  (dstXmin,dstYmin) is the location of the lower left corner
+  of the rectangle. width and height are the dimensions of
+  the framebuffer.
+
+  o texture coordinates are sent on texture coordinate
+    processing unit 0.
+  o if the fixed-pipeline fragment shader is used, texturing
+    has to be set on texture image unit 0 and the texture
+    object has to be bound on texture image unit 0.
+  o if a customized fragment shader is used, you are free to
+    pick the texture image unit you want. You can even have
+    multiple texture objects attached on multiple texture
+    image units. In this case, you call this method only on
+    one of them.
+
+
+      Precondition:
+          positive_srcXmin: srcXmin>=0
+          max_srcXmax: srcXmax<this->GetWidth()
+          increasing_x: srcXmin<=srcXmax
+          positive_srcYmin: srcYmin>=0
+          max_srcYmax: srcYmax<this->GetHeight()
+          increasing_y: srcYmin<=srcYmax
+          positive_dstXmin: dstXmin>=0
+          positive_dstYmin: dstYmin>=0
+          positive_width: width>0
+          positive_height: height>0
+          x_fit: destXmin+(srcXmax-srcXmin)<width
+          y_fit: destYmin+(srcYmax-srcYmin)<height
+
+
+* obj.CopyFromFrameBuffer (int srcXmin, int srcYmin, int
+  dstXmin, int dstYmin, int width, int height) - Copy a sub-
+  part of a logical buffer of the framebuffer (color or
+  depth) to the texture object. src is the framebuffer, dst
+  is the texture. (srcXmin,srcYmin) is the location of the
+  lower left corner of the rectangle in the framebuffer.
+  (dstXmin,dstYmin) is the location of the lower left corner
+  of the rectangle in the texture. width and height
+  specifies the size of the rectangle in pixels. If the
+  logical buffer is a color buffer, it has to be selected
+  first with glReadBuffer().
+
+
+    Precondition:
+        is2D: GetNumberOfDimensions()==2
+
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Rendering_Classes
+* Generated on Thu Jul 25 2013 17:18:35 for FreeMat by
+  doxygen_ 1.8.1.1
+

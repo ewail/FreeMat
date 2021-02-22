@@ -1,0 +1,105 @@
+
+ Usage
+
+vtkGenericEdgeTable is used to indicate the existance of and
+hold information about edges. Similar to vtkEdgeTable, this
+class is more sophisticated in that it uses reference
+counting to keep track of when information about an edge
+should be deleted.
+vtkGenericEdgeTable is a helper class used in the adaptor
+framework. It is used during the tessellation process to
+hold information about the error metric on each edge. This
+avoids recomputing the error metric each time the same edge
+is visited.
+To create an instance of class vtkGenericEdgeTable, simply
+invoke its constructor as follows
+
+    obj = vtkGenericEdgeTable
+
+
+
+ Methods
+
+The class vtkGenericEdgeTable has several methods that can
+be used. They are listed below. Note that the documentation
+is translated automatically from the VTK sources, and may
+not be completely intelligible. When in doubt, consult the
+VTK website. In the methods listed below, obj is an instance
+of the vtkGenericEdgeTable class.
+
+* string = obj.GetClassName () - Standard VTK type and print
+  macros.
+* int = obj.IsA (string name) - Standard VTK type and print
+  macros.
+* vtkGenericEdgeTable = obj.NewInstance () - Standard VTK
+  type and print macros.
+* vtkGenericEdgeTable = obj.SafeDownCast (vtkObject o) -
+  Standard VTK type and print macros.
+* obj.InsertEdge (vtkIdType e1, vtkIdType e2, vtkIdType
+  cellId, int ref) - Insert an edge but do not split it.
+* int = obj.RemoveEdge (vtkIdType e1, vtkIdType e2) - Method
+  to remove an edge from the table. The method returns the
+  current reference count.
+* int = obj.IncrementEdgeReferenceCount (vtkIdType e1,
+  vtkIdType e2, vtkIdType cellId) - Method that increments
+  the referencecount and returns it.
+* int = obj.CheckEdgeReferenceCount (vtkIdType e1, vtkIdType
+  e2) - Return the edge reference count.
+* obj.Initialize (vtkIdType start) - To specify the starting
+  point id. It will initialize LastPointId This is very
+  sensitive the start point should be cautiously chosen
+* int = obj.GetNumberOfComponents () - Return the total
+  number of components for the point-centered attributes.
+
+
+    Postcondition:
+        positive_result: result>0
+
+* obj.SetNumberOfComponents (int count) - Set the total
+  number of components for the point-centered attributes.
+
+
+    Precondition:
+        positive_count: count>0
+
+* int = obj.CheckPoint (vtkIdType ptId) - Check if a point
+  is already in the point table.
+* int = obj.CheckPoint (vtkIdType ptId, double point[3],
+  double scalar) - Check for the existence of a point and
+  return its coordinate value.
+
+
+    Precondition:
+        scalar_size: sizeof(scalar)==this-
+        >GetNumberOfComponents()
+
+* obj.InsertPoint (vtkIdType ptId, double point[3]) - Insert
+  point associated with an edge.
+* obj.InsertPointAndScalar (vtkIdType ptId, double pt[3],
+  double s) - Insert point associated with an edge.
+
+
+    Precondition:
+        : sizeof(s)==GetNumberOfComponents()
+
+* obj.RemovePoint (vtkIdType ptId) - Remove a point from the
+  point table.
+* obj.IncrementPointReferenceCount (vtkIdType ptId) -
+  Increment the reference count for the indicated point.
+* obj.DumpTable () - For debugging purposes. It is
+  particularly useful to dump the table and check that
+  nothing is left after a complete iteration. LoadFactor
+  should ideally be very low to be able to have a constant
+  time access
+* obj.LoadFactor () - For debugging purposes. It is
+  particularly useful to dump the table and check that
+  nothing is left after a complete iteration. LoadFactor
+  should ideally be very low to be able to have a constant
+  time access
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Filtering_Classes
+* Generated on Thu Jul 25 2013 17:18:30 for FreeMat by
+  doxygen_ 1.8.1.1
+

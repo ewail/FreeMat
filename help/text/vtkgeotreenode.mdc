@@ -1,0 +1,97 @@
+
+ Usage
+
+A self-referential data structure for storing geometry or
+imagery for the geospatial views. The data is organized in a
+quadtree. Each node contains a pointer to its parent and
+owns references to its four child nodes. The ID of each node
+is unique in its level, and encodes the path from the root
+node in its bits.
+To create an instance of class vtkGeoTreeNode, simply invoke
+its constructor as follows
+
+    obj = vtkGeoTreeNode
+
+
+
+ Methods
+
+The class vtkGeoTreeNode has several methods that can be
+used. They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkGeoTreeNode class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkGeoTreeNode = obj.NewInstance ()
+* vtkGeoTreeNode = obj.SafeDownCast (vtkObject o)
+* obj.SetId (long ) - The id uniquely specified this node.
+  For this implementation I am going to store the branch
+  path in the bits.
+* long = obj.GetId () - The id uniquely specified this node.
+  For this implementation I am going to store the branch
+  path in the bits.
+* obj.SetLevel (int )
+* int = obj.GetLevel ()
+* obj.SetLongitudeRange (double , double ) - Longitude and
+  latitude range of the terrain model.
+* obj.SetLongitudeRange (double a[2]) - Longitude and
+  latitude range of the terrain model.
+* double = obj. GetLongitudeRange () - Longitude and
+  latitude range of the terrain model.
+* obj.SetLatitudeRange (double , double ) - Longitude and
+  latitude range of the terrain model.
+* obj.SetLatitudeRange (double a[2]) - Longitude and
+  latitude range of the terrain model.
+* double = obj. GetLatitudeRange () - Longitude and latitude
+  range of the terrain model.
+* obj.SetChild (vtkGeoTreeNode node, int idx) - Get a child
+  of this node. If one is set, then they all should set. No
+  not mix subclasses.
+* obj.SetParent (vtkGeoTreeNode node) - Manage links to
+  older and newer tree nodes. These are used to periodically
+  delete unused patches.
+* obj.SetOlder (vtkGeoTreeNode node) - Manage links to older
+  and newer tree nodes. These are used to periodically
+  delete unused patches.
+* vtkGeoTreeNode = obj.GetOlder () - Manage links to older
+  and newer tree nodes. These are used to periodically
+  delete unused patches.
+* obj.SetNewer (vtkGeoTreeNode node) - Manage links to older
+  and newer tree nodes. These are used to periodically
+  delete unused patches.
+* vtkGeoTreeNode = obj.GetNewer () - Returns whether this
+  node has valid data associated with it, or if it is an
+  "empty" node.
+* bool = obj.HasData () - Deletes the data associated with
+  the node to make this an "empty" node. This is performed
+  when the node has been unused for a certain amount of
+  time.
+* obj.DeleteData ()
+* int = obj.GetWhichChildAreYou ()
+* bool = obj.IsDescendantOf (vtkGeoTreeNode elder) - This
+  method returns true if this node descends from the elder
+  node. The descision is made from the node ids, so the
+  nodes do not have to be in the same tree!
+* int = obj.CreateChildren ()
+* vtkGeoTreeNode = obj.GetChildTreeNode (int idx) - Get the
+  parent as a vtkGeoTreeNode. Subclasses also implement
+  GetParent() which returns the parent as the appropriate
+  subclass type.
+* vtkGeoTreeNode = obj.GetParentTreeNode () - Shallow and
+  Deep copy. Deep copy performs a shallow copy of the Child
+  nodes.
+* obj.ShallowCopy (vtkGeoTreeNode src) - Shallow and Deep
+  copy. Deep copy performs a shallow copy of the Child
+  nodes.
+* obj.DeepCopy (vtkGeoTreeNode src) - Shallow and Deep copy.
+  Deep copy performs a shallow copy of the Child nodes.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Geo_Vis_Classes
+* Generated on Thu Jul 25 2013 17:18:31 for FreeMat by
+  doxygen_ 1.8.1.1
+

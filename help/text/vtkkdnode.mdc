@@ -1,0 +1,191 @@
+
+ Usage
+
+To create an instance of class vtkKdNode, simply invoke its
+constructor as follows
+
+    obj = vtkKdNode
+
+
+
+ Methods
+
+The class vtkKdNode has several methods that can be used.
+They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkKdNode class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkKdNode = obj.NewInstance ()
+* vtkKdNode = obj.SafeDownCast (vtkObject o)
+* obj.SetDim (int ) - Set/Get the dimension along which this
+  region is divided. (0 - x, 1 - y, 2 - z, 3 - leaf node
+  (default)).
+* int = obj.GetDim () - Set/Get the dimension along which
+  this region is divided. (0 - x, 1 - y, 2 - z, 3 - leaf
+  node (default)).
+* double = obj.GetDivisionPosition () - Get the location of
+  the division plane along the axis the region is divided.
+  See also GetDim(). The result is undertermined if this
+  node is not divided (a leaf node).
+* obj.SetNumberOfPoints (int ) - Set/Get the number of
+  points contained in this region.
+* int = obj.GetNumberOfPoints () - Set/Get the number of
+  points contained in this region.
+* obj.SetBounds (double x1, double x2, double y1, double y2,
+  double z1, double z2) - Set/Get the bounds of the spatial
+  region represented by this node. Caller allocates storage
+  for 6-vector in GetBounds.
+* obj.SetBounds (double b[6]) - Set/Get the bounds of the
+  spatial region represented by this node. Caller allocates
+  storage for 6-vector in GetBounds.
+* obj.GetBounds (double b) const - Set/Get the bounds of the
+  spatial region represented by this node. Caller allocates
+  storage for 6-vector in GetBounds.
+* obj.SetDataBounds (double x1, double x2, double y1, double
+  y2, double z1, double z2) - Set/Get the bounds of the
+  points contained in this spatial region. This may be
+  smaller than the bounds of the region itself. Caller
+  allocates storage for 6-vector in GetDataBounds.
+* obj.GetDataBounds (double b) const - Set/Get the bounds of
+  the points contained in this spatial region. This may be
+  smaller than the bounds of the region itself. Caller
+  allocates storage for 6-vector in GetDataBounds.
+* obj.SetDataBounds (float v) - Given a pointer to
+  NumberOfPoints points, set the DataBounds of this node to
+  the bounds of these points.
+* double = obj.GetMinBounds () - Get a pointer to the 3
+  bound minima (xmin, ymin and zmin) or the 3 bound maxima
+  (xmax, ymax, zmax). Don't free this pointer.
+* double = obj.GetMaxBounds () - Set the xmin, ymin and zmin
+  value of the bounds of this region
+* obj.SetMinBounds (double mb) - Set the xmin, ymin and zmin
+  value of the bounds of this region
+* obj.SetMaxBounds (double mb) - Set the xmax, ymax and zmax
+  value of the bounds of this region
+* double = obj.GetMinDataBounds () - Get a pointer to the 3
+  data bound minima (xmin, ymin and zmin) or the 3 data
+  bound maxima (xmax, ymax, zmax). Don't free this pointer.
+* double = obj.GetMaxDataBounds () - Set the xmin, ymin and
+  zmin value of the bounds of this data within this region
+* obj.SetMinDataBounds (double mb) - Set the xmin, ymin and
+  zmin value of the bounds of this data within this region
+* obj.SetMaxDataBounds (double mb) - Set the xmax, ymax and
+  zmax value of the bounds of this data within this region
+* obj.SetID (int ) - Set/Get the ID associated with the
+  region described by this node. If this is not a leaf node,
+  this value should be -1.
+* int = obj.GetID () - Set/Get the ID associated with the
+  region described by this node. If this is not a leaf node,
+  this value should be -1.
+* int = obj.GetMinID () - If this node is not a leaf node,
+  there are leaf nodes below it whose regions represent a
+  partitioning of this region. The IDs of these leaf nodes
+  form a contigous set. Set/Get the range of the IDs of the
+  leaf nodes below this node. If this is already a leaf
+  node, these values should be the same as the ID.
+* int = obj.GetMaxID () - If this node is not a leaf node,
+  there are leaf nodes below it whose regions represent a
+  partitioning of this region. The IDs of these leaf nodes
+  form a contigous set. Set/Get the range of the IDs of the
+  leaf nodes below this node. If this is already a leaf
+  node, these values should be the same as the ID.
+* obj.SetMinID (int ) - If this node is not a leaf node,
+  there are leaf nodes below it whose regions represent a
+  partitioning of this region. The IDs of these leaf nodes
+  form a contigous set. Set/Get the range of the IDs of the
+  leaf nodes below this node. If this is already a leaf
+  node, these values should be the same as the ID.
+* obj.SetMaxID (int ) - If this node is not a leaf node,
+  there are leaf nodes below it whose regions represent a
+  partitioning of this region. The IDs of these leaf nodes
+  form a contigous set. Set/Get the range of the IDs of the
+  leaf nodes below this node. If this is already a leaf
+  node, these values should be the same as the ID.
+* obj.AddChildNodes (vtkKdNode left, vtkKdNode right) - Add
+  the left and right children.
+* obj.DeleteChildNodes () - Delete the left and right
+  children.
+* vtkKdNode = obj.GetLeft () - Set/Get a pointer to the left
+  child of this node.
+* obj.SetLeft (vtkKdNode left) - Set/Get a pointer to the
+  left child of this node.
+* vtkKdNode = obj.GetRight () - Set/Get a pointer to the
+  right child of this node.
+* obj.SetRight (vtkKdNode right) - Set/Get a pointer to the
+  right child of this node.
+* vtkKdNode = obj.GetUp () - Set/Get a pointer to the parent
+  of this node.
+* obj.SetUp (vtkKdNode up) - Set/Get a pointer to the parent
+  of this node.
+* int = obj.IntersectsBox (double x1, double x2, double y1,
+  double y2, double z1, double z2, int useDataBounds) -
+  Return 1 if this spatial region intersects the axis-
+  aligned box given by the bounds passed in. Use the
+  possibly smaller bounds of the points within the region if
+  useDataBounds is non-zero.
+* int = obj.IntersectsSphere2 (double x, double y, double z,
+  double rSquared, int useDataBounds) - Return 1 if this
+  spatial region intersects a sphere described by it's
+  center and the square of it's radius. Use the possibly
+  smaller bounds of the points within the region if
+  useDataBounds is non-zero.
+* int = obj.IntersectsRegion (vtkPlanesIntersection pi, int
+  useDataBounds) - A vtkPlanesIntersection object represents
+  a convex 3D region bounded by planes, and it is capable of
+  computing intersections of boxes with itself. Return 1 if
+  this spatial region intersects the spatial region
+  described by the vtkPlanesIntersection object. Use the
+  possibly smaller bounds of the points within the region if
+  useDataBounds is non-zero.
+* int = obj.IntersectsCell (vtkCell cell, int useDataBounds,
+  int cellRegion, double cellBoundsNULL) - Return 1 if the
+  cell specified intersects this region. If you already know
+  the ID of the region containing the cell's centroid,
+  provide that as an argument. If you already know the
+  bounds of the cell, provide that as well, in the form of
+  xmin,xmax,ymin,ymax,zmin, zmax. Either of these may speed
+  the calculation. Use the possibly smaller bounds of the
+  points within the region if useDataBounds is non-zero.
+* int = obj.ContainsBox (double x1, double x2, double y1,
+  double y2, double z1, double z2, int useDataBounds) -
+  Return 1 if this spatial region entirely contains a box
+  specified by it's bounds. Use the possibly smaller bounds
+  of the points within the region if useDataBounds is non-
+  zero.
+* int = obj.ContainsPoint (double x, double y, double z, int
+  useDataBounds) - Return 1 if this spatial region entirely
+  contains the given point. Use the possibly smaller bounds
+  of the points within the region if useDataBounds is non-
+  zero.
+* double = obj.GetDistance2ToBoundary (double x, double y,
+  double z, int useDataBounds) - Calculate the distance
+  squared from any point to the boundary of this region. Use
+  the boundary of the points within the region if
+  useDataBounds is non-zero.
+* double = obj.GetDistance2ToBoundary (double x, double y,
+  double z, double boundaryPt, int useDataBounds) -
+  Calculate the distance squared from any point to the
+  boundary of this region. Use the boundary of the points
+  within the region if useDataBounds is non-zero. Set
+  boundaryPt to the point on the boundary.
+* double = obj.GetDistance2ToInnerBoundary (double x, double
+  y, double z) - Calculate the distance from the specified
+  point (which is required to be inside this spatial region)
+  to an interior boundary. An interior boundary is one that
+  is not also an boundary of the entire space partitioned by
+  the tree of vtkKdNode's.
+* obj.PrintNode (int depth) - For debugging purposes, print
+  out this node.
+* obj.PrintVerboseNode (int depth) - For debugging purposes,
+  print out this node.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Filtering_Classes
+* Generated on Thu Jul 25 2013 17:18:31 for FreeMat by
+  doxygen_ 1.8.1.1
+

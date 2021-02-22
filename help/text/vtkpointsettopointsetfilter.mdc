@@ -1,0 +1,68 @@
+
+ Usage
+
+vtkPointSetToPointSetFilter is an abstract filter class
+whose subclasses take as input a point set and generates a
+point set on output. At a minimum, the concrete subclasses
+of vtkPointSetToPointSetFilter modify their point
+coordinates. They never modify their topological form,
+however.
+This is an abstract filter type. What that means is that the
+output of the filter is an abstract type (i.e.,
+vtkPointSet), no matter what the input of the filter is.
+This can cause problems connecting together filters due to
+the change in dataset type. (For example, in a series of
+filters processing vtkPolyData, when a
+vtkPointSetToPointSetFilter or subclass is introduced into
+the pipeline, if the filter downstream of it takes
+vtkPolyData as input, the pipeline connection cannot be
+made.) To get around this problem, use one of the
+convenience methods to return a concrete type (e.g.,
+vtkGetPolyDataOutput(), GetStructuredGridOutput(), etc.).
+To create an instance of class vtkPointSetToPointSetFilter,
+simply invoke its constructor as follows
+
+    obj = vtkPointSetToPointSetFilter
+
+
+
+ Methods
+
+The class vtkPointSetToPointSetFilter has several methods
+that can be used. They are listed below. Note that the
+documentation is translated automatically from the VTK
+sources, and may not be completely intelligible. When in
+doubt, consult the VTK website. In the methods listed below,
+obj is an instance of the vtkPointSetToPointSetFilter class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkPointSetToPointSetFilter = obj.NewInstance ()
+* vtkPointSetToPointSetFilter = obj.SafeDownCast (vtkObject
+  o)
+* obj.SetInput (vtkPointSet input) - Specify the input data
+  or filter.
+* vtkPointSet = obj.GetInput () - Get the input data or
+  filter.
+* vtkPointSet = obj.GetOutput () - Get the output of this
+  filter. If output is NULL, then input hasn't been set,
+  which is necessary for abstract filter objects.
+* vtkPointSet = obj.GetOutput (int idx) - Get the output as
+  vtkPolyData. Performs run-time checking.
+* vtkPolyData = obj.GetPolyDataOutput () - Get the output as
+  vtkPolyData. Performs run-time checking.
+* vtkStructuredGrid = obj.GetStructuredGridOutput () - Get
+  the output as vtkStructuredGrid. Performs run-time
+  checking.
+* vtkUnstructuredGrid = obj.GetUnstructuredGridOutput () -
+  Get the output as vtkUnstructuredGrid. Performs run-time
+  checking.
+* obj.ComputeInputUpdateExtents (vtkDataObject output) - By
+  default copy the output update extent to the input
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Filtering_Classes
+* Generated on Thu Jul 25 2013 17:18:31 for FreeMat by
+  doxygen_ 1.8.1.1
+

@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="freemat_eval" kind="page">
+    <compoundname>freemat_eval</compoundname>
+    <title>EVAL Evaluate a String</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_freemat_1sec_freemat" kindref="member">FreeMat Functions</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>The <computeroutput>eval</computeroutput> function evaluates a string. The general syntax for its use is <verbatim>   eval(s)
+</verbatim> where <computeroutput>s</computeroutput> is the string to evaluate. If <computeroutput>s</computeroutput> is an expression (instead of a set of statements), you can assign the output of the <computeroutput>eval</computeroutput> call to one or more variables, via <verbatim>   x = eval(s)
+   [x,y,z] = eval(s)
+</verbatim></para><para>Another form of <computeroutput>eval</computeroutput> allows you to specify an expression or set of statements to execute if an error occurs. In this form, the syntax for <computeroutput>eval</computeroutput> is <verbatim>   eval(try_clause,catch_clause),
+</verbatim> or with return values, <verbatim>   x = eval(try_clause,catch_clause)
+   [x,y,z] = eval(try_clause,catch_clause)
+</verbatim> These later forms are useful for specifying defaults. Note that both the <computeroutput>try_clause</computeroutput> and <computeroutput>catch_clause</computeroutput> must be expressions, as the equivalent code is <verbatim>  try
+    [x,y,z] = try_clause
+  catch
+    [x,y,z] = catch_clause
+  end
+</verbatim> so that the assignment must make sense in both cases. </para></sect1>
+<sect1 id="variables_struct_1Example">
+<title>Example</title>
+<para>Here are some examples of <computeroutput>eval</computeroutput> being used.</para><para><verbatim>--&gt; eval(&apos;a = 32&apos;)
+
+a = 
+ 32 
+
+--&gt; b = eval(&apos;a&apos;)
+
+b = 
+ 32 
+</verbatim></para><para>The primary use of the <computeroutput>eval</computeroutput> statement is to enable construction of expressions at run time.</para><para><verbatim>--&gt; s = [&apos;b = a&apos; &apos; + 2&apos;]
+
+s = 
+b = a + 2
+--&gt; eval(s)
+
+b = 
+ 34 
+</verbatim></para><para>Here we demonstrate the use of the catch-clause to provide a default value</para><para><verbatim>--&gt; a = 32
+
+a = 
+ 32 
+
+--&gt; b = eval(&apos;a&apos;,&apos;1&apos;)
+
+b = 
+ 32 
+
+--&gt; b = eval(&apos;z&apos;,&apos;a+1&apos;)
+
+b = 
+ 33 
+</verbatim></para><para>Note that in the second case, <computeroutput>b</computeroutput> takes the value of 33, indicating that the evaluation of the first expression failed (because <computeroutput>z</computeroutput> is not defined). </para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

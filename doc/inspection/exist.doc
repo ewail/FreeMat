@@ -1,0 +1,76 @@
+/*!
+\page inspection_exist EXIST Test for Existence
+
+<p>
+Section: \ref sec_inspection "Inspection Functions"
+\section Usage
+Tests for the existence of a variable, function, directory or
+file.  The general syntax for its use is
+\verbatim
+  y = exist(item,kind)
+\endverbatim
+where <tt>item</tt> is a string containing the name of the item
+to look for, and <tt>kind</tt> is a string indicating the type 
+of the search.  The <tt>kind</tt> must be one of 
+<UL>
+<LI>  <tt>'builtin'</tt> checks for built-in functions
+ </LI>
+<LI>  <tt>'dir'</tt> checks for directories
+ </LI>
+<LI>  <tt>'file'</tt> checks for files
+ </LI>
+<LI>  <tt>'var'</tt> checks for variables
+ </LI>
+<LI>  <tt>'all'</tt> checks all possibilities (same as leaving out <tt>kind</tt>)
+ </LI>
+</UL>
+You can also leave the <tt>kind</tt> specification out, in which case
+the calling syntax is
+\verbatim
+  y = exist(item)
+\endverbatim
+The return code is one of the following:
+<UL>
+<LI>  0 - if <tt>item</tt> does not exist
+ </LI>
+<LI>  1 - if <tt>item</tt> is a variable in the workspace
+ </LI>
+<LI>  2 - if <tt>item</tt> is an M file on the search path, a full pathname
+ to a file, or an ordinary file on your search path
+ </LI>
+<LI>  5 - if <tt>item</tt> is a built-in FreeMat function
+ </LI>
+<LI>  7 - if <tt>item</tt> is a directory
+ </LI>
+</UL>
+Note: previous to version <tt>1.10</tt>, <tt>exist</tt> used a different notion
+of existence for variables: a variable was said to exist if it 
+was defined and non-empty.  This test is now performed by <tt>isset</tt>.
+\section Example
+Some examples of the <tt>exist</tt> function.  Note that generally <tt>exist</tt>
+is used in functions to test for keywords.  For example,
+\verbatim
+  function y = testfunc(a, b, c)
+  if (~exist('c'))
+    % c was not defined, so establish a default
+    c = 13;
+  end
+  y = a + b + c;
+\endverbatim
+An example of <tt>exist</tt> in action.
+
+\if FRAGMENT
+frag_inspection_exist_000.m
+0
+a = randn(3,5,2)
+b = []
+who
+exist('a')
+exist('b')
+exist('c')
+\endif
+
+
+\verbinclude frag_inspection_exist_000.m.out 
+
+*/

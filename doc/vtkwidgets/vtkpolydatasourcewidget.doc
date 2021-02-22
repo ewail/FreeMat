@@ -1,0 +1,72 @@
+/*!
+\page vtkwidgets_vtkpolydatasourcewidget vtkPolyDataSourceWidget
+
+<p>
+Section: \ref sec_vtkwidgets "Visualization Toolkit Widget Classes"
+\section Usage
+ This abstract class serves as parent to 3D widgets that have simple
+ vtkPolyDataSource instances defining their geometry.
+
+ In addition to what is offered by the vtk3DWidget parent, this class
+ makes it possible to manipulate the underlying polydatasource and to
+ PlaceWidget() according to that, instead of having to make use of
+ SetInput() or SetProp3D().
+
+ Implementors of child classes HAVE to implement their PlaceWidget(bounds)
+ to check for the existence of Input and Prop3D FIRST.  If these don't
+ exist, place according to the underlying PolyDataSource.  Child classes
+ also have to imprement UpdatePlacement(), which updates the widget according
+ to the geometry of the underlying PolyDataSource.
+
+To create an instance of class vtkPolyDataSourceWidget, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkPolyDataSourceWidget
+\endverbatim
+\section Methods
+The class vtkPolyDataSourceWidget has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkPolyDataSourceWidget class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkPolyDataSourceWidget = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkPolyDataSourceWidget = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.PlaceWidget ()</tt> -  Overrides vtk3DWidget PlaceWidget() so that it doesn't complain if
+ there's no Input and no Prop3D.
+ </LI>
+<LI>  <tt>obj.PlaceWidget (double bounds[6])</tt> -  We have to redeclare this abstract, PlaceWidget() requires it.  You HAVE
+ to override this in your concrete child classes.  If there's no Prop3D
+ and no Input, your PlaceWidget must make use of the underlying 
+ PolyDataSource to do its work.
+ </LI>
+<LI>  <tt>obj.PlaceWidget (double xmin, double xmax, double ymin, double ymax, double zmin, double zmax)</tt> -  Returns underlying vtkPolyDataSource that determines geometry.  This
+ can be modified after which PlaceWidget() or UpdatePlacement() can be
+ called.  UpdatePlacement() will always update the planewidget according
+ to the geometry of the underlying PolyDataSource.  PlaceWidget() will
+ only make use of this geometry if there is no Input and no Prop3D set.
+ </LI>
+<LI>  <tt>vtkPolyDataSource = obj.GetPolyDataSource ()</tt> -  Returns underlying vtkPolyDataSource that determines geometry.  This
+ can be modified after which PlaceWidget() or UpdatePlacement() can be
+ called.  UpdatePlacement() will always update the planewidget according
+ to the geometry of the underlying PolyDataSource.  PlaceWidget() will
+ only make use of this geometry if there is no Input and no Prop3D set.
+ </LI>
+<LI>  <tt>vtkPolyDataAlgorithm = obj.GetPolyDataAlgorithm ()</tt> -  Returns underlying vtkPolyDataSource that determines geometry.  This
+ can be modified after which PlaceWidget() or UpdatePlacement() can be
+ called.  UpdatePlacement() will always update the planewidget according
+ to the geometry of the underlying PolyDataSource.  PlaceWidget() will
+ only make use of this geometry if there is no Input and no Prop3D set.
+ </LI>
+<LI>  <tt>obj.UpdatePlacement ()</tt> -  If you've made changes to the underlying vtkPolyDataSource AFTER your
+ initial call to PlaceWidget(), use this method to realise the changes
+ in the widget.
+ </LI>
+</UL>
+*/

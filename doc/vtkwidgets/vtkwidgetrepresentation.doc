@@ -1,0 +1,404 @@
+/*!
+\page vtkwidgets_vtkwidgetrepresentation vtkWidgetRepresentation
+
+<p>
+Section: \ref sec_vtkwidgets "Visualization Toolkit Widget Classes"
+\section Usage
+ This class is used to define the API for, and partially implement, a
+ representation for different types of widgets. Note that the widget
+ representation (i.e., subclasses of vtkWidgetRepresentation) are a type of
+ vtkProp; meaning that they can be associated with a vtkRenderer end
+ embedded in a scene like any other vtkActor. However,
+ vtkWidgetRepresentation also defines an API that enables it to be paired
+ with a subclass vtkAbstractWidget, meaning that it can be driven by a
+ widget, serving to represent the widget as the widget responds to
+ registered events. 
+
+ The API defined here should be regarded as a guideline for implementing
+ widgets and widget representations. Widget behavior is complex, as is the
+ way the representation responds to the registered widget events, so the API
+ may vary from widget to widget to reflect this complexity.
+
+To create an instance of class vtkWidgetRepresentation, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkWidgetRepresentation
+\endverbatim
+\section Methods
+The class vtkWidgetRepresentation has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkWidgetRepresentation class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt> -  Standard methods for instances of this class.
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt> -  Standard methods for instances of this class.
+ </LI>
+<LI>  <tt>vtkWidgetRepresentation = obj.NewInstance ()</tt> -  Standard methods for instances of this class.
+ </LI>
+<LI>  <tt>vtkWidgetRepresentation = obj.SafeDownCast (vtkObject o)</tt> -  Standard methods for instances of this class.
+ </LI>
+<LI>  <tt>obj.SetRenderer (vtkRenderer ren)</tt> -  Subclasses of vtkWidgetRepresentation must implement these methods. This is
+ considered the minimum API for a widget representation.
+ <pre>
+ SetRenderer() - the renderer in which the widget is to appear must be set.
+ BuildRepresentation() - update the geometry of the widget based on its
+                         current state.
+ </pre>
+ WARNING: The renderer is NOT reference counted by the representation,
+ in order to avoid reference loops.  Be sure that the representation
+ lifetime does not extend beyond the renderer lifetime.
+ </LI>
+<LI>  <tt>vtkRenderer = obj.GetRenderer ()</tt> -  Subclasses of vtkWidgetRepresentation must implement these methods. This is
+ considered the minimum API for a widget representation.
+ <pre>
+ SetRenderer() - the renderer in which the widget is to appear must be set.
+ BuildRepresentation() - update the geometry of the widget based on its
+                         current state.
+ </pre>
+ WARNING: The renderer is NOT reference counted by the representation,
+ in order to avoid reference loops.  Be sure that the representation
+ lifetime does not extend beyond the renderer lifetime.
+ </LI>
+<LI>  <tt>obj.BuildRepresentation ()</tt> -  Subclasses of vtkWidgetRepresentation must implement these methods. This is
+ considered the minimum API for a widget representation.
+ <pre>
+ SetRenderer() - the renderer in which the widget is to appear must be set.
+ BuildRepresentation() - update the geometry of the widget based on its
+                         current state.
+ </pre>
+ WARNING: The renderer is NOT reference counted by the representation,
+ in order to avoid reference loops.  Be sure that the representation
+ lifetime does not extend beyond the renderer lifetime.
+ </LI>
+<LI>  <tt>obj.PlaceWidget (double )</tt> -  The following is a suggested API for widget representations. These methods
+ define the communication between the widget and its representation. These
+ methods are only suggestions because widgets take on so many different
+ forms that a universal API is not deemed practical. However, these methods
+ should be implemented when possible to insure that the VTK widget hierarchy
+ remains self-consistent.
+ <pre>
+ PlaceWidget() - given a bounding box (xmin,xmax,ymin,ymax,zmin,zmax), place 
+                 the widget inside of it. The current orientation of the widget 
+                 is preserved, only scaling and translation is performed.
+ StartWidgetInteraction() - generally corresponds to a initial event (e.g.,
+                            mouse down) that starts the interaction process
+                            with the widget.
+ WidgetInteraction() - invoked when an event causes the widget to change 
+                       appearance.
+ EndWidgetInteraction() - generally corresponds to a final event (e.g., mouse up)
+                          and completes the interaction sequence.
+ ComputeInteractionState() - given (X,Y) display coordinates in a renderer, with a
+                             possible flag that modifies the computation,
+                             what is the state of the widget?
+ GetInteractionState() - return the current state of the widget. Note that the
+                         value of "0" typically refers to "outside". The 
+                         interaction state is strictly a function of the
+                         representation, and the widget/represent must agree
+                         on what they mean.
+ Highlight() - turn on or off any highlights associated with the widget.
+               Highlights are generally turned on when the widget is selected.
+ </pre>
+ Note that subclasses may ignore some of these methods and implement their own
+ depending on the specifics of the widget.
+ </LI>
+<LI>  <tt>obj.StartWidgetInteraction (double eventPos[2])</tt> -  The following is a suggested API for widget representations. These methods
+ define the communication between the widget and its representation. These
+ methods are only suggestions because widgets take on so many different
+ forms that a universal API is not deemed practical. However, these methods
+ should be implemented when possible to insure that the VTK widget hierarchy
+ remains self-consistent.
+ <pre>
+ PlaceWidget() - given a bounding box (xmin,xmax,ymin,ymax,zmin,zmax), place 
+                 the widget inside of it. The current orientation of the widget 
+                 is preserved, only scaling and translation is performed.
+ StartWidgetInteraction() - generally corresponds to a initial event (e.g.,
+                            mouse down) that starts the interaction process
+                            with the widget.
+ WidgetInteraction() - invoked when an event causes the widget to change 
+                       appearance.
+ EndWidgetInteraction() - generally corresponds to a final event (e.g., mouse up)
+                          and completes the interaction sequence.
+ ComputeInteractionState() - given (X,Y) display coordinates in a renderer, with a
+                             possible flag that modifies the computation,
+                             what is the state of the widget?
+ GetInteractionState() - return the current state of the widget. Note that the
+                         value of "0" typically refers to "outside". The 
+                         interaction state is strictly a function of the
+                         representation, and the widget/represent must agree
+                         on what they mean.
+ Highlight() - turn on or off any highlights associated with the widget.
+               Highlights are generally turned on when the widget is selected.
+ </pre>
+ Note that subclasses may ignore some of these methods and implement their own
+ depending on the specifics of the widget.
+ </LI>
+<LI>  <tt>obj.WidgetInteraction (double newEventPos[2])</tt> -  The following is a suggested API for widget representations. These methods
+ define the communication between the widget and its representation. These
+ methods are only suggestions because widgets take on so many different
+ forms that a universal API is not deemed practical. However, these methods
+ should be implemented when possible to insure that the VTK widget hierarchy
+ remains self-consistent.
+ <pre>
+ PlaceWidget() - given a bounding box (xmin,xmax,ymin,ymax,zmin,zmax), place 
+                 the widget inside of it. The current orientation of the widget 
+                 is preserved, only scaling and translation is performed.
+ StartWidgetInteraction() - generally corresponds to a initial event (e.g.,
+                            mouse down) that starts the interaction process
+                            with the widget.
+ WidgetInteraction() - invoked when an event causes the widget to change 
+                       appearance.
+ EndWidgetInteraction() - generally corresponds to a final event (e.g., mouse up)
+                          and completes the interaction sequence.
+ ComputeInteractionState() - given (X,Y) display coordinates in a renderer, with a
+                             possible flag that modifies the computation,
+                             what is the state of the widget?
+ GetInteractionState() - return the current state of the widget. Note that the
+                         value of "0" typically refers to "outside". The 
+                         interaction state is strictly a function of the
+                         representation, and the widget/represent must agree
+                         on what they mean.
+ Highlight() - turn on or off any highlights associated with the widget.
+               Highlights are generally turned on when the widget is selected.
+ </pre>
+ Note that subclasses may ignore some of these methods and implement their own
+ depending on the specifics of the widget.
+ </LI>
+<LI>  <tt>obj.EndWidgetInteraction (double newEventPos[2])</tt> -  The following is a suggested API for widget representations. These methods
+ define the communication between the widget and its representation. These
+ methods are only suggestions because widgets take on so many different
+ forms that a universal API is not deemed practical. However, these methods
+ should be implemented when possible to insure that the VTK widget hierarchy
+ remains self-consistent.
+ <pre>
+ PlaceWidget() - given a bounding box (xmin,xmax,ymin,ymax,zmin,zmax), place 
+                 the widget inside of it. The current orientation of the widget 
+                 is preserved, only scaling and translation is performed.
+ StartWidgetInteraction() - generally corresponds to a initial event (e.g.,
+                            mouse down) that starts the interaction process
+                            with the widget.
+ WidgetInteraction() - invoked when an event causes the widget to change 
+                       appearance.
+ EndWidgetInteraction() - generally corresponds to a final event (e.g., mouse up)
+                          and completes the interaction sequence.
+ ComputeInteractionState() - given (X,Y) display coordinates in a renderer, with a
+                             possible flag that modifies the computation,
+                             what is the state of the widget?
+ GetInteractionState() - return the current state of the widget. Note that the
+                         value of "0" typically refers to "outside". The 
+                         interaction state is strictly a function of the
+                         representation, and the widget/represent must agree
+                         on what they mean.
+ Highlight() - turn on or off any highlights associated with the widget.
+               Highlights are generally turned on when the widget is selected.
+ </pre>
+ Note that subclasses may ignore some of these methods and implement their own
+ depending on the specifics of the widget.
+ </LI>
+<LI>  <tt>int = obj.ComputeInteractionState (int X, int Y, int modify)</tt> -  The following is a suggested API for widget representations. These methods
+ define the communication between the widget and its representation. These
+ methods are only suggestions because widgets take on so many different
+ forms that a universal API is not deemed practical. However, these methods
+ should be implemented when possible to insure that the VTK widget hierarchy
+ remains self-consistent.
+ <pre>
+ PlaceWidget() - given a bounding box (xmin,xmax,ymin,ymax,zmin,zmax), place 
+                 the widget inside of it. The current orientation of the widget 
+                 is preserved, only scaling and translation is performed.
+ StartWidgetInteraction() - generally corresponds to a initial event (e.g.,
+                            mouse down) that starts the interaction process
+                            with the widget.
+ WidgetInteraction() - invoked when an event causes the widget to change 
+                       appearance.
+ EndWidgetInteraction() - generally corresponds to a final event (e.g., mouse up)
+                          and completes the interaction sequence.
+ ComputeInteractionState() - given (X,Y) display coordinates in a renderer, with a
+                             possible flag that modifies the computation,
+                             what is the state of the widget?
+ GetInteractionState() - return the current state of the widget. Note that the
+                         value of "0" typically refers to "outside". The 
+                         interaction state is strictly a function of the
+                         representation, and the widget/represent must agree
+                         on what they mean.
+ Highlight() - turn on or off any highlights associated with the widget.
+               Highlights are generally turned on when the widget is selected.
+ </pre>
+ Note that subclasses may ignore some of these methods and implement their own
+ depending on the specifics of the widget.
+ </LI>
+<LI>  <tt>int = obj.GetInteractionState ()</tt> -  The following is a suggested API for widget representations. These methods
+ define the communication between the widget and its representation. These
+ methods are only suggestions because widgets take on so many different
+ forms that a universal API is not deemed practical. However, these methods
+ should be implemented when possible to insure that the VTK widget hierarchy
+ remains self-consistent.
+ <pre>
+ PlaceWidget() - given a bounding box (xmin,xmax,ymin,ymax,zmin,zmax), place 
+                 the widget inside of it. The current orientation of the widget 
+                 is preserved, only scaling and translation is performed.
+ StartWidgetInteraction() - generally corresponds to a initial event (e.g.,
+                            mouse down) that starts the interaction process
+                            with the widget.
+ WidgetInteraction() - invoked when an event causes the widget to change 
+                       appearance.
+ EndWidgetInteraction() - generally corresponds to a final event (e.g., mouse up)
+                          and completes the interaction sequence.
+ ComputeInteractionState() - given (X,Y) display coordinates in a renderer, with a
+                             possible flag that modifies the computation,
+                             what is the state of the widget?
+ GetInteractionState() - return the current state of the widget. Note that the
+                         value of "0" typically refers to "outside". The 
+                         interaction state is strictly a function of the
+                         representation, and the widget/represent must agree
+                         on what they mean.
+ Highlight() - turn on or off any highlights associated with the widget.
+               Highlights are generally turned on when the widget is selected.
+ </pre>
+ Note that subclasses may ignore some of these methods and implement their own
+ depending on the specifics of the widget.
+ </LI>
+<LI>  <tt>obj.Highlight (int )</tt> -  Set/Get a factor representing the scaling of the widget upon placement
+ (via the PlaceWidget() method). Normally the widget is placed so that
+ it just fits within the bounding box defined in PlaceWidget(bounds).
+ The PlaceFactor will make the widget larger (PlaceFactor > 1) or smaller
+ (PlaceFactor < 1). By default, PlaceFactor is set to 0.5.
+ </LI>
+<LI>  <tt>obj.SetPlaceFactor (double )</tt> -  Set/Get a factor representing the scaling of the widget upon placement
+ (via the PlaceWidget() method). Normally the widget is placed so that
+ it just fits within the bounding box defined in PlaceWidget(bounds).
+ The PlaceFactor will make the widget larger (PlaceFactor > 1) or smaller
+ (PlaceFactor < 1). By default, PlaceFactor is set to 0.5.
+ </LI>
+<LI>  <tt>double = obj.GetPlaceFactorMinValue ()</tt> -  Set/Get a factor representing the scaling of the widget upon placement
+ (via the PlaceWidget() method). Normally the widget is placed so that
+ it just fits within the bounding box defined in PlaceWidget(bounds).
+ The PlaceFactor will make the widget larger (PlaceFactor > 1) or smaller
+ (PlaceFactor < 1). By default, PlaceFactor is set to 0.5.
+ </LI>
+<LI>  <tt>double = obj.GetPlaceFactorMaxValue ()</tt> -  Set/Get a factor representing the scaling of the widget upon placement
+ (via the PlaceWidget() method). Normally the widget is placed so that
+ it just fits within the bounding box defined in PlaceWidget(bounds).
+ The PlaceFactor will make the widget larger (PlaceFactor > 1) or smaller
+ (PlaceFactor < 1). By default, PlaceFactor is set to 0.5.
+ </LI>
+<LI>  <tt>double = obj.GetPlaceFactor ()</tt> -  Set/Get a factor representing the scaling of the widget upon placement
+ (via the PlaceWidget() method). Normally the widget is placed so that
+ it just fits within the bounding box defined in PlaceWidget(bounds).
+ The PlaceFactor will make the widget larger (PlaceFactor > 1) or smaller
+ (PlaceFactor < 1). By default, PlaceFactor is set to 0.5.
+ </LI>
+<LI>  <tt>obj.SetHandleSize (double )</tt> -  Set/Get the factor that controls the size of the handles that appear as
+ part of the widget (if any). These handles (like spheres, etc.)  are
+ used to manipulate the widget. The HandleSize data member allows you
+ to change the relative size of the handles. Note that while the handle
+ size is typically expressed in pixels, some subclasses may use a relative size
+ with respect to the viewport. (As a corollary, the value of this ivar is often
+ set by subclasses of this class during instance instantiation.)
+ </LI>
+<LI>  <tt>double = obj.GetHandleSizeMinValue ()</tt> -  Set/Get the factor that controls the size of the handles that appear as
+ part of the widget (if any). These handles (like spheres, etc.)  are
+ used to manipulate the widget. The HandleSize data member allows you
+ to change the relative size of the handles. Note that while the handle
+ size is typically expressed in pixels, some subclasses may use a relative size
+ with respect to the viewport. (As a corollary, the value of this ivar is often
+ set by subclasses of this class during instance instantiation.)
+ </LI>
+<LI>  <tt>double = obj.GetHandleSizeMaxValue ()</tt> -  Set/Get the factor that controls the size of the handles that appear as
+ part of the widget (if any). These handles (like spheres, etc.)  are
+ used to manipulate the widget. The HandleSize data member allows you
+ to change the relative size of the handles. Note that while the handle
+ size is typically expressed in pixels, some subclasses may use a relative size
+ with respect to the viewport. (As a corollary, the value of this ivar is often
+ set by subclasses of this class during instance instantiation.)
+ </LI>
+<LI>  <tt>double = obj.GetHandleSize ()</tt> -  Set/Get the factor that controls the size of the handles that appear as
+ part of the widget (if any). These handles (like spheres, etc.)  are
+ used to manipulate the widget. The HandleSize data member allows you
+ to change the relative size of the handles. Note that while the handle
+ size is typically expressed in pixels, some subclasses may use a relative size
+ with respect to the viewport. (As a corollary, the value of this ivar is often
+ set by subclasses of this class during instance instantiation.)
+ </LI>
+<LI>  <tt>int = obj.GetNeedToRender ()</tt> -  Some subclasses use this data member to keep track of whether to render
+ or not (i.e., to minimize the total number of renders).
+ </LI>
+<LI>  <tt>obj.SetNeedToRender (int )</tt> -  Some subclasses use this data member to keep track of whether to render
+ or not (i.e., to minimize the total number of renders).
+ </LI>
+<LI>  <tt>int = obj.GetNeedToRenderMinValue ()</tt> -  Some subclasses use this data member to keep track of whether to render
+ or not (i.e., to minimize the total number of renders).
+ </LI>
+<LI>  <tt>int = obj.GetNeedToRenderMaxValue ()</tt> -  Some subclasses use this data member to keep track of whether to render
+ or not (i.e., to minimize the total number of renders).
+ </LI>
+<LI>  <tt>obj.NeedToRenderOn ()</tt> -  Some subclasses use this data member to keep track of whether to render
+ or not (i.e., to minimize the total number of renders).
+ </LI>
+<LI>  <tt>obj.NeedToRenderOff ()</tt> -  Some subclasses use this data member to keep track of whether to render
+ or not (i.e., to minimize the total number of renders).
+ </LI>
+<LI>  <tt>double = obj.GetBounds ()</tt> -  Methods to make this class behave as a vtkProp. They are repeated here (from the
+ vtkProp superclass) as a reminder to the widget implementor. Failure to implement
+ these methods properly may result in the representation not appearing in the scene
+ (i.e., not implementing the Render() methods properly) or leaking graphics resources
+ (i.e., not implementing ReleaseGraphicsResources() properly).
+ </LI>
+<LI>  <tt>obj.ShallowCopy (vtkProp prop)</tt> -  Methods to make this class behave as a vtkProp. They are repeated here (from the
+ vtkProp superclass) as a reminder to the widget implementor. Failure to implement
+ these methods properly may result in the representation not appearing in the scene
+ (i.e., not implementing the Render() methods properly) or leaking graphics resources
+ (i.e., not implementing ReleaseGraphicsResources() properly).
+ </LI>
+<LI>  <tt>obj.GetActors (vtkPropCollection )</tt> -  Methods to make this class behave as a vtkProp. They are repeated here (from the
+ vtkProp superclass) as a reminder to the widget implementor. Failure to implement
+ these methods properly may result in the representation not appearing in the scene
+ (i.e., not implementing the Render() methods properly) or leaking graphics resources
+ (i.e., not implementing ReleaseGraphicsResources() properly).
+ </LI>
+<LI>  <tt>obj.GetActors2D (vtkPropCollection )</tt> -  Methods to make this class behave as a vtkProp. They are repeated here (from the
+ vtkProp superclass) as a reminder to the widget implementor. Failure to implement
+ these methods properly may result in the representation not appearing in the scene
+ (i.e., not implementing the Render() methods properly) or leaking graphics resources
+ (i.e., not implementing ReleaseGraphicsResources() properly).
+ </LI>
+<LI>  <tt>obj.GetVolumes (vtkPropCollection )</tt> -  Methods to make this class behave as a vtkProp. They are repeated here (from the
+ vtkProp superclass) as a reminder to the widget implementor. Failure to implement
+ these methods properly may result in the representation not appearing in the scene
+ (i.e., not implementing the Render() methods properly) or leaking graphics resources
+ (i.e., not implementing ReleaseGraphicsResources() properly).
+ </LI>
+<LI>  <tt>obj.ReleaseGraphicsResources (vtkWindow )</tt> -  Methods to make this class behave as a vtkProp. They are repeated here (from the
+ vtkProp superclass) as a reminder to the widget implementor. Failure to implement
+ these methods properly may result in the representation not appearing in the scene
+ (i.e., not implementing the Render() methods properly) or leaking graphics resources
+ (i.e., not implementing ReleaseGraphicsResources() properly).
+ </LI>
+<LI>  <tt>int = obj.RenderOverlay (vtkViewport )</tt> -  Methods to make this class behave as a vtkProp. They are repeated here (from the
+ vtkProp superclass) as a reminder to the widget implementor. Failure to implement
+ these methods properly may result in the representation not appearing in the scene
+ (i.e., not implementing the Render() methods properly) or leaking graphics resources
+ (i.e., not implementing ReleaseGraphicsResources() properly).
+ </LI>
+<LI>  <tt>int = obj.RenderOpaqueGeometry (vtkViewport )</tt> -  Methods to make this class behave as a vtkProp. They are repeated here (from the
+ vtkProp superclass) as a reminder to the widget implementor. Failure to implement
+ these methods properly may result in the representation not appearing in the scene
+ (i.e., not implementing the Render() methods properly) or leaking graphics resources
+ (i.e., not implementing ReleaseGraphicsResources() properly).
+ </LI>
+<LI>  <tt>int = obj.RenderTranslucentPolygonalGeometry (vtkViewport )</tt> -  Methods to make this class behave as a vtkProp. They are repeated here (from the
+ vtkProp superclass) as a reminder to the widget implementor. Failure to implement
+ these methods properly may result in the representation not appearing in the scene
+ (i.e., not implementing the Render() methods properly) or leaking graphics resources
+ (i.e., not implementing ReleaseGraphicsResources() properly).
+ </LI>
+<LI>  <tt>int = obj.RenderVolumetricGeometry (vtkViewport )</tt> -  Methods to make this class behave as a vtkProp. They are repeated here (from the
+ vtkProp superclass) as a reminder to the widget implementor. Failure to implement
+ these methods properly may result in the representation not appearing in the scene
+ (i.e., not implementing the Render() methods properly) or leaking graphics resources
+ (i.e., not implementing ReleaseGraphicsResources() properly).
+ </LI>
+<LI>  <tt>int = obj.HasTranslucentPolygonalGeometry ()</tt>
+ </LI>
+</UL>
+*/

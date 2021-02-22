@@ -1,0 +1,442 @@
+/*!
+\page vtkio_vtkmedicalimageproperties vtkMedicalImageProperties
+
+<p>
+Section: \ref sec_vtkio "Visualization Toolkit IO Classes"
+\section Usage
+ vtkMedicalImageProperties is a helper class that can be used by medical
+ image readers and applications to encapsulate medical image/acquisition
+ properties. Later on, this should probably be extended to add
+ any user-defined property.
+
+To create an instance of class vtkMedicalImageProperties, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkMedicalImageProperties
+\endverbatim
+\section Methods
+The class vtkMedicalImageProperties has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkMedicalImageProperties class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkMedicalImageProperties = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkMedicalImageProperties = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.Clear ()</tt> -  Convenience method to reset all fields to an emptry string/value
+ </LI>
+<LI>  <tt>obj.SetPatientName (string )</tt> -  Patient name
+ For ex: DICOM (0010,0010) = DOE,JOHN
+ </LI>
+<LI>  <tt>string = obj.GetPatientName ()</tt> -  Patient name
+ For ex: DICOM (0010,0010) = DOE,JOHN
+ </LI>
+<LI>  <tt>obj.SetPatientID (string )</tt> -  Patient ID
+ For ex: DICOM (0010,0020) = 1933197
+ </LI>
+<LI>  <tt>string = obj.GetPatientID ()</tt> -  Patient ID
+ For ex: DICOM (0010,0020) = 1933197
+ </LI>
+<LI>  <tt>obj.SetPatientAge (string )</tt> -  Patient age
+ Format: nnnD, nnW, nnnM or nnnY (eventually nnD, nnW, nnY)
+         with D (day), M (month), W (week), Y (year)
+ For ex: DICOM (0010,1010) = 031Y
+ </LI>
+<LI>  <tt>string = obj.GetPatientAge ()</tt> -  Patient age
+ Format: nnnD, nnW, nnnM or nnnY (eventually nnD, nnW, nnY)
+         with D (day), M (month), W (week), Y (year)
+ For ex: DICOM (0010,1010) = 031Y
+ </LI>
+<LI>  <tt>int = obj.GetPatientAgeYear ()</tt>
+ </LI>
+<LI>  <tt>int = obj.GetPatientAgeMonth ()</tt>
+ </LI>
+<LI>  <tt>int = obj.GetPatientAgeWeek ()</tt>
+ </LI>
+<LI>  <tt>int = obj.GetPatientAgeDay ()</tt>
+ </LI>
+<LI>  <tt>obj.SetPatientSex (string )</tt> -  Patient sex
+ For ex: DICOM (0010,0040) = M
+ </LI>
+<LI>  <tt>string = obj.GetPatientSex ()</tt> -  Patient sex
+ For ex: DICOM (0010,0040) = M
+ </LI>
+<LI>  <tt>obj.SetPatientBirthDate (string )</tt> -  Patient birth date
+ Format: yyyymmdd
+ For ex: DICOM (0010,0030) = 19680427
+ </LI>
+<LI>  <tt>string = obj.GetPatientBirthDate ()</tt> -  Patient birth date
+ Format: yyyymmdd
+ For ex: DICOM (0010,0030) = 19680427
+ </LI>
+<LI>  <tt>int = obj.GetPatientBirthDateYear ()</tt>
+ </LI>
+<LI>  <tt>int = obj.GetPatientBirthDateMonth ()</tt>
+ </LI>
+<LI>  <tt>int = obj.GetPatientBirthDateDay ()</tt>
+ </LI>
+<LI>  <tt>obj.SetStudyDate (string )</tt> -  Study Date
+ Format: yyyymmdd
+ For ex: DICOM (0008,0020) = 20030617
+ </LI>
+<LI>  <tt>string = obj.GetStudyDate ()</tt> -  Study Date
+ Format: yyyymmdd
+ For ex: DICOM (0008,0020) = 20030617
+ </LI>
+<LI>  <tt>obj.SetAcquisitionDate (string )</tt> -  Acquisition Date
+ Format: yyyymmdd
+ For ex: DICOM (0008,0022) = 20030617
+ </LI>
+<LI>  <tt>string = obj.GetAcquisitionDate ()</tt> -  Acquisition Date
+ Format: yyyymmdd
+ For ex: DICOM (0008,0022) = 20030617
+ </LI>
+<LI>  <tt>int = obj.GetAcquisitionDateYear ()</tt>
+ </LI>
+<LI>  <tt>int = obj.GetAcquisitionDateMonth ()</tt>
+ </LI>
+<LI>  <tt>int = obj.GetAcquisitionDateDay ()</tt>
+ </LI>
+<LI>  <tt>obj.SetStudyTime (string )</tt> -  Study Time
+ Format: hhmmss.frac (any trailing component(s) can be ommited)
+ For ex: DICOM (0008,0030) = 162552.0705 or 230012, or 0012
+ </LI>
+<LI>  <tt>string = obj.GetStudyTime ()</tt> -  Study Time
+ Format: hhmmss.frac (any trailing component(s) can be ommited)
+ For ex: DICOM (0008,0030) = 162552.0705 or 230012, or 0012
+ </LI>
+<LI>  <tt>obj.SetAcquisitionTime (string )</tt> -  Acquisition time
+ Format: hhmmss.frac (any trailing component(s) can be ommited)
+ For ex: DICOM (0008,0032) = 162552.0705 or 230012, or 0012
+ </LI>
+<LI>  <tt>string = obj.GetAcquisitionTime ()</tt> -  Acquisition time
+ Format: hhmmss.frac (any trailing component(s) can be ommited)
+ For ex: DICOM (0008,0032) = 162552.0705 or 230012, or 0012
+ </LI>
+<LI>  <tt>obj.SetImageDate (string )</tt> -  Image Date aka Content Date
+ Format: yyyymmdd
+ For ex: DICOM (0008,0023) = 20030617
+ </LI>
+<LI>  <tt>string = obj.GetImageDate ()</tt> -  Image Date aka Content Date
+ Format: yyyymmdd
+ For ex: DICOM (0008,0023) = 20030617
+ </LI>
+<LI>  <tt>int = obj.GetImageDateYear ()</tt>
+ </LI>
+<LI>  <tt>int = obj.GetImageDateMonth ()</tt>
+ </LI>
+<LI>  <tt>int = obj.GetImageDateDay ()</tt>
+ </LI>
+<LI>  <tt>obj.SetImageTime (string )</tt> -  Image Time
+ Format: hhmmss.frac (any trailing component(s) can be ommited)
+ For ex: DICOM (0008,0033) = 162552.0705 or 230012, or 0012
+ </LI>
+<LI>  <tt>string = obj.GetImageTime ()</tt> -  Image Time
+ Format: hhmmss.frac (any trailing component(s) can be ommited)
+ For ex: DICOM (0008,0033) = 162552.0705 or 230012, or 0012
+ </LI>
+<LI>  <tt>obj.SetImageNumber (string )</tt> -  Image number
+ For ex: DICOM (0020,0013) = 1
+ </LI>
+<LI>  <tt>string = obj.GetImageNumber ()</tt> -  Image number
+ For ex: DICOM (0020,0013) = 1
+ </LI>
+<LI>  <tt>obj.SetSeriesNumber (string )</tt> -  Series number
+ For ex: DICOM (0020,0011) = 902
+ </LI>
+<LI>  <tt>string = obj.GetSeriesNumber ()</tt> -  Series number
+ For ex: DICOM (0020,0011) = 902
+ </LI>
+<LI>  <tt>obj.SetSeriesDescription (string )</tt> -  Series Description
+ User provided description of the Series
+ For ex: DICOM (0008,103e) = SCOUT
+ </LI>
+<LI>  <tt>string = obj.GetSeriesDescription ()</tt> -  Series Description
+ User provided description of the Series
+ For ex: DICOM (0008,103e) = SCOUT
+ </LI>
+<LI>  <tt>obj.SetStudyID (string )</tt> -  Study ID
+ For ex: DICOM (0020,0010) = 37481
+ </LI>
+<LI>  <tt>string = obj.GetStudyID ()</tt> -  Study ID
+ For ex: DICOM (0020,0010) = 37481
+ </LI>
+<LI>  <tt>obj.SetStudyDescription (string )</tt> -  Study description
+ For ex: DICOM (0008,1030) = BRAIN/C-SP/FACIAL
+ </LI>
+<LI>  <tt>string = obj.GetStudyDescription ()</tt> -  Study description
+ For ex: DICOM (0008,1030) = BRAIN/C-SP/FACIAL
+ </LI>
+<LI>  <tt>obj.SetModality (string )</tt> -  Modality
+ For ex: DICOM (0008,0060)= CT
+ </LI>
+<LI>  <tt>string = obj.GetModality ()</tt> -  Modality
+ For ex: DICOM (0008,0060)= CT
+ </LI>
+<LI>  <tt>obj.SetManufacturer (string )</tt> -  Manufacturer
+ For ex: DICOM (0008,0070) = Siemens
+ </LI>
+<LI>  <tt>string = obj.GetManufacturer ()</tt> -  Manufacturer
+ For ex: DICOM (0008,0070) = Siemens
+ </LI>
+<LI>  <tt>obj.SetManufacturerModelName (string )</tt> -  Manufacturer's Model Name
+ For ex: DICOM (0008,1090) = LightSpeed QX/i
+ </LI>
+<LI>  <tt>string = obj.GetManufacturerModelName ()</tt> -  Manufacturer's Model Name
+ For ex: DICOM (0008,1090) = LightSpeed QX/i
+ </LI>
+<LI>  <tt>obj.SetStationName (string )</tt> -  Station Name
+ For ex: DICOM (0008,1010) = LSPD_OC8
+ </LI>
+<LI>  <tt>string = obj.GetStationName ()</tt> -  Station Name
+ For ex: DICOM (0008,1010) = LSPD_OC8
+ </LI>
+<LI>  <tt>obj.SetInstitutionName (string )</tt> -  Institution Name
+ For ex: DICOM (0008,0080) = FooCity Medical Center
+ </LI>
+<LI>  <tt>string = obj.GetInstitutionName ()</tt> -  Institution Name
+ For ex: DICOM (0008,0080) = FooCity Medical Center
+ </LI>
+<LI>  <tt>obj.SetConvolutionKernel (string )</tt> -  Convolution Kernel (or algorithm used to reconstruct the data)
+ For ex: DICOM (0018,1210) = Bone
+ </LI>
+<LI>  <tt>string = obj.GetConvolutionKernel ()</tt> -  Convolution Kernel (or algorithm used to reconstruct the data)
+ For ex: DICOM (0018,1210) = Bone
+ </LI>
+<LI>  <tt>obj.SetSliceThickness (string )</tt> -  Slice Thickness (Nominal reconstructed slice thickness, in mm)
+ For ex: DICOM (0018,0050) = 0.273438
+ </LI>
+<LI>  <tt>string = obj.GetSliceThickness ()</tt> -  Slice Thickness (Nominal reconstructed slice thickness, in mm)
+ For ex: DICOM (0018,0050) = 0.273438
+ </LI>
+<LI>  <tt>double = obj.GetSliceThicknessAsDouble ()</tt> -  Slice Thickness (Nominal reconstructed slice thickness, in mm)
+ For ex: DICOM (0018,0050) = 0.273438
+ </LI>
+<LI>  <tt>obj.SetKVP (string )</tt> -  Peak kilo voltage output of the (x-ray) generator used
+ For ex: DICOM (0018,0060) = 120
+ </LI>
+<LI>  <tt>string = obj.GetKVP ()</tt> -  Peak kilo voltage output of the (x-ray) generator used
+ For ex: DICOM (0018,0060) = 120
+ </LI>
+<LI>  <tt>obj.SetGantryTilt (string )</tt> -  Gantry/Detector tilt (Nominal angle of tilt in degrees of the scanning
+ gantry.)
+ For ex: DICOM (0018,1120) = 15
+ </LI>
+<LI>  <tt>string = obj.GetGantryTilt ()</tt> -  Gantry/Detector tilt (Nominal angle of tilt in degrees of the scanning
+ gantry.)
+ For ex: DICOM (0018,1120) = 15
+ </LI>
+<LI>  <tt>double = obj.GetGantryTiltAsDouble ()</tt> -  Gantry/Detector tilt (Nominal angle of tilt in degrees of the scanning
+ gantry.)
+ For ex: DICOM (0018,1120) = 15
+ </LI>
+<LI>  <tt>obj.SetEchoTime (string )</tt> -  Echo Time
+ (Time in ms between the middle of the excitation pulse and the peak of
+ the echo produced)
+ For ex: DICOM (0018,0081) = 105
+ </LI>
+<LI>  <tt>string = obj.GetEchoTime ()</tt> -  Echo Time
+ (Time in ms between the middle of the excitation pulse and the peak of
+ the echo produced)
+ For ex: DICOM (0018,0081) = 105
+ </LI>
+<LI>  <tt>obj.SetEchoTrainLength (string )</tt> -  Echo Train Length
+ (Number of lines in k-space acquired per excitation per image)
+ For ex: DICOM (0018,0091) = 35
+ </LI>
+<LI>  <tt>string = obj.GetEchoTrainLength ()</tt> -  Echo Train Length
+ (Number of lines in k-space acquired per excitation per image)
+ For ex: DICOM (0018,0091) = 35
+ </LI>
+<LI>  <tt>obj.SetRepetitionTime (string )</tt> -  Repetition Time
+ The period of time in msec between the beginning of a pulse sequence and
+ the beginning of the succeeding (essentially identical) pulse sequence.
+ For ex: DICOM (0018,0080) = 2040
+ </LI>
+<LI>  <tt>string = obj.GetRepetitionTime ()</tt> -  Repetition Time
+ The period of time in msec between the beginning of a pulse sequence and
+ the beginning of the succeeding (essentially identical) pulse sequence.
+ For ex: DICOM (0018,0080) = 2040
+ </LI>
+<LI>  <tt>obj.SetExposureTime (string )</tt> -  Exposure time (time of x-ray exposure in msec)
+ For ex: DICOM (0018,1150) = 5
+ </LI>
+<LI>  <tt>string = obj.GetExposureTime ()</tt> -  Exposure time (time of x-ray exposure in msec)
+ For ex: DICOM (0018,1150) = 5
+ </LI>
+<LI>  <tt>obj.SetXRayTubeCurrent (string )</tt> -  X-ray tube current (in mA)
+ For ex: DICOM (0018,1151) = 400
+ </LI>
+<LI>  <tt>string = obj.GetXRayTubeCurrent ()</tt> -  X-ray tube current (in mA)
+ For ex: DICOM (0018,1151) = 400
+ </LI>
+<LI>  <tt>obj.SetExposure (string )</tt> -  Exposure (The exposure expressed in mAs, for example calculated
+ from Exposure Time and X-ray Tube Current)
+ For ex: DICOM (0018,1152) = 114
+ </LI>
+<LI>  <tt>string = obj.GetExposure ()</tt> -  Exposure (The exposure expressed in mAs, for example calculated
+ from Exposure Time and X-ray Tube Current)
+ For ex: DICOM (0018,1152) = 114
+ </LI>
+<LI>  <tt>obj.SetDirectionCosine (double , double , double , double , double , double )</tt> -  Get the direction cosine (default to 1,0,0,0,1,0)
+ </LI>
+<LI>  <tt>obj.SetDirectionCosine (double  a[6])</tt> -  Get the direction cosine (default to 1,0,0,0,1,0)
+ </LI>
+<LI>  <tt>double = obj. GetDirectionCosine ()</tt> -  Get the direction cosine (default to 1,0,0,0,1,0)
+ </LI>
+<LI>  <tt>obj.AddUserDefinedValue (string name, string value)</tt>
+ </LI>
+<LI>  <tt>string = obj.GetUserDefinedValue (string name)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfUserDefinedValues ()</tt>
+ </LI>
+<LI>  <tt>string = obj.GetUserDefinedNameByIndex (int idx)</tt>
+ </LI>
+<LI>  <tt>string = obj.GetUserDefinedValueByIndex (int idx)</tt>
+ </LI>
+<LI>  <tt>obj.RemoveAllUserDefinedValues ()</tt>
+ </LI>
+<LI>  <tt>int = obj.AddWindowLevelPreset (double w, double l)</tt> -  Add/Remove/Query the window/level presets that may have been associated
+ to a medical image. Window is also known as 'width', level is also known
+ as 'center'. The same window/level pair can not be added twice.
+ As a convenience, a comment (aka Explanation) can be associated to
+ a preset.
+ For ex:
+ \verbatim
+         DICOM Window Center (0028,1050) = 00045\000470
+         DICOM Window Width  (0028,1051) = 0106\03412
+         DICOM Window Center Width Explanation (0028,1055) = WINDOW1\WINDOW2
+ \endverbatim
+ </LI>
+<LI>  <tt>obj.RemoveWindowLevelPreset (double w, double l)</tt> -  Add/Remove/Query the window/level presets that may have been associated
+ to a medical image. Window is also known as 'width', level is also known
+ as 'center'. The same window/level pair can not be added twice.
+ As a convenience, a comment (aka Explanation) can be associated to
+ a preset.
+ For ex:
+ \verbatim
+         DICOM Window Center (0028,1050) = 00045\000470
+         DICOM Window Width  (0028,1051) = 0106\03412
+         DICOM Window Center Width Explanation (0028,1055) = WINDOW1\WINDOW2
+ \endverbatim
+ </LI>
+<LI>  <tt>obj.RemoveAllWindowLevelPresets ()</tt> -  Add/Remove/Query the window/level presets that may have been associated
+ to a medical image. Window is also known as 'width', level is also known
+ as 'center'. The same window/level pair can not be added twice.
+ As a convenience, a comment (aka Explanation) can be associated to
+ a preset.
+ For ex:
+ \verbatim
+         DICOM Window Center (0028,1050) = 00045\000470
+         DICOM Window Width  (0028,1051) = 0106\03412
+         DICOM Window Center Width Explanation (0028,1055) = WINDOW1\WINDOW2
+ \endverbatim
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfWindowLevelPresets ()</tt> -  Add/Remove/Query the window/level presets that may have been associated
+ to a medical image. Window is also known as 'width', level is also known
+ as 'center'. The same window/level pair can not be added twice.
+ As a convenience, a comment (aka Explanation) can be associated to
+ a preset.
+ For ex:
+ \verbatim
+         DICOM Window Center (0028,1050) = 00045\000470
+         DICOM Window Width  (0028,1051) = 0106\03412
+         DICOM Window Center Width Explanation (0028,1055) = WINDOW1\WINDOW2
+ \endverbatim
+ </LI>
+<LI>  <tt>int = obj.HasWindowLevelPreset (double w, double l)</tt> -  Add/Remove/Query the window/level presets that may have been associated
+ to a medical image. Window is also known as 'width', level is also known
+ as 'center'. The same window/level pair can not be added twice.
+ As a convenience, a comment (aka Explanation) can be associated to
+ a preset.
+ For ex:
+ \verbatim
+         DICOM Window Center (0028,1050) = 00045\000470
+         DICOM Window Width  (0028,1051) = 0106\03412
+         DICOM Window Center Width Explanation (0028,1055) = WINDOW1\WINDOW2
+ \endverbatim
+ </LI>
+<LI>  <tt>int = obj.GetWindowLevelPresetIndex (double w, double l)</tt> -  Add/Remove/Query the window/level presets that may have been associated
+ to a medical image. Window is also known as 'width', level is also known
+ as 'center'. The same window/level pair can not be added twice.
+ As a convenience, a comment (aka Explanation) can be associated to
+ a preset.
+ For ex:
+ \verbatim
+         DICOM Window Center (0028,1050) = 00045\000470
+         DICOM Window Width  (0028,1051) = 0106\03412
+         DICOM Window Center Width Explanation (0028,1055) = WINDOW1\WINDOW2
+ \endverbatim
+ </LI>
+<LI>  <tt>int = obj.GetNthWindowLevelPreset (int idx, double w, double l)</tt> -  Add/Remove/Query the window/level presets that may have been associated
+ to a medical image. Window is also known as 'width', level is also known
+ as 'center'. The same window/level pair can not be added twice.
+ As a convenience, a comment (aka Explanation) can be associated to
+ a preset.
+ For ex:
+ \verbatim
+         DICOM Window Center (0028,1050) = 00045\000470
+         DICOM Window Width  (0028,1051) = 0106\03412
+         DICOM Window Center Width Explanation (0028,1055) = WINDOW1\WINDOW2
+ \endverbatim
+ </LI>
+<LI>  <tt>double = obj.GetNthWindowLevelPreset (int idx)</tt> -  Add/Remove/Query the window/level presets that may have been associated
+ to a medical image. Window is also known as 'width', level is also known
+ as 'center'. The same window/level pair can not be added twice.
+ As a convenience, a comment (aka Explanation) can be associated to
+ a preset.
+ For ex:
+ \verbatim
+         DICOM Window Center (0028,1050) = 00045\000470
+         DICOM Window Width  (0028,1051) = 0106\03412
+         DICOM Window Center Width Explanation (0028,1055) = WINDOW1\WINDOW2
+ \endverbatim
+ </LI>
+<LI>  <tt>obj.SetNthWindowLevelPresetComment (int idx, string comment)</tt> -  Add/Remove/Query the window/level presets that may have been associated
+ to a medical image. Window is also known as 'width', level is also known
+ as 'center'. The same window/level pair can not be added twice.
+ As a convenience, a comment (aka Explanation) can be associated to
+ a preset.
+ For ex:
+ \verbatim
+         DICOM Window Center (0028,1050) = 00045\000470
+         DICOM Window Width  (0028,1051) = 0106\03412
+         DICOM Window Center Width Explanation (0028,1055) = WINDOW1\WINDOW2
+ \endverbatim
+ </LI>
+<LI>  <tt>string = obj.GetNthWindowLevelPresetComment (int idx)</tt> -  Add/Remove/Query the window/level presets that may have been associated
+ to a medical image. Window is also known as 'width', level is also known
+ as 'center'. The same window/level pair can not be added twice.
+ As a convenience, a comment (aka Explanation) can be associated to
+ a preset.
+ For ex:
+ \verbatim
+         DICOM Window Center (0028,1050) = 00045\000470
+         DICOM Window Width  (0028,1051) = 0106\03412
+         DICOM Window Center Width Explanation (0028,1055) = WINDOW1\WINDOW2
+ \endverbatim
+ </LI>
+<LI>  <tt>string = obj.GetInstanceUIDFromSliceID (int volumeidx, int sliceid)</tt> -  Mapping from a sliceidx within a volumeidx into a DICOM Instance UID
+ Some DICOM reader can populate this structure so that later on from 
+ a slice index in a vtkImageData volume we can backtrack and find out
+ which 2d slice it was coming from
+ </LI>
+<LI>  <tt>obj.SetInstanceUIDFromSliceID (int volumeidx, int sliceid, string uid)</tt> -  Mapping from a sliceidx within a volumeidx into a DICOM Instance UID
+ Some DICOM reader can populate this structure so that later on from 
+ a slice index in a vtkImageData volume we can backtrack and find out
+ which 2d slice it was coming from
+ </LI>
+<LI>  <tt>int = obj.GetOrientationType (int volumeidx)</tt>
+ </LI>
+<LI>  <tt>obj.SetOrientationType (int volumeidx, int orientation)</tt>
+ </LI>
+<LI>  <tt>obj.DeepCopy (vtkMedicalImageProperties p)</tt> -  Copy the contents of p to this instance.
+ </LI>
+</UL>
+*/

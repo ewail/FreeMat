@@ -1,0 +1,32 @@
+/*!
+\page io_wavwrite WAVWRITE Write a WAV Audio File
+
+<p>
+Section: \ref sec_io "Input/Ouput Functions"
+\section Usage
+The <tt>wavwrite</tt> funtion writes an audio signal to a linear PCM WAV
+file.  The simplest form for its use is
+\verbatim
+    wavwrite(y,filename)
+\endverbatim
+which writes the data stored in <tt>y</tt> to a WAV file with the name
+<tt>filename</tt>.  By default, the output data is assumed to be sampled at a
+rate of 8 KHz, and is output using 16 bit integer format.  Each column
+of <tt>y</tt> is written as a separate channel.  The data are clipped to the
+range <tt>[-1,1]</tt> prior to writing them out.  If you want the data to be
+written with a different sampling frequency, you can use the following
+form of the <tt>wavwrite</tt> command:
+\verbatim
+   wavwrite(y,SampleRate,filename)
+\endverbatim
+where <tt>SampleRate</tt> is in Hz.  Finally, you can specify the number of
+bits to use in the output form of the file using the form
+\verbatim
+   wavwrite(y,SampleRate,NBits,filename)
+\endverbatim
+where <tt>NBits</tt> is the number of bits to use.  Legal values include
+<tt>8,16,24,32</tt>.  For less than 32 bit output format, the data is
+truncated to the range <tt>[-1,1]</tt>, and an integer output format is used
+(type 1 PCM in WAV-speak).  For 32 bit output format, the data is
+written in type 3 PCM as floating point data.
+*/

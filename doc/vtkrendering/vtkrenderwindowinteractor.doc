@@ -1,0 +1,724 @@
+/*!
+\page vtkrendering_vtkrenderwindowinteractor vtkRenderWindowInteractor
+
+<p>
+Section: \ref sec_vtkrendering "Visualization Toolkit Rendering Classes"
+\section Usage
+ vtkRenderWindowInteractor provides a platform-independent interaction
+ mechanism for mouse/key/time events. It serves as a base class for
+ platform-dependent implementations that handle routing of mouse/key/timer
+ messages to vtkInteractorObserver and its subclasses. vtkRenderWindowInteractor 
+ also provides controls for picking, rendering frame rate, and headlights.
+
+ vtkRenderWindowInteractor has changed from previous implementations and
+ now serves only as a shell to hold user preferences and route messages to
+ vtkInteractorStyle. Callbacks are available for many events.  Platform
+ specific subclasses should provide methods for manipulating timers,
+ TerminateApp, and an event loop if required via
+ Initialize/Start/Enable/Disable.
+
+To create an instance of class vtkRenderWindowInteractor, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkRenderWindowInteractor
+\endverbatim
+\section Methods
+The class vtkRenderWindowInteractor has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkRenderWindowInteractor class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkRenderWindowInteractor = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkRenderWindowInteractor = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.Initialize ()</tt> -  Prepare for handling events. This must be called before the
+ interactor will work.
+ </LI>
+<LI>  <tt>obj.ReInitialize ()</tt> -  This Method detects loops of RenderWindow-Interactor,
+ so objects are freed properly.
+ </LI>
+<LI>  <tt>obj.UnRegister (vtkObjectBase o)</tt> -  This Method detects loops of RenderWindow-Interactor,
+ so objects are freed properly.
+ </LI>
+<LI>  <tt>obj.Start ()</tt> -  Enable/Disable interactions.  By default interactors are enabled when
+ initialized.  Initialize() must be called prior to enabling/disabling
+ interaction. These methods are used when a window/widget is being
+ shared by multiple renderers and interactors.  This allows a "modal"
+ display where one interactor is active when its data is to be displayed
+ and all other interactors associated with the widget are disabled
+ when their data is not displayed.
+ </LI>
+<LI>  <tt>obj.Enable ()</tt> -  Enable/Disable interactions.  By default interactors are enabled when
+ initialized.  Initialize() must be called prior to enabling/disabling
+ interaction. These methods are used when a window/widget is being
+ shared by multiple renderers and interactors.  This allows a "modal"
+ display where one interactor is active when its data is to be displayed
+ and all other interactors associated with the widget are disabled
+ when their data is not displayed.
+ </LI>
+<LI>  <tt>obj.Disable ()</tt> -  Enable/Disable interactions.  By default interactors are enabled when
+ initialized.  Initialize() must be called prior to enabling/disabling
+ interaction. These methods are used when a window/widget is being
+ shared by multiple renderers and interactors.  This allows a "modal"
+ display where one interactor is active when its data is to be displayed
+ and all other interactors associated with the widget are disabled
+ when their data is not displayed.
+ </LI>
+<LI>  <tt>int = obj.GetEnabled ()</tt> -  Enable/Disable interactions.  By default interactors are enabled when
+ initialized.  Initialize() must be called prior to enabling/disabling
+ interaction. These methods are used when a window/widget is being
+ shared by multiple renderers and interactors.  This allows a "modal"
+ display where one interactor is active when its data is to be displayed
+ and all other interactors associated with the widget are disabled
+ when their data is not displayed.
+ </LI>
+<LI>  <tt>obj.EnableRenderOn ()</tt> -  Enable/Disable whether vtkRenderWindowInteractor::Render() calls
+ this->RenderWindow->Render().
+ </LI>
+<LI>  <tt>obj.EnableRenderOff ()</tt> -  Enable/Disable whether vtkRenderWindowInteractor::Render() calls
+ this->RenderWindow->Render().
+ </LI>
+<LI>  <tt>obj.SetEnableRender (bool )</tt> -  Enable/Disable whether vtkRenderWindowInteractor::Render() calls
+ this->RenderWindow->Render().
+ </LI>
+<LI>  <tt>bool = obj.GetEnableRender ()</tt> -  Enable/Disable whether vtkRenderWindowInteractor::Render() calls
+ this->RenderWindow->Render().
+ </LI>
+<LI>  <tt>obj.SetRenderWindow (vtkRenderWindow aren)</tt> -  Set/Get the rendering window being controlled by this object.
+ </LI>
+<LI>  <tt>vtkRenderWindow = obj.GetRenderWindow ()</tt> -  Set/Get the rendering window being controlled by this object.
+ </LI>
+<LI>  <tt>obj.UpdateSize (int x, int y)</tt> -  Event loop notification member for window size change.
+ Window size is measured in pixels.
+ </LI>
+<LI>  <tt>int = obj.CreateTimer (int timerType)</tt> -  This class provides two groups of methods for manipulating timers.  The
+ first group (CreateTimer(timerType) and DestroyTimer()) implicitly use
+ an internal timer id (and are present for backward compatibility). The
+ second group (CreateRepeatingTimer(long),CreateOneShotTimer(long),
+ ResetTimer(int),DestroyTimer(int)) use timer ids so multiple timers can
+ be independently managed. In the first group, the CreateTimer() method
+ takes an argument indicating whether the timer is created the first time
+ (timerType==VTKI_TIMER_FIRST) or whether it is being reset
+ (timerType==VTKI_TIMER_UPDATE). (In initial implementations of VTK this
+ was how one shot and repeating timers were managed.) In the second
+ group, the create methods take a timer duration argument (in
+ milliseconds) and return a timer id. Thus the ResetTimer(timerId) and
+ DestroyTimer(timerId) methods take this timer id and operate on the
+ timer as appropriate. Methods are also available for determining
+ </LI>
+<LI>  <tt>int = obj.DestroyTimer ()</tt> -  This class provides two groups of methods for manipulating timers.  The
+ first group (CreateTimer(timerType) and DestroyTimer()) implicitly use
+ an internal timer id (and are present for backward compatibility). The
+ second group (CreateRepeatingTimer(long),CreateOneShotTimer(long),
+ ResetTimer(int),DestroyTimer(int)) use timer ids so multiple timers can
+ be independently managed. In the first group, the CreateTimer() method
+ takes an argument indicating whether the timer is created the first time
+ (timerType==VTKI_TIMER_FIRST) or whether it is being reset
+ (timerType==VTKI_TIMER_UPDATE). (In initial implementations of VTK this
+ was how one shot and repeating timers were managed.) In the second
+ group, the create methods take a timer duration argument (in
+ milliseconds) and return a timer id. Thus the ResetTimer(timerId) and
+ DestroyTimer(timerId) methods take this timer id and operate on the
+ timer as appropriate. Methods are also available for determining
+ </LI>
+<LI>  <tt>int = obj.CreateRepeatingTimer (long duration)</tt> -  This class provides two groups of methods for manipulating timers.  The
+ first group (CreateTimer(timerType) and DestroyTimer()) implicitly use
+ an internal timer id (and are present for backward compatibility). The
+ second group (CreateRepeatingTimer(long),CreateOneShotTimer(long),
+ ResetTimer(int),DestroyTimer(int)) use timer ids so multiple timers can
+ be independently managed. In the first group, the CreateTimer() method
+ takes an argument indicating whether the timer is created the first time
+ (timerType==VTKI_TIMER_FIRST) or whether it is being reset
+ (timerType==VTKI_TIMER_UPDATE). (In initial implementations of VTK this
+ was how one shot and repeating timers were managed.) In the second
+ group, the create methods take a timer duration argument (in
+ milliseconds) and return a timer id. Thus the ResetTimer(timerId) and
+ DestroyTimer(timerId) methods take this timer id and operate on the
+ timer as appropriate. Methods are also available for determining
+ </LI>
+<LI>  <tt>int = obj.CreateOneShotTimer (long duration)</tt> -  This class provides two groups of methods for manipulating timers.  The
+ first group (CreateTimer(timerType) and DestroyTimer()) implicitly use
+ an internal timer id (and are present for backward compatibility). The
+ second group (CreateRepeatingTimer(long),CreateOneShotTimer(long),
+ ResetTimer(int),DestroyTimer(int)) use timer ids so multiple timers can
+ be independently managed. In the first group, the CreateTimer() method
+ takes an argument indicating whether the timer is created the first time
+ (timerType==VTKI_TIMER_FIRST) or whether it is being reset
+ (timerType==VTKI_TIMER_UPDATE). (In initial implementations of VTK this
+ was how one shot and repeating timers were managed.) In the second
+ group, the create methods take a timer duration argument (in
+ milliseconds) and return a timer id. Thus the ResetTimer(timerId) and
+ DestroyTimer(timerId) methods take this timer id and operate on the
+ timer as appropriate. Methods are also available for determining
+ </LI>
+<LI>  <tt>int = obj.IsOneShotTimer (int timerId)</tt> -  This class provides two groups of methods for manipulating timers.  The
+ first group (CreateTimer(timerType) and DestroyTimer()) implicitly use
+ an internal timer id (and are present for backward compatibility). The
+ second group (CreateRepeatingTimer(long),CreateOneShotTimer(long),
+ ResetTimer(int),DestroyTimer(int)) use timer ids so multiple timers can
+ be independently managed. In the first group, the CreateTimer() method
+ takes an argument indicating whether the timer is created the first time
+ (timerType==VTKI_TIMER_FIRST) or whether it is being reset
+ (timerType==VTKI_TIMER_UPDATE). (In initial implementations of VTK this
+ was how one shot and repeating timers were managed.) In the second
+ group, the create methods take a timer duration argument (in
+ milliseconds) and return a timer id. Thus the ResetTimer(timerId) and
+ DestroyTimer(timerId) methods take this timer id and operate on the
+ timer as appropriate. Methods are also available for determining
+ </LI>
+<LI>  <tt>long = obj.GetTimerDuration (int timerId)</tt> -  This class provides two groups of methods for manipulating timers.  The
+ first group (CreateTimer(timerType) and DestroyTimer()) implicitly use
+ an internal timer id (and are present for backward compatibility). The
+ second group (CreateRepeatingTimer(long),CreateOneShotTimer(long),
+ ResetTimer(int),DestroyTimer(int)) use timer ids so multiple timers can
+ be independently managed. In the first group, the CreateTimer() method
+ takes an argument indicating whether the timer is created the first time
+ (timerType==VTKI_TIMER_FIRST) or whether it is being reset
+ (timerType==VTKI_TIMER_UPDATE). (In initial implementations of VTK this
+ was how one shot and repeating timers were managed.) In the second
+ group, the create methods take a timer duration argument (in
+ milliseconds) and return a timer id. Thus the ResetTimer(timerId) and
+ DestroyTimer(timerId) methods take this timer id and operate on the
+ timer as appropriate. Methods are also available for determining
+ </LI>
+<LI>  <tt>int = obj.ResetTimer (int timerId)</tt> -  This class provides two groups of methods for manipulating timers.  The
+ first group (CreateTimer(timerType) and DestroyTimer()) implicitly use
+ an internal timer id (and are present for backward compatibility). The
+ second group (CreateRepeatingTimer(long),CreateOneShotTimer(long),
+ ResetTimer(int),DestroyTimer(int)) use timer ids so multiple timers can
+ be independently managed. In the first group, the CreateTimer() method
+ takes an argument indicating whether the timer is created the first time
+ (timerType==VTKI_TIMER_FIRST) or whether it is being reset
+ (timerType==VTKI_TIMER_UPDATE). (In initial implementations of VTK this
+ was how one shot and repeating timers were managed.) In the second
+ group, the create methods take a timer duration argument (in
+ milliseconds) and return a timer id. Thus the ResetTimer(timerId) and
+ DestroyTimer(timerId) methods take this timer id and operate on the
+ timer as appropriate. Methods are also available for determining
+ </LI>
+<LI>  <tt>int = obj.DestroyTimer (int timerId)</tt> -  This class provides two groups of methods for manipulating timers.  The
+ first group (CreateTimer(timerType) and DestroyTimer()) implicitly use
+ an internal timer id (and are present for backward compatibility). The
+ second group (CreateRepeatingTimer(long),CreateOneShotTimer(long),
+ ResetTimer(int),DestroyTimer(int)) use timer ids so multiple timers can
+ be independently managed. In the first group, the CreateTimer() method
+ takes an argument indicating whether the timer is created the first time
+ (timerType==VTKI_TIMER_FIRST) or whether it is being reset
+ (timerType==VTKI_TIMER_UPDATE). (In initial implementations of VTK this
+ was how one shot and repeating timers were managed.) In the second
+ group, the create methods take a timer duration argument (in
+ milliseconds) and return a timer id. Thus the ResetTimer(timerId) and
+ DestroyTimer(timerId) methods take this timer id and operate on the
+ timer as appropriate. Methods are also available for determining
+ </LI>
+<LI>  <tt>int = obj.GetVTKTimerId (int platformTimerId)</tt> -  This class provides two groups of methods for manipulating timers.  The
+ first group (CreateTimer(timerType) and DestroyTimer()) implicitly use
+ an internal timer id (and are present for backward compatibility). The
+ second group (CreateRepeatingTimer(long),CreateOneShotTimer(long),
+ ResetTimer(int),DestroyTimer(int)) use timer ids so multiple timers can
+ be independently managed. In the first group, the CreateTimer() method
+ takes an argument indicating whether the timer is created the first time
+ (timerType==VTKI_TIMER_FIRST) or whether it is being reset
+ (timerType==VTKI_TIMER_UPDATE). (In initial implementations of VTK this
+ was how one shot and repeating timers were managed.) In the second
+ group, the create methods take a timer duration argument (in
+ milliseconds) and return a timer id. Thus the ResetTimer(timerId) and
+ DestroyTimer(timerId) methods take this timer id and operate on the
+ timer as appropriate. Methods are also available for determining
+ </LI>
+<LI>  <tt>obj.SetTimerDuration (long )</tt> -  Specify the default timer interval (in milliseconds). (This is used in
+ conjunction with the timer methods described previously, e.g.,
+ CreateTimer() uses this value; and CreateRepeatingTimer(duration) and
+ CreateOneShotTimer(duration) use the default value if the parameter
+ "duration" is less than or equal to zero.) Care must be taken when
+ adjusting the timer interval from the default value of 10
+ milliseconds--it may adversely affect the interactors.
+ </LI>
+<LI>  <tt>GetTimerDurationMinValue = obj.()</tt> -  Specify the default timer interval (in milliseconds). (This is used in
+ conjunction with the timer methods described previously, e.g.,
+ CreateTimer() uses this value; and CreateRepeatingTimer(duration) and
+ CreateOneShotTimer(duration) use the default value if the parameter
+ "duration" is less than or equal to zero.) Care must be taken when
+ adjusting the timer interval from the default value of 10
+ milliseconds--it may adversely affect the interactors.
+ </LI>
+<LI>  <tt>GetTimerDurationMaxValue = obj.()</tt> -  Specify the default timer interval (in milliseconds). (This is used in
+ conjunction with the timer methods described previously, e.g.,
+ CreateTimer() uses this value; and CreateRepeatingTimer(duration) and
+ CreateOneShotTimer(duration) use the default value if the parameter
+ "duration" is less than or equal to zero.) Care must be taken when
+ adjusting the timer interval from the default value of 10
+ milliseconds--it may adversely affect the interactors.
+ </LI>
+<LI>  <tt>long = obj.GetTimerDuration ()</tt> -  Specify the default timer interval (in milliseconds). (This is used in
+ conjunction with the timer methods described previously, e.g.,
+ CreateTimer() uses this value; and CreateRepeatingTimer(duration) and
+ CreateOneShotTimer(duration) use the default value if the parameter
+ "duration" is less than or equal to zero.) Care must be taken when
+ adjusting the timer interval from the default value of 10
+ milliseconds--it may adversely affect the interactors.
+ </LI>
+<LI>  <tt>obj.SetTimerEventId (int )</tt> -  These methods are used to communicate information about the currently
+ firing CreateTimerEvent or DestroyTimerEvent. The caller of
+ CreateTimerEvent sets up TimerEventId, TimerEventType and
+ TimerEventDuration. The observer of CreateTimerEvent should set up an
+ appropriate platform specific timer based on those values and set the
+ TimerEventPlatformId before returning. The caller of DestroyTimerEvent
+ sets up TimerEventPlatformId. The observer of DestroyTimerEvent should
+ simply destroy the platform specific timer created by CreateTimerEvent.
+ See vtkGenericRenderWindowInteractor's InternalCreateTimer and
+ InternalDestroyTimer for an example.
+ </LI>
+<LI>  <tt>int = obj.GetTimerEventId ()</tt> -  These methods are used to communicate information about the currently
+ firing CreateTimerEvent or DestroyTimerEvent. The caller of
+ CreateTimerEvent sets up TimerEventId, TimerEventType and
+ TimerEventDuration. The observer of CreateTimerEvent should set up an
+ appropriate platform specific timer based on those values and set the
+ TimerEventPlatformId before returning. The caller of DestroyTimerEvent
+ sets up TimerEventPlatformId. The observer of DestroyTimerEvent should
+ simply destroy the platform specific timer created by CreateTimerEvent.
+ See vtkGenericRenderWindowInteractor's InternalCreateTimer and
+ InternalDestroyTimer for an example.
+ </LI>
+<LI>  <tt>obj.SetTimerEventType (int )</tt> -  These methods are used to communicate information about the currently
+ firing CreateTimerEvent or DestroyTimerEvent. The caller of
+ CreateTimerEvent sets up TimerEventId, TimerEventType and
+ TimerEventDuration. The observer of CreateTimerEvent should set up an
+ appropriate platform specific timer based on those values and set the
+ TimerEventPlatformId before returning. The caller of DestroyTimerEvent
+ sets up TimerEventPlatformId. The observer of DestroyTimerEvent should
+ simply destroy the platform specific timer created by CreateTimerEvent.
+ See vtkGenericRenderWindowInteractor's InternalCreateTimer and
+ InternalDestroyTimer for an example.
+ </LI>
+<LI>  <tt>int = obj.GetTimerEventType ()</tt> -  These methods are used to communicate information about the currently
+ firing CreateTimerEvent or DestroyTimerEvent. The caller of
+ CreateTimerEvent sets up TimerEventId, TimerEventType and
+ TimerEventDuration. The observer of CreateTimerEvent should set up an
+ appropriate platform specific timer based on those values and set the
+ TimerEventPlatformId before returning. The caller of DestroyTimerEvent
+ sets up TimerEventPlatformId. The observer of DestroyTimerEvent should
+ simply destroy the platform specific timer created by CreateTimerEvent.
+ See vtkGenericRenderWindowInteractor's InternalCreateTimer and
+ InternalDestroyTimer for an example.
+ </LI>
+<LI>  <tt>obj.SetTimerEventDuration (int )</tt> -  These methods are used to communicate information about the currently
+ firing CreateTimerEvent or DestroyTimerEvent. The caller of
+ CreateTimerEvent sets up TimerEventId, TimerEventType and
+ TimerEventDuration. The observer of CreateTimerEvent should set up an
+ appropriate platform specific timer based on those values and set the
+ TimerEventPlatformId before returning. The caller of DestroyTimerEvent
+ sets up TimerEventPlatformId. The observer of DestroyTimerEvent should
+ simply destroy the platform specific timer created by CreateTimerEvent.
+ See vtkGenericRenderWindowInteractor's InternalCreateTimer and
+ InternalDestroyTimer for an example.
+ </LI>
+<LI>  <tt>int = obj.GetTimerEventDuration ()</tt> -  These methods are used to communicate information about the currently
+ firing CreateTimerEvent or DestroyTimerEvent. The caller of
+ CreateTimerEvent sets up TimerEventId, TimerEventType and
+ TimerEventDuration. The observer of CreateTimerEvent should set up an
+ appropriate platform specific timer based on those values and set the
+ TimerEventPlatformId before returning. The caller of DestroyTimerEvent
+ sets up TimerEventPlatformId. The observer of DestroyTimerEvent should
+ simply destroy the platform specific timer created by CreateTimerEvent.
+ See vtkGenericRenderWindowInteractor's InternalCreateTimer and
+ InternalDestroyTimer for an example.
+ </LI>
+<LI>  <tt>obj.SetTimerEventPlatformId (int )</tt> -  These methods are used to communicate information about the currently
+ firing CreateTimerEvent or DestroyTimerEvent. The caller of
+ CreateTimerEvent sets up TimerEventId, TimerEventType and
+ TimerEventDuration. The observer of CreateTimerEvent should set up an
+ appropriate platform specific timer based on those values and set the
+ TimerEventPlatformId before returning. The caller of DestroyTimerEvent
+ sets up TimerEventPlatformId. The observer of DestroyTimerEvent should
+ simply destroy the platform specific timer created by CreateTimerEvent.
+ See vtkGenericRenderWindowInteractor's InternalCreateTimer and
+ InternalDestroyTimer for an example.
+ </LI>
+<LI>  <tt>int = obj.GetTimerEventPlatformId ()</tt> -  These methods are used to communicate information about the currently
+ firing CreateTimerEvent or DestroyTimerEvent. The caller of
+ CreateTimerEvent sets up TimerEventId, TimerEventType and
+ TimerEventDuration. The observer of CreateTimerEvent should set up an
+ appropriate platform specific timer based on those values and set the
+ TimerEventPlatformId before returning. The caller of DestroyTimerEvent
+ sets up TimerEventPlatformId. The observer of DestroyTimerEvent should
+ simply destroy the platform specific timer created by CreateTimerEvent.
+ See vtkGenericRenderWindowInteractor's InternalCreateTimer and
+ InternalDestroyTimer for an example.
+ </LI>
+<LI>  <tt>obj.TerminateApp (void )</tt> -  External switching between joystick/trackball/new? modes. Initial value
+ is a vtkInteractorStyleSwitch object.
+ </LI>
+<LI>  <tt>obj.SetInteractorStyle (vtkInteractorObserver )</tt> -  External switching between joystick/trackball/new? modes. Initial value
+ is a vtkInteractorStyleSwitch object.
+ </LI>
+<LI>  <tt>vtkInteractorObserver = obj.GetInteractorStyle ()</tt> -  External switching between joystick/trackball/new? modes. Initial value
+ is a vtkInteractorStyleSwitch object.
+ </LI>
+<LI>  <tt>obj.SetLightFollowCamera (int )</tt> -  Turn on/off the automatic repositioning of lights as the camera moves.
+ Default is On.
+ </LI>
+<LI>  <tt>int = obj.GetLightFollowCamera ()</tt> -  Turn on/off the automatic repositioning of lights as the camera moves.
+ Default is On.
+ </LI>
+<LI>  <tt>obj.LightFollowCameraOn ()</tt> -  Turn on/off the automatic repositioning of lights as the camera moves.
+ Default is On.
+ </LI>
+<LI>  <tt>obj.LightFollowCameraOff ()</tt> -  Turn on/off the automatic repositioning of lights as the camera moves.
+ Default is On.
+ </LI>
+<LI>  <tt>obj.SetDesiredUpdateRate (double )</tt> -  Set/Get the desired update rate. This is used by vtkLODActor's to tell
+ them how quickly they need to render.  This update is in effect only
+ when the camera is being rotated, or zoomed.  When the interactor is
+ still, the StillUpdateRate is used instead. 
+ The default is 15.
+ </LI>
+<LI>  <tt>double = obj.GetDesiredUpdateRateMinValue ()</tt> -  Set/Get the desired update rate. This is used by vtkLODActor's to tell
+ them how quickly they need to render.  This update is in effect only
+ when the camera is being rotated, or zoomed.  When the interactor is
+ still, the StillUpdateRate is used instead. 
+ The default is 15.
+ </LI>
+<LI>  <tt>double = obj.GetDesiredUpdateRateMaxValue ()</tt> -  Set/Get the desired update rate. This is used by vtkLODActor's to tell
+ them how quickly they need to render.  This update is in effect only
+ when the camera is being rotated, or zoomed.  When the interactor is
+ still, the StillUpdateRate is used instead. 
+ The default is 15.
+ </LI>
+<LI>  <tt>double = obj.GetDesiredUpdateRate ()</tt> -  Set/Get the desired update rate. This is used by vtkLODActor's to tell
+ them how quickly they need to render.  This update is in effect only
+ when the camera is being rotated, or zoomed.  When the interactor is
+ still, the StillUpdateRate is used instead. 
+ The default is 15.
+ </LI>
+<LI>  <tt>obj.SetStillUpdateRate (double )</tt> -  Set/Get the desired update rate when movement has stopped.
+ For the non-still update rate, see the SetDesiredUpdateRate method.
+ The default is 0.0001
+ </LI>
+<LI>  <tt>double = obj.GetStillUpdateRateMinValue ()</tt> -  Set/Get the desired update rate when movement has stopped.
+ For the non-still update rate, see the SetDesiredUpdateRate method.
+ The default is 0.0001
+ </LI>
+<LI>  <tt>double = obj.GetStillUpdateRateMaxValue ()</tt> -  Set/Get the desired update rate when movement has stopped.
+ For the non-still update rate, see the SetDesiredUpdateRate method.
+ The default is 0.0001
+ </LI>
+<LI>  <tt>double = obj.GetStillUpdateRate ()</tt> -  Set/Get the desired update rate when movement has stopped.
+ For the non-still update rate, see the SetDesiredUpdateRate method.
+ The default is 0.0001
+ </LI>
+<LI>  <tt>int = obj.GetInitialized ()</tt> -  See whether interactor has been initialized yet.
+ Default is 0.
+ </LI>
+<LI>  <tt>obj.SetPicker (vtkAbstractPicker )</tt> -  Set/Get the object used to perform pick operations. In order to
+ pick instances of vtkProp, the picker must be a subclass of 
+ vtkAbstractPropPicker, meaning that it can identify a particular 
+ instance of vtkProp.
+ </LI>
+<LI>  <tt>vtkAbstractPicker = obj.GetPicker ()</tt> -  Set/Get the object used to perform pick operations. In order to
+ pick instances of vtkProp, the picker must be a subclass of 
+ vtkAbstractPropPicker, meaning that it can identify a particular 
+ instance of vtkProp.
+ </LI>
+<LI>  <tt>vtkAbstractPropPicker = obj.CreateDefaultPicker ()</tt> -  Create default picker. Used to create one when none is specified.
+ Default is an instance of vtkPropPicker.
+ </LI>
+<LI>  <tt>obj.ExitCallback ()</tt> -  These methods correspond to the the Exit, User and Pick
+ callbacks. They allow for the Style to invoke them.
+ </LI>
+<LI>  <tt>obj.UserCallback ()</tt> -  These methods correspond to the the Exit, User and Pick
+ callbacks. They allow for the Style to invoke them.
+ </LI>
+<LI>  <tt>obj.StartPickCallback ()</tt> -  These methods correspond to the the Exit, User and Pick
+ callbacks. They allow for the Style to invoke them.
+ </LI>
+<LI>  <tt>obj.EndPickCallback ()</tt> -  These methods correspond to the the Exit, User and Pick
+ callbacks. They allow for the Style to invoke them.
+ </LI>
+<LI>  <tt>obj.GetMousePosition (int x, int y)</tt> -  Hide or show the mouse cursor, it is nice to be able to hide the
+ default cursor if you want VTK to display a 3D cursor instead.
+ </LI>
+<LI>  <tt>obj.HideCursor ()</tt> -  Hide or show the mouse cursor, it is nice to be able to hide the
+ default cursor if you want VTK to display a 3D cursor instead.
+ </LI>
+<LI>  <tt>obj.ShowCursor ()</tt> -  Hide or show the mouse cursor, it is nice to be able to hide the
+ default cursor if you want VTK to display a 3D cursor instead.
+ </LI>
+<LI>  <tt>obj.Render ()</tt> -  Render the scene. Just pass the render call on to the 
+ associated vtkRenderWindow.
+ </LI>
+<LI>  <tt>obj.FlyTo (vtkRenderer ren, double x, double y, double z)</tt> -  Given a position x, move the current camera's focal point to x.
+ The movement is animated over the number of frames specified in
+ NumberOfFlyFrames. The LOD desired frame rate is used.
+ </LI>
+<LI>  <tt>obj.FlyTo (vtkRenderer ren, double x)</tt> -  Given a position x, move the current camera's focal point to x.
+ The movement is animated over the number of frames specified in
+ NumberOfFlyFrames. The LOD desired frame rate is used.
+ </LI>
+<LI>  <tt>obj.FlyToImage (vtkRenderer ren, double x, double y)</tt> -  Given a position x, move the current camera's focal point to x.
+ The movement is animated over the number of frames specified in
+ NumberOfFlyFrames. The LOD desired frame rate is used.
+ </LI>
+<LI>  <tt>obj.FlyToImage (vtkRenderer ren, double x)</tt> -  Set the number of frames to fly to when FlyTo is invoked.
+ </LI>
+<LI>  <tt>obj.SetNumberOfFlyFrames (int )</tt> -  Set the number of frames to fly to when FlyTo is invoked.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfFlyFramesMinValue ()</tt> -  Set the number of frames to fly to when FlyTo is invoked.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfFlyFramesMaxValue ()</tt> -  Set the number of frames to fly to when FlyTo is invoked.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfFlyFrames ()</tt> -  Set the number of frames to fly to when FlyTo is invoked.
+ </LI>
+<LI>  <tt>obj.SetDolly (double )</tt> -  Set the total Dolly value to use when flying to (FlyTo()) a
+ specified point. Negative values fly away from the point.
+ </LI>
+<LI>  <tt>double = obj.GetDolly ()</tt> -  Set the total Dolly value to use when flying to (FlyTo()) a
+ specified point. Negative values fly away from the point.
+ </LI>
+<LI>  <tt>int = obj. GetEventPosition ()</tt> -  Set/Get information about the current event. 
+ The current x,y position is in the EventPosition, and the previous
+ event position is in LastEventPosition, updated automatically each
+ time EventPosition is set using its Set() method. Mouse positions
+ are measured in pixels.
+ The other information is about key board input.
+ </LI>
+<LI>  <tt>int = obj. GetLastEventPosition ()</tt> -  Set/Get information about the current event. 
+ The current x,y position is in the EventPosition, and the previous
+ event position is in LastEventPosition, updated automatically each
+ time EventPosition is set using its Set() method. Mouse positions
+ are measured in pixels.
+ The other information is about key board input.
+ </LI>
+<LI>  <tt>obj.SetLastEventPosition (int , int )</tt> -  Set/Get information about the current event. 
+ The current x,y position is in the EventPosition, and the previous
+ event position is in LastEventPosition, updated automatically each
+ time EventPosition is set using its Set() method. Mouse positions
+ are measured in pixels.
+ The other information is about key board input.
+ </LI>
+<LI>  <tt>obj.SetLastEventPosition (int  a[2])</tt> -  Set/Get information about the current event. 
+ The current x,y position is in the EventPosition, and the previous
+ event position is in LastEventPosition, updated automatically each
+ time EventPosition is set using its Set() method. Mouse positions
+ are measured in pixels.
+ The other information is about key board input.
+ </LI>
+<LI>  <tt>obj.SetEventPosition (int x, int y)</tt> -  Set/Get information about the current event. 
+ The current x,y position is in the EventPosition, and the previous
+ event position is in LastEventPosition, updated automatically each
+ time EventPosition is set using its Set() method. Mouse positions
+ are measured in pixels.
+ The other information is about key board input.
+ </LI>
+<LI>  <tt>obj.SetEventPosition (int pos[2])</tt> -  Set/Get information about the current event. 
+ The current x,y position is in the EventPosition, and the previous
+ event position is in LastEventPosition, updated automatically each
+ time EventPosition is set using its Set() method. Mouse positions
+ are measured in pixels.
+ The other information is about key board input.
+ </LI>
+<LI>  <tt>obj.SetEventPositionFlipY (int x, int y)</tt> -  Set/Get information about the current event. 
+ The current x,y position is in the EventPosition, and the previous
+ event position is in LastEventPosition, updated automatically each
+ time EventPosition is set using its Set() method. Mouse positions
+ are measured in pixels.
+ The other information is about key board input.
+ </LI>
+<LI>  <tt>obj.SetEventPositionFlipY (int pos[2])</tt> -  Set/Get information about the current event. 
+ The current x,y position is in the EventPosition, and the previous
+ event position is in LastEventPosition, updated automatically each
+ time EventPosition is set using its Set() method. Mouse positions
+ are measured in pixels.
+ The other information is about key board input.
+ </LI>
+<LI>  <tt>obj.SetAltKey (int )</tt> -  Set/Get information about the current event. 
+ The current x,y position is in the EventPosition, and the previous
+ event position is in LastEventPosition, updated automatically each
+ time EventPosition is set using its Set() method. Mouse positions
+ are measured in pixels.
+ The other information is about key board input.
+ </LI>
+<LI>  <tt>int = obj.GetAltKey ()</tt> -  Set/Get information about the current event. 
+ The current x,y position is in the EventPosition, and the previous
+ event position is in LastEventPosition, updated automatically each
+ time EventPosition is set using its Set() method. Mouse positions
+ are measured in pixels.
+ The other information is about key board input.
+ </LI>
+<LI>  <tt>obj.SetControlKey (int )</tt> -  Set/Get information about the current event. 
+ The current x,y position is in the EventPosition, and the previous
+ event position is in LastEventPosition, updated automatically each
+ time EventPosition is set using its Set() method. Mouse positions
+ are measured in pixels.
+ The other information is about key board input.
+ </LI>
+<LI>  <tt>int = obj.GetControlKey ()</tt> -  Set/Get information about the current event. 
+ The current x,y position is in the EventPosition, and the previous
+ event position is in LastEventPosition, updated automatically each
+ time EventPosition is set using its Set() method. Mouse positions
+ are measured in pixels.
+ The other information is about key board input.
+ </LI>
+<LI>  <tt>obj.SetShiftKey (int )</tt> -  Set/Get information about the current event. 
+ The current x,y position is in the EventPosition, and the previous
+ event position is in LastEventPosition, updated automatically each
+ time EventPosition is set using its Set() method. Mouse positions
+ are measured in pixels.
+ The other information is about key board input.
+ </LI>
+<LI>  <tt>int = obj.GetShiftKey ()</tt> -  Set/Get information about the current event. 
+ The current x,y position is in the EventPosition, and the previous
+ event position is in LastEventPosition, updated automatically each
+ time EventPosition is set using its Set() method. Mouse positions
+ are measured in pixels.
+ The other information is about key board input.
+ </LI>
+<LI>  <tt>obj.SetKeyCode (char )</tt> -  Set/Get information about the current event. 
+ The current x,y position is in the EventPosition, and the previous
+ event position is in LastEventPosition, updated automatically each
+ time EventPosition is set using its Set() method. Mouse positions
+ are measured in pixels.
+ The other information is about key board input.
+ </LI>
+<LI>  <tt>char = obj.GetKeyCode ()</tt> -  Set/Get information about the current event. 
+ The current x,y position is in the EventPosition, and the previous
+ event position is in LastEventPosition, updated automatically each
+ time EventPosition is set using its Set() method. Mouse positions
+ are measured in pixels.
+ The other information is about key board input.
+ </LI>
+<LI>  <tt>obj.SetRepeatCount (int )</tt> -  Set/Get information about the current event. 
+ The current x,y position is in the EventPosition, and the previous
+ event position is in LastEventPosition, updated automatically each
+ time EventPosition is set using its Set() method. Mouse positions
+ are measured in pixels.
+ The other information is about key board input.
+ </LI>
+<LI>  <tt>int = obj.GetRepeatCount ()</tt> -  Set/Get information about the current event. 
+ The current x,y position is in the EventPosition, and the previous
+ event position is in LastEventPosition, updated automatically each
+ time EventPosition is set using its Set() method. Mouse positions
+ are measured in pixels.
+ The other information is about key board input.
+ </LI>
+<LI>  <tt>obj.SetKeySym (string )</tt> -  Set/Get information about the current event. 
+ The current x,y position is in the EventPosition, and the previous
+ event position is in LastEventPosition, updated automatically each
+ time EventPosition is set using its Set() method. Mouse positions
+ are measured in pixels.
+ The other information is about key board input.
+ </LI>
+<LI>  <tt>string = obj.GetKeySym ()</tt> -  Set/Get information about the current event. 
+ The current x,y position is in the EventPosition, and the previous
+ event position is in LastEventPosition, updated automatically each
+ time EventPosition is set using its Set() method. Mouse positions
+ are measured in pixels.
+ The other information is about key board input.
+ </LI>
+<LI>  <tt>obj.SetEventInformation (int x, int y, int ctrl, int shift, char keycode, int repeatcount, string keysym)</tt> -  Calls SetEventInformation, but flips the Y based on the current Size[1] 
+ value (i.e. y = this->Size[1] - y - 1).
+ </LI>
+<LI>  <tt>obj.SetEventInformationFlipY (int x, int y, int ctrl, int shift, char keycode, int repeatcount, string keysym)</tt> -  Set all the keyboard-related event information in one call.
+ </LI>
+<LI>  <tt>obj.SetKeyEventInformation (int ctrl, int shift, char keycode, int repeatcount, string keysym)</tt> -  This methods sets the Size ivar of the interactor without
+ actually changing the size of the window. Normally
+ application programmers would use UpdateSize if anything.
+ This is useful for letting someone else change the size of
+ the rendering window and just letting the interactor
+ know about the change.
+ The current event width/height (if any) is in EventSize 
+ (Expose event, for example).
+ Window size is measured in pixels.
+ </LI>
+<LI>  <tt>obj.SetSize (int , int )</tt> -  This methods sets the Size ivar of the interactor without
+ actually changing the size of the window. Normally
+ application programmers would use UpdateSize if anything.
+ This is useful for letting someone else change the size of
+ the rendering window and just letting the interactor
+ know about the change.
+ The current event width/height (if any) is in EventSize 
+ (Expose event, for example).
+ Window size is measured in pixels.
+ </LI>
+<LI>  <tt>obj.SetSize (int  a[2])</tt> -  This methods sets the Size ivar of the interactor without
+ actually changing the size of the window. Normally
+ application programmers would use UpdateSize if anything.
+ This is useful for letting someone else change the size of
+ the rendering window and just letting the interactor
+ know about the change.
+ The current event width/height (if any) is in EventSize 
+ (Expose event, for example).
+ Window size is measured in pixels.
+ </LI>
+<LI>  <tt>int = obj. GetSize ()</tt> -  This methods sets the Size ivar of the interactor without
+ actually changing the size of the window. Normally
+ application programmers would use UpdateSize if anything.
+ This is useful for letting someone else change the size of
+ the rendering window and just letting the interactor
+ know about the change.
+ The current event width/height (if any) is in EventSize 
+ (Expose event, for example).
+ Window size is measured in pixels.
+ </LI>
+<LI>  <tt>obj.SetEventSize (int , int )</tt> -  This methods sets the Size ivar of the interactor without
+ actually changing the size of the window. Normally
+ application programmers would use UpdateSize if anything.
+ This is useful for letting someone else change the size of
+ the rendering window and just letting the interactor
+ know about the change.
+ The current event width/height (if any) is in EventSize 
+ (Expose event, for example).
+ Window size is measured in pixels.
+ </LI>
+<LI>  <tt>obj.SetEventSize (int  a[2])</tt> -  This methods sets the Size ivar of the interactor without
+ actually changing the size of the window. Normally
+ application programmers would use UpdateSize if anything.
+ This is useful for letting someone else change the size of
+ the rendering window and just letting the interactor
+ know about the change.
+ The current event width/height (if any) is in EventSize 
+ (Expose event, for example).
+ Window size is measured in pixels.
+ </LI>
+<LI>  <tt>int = obj. GetEventSize ()</tt> -  This methods sets the Size ivar of the interactor without
+ actually changing the size of the window. Normally
+ application programmers would use UpdateSize if anything.
+ This is useful for letting someone else change the size of
+ the rendering window and just letting the interactor
+ know about the change.
+ The current event width/height (if any) is in EventSize 
+ (Expose event, for example).
+ Window size is measured in pixels.
+ </LI>
+<LI>  <tt>vtkRenderer = obj.FindPokedRenderer (int , int )</tt> -  When an event occurs, we must determine which Renderer the event
+ occurred within, since one RenderWindow may contain multiple
+ renderers.
+ </LI>
+<LI>  <tt>vtkObserverMediator = obj.GetObserverMediator ()</tt> -  Return the object used to mediate between vtkInteractorObservers
+ contending for resources. Multiple interactor observers will often
+ request different resources (e.g., cursor shape); the mediator uses a
+ strategy to provide the resource based on priority of the observer plus
+ the particular request (default versus non-default cursor shape).
+ </LI>
+<LI>  <tt>obj.SetUseTDx (bool )</tt> -  Use a 3DConnexion device. Initial value is false.
+ If VTK is not build with the TDx option, this is no-op.
+ If VTK is build with the TDx option, and a device is not connected,
+ a warning is emitted.
+ It is must be called before the first Render to be effective, otherwise
+ it is ignored.
+ </LI>
+<LI>  <tt>bool = obj.GetUseTDx ()</tt> -  Use a 3DConnexion device. Initial value is false.
+ If VTK is not build with the TDx option, this is no-op.
+ If VTK is build with the TDx option, and a device is not connected,
+ a warning is emitted.
+ It is must be called before the first Render to be effective, otherwise
+ it is ignored.
+ </LI>
+</UL>
+*/

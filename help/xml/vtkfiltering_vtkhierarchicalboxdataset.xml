@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkfiltering_vtkhierarchicalboxdataset" kind="page">
+    <compoundname>vtkfiltering_vtkhierarchicalboxdataset</compoundname>
+    <title>vtkHierarchicalBoxDataSet</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkfiltering_1sec_vtkfiltering" kindref="member">Visualization Toolkit Filtering Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>vtkHierarchicalBoxDataSet is a concrete implementation of vtkCompositeDataSet. The dataset type is restricted to vtkUniformGrid. Each dataset has an associated vtkAMRBox that represents it&apos;s region (similar to extent) in space.</para><para>.SECTION Warning To compute the cellId of a cell within a vtkUniformGrid with AMRBox=box, you should not use vtkUniformGrid::ComputeCellId( {x,y,z} ) but instead use the following pseudo code: for (int i=0; i&lt;3; i++) { cellDims[i] = box.HiCorner[i] - box.LoCorner[i] + 1; } vtkIdType cellId = (z-box.LoCorner[2])*cellDims[0]*cellDims[1] + (y-box.LoCorner[1])*cellDims[0] + (x-box.LoCorner[0]);</para><para>NOTE vtkAMRBox is used to compute cell visibility, therefor it should be dimensioned according to the visible region.</para><para>To create an instance of class vtkHierarchicalBoxDataSet, simply invoke its constructor as follows <verbatim>  obj = vtkHierarchicalBoxDataSet
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkHierarchicalBoxDataSet has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkHierarchicalBoxDataSet class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkHierarchicalBoxDataSet = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkHierarchicalBoxDataSet = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkCompositeDataIterator = obj.NewIterator ()</computeroutput> - Return a new iterator (the iterator has to be deleted by user).  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetDataObjectType ()</computeroutput> - Set the number of refinement levels. This call might cause allocation if the new number of levels is larger than the current one.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetNumberOfLevels (int numLevels)</computeroutput> - Set the number of refinement levels. This call might cause allocation if the new number of levels is larger than the current one.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetNumberOfLevels ()</computeroutput> - Returns the number of levels.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetNumberOfDataSets (int level, int numdatasets)</computeroutput> - Set the number of data set at a given level.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetNumberOfDataSets (int level)</computeroutput> - Returns the number of data sets available at any level.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetDataSet (vtkCompositeDataIterator iter, vtkDataObject dataObj)</computeroutput> - Set the dataset pointer for a given node. This will resize the number of levels and the number of datasets in the level to fit level, id requested.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetDataSet (int level, int id, int LoCorner[3], int HiCorner[3], vtkUniformGrid dataSet)</computeroutput> - Set the dataset pointer for a given node. This will resize the number of levels and the number of datasets in the level to fit level, id requested.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkInformation = obj.GetLevelMetaData (int level)</computeroutput> - Returns if meta-data exists for a given level.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.HasLevelMetaData (int level)</computeroutput> - Get meta-data associated with a dataset. This may allocate a new vtkInformation object if none is already present. Use HasMetaData to avoid unnecessary allocations.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkInformation = obj.GetMetaData (int level, int index)</computeroutput> - Get meta-data associated with a dataset. This may allocate a new vtkInformation object if none is already present. Use HasMetaData to avoid unnecessary allocations.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.HasMetaData (int level, int index)</computeroutput> - Returns if meta-data exists for a given dataset under a given level.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetRefinementRatio (int level, int refRatio)</computeroutput> - Sets the refinement of a given level. The spacing at level level+1 is defined as spacing(level+1) = spacing(level)/refRatio(level). Note that currently, this is not enforced by this class however some algorithms might not function properly if the spacing in the blocks (vtkUniformGrid) does not match the one described by the refinement ratio.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetRefinementRatio (int level)</computeroutput> - Returns the refinement of a given level.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetRefinementRatio (vtkCompositeDataIterator iter)</computeroutput> - Returns the refinement ratio for the position pointed by the iterator.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GenerateVisibilityArrays ()</computeroutput> - Blank lower level cells if they are overlapped by higher level ones.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GetScalarRange (double range[])</computeroutput> - Copy the cached scalar range into range.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkDataObject = obj.GetDataSet (vtkCompositeDataIterator iter)</computeroutput> - Unhiding superclass method.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkInformation = obj.GetMetaData (vtkCompositeDataIterator iter)</computeroutput> - Unhiding superclass method.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.HasMetaData (vtkCompositeDataIterator iter)</computeroutput> - Given the level and dataset index, returns the flat index provided level and dataset index are valid.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetFlatIndex (int level, int index)</computeroutput> - Given the level and dataset index, returns the flat index provided level and dataset index are valid.  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

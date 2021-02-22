@@ -1,0 +1,190 @@
+
+ Usage
+
+vtkProp is an abstract superclass for any objects that can
+exist in a rendered scene (either 2D or 3D). Instances of
+vtkProp may respond to various render methods (e.g.,
+RenderOpaqueGeometry()). vtkProp also defines the API for
+picking, LOD manipulation, and common instance variables
+that control visibility, picking, and dragging.
+To create an instance of class vtkProp, simply invoke its
+constructor as follows
+
+    obj = vtkProp
+
+
+
+ Methods
+
+The class vtkProp has several methods that can be used. They
+are listed below. Note that the documentation is translated
+automatically from the VTK sources, and may not be
+completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkProp class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkProp = obj.NewInstance ()
+* vtkProp = obj.SafeDownCast (vtkObject o)
+* obj.GetActors (vtkPropCollection ) - For some exporters
+  and other other operations we must be able to collect all
+  the actors or volumes. These methods are used in that
+  process.
+* obj.GetActors2D (vtkPropCollection ) - For some exporters
+  and other other operations we must be able to collect all
+  the actors or volumes. These methods are used in that
+  process.
+* obj.GetVolumes (vtkPropCollection ) - Set/Get visibility
+  of this vtkProp. Initial value is true.
+* obj.SetVisibility (int ) - Set/Get visibility of this
+  vtkProp. Initial value is true.
+* int = obj.GetVisibility () - Set/Get visibility of this
+  vtkProp. Initial value is true.
+* obj.VisibilityOn () - Set/Get visibility of this vtkProp.
+  Initial value is true.
+* obj.VisibilityOff () - Set/Get visibility of this vtkProp.
+  Initial value is true.
+* obj.SetPickable (int ) - Set/Get the pickable instance
+  variable. This determines if the vtkProp can be picked
+  (typically using the mouse). Also see dragable. Initial
+  value is true.
+* int = obj.GetPickable () - Set/Get the pickable instance
+  variable. This determines if the vtkProp can be picked
+  (typically using the mouse). Also see dragable. Initial
+  value is true.
+* obj.PickableOn () - Set/Get the pickable instance
+  variable. This determines if the vtkProp can be picked
+  (typically using the mouse). Also see dragable. Initial
+  value is true.
+* obj.PickableOff () - Set/Get the pickable instance
+  variable. This determines if the vtkProp can be picked
+  (typically using the mouse). Also see dragable. Initial
+  value is true.
+* obj.Pick () - Method fires PickEvent if the prop is
+  picked.
+* obj.SetDragable (int ) - Set/Get the value of the dragable
+  instance variable. This determines if an Prop, once
+  picked, can be dragged (translated) through space. This is
+  typically done through an interactive mouse interface.
+  This does not affect methods such as SetPosition, which
+  will continue to work. It is just intended to prevent some
+  vtkProp'ss from being dragged from within a user
+  interface. Initial value is true.
+* int = obj.GetDragable () - Set/Get the value of the
+  dragable instance variable. This determines if an Prop,
+  once picked, can be dragged (translated) through space.
+  This is typically done through an interactive mouse
+  interface. This does not affect methods such as
+  SetPosition, which will continue to work. It is just
+  intended to prevent some vtkProp'ss from being dragged
+  from within a user interface. Initial value is true.
+* obj.DragableOn () - Set/Get the value of the dragable
+  instance variable. This determines if an Prop, once
+  picked, can be dragged (translated) through space. This is
+  typically done through an interactive mouse interface.
+  This does not affect methods such as SetPosition, which
+  will continue to work. It is just intended to prevent some
+  vtkProp'ss from being dragged from within a user
+  interface. Initial value is true.
+* obj.DragableOff () - Set/Get the value of the dragable
+  instance variable. This determines if an Prop, once
+  picked, can be dragged (translated) through space. This is
+  typically done through an interactive mouse interface.
+  This does not affect methods such as SetPosition, which
+  will continue to work. It is just intended to prevent some
+  vtkProp'ss from being dragged from within a user
+  interface. Initial value is true.
+* long = obj.GetRedrawMTime () - In case the Visibility flag
+  is true, tell if the bounds of this prop should be taken
+  into account or ignored during the computation of other
+  bounding boxes, like in vtkRenderer::ResetCamera().
+  Initial value is true.
+* obj.SetUseBounds (bool ) - In case the Visibility flag is
+  true, tell if the bounds of this prop should be taken into
+  account or ignored during the computation of other
+  bounding boxes, like in vtkRenderer::ResetCamera().
+  Initial value is true.
+* bool = obj.GetUseBounds () - In case the Visibility flag
+  is true, tell if the bounds of this prop should be taken
+  into account or ignored during the computation of other
+  bounding boxes, like in vtkRenderer::ResetCamera().
+  Initial value is true.
+* obj.UseBoundsOn () - In case the Visibility flag is true,
+  tell if the bounds of this prop should be taken into
+  account or ignored during the computation of other
+  bounding boxes, like in vtkRenderer::ResetCamera().
+  Initial value is true.
+* obj.UseBoundsOff () - In case the Visibility flag is true,
+  tell if the bounds of this prop should be taken into
+  account or ignored during the computation of other
+  bounding boxes, like in vtkRenderer::ResetCamera().
+  Initial value is true.
+* double = obj.GetBounds () - Shallow copy of this vtkProp.
+* obj.ShallowCopy (vtkProp prop) - Shallow copy of this
+  vtkProp.
+* obj.InitPathTraversal () - vtkProp and its subclasses can
+  be picked by subclasses of vtkAbstractPicker (e.g.,
+  vtkPropPicker). The following methods interface with the
+  picking classes and return "pick paths". A pick path is a
+  hierarchical, ordered list of props that form an assembly.
+  Most often, when a vtkProp is picked, its path consists of
+  a single node (i.e., the prop). However, classes like
+  vtkAssembly and vtkPropAssembly can return more than one
+  path, each path being several layers deep. (See
+  vtkAssemblyPath for more information.) To use these
+  methods - first invoke InitPathTraversal() followed by
+  repeated calls to GetNextPath(). GetNextPath() returns a
+  NULL pointer when the list is exhausted.
+* vtkAssemblyPath = obj.GetNextPath () - vtkProp and its
+  subclasses can be picked by subclasses of
+  vtkAbstractPicker (e.g., vtkPropPicker). The following
+  methods interface with the picking classes and return
+  "pick paths". A pick path is a hierarchical, ordered list
+  of props that form an assembly. Most often, when a vtkProp
+  is picked, its path consists of a single node (i.e., the
+  prop). However, classes like vtkAssembly and
+  vtkPropAssembly can return more than one path, each path
+  being several layers deep. (See vtkAssemblyPath for more
+  information.) To use these methods - first invoke
+  InitPathTraversal() followed by repeated calls to
+  GetNextPath(). GetNextPath() returns a NULL pointer when
+  the list is exhausted.
+* int = obj.GetNumberOfPaths () - These methods are used by
+  subclasses to place a matrix (if any) in the prop prior to
+  rendering. Generally used only for picking. See vtkProp3D
+  for more information.
+* obj.PokeMatrix (vtkMatrix4x4 ) - These methods are used by
+  subclasses to place a matrix (if any) in the prop prior to
+  rendering. Generally used only for picking. See vtkProp3D
+  for more information.
+* vtkMatrix4x4 = obj.GetMatrix () - Set/Get property keys.
+  Property keys can be digest by some rendering passes. For
+  instance, the user may mark a prop as a shadow caster for
+  a shadow mapping render pass. Keys are documented in
+  render pass classes. Initial value is NULL.
+* vtkInformation = obj.GetPropertyKeys () - Set/Get property
+  keys. Property keys can be digest by some rendering
+  passes. For instance, the user may mark a prop as a shadow
+  caster for a shadow mapping render pass. Keys are
+  documented in render pass classes. Initial value is NULL.
+* obj.SetPropertyKeys (vtkInformation keys) - Set/Get
+  property keys. Property keys can be digest by some
+  rendering passes. For instance, the user may mark a prop
+  as a shadow caster for a shadow mapping render pass. Keys
+  are documented in render pass classes. Initial value is
+  NULL.
+* bool = obj.HasKeys (vtkInformation requiredKeys) - Tells
+  if the prop has all the required keys.
+
+
+    Precondition:
+        keys_can_be_null: requiredKeys==0 || requiredKeys!=0
+
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Common_Classes
+* Generated on Thu Jul 25 2013 17:18:30 for FreeMat by
+  doxygen_ 1.8.1.1
+

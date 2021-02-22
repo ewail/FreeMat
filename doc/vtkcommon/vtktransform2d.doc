@@ -1,0 +1,116 @@
+/*!
+\page vtkcommon_vtktransform2d vtkTransform2D
+
+<p>
+Section: \ref sec_vtkcommon "Visualization Toolkit Common Classes"
+\section Usage
+ A vtkTransform2D can be used to describe the full range of linear (also
+ known as affine) coordinate transformations in two dimensions,
+ which are internally represented as a 3x3 homogeneous transformation
+ matrix.  When you create a new vtkTransform2D, it is always initialized
+ to the identity transformation.
+
+ This class performs all of its operations in a right handed
+ coordinate system with right handed rotations. Some other graphics
+ libraries use left handed coordinate systems and rotations.
+
+To create an instance of class vtkTransform2D, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkTransform2D
+\endverbatim
+\section Methods
+The class vtkTransform2D has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkTransform2D class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkTransform2D = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkTransform2D = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.Identity ()</tt> -  Set the transformation to the identity transformation.
+ </LI>
+<LI>  <tt>obj.Inverse ()</tt> -  Invert the transformation.
+ </LI>
+<LI>  <tt>obj.Translate (double x, double y)</tt> -  Create a translation matrix and concatenate it with the current
+ transformation.
+ </LI>
+<LI>  <tt>obj.Translate (double x[2])</tt> -  Create a translation matrix and concatenate it with the current
+ transformation.
+ </LI>
+<LI>  <tt>obj.Translate (float x[2])</tt> -  Create a rotation matrix and concatenate it with the current
+ transformation. The angle is in degrees.
+ </LI>
+<LI>  <tt>obj.Rotate (double angle)</tt> -  Create a rotation matrix and concatenate it with the current
+ transformation. The angle is in degrees.
+ </LI>
+<LI>  <tt>obj.Scale (double x, double y)</tt> -  Create a scale matrix (i.e. set the diagonal elements to x, y)
+ and concatenate it with the current transformation.
+ </LI>
+<LI>  <tt>obj.Scale (double s[2])</tt> -  Create a scale matrix (i.e. set the diagonal elements to x, y)
+ and concatenate it with the current transformation.
+ </LI>
+<LI>  <tt>obj.Scale (float s[2])</tt> -  Set the current matrix directly.
+ </LI>
+<LI>  <tt>obj.SetMatrix (vtkMatrix3x3 matrix)</tt> -  Set the current matrix directly.
+ </LI>
+<LI>  <tt>obj.SetMatrix (double elements[9])</tt> -  Set the current matrix directly.
+ </LI>
+<LI>  <tt>vtkMatrix3x3 = obj.GetMatrix ()</tt> -  Get the underlying 3x3 matrix.
+ </LI>
+<LI>  <tt>obj.GetMatrix (vtkMatrix3x3 matrix)</tt> -  Get the underlying 3x3 matrix.
+ </LI>
+<LI>  <tt>obj.GetPosition (double pos[2])</tt> -  Return the position from the current transformation matrix as an array
+ of two floating point numbers. This is simply returning the translation
+ component of the 3x3 matrix.
+ </LI>
+<LI>  <tt>obj.GetPosition (float pos[2])</tt> -  Return a matrix which is the inverse of the current transformation
+ matrix.
+ </LI>
+<LI>  <tt>obj.GetInverse (vtkMatrix3x3 inverse)</tt> -  Return a matrix which is the inverse of the current transformation
+ matrix.
+ </LI>
+<LI>  <tt>obj.GetTranspose (vtkMatrix3x3 transpose)</tt> -  Return a matrix which is the transpose of the current transformation
+ matrix.  This is equivalent to the inverse if and only if the
+ transformation is a pure rotation with no translation or scale.
+ </LI>
+<LI>  <tt>long = obj.GetMTime ()</tt> -  Override GetMTime to account for input and concatenation.
+ </LI>
+<LI>  <tt>obj.TransformPoints (float inPts, float outPts, int n)</tt> -  Apply the transformation to a series of points, and append the
+ results to outPts. Where n is the number of points, and the float pointers
+ are of length 2*n.
+ </LI>
+<LI>  <tt>obj.TransformPoints (double inPts, double outPts, int n)</tt> -  Apply the transformation to a series of points, and append the
+ results to outPts. Where n is the number of points, and the float pointers
+ are of length 2*n.
+ </LI>
+<LI>  <tt>obj.TransformPoints (vtkPoints2D inPts, vtkPoints2D outPts)</tt> -  Apply the transformation to a series of points, and append the
+ results to outPts.
+ </LI>
+<LI>  <tt>obj.InverseTransformPoints (float inPts, float outPts, int n)</tt> -  Apply the transformation to a series of points, and append the
+ results to outPts. Where n is the number of points, and the float pointers
+ are of length 2*n.
+ </LI>
+<LI>  <tt>obj.InverseTransformPoints (double inPts, double outPts, int n)</tt> -  Apply the transformation to a series of points, and append the
+ results to outPts. Where n is the number of points, and the float pointers
+ are of length 2*n.
+ </LI>
+<LI>  <tt>obj.InverseTransformPoints (vtkPoints2D inPts, vtkPoints2D outPts)</tt> -  Apply the transformation to a series of points, and append the
+ results to outPts.
+ </LI>
+<LI>  <tt>obj.MultiplyPoint (float in[3], float out[3])</tt> -  Use this method only if you wish to compute the transformation in
+ homogeneous (x,y,w) coordinates, otherwise use TransformPoint().
+ This method calls this->GetMatrix()->MultiplyPoint().
+ </LI>
+<LI>  <tt>obj.MultiplyPoint (double in[3], double out[3])</tt> -  Use this method only if you wish to compute the transformation in
+ homogeneous (x,y,w) coordinates, otherwise use TransformPoint().
+ This method calls this->GetMatrix()->MultiplyPoint().
+ </LI>
+</UL>
+*/

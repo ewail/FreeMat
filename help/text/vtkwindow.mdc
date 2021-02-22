@@ -1,0 +1,175 @@
+
+ Usage
+
+vtkWindow is an abstract object to specify the behavior of a
+rendering window. It contains vtkViewports.
+To create an instance of class vtkWindow, simply invoke its
+constructor as follows
+
+    obj = vtkWindow
+
+
+
+ Methods
+
+The class vtkWindow has several methods that can be used.
+They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkWindow class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkWindow = obj.NewInstance ()
+* vtkWindow = obj.SafeDownCast (vtkObject o)
+* obj.SetWindowInfo (string ) - These are window system
+  independent methods that are used to help interface
+  vtkWindow to native windowing systems.
+* obj.SetParentInfo (string ) - These are window system
+  independent methods that are used to help interface
+  vtkWindow to native windowing systems.
+* int = obj.GetPosition () - Set/Get the position in screen
+  coordinates of the rendering window.
+* obj.SetPosition (int , int ) - Set/Get the position in
+  screen coordinates of the rendering window.
+* obj.SetPosition (int a[2]) - Set/Get the position in
+  screen coordinates of the rendering window.
+* int = obj.GetSize () - Set/Get the size of the window in
+  screen coordinates in pixels.
+* obj.SetSize (int , int ) - Set/Get the size of the window
+  in screen coordinates in pixels.
+* obj.SetSize (int a[2]) - Set/Get the size of the window in
+  screen coordinates in pixels.
+* obj.SetMapped (int ) - Keep track of whether the rendering
+  window has been mapped to screen.
+* int = obj.GetMapped () - Keep track of whether the
+  rendering window has been mapped to screen.
+* obj.MappedOn () - Keep track of whether the rendering
+  window has been mapped to screen.
+* obj.MappedOff () - Keep track of whether the rendering
+  window has been mapped to screen.
+* obj.SetErase (int ) - Turn on/off erasing the screen
+  between images. This allows multiple exposure sequences if
+  turned on. You will need to turn double buffering off or
+  make use of the SwapBuffers methods to prevent you from
+  swapping buffers between exposures.
+* int = obj.GetErase () - Turn on/off erasing the screen
+  between images. This allows multiple exposure sequences if
+  turned on. You will need to turn double buffering off or
+  make use of the SwapBuffers methods to prevent you from
+  swapping buffers between exposures.
+* obj.EraseOn () - Turn on/off erasing the screen between
+  images. This allows multiple exposure sequences if turned
+  on. You will need to turn double buffering off or make use
+  of the SwapBuffers methods to prevent you from swapping
+  buffers between exposures.
+* obj.EraseOff () - Turn on/off erasing the screen between
+  images. This allows multiple exposure sequences if turned
+  on. You will need to turn double buffering off or make use
+  of the SwapBuffers methods to prevent you from swapping
+  buffers between exposures.
+* obj.SetDoubleBuffer (int ) - Keep track of whether double
+  buffering is on or off
+* int = obj.GetDoubleBuffer () - Keep track of whether
+  double buffering is on or off
+* obj.DoubleBufferOn () - Keep track of whether double
+  buffering is on or off
+* obj.DoubleBufferOff () - Keep track of whether double
+  buffering is on or off
+* string = obj.GetWindowName () - Get name of rendering
+  window
+* obj.SetWindowName (string ) - Get name of rendering window
+* obj.Render () - Ask each viewport owned by this Window to
+  render its image and synchronize this process.
+* int = obj.GetPixelData (int x, int y, int x2, int y2, int
+  front, vtkUnsignedCharArray data) - Get the pixel data of
+  an image, transmitted as RGBRGBRGB. The front argument
+  indicates if the front buffer should be used or the back
+  buffer. It is the caller's responsibility to delete the
+  resulting array. It is very important to realize that the
+  memory in this array is organized from the bottom of the
+  window to the top. The origin of the screen is in the
+  lower left corner. The y axis increases as you go up the
+  screen. So the storage of pixels is from left to right and
+  from bottom to top. (x,y) is any corner of the rectangle.
+  (x2,y2) is its opposite corner on the diagonal.
+* int = obj.GetDPI () - Return a best estimate to the dots
+  per inch of the display device being rendered (or
+  printed).
+* obj.SetDPI (int ) - Return a best estimate to the dots per
+  inch of the display device being rendered (or printed).
+* int = obj.GetDPIMinValue () - Return a best estimate to
+  the dots per inch of the display device being rendered (or
+  printed).
+* int = obj.GetDPIMaxValue () - Return a best estimate to
+  the dots per inch of the display device being rendered (or
+  printed).
+* obj.SetOffScreenRendering (int ) - Create a window in
+  memory instead of on the screen. This may not be supported
+  for every type of window and on some windows you may need
+  to invoke this prior to the first render.
+* int = obj.GetOffScreenRendering () - Create a window in
+  memory instead of on the screen. This may not be supported
+  for every type of window and on some windows you may need
+  to invoke this prior to the first render.
+* obj.OffScreenRenderingOn () - Create a window in memory
+  instead of on the screen. This may not be supported for
+  every type of window and on some windows you may need to
+  invoke this prior to the first render.
+* obj.OffScreenRenderingOff () - Create a window in memory
+  instead of on the screen. This may not be supported for
+  every type of window and on some windows you may need to
+  invoke this prior to the first render.
+* obj.MakeCurrent () - Make the window current. May be
+  overridden in subclasses to do for example a
+  glXMakeCurrent or a wglMakeCurrent.
+* obj.SetTileScale (int , int ) - These methods are used by
+  vtkWindowToImageFilter to tell a VTK window to simulate a
+  larger window by tiling. For 3D geometry these methods
+  have no impact. It is just in handling annotation that
+  this information must be available to the mappers and the
+  coordinate calculations.
+* obj.SetTileScale (int a[2]) - These methods are used by
+  vtkWindowToImageFilter to tell a VTK window to simulate a
+  larger window by tiling. For 3D geometry these methods
+  have no impact. It is just in handling annotation that
+  this information must be available to the mappers and the
+  coordinate calculations.
+* int = obj. GetTileScale () - These methods are used by
+  vtkWindowToImageFilter to tell a VTK window to simulate a
+  larger window by tiling. For 3D geometry these methods
+  have no impact. It is just in handling annotation that
+  this information must be available to the mappers and the
+  coordinate calculations.
+* obj.SetTileScale (int s) - These methods are used by
+  vtkWindowToImageFilter to tell a VTK window to simulate a
+  larger window by tiling. For 3D geometry these methods
+  have no impact. It is just in handling annotation that
+  this information must be available to the mappers and the
+  coordinate calculations.
+* obj.SetTileViewport (double , double , double , double ) -
+  These methods are used by vtkWindowToImageFilter to tell a
+  VTK window to simulate a larger window by tiling. For 3D
+  geometry these methods have no impact. It is just in
+  handling annotation that this information must be
+  available to the mappers and the coordinate calculations.
+* obj.SetTileViewport (double a[4]) - These methods are used
+  by vtkWindowToImageFilter to tell a VTK window to simulate
+  a larger window by tiling. For 3D geometry these methods
+  have no impact. It is just in handling annotation that
+  this information must be available to the mappers and the
+  coordinate calculations.
+* double = obj. GetTileViewport () - These methods are used
+  by vtkWindowToImageFilter to tell a VTK window to simulate
+  a larger window by tiling. For 3D geometry these methods
+  have no impact. It is just in handling annotation that
+  this information must be available to the mappers and the
+  coordinate calculations.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Common_Classes
+* Generated on Thu Jul 25 2013 17:18:30 for FreeMat by
+  doxygen_ 1.8.1.1
+

@@ -1,0 +1,120 @@
+
+ Usage
+
+Matches regular expressions in the provided string. This
+function is complicated, and compatibility with MATLABs
+syntax is not perfect. The syntax for its use is
+
+    regexp('str','expr')
+
+which returns a row vector containing the starting index of
+each substring of str that matches the regular expression
+described by expr. The second form of regexp returns six
+outputs in the following order:
+
+    [start stop tokenExtents match tokens names] = regexp
+  ('str','expr')
+
+where the meaning of each of the outputs is defined below.
+
+* start is a row vector containing the starting index of
+  each substring that matches the regular expression.
+* stop is a row vector containing the ending index of each
+  substring that matches the regular expression.
+* tokenExtents is a cell array containing the starting and
+  ending indices of each substring that matches the tokens
+  in the regular expression. A token is a captured part of
+  the regular expression. If the 'once' mode is used, then
+  this output is a double array.
+* match is a cell array containing the text for each
+  substring that matches the regular expression. In 'once'
+  mode, this is a string.
+* tokens is a cell array of cell arrays of strings that
+  correspond to the tokens in the regular expression. In
+  'once' mode, this is a cell array of strings.
+* named is a structure array containing the named tokens
+  captured in a regular expression. Each named token is
+  assigned a field in the resulting structure array, and
+  each element of the array corresponds to a different
+  match.
+
+If you want only some of the the outputs, you can use the
+following variant of regexp:
+
+    [o1 o2 ...] = regexp('str','expr', 'p1', 'p2', ...)
+
+where p1 etc. are the names of the outputs (and the order we
+want the outputs in). As a final variant, you can supply
+some mode flags to regexp
+
+    [o1 o2 ...] = regexp('str','expr', p1, p2, ..., 'mode1',
+  'mode2')
+
+where acceptable mode flags are:
+
+* 'once' - only the first match is returned.
+* 'matchcase' - letter case must match (selected by default
+  for regexp)
+* 'ignorecase' - letter case is ignored (selected by default
+  for regexpi)
+* 'dotall' - the '.' operator matches any character
+  (default)
+* 'dotexceptnewline' - the '.' operator does not match the
+  newline character
+* 'stringanchors' - the ^ and $ operators match at the
+  beginning and end (respectively) of a string.
+* 'lineanchors' - the ^ and $ operators match at the
+  beginning and end (respectively) of a line.
+* 'literalspacing' - the space characters and comment
+  characters # are matched as literals, just like any other
+  ordinary character (default).
+* 'freespacing' - all spaces and comments are ignored in the
+  regular expression. You must use '\ ' and '#' to match
+  spaces and comment characters, respectively.
+
+Note the following behavior differences between MATLABs
+regexp and FreeMats:
+
+* If you have an old version of pcre installed, then named
+  tokens must use the older <?P<name> syntax, instead of the
+  new <?<name> syntax.
+* The pcre library is pickier about named tokens and their
+  appearance in expressions. So, for example, the regexp
+  from the MATLAB manual '(?<first>\w+)\s+(?<last>\w+)
+  (?<last>\w+),\s+(?<first>\w+)'| does not work correctly
+  (as of this writing) because the same named tokens appear
+  multiple times. The workaround is to assign different
+  names to each token, and then collapse the results later.
+
+
+
+ Example
+
+Some examples of using the regexp function
+
+  --> [start,stop,tokenExtents,match,tokens,named] = regexp
+  ('quick down town zoo','(.)own')
+  start =
+    7 12
+
+  stop =
+   10 15
+
+  tokenExtents =
+   [1x2 double array] [1x2 double array]
+
+  match =
+   [down] [town]
+
+  tokens =
+   [1x1 cell array] [1x1 cell array]
+
+  named =
+    []
+
+
+* FreeMat_Documentation
+* String_Functions
+* Generated on Thu Jul 25 2013 17:18:29 for FreeMat by
+  doxygen_ 1.8.1.1
+

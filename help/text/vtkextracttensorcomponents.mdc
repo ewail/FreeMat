@@ -1,0 +1,189 @@
+
+ Usage
+
+vtkExtractTensorComponents is a filter that extracts
+components of a tensor to create a scalar, vector, normal,
+or texture coords. For example, if the tensor contains
+components of stress, then you could extract the normal
+stress in the x-direction as a scalar (i.e., tensor
+component (0,0).
+To use this filter, you must set some boolean flags to
+control which data is extracted from the tensors, and
+whether you want to pass the tensor data through to the
+output. Also, you must specify the tensor component(s) for
+each type of data you want to extract. The tensor component
+(s) is(are) specified using matrix notation into a 3x3
+matrix. That is, use the (row,column) address to specify a
+particular tensor component; and if the data you are
+extracting requires more than one component, use a list of
+addresses. (Note that the addresses are 0-offset -> (0,0)
+specifies upper left corner of the tensor.)
+There are two optional methods to extract scalar data. You
+can extract the determinant of the tensor, or you can
+extract the effective stress of the tensor. These require
+that the ivar ExtractScalars is on, and the appropriate
+scalar extraction mode is set.
+To create an instance of class vtkExtractTensorComponents,
+simply invoke its constructor as follows
+
+    obj = vtkExtractTensorComponents
+
+
+
+ Methods
+
+The class vtkExtractTensorComponents has several methods
+that can be used. They are listed below. Note that the
+documentation is translated automatically from the VTK
+sources, and may not be completely intelligible. When in
+doubt, consult the VTK website. In the methods listed below,
+obj is an instance of the vtkExtractTensorComponents class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkExtractTensorComponents = obj.NewInstance ()
+* vtkExtractTensorComponents = obj.SafeDownCast (vtkObject
+  o)
+* obj.SetPassTensorsToOutput (int ) - Boolean controls
+  whether tensor data is passed through to output.
+* int = obj.GetPassTensorsToOutput () - Boolean controls
+  whether tensor data is passed through to output.
+* obj.PassTensorsToOutputOn () - Boolean controls whether
+  tensor data is passed through to output.
+* obj.PassTensorsToOutputOff () - Boolean controls whether
+  tensor data is passed through to output.
+* obj.SetExtractScalars (int ) - Boolean controls whether
+  scalar data is extracted from tensor.
+* int = obj.GetExtractScalars () - Boolean controls whether
+  scalar data is extracted from tensor.
+* obj.ExtractScalarsOn () - Boolean controls whether scalar
+  data is extracted from tensor.
+* obj.ExtractScalarsOff () - Boolean controls whether scalar
+  data is extracted from tensor.
+* obj.SetScalarComponents (int , int ) - Specify the
+  (row,column) tensor component to extract as a scalar.
+* obj.SetScalarComponents (int a[2]) - Specify the
+  (row,column) tensor component to extract as a scalar.
+* int = obj. GetScalarComponents () - Specify the
+  (row,column) tensor component to extract as a scalar.
+* obj.SetScalarMode (int ) - Specify how to extract the
+  scalar. You can extract it as one of the components of the
+  tensor, as effective stress, or as the determinant of the
+  tensor. If you extract a component make sure that you set
+  the ScalarComponents ivar.
+* int = obj.GetScalarMode () - Specify how to extract the
+  scalar. You can extract it as one of the components of the
+  tensor, as effective stress, or as the determinant of the
+  tensor. If you extract a component make sure that you set
+  the ScalarComponents ivar.
+* obj.SetScalarModeToComponent () - Specify how to extract
+  the scalar. You can extract it as one of the components of
+  the tensor, as effective stress, or as the determinant of
+  the tensor. If you extract a component make sure that you
+  set the ScalarComponents ivar.
+* obj.SetScalarModeToEffectiveStress () - Specify how to
+  extract the scalar. You can extract it as one of the
+  components of the tensor, as effective stress, or as the
+  determinant of the tensor. If you extract a component make
+  sure that you set the ScalarComponents ivar.
+* obj.SetScalarModeToDeterminant () - Specify how to extract
+  the scalar. You can extract it as one of the components of
+  the tensor, as effective stress, or as the determinant of
+  the tensor. If you extract a component make sure that you
+  set the ScalarComponents ivar.
+* obj.ScalarIsComponent () - Specify how to extract the
+  scalar. You can extract it as one of the components of the
+  tensor, as effective stress, or as the determinant of the
+  tensor. If you extract a component make sure that you set
+  the ScalarComponents ivar.
+* obj.ScalarIsEffectiveStress () - Specify how to extract
+  the scalar. You can extract it as one of the components of
+  the tensor, as effective stress, or as the determinant of
+  the tensor. If you extract a component make sure that you
+  set the ScalarComponents ivar.
+* obj.ScalarIsDeterminant () - Specify how to extract the
+  scalar. You can extract it as one of the components of the
+  tensor, as effective stress, or as the determinant of the
+  tensor. If you extract a component make sure that you set
+  the ScalarComponents ivar.
+* obj.SetExtractVectors (int ) - Boolean controls whether
+  vector data is extracted from tensor.
+* int = obj.GetExtractVectors () - Boolean controls whether
+  vector data is extracted from tensor.
+* obj.ExtractVectorsOn () - Boolean controls whether vector
+  data is extracted from tensor.
+* obj.ExtractVectorsOff () - Boolean controls whether vector
+  data is extracted from tensor.
+* obj.SetVectorComponents (int , int , int , int , int , int
+  ) - Specify the ((row,column)0,(row,column)1,
+  (row,column)2) tensor components to extract as a vector.
+* obj.SetVectorComponents (int a[6]) - Specify the (
+  (row,column)0,(row,column)1,(row,column)2) tensor
+  components to extract as a vector.
+* int = obj. GetVectorComponents () - Specify the (
+  (row,column)0,(row,column)1,(row,column)2) tensor
+  components to extract as a vector.
+* obj.SetExtractNormals (int ) - Boolean controls whether
+  normal data is extracted from tensor.
+* int = obj.GetExtractNormals () - Boolean controls whether
+  normal data is extracted from tensor.
+* obj.ExtractNormalsOn () - Boolean controls whether normal
+  data is extracted from tensor.
+* obj.ExtractNormalsOff () - Boolean controls whether normal
+  data is extracted from tensor.
+* obj.SetNormalizeNormals (int ) - Boolean controls whether
+  normal vector is converted to unit normal after
+  extraction.
+* int = obj.GetNormalizeNormals () - Boolean controls
+  whether normal vector is converted to unit normal after
+  extraction.
+* obj.NormalizeNormalsOn () - Boolean controls whether
+  normal vector is converted to unit normal after
+  extraction.
+* obj.NormalizeNormalsOff () - Boolean controls whether
+  normal vector is converted to unit normal after
+  extraction.
+* obj.SetNormalComponents (int , int , int , int , int , int
+  ) - Specify the ((row,column)0,(row,column)1,
+  (row,column)2) tensor components to extract as a vector.
+* obj.SetNormalComponents (int a[6]) - Specify the (
+  (row,column)0,(row,column)1,(row,column)2) tensor
+  components to extract as a vector.
+* int = obj. GetNormalComponents () - Specify the (
+  (row,column)0,(row,column)1,(row,column)2) tensor
+  components to extract as a vector.
+* obj.SetExtractTCoords (int ) - Boolean controls whether
+  texture coordinates are extracted from tensor.
+* int = obj.GetExtractTCoords () - Boolean controls whether
+  texture coordinates are extracted from tensor.
+* obj.ExtractTCoordsOn () - Boolean controls whether texture
+  coordinates are extracted from tensor.
+* obj.ExtractTCoordsOff () - Boolean controls whether
+  texture coordinates are extracted from tensor.
+* obj.SetNumberOfTCoords (int ) - Set the dimension of the
+  texture coordinates to extract.
+* int = obj.GetNumberOfTCoordsMinValue () - Set the
+  dimension of the texture coordinates to extract.
+* int = obj.GetNumberOfTCoordsMaxValue () - Set the
+  dimension of the texture coordinates to extract.
+* int = obj.GetNumberOfTCoords () - Set the dimension of the
+  texture coordinates to extract.
+* obj.SetTCoordComponents (int , int , int , int , int , int
+  ) - Specify the ((row,column)0,(row,column)1,
+  (row,column)2) tensor components to extract as a vector.
+  Up to NumberOfTCoords components are extracted.
+* obj.SetTCoordComponents (int a[6]) - Specify the (
+  (row,column)0,(row,column)1,(row,column)2) tensor
+  components to extract as a vector. Up to NumberOfTCoords
+  components are extracted.
+* int = obj. GetTCoordComponents () - Specify the (
+  (row,column)0,(row,column)1,(row,column)2) tensor
+  components to extract as a vector. Up to NumberOfTCoords
+  components are extracted.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Graphics_Classes
+* Generated on Thu Jul 25 2013 17:18:31 for FreeMat by
+  doxygen_ 1.8.1.1
+

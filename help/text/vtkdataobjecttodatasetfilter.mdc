@@ -1,0 +1,588 @@
+
+ Usage
+
+vtkDataObjectToDataSetFilter is an class that maps a data
+object (i.e., a field) into a concrete dataset, i.e., gives
+structure to the field by defining a geometry and topology.
+To use this filter you associate components in the input
+field data with portions of the output dataset. (A component
+is an array of values from the field.) For example, you
+would specify x-y-z points by assigning components from the
+field for the x, then y, then z values of the points. You
+may also have to specify component ranges (for each z-y-z)
+to make sure that the number of x, y, and z values is the
+same. Also, you may want to normalize the components which
+helps distribute the data uniformly. Once you've setup the
+filter to combine all the pieces of data into a specified
+dataset (the geometry, topology, point and cell data
+attributes), the various output methods (e.g., GetPolyData
+()) are used to retrieve the final product.
+This filter is often used in conjunction with
+vtkFieldDataToAttributeDataFilter.
+vtkFieldDataToAttributeDataFilter takes field data and
+transforms it into attribute data (e.g., point and cell data
+attributes such as scalars and vectors). To do this, use
+this filter which constructs a concrete dataset and passes
+the input data object field data to its output. and then use
+vtkFieldDataToAttributeDataFilter to generate the attribute
+data associated with the dataset.
+To create an instance of class vtkDataObjectToDataSetFilter,
+simply invoke its constructor as follows
+
+    obj = vtkDataObjectToDataSetFilter
+
+
+
+ Methods
+
+The class vtkDataObjectToDataSetFilter has several methods
+that can be used. They are listed below. Note that the
+documentation is translated automatically from the VTK
+sources, and may not be completely intelligible. When in
+doubt, consult the VTK website. In the methods listed below,
+obj is an instance of the vtkDataObjectToDataSetFilter
+class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkDataObjectToDataSetFilter = obj.NewInstance ()
+* vtkDataObjectToDataSetFilter = obj.SafeDownCast (vtkObject
+  o)
+* vtkDataObject = obj.GetInput () - Get the input to the
+  filter.
+* obj.SetDataSetType (int ) - Control what type of data is
+  generated for output.
+* int = obj.GetDataSetType () - Control what type of data is
+  generated for output.
+* obj.SetDataSetTypeToPolyData () - Control what type of
+  data is generated for output.
+* obj.SetDataSetTypeToStructuredPoints () - Control what
+  type of data is generated for output.
+* obj.SetDataSetTypeToStructuredGrid () - Control what type
+  of data is generated for output.
+* obj.SetDataSetTypeToRectilinearGrid () - Control what type
+  of data is generated for output.
+* obj.SetDataSetTypeToUnstructuredGrid () - Control what
+  type of data is generated for output.
+* vtkDataSet = obj.GetOutput () - Get the output in
+  different forms. The particular method invoked should be
+  consistent with the SetDataSetType() method. (Note:
+  GetOutput() will always return a type consistent with
+  SetDataSetType(). Also, GetOutput() will return NULL if
+  the filter aborted due to inconsistent data.)
+* vtkDataSet = obj.GetOutput (int idx) - Get the output in
+  different forms. The particular method invoked should be
+  consistent with the SetDataSetType() method. (Note:
+  GetOutput() will always return a type consistent with
+  SetDataSetType(). Also, GetOutput() will return NULL if
+  the filter aborted due to inconsistent data.)
+* vtkPolyData = obj.GetPolyDataOutput () - Get the output in
+  different forms. The particular method invoked should be
+  consistent with the SetDataSetType() method. (Note:
+  GetOutput() will always return a type consistent with
+  SetDataSetType(). Also, GetOutput() will return NULL if
+  the filter aborted due to inconsistent data.)
+* vtkStructuredPoints = obj.GetStructuredPointsOutput () -
+  Get the output in different forms. The particular method
+  invoked should be consistent with the SetDataSetType()
+  method. (Note: GetOutput() will always return a type
+  consistent with SetDataSetType(). Also, GetOutput() will
+  return NULL if the filter aborted due to inconsistent
+  data.)
+* vtkStructuredGrid = obj.GetStructuredGridOutput () - Get
+  the output in different forms. The particular method
+  invoked should be consistent with the SetDataSetType()
+  method. (Note: GetOutput() will always return a type
+  consistent with SetDataSetType(). Also, GetOutput() will
+  return NULL if the filter aborted due to inconsistent
+  data.)
+* vtkUnstructuredGrid = obj.GetUnstructuredGridOutput () -
+  Get the output in different forms. The particular method
+  invoked should be consistent with the SetDataSetType()
+  method. (Note: GetOutput() will always return a type
+  consistent with SetDataSetType(). Also, GetOutput() will
+  return NULL if the filter aborted due to inconsistent
+  data.)
+* vtkRectilinearGrid = obj.GetRectilinearGridOutput () - Get
+  the output in different forms. The particular method
+  invoked should be consistent with the SetDataSetType()
+  method. (Note: GetOutput() will always return a type
+  consistent with SetDataSetType(). Also, GetOutput() will
+  return NULL if the filter aborted due to inconsistent
+  data.)
+* obj.SetPointComponent (int comp, string arrayName, int
+  arrayComp, int min, int max, int normalize) - Define the
+  component of the field to be used for the x, y, and z
+  values of the points. Note that the parameter comp must
+  lie between (0,2) and refers to the x-y-z (i.e., 0,1,2)
+  components of the points. To define the field component to
+  use you can specify an array name and the component in
+  that array. The (min,max) values are the range of data in
+  the component you wish to extract. (This method should be
+  used for vtkPolyData, vtkUnstructuredGrid,
+  vtkStructuredGrid, and vtkRectilinearGrid.) A convenience
+  method, SetPointComponent(),is also provided which does
+  not require setting the (min,max) component range or the
+  normalize flag (normalize is set to DefaulatNormalize
+  value).
+* obj.SetPointComponent (int comp, string arrayName, int
+  arrayComp) - Define the component of the field to be used
+  for the x, y, and z values of the points. Note that the
+  parameter comp must lie between (0,2) and refers to the x-
+  y-z (i.e., 0,1,2) components of the points. To define the
+  field component to use you can specify an array name and
+  the component in that array. The (min,max) values are the
+  range of data in the component you wish to extract. (This
+  method should be used for vtkPolyData,
+  vtkUnstructuredGrid, vtkStructuredGrid, and
+  vtkRectilinearGrid.) A convenience method,
+  SetPointComponent(),is also provided which does not
+  require setting the (min,max) component range or the
+  normalize flag (normalize is set to DefaulatNormalize
+  value).
+* string = obj.GetPointComponentArrayName (int comp) -
+  Define the component of the field to be used for the x, y,
+  and z values of the points. Note that the parameter comp
+  must lie between (0,2) and refers to the x-y-z (i.e.,
+  0,1,2) components of the points. To define the field
+  component to use you can specify an array name and the
+  component in that array. The (min,max) values are the
+  range of data in the component you wish to extract. (This
+  method should be used for vtkPolyData,
+  vtkUnstructuredGrid, vtkStructuredGrid, and
+  vtkRectilinearGrid.) A convenience method,
+  SetPointComponent(),is also provided which does not
+  require setting the (min,max) component range or the
+  normalize flag (normalize is set to DefaulatNormalize
+  value).
+* int = obj.GetPointComponentArrayComponent (int comp) -
+  Define the component of the field to be used for the x, y,
+  and z values of the points. Note that the parameter comp
+  must lie between (0,2) and refers to the x-y-z (i.e.,
+  0,1,2) components of the points. To define the field
+  component to use you can specify an array name and the
+  component in that array. The (min,max) values are the
+  range of data in the component you wish to extract. (This
+  method should be used for vtkPolyData,
+  vtkUnstructuredGrid, vtkStructuredGrid, and
+  vtkRectilinearGrid.) A convenience method,
+  SetPointComponent(),is also provided which does not
+  require setting the (min,max) component range or the
+  normalize flag (normalize is set to DefaulatNormalize
+  value).
+* int = obj.GetPointComponentMinRange (int comp) - Define
+  the component of the field to be used for the x, y, and z
+  values of the points. Note that the parameter comp must
+  lie between (0,2) and refers to the x-y-z (i.e., 0,1,2)
+  components of the points. To define the field component to
+  use you can specify an array name and the component in
+  that array. The (min,max) values are the range of data in
+  the component you wish to extract. (This method should be
+  used for vtkPolyData, vtkUnstructuredGrid,
+  vtkStructuredGrid, and vtkRectilinearGrid.) A convenience
+  method, SetPointComponent(),is also provided which does
+  not require setting the (min,max) component range or the
+  normalize flag (normalize is set to DefaulatNormalize
+  value).
+* int = obj.GetPointComponentMaxRange (int comp) - Define
+  the component of the field to be used for the x, y, and z
+  values of the points. Note that the parameter comp must
+  lie between (0,2) and refers to the x-y-z (i.e., 0,1,2)
+  components of the points. To define the field component to
+  use you can specify an array name and the component in
+  that array. The (min,max) values are the range of data in
+  the component you wish to extract. (This method should be
+  used for vtkPolyData, vtkUnstructuredGrid,
+  vtkStructuredGrid, and vtkRectilinearGrid.) A convenience
+  method, SetPointComponent(),is also provided which does
+  not require setting the (min,max) component range or the
+  normalize flag (normalize is set to DefaulatNormalize
+  value).
+* int = obj.GetPointComponentNormailzeFlag (int comp) -
+  Define the component of the field to be used for the x, y,
+  and z values of the points. Note that the parameter comp
+  must lie between (0,2) and refers to the x-y-z (i.e.,
+  0,1,2) components of the points. To define the field
+  component to use you can specify an array name and the
+  component in that array. The (min,max) values are the
+  range of data in the component you wish to extract. (This
+  method should be used for vtkPolyData,
+  vtkUnstructuredGrid, vtkStructuredGrid, and
+  vtkRectilinearGrid.) A convenience method,
+  SetPointComponent(),is also provided which does not
+  require setting the (min,max) component range or the
+  normalize flag (normalize is set to DefaulatNormalize
+  value).
+* obj.SetVertsComponent (string arrayName, int arrayComp,
+  int min, int max) - Define cell connectivity when creating
+  vtkPolyData. You can define vertices, lines, polygons,
+  and/or triangle strips via these methods. These methods
+  are similar to those for defining points, except that no
+  normalization of the data is possible. Basically, you need
+  to define an array of values that (for each cell) includes
+  the number of points per cell, and then the cell
+  connectivity. (This is the vtk file format described in in
+  the textbook or User's Guide.)
+* obj.SetVertsComponent (string arrayName, int arrayComp) -
+  Define cell connectivity when creating vtkPolyData. You
+  can define vertices, lines, polygons, and/or triangle
+  strips via these methods. These methods are similar to
+  those for defining points, except that no normalization of
+  the data is possible. Basically, you need to define an
+  array of values that (for each cell) includes the number
+  of points per cell, and then the cell connectivity. (This
+  is the vtk file format described in in the textbook or
+  User's Guide.)
+* string = obj.GetVertsComponentArrayName () - Define cell
+  connectivity when creating vtkPolyData. You can define
+  vertices, lines, polygons, and/or triangle strips via
+  these methods. These methods are similar to those for
+  defining points, except that no normalization of the data
+  is possible. Basically, you need to define an array of
+  values that (for each cell) includes the number of points
+  per cell, and then the cell connectivity. (This is the vtk
+  file format described in in the textbook or User's Guide.)
+* int = obj.GetVertsComponentArrayComponent () - Define cell
+  connectivity when creating vtkPolyData. You can define
+  vertices, lines, polygons, and/or triangle strips via
+  these methods. These methods are similar to those for
+  defining points, except that no normalization of the data
+  is possible. Basically, you need to define an array of
+  values that (for each cell) includes the number of points
+  per cell, and then the cell connectivity. (This is the vtk
+  file format described in in the textbook or User's Guide.)
+* int = obj.GetVertsComponentMinRange () - Define cell
+  connectivity when creating vtkPolyData. You can define
+  vertices, lines, polygons, and/or triangle strips via
+  these methods. These methods are similar to those for
+  defining points, except that no normalization of the data
+  is possible. Basically, you need to define an array of
+  values that (for each cell) includes the number of points
+  per cell, and then the cell connectivity. (This is the vtk
+  file format described in in the textbook or User's Guide.)
+* int = obj.GetVertsComponentMaxRange () - Define cell
+  connectivity when creating vtkPolyData. You can define
+  vertices, lines, polygons, and/or triangle strips via
+  these methods. These methods are similar to those for
+  defining points, except that no normalization of the data
+  is possible. Basically, you need to define an array of
+  values that (for each cell) includes the number of points
+  per cell, and then the cell connectivity. (This is the vtk
+  file format described in in the textbook or User's Guide.)
+* obj.SetLinesComponent (string arrayName, int arrayComp,
+  int min, int max) - Define cell connectivity when creating
+  vtkPolyData. You can define vertices, lines, polygons,
+  and/or triangle strips via these methods. These methods
+  are similar to those for defining points, except that no
+  normalization of the data is possible. Basically, you need
+  to define an array of values that (for each cell) includes
+  the number of points per cell, and then the cell
+  connectivity. (This is the vtk file format described in in
+  the textbook or User's Guide.)
+* obj.SetLinesComponent (string arrayName, int arrayComp) -
+  Define cell connectivity when creating vtkPolyData. You
+  can define vertices, lines, polygons, and/or triangle
+  strips via these methods. These methods are similar to
+  those for defining points, except that no normalization of
+  the data is possible. Basically, you need to define an
+  array of values that (for each cell) includes the number
+  of points per cell, and then the cell connectivity. (This
+  is the vtk file format described in in the textbook or
+  User's Guide.)
+* string = obj.GetLinesComponentArrayName () - Define cell
+  connectivity when creating vtkPolyData. You can define
+  vertices, lines, polygons, and/or triangle strips via
+  these methods. These methods are similar to those for
+  defining points, except that no normalization of the data
+  is possible. Basically, you need to define an array of
+  values that (for each cell) includes the number of points
+  per cell, and then the cell connectivity. (This is the vtk
+  file format described in in the textbook or User's Guide.)
+* int = obj.GetLinesComponentArrayComponent () - Define cell
+  connectivity when creating vtkPolyData. You can define
+  vertices, lines, polygons, and/or triangle strips via
+  these methods. These methods are similar to those for
+  defining points, except that no normalization of the data
+  is possible. Basically, you need to define an array of
+  values that (for each cell) includes the number of points
+  per cell, and then the cell connectivity. (This is the vtk
+  file format described in in the textbook or User's Guide.)
+* int = obj.GetLinesComponentMinRange () - Define cell
+  connectivity when creating vtkPolyData. You can define
+  vertices, lines, polygons, and/or triangle strips via
+  these methods. These methods are similar to those for
+  defining points, except that no normalization of the data
+  is possible. Basically, you need to define an array of
+  values that (for each cell) includes the number of points
+  per cell, and then the cell connectivity. (This is the vtk
+  file format described in in the textbook or User's Guide.)
+* int = obj.GetLinesComponentMaxRange () - Define cell
+  connectivity when creating vtkPolyData. You can define
+  vertices, lines, polygons, and/or triangle strips via
+  these methods. These methods are similar to those for
+  defining points, except that no normalization of the data
+  is possible. Basically, you need to define an array of
+  values that (for each cell) includes the number of points
+  per cell, and then the cell connectivity. (This is the vtk
+  file format described in in the textbook or User's Guide.)
+* obj.SetPolysComponent (string arrayName, int arrayComp,
+  int min, int max) - Define cell connectivity when creating
+  vtkPolyData. You can define vertices, lines, polygons,
+  and/or triangle strips via these methods. These methods
+  are similar to those for defining points, except that no
+  normalization of the data is possible. Basically, you need
+  to define an array of values that (for each cell) includes
+  the number of points per cell, and then the cell
+  connectivity. (This is the vtk file format described in in
+  the textbook or User's Guide.)
+* obj.SetPolysComponent (string arrayName, int arrayComp) -
+  Define cell connectivity when creating vtkPolyData. You
+  can define vertices, lines, polygons, and/or triangle
+  strips via these methods. These methods are similar to
+  those for defining points, except that no normalization of
+  the data is possible. Basically, you need to define an
+  array of values that (for each cell) includes the number
+  of points per cell, and then the cell connectivity. (This
+  is the vtk file format described in in the textbook or
+  User's Guide.)
+* string = obj.GetPolysComponentArrayName () - Define cell
+  connectivity when creating vtkPolyData. You can define
+  vertices, lines, polygons, and/or triangle strips via
+  these methods. These methods are similar to those for
+  defining points, except that no normalization of the data
+  is possible. Basically, you need to define an array of
+  values that (for each cell) includes the number of points
+  per cell, and then the cell connectivity. (This is the vtk
+  file format described in in the textbook or User's Guide.)
+* int = obj.GetPolysComponentArrayComponent () - Define cell
+  connectivity when creating vtkPolyData. You can define
+  vertices, lines, polygons, and/or triangle strips via
+  these methods. These methods are similar to those for
+  defining points, except that no normalization of the data
+  is possible. Basically, you need to define an array of
+  values that (for each cell) includes the number of points
+  per cell, and then the cell connectivity. (This is the vtk
+  file format described in in the textbook or User's Guide.)
+* int = obj.GetPolysComponentMinRange () - Define cell
+  connectivity when creating vtkPolyData. You can define
+  vertices, lines, polygons, and/or triangle strips via
+  these methods. These methods are similar to those for
+  defining points, except that no normalization of the data
+  is possible. Basically, you need to define an array of
+  values that (for each cell) includes the number of points
+  per cell, and then the cell connectivity. (This is the vtk
+  file format described in in the textbook or User's Guide.)
+* int = obj.GetPolysComponentMaxRange () - Define cell
+  connectivity when creating vtkPolyData. You can define
+  vertices, lines, polygons, and/or triangle strips via
+  these methods. These methods are similar to those for
+  defining points, except that no normalization of the data
+  is possible. Basically, you need to define an array of
+  values that (for each cell) includes the number of points
+  per cell, and then the cell connectivity. (This is the vtk
+  file format described in in the textbook or User's Guide.)
+* obj.SetStripsComponent (string arrayName, int arrayComp,
+  int min, int max) - Define cell connectivity when creating
+  vtkPolyData. You can define vertices, lines, polygons,
+  and/or triangle strips via these methods. These methods
+  are similar to those for defining points, except that no
+  normalization of the data is possible. Basically, you need
+  to define an array of values that (for each cell) includes
+  the number of points per cell, and then the cell
+  connectivity. (This is the vtk file format described in in
+  the textbook or User's Guide.)
+* obj.SetStripsComponent (string arrayName, int arrayComp) -
+  Define cell connectivity when creating vtkPolyData. You
+  can define vertices, lines, polygons, and/or triangle
+  strips via these methods. These methods are similar to
+  those for defining points, except that no normalization of
+  the data is possible. Basically, you need to define an
+  array of values that (for each cell) includes the number
+  of points per cell, and then the cell connectivity. (This
+  is the vtk file format described in in the textbook or
+  User's Guide.)
+* string = obj.GetStripsComponentArrayName () - Define cell
+  connectivity when creating vtkPolyData. You can define
+  vertices, lines, polygons, and/or triangle strips via
+  these methods. These methods are similar to those for
+  defining points, except that no normalization of the data
+  is possible. Basically, you need to define an array of
+  values that (for each cell) includes the number of points
+  per cell, and then the cell connectivity. (This is the vtk
+  file format described in in the textbook or User's Guide.)
+* int = obj.GetStripsComponentArrayComponent () - Define
+  cell connectivity when creating vtkPolyData. You can
+  define vertices, lines, polygons, and/or triangle strips
+  via these methods. These methods are similar to those for
+  defining points, except that no normalization of the data
+  is possible. Basically, you need to define an array of
+  values that (for each cell) includes the number of points
+  per cell, and then the cell connectivity. (This is the vtk
+  file format described in in the textbook or User's Guide.)
+* int = obj.GetStripsComponentMinRange () - Define cell
+  connectivity when creating vtkPolyData. You can define
+  vertices, lines, polygons, and/or triangle strips via
+  these methods. These methods are similar to those for
+  defining points, except that no normalization of the data
+  is possible. Basically, you need to define an array of
+  values that (for each cell) includes the number of points
+  per cell, and then the cell connectivity. (This is the vtk
+  file format described in in the textbook or User's Guide.)
+* int = obj.GetStripsComponentMaxRange () - Define cell
+  connectivity when creating vtkPolyData. You can define
+  vertices, lines, polygons, and/or triangle strips via
+  these methods. These methods are similar to those for
+  defining points, except that no normalization of the data
+  is possible. Basically, you need to define an array of
+  values that (for each cell) includes the number of points
+  per cell, and then the cell connectivity. (This is the vtk
+  file format described in in the textbook or User's Guide.)
+* obj.SetCellTypeComponent (string arrayName, int arrayComp,
+  int min, int max) - Define cell types and cell
+  connectivity when creating unstructured grid data. These
+  methods are similar to those for defining points, except
+  that no normalization of the data is possible. Basically,
+  you need to define an array of cell types (an integer
+  value per cell), and another array consisting (for each
+  cell) of a number of points per cell, and then the cell
+  connectivity. (This is the vtk file format described in in
+  the textbook or User's Guide.)
+* obj.SetCellTypeComponent (string arrayName, int arrayComp)
+  - Define cell types and cell connectivity when creating
+  unstructured grid data. These methods are similar to those
+  for defining points, except that no normalization of the
+  data is possible. Basically, you need to define an array
+  of cell types (an integer value per cell), and another
+  array consisting (for each cell) of a number of points per
+  cell, and then the cell connectivity. (This is the vtk
+  file format described in in the textbook or User's Guide.)
+* string = obj.GetCellTypeComponentArrayName () - Define
+  cell types and cell connectivity when creating
+  unstructured grid data. These methods are similar to those
+  for defining points, except that no normalization of the
+  data is possible. Basically, you need to define an array
+  of cell types (an integer value per cell), and another
+  array consisting (for each cell) of a number of points per
+  cell, and then the cell connectivity. (This is the vtk
+  file format described in in the textbook or User's Guide.)
+* int = obj.GetCellTypeComponentArrayComponent () - Define
+  cell types and cell connectivity when creating
+  unstructured grid data. These methods are similar to those
+  for defining points, except that no normalization of the
+  data is possible. Basically, you need to define an array
+  of cell types (an integer value per cell), and another
+  array consisting (for each cell) of a number of points per
+  cell, and then the cell connectivity. (This is the vtk
+  file format described in in the textbook or User's Guide.)
+* int = obj.GetCellTypeComponentMinRange () - Define cell
+  types and cell connectivity when creating unstructured
+  grid data. These methods are similar to those for defining
+  points, except that no normalization of the data is
+  possible. Basically, you need to define an array of cell
+  types (an integer value per cell), and another array
+  consisting (for each cell) of a number of points per cell,
+  and then the cell connectivity. (This is the vtk file
+  format described in in the textbook or User's Guide.)
+* int = obj.GetCellTypeComponentMaxRange () - Define cell
+  types and cell connectivity when creating unstructured
+  grid data. These methods are similar to those for defining
+  points, except that no normalization of the data is
+  possible. Basically, you need to define an array of cell
+  types (an integer value per cell), and another array
+  consisting (for each cell) of a number of points per cell,
+  and then the cell connectivity. (This is the vtk file
+  format described in in the textbook or User's Guide.)
+* obj.SetCellConnectivityComponent (string arrayName, int
+  arrayComp, int min, int max) - Define cell types and cell
+  connectivity when creating unstructured grid data. These
+  methods are similar to those for defining points, except
+  that no normalization of the data is possible. Basically,
+  you need to define an array of cell types (an integer
+  value per cell), and another array consisting (for each
+  cell) of a number of points per cell, and then the cell
+  connectivity. (This is the vtk file format described in in
+  the textbook or User's Guide.)
+* obj.SetCellConnectivityComponent (string arrayName, int
+  arrayComp) - Define cell types and cell connectivity when
+  creating unstructured grid data. These methods are similar
+  to those for defining points, except that no normalization
+  of the data is possible. Basically, you need to define an
+  array of cell types (an integer value per cell), and
+  another array consisting (for each cell) of a number of
+  points per cell, and then the cell connectivity. (This is
+  the vtk file format described in in the textbook or User's
+  Guide.)
+* string = obj.GetCellConnectivityComponentArrayName () -
+  Define cell types and cell connectivity when creating
+  unstructured grid data. These methods are similar to those
+  for defining points, except that no normalization of the
+  data is possible. Basically, you need to define an array
+  of cell types (an integer value per cell), and another
+  array consisting (for each cell) of a number of points per
+  cell, and then the cell connectivity. (This is the vtk
+  file format described in in the textbook or User's Guide.)
+* int = obj.GetCellConnectivityComponentArrayComponent () -
+  Define cell types and cell connectivity when creating
+  unstructured grid data. These methods are similar to those
+  for defining points, except that no normalization of the
+  data is possible. Basically, you need to define an array
+  of cell types (an integer value per cell), and another
+  array consisting (for each cell) of a number of points per
+  cell, and then the cell connectivity. (This is the vtk
+  file format described in in the textbook or User's Guide.)
+* int = obj.GetCellConnectivityComponentMinRange () - Define
+  cell types and cell connectivity when creating
+  unstructured grid data. These methods are similar to those
+  for defining points, except that no normalization of the
+  data is possible. Basically, you need to define an array
+  of cell types (an integer value per cell), and another
+  array consisting (for each cell) of a number of points per
+  cell, and then the cell connectivity. (This is the vtk
+  file format described in in the textbook or User's Guide.)
+* int = obj.GetCellConnectivityComponentMaxRange () - Define
+  cell types and cell connectivity when creating
+  unstructured grid data. These methods are similar to those
+  for defining points, except that no normalization of the
+  data is possible. Basically, you need to define an array
+  of cell types (an integer value per cell), and another
+  array consisting (for each cell) of a number of points per
+  cell, and then the cell connectivity. (This is the vtk
+  file format described in in the textbook or User's Guide.)
+* obj.SetDefaultNormalize (int ) - Set the default Normalize
+  () flag for those methods setting a default Normalize
+  value (e.g., SetPointComponent).
+* int = obj.GetDefaultNormalize () - Set the default
+  Normalize() flag for those methods setting a default
+  Normalize value (e.g., SetPointComponent).
+* obj.DefaultNormalizeOn () - Set the default Normalize()
+  flag for those methods setting a default Normalize value
+  (e.g., SetPointComponent).
+* obj.DefaultNormalizeOff () - Set the default Normalize()
+  flag for those methods setting a default Normalize value
+  (e.g., SetPointComponent).
+* obj.SetDimensions (int , int , int )
+* obj.SetDimensions (int a[3])
+* int = obj. GetDimensions ()
+* obj.SetOrigin (double , double , double )
+* obj.SetOrigin (double a[3])
+* double = obj. GetOrigin ()
+* obj.SetSpacing (double , double , double )
+* obj.SetSpacing (double a[3])
+* double = obj. GetSpacing ()
+* obj.SetDimensionsComponent (string arrayName, int
+  arrayComp, int min, int max)
+* obj.SetDimensionsComponent (string arrayName, int
+  arrayComp)
+* obj.SetSpacingComponent (string arrayName, int arrayComp,
+  int min, int max)
+* obj.SetSpacingComponent (string arrayName, int arrayComp)
+* obj.SetOriginComponent (string arrayName, int arrayComp,
+  int min, int max)
+* obj.SetOriginComponent (string arrayName, int arrayComp)
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Graphics_Classes
+* Generated on Thu Jul 25 2013 17:18:31 for FreeMat by
+  doxygen_ 1.8.1.1
+

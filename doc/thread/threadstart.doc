@@ -1,0 +1,128 @@
+/*!
+\page thread_threadstart THREADSTART Start a New Thread Computation
+
+<p>
+Section: \ref sec_thread "FreeMat Threads"
+\section Usage
+The <tt>threadstart</tt> function starts a new computation on a
+FreeMat thread, and you must provide a function (no scripts 
+are allowed) to run inside the thread, pass any parameters that
+the thread function requires, as well as the number of output
+arguments expected.  The general syntax for the 
+<tt>threadstart</tt> function is
+\verbatim
+   threadstart(threadid,function,nargout,arg1,arg2,...)
+\endverbatim
+where <tt>threadid</tt> is a thread handle (returned by <tt>threadnew</tt>),
+where <tt>function</tt> is a valid function name (it can be a built-in
+imported or M-function), <tt>nargout</tt> is the number of output arguments
+expected from the function, and <tt>arg1</tt> is the first argument that
+is passed to the function.  Because the function runs in its 
+own thread, the return values of the function are not available
+imediately.  Instead, execution of that function will continue
+in parallel with the current thread.  To retrieve the output
+of the thread function, you must wait for the thread to complete
+using the <tt>threadwait</tt> function, and then call <tt>threadvalue</tt>
+ to retrieve the result.  You can also stop the running thread
+prematurely by using the <tt>threadkill</tt> function.  It is important
+to call <tt>threadfree</tt> on the handle you get from <tt>threadnew</tt>
+when you are finished with the thread to ensure that the resoures
+are properly freed.  
+
+It is also perfectly reasonable to use a single thread multiple
+times, calling <tt>threadstart</tt> and <tt>threadreturn</tt> multiple times
+on a single thread.  The context is preserved between threads.
+When calling <tt>threadstart</tt> on a pre-existing thread, FreeMat
+will attempt to wait on the thread.  If the wait fails, then
+an error will occur.
+
+Some additional important information.  Thread functions operate
+in their own context or workspace, which means that data cannot
+be shared between threads.  The exception is <tt>global</tt> variables,
+which provide a thread-safe way for multiple threads to share data.
+Accesses to global variables are serialized so that they can 
+be used to share data.  Threads and FreeMat are a new feature, so
+there is room for improvement in the API and behavior.  The best
+way to improve threads is to experiment with them, and send feedback.
+
+\section Example
+Here we do something very simple.  We want to obtain a listing of
+all files on the system, but do not want the results to stop our
+computation.  So we run the <tt>system</tt> call in a thread.
+
+\if FRAGMENT
+frag_thread_threadstart_000.m
+0
+a = threadnew;                         % Create the thread
+threadstart(a,'system',1,'ls -lrt /'); % Start the thread
+b = rand(100)\rand(100,1);             % Solve some equations simultaneously
+c = threadvalue(a);                    % Retrieve the file list
+size(c)                                % It is large!
+threadfree(a);
+\endif
+
+
+\verbinclude frag_thread_threadstart_000.m.out 
+
+The possibilities for threads are significant.  For example,
+we can solve equations in parallel, or take Fast Fourier Transforms
+on multiple threads.  On multi-processor machines or multicore CPUs,
+these threaded calculations will execute in parallel.  Neat.
+
+The reason for the  <tt>nargout</tt> argument is best illustrated with
+an example.  Suppose we want to compute the Singular Value 
+Decomposition <tt>svd</tt> of a matrix <tt>A</tt> in a thread.  
+The documentation for the <tt>svd</tt> function tells us that
+the behavior depends on the number of output arguments we request.
+For example, if we want a full decomposition, including the left 
+and right singular vectors, and a diagonal singular matrix, we
+need to use the three-output syntax, instead of the single output
+syntax (which returns only the singular values in a column vector):
+
+\if FRAGMENT
+frag_thread_threadstart_001.m
+0
+A = float(rand(4))
+[u,s,v] = svd(A)    % Compute the full decomposition
+sigmas = svd(A)     % Only want the singular values
+\endif
+
+
+\verbinclude frag_thread_threadstart_001.m.out 
+
+
+Normally, FreeMat uses the left hand side of an assignment to calculate
+the number of outputs for the function.  When running a function in a
+thread, we separate the assignment of the output from the invokation
+of the function.  Hence, we have to provide the number of arguments at the
+time we invoke the function.  For example, to compute a full decomposition
+in a thread, we specify that we want 3 output arguments:
+
+\if FRAGMENT
+frag_thread_threadstart_002.m
+0
+a = threadnew;               % Create the thread
+threadstart(a,'svd',3,A);    % Start a full decomposition 
+[u1,s1,v1] = threadvalue(a); % Retrieve the function values
+threadfree(a);
+\endif
+
+
+\verbinclude frag_thread_threadstart_002.m.out 
+
+If we want to compute just the singular values, we start the thread
+function with only one output argument:
+
+\if FRAGMENT
+frag_thread_threadstart_003.m
+0
+a = threadnew;
+threadstart(a,'svd',1,A);
+sigmas = threadvalue(a);
+threadfree(a)
+\endif
+
+
+\verbinclude frag_thread_threadstart_003.m.out 
+
+*/

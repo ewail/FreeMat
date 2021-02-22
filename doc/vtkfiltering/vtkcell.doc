@@ -1,0 +1,159 @@
+/*!
+\page vtkfiltering_vtkcell vtkCell
+
+<p>
+Section: \ref sec_vtkfiltering "Visualization Toolkit Filtering Classes"
+\section Usage
+ vtkCell is an abstract class that specifies the interfaces for data cells.
+ Data cells are simple topological elements like points, lines, polygons, 
+ and tetrahedra of which visualization datasets are composed. In some 
+ cases visualization datasets may explicitly represent cells (e.g., 
+ vtkPolyData, vtkUnstructuredGrid), and in some cases, the datasets are 
+ implicitly composed of cells (e.g., vtkStructuredPoints).
+
+
+To create an instance of class vtkCell, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkCell
+\endverbatim
+\section Methods
+The class vtkCell has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkCell class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkCell = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkCell = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.ShallowCopy (vtkCell c)</tt> -  Copy this cell by reference counting the internal data structures. 
+ This is safe if you want a "read-only" copy. If you modify the cell
+ you might wish to use DeepCopy().
+ </LI>
+<LI>  <tt>obj.DeepCopy (vtkCell c)</tt> -  Copy this cell by completely copying internal data structures. This is
+ slower but safer than ShallowCopy().
+ </LI>
+<LI>  <tt>int = obj.GetCellType ()</tt> -  Return the type of cell.
+ </LI>
+<LI>  <tt>int = obj.GetCellDimension ()</tt> -  Return the topological dimensional of the cell (0,1,2, or 3).
+ </LI>
+<LI>  <tt>int = obj.IsLinear ()</tt> -  Some cells require initialization prior to access. For example, they
+ may have to triangulate themselves or set up internal data structures.
+ </LI>
+<LI>  <tt>int = obj.RequiresInitialization ()</tt> -  Some cells require initialization prior to access. For example, they
+ may have to triangulate themselves or set up internal data structures.
+ </LI>
+<LI>  <tt>obj.Initialize ()</tt> -  Explicit cells require additional representational information
+ beyond the usual cell type and connectivity list information.
+ Most cells in VTK are implicit cells.
+ </LI>
+<LI>  <tt>int = obj.IsExplicitCell ()</tt> -  Get the point coordinates for the cell.
+ </LI>
+<LI>  <tt>vtkPoints = obj.GetPoints ()</tt> -  Return the number of points in the cell.
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetNumberOfPoints ()</tt> -  Return the number of edges in the cell.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfEdges ()</tt> -  Return the number of edges in the cell.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfFaces ()</tt> -  Return the number of faces in the cell.
+ </LI>
+<LI>  <tt>vtkIdList = obj.GetPointIds ()</tt> -  For cell point i, return the actual point id.
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetPointId (int ptId)</tt> -  Return the edge cell from the edgeId of the cell.
+ </LI>
+<LI>  <tt>vtkCell = obj.GetEdge (int edgeId)</tt> -  Return the edge cell from the edgeId of the cell.
+ </LI>
+<LI>  <tt>vtkCell = obj.GetFace (int faceId)</tt> -  Return the face cell from the faceId of the cell.
+ </LI>
+<LI>  <tt>int = obj.CellBoundary (int subId, double pcoords[3], vtkIdList pts)</tt> -  Given parametric coordinates of a point, return the closest cell
+ boundary, and whether the point is inside or outside of the cell. The
+ cell boundary is defined by a list of points (pts) that specify a face
+ (3D cell), edge (2D cell), or vertex (1D cell). If the return value of
+ the method is != 0, then the point is inside the cell.
+ </LI>
+<LI>  <tt>obj.Contour (double value, vtkDataArray cellScalars, vtkIncrementalPointLocator locator, vtkCellArray verts, vtkCellArray lines, vtkCellArray polys, vtkPointData inPd, vtkPointData outPd, vtkCellData inCd, vtkIdType cellId, vtkCellData outCd)</tt> -  Generate contouring primitives. The scalar list cellScalars are
+ scalar values at each cell point. The point locator is essentially a 
+ points list that merges points as they are inserted (i.e., prevents 
+ duplicates). Contouring primitives can be vertices, lines, or
+ polygons. It is possible to interpolate point data along the edge
+ by providing input and output point data - if outPd is NULL, then
+ no interpolation is performed. Also, if the output cell data is
+ non-NULL, the cell data from the contoured cell is passed to the
+ generated contouring primitives. (Note: the CopyAllocate() method
+ must be invoked on both the output cell and point data. The 
+ cellId refers to the cell from which the cell data is copied.)
+ </LI>
+<LI>  <tt>obj.Clip (double value, vtkDataArray cellScalars, vtkIncrementalPointLocator locator, vtkCellArray connectivity, vtkPointData inPd, vtkPointData outPd, vtkCellData inCd, vtkIdType cellId, vtkCellData outCd, int insideOut)</tt> -  Cut (or clip) the cell based on the input cellScalars and the
+ specified value. The output of the clip operation will be one or
+ more cells of the same topological dimension as the original cell. 
+ The flag insideOut controls what part of the cell is considered inside - 
+ normally cell points whose scalar value is greater than "value" are
+ considered inside. If insideOut is on, this is reversed. Also, if the 
+ output cell data is non-NULL, the cell data from the clipped cell is 
+ passed to the generated contouring primitives. (Note: the CopyAllocate() 
+ method must be invoked on both the output cell and point data. The
+ cellId refers to the cell from which the cell data is copied.)
+ </LI>
+<LI>  <tt>int = obj.Triangulate (int index, vtkIdList ptIds, vtkPoints pts)</tt> -  Generate simplices of proper dimension. If cell is 3D, tetrahedron are 
+ generated; if 2D triangles; if 1D lines; if 0D points. The form of the
+ output is a sequence of points, each n+1 points (where n is topological 
+ cell dimension) defining a simplex. The index is a parameter that controls
+ which triangulation to use (if more than one is possible). If numerical
+ degeneracy encountered, 0 is returned, otherwise 1 is returned.
+ This method does not insert new points: all the points that define the
+ simplices are the points that define the cell.
+ </LI>
+<LI>  <tt>obj.Derivatives (int subId, double pcoords[3], double values, int dim, double derivs)</tt> -  Compute derivatives given cell subId and parametric coordinates. The
+ values array is a series of data value(s) at the cell points. There is a
+ one-to-one correspondence between cell point and data value(s). Dim is
+ the number of data values per cell point. Derivs are derivatives in the
+ x-y-z coordinate directions for each data value. Thus, if computing
+ derivatives for a scalar function in a hexahedron, dim=1, 8 values are
+ supplied, and 3 deriv values are returned (i.e., derivatives in x-y-z
+ directions). On the other hand, if computing derivatives of velocity
+ (vx,vy,vz) dim=3, 24 values are supplied ((vx,vy,vz)1, (vx,vy,vz)2,
+ ....()8), and 9 deriv values are returned
+ ((d(vx)/dx),(d(vx)/dy),(d(vx)/dz), (d(vy)/dx),(d(vy)/dy), (d(vy)/dz),
+ (d(vz)/dx),(d(vz)/dy),(d(vz)/dz)).
+ </LI>
+<LI>  <tt>obj.GetBounds (double bounds[6])</tt> -  Compute cell bounding box (xmin,xmax,ymin,ymax,zmin,zmax). Copy result
+ into user provided array.
+ </LI>
+<LI>  <tt>double = obj.GetBounds ()</tt> -  Compute cell bounding box (xmin,xmax,ymin,ymax,zmin,zmax). Return pointer
+ to array of six double values.
+ </LI>
+<LI>  <tt>double = obj.GetLength2 ()</tt> -  Compute Length squared of cell (i.e., bounding box diagonal squared).
+ </LI>
+<LI>  <tt>int = obj.GetParametricCenter (double pcoords[3])</tt> -  Return center of the cell in parametric coordinates.  Note that the
+ parametric center is not always located at (0.5,0.5,0.5). The return
+ value is the subId that the center is in (if a composite cell). If you
+ want the center in x-y-z space, invoke the EvaluateLocation() method.
+ </LI>
+<LI>  <tt>double = obj.GetParametricDistance (double pcoords[3])</tt> -  Return the distance of the parametric coordinate provided to the
+ cell. If inside the cell, a distance of zero is returned. This is
+ used during picking to get the correct cell picked. (The tolerance
+ will occasionally allow cells to be picked who are not really
+ intersected "inside" the cell.)
+ </LI>
+<LI>  <tt>int = obj.IsPrimaryCell ()</tt> -  Return a contiguous array of parametric coordinates of the points
+ defining this cell. In other words, (px,py,pz, px,py,pz, etc..)  The
+ coordinates are ordered consistent with the definition of the point
+ ordering for the cell. This method returns a non-NULL pointer when
+ the cell is a primary type (i.e., IsPrimaryCell() is true). Note that
+ 3D parametric coordinates are returned no matter what the topological
+ dimension of the cell.
+ </LI>
+<LI>  <tt>obj.InterpolateFunctions (double pcoords[3], double weights[3])</tt> -  Compute the interpolation functions/derivatives
+ (aka shape functions/derivatives)
+ No-ops at this level. Typically overridden in subclasses.
+ </LI>
+<LI>  <tt>obj.InterpolateDerivs (double pcoords[3], double derivs[3])</tt>
+ </LI>
+</UL>
+*/

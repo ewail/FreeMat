@@ -1,0 +1,80 @@
+/*!
+\page vtkfiltering_vtkprocessobject vtkProcessObject
+
+<p>
+Section: \ref sec_vtkfiltering "Visualization Toolkit Filtering Classes"
+\section Usage
+ vtkProcessObject is an abstract object that specifies behavior and
+ interface of visualization network process objects (sources, filters,
+ mappers). Source objects are creators of visualization data; filters
+ input, process, and output visualization data; and mappers transform data
+ into another form (like rendering primitives or write data to a file).
+
+ vtkProcessObject fires events for Start and End events before and after
+ object execution (via Execute()). These events can be used for any purpose
+ (e.g., debugging info, highlighting/notifying user interface, etc.)
+
+ Another event, Progress, can be observed. Some filters fire this 
+ event periodically during their execution. The use is similar to that of 
+ Start and End events. Filters may also check their AbortExecute
+ flag to determine whether to prematurely end their execution.
+
+ An important feature of subclasses of vtkProcessObject is that it is
+ possible to control the memory-management model (i.e., retain output
+ versus delete output data). If enabled the ReleaseDataFlag enables the
+ deletion of the output data once the downstream process object finishes
+ processing the data (please see text).  
+
+
+To create an instance of class vtkProcessObject, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkProcessObject
+\endverbatim
+\section Methods
+The class vtkProcessObject has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkProcessObject class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkProcessObject = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkProcessObject = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfInputs ()</tt> -  Return an array with all the inputs of this process object.
+ This is useful for tracing back in the pipeline to construct
+ graphs etc.
+ </LI>
+<LI>  <tt>obj.SqueezeInputArray ()</tt> -  This method will rearrange the input array so that all NULL entries 
+ are removed.
+ </LI>
+<LI>  <tt>obj.RemoveAllInputs ()</tt> -  Remove all the input data.
+ </LI>
+<LI>  <tt>obj.SetInputConnection (vtkAlgorithmOutput input)</tt> -  Reimplemented from vtkAlgorithm to maintain backward
+ compatibility for vtkProcessObject.
+ </LI>
+<LI>  <tt>obj.SetInputConnection (int port, vtkAlgorithmOutput input)</tt> -  Reimplemented from vtkAlgorithm to maintain backward
+ compatibility for vtkProcessObject.
+ </LI>
+<LI>  <tt>obj.AddInputConnection (int port, vtkAlgorithmOutput input)</tt> -  Reimplemented from vtkAlgorithm to maintain backward
+ compatibility for vtkProcessObject.
+ </LI>
+<LI>  <tt>obj.AddInputConnection (vtkAlgorithmOutput input)</tt> -  Reimplemented from vtkAlgorithm to maintain backward
+ compatibility for vtkProcessObject.
+ </LI>
+<LI>  <tt>obj.RemoveInputConnection (int port, vtkAlgorithmOutput input)</tt> -  Reimplemented from vtkAlgorithm to maintain backward
+ compatibility for vtkProcessObject.
+ </LI>
+<LI>  <tt>obj.SetNthInputConnection (int port, int index, vtkAlgorithmOutput input)</tt> -  Reimplemented from vtkAlgorithm to maintain backward
+ compatibility for vtkProcessObject.
+ </LI>
+<LI>  <tt>obj.SetNumberOfInputConnections (int port, int n)</tt> -  Reimplemented from vtkAlgorithm to maintain backward
+ compatibility for vtkProcessObject.
+ </LI>
+</UL>
+*/

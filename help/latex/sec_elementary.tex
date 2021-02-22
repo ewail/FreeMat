@@ -1,0 +1,1244 @@
+
+\begin{DoxyItemize}
+\item \hyperlink{elementary_abs}{A\-B\-S Absolute Value Function}  
+\item \hyperlink{elementary_all}{A\-L\-L All True Function}  
+\item \hyperlink{elementary_any}{A\-N\-Y Any True Function}  
+\item \hyperlink{elementary_ceil}{C\-E\-I\-L Ceiling Function}  
+\item \hyperlink{elementary_conj}{C\-O\-N\-J Conjugate Function}  
+\item \hyperlink{elementary_cov}{C\-O\-V Covariance Matrix}  
+\item \hyperlink{elementary_cumprod}{C\-U\-M\-P\-R\-O\-D Cumulative Product Function}  
+\item \hyperlink{elementary_cumsum}{C\-U\-M\-S\-U\-M Cumulative Summation Function}  
+\item \hyperlink{elementary_deal}{D\-E\-A\-L Multiple Simultaneous Assignments}  
+\item \hyperlink{elementary_dec2hex}{D\-E\-C2\-H\-E\-X Convert Decimal Number to Hexadecimal}  
+\item \hyperlink{elementary_diff}{D\-I\-F\-F Difference Function}  
+\item \hyperlink{elementary_dot}{D\-O\-T Dot Product Function}  
+\item \hyperlink{elementary_floor}{F\-L\-O\-O\-R Floor Function}  
+\item \hyperlink{elementary_getfield}{G\-E\-T\-F\-I\-E\-L\-D Get Field Contents}  
+\item \hyperlink{elementary_hex2dec}{H\-E\-X2\-D\-E\-C Convert Hexadecimal Numbers To Decimal}  
+\item \hyperlink{elementary_imag}{I\-M\-A\-G Imaginary Function}  
+\item \hyperlink{elementary_ind2sub}{I\-N\-D2\-S\-U\-B Convert Linear Indexing To Multiple Indexing }  
+\item \hyperlink{elementary_max}{M\-A\-X Maximum Function}  
+\item \hyperlink{elementary_mean}{M\-E\-A\-N Mean Function}  
+\item \hyperlink{elementary_min}{M\-I\-N Minimum Function}  
+\item \hyperlink{elementary_num2hex}{N\-U\-M2\-H\-E\-X Convert Numbers to I\-E\-E\-E Hex Strings}  
+\item \hyperlink{elementary_prod}{P\-R\-O\-D Product Function}  
+\item \hyperlink{elementary_real}{R\-E\-A\-L Real Function}  
+\item \hyperlink{elementary_round}{R\-O\-U\-N\-D Round Function}  
+\item \hyperlink{elementary_std}{S\-T\-D Standard Deviation Function}  
+\item \hyperlink{elementary_sub2ind}{S\-U\-B2\-I\-N\-D Convert Multiple Indexing To Linear Indexing}  
+\item \hyperlink{elementary_sum}{S\-U\-M Sum Function}  
+\item \hyperlink{elementary_test}{T\-E\-S\-T Test Function}  
+\item \hyperlink{elementary_var}{V\-A\-R Variance Function}  
+\item \hyperlink{elementary_vec}{V\-E\-C Reshape to a Vector}  
+\end{DoxyItemize}\hypertarget{elementary_abs}{}\section{A\-B\-S Absolute Value Function}\label{elementary_abs}
+Section\-: \hyperlink{sec_elementary}{Elementary Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Returns the absolute value of the input array for all elements. The general syntax for its use is \begin{DoxyVerb}   y = abs(x)
+\end{DoxyVerb}
+ where {\ttfamily x} is an {\ttfamily n}-\/dimensional array of numerical type. The output is the same numerical type as the input, unless the input is {\ttfamily complex} or {\ttfamily dcomplex}. For {\ttfamily complex} inputs, the absolute value is a floating point array, so that the return type is {\ttfamily float}. For {\ttfamily dcomplex} inputs, the absolute value is a double precision floating point array, so that the return type is {\ttfamily double}. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+The following demonstrates the {\ttfamily abs} applied to a complex scalar.
+
+
+\begin{DoxyVerbInclude}
+--> abs(3+4*i)
+
+ans = 
+ 5 
+\end{DoxyVerbInclude}
+
+
+The {\ttfamily abs} function applied to integer and real values\-:
+
+
+\begin{DoxyVerbInclude}
+--> abs([-2,3,-4,5])
+
+ans = 
+ 2 3 4 5 
+\end{DoxyVerbInclude}
+
+
+For a double-\/precision complex array,
+
+
+\begin{DoxyVerbInclude}
+--> abs([2.0+3.0*i,i])
+
+ans = 
+    3.6056    1.0000 
+\end{DoxyVerbInclude}
+ \hypertarget{elementary_all}{}\section{A\-L\-L All True Function}\label{elementary_all}
+Section\-: \hyperlink{sec_elementary}{Elementary Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Reduces a logical array along a given dimension by testing for all logical 1s. The general syntax for its use is \begin{DoxyVerb}  y = all(x,d)
+\end{DoxyVerb}
+ where {\ttfamily x} is an {\ttfamily n}-\/dimensions array of {\ttfamily logical} type. The output is of {\ttfamily logical} type. The argument {\ttfamily d} is optional, and denotes the dimension along which to operate. The output {\ttfamily y} is the same size as {\ttfamily x}, except that it is singular along the operated direction. So, for example, if {\ttfamily x} is a {\ttfamily 3 x 3 x 4} array, and we {\ttfamily all} operation along dimension {\ttfamily d=2}, then the output is of size {\ttfamily 3 x 1 x 4}. \hypertarget{transforms_svd_Function}{}\subsection{Internals}\label{transforms_svd_Function}
+The output is computed via \[ y(m_1,\ldots,m_{d-1},1,m_{d+1},\ldots,m_{p}) = \min_{k} x(m_1,\ldots,m_{d-1},k,m_{d+1},\ldots,m_{p}) \] If {\ttfamily d} is omitted, then the minimum is taken over all elements of {\ttfamily x}. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+The following piece of code demonstrates various uses of the {\ttfamily all} function
+
+
+\begin{DoxyVerbInclude}
+--> A = [1,0,0;1,0,0;0,0,1]
+
+A = 
+ 1 0 0 
+ 1 0 0 
+ 0 0 1 
+\end{DoxyVerbInclude}
+
+
+We start by calling {\ttfamily all} without a dimension argument, in which case it defaults to testing all values of {\ttfamily A}
+
+
+\begin{DoxyVerbInclude}
+--> all(A)
+
+ans = 
+ 0 0 0 
+\end{DoxyVerbInclude}
+
+
+The {\ttfamily all} function is useful in expressions also.
+
+
+\begin{DoxyVerbInclude}
+--> all(A>=0)
+
+ans = 
+ 1 1 1 
+\end{DoxyVerbInclude}
+
+
+Next, we apply the {\ttfamily all} operation along the rows.
+
+
+\begin{DoxyVerbInclude}
+--> all(A,2)
+
+ans = 
+ 0 
+ 0 
+ 0 
+\end{DoxyVerbInclude}
+ \hypertarget{elementary_any}{}\section{A\-N\-Y Any True Function}\label{elementary_any}
+Section\-: \hyperlink{sec_elementary}{Elementary Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Reduces a logical array along a given dimension by testing for any logical 1s. The general syntax for its use is \begin{DoxyVerb}  y = any(x,d)
+\end{DoxyVerb}
+ where {\ttfamily x} is an {\ttfamily n}-\/dimensions array of {\ttfamily logical} type. The output is of {\ttfamily logical} type. The argument {\ttfamily d} is optional, and denotes the dimension along which to operate. The output {\ttfamily y} is the same size as {\ttfamily x}, except that it is singular along the operated direction. So, for example, if {\ttfamily x} is a {\ttfamily 3 x 3 x 4} array, and we {\ttfamily any} operation along dimension {\ttfamily d=2}, then the output is of size {\ttfamily 3 x 1 x 4}. \hypertarget{transforms_svd_Function}{}\subsection{Internals}\label{transforms_svd_Function}
+The output is computed via \[ y(m_1,\ldots,m_{d-1},1,m_{d+1},\ldots,m_{p}) = \max_{k} x(m_1,\ldots,m_{d-1},k,m_{d+1},\ldots,m_{p}) \] If {\ttfamily d} is omitted, then the summation is taken along the first non-\/singleton dimension of {\ttfamily x}. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+The following piece of code demonstrates various uses of the summation function
+
+
+\begin{DoxyVerbInclude}
+--> A = [1,0,0;1,0,0;0,0,1]
+
+A = 
+ 1 0 0 
+ 1 0 0 
+ 0 0 1 
+\end{DoxyVerbInclude}
+
+
+We start by calling {\ttfamily any} without a dimension argument, in which case it defaults to the first nonsingular dimension (in this case, along the columns or {\ttfamily d = 1}).
+
+
+\begin{DoxyVerbInclude}
+--> any(A)
+
+ans = 
+ 1 0 1 
+\end{DoxyVerbInclude}
+
+
+Next, we apply the {\ttfamily any} operation along the rows.
+
+
+\begin{DoxyVerbInclude}
+--> any(A,2)
+
+ans = 
+ 1 
+ 1 
+ 1 
+\end{DoxyVerbInclude}
+ \hypertarget{elementary_ceil}{}\section{C\-E\-I\-L Ceiling Function}\label{elementary_ceil}
+Section\-: \hyperlink{sec_elementary}{Elementary Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Computes the ceiling of an n-\/dimensional array elementwise. The ceiling of a number is defined as the smallest integer that is larger than or equal to that number. The general syntax for its use is \begin{DoxyVerb}   y = ceil(x)
+\end{DoxyVerb}
+ where {\ttfamily x} is a multidimensional array of numerical type. The {\ttfamily ceil} function preserves the type of the argument. So integer arguments are not modified, and {\ttfamily float} arrays return {\ttfamily float} arrays as outputs, and similarly for {\ttfamily double} arrays. The {\ttfamily ceil} function is not defined for {\ttfamily complex} or {\ttfamily dcomplex} types. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+The following demonstrates the {\ttfamily ceil} function applied to various (numerical) arguments. For integer arguments, the ceil function has no effect\-:
+
+
+\begin{DoxyVerbInclude}
+--> ceil(3)
+
+ans = 
+ 3 
+
+--> ceil(-3)
+
+ans = 
+ -3 
+\end{DoxyVerbInclude}
+
+
+Next, we take the {\ttfamily ceil} of a floating point value\-:
+
+
+\begin{DoxyVerbInclude}
+--> ceil(float(3.023))
+
+ans = 
+ 4 
+
+--> ceil(float(-2.341))
+
+ans = 
+ -2 
+\end{DoxyVerbInclude}
+
+
+Note that the return type is a {\ttfamily float} also. Finally, for a {\ttfamily double} type\-:
+
+
+\begin{DoxyVerbInclude}
+--> ceil(4.312)
+
+ans = 
+ 5 
+
+--> ceil(-5.32)
+
+ans = 
+ -5 
+\end{DoxyVerbInclude}
+ \hypertarget{elementary_conj}{}\section{C\-O\-N\-J Conjugate Function}\label{elementary_conj}
+Section\-: \hyperlink{sec_elementary}{Elementary Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Returns the complex conjugate of the input array for all elements. The general syntax for its use is \begin{DoxyVerb}   y = conj(x)
+\end{DoxyVerb}
+ where {\ttfamily x} is an {\ttfamily n}-\/dimensional array of numerical type. The output is the same numerical type as the input. The {\ttfamily conj} function does nothing to real and integer types. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+The following demonstrates the complex conjugate applied to a complex scalar.
+
+
+\begin{DoxyVerbInclude}
+--> conj(3+4*i)
+
+ans = 
+   3.0000 -  4.0000i 
+\end{DoxyVerbInclude}
+
+
+The {\ttfamily conj} function has no effect on real arguments\-:
+
+
+\begin{DoxyVerbInclude}
+--> conj([2,3,4])
+
+ans = 
+ 2 3 4 
+\end{DoxyVerbInclude}
+
+
+For a double-\/precision complex array,
+
+
+\begin{DoxyVerbInclude}
+--> conj([2.0+3.0*i,i])
+
+ans = 
+   2.0000 -  3.0000i   0.0000 -  1.0000i 
+\end{DoxyVerbInclude}
+ \hypertarget{elementary_cov}{}\section{C\-O\-V Covariance Matrix}\label{elementary_cov}
+Section\-: \hyperlink{sec_elementary}{Elementary Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Computes the covariance of a matrix or a vector. The general syntax for its use is \begin{DoxyVerb}  y = cov(x)
+\end{DoxyVerb}
+ where {\ttfamily x} is a matrix or a vector. If {\ttfamily x} is a vector then {\ttfamily cov} returns the variance of {\ttfamily x}. If {\ttfamily x} is a matrix then {\ttfamily cov} returns the covariance matrix of the columns of {\ttfamily x}. You can also call {\ttfamily cov} with two arguments to compute the matrix of cross correlations. The syntax for this mode is \begin{DoxyVerb}  y = cov(x,z)
+\end{DoxyVerb}
+ where {\ttfamily x} and {\ttfamily z} are matrices of the same size. Finally, you can provide a normalization flag {\ttfamily d} that is either {\ttfamily 0} or {\ttfamily 1}, which changes the normalization factor from {\ttfamily L-\/1} (for {\ttfamily d=0}) to {\ttfamily L} (for {\ttfamily d=1}) where {\ttfamily L} is the number of rows in the matrix {\ttfamily x}. In this case, the syntaxes are \begin{DoxyVerb}  y = cov(x,z,d)
+\end{DoxyVerb}
+ for the two-\/argument case, and \begin{DoxyVerb}  y = cov(x,d)
+\end{DoxyVerb}
+ for the one-\/argument case. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+The following demonstrates some uses of the {\ttfamily cov} function
+
+
+\begin{DoxyVerbInclude}
+--> A = [5,1,3;3,2,1;0,3,1]
+
+A = 
+ 5 1 3 
+ 3 2 1 
+ 0 3 1 
+
+--> B = [4,-2,0;1,5,2;-2,0,1];
+\end{DoxyVerbInclude}
+
+
+We start with the covariance matrix for {\ttfamily A}
+
+
+\begin{DoxyVerbInclude}
+--> cov(A)
+
+ans = 
+    4.2222   -1.6667    1.5556 
+   -1.6667    0.6667   -0.6667 
+    1.5556   -0.6667    0.8889 
+\end{DoxyVerbInclude}
+
+
+and again with the (biased) normalization
+
+
+\begin{DoxyVerbInclude}
+--> cov(A,1)
+
+ans = 
+    4.2222   -1.6667    1.5556 
+   -1.6667    0.6667   -0.6667 
+    1.5556   -0.6667    0.8889 
+\end{DoxyVerbInclude}
+
+
+Here we compute the cross covariance between {\ttfamily A} and {\ttfamily B}
+
+
+\begin{DoxyVerbInclude}
+--> cov(A,B)
+
+ans = 
+    2.0988    1.6667 
+    1.6667    5.1111 
+\end{DoxyVerbInclude}
+
+
+and again with biased normalization
+
+
+\begin{DoxyVerbInclude}
+--> cov(A,B,1)
+
+ans = 
+    2.0988    1.6667 
+    1.6667    5.1111 
+\end{DoxyVerbInclude}
+ \hypertarget{elementary_cumprod}{}\section{C\-U\-M\-P\-R\-O\-D Cumulative Product Function}\label{elementary_cumprod}
+Section\-: \hyperlink{sec_elementary}{Elementary Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Computes the cumulative product of an n-\/dimensional array along a given dimension. The general syntax for its use is \begin{DoxyVerb}  y = cumprod(x,d)
+\end{DoxyVerb}
+ where {\ttfamily x} is a multidimensional array of numerical type, and {\ttfamily d} is the dimension along which to perform the cumulative product. The output {\ttfamily y} is the same size of {\ttfamily x}. Integer types are promoted to {\ttfamily int32}. If the dimension {\ttfamily d} is not specified, then the cumulative sum is applied along the first non-\/singular dimension. \hypertarget{transforms_svd_Function}{}\subsection{Internals}\label{transforms_svd_Function}
+The output is computed via \[ y(m_1,\ldots,m_{d-1},j,m_{d+1},\ldots,m_{p}) = \prod_{k=1}^{j} x(m_1,\ldots,m_{d-1},k,m_{d+1},\ldots,m_{p}). \] \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+The default action is to perform the cumulative product along the first non-\/singular dimension.
+
+
+\begin{DoxyVerbInclude}
+--> A = [5,1,3;3,2,1;0,3,1]
+
+A = 
+ 5 1 3 
+ 3 2 1 
+ 0 3 1 
+
+--> cumprod(A)
+
+ans = 
+  5  1  3 
+ 15  2  3 
+  0  6  3 
+\end{DoxyVerbInclude}
+
+
+To compute the cumulative product along the columns\-:
+
+
+\begin{DoxyVerbInclude}
+--> cumprod(A,2)
+
+ans = 
+  5  5 15 
+  3  6  6 
+  0  0  0 
+\end{DoxyVerbInclude}
+
+
+The cumulative product also works along arbitrary dimensions
+
+
+\begin{DoxyVerbInclude}
+--> B(:,:,1) = [5,2;8,9];
+--> B(:,:,2) = [1,0;3,0]
+
+B = 
+
+(:,:,1) = 
+ 5 2 
+ 8 9 
+
+(:,:,2) = 
+ 1 0 
+ 3 0 
+
+--> cumprod(B,3)
+
+ans = 
+
+(:,:,1) = 
+  5  2 
+  8  9 
+
+(:,:,2) = 
+  5  0 
+ 24  0 
+\end{DoxyVerbInclude}
+ \hypertarget{elementary_cumsum}{}\section{C\-U\-M\-S\-U\-M Cumulative Summation Function}\label{elementary_cumsum}
+Section\-: \hyperlink{sec_elementary}{Elementary Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Computes the cumulative sum of an n-\/dimensional array along a given dimension. The general syntax for its use is \begin{DoxyVerb}  y = cumsum(x,d)
+\end{DoxyVerb}
+ where {\ttfamily x} is a multidimensional array of numerical type, and {\ttfamily d} is the dimension along which to perform the cumulative sum. The output {\ttfamily y} is the same size of {\ttfamily x}. Integer types are promoted to {\ttfamily int32}. If the dimension {\ttfamily d} is not specified, then the cumulative sum is applied along the first non-\/singular dimension. \hypertarget{transforms_svd_Function}{}\subsection{Internals}\label{transforms_svd_Function}
+The output is computed via \[ y(m_1,\ldots,m_{d-1},j,m_{d+1},\ldots,m_{p}) = \sum_{k=1}^{j} x(m_1,\ldots,m_{d-1},k,m_{d+1},\ldots,m_{p}). \] \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+The default action is to perform the cumulative sum along the first non-\/singular dimension.
+
+
+\begin{DoxyVerbInclude}
+--> A = [5,1,3;3,2,1;0,3,1]
+
+A = 
+ 5 1 3 
+ 3 2 1 
+ 0 3 1 
+
+--> cumsum(A)
+
+ans = 
+ 5 1 3 
+ 8 3 4 
+ 8 6 5 
+\end{DoxyVerbInclude}
+
+
+To compute the cumulative sum along the columns\-:
+
+
+\begin{DoxyVerbInclude}
+--> cumsum(A,2)
+
+ans = 
+ 5 6 9 
+ 3 5 6 
+ 0 3 4 
+\end{DoxyVerbInclude}
+
+
+The cumulative sum also works along arbitrary dimensions
+
+
+\begin{DoxyVerbInclude}
+--> B(:,:,1) = [5,2;8,9];
+--> B(:,:,2) = [1,0;3,0]
+
+B = 
+
+(:,:,1) = 
+ 5 2 
+ 8 9 
+
+(:,:,2) = 
+ 1 0 
+ 3 0 
+
+--> cumsum(B,3)
+
+ans = 
+
+(:,:,1) = 
+  5  2 
+  8  9 
+
+(:,:,2) = 
+  6  2 
+ 11  9 
+\end{DoxyVerbInclude}
+ \hypertarget{elementary_deal}{}\section{D\-E\-A\-L Multiple Simultaneous Assignments}\label{elementary_deal}
+Section\-: \hyperlink{sec_elementary}{Elementary Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+When making a function call, it is possible to assign multiple outputs in a single call, (see, e.\-g., {\ttfamily max} for an example). The {\ttfamily deal} call allows you to do the same thing with a simple assignment. The syntax for its use is \begin{DoxyVerb}   [a,b,c,...] = deal(expr)
+\end{DoxyVerb}
+ where {\ttfamily expr} is an expression with multiple values. The simplest example is where {\ttfamily expr} is the dereference of a cell array, e.\-g. {\ttfamily expr $<$-- A\{\-:\}}. In this case, the {\ttfamily deal} call is equivalent to \begin{DoxyVerb}   a = A{1}; b = A{2}; C = A{3}; 
+\end{DoxyVerb}
+ Other expressions which are multivalued are structure arrays with multiple entries (non-\/scalar), where field dereferencing has been applied. \hypertarget{elementary_dec2hex}{}\section{D\-E\-C2\-H\-E\-X Convert Decimal Number to Hexadecimal}\label{elementary_dec2hex}
+Section\-: \hyperlink{sec_elementary}{Elementary Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Converts an integer value into its hexadecimal representation. The syntax for its use is \begin{DoxyVerb}   y = dec2hex(x)
+\end{DoxyVerb}
+ where {\ttfamily x} is an integer (and is promoted to a 64-\/bit integer if it is not). The returned value {\ttfamily y} is a string containing the hexadecimal representation of that integer. If you require a minimum length for the hexadecimal representation, you can specify an optional second argument \begin{DoxyVerb}   y = dec2hex(x,n)
+\end{DoxyVerb}
+ where {\ttfamily n} indicates the minimum number of digits in the representation. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+Here are some simple examples\-:
+
+
+\begin{DoxyVerbInclude}
+--> dec2hex(1023)
+
+ans = 
+3FF
+\end{DoxyVerbInclude}
+
+
+
+\begin{DoxyVerbInclude}
+--> dec2hex(58128493)
+
+ans = 
+376F86D
+\end{DoxyVerbInclude}
+ \hypertarget{elementary_diff}{}\section{D\-I\-F\-F Difference Function}\label{elementary_diff}
+Section\-: \hyperlink{sec_elementary}{Elementary Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+\begin{DoxyVerb}        y=diff(x)
+        y=diff(x,k)
+        y=diff(x,k,dim)
+\end{DoxyVerb}
+ Produce difference of successive vector elements.
+
+If {\ttfamily x} is a vector of length n, {\ttfamily diff (x)} is the vector of first differences \mbox{[} \mbox{[}x\-\_\-2 -\/ x\-\_\-1, ..., x\-\_\-n -\/ x\-\_\-\{n-\/1\}\mbox{]}. \mbox{]}
+
+If {\ttfamily x} is a matrix, {\ttfamily diff (x)} is the matrix of column differences along the first non-\/singleton dimension.
+
+The second argument is optional. If supplied, {\ttfamily diff (x,k)}, where {\ttfamily k} is a nonnegative integer, returns the {\ttfamily k}-\/th differences. It is possible that {\ttfamily k} is larger than then first non-\/singleton dimension of the matrix. In this case, {\ttfamily diff} continues to take the differences along the next non-\/singleton dimension.
+
+The dimension along which to take the difference can be explicitly stated with the optional variable {\ttfamily dim}. In this case the {\ttfamily k}-\/th order differences are calculated along this dimension. In the case where {\ttfamily k} exceeds {\ttfamily size (x, dim)} then an empty matrix is returned. \hypertarget{elementary_dot}{}\section{D\-O\-T Dot Product Function}\label{elementary_dot}
+Section\-: \hyperlink{sec_elementary}{Elementary Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Computes the scalar dot product of its two arguments. The general syntax for its use is \begin{DoxyVerb}  y = dot(x,z)
+\end{DoxyVerb}
+ where {\ttfamily x} and {\ttfamily z} are numerical vectors of the same length. If {\ttfamily x} and {\ttfamily z} are multi-\/dimensional arrays of the same size, then the dot product is taken along the first non-\/singleton dimension. You can also specify the dimension to take the dot product along using the alternate form \begin{DoxyVerb}  y = dot(x,z,dim)
+\end{DoxyVerb}
+ where {\ttfamily dim} specifies the dimension to take the dot product along. \hypertarget{elementary_floor}{}\section{F\-L\-O\-O\-R Floor Function}\label{elementary_floor}
+Section\-: \hyperlink{sec_elementary}{Elementary Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Computes the floor of an n-\/dimensional array elementwise. The floor of a number is defined as the smallest integer that is less than or equal to that number. The general syntax for its use is \begin{DoxyVerb}   y = floor(x)
+\end{DoxyVerb}
+ where {\ttfamily x} is a multidimensional array of numerical type. The {\ttfamily floor} function preserves the type of the argument. So integer arguments are not modified, and {\ttfamily float} arrays return {\ttfamily float} arrays as outputs, and similarly for {\ttfamily double} arrays. The {\ttfamily floor} function is not defined for complex types. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+The following demonstrates the {\ttfamily floor} function applied to various (numerical) arguments. For integer arguments, the floor function has no effect\-:
+
+
+\begin{DoxyVerbInclude}
+--> floor(3)
+
+ans = 
+ 3 
+
+--> floor(-3)
+
+ans = 
+ -3 
+\end{DoxyVerbInclude}
+
+
+Next, we take the {\ttfamily floor} of a floating point value\-:
+
+
+\begin{DoxyVerbInclude}
+--> floor(3.023)
+
+ans = 
+ 3 
+
+--> floor(-2.341)
+
+ans = 
+ -3 
+\end{DoxyVerbInclude}
+ \hypertarget{elementary_getfield}{}\section{G\-E\-T\-F\-I\-E\-L\-D Get Field Contents}\label{elementary_getfield}
+Section\-: \hyperlink{sec_elementary}{Elementary Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Given a structure or structure array, returns the contents of the specified field. The first version is for scalar structures, and has the following syntax \begin{DoxyVerb}   y = getfield(x,'fieldname')
+\end{DoxyVerb}
+ and is equivalent to {\ttfamily y = x.\-fieldname} where {\ttfamily x} is a scalar (1 x 1) structure. If {\ttfamily x} is not a scalar structure, then {\ttfamily y} is the first value, i.\-e., it is equivalent to {\ttfamily y = x(1).fieldname}. The second form allows you to specify a subindex into a structure array, and has the following syntax \begin{DoxyVerb}    y = getfield(x, {m,n}, 'fieldname')
+\end{DoxyVerb}
+ and is equivalent to {\ttfamily y = x(m,n).fieldname}. You can chain multiple references together using this syntax. \hypertarget{elementary_hex2dec}{}\section{H\-E\-X2\-D\-E\-C Convert Hexadecimal Numbers To Decimal}\label{elementary_hex2dec}
+Section\-: \hyperlink{sec_elementary}{Elementary Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Converts a hexadecimal number (encoded as a string matrix) into integers. The syntax for its use is \begin{DoxyVerb}   y = hex2dec(x)
+\end{DoxyVerb}
+ where {\ttfamily x} is a character matrix where each row represents an integer in hexadecimal form. The output is of type {\ttfamily Double}. \hypertarget{variables_matrix_Examples}{}\subsection{Examples}\label{variables_matrix_Examples}
+
+\begin{DoxyVerbInclude}
+--> hex2dec('3ff')
+
+ans = 
+ 1023 
+\end{DoxyVerbInclude}
+
+
+Or for a more complex example
+
+
+\begin{DoxyVerbInclude}
+--> hex2dec(['0ff';'2de';'123'])
+
+ans = 
+ 255 
+ 734 
+ 291 
+\end{DoxyVerbInclude}
+ \hypertarget{elementary_imag}{}\section{I\-M\-A\-G Imaginary Function}\label{elementary_imag}
+Section\-: \hyperlink{sec_elementary}{Elementary Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Returns the imaginary part of the input array for all elements. The general syntax for its use is \begin{DoxyVerb}   y = imag(x)
+\end{DoxyVerb}
+ where {\ttfamily x} is an {\ttfamily n}-\/dimensional array of numerical type. The output is the same numerical type as the input, unless the input is {\ttfamily complex} or {\ttfamily dcomplex}. For {\ttfamily complex} inputs, the imaginary part is a floating point array, so that the return type is {\ttfamily float}. For {\ttfamily dcomplex} inputs, the imaginary part is a double precision floating point array, so that the return type is {\ttfamily double}. The {\ttfamily imag} function returns zeros for real and integer types. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+The following demonstrates {\ttfamily imag} applied to a complex scalar.
+
+
+\begin{DoxyVerbInclude}
+--> imag(3+4*i)
+
+ans = 
+ 4 
+\end{DoxyVerbInclude}
+
+
+The imaginary part of real and integer arguments is a vector of zeros, the same type and size of the argument.
+
+
+\begin{DoxyVerbInclude}
+--> imag([2,4,5,6])
+
+ans = 
+ 0 0 0 0 
+\end{DoxyVerbInclude}
+
+
+For a double-\/precision complex array,
+
+
+\begin{DoxyVerbInclude}
+--> imag([2.0+3.0*i,i])
+
+ans = 
+ 3 1 
+\end{DoxyVerbInclude}
+ \hypertarget{elementary_ind2sub}{}\section{I\-N\-D2\-S\-U\-B Convert Linear Indexing To Multiple Indexing}\label{elementary_ind2sub}
+Section\-: \hyperlink{sec_elementary}{Elementary Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+The {\ttfamily ind2sub} function converts linear indexing expression into a multi-\/dimensional indexing expressionl The syntax for its use is \begin{DoxyVerb}   [d1, d2, ..., dn] = ind2sub(sizevec,index)
+\end{DoxyVerb}
+ where {\ttfamily sizevec} is the size of the array being indexed into, index is the index value. Each {\ttfamily di} is a vector of the same length, containing index values. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+Suppose we have a simple {\ttfamily 3 x 4} matrix {\ttfamily A} containing some random integer elements
+
+
+\begin{DoxyVerbInclude}
+--> A = randi(ones(3,4),10*ones(3,4))
+
+A = 
+  6  6  9  6 
+ 10  1  8  6 
+  9  1  6  2 
+\end{DoxyVerbInclude}
+
+
+
+\begin{DoxyVerbInclude}
+--> [d1 d2] = ind2sub(size(A),7)
+d1 = 
+ 1 
+
+d2 = 
+ 3 
+
+--> A(d1,d2)
+
+ans = 
+ 9 
+\end{DoxyVerbInclude}
+ \hypertarget{elementary_max}{}\section{M\-A\-X Maximum Function}\label{elementary_max}
+Section\-: \hyperlink{sec_elementary}{Elementary Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Computes the maximum of an array along a given dimension, or alternately, computes two arrays (entry-\/wise) and keeps the smaller value for each array. As a result, the {\ttfamily max} function has a number of syntaxes. The first one computes the maximum of an array along a given dimension. The first general syntax for its use is either \begin{DoxyVerb}   [y,n] = max(x,[],d)
+\end{DoxyVerb}
+ where {\ttfamily x} is a multidimensional array of numerical type, in which case the output {\ttfamily y} is the maximum of {\ttfamily x} along dimension {\ttfamily d}. The second argument {\ttfamily n} is the index that results in the maximum. In the event that multiple maxima are present with the same value, the index of the first maximum is used. The second general syntax for the use of the {\ttfamily max} function is \begin{DoxyVerb}   [y,n] = max(x)
+\end{DoxyVerb}
+ In this case, the maximum is taken along the first non-\/singleton dimension of {\ttfamily x}. For complex data types, the maximum is based on the magnitude of the numbers. Na\-Ns are ignored in the calculations. The third general syntax for the use of the {\ttfamily max} function is as a comparison function for pairs of arrays. Here, the general syntax is \begin{DoxyVerb}   y = max(x,z)
+\end{DoxyVerb}
+ where {\ttfamily x} and {\ttfamily z} are either both numerical arrays of the same dimensions, or one of the two is a scalar. In the first case, the output is the same size as both arrays, and is defined elementwise by the smaller of the two arrays. In the second case, the output is defined elementwise by the smaller of the array entries and the scalar. \hypertarget{transforms_svd_Function}{}\subsection{Internals}\label{transforms_svd_Function}
+In the general version of the {\ttfamily max} function which is applied to a single array (using the {\ttfamily max(x,\mbox{[}$\,$\mbox{]},d)} or {\ttfamily max(x)} syntaxes), The output is computed via \[ y(m_1,\ldots,m_{d-1},1,m_{d+1},\ldots,m_{p}) = \max_{k} x(m_1,\ldots,m_{d-1},k,m_{d+1},\ldots,m_{p}), \] and the output array {\ttfamily n} of indices is calculated via \[ n(m_1,\ldots,m_{d-1},1,m_{d+1},\ldots,m_{p}) = \arg \max_{k} x(m_1,\ldots,m_{d-1},k,m_{d+1},\ldots,m_{p}) \] In the two-\/array version ({\ttfamily max(x,z)}), the single output is computed as \[ y(m_1,\ldots,m_{d-1},1,m_{d+1},\ldots,m_{p}) = \begin{cases} x(m_1,\ldots,m_{d-1},k,m_{d+1},\ldots,m_{p}) & x(\cdots) \leq z(\cdots) \\ z(m_1,\ldots,m_{d-1},k,m_{d+1},\ldots,m_{p}) & z(\cdots) < x(\cdots). \end{cases} \] \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+The following piece of code demonstrates various uses of the maximum function. We start with the one-\/array version.
+
+
+\begin{DoxyVerbInclude}
+--> A = [5,1,3;3,2,1;0,3,1]
+
+A = 
+ 5 1 3 
+ 3 2 1 
+ 0 3 1 
+\end{DoxyVerbInclude}
+
+
+We first take the maximum along the columns, resulting in a row vector.
+
+
+\begin{DoxyVerbInclude}
+--> max(A)
+
+ans = 
+ 5 3 3 
+\end{DoxyVerbInclude}
+
+
+Next, we take the maximum along the rows, resulting in a column vector.
+
+
+\begin{DoxyVerbInclude}
+--> max(A,[],2)
+
+ans = 
+ 5 
+ 3 
+ 3 
+\end{DoxyVerbInclude}
+
+
+When the dimension argument is not supplied, {\ttfamily max} acts along the first non-\/singular dimension. For a row vector, this is the column direction\-:
+
+
+\begin{DoxyVerbInclude}
+--> max([5,3,2,9])
+
+ans = 
+ 9 
+\end{DoxyVerbInclude}
+
+
+For the two-\/argument version, we can compute the smaller of two arrays, as in this example\-:
+
+
+\begin{DoxyVerbInclude}
+--> a = int8(100*randn(4))
+
+a = 
+  -16   65  -38  -45 
+  -33  -46  127  -14 
+ -110   18  -15  -11 
+  127 -128 -128 -120 
+
+--> b = int8(100*randn(4))
+
+b = 
+  -60  127 -128   91 
+   71 -128  -36  -53 
+    8  127 -106 -128 
+ -128   47  -93  -34 
+
+--> max(a,b)
+
+ans = 
+ -16 127 -38  91 
+  71 -46 127 -14 
+   8 127 -15 -11 
+ 127  47 -93 -34 
+\end{DoxyVerbInclude}
+
+
+Or alternately, we can compare an array with a scalar
+
+
+\begin{DoxyVerbInclude}
+--> a = randn(2)
+
+a = 
+   -0.0574    1.1346 
+   -1.3497   -2.3248 
+
+--> max(a,0)
+
+ans = 
+         0    1.1346 
+         0         0 
+\end{DoxyVerbInclude}
+ \hypertarget{elementary_mean}{}\section{M\-E\-A\-N Mean Function}\label{elementary_mean}
+Section\-: \hyperlink{sec_elementary}{Elementary Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Computes the mean of an array along a given dimension. The general syntax for its use is \begin{DoxyVerb}  y = mean(x,d)
+\end{DoxyVerb}
+ where {\ttfamily x} is an {\ttfamily n}-\/dimensions array of numerical type. The output is of the same numerical type as the input. The argument {\ttfamily d} is optional, and denotes the dimension along which to take the mean. The output {\ttfamily y} is the same size as {\ttfamily x}, except that it is singular along the mean direction. So, for example, if {\ttfamily x} is a {\ttfamily 3 x 3 x 4} array, and we compute the mean along dimension {\ttfamily d=2}, then the output is of size {\ttfamily 3 x 1 x 4}. \hypertarget{transforms_svd_Function}{}\subsection{Internals}\label{transforms_svd_Function}
+The output is computed via \[ y(m_1,\ldots,m_{d-1},1,m_{d+1},\ldots,m_{p}) = \frac{1}{N} \sum_{k=1}^{N} x(m_1,\ldots,m_{d-1},k,m_{d+1},\ldots,m_{p}) \] If {\ttfamily d} is omitted, then the mean is taken along the first non-\/singleton dimension of {\ttfamily x}. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+The following piece of code demonstrates various uses of the mean function
+
+
+\begin{DoxyVerbInclude}
+--> A = [5,1,3;3,2,1;0,3,1]
+
+A = 
+ 5 1 3 
+ 3 2 1 
+ 0 3 1 
+\end{DoxyVerbInclude}
+
+
+We start by calling {\ttfamily mean} without a dimension argument, in which case it defaults to the first nonsingular dimension (in this case, along the columns or {\ttfamily d = 1}).
+
+
+\begin{DoxyVerbInclude}
+--> mean(A)
+
+ans = 
+    2.6667    2.0000    1.6667 
+\end{DoxyVerbInclude}
+
+
+Next, we take the mean along the rows.
+
+
+\begin{DoxyVerbInclude}
+--> mean(A,2)
+
+ans = 
+    3.0000 
+    2.0000 
+    1.3333 
+\end{DoxyVerbInclude}
+ \hypertarget{elementary_min}{}\section{M\-I\-N Minimum Function}\label{elementary_min}
+Section\-: \hyperlink{sec_elementary}{Elementary Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Computes the minimum of an array along a given dimension, or alternately, computes two arrays (entry-\/wise) and keeps the smaller value for each array. As a result, the {\ttfamily min} function has a number of syntaxes. The first one computes the minimum of an array along a given dimension. The first general syntax for its use is either \begin{DoxyVerb}   [y,n] = min(x,[],d)
+\end{DoxyVerb}
+ where {\ttfamily x} is a multidimensional array of numerical type, in which case the output {\ttfamily y} is the minimum of {\ttfamily x} along dimension {\ttfamily d}. The second argument {\ttfamily n} is the index that results in the minimum. In the event that multiple minima are present with the same value, the index of the first minimum is used. The second general syntax for the use of the {\ttfamily min} function is \begin{DoxyVerb}   [y,n] = min(x)
+\end{DoxyVerb}
+ In this case, the minimum is taken along the first non-\/singleton dimension of {\ttfamily x}. For complex data types, the minimum is based on the magnitude of the numbers. Na\-Ns are ignored in the calculations. The third general syntax for the use of the {\ttfamily min} function is as a comparison function for pairs of arrays. Here, the general syntax is \begin{DoxyVerb}   y = min(x,z)
+\end{DoxyVerb}
+ where {\ttfamily x} and {\ttfamily z} are either both numerical arrays of the same dimensions, or one of the two is a scalar. In the first case, the output is the same size as both arrays, and is defined elementwise by the smaller of the two arrays. In the second case, the output is defined elementwise by the smaller of the array entries and the scalar. \hypertarget{transforms_svd_Function}{}\subsection{Internals}\label{transforms_svd_Function}
+In the general version of the {\ttfamily min} function which is applied to a single array (using the {\ttfamily min(x,\mbox{[}$\,$\mbox{]},d)} or {\ttfamily min(x)} syntaxes), The output is computed via \[ y(m_1,\ldots,m_{d-1},1,m_{d+1},\ldots,m_{p}) = \min_{k} x(m_1,\ldots,m_{d-1},k,m_{d+1},\ldots,m_{p}), \] and the output array {\ttfamily n} of indices is calculated via \[ n(m_1,\ldots,m_{d-1},1,m_{d+1},\ldots,m_{p}) = \arg \min_{k} x(m_1,\ldots,m_{d-1},k,m_{d+1},\ldots,m_{p}) \] In the two-\/array version ({\ttfamily min(x,z)}), the single output is computed as \[ y(m_1,\ldots,m_{d-1},1,m_{d+1},\ldots,m_{p}) = \begin{cases} x(m_1,\ldots,m_{d-1},k,m_{d+1},\ldots,m_{p}) & x(\cdots) \leq z(\cdots) \\ z(m_1,\ldots,m_{d-1},k,m_{d+1},\ldots,m_{p}) & z(\cdots) < x(\cdots). \end{cases} \] \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+The following piece of code demonstrates various uses of the minimum function. We start with the one-\/array version.
+
+
+\begin{DoxyVerbInclude}
+--> A = [5,1,3;3,2,1;0,3,1]
+
+A = 
+ 5 1 3 
+ 3 2 1 
+ 0 3 1 
+\end{DoxyVerbInclude}
+
+
+We first take the minimum along the columns, resulting in a row vector.
+
+
+\begin{DoxyVerbInclude}
+--> min(A)
+
+ans = 
+ 0 1 1 
+\end{DoxyVerbInclude}
+
+
+Next, we take the minimum along the rows, resulting in a column vector.
+
+
+\begin{DoxyVerbInclude}
+--> min(A,[],2)
+
+ans = 
+ 1 
+ 1 
+ 0 
+\end{DoxyVerbInclude}
+
+
+When the dimension argument is not supplied, {\ttfamily min} acts along the first non-\/singular dimension. For a row vector, this is the column direction\-:
+
+
+\begin{DoxyVerbInclude}
+--> min([5,3,2,9])
+
+ans = 
+ 2 
+\end{DoxyVerbInclude}
+
+
+For the two-\/argument version, we can compute the smaller of two arrays, as in this example\-:
+
+
+\begin{DoxyVerbInclude}
+--> a = int8(100*randn(4))
+
+a = 
+  -66  -74  -74   32 
+ -128  -14 -110 -128 
+  127  -96  -49   72 
+  127   50   83  120 
+
+--> b = int8(100*randn(4))
+
+b = 
+  -94  108  -99  -35 
+  127   50 -100  113 
+  -98  -39 -127 -107 
+  -12  127  103  -44 
+
+--> min(a,b)
+
+ans = 
+  -94  -74  -99  -35 
+ -128  -14 -110 -128 
+  -98  -96 -127 -107 
+  -12   50   83  -44 
+\end{DoxyVerbInclude}
+
+
+Or alternately, we can compare an array with a scalar
+
+
+\begin{DoxyVerbInclude}
+--> a = randn(2)
+
+a = 
+    0.7713    0.6716 
+   -1.0581   -1.3734 
+
+--> min(a,0)
+
+ans = 
+         0         0 
+   -1.0581   -1.3734 
+\end{DoxyVerbInclude}
+ \hypertarget{elementary_num2hex}{}\section{N\-U\-M2\-H\-E\-X Convert Numbers to I\-E\-E\-E Hex Strings}\label{elementary_num2hex}
+Section\-: \hyperlink{sec_elementary}{Elementary Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Converts single and double precision arrays to I\-E\-E\-E hex strings. The syntax for its use is \begin{DoxyVerb}   y = num2hex(x)
+\end{DoxyVerb}
+ where {\ttfamily x} is either a {\ttfamily float} or {\ttfamily double} array. The output {\ttfamily y} is a {\ttfamily n-\/by-\/p} character array, where {\ttfamily n} is the number of elements in {\ttfamily x}, and {\ttfamily p} is 16 for {\ttfamily double} arrays, and 8 for {\ttfamily single} arrays. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+Some interesting numbers
+
+
+\begin{DoxyVerbInclude}
+--> num2hex([1 0 0.1 -pi inf nan])
+
+ans = 
+3ff0000000000000
+0000000000000000
+3fb999999999999a
+c00921fb54442d18
+7ff0000000000000
+fff8000000000000
+\end{DoxyVerbInclude}
+
+
+The same in single precision
+
+
+\begin{DoxyVerbInclude}
+--> num2hex(float([1 0 0.1 -pi inf nan]))
+
+ans = 
+3f800000
+00000000
+3dcccccd
+c0490fdb
+7f800000
+fff80000
+\end{DoxyVerbInclude}
+ \hypertarget{elementary_prod}{}\section{P\-R\-O\-D Product Function}\label{elementary_prod}
+Section\-: \hyperlink{sec_elementary}{Elementary Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Computes the product of an array along a given dimension. The general syntax for its use is \begin{DoxyVerb}   y = prod(x,d)
+\end{DoxyVerb}
+ where {\ttfamily x} is an {\ttfamily n}-\/dimensions array of numerical type. The output is of the same numerical type as the input, except for integer types, which are automatically promoted to {\ttfamily int32}. The argument {\ttfamily d} is optional, and denotes the dimension along which to take the product. The output is computed via \[ y(m_1,\ldots,m_{d-1},1,m_{d+1},\ldots,m_{p}) = \prod_{k} x(m_1,\ldots,m_{d-1},k,m_{d+1},\ldots,m_{p}) \] If {\ttfamily d} is omitted, then the product is taken along the first non-\/singleton dimension of {\ttfamily x}. Note that by definition (starting with Free\-Mat 2.\-1) {\ttfamily prod(\mbox{[}$\,$\mbox{]}) = 1}. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+The following piece of code demonstrates various uses of the product function
+
+
+\begin{DoxyVerbInclude}
+--> A = [5,1,3;3,2,1;0,3,1]
+
+A = 
+ 5 1 3 
+ 3 2 1 
+ 0 3 1 
+\end{DoxyVerbInclude}
+
+
+We start by calling {\ttfamily prod} without a dimension argument, in which case it defaults to the first nonsingular dimension (in this case, along the columns or {\ttfamily d = 1}).
+
+
+\begin{DoxyVerbInclude}
+--> prod(A)
+
+ans = 
+ 0 6 3 
+\end{DoxyVerbInclude}
+
+
+Next, we take the product along the rows.
+
+
+\begin{DoxyVerbInclude}
+--> prod(A,2)
+
+ans = 
+ 15 
+  6 
+  0 
+\end{DoxyVerbInclude}
+ \hypertarget{elementary_real}{}\section{R\-E\-A\-L Real Function}\label{elementary_real}
+Section\-: \hyperlink{sec_elementary}{Elementary Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Returns the real part of the input array for all elements. The general syntax for its use is \begin{DoxyVerb}   y = real(x)
+\end{DoxyVerb}
+ where {\ttfamily x} is an {\ttfamily n}-\/dimensional array of numerical type. The output is the same numerical type as the input, unless the input is {\ttfamily complex} or {\ttfamily dcomplex}. For {\ttfamily complex} inputs, the real part is a floating point array, so that the return type is {\ttfamily float}. For {\ttfamily dcomplex} inputs, the real part is a double precision floating point array, so that the return type is {\ttfamily double}. The {\ttfamily real} function does nothing to real and integer types. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+The following demonstrates the {\ttfamily real} applied to a complex scalar.
+
+
+\begin{DoxyVerbInclude}
+--> real(3+4*i)
+
+ans = 
+ 3 
+\end{DoxyVerbInclude}
+
+
+The {\ttfamily real} function has no effect on real arguments\-:
+
+
+\begin{DoxyVerbInclude}
+--> real([2,3,4])
+
+ans = 
+ 2 3 4 
+\end{DoxyVerbInclude}
+
+
+For a double-\/precision complex array,
+
+
+\begin{DoxyVerbInclude}
+--> real([2.0+3.0*i,i])
+
+ans = 
+ 2 0 
+\end{DoxyVerbInclude}
+ \hypertarget{elementary_round}{}\section{R\-O\-U\-N\-D Round Function}\label{elementary_round}
+Section\-: \hyperlink{sec_elementary}{Elementary Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Rounds an n-\/dimensional array to the nearest integer elementwise. The general syntax for its use is \begin{DoxyVerb}   y = round(x)
+\end{DoxyVerb}
+ where {\ttfamily x} is a multidimensional array of numerical type. The {\ttfamily round} function preserves the type of the argument. So integer arguments are not modified, and {\ttfamily float} arrays return {\ttfamily float} arrays as outputs, and similarly for {\ttfamily double} arrays. The {\ttfamily round} function is not defined for {\ttfamily complex} or {\ttfamily dcomplex} types. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+The following demonstrates the {\ttfamily round} function applied to various (numerical) arguments. For integer arguments, the round function has no effect\-:
+
+
+\begin{DoxyVerbInclude}
+--> round(3)
+
+ans = 
+ 3 
+
+--> round(-3)
+
+ans = 
+ -3 
+\end{DoxyVerbInclude}
+
+
+Next, we take the {\ttfamily round} of a floating point value\-:
+
+
+\begin{DoxyVerbInclude}
+--> round(3.023f)
+
+ans = 
+ 3 
+
+--> round(-2.341f)
+
+ans = 
+ -2 
+\end{DoxyVerbInclude}
+
+
+Note that the return type is a {\ttfamily float} also. Finally, for a {\ttfamily double} type\-:
+
+
+\begin{DoxyVerbInclude}
+--> round(4.312)
+
+ans = 
+ 4 
+
+--> round(-5.32)
+
+ans = 
+ -5 
+\end{DoxyVerbInclude}
+ \hypertarget{elementary_std}{}\section{S\-T\-D Standard Deviation Function}\label{elementary_std}
+Section\-: \hyperlink{sec_elementary}{Elementary Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Computes the standard deviation of an array along a given dimension. The general syntax for its use is \begin{DoxyVerb}  y = std(x,d)
+\end{DoxyVerb}
+ where {\ttfamily x} is an {\ttfamily n}-\/dimensions array of numerical type. The output is of the same numerical type as the input. The argument {\ttfamily d} is optional, and denotes the dimension along which to take the variance. The output {\ttfamily y} is the same size as {\ttfamily x}, except that it is singular along the mean direction. So, for example, if {\ttfamily x} is a {\ttfamily 3 x 3 x 4} array, and we compute the mean along dimension {\ttfamily d=2}, then the output is of size {\ttfamily 3 x 1 x 4}. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+The following piece of code demonstrates various uses of the {\ttfamily std} function
+
+
+\begin{DoxyVerbInclude}
+--> A = [5,1,3;3,2,1;0,3,1]
+
+A = 
+ 5 1 3 
+ 3 2 1 
+ 0 3 1 
+\end{DoxyVerbInclude}
+
+
+We start by calling {\ttfamily std} without a dimension argument, in which case it defaults to the first nonsingular dimension (in this case, along the columns or {\ttfamily d = 1}).
+
+
+\begin{DoxyVerbInclude}
+--> std(A)
+
+ans = 
+    2.5166    1.0000    1.1547 
+\end{DoxyVerbInclude}
+
+
+Next, we take the variance along the rows.
+
+
+\begin{DoxyVerbInclude}
+--> std(A,2)
+
+ans = 
+    2.0000 
+    1.0000 
+    1.5275 
+\end{DoxyVerbInclude}
+ \hypertarget{elementary_sub2ind}{}\section{S\-U\-B2\-I\-N\-D Convert Multiple Indexing To Linear Indexing}\label{elementary_sub2ind}
+Section\-: \hyperlink{sec_elementary}{Elementary Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+The {\ttfamily sub2ind} function converts a multi-\/dimensional indexing expression into a linear (or vector) indexing expression. The syntax for its use is \begin{DoxyVerb}   y = sub2ind(sizevec,d1,d2,...,dn)
+\end{DoxyVerb}
+ where {\ttfamily sizevec} is the size of the array being indexed into, and each {\ttfamily di} is a vector of the same length, containing index values. The basic idea behind {\ttfamily sub2ind} is that it makes \begin{DoxyVerb}  [z(d1(1),d2(1),...,dn(1)),...,z(d1(n),d2(n),...,dn(n))]
+\end{DoxyVerb}
+ equivalent to \begin{DoxyVerb}  z(sub2ind(size(z),d1,d2,...,dn))
+\end{DoxyVerb}
+ where the later form is using vector indexing, and the former one is using native, multi-\/dimensional indexing. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+Suppose we have a simple {\ttfamily 3 x 4} matrix {\ttfamily A} containing some random integer elements
+
+
+\begin{DoxyVerbInclude}
+--> A = randi(ones(3,4),10*ones(3,4))
+
+A = 
+  2  3  2  3 
+ 10  2  4  8 
+  5 10  1  2 
+\end{DoxyVerbInclude}
+
+
+We can extract the elements {\ttfamily (1,3),(2,3),(3,4)} of {\ttfamily A} via {\ttfamily sub2ind}. To calculate which elements of {\ttfamily A} this corresponds to, we can use {\ttfamily sub2ind} as
+
+
+\begin{DoxyVerbInclude}
+--> n = sub2ind(size(A),1:3,2:4)
+
+n = 
+  4  8 12 
+
+--> A(n)
+
+ans = 
+ 3 4 2 
+\end{DoxyVerbInclude}
+ \hypertarget{elementary_sum}{}\section{S\-U\-M Sum Function}\label{elementary_sum}
+Section\-: \hyperlink{sec_elementary}{Elementary Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Computes the summation of an array along a given dimension. The general syntax for its use is \begin{DoxyVerb}  y = sum(x,d)
+\end{DoxyVerb}
+ where {\ttfamily x} is an {\ttfamily n}-\/dimensions array of numerical type. The output is of the same numerical type as the input. The argument {\ttfamily d} is optional, and denotes the dimension along which to take the summation. The output {\ttfamily y} is the same size as {\ttfamily x}, except that it is singular along the summation direction. So, for example, if {\ttfamily x} is a {\ttfamily 3 x 3 x 4} array, and we compute the summation along dimension {\ttfamily d=2}, then the output is of size {\ttfamily 3 x 1 x 4}. \hypertarget{transforms_svd_Function}{}\subsection{Internals}\label{transforms_svd_Function}
+The output is computed via \[ y(m_1,\ldots,m_{d-1},1,m_{d+1},\ldots,m_{p}) = \sum_{k} x(m_1,\ldots,m_{d-1},k,m_{d+1},\ldots,m_{p}) \] If {\ttfamily d} is omitted, then the summation is taken along the first non-\/singleton dimension of {\ttfamily x}. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+The following piece of code demonstrates various uses of the summation function
+
+
+\begin{DoxyVerbInclude}
+--> A = [5,1,3;3,2,1;0,3,1]
+
+A = 
+ 5 1 3 
+ 3 2 1 
+ 0 3 1 
+\end{DoxyVerbInclude}
+
+
+We start by calling {\ttfamily sum} without a dimension argument, in which case it defaults to the first nonsingular dimension (in this case, along the columns or {\ttfamily d = 1}).
+
+
+\begin{DoxyVerbInclude}
+--> sum(A)
+
+ans = 
+ 8 6 5 
+\end{DoxyVerbInclude}
+
+
+Next, we take the sum along the rows.
+
+
+\begin{DoxyVerbInclude}
+--> sum(A,2)
+
+ans = 
+ 9 
+ 6 
+ 4 
+\end{DoxyVerbInclude}
+ \hypertarget{elementary_test}{}\section{T\-E\-S\-T Test Function}\label{elementary_test}
+Section\-: \hyperlink{sec_elementary}{Elementary Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Tests for the argument array to be all logical 1s. It is completely equivalent to the {\ttfamily all} function applied to a vectorized form of the input. The syntax for the {\ttfamily test} function is \begin{DoxyVerb}   y = test(x)
+\end{DoxyVerb}
+ and the result is equivalent to {\ttfamily all(x(\-:))}. \hypertarget{elementary_var}{}\section{V\-A\-R Variance Function}\label{elementary_var}
+Section\-: \hyperlink{sec_elementary}{Elementary Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Computes the variance of an array along a given dimension. The general syntax for its use is \begin{DoxyVerb}  y = var(x,d)
+\end{DoxyVerb}
+ where {\ttfamily x} is an {\ttfamily n}-\/dimensions array of numerical type. The output is of the same numerical type as the input. The argument {\ttfamily d} is optional, and denotes the dimension along which to take the variance. The output {\ttfamily y} is the same size as {\ttfamily x}, except that it is singular along the mean direction. So, for example, if {\ttfamily x} is a {\ttfamily 3 x 3 x 4} array, and we compute the mean along dimension {\ttfamily d=2}, then the output is of size {\ttfamily 3 x 1 x 4}. \hypertarget{transforms_svd_Function}{}\subsection{Internals}\label{transforms_svd_Function}
+The output is computed via \[ y(m_1,\ldots,m_{d-1},1,m_{d+1},\ldots,m_{p}) = \frac{1}{N-1} \sum_{k=1}^{N} \left(x(m_1,\ldots,m_{d-1},k,m_{d+1},\ldots,m_{p}) - \bar{x}\right)^2, \] where \[ \bar{x} = \frac{1}{N} \sum_{k=1}^{N} x(m_1,\ldots,m_{d-1},k,m_{d+1},\ldots,m_{p}) \] If {\ttfamily d} is omitted, then the mean is taken along the first non-\/singleton dimension of {\ttfamily x}. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+The following piece of code demonstrates various uses of the var function
+
+
+\begin{DoxyVerbInclude}
+--> A = [5,1,3;3,2,1;0,3,1]
+
+A = 
+ 5 1 3 
+ 3 2 1 
+ 0 3 1 
+\end{DoxyVerbInclude}
+
+
+We start by calling {\ttfamily var} without a dimension argument, in which case it defaults to the first nonsingular dimension (in this case, along the columns or {\ttfamily d = 1}).
+
+
+\begin{DoxyVerbInclude}
+--> var(A)
+
+ans = 
+    6.3333    1.0000    1.3333 
+\end{DoxyVerbInclude}
+
+
+Next, we take the variance along the rows.
+
+
+\begin{DoxyVerbInclude}
+--> var(A,2)
+
+ans = 
+    4.0000 
+    1.0000 
+    2.3333 
+\end{DoxyVerbInclude}
+ \hypertarget{elementary_vec}{}\section{V\-E\-C Reshape to a Vector}\label{elementary_vec}
+Section\-: \hyperlink{sec_elementary}{Elementary Functions} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Reshapes an n-\/dimensional array into a column vector. The general syntax for its use is \begin{DoxyVerb}   y = vec(x)
+\end{DoxyVerb}
+ where {\ttfamily x} is an n-\/dimensional array (not necessarily numeric). This function is equivalent to the expression {\ttfamily y = x(\-:)}. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+A simple example of the {\ttfamily vec} operator reshaping a 2\-D matrix\-:
+
+
+\begin{DoxyVerbInclude}
+--> A = [1,2,4,3;2,3,4,5]
+
+A = 
+ 1 2 4 3 
+ 2 3 4 5 
+
+--> vec(A)
+
+ans = 
+ 1 
+ 2 
+ 2 
+ 3 
+ 4 
+ 4 
+ 3 
+ 5 
+\end{DoxyVerbInclude}
+ 

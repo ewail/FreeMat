@@ -1,0 +1,134 @@
+/*!
+\page vtkrendering_vtklabelhierarchy vtkLabelHierarchy
+
+<p>
+Section: \ref sec_vtkrendering "Visualization Toolkit Rendering Classes"
+\section Usage
+ This class represents labels in a hierarchy used to denote rendering priority.
+ A binary tree of labels is maintained that subdivides the bounds of the
+ of the label anchors spatially. Which level of the tree a label occupies
+ determines its priority; those at higher levels of the tree will be
+ more likely to render than those at lower levels of the tree.
+
+ Pass vtkLabelHierarchy objects to a vtkLabelPlacementMapper filter for dynamic,
+ non-overlapping, per-frame placement of labels.
+
+ Note that if we have a d-dimensional binary tree and we want a fixed
+ number \f$n\f$ of labels in each node (all nodes, not just leaves),
+ we can compute the depth of tree required assuming a uniform distribution
+ of points. Given a total of \f$N\f$ points we know that
+ \f$\frac{N}{|T|} = n\f$, where \f$|T|\f$ is the cardinality of the tree (i.e.,
+ the number of nodes it contains).
+ Because we have a uniform distribution, the tree will be uniformly subdivided
+ and thus \f$|T| = 1 + 2^d + \left(2^d\right)^2 + \cdots + \left(2^d\right)^k\f$,
+ where \f$d\f$ is the dimensionality of the input points (fixed at 3 for now).
+ As \f$k\f$ becomes large, \f$|T|\approx 2 \left(2^d\right)^k\f$.
+ Using this approximation, we can solve for \f$k\f$:
+ \f[ k = \frac{\log{\frac{N}{2n}}}{\log{2^d}} \f]
+ Given a set of \f$N\f$ input label anchors, we'll compute \f$k\f$ and then
+ bin the anchors into tree nodes at level \f$k\f$ of the tree. After this,
+ all the nodes will be in the leaves of the tree and those leaves will be at
+ the \f$k\f$-th level; no anchors will be in levels \f$1, 2, \ldots, k-1\f$.
+ To fix that, we'll choose to move some anchors upwards.
+ The exact number to move upwards depends on \a TargetLabelCount. We'll
+ move as many up as required to have \a TargetLabelCount at each node.
+
+ You should avoid situations where \a MaximumDepth does not allow for
+ \a TargetLabelCount or fewer entries at each node. The \a MaximumDepth
+ is a hard limit while \a TargetLabelCount is a suggested optimum. You will
+ end up with many more than \a TargetLabelCount entries per node and things
+ will be sloooow.
+
+To create an instance of class vtkLabelHierarchy, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkLabelHierarchy
+\endverbatim
+\section Methods
+The class vtkLabelHierarchy has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkLabelHierarchy class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkLabelHierarchy = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkLabelHierarchy = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetPoints (vtkPoints )</tt> -  Override SetPoints so we can reset the hierarchy when the points change.
+ </LI>
+<LI>  <tt>obj.ComputeHierarchy ()</tt> -  Fill the hierarchy with the input labels.
+ </LI>
+<LI>  <tt>obj.SetTargetLabelCount (int )</tt> -  The number of labels that is ideally present at any octree node.
+ It is best if this is a multiple of \f$2^d\f$.
+ </LI>
+<LI>  <tt>int = obj.GetTargetLabelCount ()</tt> -  The number of labels that is ideally present at any octree node.
+ It is best if this is a multiple of \f$2^d\f$.
+ </LI>
+<LI>  <tt>obj.SetMaximumDepth (int )</tt> -  The maximum depth of the octree.
+ </LI>
+<LI>  <tt>int = obj.GetMaximumDepth ()</tt> -  The maximum depth of the octree.
+ </LI>
+<LI>  <tt>obj.SetTextProperty (vtkTextProperty tprop)</tt> -  The default text property assigned to labels in this hierarchy.
+ </LI>
+<LI>  <tt>vtkTextProperty = obj.GetTextProperty ()</tt> -  The default text property assigned to labels in this hierarchy.
+ </LI>
+<LI>  <tt>obj.SetPriorities (vtkDataArray arr)</tt> -  Set/get the array specifying the importance (priority) of each label.
+ </LI>
+<LI>  <tt>vtkDataArray = obj.GetPriorities ()</tt> -  Set/get the array specifying the importance (priority) of each label.
+ </LI>
+<LI>  <tt>obj.SetLabels (vtkAbstractArray arr)</tt> -  Set/get the array specifying the text of each label.
+ </LI>
+<LI>  <tt>vtkAbstractArray = obj.GetLabels ()</tt> -  Set/get the array specifying the text of each label.
+ </LI>
+<LI>  <tt>obj.SetOrientations (vtkDataArray arr)</tt> -  Set/get the array specifying the orientation of each label.
+ </LI>
+<LI>  <tt>vtkDataArray = obj.GetOrientations ()</tt> -  Set/get the array specifying the orientation of each label.
+ </LI>
+<LI>  <tt>obj.SetIconIndices (vtkIntArray arr)</tt> -  Set/get the array specifying the icon index of each label.
+ </LI>
+<LI>  <tt>vtkIntArray = obj.GetIconIndices ()</tt> -  Set/get the array specifying the icon index of each label.
+ </LI>
+<LI>  <tt>obj.SetSizes (vtkDataArray arr)</tt> -  Set/get the array specifying the size of each label.
+ </LI>
+<LI>  <tt>vtkDataArray = obj.GetSizes ()</tt> -  Set/get the array specifying the size of each label.
+ </LI>
+<LI>  <tt>obj.SetBoundedSizes (vtkDataArray arr)</tt> -  Set/get the array specifying the maximum width and height in world coordinates of each label.
+ </LI>
+<LI>  <tt>vtkDataArray = obj.GetBoundedSizes ()</tt> -  Set/get the array specifying the maximum width and height in world coordinates of each label.
+ </LI>
+<LI>  <tt>obj.GetDiscreteNodeCoordinatesFromWorldPoint (int ijk[3], double pt[3], int level)</tt> -  Given a depth in the hierarchy (\a level) and a point \a pt in world space, compute \a ijk.
+ This is used to find other octree nodes at the same \a level that are within the search radius
+ for candidate labels to be placed. It is called with \a pt set to the camera eye point and
+ pythagorean quadruples increasingly distant from the origin are added to \a ijk to identify
+ octree nodes whose labels should be placed.
+ @param[out] ijk - discrete coordinates of the octree node at \a level containing \a pt.
+ @param[in]  pt - input world point coordinates
+ @param[in]  level - input octree level to be considered
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetNumberOfCells ()</tt> -  Inherited members (from vtkDataSet)
+ </LI>
+<LI>  <tt>vtkCell = obj.GetCell (vtkIdType )</tt> -  Inherited members (from vtkDataSet)
+ </LI>
+<LI>  <tt>obj.GetCell (vtkIdType , vtkGenericCell )</tt> -  Inherited members (from vtkDataSet)
+ </LI>
+<LI>  <tt>int = obj.GetCellType (vtkIdType )</tt> -  Inherited members (from vtkDataSet)
+ </LI>
+<LI>  <tt>obj.GetCellPoints (vtkIdType , vtkIdList )</tt> -  Inherited members (from vtkDataSet)
+ </LI>
+<LI>  <tt>obj.GetPointCells (vtkIdType , vtkIdList )</tt> -  Inherited members (from vtkDataSet)
+ </LI>
+<LI>  <tt>int = obj.GetMaxCellSize ()</tt> -  Inherited members (from vtkDataSet)
+ </LI>
+<LI>  <tt>vtkPoints = obj.GetCenterPts ()</tt> -  Provide access to original coordinates of sets of coincident points
+ </LI>
+<LI>  <tt>vtkCoincidentPoints = obj.GetCoincidentPoints ()</tt> -  Provide access to the set of coincident points that have been
+ perturbed by the hierarchy in order to render labels for each
+ without overlap.
+ </LI>
+</UL>
+*/

@@ -1,0 +1,76 @@
+
+ Usage
+
+Anonymous functions are simple, nameless functions that can
+be defined anywhere (in a script, function, or at the
+prompt). They are intended to supplant inline functions. The
+syntax for an anonymous function is simple:
+
+     y = @(arg1,arg2,...,argn) expression
+
+where arg1,arg2,...,argn is a list of valid identifiers that
+define the arguments to the function, and expression is the
+expression to compute in the function. The returned value y
+is a function handle for the anonymous function that can
+then be used to evaluate the expression. Note that y will
+capture the value of variables that are not indicated in the
+argument list from the current scope or workspace at the
+time it is defined. So, for example, consider the simple
+anonymous function definition
+
+     y = @(x) a*(x+b)
+
+In order for this definition to work, the variables a and b
+need to be defined in the current workspace. Whatever value
+they have is captured in the function handle y. To change
+the values of a and b in the anonymous function, you must
+recreate the handle using another call. See the examples
+section for more information. In order to use the anonymous
+function, you can use it just like any other function
+handle. For example,
+
+     p = y(3)
+     p = y()
+     p = feval(y,3)
+
+are all examples of using the y anonymous function to
+perform a calculation.
+
+
+ Examples
+
+Here are some examples of using an anonymous function
+
+  --> a = 2; b = 4;    % define a and b (slope and
+  intercept)
+  --> y = @(x) a*x+b   % create the anonymous function
+
+  y =
+   @(x)   a*x+b   % create the anonymous function
+  --> y(2)             % evaluate it for x = 2
+
+  ans =
+   8
+
+  --> a = 5; b = 7;    % change a and b
+  --> y(2)             % the value did not change!  because
+  a=2,b=4 are captured in y
+
+  ans =
+   8
+
+  --> y = @(x) a*x+b   % recreate the function
+
+  y =
+   @(x)   a*x+b   % recreate the function
+  --> y(2)             % now the new values are used
+
+  ans =
+   17
+
+
+* FreeMat_Documentation
+* Functions_and_Scripts
+* Generated on Thu Jul 25 2013 17:17:14 for FreeMat by
+  doxygen_ 1.8.1.1
+

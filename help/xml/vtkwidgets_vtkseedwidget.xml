@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkwidgets_vtkseedwidget" kind="page">
+    <compoundname>vtkwidgets_vtkseedwidget</compoundname>
+    <title>vtkSeedWidget</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkwidgets_1sec_vtkwidgets" kindref="member">Visualization Toolkit Widget Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>The vtkSeedWidget is used to placed multiple seed points in the scene. The seed points can be used for operations like connectivity, segmentation, and region growing.</para><para>To use this widget, specify an instance of vtkSeedWidget and a representation (a subclass of vtkSeedRepresentation). The widget is implemented using multiple instances of vtkHandleWidget which can be used to position the seed points (after they are initially placed). The representations for these handle widgets are provided by the vtkSeedRepresentation.</para><para>.SECTION Event Bindings By default, the widget responds to the following VTK events (i.e., it watches the vtkRenderWindowInteractor for these events): <preformatted>
+   LeftButtonPressEvent - add a point or select a handle (i.e., seed)
+   RightButtonPressEvent - finish adding the seeds
+   MouseMoveEvent - move a handle (i.e., seed)
+   LeftButtonReleaseEvent - release the selected handle (seed)
+ </preformatted></para><para>Note that the event bindings described above can be changed using this class&apos;s vtkWidgetEventTranslator. This class translates VTK events into the vtkSeedWidget&apos;s widget events: <preformatted>
+   vtkWidgetEvent::AddPoint <ndash/> add one point; depending on the state
+                               it may the first or second point added. Or,
+                               if near handle, select handle.
+   vtkWidgetEvent::Completed <ndash/> finished adding seeds.
+   vtkWidgetEvent::Move <ndash/> move the second point or handle depending on the state.
+   vtkWidgetEvent::EndSelect <ndash/> the handle manipulation process has completed.
+ </preformatted></para><para>This widget invokes the following VTK events on itself (which observers can listen for): <preformatted>
+   vtkCommand::StartInteractionEvent (beginning to interact)
+   vtkCommand::EndInteractionEvent (completing interaction)
+   vtkCommand::InteractionEvent (moving after selecting something)
+   vtkCommand::PlacePointEvent (after point is positioned; 
+                                call data includes handle id (0,1))
+ </preformatted></para><para>To create an instance of class vtkSeedWidget, simply invoke its constructor as follows <verbatim>  obj = vtkSeedWidget
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkSeedWidget has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkSeedWidget class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput> - Standard methods for a VTK class.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput> - Standard methods for a VTK class.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkSeedWidget = obj.NewInstance ()</computeroutput> - Standard methods for a VTK class.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkSeedWidget = obj.SafeDownCast (vtkObject o)</computeroutput> - Standard methods for a VTK class.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetEnabled (int )</computeroutput> - The method for activiating and deactiviating this widget. This method must be overridden because it is a composite widget and does more than its superclasses&apos; vtkAbstractWidget::SetEnabled() method.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetCurrentRenderer (vtkRenderer )</computeroutput> - Set the current renderer. This method also propagates to all the child handle widgets, if any exist  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetInteractor (vtkRenderWindowInteractor )</computeroutput> - Set the interactor. This method also propagates to all the child handle widgets, if any exist  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetRepresentation (vtkSeedRepresentation rep)</computeroutput> - Create the default widget representation if one is not set.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.CreateDefaultRepresentation ()</computeroutput> - Create the default widget representation if one is not set.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetProcessEvents (int )</computeroutput> - Methods to change the whether the widget responds to interaction. Overridden to pass the state to component widgets.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.CompleteInteraction ()</computeroutput> - Method to be called when the seed widget should stop responding to the place point interaction. The seed widget, when defined allows you place seeds by clicking on the render window. Use this method to indicate that you would like to stop placing seeds interactively. If you&apos;d like the widget to stop responding to <emphasis>any</emphasis> user interaction simply disable event processing by the widget by calling widget-&gt;ProcessEventsOff()  </para></listitem>
+<listitem>
+<para><computeroutput>obj.RestartInteraction ()</computeroutput> - Method to be called when the seed widget should start responding to the interaction.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkHandleWidget = obj.CreateNewHandle ()</computeroutput> - Use this method to programmatically create a new handle. In interactive mode, (when the widget is in the PlacingSeeds state) this method is automatically invoked. The method returns the handle created. A valid seed representation must exist for the widget to create a new handle.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.DeleteSeed (int n)</computeroutput> - Delete the nth seed.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkHandleWidget = obj.GetSeed (int n)</computeroutput> - Get the nth seed  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

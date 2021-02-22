@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkcommon_vtkvariantarray" kind="page">
+    <compoundname>vtkcommon_vtkvariantarray</compoundname>
+    <title>vtkVariantArray</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkcommon_1sec_vtkcommon" kindref="member">Visualization Toolkit Common Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>.SECTION Thanks Thanks to Patricia Crossno, Ken Moreland, Andrew Wilson and Brian Wylie from Sandia National Laboratories for their help in developing this class.</para><para>To create an instance of class vtkVariantArray, simply invoke its constructor as follows <verbatim>  obj = vtkVariantArray
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkVariantArray has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkVariantArray class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkVariantArray = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkVariantArray = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.Allocate (vtkIdType sz, vtkIdType ext)</computeroutput> - Allocate memory for this array. Delete old storage only if necessary. Note that ext is no longer used.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.Initialize ()</computeroutput> - Release storage and reset array to initial state.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetDataType ()</computeroutput> - Return the underlying data type. An integer indicating data type is returned as specified in vtkSetGet.h.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetDataTypeSize ()</computeroutput> - Return the size of the underlying data type. For a bit, 1 is returned. For string 0 is returned. Arrays with variable length components return 0.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetElementComponentSize ()</computeroutput> - Return the size, in bytes, of the lowest-level element of an array. For vtkDataArray and subclasses this is the size of the data type. For vtkStringArray, this is sizeof(vtkStdString::value_type), which winds up being sizeof(char).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetNumberOfTuples (vtkIdType number)</computeroutput> - Set the number of tuples (a component group) in the array. Note that this may allocate space depending on the number of components.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetTuple (vtkIdType i, vtkIdType j, vtkAbstractArray source)</computeroutput> - Set the tuple at the ith location using the jth tuple in the source array. This method assumes that the two arrays have the same type and structure. Note that range checking and memory allocation is not performed; use in conjunction with SetNumberOfTuples() to allocate space.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.InsertTuple (vtkIdType i, vtkIdType j, vtkAbstractArray source)</computeroutput> - Insert the jth tuple in the source array, at ith location in this array. Note that memory allocation is performed as necessary to hold the data.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkIdType = obj.InsertNextTuple (vtkIdType j, vtkAbstractArray source)</computeroutput> - Insert the jth tuple in the source array, at the end in this array. Note that memory allocation is performed as necessary to hold the data. Returns the location at which the data was inserted.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.DeepCopy (vtkAbstractArray da)</computeroutput> - Deep copy of data. Implementation left to subclasses, which should support as many type conversions as possible given the data type.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.InterpolateTuple (vtkIdType i, vtkIdList ptIndices, vtkAbstractArray source, double weights)</computeroutput> - Set the ith tuple in this array as the interpolated tuple value, given the ptIndices in the source array and associated interpolation weights. This method assumes that the two arrays are of the same type and strcuture.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.InterpolateTuple (vtkIdType i, vtkIdType id1, vtkAbstractArray source1, vtkIdType id2, vtkAbstractArray source2, double t)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.Squeeze ()</computeroutput> - Resize object to just fit data requirement. Reclaims extra memory.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.Resize (vtkIdType numTuples)</computeroutput> - Resize the array while conserving the data. Returns 1 if resizing succeeded and 0 otherwise.  </para></listitem>
+<listitem>
+<para><computeroutput>long = obj.GetActualMemorySize ()</computeroutput> - Return the memory in kilobytes consumed by this data array. Used to support streaming and reading/writing data. The value returned is guaranteed to be greater than or equal to the memory required to actually represent the data represented by this object. The information returned is valid only after the pipeline has been updated.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsNumeric ()</computeroutput> - Since each item can be of a different type, we say that a variant array is not numeric.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkArrayIterator = obj.NewIterator ()</computeroutput> - Subclasses must override this method and provide the right kind of templated vtkArrayIteratorTemplate.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetNumberOfValues (vtkIdType number)</computeroutput> - Specify the number of values for this object to hold. Does an allocation as well as setting the MaxId ivar. Used in conjunction with SetValue() method for fast insertion.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkIdType = obj.GetNumberOfValues ()</computeroutput> - Tell the array explicitly that the data has changed. This is only necessary to call when you modify the array contents without using the array&apos;s API (i.e. you retrieve a pointer to the data and modify the array contents). You need to call this so that the fast lookup will know to rebuild itself. Otherwise, the lookup functions will give incorrect results.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.DataChanged ()</computeroutput> - Tell the array explicitly that the data has changed. This is only necessary to call when you modify the array contents without using the array&apos;s API (i.e. you retrieve a pointer to the data and modify the array contents). You need to call this so that the fast lookup will know to rebuild itself. Otherwise, the lookup functions will give incorrect results.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.DataElementChanged (vtkIdType id)</computeroutput> - Tell the array explicitly that a single data element has changed. Like DataChanged(), then is only necessary when you modify the array contents without using the array&apos;s API.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ClearLookup ()</computeroutput> - Delete the associated fast lookup data structure on this array, if it exists. The lookup will be rebuilt on the next call to a lookup function.  </para></listitem>
+<listitem>
+<para><computeroutput>~vtkVariantArray = obj.()</computeroutput> - This destructor is public to work around a bug in version 1.36.0 of the Boost.Serialization library.  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

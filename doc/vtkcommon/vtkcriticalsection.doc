@@ -1,0 +1,48 @@
+/*!
+\page vtkcommon_vtkcriticalsection vtkCriticalSection
+
+<p>
+Section: \ref sec_vtkcommon "Visualization Toolkit Common Classes"
+\section Usage
+ vtkCriticalSection allows the locking of variables which are accessed 
+ through different threads.  This header file also defines 
+ vtkSimpleCriticalSection which is not a subclass of vtkObject.
+ The API is identical to that of vtkMutexLock, and the behavior is
+ identical as well, except on Windows 9x/NT platforms. The only difference
+ on these platforms is that vtkMutexLock is more flexible, in that
+ it works across processes as well as across threads, but also costs
+ more, in that it evokes a 600-cycle x86 ring transition. The 
+ vtkCriticalSection provides a higher-performance equivalent (on 
+ Windows) but won't work across processes. Since it is unclear how,
+ in vtk, an object at the vtk level can be shared across processes
+ in the first place, one should use vtkCriticalSection unless one has
+ a very good reason to use vtkMutexLock. If higher-performance equivalents
+ for non-Windows platforms (Irix, SunOS, etc) are discovered, they
+ should replace the implementations in this class
+
+To create an instance of class vtkCriticalSection, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkCriticalSection
+\endverbatim
+\section Methods
+The class vtkCriticalSection has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkCriticalSection class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkCriticalSection = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkCriticalSection = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.Lock ()</tt> -  Lock the vtkCriticalSection
+ </LI>
+<LI>  <tt>obj.Unlock ()</tt> -  Unlock the vtkCriticalSection
+ </LI>
+</UL>
+*/

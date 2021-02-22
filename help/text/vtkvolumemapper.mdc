@@ -1,0 +1,208 @@
+
+ Usage
+
+vtkVolumeMapper is the abstract definition of a volume
+mapper for regular rectilinear data (vtkImageData). Several
+basic types of volume mappers are supported.
+To create an instance of class vtkVolumeMapper, simply
+invoke its constructor as follows
+
+    obj = vtkVolumeMapper
+
+
+
+ Methods
+
+The class vtkVolumeMapper has several methods that can be
+used. They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkVolumeMapper class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkVolumeMapper = obj.NewInstance ()
+* vtkVolumeMapper = obj.SafeDownCast (vtkObject o)
+* obj.SetInput (vtkImageData ) - Set/Get the input data
+* obj.SetInput (vtkDataSet ) - Set/Get the input data
+* vtkImageData = obj.GetInput () - Set/Get the input data
+* obj.SetBlendMode (int ) - Set/Get the blend mode.
+  Currently this is only supported by the
+  vtkFixedPointVolumeRayCastMapper - other mappers have
+  different ways to set this (supplying a function to a
+  vtkVolumeRayCastMapper) or don't have any options
+  (vtkVolumeTextureMapper2D supports only compositing)
+* obj.SetBlendModeToComposite () - Set/Get the blend mode.
+  Currently this is only supported by the
+  vtkFixedPointVolumeRayCastMapper - other mappers have
+  different ways to set this (supplying a function to a
+  vtkVolumeRayCastMapper) or don't have any options
+  (vtkVolumeTextureMapper2D supports only compositing)
+* obj.SetBlendModeToMaximumIntensity () - Set/Get the blend
+  mode. Currently this is only supported by the
+  vtkFixedPointVolumeRayCastMapper - other mappers have
+  different ways to set this (supplying a function to a
+  vtkVolumeRayCastMapper) or don't have any options
+  (vtkVolumeTextureMapper2D supports only compositing)
+* obj.SetBlendModeToMinimumIntensity () - Set/Get the blend
+  mode. Currently this is only supported by the
+  vtkFixedPointVolumeRayCastMapper - other mappers have
+  different ways to set this (supplying a function to a
+  vtkVolumeRayCastMapper) or don't have any options
+  (vtkVolumeTextureMapper2D supports only compositing)
+* int = obj.GetBlendMode () - Set/Get the blend mode.
+  Currently this is only supported by the
+  vtkFixedPointVolumeRayCastMapper - other mappers have
+  different ways to set this (supplying a function to a
+  vtkVolumeRayCastMapper) or don't have any options
+  (vtkVolumeTextureMapper2D supports only compositing)
+* obj.SetCropping (int ) - Turn On/Off orthogonal cropping.
+  (Clipping planes are perpendicular to the coordinate
+  axes.)
+* int = obj.GetCroppingMinValue () - Turn On/Off orthogonal
+  cropping. (Clipping planes are perpendicular to the
+  coordinate axes.)
+* int = obj.GetCroppingMaxValue () - Turn On/Off orthogonal
+  cropping. (Clipping planes are perpendicular to the
+  coordinate axes.)
+* int = obj.GetCropping () - Turn On/Off orthogonal
+  cropping. (Clipping planes are perpendicular to the
+  coordinate axes.)
+* obj.CroppingOn () - Turn On/Off orthogonal cropping.
+  (Clipping planes are perpendicular to the coordinate
+  axes.)
+* obj.CroppingOff () - Turn On/Off orthogonal cropping.
+  (Clipping planes are perpendicular to the coordinate
+  axes.)
+* obj.SetCroppingRegionPlanes (double , double , double ,
+  double , double , double ) - Set/Get the Cropping Region
+  Planes ( xmin, xmax, ymin, ymax, zmin, zmax ) These planes
+  are defined in volume coordinates - spacing and origin are
+  considered.
+* obj.SetCroppingRegionPlanes (double a[6]) - Set/Get the
+  Cropping Region Planes ( xmin, xmax, ymin, ymax, zmin,
+  zmax ) These planes are defined in volume coordinates -
+  spacing and origin are considered.
+* double = obj. GetCroppingRegionPlanes () - Set/Get the
+  Cropping Region Planes ( xmin, xmax, ymin, ymax, zmin,
+  zmax ) These planes are defined in volume coordinates -
+  spacing and origin are considered.
+* double = obj. GetVoxelCroppingRegionPlanes () - Get the
+  cropping region planes in voxels. Only valid during the
+  rendering process
+* obj.SetCroppingRegionFlags (int ) - Set the flags for the
+  cropping regions. The clipping planes divide the volume
+  into 27 regions - there is one bit for each region. The
+  regions start from the one containing voxel (0,0,0),
+  moving along the x axis fastest, the y axis next, and the
+  z axis slowest. These are represented from the lowest bit
+  to bit number 27 in the integer containing the flags.
+  There are several convenience functions to set some common
+  configurations - subvolume (the default), fence (between
+  any of the clip plane pairs), inverted fence, cross
+  (between any two of the clip plane pairs) and inverted
+  cross.
+* int = obj.GetCroppingRegionFlagsMinValue () - Set the
+  flags for the cropping regions. The clipping planes divide
+  the volume into 27 regions - there is one bit for each
+  region. The regions start from the one containing voxel
+  (0,0,0), moving along the x axis fastest, the y axis next,
+  and the z axis slowest. These are represented from the
+  lowest bit to bit number 27 in the integer containing the
+  flags. There are several convenience functions to set some
+  common configurations - subvolume (the default), fence
+  (between any of the clip plane pairs), inverted fence,
+  cross (between any two of the clip plane pairs) and
+  inverted cross.
+* int = obj.GetCroppingRegionFlagsMaxValue () - Set the
+  flags for the cropping regions. The clipping planes divide
+  the volume into 27 regions - there is one bit for each
+  region. The regions start from the one containing voxel
+  (0,0,0), moving along the x axis fastest, the y axis next,
+  and the z axis slowest. These are represented from the
+  lowest bit to bit number 27 in the integer containing the
+  flags. There are several convenience functions to set some
+  common configurations - subvolume (the default), fence
+  (between any of the clip plane pairs), inverted fence,
+  cross (between any two of the clip plane pairs) and
+  inverted cross.
+* int = obj.GetCroppingRegionFlags () - Set the flags for
+  the cropping regions. The clipping planes divide the
+  volume into 27 regions - there is one bit for each region.
+  The regions start from the one containing voxel (0,0,0),
+  moving along the x axis fastest, the y axis next, and the
+  z axis slowest. These are represented from the lowest bit
+  to bit number 27 in the integer containing the flags.
+  There are several convenience functions to set some common
+  configurations - subvolume (the default), fence (between
+  any of the clip plane pairs), inverted fence, cross
+  (between any two of the clip plane pairs) and inverted
+  cross.
+* obj.SetCroppingRegionFlagsToSubVolume () - Set the flags
+  for the cropping regions. The clipping planes divide the
+  volume into 27 regions - there is one bit for each region.
+  The regions start from the one containing voxel (0,0,0),
+  moving along the x axis fastest, the y axis next, and the
+  z axis slowest. These are represented from the lowest bit
+  to bit number 27 in the integer containing the flags.
+  There are several convenience functions to set some common
+  configurations - subvolume (the default), fence (between
+  any of the clip plane pairs), inverted fence, cross
+  (between any two of the clip plane pairs) and inverted
+  cross.
+* obj.SetCroppingRegionFlagsToFence () - Set the flags for
+  the cropping regions. The clipping planes divide the
+  volume into 27 regions - there is one bit for each region.
+  The regions start from the one containing voxel (0,0,0),
+  moving along the x axis fastest, the y axis next, and the
+  z axis slowest. These are represented from the lowest bit
+  to bit number 27 in the integer containing the flags.
+  There are several convenience functions to set some common
+  configurations - subvolume (the default), fence (between
+  any of the clip plane pairs), inverted fence, cross
+  (between any two of the clip plane pairs) and inverted
+  cross.
+* obj.SetCroppingRegionFlagsToInvertedFence () - Set the
+  flags for the cropping regions. The clipping planes divide
+  the volume into 27 regions - there is one bit for each
+  region. The regions start from the one containing voxel
+  (0,0,0), moving along the x axis fastest, the y axis next,
+  and the z axis slowest. These are represented from the
+  lowest bit to bit number 27 in the integer containing the
+  flags. There are several convenience functions to set some
+  common configurations - subvolume (the default), fence
+  (between any of the clip plane pairs), inverted fence,
+  cross (between any two of the clip plane pairs) and
+  inverted cross.
+* obj.SetCroppingRegionFlagsToCross () - Set the flags for
+  the cropping regions. The clipping planes divide the
+  volume into 27 regions - there is one bit for each region.
+  The regions start from the one containing voxel (0,0,0),
+  moving along the x axis fastest, the y axis next, and the
+  z axis slowest. These are represented from the lowest bit
+  to bit number 27 in the integer containing the flags.
+  There are several convenience functions to set some common
+  configurations - subvolume (the default), fence (between
+  any of the clip plane pairs), inverted fence, cross
+  (between any two of the clip plane pairs) and inverted
+  cross.
+* obj.SetCroppingRegionFlagsToInvertedCross () - Set the
+  flags for the cropping regions. The clipping planes divide
+  the volume into 27 regions - there is one bit for each
+  region. The regions start from the one containing voxel
+  (0,0,0), moving along the x axis fastest, the y axis next,
+  and the z axis slowest. These are represented from the
+  lowest bit to bit number 27 in the integer containing the
+  flags. There are several convenience functions to set some
+  common configurations - subvolume (the default), fence
+  (between any of the clip plane pairs), inverted fence,
+  cross (between any two of the clip plane pairs) and
+  inverted cross.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Volume_Rendering_Classes
+* Generated on Thu Jul 25 2013 17:18:36 for FreeMat by
+  doxygen_ 1.8.1.1
+

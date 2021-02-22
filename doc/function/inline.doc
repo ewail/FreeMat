@@ -1,0 +1,73 @@
+/*!
+\page function_inline INLINE Construct Inline Function
+
+<p>
+Section: \ref sec_function "Function Related Functions"
+\section Usage
+Constructs an inline function object.  The syntax for its use is
+either
+\verbatim
+   y = inline(expr)
+\endverbatim
+which uses the <tt>symvar</tt> function to identify the variables in the
+expression, or the explicit form
+\verbatim
+   y = inline(expr,var1,var2,...,varn)
+\endverbatim
+where the variables are explicitly given.  Note that inline functions
+are only partially supported in FreeMat.  If you need features of the
+inline function that are not currently implemented, please file a
+feature request at the FreeMat website.
+\section Example
+Here we construct an inline expression using the autodetection 
+of <tt>symvar</tt>
+
+\if FRAGMENT
+frag_function_inline_000.m
+0
+a = inline('x^2')
+a(3)
+a(i)
+\endif
+
+
+\verbinclude frag_function_inline_000.m.out 
+
+In this case, we have multiple arguments (again, autodetected)
+
+\if FRAGMENT
+frag_function_inline_001.m
+0
+a = inline('x+y-cos(x+y)')
+a(pi,-pi)
+\endif
+
+
+\verbinclude frag_function_inline_001.m.out 
+
+In this form, we specify which arguments we want to use (thereby
+also specifying the order of the arguments
+
+\if FRAGMENT
+frag_function_inline_002.m
+0
+a = inline('x+t-sin(x)','x','t')
+a(0.5,1)
+\endif
+
+
+\verbinclude frag_function_inline_002.m.out 
+
+Inline objects can also be used with <tt>feval</tt>
+
+\if FRAGMENT
+frag_function_inline_003.m
+0
+a = inline('cos(t)')
+feval(a,pi/2)
+\endif
+
+
+\verbinclude frag_function_inline_003.m.out 
+
+*/

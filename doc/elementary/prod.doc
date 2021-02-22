@@ -1,0 +1,59 @@
+/*!
+\page elementary_prod PROD Product Function
+
+<p>
+Section: \ref sec_elementary "Elementary Functions"
+\section Usage
+Computes the product of an array along a given dimension.  The general
+syntax for its use is
+\verbatim
+   y = prod(x,d)
+\endverbatim
+where <tt>x</tt> is an <tt>n</tt>-dimensions array of numerical type.
+The output is of the same numerical type as the input, except 
+for integer types, which are automatically promoted to <tt>int32</tt>.
+ The argument <tt>d</tt> is optional, and denotes the dimension along 
+which to take the product.  The output is computed via
+\f[
+  y(m_1,\ldots,m_{d-1},1,m_{d+1},\ldots,m_{p}) = 
+    \prod_{k} x(m_1,\ldots,m_{d-1},k,m_{d+1},\ldots,m_{p})
+\f]
+If <tt>d</tt> is omitted, then the product is taken along the 
+first non-singleton dimension of <tt>x</tt>. Note that by definition
+(starting with FreeMat 2.1) <tt>prod([]) = 1</tt>.
+\section Example
+The following piece of code demonstrates various uses of the product
+function
+
+\if FRAGMENT
+frag_elementary_prod_000.m
+0
+A = [5,1,3;3,2,1;0,3,1]
+\endif
+
+
+\verbinclude frag_elementary_prod_000.m.out 
+
+We start by calling <tt>prod</tt> without a dimension argument, in which case it defaults to the first nonsingular dimension (in this case, along the columns or <tt>d = 1</tt>).
+
+\if FRAGMENT
+frag_elementary_prod_001.m
+0
+prod(A)
+\endif
+
+
+\verbinclude frag_elementary_prod_001.m.out 
+
+Next, we take the product along the rows.
+
+\if FRAGMENT
+frag_elementary_prod_002.m
+0
+prod(A,2)
+\endif
+
+
+\verbinclude frag_elementary_prod_002.m.out 
+
+*/

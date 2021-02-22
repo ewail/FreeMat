@@ -1,0 +1,93 @@
+/*!
+\page vtkinfovis_vtkgraphhierarchicalbundleedges vtkGraphHierarchicalBundleEdges
+
+<p>
+Section: \ref sec_vtkinfovis "Visualization Toolkit Infovis Classes"
+\section Usage
+ This algorithm creates a vtkPolyData from a vtkGraph.  As opposed to
+ vtkGraphToPolyData, which converts each arc into a straight line, each arc
+ is converted to a polyline, following a tree structure.  The filter requires
+ both a vtkGraph and vtkTree as input.  The tree vertices must be a
+ superset of the graph vertices.  A common example is when the graph vertices
+ correspond to the leaves of the tree, but the internal vertices of the tree
+ represent groupings of graph vertices.  The algorithm matches the vertices
+ using the array "PedigreeId".  The user may alternately set the
+ DirectMapping flag to indicate that the two structures must have directly
+ corresponding offsets (i.e. node i in the graph must correspond to node i in
+ the tree).
+
+ The vtkGraph defines the topology of the output vtkPolyData (i.e.
+ the connections between nodes) while the vtkTree defines the geometry (i.e.
+ the location of nodes and arc routes).  Thus, the tree must have been
+ assigned vertex locations, but the graph does not need locations, in fact
+ they will be ignored.  The edges approximately follow the path from the
+ source to target nodes in the tree.  A bundling parameter controls how
+ closely the edges are bundled together along the tree structure.
+ 
+ You may follow this algorithm with vtkSplineFilter in order to make nicely
+ curved edges.
+
+To create an instance of class vtkGraphHierarchicalBundleEdges, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkGraphHierarchicalBundleEdges
+\endverbatim
+\section Methods
+The class vtkGraphHierarchicalBundleEdges has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkGraphHierarchicalBundleEdges class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkGraphHierarchicalBundleEdges = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkGraphHierarchicalBundleEdges = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetBundlingStrength (double )</tt> -  The level of arc bundling in the graph.
+ A strength of 0 creates straight lines, while a strength of 1
+ forces arcs to pass directly through hierarchy node points.
+ The default value is 0.8.
+ </LI>
+<LI>  <tt>double = obj.GetBundlingStrengthMinValue ()</tt> -  The level of arc bundling in the graph.
+ A strength of 0 creates straight lines, while a strength of 1
+ forces arcs to pass directly through hierarchy node points.
+ The default value is 0.8.
+ </LI>
+<LI>  <tt>double = obj.GetBundlingStrengthMaxValue ()</tt> -  The level of arc bundling in the graph.
+ A strength of 0 creates straight lines, while a strength of 1
+ forces arcs to pass directly through hierarchy node points.
+ The default value is 0.8.
+ </LI>
+<LI>  <tt>double = obj.GetBundlingStrength ()</tt> -  The level of arc bundling in the graph.
+ A strength of 0 creates straight lines, while a strength of 1
+ forces arcs to pass directly through hierarchy node points.
+ The default value is 0.8.
+ </LI>
+<LI>  <tt>obj.SetDirectMapping (bool )</tt> -  If on, uses direct mapping from tree to graph vertices.
+ If off, both the graph and tree must contain PedigreeId arrays
+ which are used to match graph and tree vertices.
+ Default is off.
+ </LI>
+<LI>  <tt>bool = obj.GetDirectMapping ()</tt> -  If on, uses direct mapping from tree to graph vertices.
+ If off, both the graph and tree must contain PedigreeId arrays
+ which are used to match graph and tree vertices.
+ Default is off.
+ </LI>
+<LI>  <tt>obj.DirectMappingOn ()</tt> -  If on, uses direct mapping from tree to graph vertices.
+ If off, both the graph and tree must contain PedigreeId arrays
+ which are used to match graph and tree vertices.
+ Default is off.
+ </LI>
+<LI>  <tt>obj.DirectMappingOff ()</tt> -  If on, uses direct mapping from tree to graph vertices.
+ If off, both the graph and tree must contain PedigreeId arrays
+ which are used to match graph and tree vertices.
+ Default is off.
+ </LI>
+<LI>  <tt>int = obj.FillInputPortInformation (int port, vtkInformation info)</tt> -  Set the input type of the algorithm to vtkGraph.
+ </LI>
+</UL>
+*/

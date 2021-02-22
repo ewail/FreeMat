@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkgraphics_vtkprogrammableattributedatafilter" kind="page">
+    <compoundname>vtkgraphics_vtkprogrammableattributedatafilter</compoundname>
+    <title>vtkProgrammableAttributeDataFilter</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkgraphics_1sec_vtkgraphics" kindref="member">Visualization Toolkit Graphics Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>vtkProgrammableAttributeDataFilter is a filter that allows you to write a custom procedure to manipulate attribute data - either point or cell data. For example, you could generate scalars based on a complex formula; convert vectors to normals; compute scalar values as a function of vectors, texture coords, and/or any other point data attribute; and so on. The filter takes multiple inputs (input plus an auxiliary input list), so you can write procedures that combine several dataset point attributes. Note that the output of the filter is the same type (topology/geometry) as the input.</para><para>The filter works as follows. It operates like any other filter (i.e., checking and managing modified and execution times, processing Update() and Execute() methods, managing release of data, etc.), but the difference is that the Execute() method simply invokes a user-specified function with an optional (void *) argument (typically the &quot;this&quot; pointer in C++). It is also possible to specify a function to delete the argument via ExecuteMethodArgDelete().</para><para>To use the filter, you write a procedure to process the input datasets, process the data, and generate output data. Typically, this means grabbing the input point or cell data (using GetInput() and maybe GetInputList()), operating on it (creating new point and cell attributes such as scalars, vectors, etc.), and then setting the point and/or cell attributes in the output dataset (you&apos;ll need to use GetOutput() to access the output). (Note: besides C++, it is possible to do the same thing in Tcl, Java, or other languages that wrap the C++ core.) Remember, proper filter protocol requires that you don&apos;t modify the input data - you create new output data from the input.</para><para>To create an instance of class vtkProgrammableAttributeDataFilter, simply invoke its constructor as follows <verbatim>  obj = vtkProgrammableAttributeDataFilter
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkProgrammableAttributeDataFilter has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkProgrammableAttributeDataFilter class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkProgrammableAttributeDataFilter = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkProgrammableAttributeDataFilter = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.AddInput (vtkDataSet in)</computeroutput> - Add a dataset to the list of data to process.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.RemoveInput (vtkDataSet in)</computeroutput> - Remove a dataset from the list of data to process.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkDataSetCollection = obj.GetInputList ()</computeroutput> - Return the list of inputs.  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

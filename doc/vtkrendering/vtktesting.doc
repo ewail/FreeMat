@@ -1,0 +1,136 @@
+/*!
+\page vtkrendering_vtktesting vtkTesting
+
+<p>
+Section: \ref sec_vtkrendering "Visualization Toolkit Rendering Classes"
+\section Usage
+
+  This is a VTK regression testing framework. Looks like this:
+ 
+  vtkTesting* t = vtkTesting::New();
+
+  Two options for setting arguments
+  
+  Option 1:
+  for ( cc = 1; cc < argc; cc ++ )
+    {
+    t->AddArgument(argv[cc]);
+    }
+
+  Option 2:
+  t->AddArgument("-D");
+  t->AddArgument(my_data_dir);
+  t->AddArgument("-V");
+  t->AddArgument(my_valid_image);
+
+  ...
+  
+  Two options of doing testing:
+  
+  Option 1:
+  t->SetRenderWindow(renWin);
+  int res = t->RegressionTest(threshold);
+
+  Option 2:
+  int res = t->RegressionTest(test_image, threshold);
+  
+  ...
+
+  if ( res == vtkTesting::PASSED )
+    {
+    Test passed
+    }
+  else
+    {
+    Test failed
+    }
+
+
+To create an instance of class vtkTesting, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkTesting
+\endverbatim
+\section Methods
+The class vtkTesting has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkTesting class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkTesting = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkTesting = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetFrontBuffer (int )</tt> -  Use front buffer for tests. By default use back buffer.
+ </LI>
+<LI>  <tt>int = obj.GetFrontBufferMinValue ()</tt> -  Use front buffer for tests. By default use back buffer.
+ </LI>
+<LI>  <tt>int = obj.GetFrontBufferMaxValue ()</tt> -  Use front buffer for tests. By default use back buffer.
+ </LI>
+<LI>  <tt>obj.FrontBufferOn ()</tt> -  Use front buffer for tests. By default use back buffer.
+ </LI>
+<LI>  <tt>obj.FrontBufferOff ()</tt> -  Use front buffer for tests. By default use back buffer.
+ </LI>
+<LI>  <tt>int = obj.GetFrontBuffer ()</tt> -  Use front buffer for tests. By default use back buffer.
+ </LI>
+<LI>  <tt>int = obj.RegressionTest (double thresh)</tt> -  Perform the test and return result. At the same time the output will be
+ written cout
+ </LI>
+<LI>  <tt>int = obj.RegressionTest (vtkImageData image, double thresh)</tt> -  Compare the image with the valid image.
+ </LI>
+<LI>  <tt>int = obj.CompareAverageOfL2Norm (vtkDataSet pdA, vtkDataSet pdB, double tol)</tt> -  Compute the average L2 norm between all point data data arrays 
+ of types float and double present in the data sets "dsA" and "dsB"
+ (this includes instances of vtkPoints) Compare the result of 
+ each L2 comutation to "tol".
+ </LI>
+<LI>  <tt>int = obj.CompareAverageOfL2Norm (vtkDataArray daA, vtkDataArray daB, double tol)</tt> -  Compute the average L2 norm between two data arrays "daA" and "daB" 
+ and compare against "tol".
+ </LI>
+<LI>  <tt>obj.SetRenderWindow (vtkRenderWindow rw)</tt> -  Set and get the render window that will be used for regression testing.
+ </LI>
+<LI>  <tt>vtkRenderWindow = obj.GetRenderWindow ()</tt> -  Set and get the render window that will be used for regression testing.
+ </LI>
+<LI>  <tt>obj.SetValidImageFileName (string )</tt> -  Set/Get the name of the valid image file
+ </LI>
+<LI>  <tt>string = obj.GetValidImageFileName ()</tt> -  Set/Get the name of the valid image file
+ </LI>
+<LI>  <tt>double = obj.GetImageDifference ()</tt> -  Get the image difference.
+ </LI>
+<LI>  <tt>obj.AddArgument (string argv)</tt> -  Pass the command line arguments into this class to be processed. Many of
+ the Get methods such as GetValidImage and GetBaselineRoot rely on the
+ arguments to be passed in prior to retrieving these values. Just call
+ AddArgument for each argument that was passed into the command line
+ </LI>
+<LI>  <tt>obj.CleanArguments ()</tt>
+ </LI>
+<LI>  <tt>string = obj.GetDataRoot ()</tt> -  Get some paramters from the command line arguments, env, or defaults
+ </LI>
+<LI>  <tt>obj.SetDataRoot (string )</tt> -  Get some paramters from the command line arguments, env, or defaults
+ </LI>
+<LI>  <tt>string = obj.GetTempDirectory ()</tt> -  Get some paramters from the command line arguments, env, or defaults
+ </LI>
+<LI>  <tt>obj.SetTempDirectory (string )</tt> -  Get some paramters from the command line arguments, env, or defaults
+ </LI>
+<LI>  <tt>int = obj.IsValidImageSpecified ()</tt> -  Is a valid image specified on the command line areguments?
+ </LI>
+<LI>  <tt>int = obj.IsInteractiveModeSpecified ()</tt> -  Is the interactive mode specified?
+ </LI>
+<LI>  <tt>int = obj.IsFlagSpecified (string flag)</tt> -  Is some arbitrary user flag ("-X", "-Z" etc) specified
+ </LI>
+<LI>  <tt>obj.SetBorderOffset (int )</tt> -  Number of pixels added as borders to avoid problems with
+ window decorations added by some window managers.
+ </LI>
+<LI>  <tt>int = obj.GetBorderOffset ()</tt> -  Number of pixels added as borders to avoid problems with
+ window decorations added by some window managers.
+ </LI>
+<LI>  <tt>obj.SetVerbose (int )</tt> -  Get/Set verbosity level. A level of 0 is quiet.
+ </LI>
+<LI>  <tt>int = obj.GetVerbose ()</tt> -  Get/Set verbosity level. A level of 0 is quiet.
+ </LI>
+</UL>
+*/

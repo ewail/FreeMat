@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="handle_colormap" kind="page">
+    <compoundname>handle_colormap</compoundname>
+    <title>COLORMAP Image Colormap Function</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_handle_1sec_handle" kindref="member">Handle-Based Graphics</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>Changes the colormap for the current figure. The generic syntax for its use is <verbatim>  colormap(map)
+</verbatim> where <computeroutput>map</computeroutput> is a an array organized as <formula id="32">$3 \times N$</formula>), which defines the RGB (Red Green Blue) coordinates for each color in the colormap. You can also use the function with no arguments to recover the current colormap <verbatim>  map = colormap
+</verbatim> </para></sect1>
+<sect1 id="transforms_svd_1Function">
+<title>Internals</title>
+<para>Assuming that the contents of the colormap function argument <computeroutput>c</computeroutput> are labeled as: <formula id="33">\[ c = \begin{bmatrix} r_1 &amp; g_1 &amp; b_1 \\ r_1 &amp; g_2 &amp; b_2 \\ r_1 &amp; g_3 &amp; b_3 \\ \vdots &amp; \vdots &amp; \vdots \end{bmatrix} \]</formula> then these columns for the RGB coordinates of pixel in the mapped image. Assume that the image occupies the range $[a,b]$. Then the RGB color of each pixel depends on the value $x$ via the following integer <formula id="34">\[ k = 1 + \lfloor 256 \frac{x-a}{b-a} \rfloor, \]</formula> so that a pixel corresponding to image value $x$ will receive RGB color $[r_k,g_k,b_k]$. Colormaps are generally used to pseudo color images to enhance visibility of features, etc. </para></sect1>
+<sect1 id="variables_matrix_1Examples">
+<title>Examples</title>
+<para>We start by creating a smoothly varying image of a 2D Gaussian pulse.</para><para><verbatim>--&gt; x = linspace(-1,1,512)&apos;*ones(1,512);
+--&gt; y = x&apos;;
+--&gt; Z = exp(-(x.^2+y.^2)/0.3);
+--&gt; image(Z);
+</verbatim></para><para>which we display with the default (grayscale) colormap here. <image type="html" name="colormap1.png"></image>
+ <image type="latex" name="colormap1" width="12cm">colormap1</image>
+</para><para>Next we switch to the <computeroutput>copper</computeroutput> colormap, and redisplay the image.</para><para><verbatim>--&gt; colormap(copper);
+--&gt; image(Z);
+</verbatim></para><para>which results in the following image. <image type="html" name="colormap2.png"></image>
+ <image type="latex" name="colormap2" width="12cm">colormap2</image>
+</para><para>If we capture the output of the <computeroutput>copper</computeroutput> command and plot it, we obtain the following result:</para><para><verbatim>--&gt; a = copper;
+--&gt; plot(a);
+</verbatim></para><para><image type="html" name="colormap3.png"></image>
+ <image type="latex" name="colormap3" width="12cm">colormap3</image>
+</para><para>Note that in the output that each of the color components are linear functions of the index, with the ratio between the red, blue and green components remaining constant as a function of index. The result is an intensity map with a copper tint. We can similarly construct a colormap of our own by defining the three components seperately. For example, suppose we take three gaussian curves, one for each color, centered on different parts of the index space:</para><para><verbatim>--&gt; t = linspace(0,1,256);
+--&gt; A = [exp(-(t-1.0).^2/0.1);exp(-(t-0.5).^2/0.1);exp(-t.^2/0.1)]&apos;;
+--&gt; plot(A);
+</verbatim></para><para><image type="html" name="colormap4.png"></image>
+ <image type="latex" name="colormap4" width="12cm">colormap4</image>
+</para><para>The resulting image has dark bands in it near the color transitions.</para><para><verbatim>--&gt; image(Z);
+--&gt; colormap(A);
+</verbatim></para><para><image type="html" name="colormap5.png"></image>
+ <image type="latex" name="colormap5" width="12cm">colormap5</image>
+</para><para>These dark bands are a result of the nonuniform color intensity, which we can correct for by renormalizing each color to have the same norm.</para><para><verbatim>--&gt; w = sqrt(sum(A&apos;.^2));
+--&gt; sA = diag(1./w)*A;
+--&gt; plot(A);
+</verbatim></para><para><image type="html" name="colormap6.png"></image>
+ <image type="latex" name="colormap6" width="12cm">colormap6</image>
+</para><para>The resulting image has no more dark bands.</para><para><verbatim>--&gt; image(Z);
+--&gt; colormap(A);
+</verbatim></para><para><image type="html" name="colormap7.png"></image>
+ <image type="latex" name="colormap7" width="12cm">colormap7</image>
+ </para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

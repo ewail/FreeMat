@@ -1,0 +1,125 @@
+/*!
+\page handle_zoom ZOOM Image Zoom Function
+
+<p>
+Section: \ref sec_handle "Handle-Based Graphics"
+\section Usage
+This function changes the zoom factor associated with the currently active
+image.  It is a legacy support function only, and thus is not quite equivalent
+to the <tt>zoom</tt> function from previous versions of FreeMat.  However, it should
+achieve roughly the same effect. The generic syntax for its use is
+\verbatim
+  zoom(x)
+\endverbatim
+where <tt>x</tt> is the zoom factor to be used.  The exact behavior of the zoom
+factor is as follows:
+<UL>
+<LI>  <tt>x>0</tt> The image is zoomed by a factor <tt>x</tt> in both directions.
+ </LI>
+<LI>  <tt>x=0</tt> The image on display is zoomed to fit the size of the image window, but
+  the aspect ratio of the image is not changed.  (see the Examples section for
+more details).  This is the default zoom level for images displayed with the
+<tt>image</tt> command.
+ </LI>
+<LI>  <tt>x<0</tt> The image on display is zoomed to fit the size of the image window, with
+  the zoom factor in the row and column directions chosen to fill the entire window.
+  The aspect ratio of the image is not preserved.  The exact value of <tt>x</tt> is
+  irrelevant.
+ </LI>
+</UL>
+\section Example
+To demonstrate the use of the <tt>zoom</tt> function, we create a rectangular image 
+of a Gaussian pulse.  We start with a display of the image using the <tt>image</tt>
+command, and a zoom of 1.
+
+\if FRAGMENT
+frag_handle_zoom_000.m
+0
+x = linspace(-1,1,300)'*ones(1,600);
+y = ones(300,1)*linspace(-1,1,600);
+Z = exp(-(x.^2+y.^2)/0.3);
+image(Z);
+zoom(1.0);
+mprint zoom1
+\endif
+
+
+\verbinclude frag_handle_zoom_000.m.out 
+
+\image html zoom1.png
+\image latex zoom1.eps "zoom1" width=12cm
+
+At this point, resizing the window accomplishes nothing, as with a zoom factor 
+greater than zero, the size of the image is fixed.
+
+If we change the zoom to another factor larger than 1, we enlarge the image by
+the specified factor (or shrink it, for zoom factors <tt>0 < x < 1</tt>.  Here is the
+same image zoomed out to 60%
+
+\if FRAGMENT
+frag_handle_zoom_001.m
+0
+image(Z);
+zoom(0.6);
+mprint zoom3
+\endif
+
+
+\verbinclude frag_handle_zoom_001.m.out 
+
+\image html zoom3.png
+\image latex zoom3.eps "zoom3" width=12cm
+
+Similarly, we can enlarge it to 130%
+
+\if FRAGMENT
+frag_handle_zoom_002.m
+0
+image(Z)
+zoom(1.3);
+mprint zoom4
+\endif
+
+
+\verbinclude frag_handle_zoom_002.m.out 
+
+\image html zoom4.png
+\image latex zoom4.eps "zoom4" width=12cm
+
+The ``free'' zoom of <tt>x = 0</tt> results in the image being zoomed to fit the window
+without changing the aspect ratio.  The image is zoomed as much as possible in
+one direction.
+
+\if FRAGMENT
+frag_handle_zoom_003.m
+0
+image(Z);
+zoom(0);
+sizefig(200,400);
+mprint zoom5
+\endif
+
+
+\verbinclude frag_handle_zoom_003.m.out 
+
+\image html zoom5.png
+\image latex zoom5.eps "zoom5" width=12cm
+
+The case of a negative zoom <tt>x < 0</tt> results in the image being scaled arbitrarily.
+This allows the image aspect ratio to be changed, as in the following example.
+
+\if FRAGMENT
+frag_handle_zoom_004.m
+0
+image(Z);
+zoom(-1);
+sizefig(200,400);
+mprint zoom6
+\endif
+
+
+\verbinclude frag_handle_zoom_004.m.out 
+
+\image html zoom6.png
+\image latex zoom6.eps "zoom6" width=12cm
+*/

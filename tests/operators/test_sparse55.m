@@ -1,0 +1,15 @@
+function x = test_sparse55
+a = randn(200,100);
+b = randn(100,300);
+c = randn(200,100);
+d = randn(100,300);
+c(c>0.1) = 0;
+d(d>0.1) = 0;
+f = a + i*c;
+g = b + i*d;
+h = f*g;
+G = sparse(g);
+H = f*G;
+e = h - H;
+t = max(abs(e(:)));
+x = (t < eps*600);

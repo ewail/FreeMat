@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkhybrid_vtkimplicitmodeller" kind="page">
+    <compoundname>vtkhybrid_vtkimplicitmodeller</compoundname>
+    <title>vtkImplicitModeller</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkhybrid_1sec_vtkhybrid" kindref="member">Visualization Toolkit Hybrid Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>vtkImplicitModeller is a filter that computes the distance from the input geometry to the points of an output structured point set. This distance function can then be &quot;contoured&quot; to generate new, offset surfaces from the original geometry. An important feature of this object is &quot;capping&quot;. If capping is turned on, after the implicit model is created, the values on the boundary of the structured points dataset are set to the cap value. This is used to force closure of the resulting contoured surface. Note, however, that large cap values can generate weird surface normals in those cells adjacent to the boundary of the dataset. Using smaller cap value will reduce this effect. </para><para>Another important ivar is MaximumDistance. This controls how far into the volume the distance function is computed from the input geometry. Small values give significant increases in performance. However, there can strange sampling effects at the extreme range of the MaximumDistance. </para><para>In order to properly execute and sample the input data, a rectangular region in space must be defined (this is the ivar ModelBounds). If not explicitly defined, the model bounds will be computed. Note that to avoid boundary effects, it is possible to adjust the model bounds (i.e., using the AdjustBounds and AdjustDistance ivars) to strictly contain the sampled data. </para><para>This filter has one other unusual capability: it is possible to append data in a sequence of operations to generate a single output. This is useful when you have multiple datasets and want to create a conglomeration of all the data. However, the user must be careful to either specify the ModelBounds or specify the first item such that its bounds completely contain all other items. This is because the rectangular region of the output can not be changed after the 1st Append. </para><para>The ProcessMode ivar controls the method used within the Append function (where the actual work is done regardless if the Append function is explicitly called) to compute the implicit model. If set to work in voxel mode, each voxel is visited once. If set to cell mode, each cell is visited once. Tests have shown once per voxel to be faster when there are a lot of cells (at least a thousand?); relative performance improvement increases with addition cells. Primitives should not be stripped for best performance of the voxel mode. Also, if explicitly using the Append feature many times, the cell mode will probably be better because each voxel will be visited each Append. Append the data before input if possible when using the voxel mode. Do not switch between voxel and cell mode between execution of StartAppend and EndAppend. </para><para>Further performance improvement is now possible using the PerVoxel process mode on multi-processor machines (the mode is now multithreaded). Each thread processes a different &quot;slab&quot; of the output. Also, if the input is vtkPolyData, it is appropriately clipped for each thread; that is, each thread only considers the input which could affect its slab of the output. </para><para>This filter can now produce output of any type supported by vtkImageData. However to support this change, additional sqrts must be executed during the Append step. Previously, the output was initialized to the squared CapValue in StartAppend, the output was updated with squared distance values during the Append, and then the sqrt of the distances was computed in EndAppend. To support different scalar types in the output (largely to reduce memory requirements as an vtkImageShiftScale and/or vtkImageCast could have achieved the same result), we can&apos;t &quot;afford&quot; to save squared value in the output, because then we could only represent up to the sqrt of the scalar max for an integer type in the output; 1 (instead of 255) for an unsigned char; 11 for a char (instead of 127). Thus this change may result in a minor performance degradation. Non-float output types can be scaled to the CapValue by turning ScaleToMaximumDistance On.</para><para>To create an instance of class vtkImplicitModeller, simply invoke its constructor as follows <verbatim>  obj = vtkImplicitModeller
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkImplicitModeller has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkImplicitModeller class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkImplicitModeller = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkImplicitModeller = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.ComputeModelBounds (vtkDataSet inputNULL)</computeroutput> - Compute ModelBounds from input geometry. If input is not specified, the input of the filter will be used.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj. GetSampleDimensions ()</computeroutput> - Set/Get the i-j-k dimensions on which to sample distance function.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetSampleDimensions (int i, int j, int k)</computeroutput> - Set/Get the i-j-k dimensions on which to sample distance function.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetSampleDimensions (int dim[3])</computeroutput> - Set/Get the i-j-k dimensions on which to sample distance function.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetMaximumDistance (double )</computeroutput> - Set / get the distance away from surface of input geometry to sample. Smaller values make large increases in performance.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetMaximumDistanceMinValue ()</computeroutput> - Set / get the distance away from surface of input geometry to sample. Smaller values make large increases in performance.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetMaximumDistanceMaxValue ()</computeroutput> - Set / get the distance away from surface of input geometry to sample. Smaller values make large increases in performance.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetMaximumDistance ()</computeroutput> - Set / get the distance away from surface of input geometry to sample. Smaller values make large increases in performance.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetModelBounds (double , double , double , double , double , double )</computeroutput> - Set / get the region in space in which to perform the sampling. If not specified, it will be computed automatically.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetModelBounds (double a[6])</computeroutput> - Set / get the region in space in which to perform the sampling. If not specified, it will be computed automatically.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj. GetModelBounds ()</computeroutput> - Set / get the region in space in which to perform the sampling. If not specified, it will be computed automatically.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetAdjustBounds (int )</computeroutput> - Control how the model bounds are computed. If the ivar AdjustBounds is set, then the bounds specified (or computed automatically) is modified by the fraction given by AdjustDistance. This means that the model bounds is expanded in each of the x-y-z directions.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetAdjustBounds ()</computeroutput> - Control how the model bounds are computed. If the ivar AdjustBounds is set, then the bounds specified (or computed automatically) is modified by the fraction given by AdjustDistance. This means that the model bounds is expanded in each of the x-y-z directions.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.AdjustBoundsOn ()</computeroutput> - Control how the model bounds are computed. If the ivar AdjustBounds is set, then the bounds specified (or computed automatically) is modified by the fraction given by AdjustDistance. This means that the model bounds is expanded in each of the x-y-z directions.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.AdjustBoundsOff ()</computeroutput> - Control how the model bounds are computed. If the ivar AdjustBounds is set, then the bounds specified (or computed automatically) is modified by the fraction given by AdjustDistance. This means that the model bounds is expanded in each of the x-y-z directions.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetAdjustDistance (double )</computeroutput> - Specify the amount to grow the model bounds (if the ivar AdjustBounds is set). The value is a fraction of the maximum length of the sides of the box specified by the model bounds.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetAdjustDistanceMinValue ()</computeroutput> - Specify the amount to grow the model bounds (if the ivar AdjustBounds is set). The value is a fraction of the maximum length of the sides of the box specified by the model bounds.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetAdjustDistanceMaxValue ()</computeroutput> - Specify the amount to grow the model bounds (if the ivar AdjustBounds is set). The value is a fraction of the maximum length of the sides of the box specified by the model bounds.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetAdjustDistance ()</computeroutput> - Specify the amount to grow the model bounds (if the ivar AdjustBounds is set). The value is a fraction of the maximum length of the sides of the box specified by the model bounds.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetCapping (int )</computeroutput> - The outer boundary of the structured point set can be assigned a particular value. This can be used to close or &quot;cap&quot; all surfaces.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetCapping ()</computeroutput> - The outer boundary of the structured point set can be assigned a particular value. This can be used to close or &quot;cap&quot; all surfaces.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.CappingOn ()</computeroutput> - The outer boundary of the structured point set can be assigned a particular value. This can be used to close or &quot;cap&quot; all surfaces.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.CappingOff ()</computeroutput> - The outer boundary of the structured point set can be assigned a particular value. This can be used to close or &quot;cap&quot; all surfaces.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetCapValue (double value)</computeroutput> - Specify the capping value to use. The CapValue is also used as an initial distance value at each point in the dataset.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetCapValue ()</computeroutput> - Specify the capping value to use. The CapValue is also used as an initial distance value at each point in the dataset.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetScaleToMaximumDistance (int )</computeroutput> - If a non-floating output type is specified, the output distances can be scaled to use the entire positive scalar range of the output type specified (up to the CapValue which is equal to the max for the type unless modified by the user). For example, if ScaleToMaximumDistance is On and the OutputScalarType is UnsignedChar the distances saved in the output would be linearly scaled between 0 (for distances &quot;very close&quot; to the surface) and 255 (at the specifed maximum distance)... assuming the CapValue is not changed from 255.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetScaleToMaximumDistance ()</computeroutput> - If a non-floating output type is specified, the output distances can be scaled to use the entire positive scalar range of the output type specified (up to the CapValue which is equal to the max for the type unless modified by the user). For example, if ScaleToMaximumDistance is On and the OutputScalarType is UnsignedChar the distances saved in the output would be linearly scaled between 0 (for distances &quot;very close&quot; to the surface) and 255 (at the specifed maximum distance)... assuming the CapValue is not changed from 255.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ScaleToMaximumDistanceOn ()</computeroutput> - If a non-floating output type is specified, the output distances can be scaled to use the entire positive scalar range of the output type specified (up to the CapValue which is equal to the max for the type unless modified by the user). For example, if ScaleToMaximumDistance is On and the OutputScalarType is UnsignedChar the distances saved in the output would be linearly scaled between 0 (for distances &quot;very close&quot; to the surface) and 255 (at the specifed maximum distance)... assuming the CapValue is not changed from 255.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ScaleToMaximumDistanceOff ()</computeroutput> - If a non-floating output type is specified, the output distances can be scaled to use the entire positive scalar range of the output type specified (up to the CapValue which is equal to the max for the type unless modified by the user). For example, if ScaleToMaximumDistance is On and the OutputScalarType is UnsignedChar the distances saved in the output would be linearly scaled between 0 (for distances &quot;very close&quot; to the surface) and 255 (at the specifed maximum distance)... assuming the CapValue is not changed from 255.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetProcessMode (int )</computeroutput> - Specify whether to visit each cell once per append or each voxel once per append. Some tests have shown once per voxel to be faster when there are a lot of cells (at least a thousand?); relative performance improvement increases with addition cells. Primitives should not be stripped for best performance of the voxel mode.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetProcessModeMinValue ()</computeroutput> - Specify whether to visit each cell once per append or each voxel once per append. Some tests have shown once per voxel to be faster when there are a lot of cells (at least a thousand?); relative performance improvement increases with addition cells. Primitives should not be stripped for best performance of the voxel mode.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetProcessModeMaxValue ()</computeroutput> - Specify whether to visit each cell once per append or each voxel once per append. Some tests have shown once per voxel to be faster when there are a lot of cells (at least a thousand?); relative performance improvement increases with addition cells. Primitives should not be stripped for best performance of the voxel mode.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetProcessMode ()</computeroutput> - Specify whether to visit each cell once per append or each voxel once per append. Some tests have shown once per voxel to be faster when there are a lot of cells (at least a thousand?); relative performance improvement increases with addition cells. Primitives should not be stripped for best performance of the voxel mode.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetProcessModeToPerVoxel ()</computeroutput> - Specify whether to visit each cell once per append or each voxel once per append. Some tests have shown once per voxel to be faster when there are a lot of cells (at least a thousand?); relative performance improvement increases with addition cells. Primitives should not be stripped for best performance of the voxel mode.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetProcessModeToPerCell ()</computeroutput> - Specify whether to visit each cell once per append or each voxel once per append. Some tests have shown once per voxel to be faster when there are a lot of cells (at least a thousand?); relative performance improvement increases with addition cells. Primitives should not be stripped for best performance of the voxel mode.  </para></listitem>
+<listitem>
+<para><computeroutput>string = obj.GetProcessModeAsString (void )</computeroutput> - Specify whether to visit each cell once per append or each voxel once per append. Some tests have shown once per voxel to be faster when there are a lot of cells (at least a thousand?); relative performance improvement increases with addition cells. Primitives should not be stripped for best performance of the voxel mode.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetLocatorMaxLevel (int )</computeroutput> - Specify the level of the locator to use when using the per voxel process mode.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetLocatorMaxLevel ()</computeroutput> - Specify the level of the locator to use when using the per voxel process mode.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetNumberOfThreads (int )</computeroutput> - Set / Get the number of threads used during Per-Voxel processing mode  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetNumberOfThreadsMinValue ()</computeroutput> - Set / Get the number of threads used during Per-Voxel processing mode  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetNumberOfThreadsMaxValue ()</computeroutput> - Set / Get the number of threads used during Per-Voxel processing mode  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetNumberOfThreads ()</computeroutput> - Set / Get the number of threads used during Per-Voxel processing mode  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetOutputScalarType (int type)</computeroutput> - Set the desired output scalar type.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetOutputScalarType ()</computeroutput> - Set the desired output scalar type.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetOutputScalarTypeToFloat ()</computeroutput> - Set the desired output scalar type.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetOutputScalarTypeToDouble ()</computeroutput> - Set the desired output scalar type.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetOutputScalarTypeToInt ()</computeroutput> - Set the desired output scalar type.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetOutputScalarTypeToUnsignedInt ()</computeroutput> - Set the desired output scalar type.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetOutputScalarTypeToLong ()</computeroutput> - Set the desired output scalar type.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetOutputScalarTypeToUnsignedLong ()</computeroutput> - Set the desired output scalar type.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetOutputScalarTypeToShort ()</computeroutput> - Set the desired output scalar type.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetOutputScalarTypeToUnsignedShort ()</computeroutput> - Set the desired output scalar type.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetOutputScalarTypeToUnsignedChar ()</computeroutput> - Set the desired output scalar type.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetOutputScalarTypeToChar ()</computeroutput> - Set the desired output scalar type.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.StartAppend ()</computeroutput> - Initialize the filter for appending data. You must invoke the StartAppend() method before doing successive Appends(). It&apos;s also a good idea to manually specify the model bounds; otherwise the input bounds for the data will be used.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.Append (vtkDataSet input)</computeroutput> - Append a data set to the existing output. To use this function, you&apos;ll have to invoke the StartAppend() method before doing successive appends. It&apos;s also a good idea to specify the model bounds; otherwise the input model bounds is used. When you&apos;ve finished appending, use the EndAppend() method.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.EndAppend ()</computeroutput> - Method completes the append process.  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

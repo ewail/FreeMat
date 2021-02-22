@@ -1,0 +1,107 @@
+/*!
+\page vtkrendering_vtkmaparrayvalues vtkMapArrayValues
+
+<p>
+Section: \ref sec_vtkrendering "Visualization Toolkit Rendering Classes"
+\section Usage
+ vtkMapArrayValues allows you to associate certain values of an attribute array
+ (on either a vertex, edge, point, or cell) with different values in a
+ newly created attribute array. 
+
+ vtkMapArrayValues manages an internal STL map of vtkVariants that can be added to
+ or cleared. When this filter executes, each "key" is searched for in the
+ input array and the indices of the output array at which there were matches
+ the set to the mapped "value".
+
+ You can control whether the input array values are passed to the output
+ before the mapping occurs (using PassArray) or, if not, what value to set 
+ the unmapped indices to (using FillValue). 
+
+ One application of this filter is to help address the dirty data problem.
+ For example, using vtkMapArrayValues you could associate the vertex values 
+ "Foo, John", "Foo, John.", and "John Foo" with a single entity.
+
+To create an instance of class vtkMapArrayValues, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkMapArrayValues
+\endverbatim
+\section Methods
+The class vtkMapArrayValues has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkMapArrayValues class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkMapArrayValues = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkMapArrayValues = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetFieldType (int )</tt> -  Set/Get where the data is located that is being mapped.
+ See FieldType enumeration for possible values.
+ Default is POINT_DATA.
+ </LI>
+<LI>  <tt>int = obj.GetFieldType ()</tt> -  Set/Get where the data is located that is being mapped.
+ See FieldType enumeration for possible values.
+ Default is POINT_DATA.
+ </LI>
+<LI>  <tt>obj.SetPassArray (int )</tt> -  Set/Get whether to copy the data from the input array to the output array
+ before the mapping occurs. If turned off, FillValue is used to initialize
+ any unmapped array indices. Default is off.
+ </LI>
+<LI>  <tt>int = obj.GetPassArray ()</tt> -  Set/Get whether to copy the data from the input array to the output array
+ before the mapping occurs. If turned off, FillValue is used to initialize
+ any unmapped array indices. Default is off.
+ </LI>
+<LI>  <tt>obj.PassArrayOn ()</tt> -  Set/Get whether to copy the data from the input array to the output array
+ before the mapping occurs. If turned off, FillValue is used to initialize
+ any unmapped array indices. Default is off.
+ </LI>
+<LI>  <tt>obj.PassArrayOff ()</tt> -  Set/Get whether to copy the data from the input array to the output array
+ before the mapping occurs. If turned off, FillValue is used to initialize
+ any unmapped array indices. Default is off.
+ </LI>
+<LI>  <tt>obj.SetFillValue (double )</tt> -  Set/Get whether to copy the data from the input array to the output array
+ before the mapping occurs. If turned off, FillValue is used to initialize
+ any unmapped array indices. Default is -1.
+ </LI>
+<LI>  <tt>double = obj.GetFillValue ()</tt> -  Set/Get whether to copy the data from the input array to the output array
+ before the mapping occurs. If turned off, FillValue is used to initialize
+ any unmapped array indices. Default is -1.
+ </LI>
+<LI>  <tt>obj.SetInputArrayName (string )</tt> -  Set/Get the name of the input array. This must be set prior to execution.
+ </LI>
+<LI>  <tt>string = obj.GetInputArrayName ()</tt> -  Set/Get the name of the input array. This must be set prior to execution.
+ </LI>
+<LI>  <tt>obj.SetOutputArrayName (string )</tt> -  Set/Get the name of the output array. Default is "ArrayMap".
+ </LI>
+<LI>  <tt>string = obj.GetOutputArrayName ()</tt> -  Set/Get the name of the output array. Default is "ArrayMap".
+ </LI>
+<LI>  <tt>int = obj.GetOutputArrayType ()</tt> -  Set/Get the type of the output array. See vtkSetGet.h for possible values. 
+ Default is VTK_INT.
+ </LI>
+<LI>  <tt>obj.SetOutputArrayType (int )</tt> -  Set/Get the type of the output array. See vtkSetGet.h for possible values. 
+ Default is VTK_INT.
+ </LI>
+<LI>  <tt>obj.AddToMap (int from, int to)</tt> -  Add to the internal STL map. "from" should be a value in the input array and
+ "to" should be the new value it gets assigned in the output array. 
+ </LI>
+<LI>  <tt>obj.AddToMap (int from, string to)</tt> -  Add to the internal STL map. "from" should be a value in the input array and
+ "to" should be the new value it gets assigned in the output array. 
+ </LI>
+<LI>  <tt>obj.AddToMap (string from, int to)</tt> -  Add to the internal STL map. "from" should be a value in the input array and
+ "to" should be the new value it gets assigned in the output array. 
+ </LI>
+<LI>  <tt>obj.AddToMap (string from, string to)</tt> -  Add to the internal STL map. "from" should be a value in the input array and
+ "to" should be the new value it gets assigned in the output array. 
+ </LI>
+<LI>  <tt>obj.ClearMap ()</tt> -  Clear the internal map.
+ </LI>
+<LI>  <tt>int = obj.GetMapSize ()</tt> -  Get the size of the internal map.
+ </LI>
+</UL>
+*/

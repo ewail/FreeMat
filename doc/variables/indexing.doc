@@ -1,0 +1,287 @@
+/*!
+\page variables_indexing INDEXING Indexing Expressions
+
+<p>
+Section: \ref sec_variables "Variables and Arrays"
+\section Usage
+There are three classes of indexing expressions available
+in FreeMat: <tt>()</tt>, <tt>{}</tt>, and <tt>.</tt>  Each is explained below
+in some detail, and with its own example section.
+\section Array Indexing
+We start with array indexing <tt>()</tt>,
+which is the most general indexing expression, and can be
+used on any array.  There are two general forms for the
+indexing expression - the N-dimensional form, for which
+the general syntax is
+\verbatim
+  variable(index_1,index_2,...,index_n)
+\endverbatim
+and the vector form, for which the general syntax is
+\verbatim
+  variable(index)
+\endverbatim
+Here each index expression is either a scalar, a range
+of integer values, or the special token <tt>:</tt>, which is
+shorthand for <tt>1:end</tt>.  The keyword <tt>end</tt>, when included
+in an indexing expression, is assigned the length of the
+array in that dimension.  The concept is easier to demonstrate
+than explain.  Consider the following examples:
+
+\if FRAGMENT
+frag_variables_indexing_000.m
+0
+A = zeros(4)
+B = float(randn(2))
+A(2:3,2:3) = B
+\endif
+
+
+\verbinclude frag_variables_indexing_000.m.out 
+
+Here the array indexing was used on the left hand side only.
+It can also be used for right hand side indexing, as in
+
+\if FRAGMENT
+frag_variables_indexing_001.m
+0
+C = A(2:3,1:end)
+\endif
+
+
+\verbinclude frag_variables_indexing_001.m.out 
+
+Note that we used the <tt>end</tt> keyword to avoid having to know
+that <tt>A</tt> has 4 columns.  Of course, we could also use the
+<tt>:</tt> token instead:
+
+\if FRAGMENT
+frag_variables_indexing_002.m
+0
+C = A(2:3,:)
+\endif
+
+
+\verbinclude frag_variables_indexing_002.m.out 
+
+An extremely useful example of <tt>:</tt> with array indexing is for
+slicing.  Suppose we have a 3-D array, that is <tt>2 x 2 x 3</tt>,
+and we want to set the middle slice:
+
+\if FRAGMENT
+frag_variables_indexing_003.m
+0
+D = zeros(2,2,3)
+D(:,:,2) = int32(10*rand(2,2))
+\endif
+
+
+\verbinclude frag_variables_indexing_003.m.out 
+
+In another level of nuance, the assignment expression will
+automatically fill in the indexed rectangle on the left using
+data from the right hand side, as long as the lengths match.
+So we can take a vector and roll it into a matrix using this
+approach:
+
+\if FRAGMENT
+frag_variables_indexing_004.m
+0
+A = zeros(4)
+v = [1;2;3;4]
+A(2:3,2:3) = v
+\endif
+
+
+\verbinclude frag_variables_indexing_004.m.out 
+
+
+The N-dimensional form of the variable index is limited
+to accessing only (hyper-) rectangular regions of the
+array.  You cannot, for example, use it to access only
+the diagonal elements of the array.  To do that, you use
+the second form of the array access (or a loop).  The
+vector form treats an arbitrary N-dimensional array as though
+it were a column vector.  You can then access arbitrary
+subsets of the arrays elements (for example, through a <tt>find</tt>
+expression) efficiently.  Note that in vector form, the <tt>end</tt>
+keyword takes the meaning of the total length of the array
+(defined as the product of its dimensions), as opposed to the
+size along the first dimension.
+\section Cell Indexing
+The second form of indexing operates, to a large extent, in
+the same manner as the array indexing, but it is by no means
+interchangable.  As the name implies, <tt>cell</tt>-indexing applies
+only to <tt>cell</tt> arrays.  For those familiar with <tt>C</tt>, cell-
+indexing is equivalent to pointer derefencing in <tt>C</tt>.  First,
+the syntax:
+\verbatim
+  variable{index_1,index_2,...,index_n}
+\endverbatim
+and the vector form, for which the general syntax is
+\verbatim
+  variable{index}
+\endverbatim
+The rules and interpretation for N-dimensional and vector indexing
+are identical to <tt>()</tt>, so we will describe only the differences.
+In simple terms, applying <tt>()</tt> to a cell-array returns another
+cell array that is a subset of the original array.  On the other
+hand, applying <tt>{}</tt> to a cell-array returns the contents of that
+cell array.  A simple example makes the difference quite clear:
+
+\if FRAGMENT
+frag_variables_indexing_005.m
+0
+A = {1, 'hello', [1:4]}
+A(1:2)
+A{1:2}
+\endif
+
+
+\verbinclude frag_variables_indexing_005.m.out 
+
+You may be surprised by the response to the last line.  The output
+is multiple assignments to <tt>ans</tt>!.  The output of a cell-array
+dereference can be used anywhere a list of expressions is required.
+This includes arguments and returns for function calls, matrix
+construction, etc.  Here is an example of using cell-arrays to pass
+parameters to a function:
+
+\if FRAGMENT
+frag_variables_indexing_006.m
+0
+A = {[1,3,0],[5,2,7]}
+max(A{1:end})
+\endif
+
+
+\verbinclude frag_variables_indexing_006.m.out 
+
+And here, cell-arrays are used to capture the return.
+
+\if FRAGMENT
+frag_variables_indexing_007.m
+0
+[K{1:2}] = max(randn(1,4))
+\endif
+
+
+\verbinclude frag_variables_indexing_007.m.out 
+
+Here, cell-arrays are used in the matrix construction process:
+
+\if FRAGMENT
+frag_variables_indexing_008.m
+0
+C = [A{1};A{2}]
+\endif
+
+
+\verbinclude frag_variables_indexing_008.m.out 
+
+Note that this form of indexing is used to implement variable
+length arguments to function.  See <tt>varargin</tt> and <tt>varargout</tt>
+for more details.
+\section Structure Indexing
+The third form of indexing is structure indexing.  It can only
+be applied to structure arrays, and has the general syntax
+\verbatim
+  variable.fieldname
+\endverbatim
+where <tt>fieldname</tt> is one of the fields on the structure.  Note that
+in FreeMat, fields are allocated dynamically, so if you reference
+a field that does not exist in an assignment, it is created automatically
+for you.  If variable is an array, then the result of the <tt>.</tt>
+reference is an expression list, exactly like the <tt>{}</tt> operator.  Hence,
+we can use structure indexing in a simple fashion:
+
+\if FRAGMENT
+frag_variables_indexing_009.m
+0
+clear A
+A.color = 'blue'
+B = A.color
+\endif
+
+
+\verbinclude frag_variables_indexing_009.m.out 
+
+Or in more complicated ways using expression lists for function arguments
+
+\if FRAGMENT
+frag_variables_indexing_010.m
+0
+clear A
+A(1).maxargs = [1,6,7,3]
+A(2).maxargs = [5,2,9,0]
+max(A.maxargs)
+\endif
+
+
+\verbinclude frag_variables_indexing_010.m.out 
+
+or to store function outputs
+
+\if FRAGMENT
+frag_variables_indexing_011.m
+0
+clear A
+A(1).maxreturn = [];
+A(2).maxreturn = [];
+[A.maxreturn] = max(randn(1,4))
+\endif
+
+
+\verbinclude frag_variables_indexing_011.m.out 
+
+FreeMat now also supports the so called dynamic-field indexing
+expressions.  In this mode, the fieldname is supplied through
+an expression instead of being explicitly provided.  For example,
+suppose we have a set of structure indexed by color,
+
+\if FRAGMENT
+frag_variables_indexing_012.m
+0
+x.red = 430;
+x.green = 240;
+x.blue = 53;
+x.yello = 105
+\endif
+
+
+\verbinclude frag_variables_indexing_012.m.out 
+
+Then we can index into the structure <tt>x</tt> using a dynamic field
+reference:
+
+\if FRAGMENT
+frag_variables_indexing_013.m
+0
+y = 'green'
+a = x.(y)
+\endif
+
+
+\verbinclude frag_variables_indexing_013.m.out 
+
+Note that the indexing expression has to resolve to a string for
+dynamic field indexing to work.
+\section Complex Indexing
+The indexing expressions described above can be freely combined
+to affect complicated indexing expressions.  Here is an example
+that exercises all three indexing expressions in one assignment.
+
+\if FRAGMENT
+frag_variables_indexing_014.m
+0
+Z{3}.foo(2) = pi
+\endif
+
+
+\verbinclude frag_variables_indexing_014.m.out 
+
+From this statement, FreeMat infers that Z is a cell-array of
+length 3, that the third element is a structure array (with one
+element), and that this structure array contains a field named
+'foo' with two double elements, the second of which is assigned
+a value of pi.
+*/

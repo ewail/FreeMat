@@ -1,0 +1,110 @@
+/*!
+\page vtkfiltering_vtkmutabledirectedgraph vtkMutableDirectedGraph
+
+<p>
+Section: \ref sec_vtkfiltering "Visualization Toolkit Filtering Classes"
+\section Usage
+ vtkMutableDirectedGraph is a directed graph which has additional methods
+ for adding edges and vertices. AddChild() is a convenience method for
+ constructing trees. ShallowCopy(), DeepCopy(), CheckedShallowCopy() and
+ CheckedDeepCopy() will succeed for instances of vtkDirectedGraph,
+ vtkMutableDirectedGraph and vtkTree.
+
+
+To create an instance of class vtkMutableDirectedGraph, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkMutableDirectedGraph
+\endverbatim
+\section Methods
+The class vtkMutableDirectedGraph has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkMutableDirectedGraph class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkMutableDirectedGraph = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkMutableDirectedGraph = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>vtkIdType = obj.AddVertex ()</tt> -  Adds a vertex to the graph and returns the index of the new vertex.
+
+ Note: In a distributed graph (i.e. a graph whose DistributedHelper
+ is non-null), this routine cannot be used to add a vertex
+ if the vertices in the graph have pedigree IDs, because this routine
+ will always add the vertex locally, which may conflict with the
+ proper location of the vertex based on the distribution of the
+ pedigree IDs.
+ </LI>
+<LI>  <tt>vtkIdType = obj.AddVertex (vtkVariantArray propertyArr)</tt> -  Adds a vertex to the graph with associated properties defined in
+ \p propertyArr and returns the index of the new vertex.
+ The number and order of values in \p propertyArr must match up with the
+ arrays in the vertex data retrieved by GetVertexData().
+ 
+ If a vertex with the given pedigree ID already exists, its properties will be
+ overwritten with the properties in \p propertyArr and the existing
+ vertex index will be returned.
+
+ Note: In a distributed graph (i.e. a graph whose DistributedHelper
+ is non-null) the vertex added or found might not be local. In this case,
+ AddVertex will wait until the vertex can be added or found
+ remotely, so that the proper vertex index can be returned. If you
+ don't actually need to use the vertex index, consider calling
+ LazyAddVertex, which provides better performance by eliminating
+ the delays associated with returning the vertex index.
+ </LI>
+<LI>  <tt>obj.LazyAddVertex ()</tt> -  Adds a vertex to the graph.
+ 
+ This method is lazily evaluated for distributed graphs (i.e. graphs
+ whose DistributedHelper is non-null) the next time Synchronize is
+ called on the helper.
+ </LI>
+<LI>  <tt>obj.LazyAddVertex (vtkVariantArray propertyArr)</tt> -  Adds a vertex to the graph with associated properties defined in
+ \p propertyArr.
+ The number and order of values in \p propertyArr must match up with the
+ arrays in the vertex data retrieved by GetVertexData().
+ 
+ If a vertex with the given pedigree ID already exists, its properties will be
+ overwritten with the properties in \p propertyArr.
+ 
+ This method is lazily evaluated for distributed graphs (i.e. graphs
+ whose DistributedHelper is non-null) the next time Synchronize is
+ called on the helper.
+ </LI>
+<LI>  <tt>vtkGraphEdge = obj.AddGraphEdge (vtkIdType u, vtkIdType v)</tt> -  Variant of AddEdge() that returns a heavyweight \p vtkGraphEdge object.
+ The graph owns the reference of the edge and will replace
+ its contents on the next call to AddGraphEdge().
+ 
+ Note: This is a less efficient method for use with wrappers.
+ In C++ you should use the faster AddEdge().
+ </LI>
+<LI>  <tt>vtkIdType = obj.AddChild (vtkIdType parent, vtkVariantArray propertyArr)</tt> -  Convenience method for creating trees.
+ Returns the newly created vertex id.
+ Shortcut for
+ \verbatim
+ vtkIdType v = g->AddVertex();
+ g->AddEdge(parent, v);
+ \endverbatim
+ If non-null, \p propertyArr provides edge properties
+ for the newly-created edge. The values in \p propertyArr must match
+ up with the arrays in the edge data returned by GetEdgeData().
+ </LI>
+<LI>  <tt>vtkIdType = obj.AddChild (vtkIdType parent)</tt> -  Removes the vertex from the graph along with any connected edges.
+ Note: This invalidates the last vertex index, which is reassigned to v.
+ </LI>
+<LI>  <tt>obj.RemoveVertex (vtkIdType v)</tt> -  Removes the vertex from the graph along with any connected edges.
+ Note: This invalidates the last vertex index, which is reassigned to v.
+ </LI>
+<LI>  <tt>obj.RemoveEdge (vtkIdType e)</tt> -  Removes the edge from the graph.
+ Note: This invalidates the last edge index, which is reassigned to e.
+ </LI>
+<LI>  <tt>obj.RemoveVertices (vtkIdTypeArray arr)</tt> -  Removes a collection of vertices from the graph along with any connected edges.
+ </LI>
+<LI>  <tt>obj.RemoveEdges (vtkIdTypeArray arr)</tt> -  Removes a collection of edges from the graph.
+ </LI>
+</UL>
+*/

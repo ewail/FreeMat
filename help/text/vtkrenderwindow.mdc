@@ -1,0 +1,599 @@
+
+ Usage
+
+vtkRenderWindow is an abstract object to specify the
+behavior of a rendering window. A rendering window is a
+window in a graphical user interface where renderers draw
+their images. Methods are provided to synchronize the
+rendering process, set window size, and control double
+buffering. The window also allows rendering in stereo. The
+interlaced render stereo type is for output to a VRex stereo
+projector. All of the odd horizontal lines are from the left
+eye, and the even lines are from the right eye. The user has
+to make the render window aligned with the VRex projector,
+or the eye will be swapped.
+To create an instance of class vtkRenderWindow, simply
+invoke its constructor as follows
+
+    obj = vtkRenderWindow
+
+
+
+ Methods
+
+The class vtkRenderWindow has several methods that can be
+used. They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkRenderWindow class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkRenderWindow = obj.NewInstance ()
+* vtkRenderWindow = obj.SafeDownCast (vtkObject o)
+* obj.AddRenderer (vtkRenderer ) - Add a renderer to the
+  list of renderers.
+* obj.RemoveRenderer (vtkRenderer ) - Remove a renderer from
+  the list of renderers.
+* int = obj.HasRenderer (vtkRenderer ) - Query if a renderer
+  is in the list of renderers.
+* vtkRendererCollection = obj.GetRenderers () - Return the
+  collection of renderers in the render window.
+* obj.Render () - Ask each renderer owned by this
+  RenderWindow to render its image and synchronize this
+  process.
+* obj.Start () - Initialize the rendering process.
+* obj.Finalize () - Finalize the rendering process.
+* obj.Frame () - A termination method performed at the end
+  of the rendering process to do things like swapping
+  buffers (if necessary) or similar actions.
+* obj.WaitForCompletion () - Block the thread until the
+  actual rendering is finished(). Useful for measurement
+  only.
+* obj.CopyResultFrame () - Performed at the end of the
+  rendering process to generate image. This is typically
+  done right before swapping buffers.
+* vtkRenderWindowInteractor = obj.MakeRenderWindowInteractor
+  () - Create an interactor to control renderers in this
+  window. We need to know what type of interactor to create,
+  because we might be in X Windows or MS Windows.
+* obj.HideCursor () - Hide or Show the mouse cursor, it is
+  nice to be able to hide the default cursor if you want VTK
+  to display a 3D cursor instead. Set cursor position in
+  window (note that (0,0) is the lower left corner).
+* obj.ShowCursor () - Hide or Show the mouse cursor, it is
+  nice to be able to hide the default cursor if you want VTK
+  to display a 3D cursor instead. Set cursor position in
+  window (note that (0,0) is the lower left corner).
+* obj.SetCursorPosition (int , int ) - Hide or Show the
+  mouse cursor, it is nice to be able to hide the default
+  cursor if you want VTK to display a 3D cursor instead. Set
+  cursor position in window (note that (0,0) is the lower
+  left corner).
+* obj.SetCurrentCursor (int ) - Change the shape of the
+  cursor.
+* int = obj.GetCurrentCursor () - Change the shape of the
+  cursor.
+* obj.SetFullScreen (int ) - Turn on/off rendering full
+  screen window size.
+* int = obj.GetFullScreen () - Turn on/off rendering full
+  screen window size.
+* obj.FullScreenOn () - Turn on/off rendering full screen
+  window size.
+* obj.FullScreenOff () - Turn on/off rendering full screen
+  window size.
+* obj.SetBorders (int ) - Turn on/off window manager
+  borders. Typically, you shouldn't turn the borders off,
+  because that bypasses the window manager and can cause
+  undesirable behavior.
+* int = obj.GetBorders () - Turn on/off window manager
+  borders. Typically, you shouldn't turn the borders off,
+  because that bypasses the window manager and can cause
+  undesirable behavior.
+* obj.BordersOn () - Turn on/off window manager borders.
+  Typically, you shouldn't turn the borders off, because
+  that bypasses the window manager and can cause undesirable
+  behavior.
+* obj.BordersOff () - Turn on/off window manager borders.
+  Typically, you shouldn't turn the borders off, because
+  that bypasses the window manager and can cause undesirable
+  behavior.
+* int = obj.GetStereoCapableWindow () - Prescribe that the
+  window be created in a stereo-capable mode. This method
+  must be called before the window is realized. Default is
+  off.
+* obj.StereoCapableWindowOn () - Prescribe that the window
+  be created in a stereo-capable mode. This method must be
+  called before the window is realized. Default is off.
+* obj.StereoCapableWindowOff () - Prescribe that the window
+  be created in a stereo-capable mode. This method must be
+  called before the window is realized. Default is off.
+* obj.SetStereoCapableWindow (int capable) - Prescribe that
+  the window be created in a stereo-capable mode. This
+  method must be called before the window is realized.
+  Default is off.
+* int = obj.GetStereoRender () - Turn on/off stereo
+  rendering.
+* obj.SetStereoRender (int stereo) - Turn on/off stereo
+  rendering.
+* obj.StereoRenderOn () - Turn on/off stereo rendering.
+* obj.StereoRenderOff () - Turn on/off stereo rendering.
+* obj.SetAlphaBitPlanes (int ) - Turn on/off the use of
+  alpha bitplanes.
+* int = obj.GetAlphaBitPlanes () - Turn on/off the use of
+  alpha bitplanes.
+* obj.AlphaBitPlanesOn () - Turn on/off the use of alpha
+  bitplanes.
+* obj.AlphaBitPlanesOff () - Turn on/off the use of alpha
+  bitplanes.
+* obj.SetPointSmoothing (int ) - Turn on/off point
+  smoothing. Default is off. This must be applied before the
+  first Render.
+* int = obj.GetPointSmoothing () - Turn on/off point
+  smoothing. Default is off. This must be applied before the
+  first Render.
+* obj.PointSmoothingOn () - Turn on/off point smoothing.
+  Default is off. This must be applied before the first
+  Render.
+* obj.PointSmoothingOff () - Turn on/off point smoothing.
+  Default is off. This must be applied before the first
+  Render.
+* obj.SetLineSmoothing (int ) - Turn on/off line smoothing.
+  Default is off. This must be applied before the first
+  Render.
+* int = obj.GetLineSmoothing () - Turn on/off line
+  smoothing. Default is off. This must be applied before the
+  first Render.
+* obj.LineSmoothingOn () - Turn on/off line smoothing.
+  Default is off. This must be applied before the first
+  Render.
+* obj.LineSmoothingOff () - Turn on/off line smoothing.
+  Default is off. This must be applied before the first
+  Render.
+* obj.SetPolygonSmoothing (int ) - Turn on/off polygon
+  smoothing. Default is off. This must be applied before the
+  first Render.
+* int = obj.GetPolygonSmoothing () - Turn on/off polygon
+  smoothing. Default is off. This must be applied before the
+  first Render.
+* obj.PolygonSmoothingOn () - Turn on/off polygon smoothing.
+  Default is off. This must be applied before the first
+  Render.
+* obj.PolygonSmoothingOff () - Turn on/off polygon
+  smoothing. Default is off. This must be applied before the
+  first Render.
+* int = obj.GetStereoType () - Set/Get what type of stereo
+  rendering to use. CrystalEyes mode uses frame-sequential
+  capabilities available in OpenGL to drive LCD shutter
+  glasses and stereo projectors. RedBlue mode is a simple
+  type of stereo for use with red-blue glasses. Anaglyph
+  mode is a superset of RedBlue mode, but the color output
+  channels can be configured using the AnaglyphColorMask and
+  the color of the original image can be (somewhat)
+  maintained using AnaglyphColorSaturation; the default
+  colors for Anaglyph mode is red-cyan. Interlaced stereo
+  mode produces a composite image where horizontal lines
+  alternate between left and right views. StereoLeft and
+  StereoRight modes choose one or the other stereo view.
+  Dresden mode is yet another stereoscopic interleaving.
+* obj.SetStereoType (int ) - Set/Get what type of stereo
+  rendering to use. CrystalEyes mode uses frame-sequential
+  capabilities available in OpenGL to drive LCD shutter
+  glasses and stereo projectors. RedBlue mode is a simple
+  type of stereo for use with red-blue glasses. Anaglyph
+  mode is a superset of RedBlue mode, but the color output
+  channels can be configured using the AnaglyphColorMask and
+  the color of the original image can be (somewhat)
+  maintained using AnaglyphColorSaturation; the default
+  colors for Anaglyph mode is red-cyan. Interlaced stereo
+  mode produces a composite image where horizontal lines
+  alternate between left and right views. StereoLeft and
+  StereoRight modes choose one or the other stereo view.
+  Dresden mode is yet another stereoscopic interleaving.
+* obj.SetStereoTypeToCrystalEyes () - Set/Get what type of
+  stereo rendering to use. CrystalEyes mode uses frame-
+  sequential capabilities available in OpenGL to drive LCD
+  shutter glasses and stereo projectors. RedBlue mode is a
+  simple type of stereo for use with red-blue glasses.
+  Anaglyph mode is a superset of RedBlue mode, but the color
+  output channels can be configured using the
+  AnaglyphColorMask and the color of the original image can
+  be (somewhat) maintained using AnaglyphColorSaturation;
+  the default colors for Anaglyph mode is red-cyan.
+  Interlaced stereo mode produces a composite image where
+  horizontal lines alternate between left and right views.
+  StereoLeft and StereoRight modes choose one or the other
+  stereo view. Dresden mode is yet another stereoscopic
+  interleaving.
+* obj.SetStereoTypeToRedBlue () - Set/Get what type of
+  stereo rendering to use. CrystalEyes mode uses frame-
+  sequential capabilities available in OpenGL to drive LCD
+  shutter glasses and stereo projectors. RedBlue mode is a
+  simple type of stereo for use with red-blue glasses.
+  Anaglyph mode is a superset of RedBlue mode, but the color
+  output channels can be configured using the
+  AnaglyphColorMask and the color of the original image can
+  be (somewhat) maintained using AnaglyphColorSaturation;
+  the default colors for Anaglyph mode is red-cyan.
+  Interlaced stereo mode produces a composite image where
+  horizontal lines alternate between left and right views.
+  StereoLeft and StereoRight modes choose one or the other
+  stereo view. Dresden mode is yet another stereoscopic
+  interleaving.
+* obj.SetStereoTypeToInterlaced () - Set/Get what type of
+  stereo rendering to use. CrystalEyes mode uses frame-
+  sequential capabilities available in OpenGL to drive LCD
+  shutter glasses and stereo projectors. RedBlue mode is a
+  simple type of stereo for use with red-blue glasses.
+  Anaglyph mode is a superset of RedBlue mode, but the color
+  output channels can be configured using the
+  AnaglyphColorMask and the color of the original image can
+  be (somewhat) maintained using AnaglyphColorSaturation;
+  the default colors for Anaglyph mode is red-cyan.
+  Interlaced stereo mode produces a composite image where
+  horizontal lines alternate between left and right views.
+  StereoLeft and StereoRight modes choose one or the other
+  stereo view. Dresden mode is yet another stereoscopic
+  interleaving.
+* obj.SetStereoTypeToLeft () - Set/Get what type of stereo
+  rendering to use. CrystalEyes mode uses frame-sequential
+  capabilities available in OpenGL to drive LCD shutter
+  glasses and stereo projectors. RedBlue mode is a simple
+  type of stereo for use with red-blue glasses. Anaglyph
+  mode is a superset of RedBlue mode, but the color output
+  channels can be configured using the AnaglyphColorMask and
+  the color of the original image can be (somewhat)
+  maintained using AnaglyphColorSaturation; the default
+  colors for Anaglyph mode is red-cyan. Interlaced stereo
+  mode produces a composite image where horizontal lines
+  alternate between left and right views. StereoLeft and
+  StereoRight modes choose one or the other stereo view.
+  Dresden mode is yet another stereoscopic interleaving.
+* obj.SetStereoTypeToRight () - Set/Get what type of stereo
+  rendering to use. CrystalEyes mode uses frame-sequential
+  capabilities available in OpenGL to drive LCD shutter
+  glasses and stereo projectors. RedBlue mode is a simple
+  type of stereo for use with red-blue glasses. Anaglyph
+  mode is a superset of RedBlue mode, but the color output
+  channels can be configured using the AnaglyphColorMask and
+  the color of the original image can be (somewhat)
+  maintained using AnaglyphColorSaturation; the default
+  colors for Anaglyph mode is red-cyan. Interlaced stereo
+  mode produces a composite image where horizontal lines
+  alternate between left and right views. StereoLeft and
+  StereoRight modes choose one or the other stereo view.
+  Dresden mode is yet another stereoscopic interleaving.
+* obj.SetStereoTypeToDresden () - Set/Get what type of
+  stereo rendering to use. CrystalEyes mode uses frame-
+  sequential capabilities available in OpenGL to drive LCD
+  shutter glasses and stereo projectors. RedBlue mode is a
+  simple type of stereo for use with red-blue glasses.
+  Anaglyph mode is a superset of RedBlue mode, but the color
+  output channels can be configured using the
+  AnaglyphColorMask and the color of the original image can
+  be (somewhat) maintained using AnaglyphColorSaturation;
+  the default colors for Anaglyph mode is red-cyan.
+  Interlaced stereo mode produces a composite image where
+  horizontal lines alternate between left and right views.
+  StereoLeft and StereoRight modes choose one or the other
+  stereo view. Dresden mode is yet another stereoscopic
+  interleaving.
+* obj.SetStereoTypeToAnaglyph () - Set/Get what type of
+  stereo rendering to use. CrystalEyes mode uses frame-
+  sequential capabilities available in OpenGL to drive LCD
+  shutter glasses and stereo projectors. RedBlue mode is a
+  simple type of stereo for use with red-blue glasses.
+  Anaglyph mode is a superset of RedBlue mode, but the color
+  output channels can be configured using the
+  AnaglyphColorMask and the color of the original image can
+  be (somewhat) maintained using AnaglyphColorSaturation;
+  the default colors for Anaglyph mode is red-cyan.
+  Interlaced stereo mode produces a composite image where
+  horizontal lines alternate between left and right views.
+  StereoLeft and StereoRight modes choose one or the other
+  stereo view. Dresden mode is yet another stereoscopic
+  interleaving.
+* obj.SetStereoTypeToCheckerboard ()
+* string = obj.GetStereoTypeAsString ()
+* obj.StereoUpdate () - Update the system, if needed, due to
+  stereo rendering. For some stereo methods, subclasses
+  might need to switch some hardware settings here.
+* obj.StereoMidpoint () - Intermediate method performs
+  operations required between the rendering of the left and
+  right eye.
+* obj.StereoRenderComplete () - Handles work required once
+  both views have been rendered when using stereo rendering.
+* obj.SetAnaglyphColorSaturation (float )
+* float = obj.GetAnaglyphColorSaturationMinValue ()
+* float = obj.GetAnaglyphColorSaturationMaxValue ()
+* float = obj.GetAnaglyphColorSaturation ()
+* obj.SetAnaglyphColorMask (int , int )
+* obj.SetAnaglyphColorMask (int a[2])
+* int = obj. GetAnaglyphColorMask ()
+* obj.WindowRemap () - Remap the rendering window. This
+  probably only works on UNIX right now. It is useful for
+  changing properties that can't normally be changed once
+  the window is up.
+* obj.SetSwapBuffers (int ) - Turn on/off buffer swapping
+  between images.
+* int = obj.GetSwapBuffers () - Turn on/off buffer swapping
+  between images.
+* obj.SwapBuffersOn () - Turn on/off buffer swapping between
+  images.
+* obj.SwapBuffersOff () - Turn on/off buffer swapping
+  between images.
+* int = obj.SetPixelData (int x, int y, int x2, int y2,
+  string data, int front) - Set/Get the pixel data of an
+  image, transmitted as RGBRGBRGB. The front argument
+  indicates if the front buffer should be used or the back
+  buffer. It is the caller's responsibility to delete the
+  resulting array. It is very important to realize that the
+  memory in this array is organized from the bottom of the
+  window to the top. The origin of the screen is in the
+  lower left corner. The y axis increases as you go up the
+  screen. So the storage of pixels is from left to right and
+  from bottom to top. (x,y) is any corner of the rectangle.
+  (x2,y2) is its opposite corner on the diagonal.
+* int = obj.SetPixelData (int x, int y, int x2, int y2,
+  vtkUnsignedCharArray data, int front) - Set/Get the pixel
+  data of an image, transmitted as RGBRGBRGB. The front
+  argument indicates if the front buffer should be used or
+  the back buffer. It is the caller's responsibility to
+  delete the resulting array. It is very important to
+  realize that the memory in this array is organized from
+  the bottom of the window to the top. The origin of the
+  screen is in the lower left corner. The y axis increases
+  as you go up the screen. So the storage of pixels is from
+  left to right and from bottom to top. (x,y) is any corner
+  of the rectangle. (x2,y2) is its opposite corner on the
+  diagonal.
+* int = obj.GetRGBAPixelData (int x, int y, int x2, int y2,
+  int front, vtkFloatArray data) - Same as Get/SetPixelData
+  except that the image also contains an alpha component.
+  The image is transmitted as RGBARGBARGBA... each of which
+  is a float value. The "blend" parameter controls whether
+  the SetRGBAPixelData method blends the data with the
+  previous contents of the frame buffer or completely
+  replaces the frame buffer data.
+* int = obj.SetRGBAPixelData (int x, int y, int x2, int y2,
+  float , int front, int blend) - Same as Get/SetPixelData
+  except that the image also contains an alpha component.
+  The image is transmitted as RGBARGBARGBA... each of which
+  is a float value. The "blend" parameter controls whether
+  the SetRGBAPixelData method blends the data with the
+  previous contents of the frame buffer or completely
+  replaces the frame buffer data.
+* int = obj.SetRGBAPixelData (int , int , int , int ,
+  vtkFloatArray , int , int blend) - Same as Get/
+  SetPixelData except that the image also contains an alpha
+  component. The image is transmitted as RGBARGBARGBA...
+  each of which is a float value. The "blend" parameter
+  controls whether the SetRGBAPixelData method blends the
+  data with the previous contents of the frame buffer or
+  completely replaces the frame buffer data.
+* obj.ReleaseRGBAPixelData (float data) - Same as Get/
+  SetPixelData except that the image also contains an alpha
+  component. The image is transmitted as RGBARGBARGBA...
+  each of which is a float value. The "blend" parameter
+  controls whether the SetRGBAPixelData method blends the
+  data with the previous contents of the frame buffer or
+  completely replaces the frame buffer data.
+* int = obj.GetRGBACharPixelData (int x, int y, int x2, int
+  y2, int front, vtkUnsignedCharArray data) - Same as Get/
+  SetPixelData except that the image also contains an alpha
+  component. The image is transmitted as RGBARGBARGBA...
+  each of which is a float value. The "blend" parameter
+  controls whether the SetRGBAPixelData method blends the
+  data with the previous contents of the frame buffer or
+  completely replaces the frame buffer data.
+* int = obj.SetRGBACharPixelData (int x, int y, int x2, int
+  y2, string data, int front, int blend) - Same as Get/
+  SetPixelData except that the image also contains an alpha
+  component. The image is transmitted as RGBARGBARGBA...
+  each of which is a float value. The "blend" parameter
+  controls whether the SetRGBAPixelData method blends the
+  data with the previous contents of the frame buffer or
+  completely replaces the frame buffer data.
+* int = obj.SetRGBACharPixelData (int x, int y, int x2, int
+  y2, vtkUnsignedCharArray data, int front, int blend) -
+  Same as Get/SetPixelData except that the image also
+  contains an alpha component. The image is transmitted as
+  RGBARGBARGBA... each of which is a float value. The
+  "blend" parameter controls whether the SetRGBAPixelData
+  method blends the data with the previous contents of the
+  frame buffer or completely replaces the frame buffer data.
+* int = obj.GetZbufferData (int x, int y, int x2, int y2,
+  float z) - Set/Get the zbuffer data from the frame buffer.
+  (x,y) is any corner of the rectangle. (x2,y2) is its
+  opposite corner on the diagonal.
+* int = obj.GetZbufferData (int x, int y, int x2, int y2,
+  vtkFloatArray z) - Set/Get the zbuffer data from the frame
+  buffer. (x,y) is any corner of the rectangle. (x2,y2) is
+  its opposite corner on the diagonal.
+* int = obj.SetZbufferData (int x, int y, int x2, int y2,
+  float z) - Set/Get the zbuffer data from the frame buffer.
+  (x,y) is any corner of the rectangle. (x2,y2) is its
+  opposite corner on the diagonal.
+* int = obj.SetZbufferData (int x, int y, int x2, int y2,
+  vtkFloatArray z) - Set/Get the zbuffer data from the frame
+  buffer. (x,y) is any corner of the rectangle. (x2,y2) is
+  its opposite corner on the diagonal.
+* float = obj.GetZbufferDataAtPoint (int x, int y) - Set the
+  number of frames for doing antialiasing. The default is
+  zero. Typically five or six will yield reasonable results
+  without taking too long.
+* int = obj.GetAAFrames () - Set the number of frames for
+  doing antialiasing. The default is zero. Typically five or
+  six will yield reasonable results without taking too long.
+* obj.SetAAFrames (int ) - Set the number of frames for
+  doing antialiasing. The default is zero. Typically five or
+  six will yield reasonable results without taking too long.
+* int = obj.GetFDFrames () - Set the number of frames for
+  doing focal depth. The default is zero. Depending on how
+  your scene is organized you can get away with as few as
+  four frames for focal depth or you might need thirty. One
+  thing to note is that if you are using focal depth frames,
+  then you will not need many (if any) frames for
+  antialiasing.
+* obj.SetFDFrames (int ) - Set the number of frames for
+  doing focal depth. The default is zero. Depending on how
+  your scene is organized you can get away with as few as
+  four frames for focal depth or you might need thirty. One
+  thing to note is that if you are using focal depth frames,
+  then you will not need many (if any) frames for
+  antialiasing.
+* int = obj.GetSubFrames () - Set the number of sub frames
+  for doing motion blur. The default is zero. Once this is
+  set greater than one, you will no longer see a new frame
+  for every Render(). If you set this to five, you will need
+  to do five Render() invocations before seeing the result.
+  This isn't very impressive unless something is changing
+  between the Renders. Changing this value may reset the
+  current subframe count.
+* obj.SetSubFrames (int subFrames) - Set the number of sub
+  frames for doing motion blur. The default is zero. Once
+  this is set greater than one, you will no longer see a new
+  frame for every Render(). If you set this to five, you
+  will need to do five Render() invocations before seeing
+  the result. This isn't very impressive unless something is
+  changing between the Renders. Changing this value may
+  reset the current subframe count.
+* int = obj.GetNeverRendered () - This flag is set if the
+  window hasn't rendered since it was created
+* int = obj.GetAbortRender () - This is a flag that can be
+  set to interrupt a rendering that is in progress.
+* obj.SetAbortRender (int ) - This is a flag that can be set
+  to interrupt a rendering that is in progress.
+* int = obj.GetInAbortCheck () - This is a flag that can be
+  set to interrupt a rendering that is in progress.
+* obj.SetInAbortCheck (int ) - This is a flag that can be
+  set to interrupt a rendering that is in progress.
+* int = obj.CheckAbortStatus () - This is a flag that can be
+  set to interrupt a rendering that is in progress.
+* int = obj.GetIsPicking ()
+* obj.SetIsPicking (int )
+* obj.IsPickingOn ()
+* obj.IsPickingOff ()
+* int = obj.GetEventPending () - Check to see if a mouse
+  button has been pressed. All other events are ignored by
+  this method. Ideally, you want to abort the render on any
+  event which causes the DesiredUpdateRate to switch from a
+  high-quality rate to a more interactive rate.
+* int = obj.CheckInRenderStatus () - Clear status (after an
+  exception was thrown for example)
+* obj.ClearInRenderStatus () - Set/Get the desired update
+  rate. This is used with the vtkLODActor class. When using
+  level of detail actors you need to specify what update
+  rate you require. The LODActors then will pick the correct
+  resolution to meet your desired update rate in frames per
+  second. A value of zero indicates that they can use all
+  the time they want to.
+* obj.SetDesiredUpdateRate (double ) - Set/Get the desired
+  update rate. This is used with the vtkLODActor class. When
+  using level of detail actors you need to specify what
+  update rate you require. The LODActors then will pick the
+  correct resolution to meet your desired update rate in
+  frames per second. A value of zero indicates that they can
+  use all the time they want to.
+* double = obj.GetDesiredUpdateRate () - Set/Get the desired
+  update rate. This is used with the vtkLODActor class. When
+  using level of detail actors you need to specify what
+  update rate you require. The LODActors then will pick the
+  correct resolution to meet your desired update rate in
+  frames per second. A value of zero indicates that they can
+  use all the time they want to.
+* int = obj.GetNumberOfLayers () - Get the number of layers
+  for renderers. Each renderer should have its layer set
+  individually. Some algorithms iterate through all layers,
+  so it is not wise to set the number of layers to be
+  exorbitantly large (say bigger than 100).
+* obj.SetNumberOfLayers (int ) - Get the number of layers
+  for renderers. Each renderer should have its layer set
+  individually. Some algorithms iterate through all layers,
+  so it is not wise to set the number of layers to be
+  exorbitantly large (say bigger than 100).
+* int = obj.GetNumberOfLayersMinValue () - Get the number of
+  layers for renderers. Each renderer should have its layer
+  set individually. Some algorithms iterate through all
+  layers, so it is not wise to set the number of layers to
+  be exorbitantly large (say bigger than 100).
+* int = obj.GetNumberOfLayersMaxValue () - Get the number of
+  layers for renderers. Each renderer should have its layer
+  set individually. Some algorithms iterate through all
+  layers, so it is not wise to set the number of layers to
+  be exorbitantly large (say bigger than 100).
+* vtkRenderWindowInteractor = obj.GetInteractor () - Get the
+  interactor associated with this render window
+* obj.SetInteractor (vtkRenderWindowInteractor ) - Set the
+  interactor to the render window
+* obj.UnRegister (vtkObjectBase o) - This Method detects
+  loops of RenderWindow<->Interactor, so objects are freed
+  properly.
+* obj.SetWindowInfo (string ) - Dummy stubs for vtkWindow
+  API.
+* obj.SetNextWindowInfo (string ) - Dummy stubs for
+  vtkWindow API.
+* obj.SetParentInfo (string ) - Dummy stubs for vtkWindow
+  API.
+* obj.MakeCurrent () - Attempt to make this window the
+  current graphics context for the calling thread.
+* bool = obj.IsCurrent () - Tells if this window is the
+  current graphics context for the calling thread.
+* obj.SetForceMakeCurrent () - If called, allow MakeCurrent
+  () to skip cache-check when called. MakeCurrent() reverts
+  to original behavior of cache-checking on the next render.
+* string = obj.ReportCapabilities () - Get report of
+  capabilities for the render window
+* int = obj.SupportsOpenGL () - Does this render window
+  support OpenGL? 0-false, 1-true
+* int = obj.IsDirect () - Is this render window using
+  hardware acceleration? 0-false, 1-true
+* int = obj.GetDepthBufferSize () - This method should be
+  defined by the subclass. How many bits of precision are
+  there in the zbuffer?
+* int = obj.GetColorBufferSizes (int rgba) - Get the size of
+  the color buffer. Returns 0 if not able to determine
+  otherwise sets R G B and A into buffer.
+* vtkPainterDeviceAdapter = obj.GetPainterDeviceAdapter () -
+  Get the vtkPainterDeviceAdapter which can be used to paint
+  on this render window.
+* obj.SetMultiSamples (int ) - Set / Get the number of
+  multisamples to use for hardware antialiasing.
+* int = obj.GetMultiSamples () - Set / Get the number of
+  multisamples to use for hardware antialiasing.
+* obj.SetStencilCapable (int ) - Set / Get the availability
+  of the stencil buffer.
+* int = obj.GetStencilCapable () - Set / Get the
+  availability of the stencil buffer.
+* obj.StencilCapableOn () - Set / Get the availability of
+  the stencil buffer.
+* obj.StencilCapableOff () - Set / Get the availability of
+  the stencil buffer.
+* obj.SetReportGraphicErrors (int ) - Turn on/off report of
+  graphic errors. Initial value is false (off). This flag is
+  used by vtkGraphicErrorMacro.
+* int = obj.GetReportGraphicErrors () - Turn on/off report
+  of graphic errors. Initial value is false (off). This flag
+  is used by vtkGraphicErrorMacro.
+* obj.ReportGraphicErrorsOn () - Turn on/off report of
+  graphic errors. Initial value is false (off). This flag is
+  used by vtkGraphicErrorMacro.
+* obj.ReportGraphicErrorsOff () - Turn on/off report of
+  graphic errors. Initial value is false (off). This flag is
+  used by vtkGraphicErrorMacro.
+* obj.CheckGraphicError () - Update graphic error status,
+  regardless of ReportGraphicErrors flag. It means this
+  method can be used in any context and is not restricted to
+  debug mode.
+* int = obj.HasGraphicError () - Return the last graphic
+  error status. Initial value is false.
+* string = obj.GetLastGraphicErrorString () - Return a
+  string matching the last graphic error status.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Rendering_Classes
+* Generated on Thu Jul 25 2013 17:18:35 for FreeMat by
+  doxygen_ 1.8.1.1
+

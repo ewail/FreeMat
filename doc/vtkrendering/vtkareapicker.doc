@@ -1,0 +1,77 @@
+/*!
+\page vtkrendering_vtkareapicker vtkAreaPicker
+
+<p>
+Section: \ref sec_vtkrendering "Visualization Toolkit Rendering Classes"
+\section Usage
+ The vtkAreaPicker picks all vtkProp3Ds that lie behind the screen space 
+ rectangle from x0,y0 and x1,y1. The selection is based upon the bounding
+ box of the prop and is thus not exact.
+
+ Like vtkPicker, a pick results in a list of Prop3Ds because many props may 
+ lie within the pick frustum. You can also get an AssemblyPath, which in this
+ case is defined to be the path to the one particular prop in the Prop3D list
+ that lies nearest to the near plane. 
+
+ This picker also returns the selection frustum, defined as either a
+ vtkPlanes, or a set of eight corner vertices in world space. The vtkPlanes 
+ version is an ImplicitFunction, which is suitable for use with the
+ vtkExtractGeometry. The six frustum planes are in order: left, right, 
+ bottom, top, near, far
+
+ Because this picker picks everything within a volume, the world pick point 
+ result is ill-defined. Therefore if you ask this class for the world pick 
+ position, you will get the centroid of the pick frustum. This may be outside
+ of all props in the prop list.
+
+
+To create an instance of class vtkAreaPicker, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkAreaPicker
+\endverbatim
+\section Methods
+The class vtkAreaPicker has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkAreaPicker class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkAreaPicker = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkAreaPicker = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetPickCoords (double x0, double y0, double x1, double y1)</tt> -  Set the default screen rectangle to pick in.
+ </LI>
+<LI>  <tt>obj.SetRenderer (vtkRenderer )</tt> -  Set the default renderer to pick on.
+ </LI>
+<LI>  <tt>int = obj.Pick ()</tt> -  Perform an AreaPick within the default screen rectangle and renderer.
+ </LI>
+<LI>  <tt>int = obj.AreaPick (double x0, double y0, double x1, double y1, vtkRenderer rendererNULL)</tt> -  Perform pick operation in volume behind the given screen coordinates.
+ Props intersecting the selection frustum will be accesible via GetProp3D.
+ GetPlanes returns a vtkImplicitFunciton suitable for vtkExtractGeometry.
+ </LI>
+<LI>  <tt>int = obj.Pick (double x0, double y0, double , vtkRenderer rendererNULL)</tt> -  Perform pick operation in volume behind the given screen coordinate.
+ This makes a thin frustum around the selected pixel.
+ Note: this ignores Z in order to pick everying in a volume from z=0 to z=1.
+ </LI>
+<LI>  <tt>vtkAbstractMapper3D = obj.GetMapper ()</tt> -  Return mapper that was picked (if any).
+ </LI>
+<LI>  <tt>vtkDataSet = obj.GetDataSet ()</tt> -  Get a pointer to the dataset that was picked (if any). If nothing 
+ was picked then NULL is returned.
+ </LI>
+<LI>  <tt>vtkProp3DCollection = obj.GetProp3Ds ()</tt> -  Return a collection of all the prop 3D's that were intersected
+ by the pick ray. This collection is not sorted.
+ </LI>
+<LI>  <tt>vtkPlanes = obj.GetFrustum ()</tt> -  Return the six planes that define the selection frustum. The implicit 
+ function defined by the planes evaluates to negative inside and positive
+ outside.
+ </LI>
+<LI>  <tt>vtkPoints = obj.GetClipPoints ()</tt> -  Return eight points that define the selection frustum.
+ </LI>
+</UL>
+*/

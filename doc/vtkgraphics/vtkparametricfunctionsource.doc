@@ -1,0 +1,399 @@
+/*!
+\page vtkgraphics_vtkparametricfunctionsource vtkParametricFunctionSource
+
+<p>
+Section: \ref sec_vtkgraphics "Visualization Toolkit Graphics Classes"
+\section Usage
+ This class tessellates parametric functions. The user must specify how
+ many points in the parametric coordinate directions are required (i.e.,
+ the resolution), and the mode to use to generate scalars. 
+
+ .SECTION Thanks
+ Andrew Maclean a.maclean@cas.edu.au for creating and contributing the
+ class.
+
+
+To create an instance of class vtkParametricFunctionSource, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkParametricFunctionSource
+\endverbatim
+\section Methods
+The class vtkParametricFunctionSource has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkParametricFunctionSource class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkParametricFunctionSource = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkParametricFunctionSource = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetParametricFunction (vtkParametricFunction )</tt> -  Specify the parametric function to use to generate the tessellation.
+ </LI>
+<LI>  <tt>vtkParametricFunction = obj.GetParametricFunction ()</tt> -  Specify the parametric function to use to generate the tessellation.
+ </LI>
+<LI>  <tt>obj.SetUResolution (int )</tt> -  Set/Get the number of subdivisions / tessellations in the u parametric
+ direction. Note that the number of tessellant points in the u 
+ direction is the UResolution + 1.
+ </LI>
+<LI>  <tt>int = obj.GetUResolution ()</tt> -  Set/Get the number of subdivisions / tessellations in the u parametric
+ direction. Note that the number of tessellant points in the u 
+ direction is the UResolution + 1.
+ </LI>
+<LI>  <tt>obj.SetVResolution (int )</tt> -  Set/Get the number of subdivisions / tessellations in the v parametric
+ direction. Note that the number of tessellant points in the v 
+ direction is the VResolution + 1.
+ </LI>
+<LI>  <tt>int = obj.GetVResolution ()</tt> -  Set/Get the number of subdivisions / tessellations in the v parametric
+ direction. Note that the number of tessellant points in the v 
+ direction is the VResolution + 1.
+ </LI>
+<LI>  <tt>obj.SetWResolution (int )</tt> -  Set/Get the number of subdivisions / tessellations in the w parametric
+ direction. Note that the number of tessellant points in the w 
+ direction is the WResolution + 1.
+ </LI>
+<LI>  <tt>int = obj.GetWResolution ()</tt> -  Set/Get the number of subdivisions / tessellations in the w parametric
+ direction. Note that the number of tessellant points in the w 
+ direction is the WResolution + 1.
+ </LI>
+<LI>  <tt>obj.GenerateTextureCoordinatesOn ()</tt> -  Set/Get the generation of texture coordinates. This is off by
+ default.
+ Note that this is only applicable to parametric surfaces 
+ whose parametric dimension is 2.
+ Note that texturing may fail in some cases.
+ </LI>
+<LI>  <tt>obj.GenerateTextureCoordinatesOff ()</tt> -  Set/Get the generation of texture coordinates. This is off by
+ default.
+ Note that this is only applicable to parametric surfaces 
+ whose parametric dimension is 2.
+ Note that texturing may fail in some cases.
+ </LI>
+<LI>  <tt>obj.SetGenerateTextureCoordinates (int )</tt> -  Set/Get the generation of texture coordinates. This is off by
+ default.
+ Note that this is only applicable to parametric surfaces 
+ whose parametric dimension is 2.
+ Note that texturing may fail in some cases.
+ </LI>
+<LI>  <tt>int = obj.GetGenerateTextureCoordinates ()</tt> -  Set/Get the generation of texture coordinates. This is off by
+ default.
+ Note that this is only applicable to parametric surfaces 
+ whose parametric dimension is 2.
+ Note that texturing may fail in some cases.
+ </LI>
+<LI>  <tt>obj.SetScalarMode (int )</tt> -  Get/Set the mode used for the scalar data.  The options are:
+ SCALAR_NONE, (default) scalars are not generated.
+ SCALAR_U, the scalar is set to the u-value. 
+ SCALAR_V, the scalar is set to the v-value.
+ SCALAR_U0, the scalar is set to 1 if u = (u_max - u_min)/2 = u_avg, 0 otherwise.
+ SCALAR_V0, the scalar is set to 1 if v = (v_max - v_min)/2 = v_avg, 0 otherwise.
+ SCALAR_U0V0, the scalar is 
+   set to 1 if u == u_avg, 2 if v == v_avg, 3 if u = u_avg && v = v_avg, 0 otherwise.
+ SCALAR_MODULUS, the scalar is set to (sqrt(u*u+v*v)), this is measured relative to (u_avg,v_avg).
+ SCALAR_PHASE, the scalar is set to (atan2(v,u)) (in degrees, 0 to 360), this is measured relative to (u_avg,v_avg).
+ SCALAR_QUADRANT, the scalar is set to 1, 2, 3 or 4 
+   depending upon the quadrant of the point (u,v).
+ SCALAR_X, the scalar is set to the x-value. 
+ SCALAR_Y, the scalar is set to the y-value. 
+ SCALAR_Z, the scalar is set to the z-value. 
+ SCALAR_DISTANCE, the scalar is set to (sqrt(x*x+y*y+z*z)). I.e. distance from the origin.
+ SCALAR_FUNCTION_DEFINED, the scalar is set to the value returned from EvaluateScalar().
+ </LI>
+<LI>  <tt>int = obj.GetScalarModeMinValue ()</tt> -  Get/Set the mode used for the scalar data.  The options are:
+ SCALAR_NONE, (default) scalars are not generated.
+ SCALAR_U, the scalar is set to the u-value. 
+ SCALAR_V, the scalar is set to the v-value.
+ SCALAR_U0, the scalar is set to 1 if u = (u_max - u_min)/2 = u_avg, 0 otherwise.
+ SCALAR_V0, the scalar is set to 1 if v = (v_max - v_min)/2 = v_avg, 0 otherwise.
+ SCALAR_U0V0, the scalar is 
+   set to 1 if u == u_avg, 2 if v == v_avg, 3 if u = u_avg && v = v_avg, 0 otherwise.
+ SCALAR_MODULUS, the scalar is set to (sqrt(u*u+v*v)), this is measured relative to (u_avg,v_avg).
+ SCALAR_PHASE, the scalar is set to (atan2(v,u)) (in degrees, 0 to 360), this is measured relative to (u_avg,v_avg).
+ SCALAR_QUADRANT, the scalar is set to 1, 2, 3 or 4 
+   depending upon the quadrant of the point (u,v).
+ SCALAR_X, the scalar is set to the x-value. 
+ SCALAR_Y, the scalar is set to the y-value. 
+ SCALAR_Z, the scalar is set to the z-value. 
+ SCALAR_DISTANCE, the scalar is set to (sqrt(x*x+y*y+z*z)). I.e. distance from the origin.
+ SCALAR_FUNCTION_DEFINED, the scalar is set to the value returned from EvaluateScalar().
+ </LI>
+<LI>  <tt>int = obj.GetScalarModeMaxValue ()</tt> -  Get/Set the mode used for the scalar data.  The options are:
+ SCALAR_NONE, (default) scalars are not generated.
+ SCALAR_U, the scalar is set to the u-value. 
+ SCALAR_V, the scalar is set to the v-value.
+ SCALAR_U0, the scalar is set to 1 if u = (u_max - u_min)/2 = u_avg, 0 otherwise.
+ SCALAR_V0, the scalar is set to 1 if v = (v_max - v_min)/2 = v_avg, 0 otherwise.
+ SCALAR_U0V0, the scalar is 
+   set to 1 if u == u_avg, 2 if v == v_avg, 3 if u = u_avg && v = v_avg, 0 otherwise.
+ SCALAR_MODULUS, the scalar is set to (sqrt(u*u+v*v)), this is measured relative to (u_avg,v_avg).
+ SCALAR_PHASE, the scalar is set to (atan2(v,u)) (in degrees, 0 to 360), this is measured relative to (u_avg,v_avg).
+ SCALAR_QUADRANT, the scalar is set to 1, 2, 3 or 4 
+   depending upon the quadrant of the point (u,v).
+ SCALAR_X, the scalar is set to the x-value. 
+ SCALAR_Y, the scalar is set to the y-value. 
+ SCALAR_Z, the scalar is set to the z-value. 
+ SCALAR_DISTANCE, the scalar is set to (sqrt(x*x+y*y+z*z)). I.e. distance from the origin.
+ SCALAR_FUNCTION_DEFINED, the scalar is set to the value returned from EvaluateScalar().
+ </LI>
+<LI>  <tt>int = obj.GetScalarMode ()</tt> -  Get/Set the mode used for the scalar data.  The options are:
+ SCALAR_NONE, (default) scalars are not generated.
+ SCALAR_U, the scalar is set to the u-value. 
+ SCALAR_V, the scalar is set to the v-value.
+ SCALAR_U0, the scalar is set to 1 if u = (u_max - u_min)/2 = u_avg, 0 otherwise.
+ SCALAR_V0, the scalar is set to 1 if v = (v_max - v_min)/2 = v_avg, 0 otherwise.
+ SCALAR_U0V0, the scalar is 
+   set to 1 if u == u_avg, 2 if v == v_avg, 3 if u = u_avg && v = v_avg, 0 otherwise.
+ SCALAR_MODULUS, the scalar is set to (sqrt(u*u+v*v)), this is measured relative to (u_avg,v_avg).
+ SCALAR_PHASE, the scalar is set to (atan2(v,u)) (in degrees, 0 to 360), this is measured relative to (u_avg,v_avg).
+ SCALAR_QUADRANT, the scalar is set to 1, 2, 3 or 4 
+   depending upon the quadrant of the point (u,v).
+ SCALAR_X, the scalar is set to the x-value. 
+ SCALAR_Y, the scalar is set to the y-value. 
+ SCALAR_Z, the scalar is set to the z-value. 
+ SCALAR_DISTANCE, the scalar is set to (sqrt(x*x+y*y+z*z)). I.e. distance from the origin.
+ SCALAR_FUNCTION_DEFINED, the scalar is set to the value returned from EvaluateScalar().
+ </LI>
+<LI>  <tt>obj.SetScalarModeToNone (void )</tt> -  Get/Set the mode used for the scalar data.  The options are:
+ SCALAR_NONE, (default) scalars are not generated.
+ SCALAR_U, the scalar is set to the u-value. 
+ SCALAR_V, the scalar is set to the v-value.
+ SCALAR_U0, the scalar is set to 1 if u = (u_max - u_min)/2 = u_avg, 0 otherwise.
+ SCALAR_V0, the scalar is set to 1 if v = (v_max - v_min)/2 = v_avg, 0 otherwise.
+ SCALAR_U0V0, the scalar is 
+   set to 1 if u == u_avg, 2 if v == v_avg, 3 if u = u_avg && v = v_avg, 0 otherwise.
+ SCALAR_MODULUS, the scalar is set to (sqrt(u*u+v*v)), this is measured relative to (u_avg,v_avg).
+ SCALAR_PHASE, the scalar is set to (atan2(v,u)) (in degrees, 0 to 360), this is measured relative to (u_avg,v_avg).
+ SCALAR_QUADRANT, the scalar is set to 1, 2, 3 or 4 
+   depending upon the quadrant of the point (u,v).
+ SCALAR_X, the scalar is set to the x-value. 
+ SCALAR_Y, the scalar is set to the y-value. 
+ SCALAR_Z, the scalar is set to the z-value. 
+ SCALAR_DISTANCE, the scalar is set to (sqrt(x*x+y*y+z*z)). I.e. distance from the origin.
+ SCALAR_FUNCTION_DEFINED, the scalar is set to the value returned from EvaluateScalar().
+ </LI>
+<LI>  <tt>obj.SetScalarModeToU (void )</tt> -  Get/Set the mode used for the scalar data.  The options are:
+ SCALAR_NONE, (default) scalars are not generated.
+ SCALAR_U, the scalar is set to the u-value. 
+ SCALAR_V, the scalar is set to the v-value.
+ SCALAR_U0, the scalar is set to 1 if u = (u_max - u_min)/2 = u_avg, 0 otherwise.
+ SCALAR_V0, the scalar is set to 1 if v = (v_max - v_min)/2 = v_avg, 0 otherwise.
+ SCALAR_U0V0, the scalar is 
+   set to 1 if u == u_avg, 2 if v == v_avg, 3 if u = u_avg && v = v_avg, 0 otherwise.
+ SCALAR_MODULUS, the scalar is set to (sqrt(u*u+v*v)), this is measured relative to (u_avg,v_avg).
+ SCALAR_PHASE, the scalar is set to (atan2(v,u)) (in degrees, 0 to 360), this is measured relative to (u_avg,v_avg).
+ SCALAR_QUADRANT, the scalar is set to 1, 2, 3 or 4 
+   depending upon the quadrant of the point (u,v).
+ SCALAR_X, the scalar is set to the x-value. 
+ SCALAR_Y, the scalar is set to the y-value. 
+ SCALAR_Z, the scalar is set to the z-value. 
+ SCALAR_DISTANCE, the scalar is set to (sqrt(x*x+y*y+z*z)). I.e. distance from the origin.
+ SCALAR_FUNCTION_DEFINED, the scalar is set to the value returned from EvaluateScalar().
+ </LI>
+<LI>  <tt>obj.SetScalarModeToV (void )</tt> -  Get/Set the mode used for the scalar data.  The options are:
+ SCALAR_NONE, (default) scalars are not generated.
+ SCALAR_U, the scalar is set to the u-value. 
+ SCALAR_V, the scalar is set to the v-value.
+ SCALAR_U0, the scalar is set to 1 if u = (u_max - u_min)/2 = u_avg, 0 otherwise.
+ SCALAR_V0, the scalar is set to 1 if v = (v_max - v_min)/2 = v_avg, 0 otherwise.
+ SCALAR_U0V0, the scalar is 
+   set to 1 if u == u_avg, 2 if v == v_avg, 3 if u = u_avg && v = v_avg, 0 otherwise.
+ SCALAR_MODULUS, the scalar is set to (sqrt(u*u+v*v)), this is measured relative to (u_avg,v_avg).
+ SCALAR_PHASE, the scalar is set to (atan2(v,u)) (in degrees, 0 to 360), this is measured relative to (u_avg,v_avg).
+ SCALAR_QUADRANT, the scalar is set to 1, 2, 3 or 4 
+   depending upon the quadrant of the point (u,v).
+ SCALAR_X, the scalar is set to the x-value. 
+ SCALAR_Y, the scalar is set to the y-value. 
+ SCALAR_Z, the scalar is set to the z-value. 
+ SCALAR_DISTANCE, the scalar is set to (sqrt(x*x+y*y+z*z)). I.e. distance from the origin.
+ SCALAR_FUNCTION_DEFINED, the scalar is set to the value returned from EvaluateScalar().
+ </LI>
+<LI>  <tt>obj.SetScalarModeToU0 (void )</tt> -  Get/Set the mode used for the scalar data.  The options are:
+ SCALAR_NONE, (default) scalars are not generated.
+ SCALAR_U, the scalar is set to the u-value. 
+ SCALAR_V, the scalar is set to the v-value.
+ SCALAR_U0, the scalar is set to 1 if u = (u_max - u_min)/2 = u_avg, 0 otherwise.
+ SCALAR_V0, the scalar is set to 1 if v = (v_max - v_min)/2 = v_avg, 0 otherwise.
+ SCALAR_U0V0, the scalar is 
+   set to 1 if u == u_avg, 2 if v == v_avg, 3 if u = u_avg && v = v_avg, 0 otherwise.
+ SCALAR_MODULUS, the scalar is set to (sqrt(u*u+v*v)), this is measured relative to (u_avg,v_avg).
+ SCALAR_PHASE, the scalar is set to (atan2(v,u)) (in degrees, 0 to 360), this is measured relative to (u_avg,v_avg).
+ SCALAR_QUADRANT, the scalar is set to 1, 2, 3 or 4 
+   depending upon the quadrant of the point (u,v).
+ SCALAR_X, the scalar is set to the x-value. 
+ SCALAR_Y, the scalar is set to the y-value. 
+ SCALAR_Z, the scalar is set to the z-value. 
+ SCALAR_DISTANCE, the scalar is set to (sqrt(x*x+y*y+z*z)). I.e. distance from the origin.
+ SCALAR_FUNCTION_DEFINED, the scalar is set to the value returned from EvaluateScalar().
+ </LI>
+<LI>  <tt>obj.SetScalarModeToV0 (void )</tt> -  Get/Set the mode used for the scalar data.  The options are:
+ SCALAR_NONE, (default) scalars are not generated.
+ SCALAR_U, the scalar is set to the u-value. 
+ SCALAR_V, the scalar is set to the v-value.
+ SCALAR_U0, the scalar is set to 1 if u = (u_max - u_min)/2 = u_avg, 0 otherwise.
+ SCALAR_V0, the scalar is set to 1 if v = (v_max - v_min)/2 = v_avg, 0 otherwise.
+ SCALAR_U0V0, the scalar is 
+   set to 1 if u == u_avg, 2 if v == v_avg, 3 if u = u_avg && v = v_avg, 0 otherwise.
+ SCALAR_MODULUS, the scalar is set to (sqrt(u*u+v*v)), this is measured relative to (u_avg,v_avg).
+ SCALAR_PHASE, the scalar is set to (atan2(v,u)) (in degrees, 0 to 360), this is measured relative to (u_avg,v_avg).
+ SCALAR_QUADRANT, the scalar is set to 1, 2, 3 or 4 
+   depending upon the quadrant of the point (u,v).
+ SCALAR_X, the scalar is set to the x-value. 
+ SCALAR_Y, the scalar is set to the y-value. 
+ SCALAR_Z, the scalar is set to the z-value. 
+ SCALAR_DISTANCE, the scalar is set to (sqrt(x*x+y*y+z*z)). I.e. distance from the origin.
+ SCALAR_FUNCTION_DEFINED, the scalar is set to the value returned from EvaluateScalar().
+ </LI>
+<LI>  <tt>obj.SetScalarModeToU0V0 (void )</tt> -  Get/Set the mode used for the scalar data.  The options are:
+ SCALAR_NONE, (default) scalars are not generated.
+ SCALAR_U, the scalar is set to the u-value. 
+ SCALAR_V, the scalar is set to the v-value.
+ SCALAR_U0, the scalar is set to 1 if u = (u_max - u_min)/2 = u_avg, 0 otherwise.
+ SCALAR_V0, the scalar is set to 1 if v = (v_max - v_min)/2 = v_avg, 0 otherwise.
+ SCALAR_U0V0, the scalar is 
+   set to 1 if u == u_avg, 2 if v == v_avg, 3 if u = u_avg && v = v_avg, 0 otherwise.
+ SCALAR_MODULUS, the scalar is set to (sqrt(u*u+v*v)), this is measured relative to (u_avg,v_avg).
+ SCALAR_PHASE, the scalar is set to (atan2(v,u)) (in degrees, 0 to 360), this is measured relative to (u_avg,v_avg).
+ SCALAR_QUADRANT, the scalar is set to 1, 2, 3 or 4 
+   depending upon the quadrant of the point (u,v).
+ SCALAR_X, the scalar is set to the x-value. 
+ SCALAR_Y, the scalar is set to the y-value. 
+ SCALAR_Z, the scalar is set to the z-value. 
+ SCALAR_DISTANCE, the scalar is set to (sqrt(x*x+y*y+z*z)). I.e. distance from the origin.
+ SCALAR_FUNCTION_DEFINED, the scalar is set to the value returned from EvaluateScalar().
+ </LI>
+<LI>  <tt>obj.SetScalarModeToModulus (void )</tt> -  Get/Set the mode used for the scalar data.  The options are:
+ SCALAR_NONE, (default) scalars are not generated.
+ SCALAR_U, the scalar is set to the u-value. 
+ SCALAR_V, the scalar is set to the v-value.
+ SCALAR_U0, the scalar is set to 1 if u = (u_max - u_min)/2 = u_avg, 0 otherwise.
+ SCALAR_V0, the scalar is set to 1 if v = (v_max - v_min)/2 = v_avg, 0 otherwise.
+ SCALAR_U0V0, the scalar is 
+   set to 1 if u == u_avg, 2 if v == v_avg, 3 if u = u_avg && v = v_avg, 0 otherwise.
+ SCALAR_MODULUS, the scalar is set to (sqrt(u*u+v*v)), this is measured relative to (u_avg,v_avg).
+ SCALAR_PHASE, the scalar is set to (atan2(v,u)) (in degrees, 0 to 360), this is measured relative to (u_avg,v_avg).
+ SCALAR_QUADRANT, the scalar is set to 1, 2, 3 or 4 
+   depending upon the quadrant of the point (u,v).
+ SCALAR_X, the scalar is set to the x-value. 
+ SCALAR_Y, the scalar is set to the y-value. 
+ SCALAR_Z, the scalar is set to the z-value. 
+ SCALAR_DISTANCE, the scalar is set to (sqrt(x*x+y*y+z*z)). I.e. distance from the origin.
+ SCALAR_FUNCTION_DEFINED, the scalar is set to the value returned from EvaluateScalar().
+ </LI>
+<LI>  <tt>obj.SetScalarModeToPhase (void )</tt> -  Get/Set the mode used for the scalar data.  The options are:
+ SCALAR_NONE, (default) scalars are not generated.
+ SCALAR_U, the scalar is set to the u-value. 
+ SCALAR_V, the scalar is set to the v-value.
+ SCALAR_U0, the scalar is set to 1 if u = (u_max - u_min)/2 = u_avg, 0 otherwise.
+ SCALAR_V0, the scalar is set to 1 if v = (v_max - v_min)/2 = v_avg, 0 otherwise.
+ SCALAR_U0V0, the scalar is 
+   set to 1 if u == u_avg, 2 if v == v_avg, 3 if u = u_avg && v = v_avg, 0 otherwise.
+ SCALAR_MODULUS, the scalar is set to (sqrt(u*u+v*v)), this is measured relative to (u_avg,v_avg).
+ SCALAR_PHASE, the scalar is set to (atan2(v,u)) (in degrees, 0 to 360), this is measured relative to (u_avg,v_avg).
+ SCALAR_QUADRANT, the scalar is set to 1, 2, 3 or 4 
+   depending upon the quadrant of the point (u,v).
+ SCALAR_X, the scalar is set to the x-value. 
+ SCALAR_Y, the scalar is set to the y-value. 
+ SCALAR_Z, the scalar is set to the z-value. 
+ SCALAR_DISTANCE, the scalar is set to (sqrt(x*x+y*y+z*z)). I.e. distance from the origin.
+ SCALAR_FUNCTION_DEFINED, the scalar is set to the value returned from EvaluateScalar().
+ </LI>
+<LI>  <tt>obj.SetScalarModeToQuadrant (void )</tt> -  Get/Set the mode used for the scalar data.  The options are:
+ SCALAR_NONE, (default) scalars are not generated.
+ SCALAR_U, the scalar is set to the u-value. 
+ SCALAR_V, the scalar is set to the v-value.
+ SCALAR_U0, the scalar is set to 1 if u = (u_max - u_min)/2 = u_avg, 0 otherwise.
+ SCALAR_V0, the scalar is set to 1 if v = (v_max - v_min)/2 = v_avg, 0 otherwise.
+ SCALAR_U0V0, the scalar is 
+   set to 1 if u == u_avg, 2 if v == v_avg, 3 if u = u_avg && v = v_avg, 0 otherwise.
+ SCALAR_MODULUS, the scalar is set to (sqrt(u*u+v*v)), this is measured relative to (u_avg,v_avg).
+ SCALAR_PHASE, the scalar is set to (atan2(v,u)) (in degrees, 0 to 360), this is measured relative to (u_avg,v_avg).
+ SCALAR_QUADRANT, the scalar is set to 1, 2, 3 or 4 
+   depending upon the quadrant of the point (u,v).
+ SCALAR_X, the scalar is set to the x-value. 
+ SCALAR_Y, the scalar is set to the y-value. 
+ SCALAR_Z, the scalar is set to the z-value. 
+ SCALAR_DISTANCE, the scalar is set to (sqrt(x*x+y*y+z*z)). I.e. distance from the origin.
+ SCALAR_FUNCTION_DEFINED, the scalar is set to the value returned from EvaluateScalar().
+ </LI>
+<LI>  <tt>obj.SetScalarModeToX (void )</tt> -  Get/Set the mode used for the scalar data.  The options are:
+ SCALAR_NONE, (default) scalars are not generated.
+ SCALAR_U, the scalar is set to the u-value. 
+ SCALAR_V, the scalar is set to the v-value.
+ SCALAR_U0, the scalar is set to 1 if u = (u_max - u_min)/2 = u_avg, 0 otherwise.
+ SCALAR_V0, the scalar is set to 1 if v = (v_max - v_min)/2 = v_avg, 0 otherwise.
+ SCALAR_U0V0, the scalar is 
+   set to 1 if u == u_avg, 2 if v == v_avg, 3 if u = u_avg && v = v_avg, 0 otherwise.
+ SCALAR_MODULUS, the scalar is set to (sqrt(u*u+v*v)), this is measured relative to (u_avg,v_avg).
+ SCALAR_PHASE, the scalar is set to (atan2(v,u)) (in degrees, 0 to 360), this is measured relative to (u_avg,v_avg).
+ SCALAR_QUADRANT, the scalar is set to 1, 2, 3 or 4 
+   depending upon the quadrant of the point (u,v).
+ SCALAR_X, the scalar is set to the x-value. 
+ SCALAR_Y, the scalar is set to the y-value. 
+ SCALAR_Z, the scalar is set to the z-value. 
+ SCALAR_DISTANCE, the scalar is set to (sqrt(x*x+y*y+z*z)). I.e. distance from the origin.
+ SCALAR_FUNCTION_DEFINED, the scalar is set to the value returned from EvaluateScalar().
+ </LI>
+<LI>  <tt>obj.SetScalarModeToY (void )</tt> -  Get/Set the mode used for the scalar data.  The options are:
+ SCALAR_NONE, (default) scalars are not generated.
+ SCALAR_U, the scalar is set to the u-value. 
+ SCALAR_V, the scalar is set to the v-value.
+ SCALAR_U0, the scalar is set to 1 if u = (u_max - u_min)/2 = u_avg, 0 otherwise.
+ SCALAR_V0, the scalar is set to 1 if v = (v_max - v_min)/2 = v_avg, 0 otherwise.
+ SCALAR_U0V0, the scalar is 
+   set to 1 if u == u_avg, 2 if v == v_avg, 3 if u = u_avg && v = v_avg, 0 otherwise.
+ SCALAR_MODULUS, the scalar is set to (sqrt(u*u+v*v)), this is measured relative to (u_avg,v_avg).
+ SCALAR_PHASE, the scalar is set to (atan2(v,u)) (in degrees, 0 to 360), this is measured relative to (u_avg,v_avg).
+ SCALAR_QUADRANT, the scalar is set to 1, 2, 3 or 4 
+   depending upon the quadrant of the point (u,v).
+ SCALAR_X, the scalar is set to the x-value. 
+ SCALAR_Y, the scalar is set to the y-value. 
+ SCALAR_Z, the scalar is set to the z-value. 
+ SCALAR_DISTANCE, the scalar is set to (sqrt(x*x+y*y+z*z)). I.e. distance from the origin.
+ SCALAR_FUNCTION_DEFINED, the scalar is set to the value returned from EvaluateScalar().
+ </LI>
+<LI>  <tt>obj.SetScalarModeToZ (void )</tt> -  Get/Set the mode used for the scalar data.  The options are:
+ SCALAR_NONE, (default) scalars are not generated.
+ SCALAR_U, the scalar is set to the u-value. 
+ SCALAR_V, the scalar is set to the v-value.
+ SCALAR_U0, the scalar is set to 1 if u = (u_max - u_min)/2 = u_avg, 0 otherwise.
+ SCALAR_V0, the scalar is set to 1 if v = (v_max - v_min)/2 = v_avg, 0 otherwise.
+ SCALAR_U0V0, the scalar is 
+   set to 1 if u == u_avg, 2 if v == v_avg, 3 if u = u_avg && v = v_avg, 0 otherwise.
+ SCALAR_MODULUS, the scalar is set to (sqrt(u*u+v*v)), this is measured relative to (u_avg,v_avg).
+ SCALAR_PHASE, the scalar is set to (atan2(v,u)) (in degrees, 0 to 360), this is measured relative to (u_avg,v_avg).
+ SCALAR_QUADRANT, the scalar is set to 1, 2, 3 or 4 
+   depending upon the quadrant of the point (u,v).
+ SCALAR_X, the scalar is set to the x-value. 
+ SCALAR_Y, the scalar is set to the y-value. 
+ SCALAR_Z, the scalar is set to the z-value. 
+ SCALAR_DISTANCE, the scalar is set to (sqrt(x*x+y*y+z*z)). I.e. distance from the origin.
+ SCALAR_FUNCTION_DEFINED, the scalar is set to the value returned from EvaluateScalar().
+ </LI>
+<LI>  <tt>obj.SetScalarModeToDistance (void )</tt> -  Get/Set the mode used for the scalar data.  The options are:
+ SCALAR_NONE, (default) scalars are not generated.
+ SCALAR_U, the scalar is set to the u-value. 
+ SCALAR_V, the scalar is set to the v-value.
+ SCALAR_U0, the scalar is set to 1 if u = (u_max - u_min)/2 = u_avg, 0 otherwise.
+ SCALAR_V0, the scalar is set to 1 if v = (v_max - v_min)/2 = v_avg, 0 otherwise.
+ SCALAR_U0V0, the scalar is 
+   set to 1 if u == u_avg, 2 if v == v_avg, 3 if u = u_avg && v = v_avg, 0 otherwise.
+ SCALAR_MODULUS, the scalar is set to (sqrt(u*u+v*v)), this is measured relative to (u_avg,v_avg).
+ SCALAR_PHASE, the scalar is set to (atan2(v,u)) (in degrees, 0 to 360), this is measured relative to (u_avg,v_avg).
+ SCALAR_QUADRANT, the scalar is set to 1, 2, 3 or 4 
+   depending upon the quadrant of the point (u,v).
+ SCALAR_X, the scalar is set to the x-value. 
+ SCALAR_Y, the scalar is set to the y-value. 
+ SCALAR_Z, the scalar is set to the z-value. 
+ SCALAR_DISTANCE, the scalar is set to (sqrt(x*x+y*y+z*z)). I.e. distance from the origin.
+ SCALAR_FUNCTION_DEFINED, the scalar is set to the value returned from EvaluateScalar().
+ </LI>
+<LI>  <tt>obj.SetScalarModeToFunctionDefined (void )</tt> -  Return the MTime also considering the parametric function.
+ </LI>
+<LI>  <tt>long = obj.GetMTime ()</tt> -  Return the MTime also considering the parametric function.
+ </LI>
+</UL>
+*/

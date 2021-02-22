@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkfiltering_vtksimplecelltessellator" kind="page">
+    <compoundname>vtkfiltering_vtksimplecelltessellator</compoundname>
+    <title>vtkSimpleCellTessellator</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkfiltering_1sec_vtkfiltering" kindref="member">Visualization Toolkit Filtering Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>vtkSimpleCellTessellator is a helper class to perform adaptive tessellation of particular cell topologies. The major purpose for this class is to transform higher-order cell types (e.g., higher-order finite elements) into linear cells that can then be easily visualized by VTK. This class works in conjunction with the vtkGenericDataSet and vtkGenericAdaptorCell classes.</para><para>This algorithm is based on edge subdivision. An error metric along each edge is evaluated, and if the error is greater than some tolerance, the edge is subdivided (as well as all connected 2D and 3D cells). The process repeats until the error metric is satisfied. Since the algorithm is based on edge subdivision it inherently avoid T-junctions.</para><para>A significant issue addressed by this algorithm is to insure face compatibility across neigboring cells. That is, diagonals due to face triangulation must match to insure that the mesh is compatible. The algorithm employs a precomputed table to accelerate the tessellation process. The table was generated with the help of vtkOrderedTriangulator the basic idea is that the choice of diagonal is made only by considering the relative value of the point ids.</para><para>To create an instance of class vtkSimpleCellTessellator, simply invoke its constructor as follows <verbatim>  obj = vtkSimpleCellTessellator
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkSimpleCellTessellator has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkSimpleCellTessellator class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkSimpleCellTessellator = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkSimpleCellTessellator = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkGenericAdaptorCell = obj.GetGenericCell ()</computeroutput> - Get the higher order cell in order to access the evaluation function.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.TessellateFace (vtkGenericAdaptorCell cell, vtkGenericAttributeCollection att, vtkIdType index, vtkDoubleArray points, vtkCellArray cellArray, vtkPointData internalPd)</computeroutput> - Tessellate a face of a 3D `cell&apos;. The face is specified by the index value. The result is a set of smaller linear triangles in `cellArray&apos; with `points&apos; and point data `internalPd&apos;. <simplesect kind="pre"><para>cell_exists: cell!=0 </para><simplesectsep/><para>valid_dimension: cell-&gt;GetDimension()==3 </para><simplesectsep/><para>valid_index_range: (index&gt;=0) &amp;&amp; (index&lt;cell-&gt;GetNumberOfBoundaries(2)) </para><simplesectsep/><para>att_exists: att!=0 </para><simplesectsep/><para>points_exists: points!=0 </para><simplesectsep/><para>cellArray_exists: cellArray!=0 </para><simplesectsep/><para>internalPd_exists: internalPd!=0  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.Tessellate (vtkGenericAdaptorCell cell, vtkGenericAttributeCollection att, vtkDoubleArray points, vtkCellArray cellArray, vtkPointData internalPd)</computeroutput> - Tessellate a 3D `cell&apos;. The result is a set of smaller linear tetrahedra in `cellArray&apos; with `points&apos; and point data `internalPd&apos;. <simplesect kind="pre"><para>cell_exists: cell!=0 </para><simplesectsep/><para>valid_dimension: cell-&gt;GetDimension()==3 </para><simplesectsep/><para>att_exists: att!=0 </para><simplesectsep/><para>points_exists: points!=0 </para><simplesectsep/><para>cellArray_exists: cellArray!=0 </para><simplesectsep/><para>internalPd_exists: internalPd!=0  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.Triangulate (vtkGenericAdaptorCell cell, vtkGenericAttributeCollection att, vtkDoubleArray points, vtkCellArray cellArray, vtkPointData internalPd)</computeroutput> - Triangulate a 2D `cell&apos;. The result is a set of smaller linear triangles in `cellArray&apos; with `points&apos; and point data `internalPd&apos;. <simplesect kind="pre"><para>cell_exists: cell!=0 </para><simplesectsep/><para>valid_dimension: cell-&gt;GetDimension()==2 </para><simplesectsep/><para>att_exists: att!=0 </para><simplesectsep/><para>points_exists: points!=0 </para><simplesectsep/><para>cellArray_exists: cellArray!=0 </para><simplesectsep/><para>internalPd_exists: internalPd!=0  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.Reset ()</computeroutput> - Reset the output for repeated use of this class.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.Initialize (vtkGenericDataSet ds)</computeroutput> - Initialize the tessellator with a data set `ds&apos;.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetFixedSubdivisions ()</computeroutput> - Return the number of fixed subdivisions. It is used to prevent from infinite loop in degenerated cases. For order 3 or higher, if the inflection point is exactly on the mid-point, error metric will not detect that a subdivision is required. 0 means no fixed subdivision: there will be only adaptive subdivisions.</para><para>The algorithm first performs `GetFixedSubdivisions&apos; non adaptive subdivisions followed by at most `GetMaxAdaptiveSubdivisions&apos; adaptive subdivisions. Hence, there are at most `GetMaxSubdivisionLevel&apos; subdivisions. <simplesect kind="post"><para>positive_result: result&gt;=0 &amp;&amp; result&lt;=GetMaxSubdivisionLevel()  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetMaxSubdivisionLevel ()</computeroutput> - Return the maximum level of subdivision. It is used to prevent from infinite loop in degenerated cases. For order 3 or higher, if the inflection point is exactly on the mid-point, error metric will not detect that a subdivision is required. 0 means no subdivision, neither fixed nor adaptive. <simplesect kind="post"><para>positive_result: result&gt;=GetFixedSubdivisions()  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetMaxAdaptiveSubdivisions ()</computeroutput> - Return the maximum number of adaptive subdivisions. <simplesect kind="post"><para>valid_result: result==GetMaxSubdivisionLevel()-GetFixedSubdivisions()  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.SetFixedSubdivisions (int level)</computeroutput> - Set the number of fixed subdivisions. See GetFixedSubdivisions() for more explanations. <simplesect kind="pre"><para>positive_level: level&gt;=0 &amp;&amp; level&lt;=GetMaxSubdivisionLevel() </para></simplesect>
+<simplesect kind="post"><para>is_set: GetFixedSubdivisions()==level  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.SetMaxSubdivisionLevel (int level)</computeroutput> - Set the maximum level of subdivision. See GetMaxSubdivisionLevel() for more explanations. <simplesect kind="pre"><para>positive_level: level&gt;=GetFixedSubdivisions() </para></simplesect>
+<simplesect kind="post"><para>is_set: level==GetMaxSubdivisionLevel()  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.SetSubdivisionLevels (int fixed, int maxLevel)</computeroutput> - Set both the number of fixed subdivisions and the maximum level of subdivisions. See GetFixedSubdivisions(), GetMaxSubdivisionLevel() and GetMaxAdaptiveSubdivisions() for more explanations. <simplesect kind="pre"><para>positive_fixed: fixed&gt;=0 </para><simplesectsep/><para>valid_range: fixed&lt;=maxLevel </para></simplesect>
+<simplesect kind="post"><para>fixed_is_set: fixed==GetFixedSubdivisions() </para><simplesectsep/><para>maxLevel_is_set: maxLevel==GetMaxSubdivisionLevel()  </para></simplesect>
+</para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

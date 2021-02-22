@@ -1,0 +1,70 @@
+
+ Usage
+
+Calculates the condition number of a matrix. To compute the
+2-norm condition number of a matrix (ratio of largest to
+smallest singular values), use the syntax
+
+     y = cond(A)
+
+where A is a matrix. If you want to compute the condition
+number in a different norm (e.g., the 1-norm), use the
+second syntax
+
+     y = cond(A,p)
+
+where p is the norm to use when computing the condition
+number. The following choices of p are supported
+
+* p = 1 returns the 1-norm, or the max column sum of A
+* p = 2 returns the 2-norm (largest singular value of A)
+* p = inf returns the infinity norm, or the max row sum of A
+* p = 'fro' returns the Frobenius-norm (vector Euclidean
+  norm, or RMS value)
+
+
+
+ Internals
+
+The condition number is defined as
+ \[ \frac{\|A\|_p}{\|A^{-1}\|_p} \]
+This equation is precisely how the condition number is
+computed for the case p ~= 2. For the p=2 case, the
+condition number can be computed much more efficiently using
+the ratio of the largest and smallest singular values.
+
+
+ Example
+
+The condition number of this matrix is large
+
+  --> A = [1,1;0,1e-15]
+
+  A =
+      1.0000    1.0000
+           0    0.0000
+
+  --> cond(A)
+
+  ans =
+   2.0000e+15
+
+  --> cond(A,1)
+
+  ans =
+   2000000000000002
+
+You can also (for the case p=1 use rcond to calculate an
+estimate of the condition number
+
+  --> 1/rcond(A)
+
+  ans =
+   2.0000e+15
+
+
+* FreeMat_Documentation
+* Array_Generation_and_Manipulations
+* Generated on Thu Jul 25 2013 17:17:13 for FreeMat by
+  doxygen_ 1.8.1.1
+

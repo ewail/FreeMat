@@ -1,0 +1,254 @@
+
+ Usage
+
+vtkMultiBlockPLOT3DReader is a reader object that reads
+PLOT3D formatted files and generates structured grid(s) on
+output. PLOT3D is a computer graphics program designed to
+visualize the grids and solutions of computational fluid
+dynamics. Please see the "PLOT3D User's Manual" available
+from NASA Ames Research Center, Moffett Field CA.
+PLOT3D files consist of a grid file (also known as XYZ
+file), an optional solution file (also known as a Q file),
+and an optional function file that contains user created
+data (currently unsupported). The Q file contains solution
+information as follows: the four parameters free stream mach
+number (Fsmach), angle of attack (Alpha), Reynolds number
+(Re), and total integration time (Time). This information is
+stored in an array called Properties in the FieldData of
+each output (tuple 0: fsmach, tuple 1: alpha, tuple 2: re,
+tuple 3: time). In addition, the solution file contains the
+flow density (scalar), flow momentum (vector), and flow
+energy (scalar).
+The reader can generate additional scalars and vectors (or
+"functions") from this information. To use
+vtkMultiBlockPLOT3DReader, you must specify the particular
+function number for the scalar and vector you want to
+visualize. This implementation of the reader provides the
+following functions. The scalar functions are: -1 - don't
+read or compute any scalars 100 - density 110 - pressure 120
+- temperature 130 - enthalpy 140 - internal energy 144 -
+kinetic energy 153 - velocity magnitude 163 - stagnation
+energy 170 - entropy 184 - swirl.
+The vector functions are: -1 - don't read or compute any
+vectors 200 - velocity 201 - vorticity 202 - momentum 210 -
+pressure gradient.
+(Other functions are described in the PLOT3D spec, but only
+those listed are implemented here.) Note that by default,
+this reader creates the density scalar (100) and momentum
+vector (202) as output. (These are just read in from the
+solution file.) Please note that the validity of computation
+is a function of this class's gas constants (R, Gamma) and
+the equations used. They may not be suitable for your
+computational domain.
+Additionally, you can read other data and associate it as a
+vtkDataArray into the output's point attribute data. Use the
+method AddFunction() to list all the functions that you'd
+like to read. AddFunction() accepts an integer parameter
+that defines the function number.
+To create an instance of class vtkMultiBlockPLOT3DReader,
+simply invoke its constructor as follows
+
+    obj = vtkMultiBlockPLOT3DReader
+
+
+
+ Methods
+
+The class vtkMultiBlockPLOT3DReader has several methods that
+can be used. They are listed below. Note that the
+documentation is translated automatically from the VTK
+sources, and may not be completely intelligible. When in
+doubt, consult the VTK website. In the methods listed below,
+obj is an instance of the vtkMultiBlockPLOT3DReader class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkMultiBlockPLOT3DReader = obj.NewInstance ()
+* vtkMultiBlockPLOT3DReader = obj.SafeDownCast (vtkObject o)
+* obj.SetFileName (string name) - Set/Get the PLOT3D
+  geometry filename.
+* string = obj.GetFileName () - Set/Get the PLOT3D geometry
+  filename.
+* obj.SetXYZFileName (string ) - Set/Get the PLOT3D geometry
+  filename.
+* string = obj.GetXYZFileName () - Set/Get the PLOT3D
+  geometry filename.
+* obj.SetQFileName (string ) - Set/Get the PLOT3D solution
+  filename.
+* string = obj.GetQFileName () - Set/Get the PLOT3D solution
+  filename.
+* int = obj.GetNumberOfBlocks () - This returns the number
+  of outputs this reader will produce. This number is equal
+  to the number of grids in the current file. This method
+  has to be called before getting any output if the number
+  of outputs will be greater than 1 (the first output is
+  always the same). Note that every time this method is
+  invoked, the header file is opened and part of the header
+  is read.
+* int = obj.GetNumberOfGrids () - Is the file to be read
+  written in binary format (as opposed to ascii).
+* obj.SetBinaryFile (int ) - Is the file to be read written
+  in binary format (as opposed to ascii).
+* int = obj.GetBinaryFile () - Is the file to be read
+  written in binary format (as opposed to ascii).
+* obj.BinaryFileOn () - Is the file to be read written in
+  binary format (as opposed to ascii).
+* obj.BinaryFileOff () - Is the file to be read written in
+  binary format (as opposed to ascii).
+* obj.SetMultiGrid (int ) - Does the file to be read contain
+  information about number of grids. In some PLOT3D files,
+  the first value contains the number of grids (even if
+  there is only 1). If reading such a file, set this to
+  true.
+* int = obj.GetMultiGrid () - Does the file to be read
+  contain information about number of grids. In some PLOT3D
+  files, the first value contains the number of grids (even
+  if there is only 1). If reading such a file, set this to
+  true.
+* obj.MultiGridOn () - Does the file to be read contain
+  information about number of grids. In some PLOT3D files,
+  the first value contains the number of grids (even if
+  there is only 1). If reading such a file, set this to
+  true.
+* obj.MultiGridOff () - Does the file to be read contain
+  information about number of grids. In some PLOT3D files,
+  the first value contains the number of grids (even if
+  there is only 1). If reading such a file, set this to
+  true.
+* obj.SetHasByteCount (int ) - Were the arrays written with
+  leading and trailing byte counts ? Usually, files written
+  by a fortran program will contain these byte counts
+  whereas the ones written by C/C++ won't.
+* int = obj.GetHasByteCount () - Were the arrays written
+  with leading and trailing byte counts ? Usually, files
+  written by a fortran program will contain these byte
+  counts whereas the ones written by C/C++ won't.
+* obj.HasByteCountOn () - Were the arrays written with
+  leading and trailing byte counts ? Usually, files written
+  by a fortran program will contain these byte counts
+  whereas the ones written by C/C++ won't.
+* obj.HasByteCountOff () - Were the arrays written with
+  leading and trailing byte counts ? Usually, files written
+  by a fortran program will contain these byte counts
+  whereas the ones written by C/C++ won't.
+* obj.SetIBlanking (int ) - Is there iblanking (point
+  visibility) information in the file. If there is iblanking
+  arrays, these will be read and assigned to the
+  PointVisibility array of the output.
+* int = obj.GetIBlanking () - Is there iblanking (point
+  visibility) information in the file. If there is iblanking
+  arrays, these will be read and assigned to the
+  PointVisibility array of the output.
+* obj.IBlankingOn () - Is there iblanking (point visibility)
+  information in the file. If there is iblanking arrays,
+  these will be read and assigned to the PointVisibility
+  array of the output.
+* obj.IBlankingOff () - Is there iblanking (point
+  visibility) information in the file. If there is iblanking
+  arrays, these will be read and assigned to the
+  PointVisibility array of the output.
+* obj.SetTwoDimensionalGeometry (int ) - If only two-
+  dimensional data was written to the file, turn this on.
+* int = obj.GetTwoDimensionalGeometry () - If only two-
+  dimensional data was written to the file, turn this on.
+* obj.TwoDimensionalGeometryOn () - If only two-dimensional
+  data was written to the file, turn this on.
+* obj.TwoDimensionalGeometryOff () - If only two-dimensional
+  data was written to the file, turn this on.
+* obj.SetForceRead (int ) - Try to read a binary file even
+  if the file length seems to be inconsistent with the
+  header information. Use this with caution, if the file
+  length is not the same as calculated from the header.
+  either the file is corrupt or the settings are wrong.
+* int = obj.GetForceRead () - Try to read a binary file even
+  if the file length seems to be inconsistent with the
+  header information. Use this with caution, if the file
+  length is not the same as calculated from the header.
+  either the file is corrupt or the settings are wrong.
+* obj.ForceReadOn () - Try to read a binary file even if the
+  file length seems to be inconsistent with the header
+  information. Use this with caution, if the file length is
+  not the same as calculated from the header. either the
+  file is corrupt or the settings are wrong.
+* obj.ForceReadOff () - Try to read a binary file even if
+  the file length seems to be inconsistent with the header
+  information. Use this with caution, if the file length is
+  not the same as calculated from the header. either the
+  file is corrupt or the settings are wrong.
+* obj.SetByteOrderToBigEndian () - Set the byte order of the
+  file (remember, more Unix workstations write big endian
+  whereas PCs write little endian). Default is big endian
+  (since most older PLOT3D files were written by
+  workstations).
+* obj.SetByteOrderToLittleEndian () - Set the byte order of
+  the file (remember, more Unix workstations write big
+  endian whereas PCs write little endian). Default is big
+  endian (since most older PLOT3D files were written by
+  workstations).
+* obj.SetByteOrder (int ) - Set the byte order of the file
+  (remember, more Unix workstations write big endian whereas
+  PCs write little endian). Default is big endian (since
+  most older PLOT3D files were written by workstations).
+* int = obj.GetByteOrder () - Set the byte order of the file
+  (remember, more Unix workstations write big endian whereas
+  PCs write little endian). Default is big endian (since
+  most older PLOT3D files were written by workstations).
+* string = obj.GetByteOrderAsString () - Set the byte order
+  of the file (remember, more Unix workstations write big
+  endian whereas PCs write little endian). Default is big
+  endian (since most older PLOT3D files were written by
+  workstations).
+* obj.SetR (double ) - Set/Get the gas constant. Default is
+  1.0.
+* double = obj.GetR () - Set/Get the gas constant. Default
+  is 1.0.
+* obj.SetGamma (double ) - Set/Get the ratio of specific
+  heats. Default is 1.4.
+* double = obj.GetGamma () - Set/Get the ratio of specific
+  heats. Default is 1.4.
+* obj.SetUvinf (double ) - Set/Get the x-component of the
+  free-stream velocity. Default is 1.0.
+* double = obj.GetUvinf () - Set/Get the x-component of the
+  free-stream velocity. Default is 1.0.
+* obj.SetVvinf (double ) - Set/Get the y-component of the
+  free-stream velocity. Default is 1.0.
+* double = obj.GetVvinf () - Set/Get the y-component of the
+  free-stream velocity. Default is 1.0.
+* obj.SetWvinf (double ) - Set/Get the z-component of the
+  free-stream velocity. Default is 1.0.
+* double = obj.GetWvinf () - Set/Get the z-component of the
+  free-stream velocity. Default is 1.0.
+* obj.SetScalarFunctionNumber (int num) - Specify the scalar
+  function to extract. If ==(-1), then no scalar function is
+  extracted.
+* int = obj.GetScalarFunctionNumber () - Specify the scalar
+  function to extract. If ==(-1), then no scalar function is
+  extracted.
+* obj.SetVectorFunctionNumber (int num) - Specify the vector
+  function to extract. If ==(-1), then no vector function is
+  extracted.
+* int = obj.GetVectorFunctionNumber () - Specify the vector
+  function to extract. If ==(-1), then no vector function is
+  extracted.
+* obj.AddFunction (int functionNumber) - Specify additional
+  functions to read. These are placed into the point data as
+  data arrays. Later on they can be used by labeling them as
+  scalars, etc.
+* obj.RemoveFunction (int ) - Specify additional functions
+  to read. These are placed into the point data as data
+  arrays. Later on they can be used by labeling them as
+  scalars, etc.
+* obj.RemoveAllFunctions () - Specify additional functions
+  to read. These are placed into the point data as data
+  arrays. Later on they can be used by labeling them as
+  scalars, etc.
+* int = obj.CanReadBinaryFile (string fname) - Return 1 if
+  the reader can read the given file name. Only meaningful
+  for binary files.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_IO_Classes
+* Generated on Thu Jul 25 2013 17:18:34 for FreeMat by
+  doxygen_ 1.8.1.1
+

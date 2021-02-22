@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkgraphics_vtktessellatorfilter" kind="page">
+    <compoundname>vtkgraphics_vtktessellatorfilter</compoundname>
+    <title>vtkTessellatorFilter</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkgraphics_1sec_vtkgraphics" kindref="member">Visualization Toolkit Graphics Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>This class approximates nonlinear FEM elements with linear simplices.</para><para><bold>Warning</bold>: This class is temporary and will go away at some point after ParaView 1.4.0.</para><para>This filter rifles through all the cells in an input vtkDataSet. It tesselates each cell and uses the vtkStreamingTessellator and vtkDataSetEdgeSubdivisionCriterion classes to generate simplices that approximate the nonlinear mesh using some approximation metric (encoded in the particular vtkDataSetEdgeSubdivisionCriterion::EvaluateEdge implementation). The simplices are placed into the filter&apos;s output vtkDataSet object by the callback routines AddATetrahedron, AddATriangle, and AddALine, which are registered with the triangulator.</para><para>The output mesh will have geometry and any fields specified as attributes in the input mesh&apos;s point data. The attribute&apos;s copy flags are honored, except for normals.</para><para>.SECTION Internals</para><para>The filter&apos;s main member function is RequestData(). This function first calls SetupOutput() which allocates arrays and some temporary variables for the primitive callbacks (OutputTriangle and OutputLine which are called by AddATriangle and AddALine, respectively). Each cell is given an initial tesselation, which results in one or more calls to OutputTetrahedron, OutputTriangle or OutputLine to add elements to the OutputMesh. Finally, Teardown() is called to free the filter&apos;s working space.</para><para>To create an instance of class vtkTessellatorFilter, simply invoke its constructor as follows <verbatim>  obj = vtkTessellatorFilter
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkTessellatorFilter has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkTessellatorFilter class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkTessellatorFilter = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkTessellatorFilter = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetTessellator (vtkStreamingTessellator )</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkStreamingTessellator = obj.GetTessellator ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetSubdivider (vtkDataSetEdgeSubdivisionCriterion )</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkDataSetEdgeSubdivisionCriterion = obj.GetSubdivider ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>long = obj.GetMTime ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetOutputDimension (int )</computeroutput> - Set the dimension of the output tessellation. Cells in dimensions higher than the given value will have their boundaries of dimension <emphasis>OutputDimension</emphasis> tessellated. For example, if <emphasis>OutputDimension</emphasis> is 2, a hexahedron&apos;s quadrilateral faces would be tessellated rather than its interior.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetOutputDimensionMinValue ()</computeroutput> - Set the dimension of the output tessellation. Cells in dimensions higher than the given value will have their boundaries of dimension <emphasis>OutputDimension</emphasis> tessellated. For example, if <emphasis>OutputDimension</emphasis> is 2, a hexahedron&apos;s quadrilateral faces would be tessellated rather than its interior.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetOutputDimensionMaxValue ()</computeroutput> - Set the dimension of the output tessellation. Cells in dimensions higher than the given value will have their boundaries of dimension <emphasis>OutputDimension</emphasis> tessellated. For example, if <emphasis>OutputDimension</emphasis> is 2, a hexahedron&apos;s quadrilateral faces would be tessellated rather than its interior.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetOutputDimension ()</computeroutput> - Set the dimension of the output tessellation. Cells in dimensions higher than the given value will have their boundaries of dimension <emphasis>OutputDimension</emphasis> tessellated. For example, if <emphasis>OutputDimension</emphasis> is 2, a hexahedron&apos;s quadrilateral faces would be tessellated rather than its interior.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetMaximumNumberOfSubdivisions (int num_subdiv_in)</computeroutput> - These are convenience routines for setting properties maintained by the tessellator and subdivider. They are implemented here for ParaView&apos;s sake.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetMaximumNumberOfSubdivisions ()</computeroutput> - These are convenience routines for setting properties maintained by the tessellator and subdivider. They are implemented here for ParaView&apos;s sake.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetChordError (double ce)</computeroutput> - These are convenience routines for setting properties maintained by the tessellator and subdivider. They are implemented here for ParaView&apos;s sake.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetChordError ()</computeroutput> - These are convenience routines for setting properties maintained by the tessellator and subdivider. They are implemented here for ParaView&apos;s sake.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ResetFieldCriteria ()</computeroutput> - These methods are for the ParaView client.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetFieldCriterion (int field, double chord)</computeroutput> - These methods are for the ParaView client.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetMergePoints ()</computeroutput> - The adaptive tessellation will output vertices that are not shared among cells, even where they should be. This can be corrected to some extents with a vtkMergeFilter. By default, the filter is off and vertices will not be shared.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetMergePoints (int )</computeroutput> - The adaptive tessellation will output vertices that are not shared among cells, even where they should be. This can be corrected to some extents with a vtkMergeFilter. By default, the filter is off and vertices will not be shared.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.MergePointsOn ()</computeroutput> - The adaptive tessellation will output vertices that are not shared among cells, even where they should be. This can be corrected to some extents with a vtkMergeFilter. By default, the filter is off and vertices will not be shared.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.MergePointsOff ()</computeroutput> - The adaptive tessellation will output vertices that are not shared among cells, even where they should be. This can be corrected to some extents with a vtkMergeFilter. By default, the filter is off and vertices will not be shared.  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

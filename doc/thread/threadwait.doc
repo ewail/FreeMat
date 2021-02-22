@@ -1,0 +1,48 @@
+/*!
+\page thread_threadwait THREADWAIT Wait on a thread to complete execution
+
+<p>
+Section: \ref sec_thread "FreeMat Threads"
+\section Usage
+The <tt>threadwait</tt> function waits for the given thread to complete
+execution, and stops execution of the current thread (the one calling
+<tt>threadwait</tt>) until the given thread completes.  The syntax for its
+use is 
+\verbatim
+   success = threadwait(handle)
+\endverbatim
+where <tt>handle</tt> is the value returned by <tt>threadnew</tt> and <tt>success</tt>
+is a <tt>logical</tt> vaariable that will be <tt>1</tt> if the wait was successful
+or <tt>0</tt> if the wait times out.  By default, the wait is indefinite.  It
+is better to use the following form of the function
+\verbatim
+   success = threadwait(handle,timeout)
+\endverbatim
+where <tt>timeout</tt> is the amount of time (in milliseconds) for 
+the <tt>threadwait</tt> function to wait before a timeout occurs.  
+If the <tt>threadwait</tt> function succeeds, then the return 
+value is a logical <tt>1</tt>, and if it fails, the return value 
+is a logical <tt>0</tt>.  Note that you can call <tt>threadwait</tt> multiple
+times on a thread, and if the thread is completed, each one
+will succeed.
+\section Example
+Here we lauch the <tt>sleep</tt> function in a thread with a time delay of 
+10 seconds.  This means that the thread function will not complete
+until 10 seconds have elapsed.  When we call <tt>threadwait</tt> on this
+thread with a short timeout, it fails, but not when the timeout
+is long enough to capture the end of the function call.
+
+\if FRAGMENT
+frag_thread_threadwait_000.m
+0
+a = threadnew;
+threadstart(a,'sleep',0,10);  % start a thread that will sleep for 10
+threadwait(a,2000)            % 2 second wait is not long enough
+threadwait(a,10000)           % 10 second wait is long enough
+threadfree(a)
+\endif
+
+
+\verbinclude frag_thread_threadwait_000.m.out 
+
+*/

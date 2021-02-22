@@ -1,0 +1,102 @@
+/*!
+\page vtkrendering_vtkshader vtkShader
+
+<p>
+Section: \ref sec_vtkrendering "Visualization Toolkit Rendering Classes"
+\section Usage
+ vtkShader is a base class for interfacing VTK to hardware shader
+ libraries. vtkShader interprets a vtkXMLDataElement that describes a
+ particular shader. Descendants of this class inherit this functionality and
+ additionally interface to specific shader libraries like NVidia's Cg and
+ OpenGL2.0 (GLSL) to perform operations, on individual shaders.
+ 
+ During each render, the vtkShaderProgram calls Compile(),
+ PassShaderVariables(), Bind() and after the actor has been rendered,
+ calls Unbind(), in that order.
+
+To create an instance of class vtkShader, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkShader
+\endverbatim
+\section Methods
+The class vtkShader has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkShader class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkShader = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkShader = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>int = obj.Compile ()</tt> -  Called to compile the shader code.
+ The subclasses must only compile the code in this method.
+ Returns if the compile was successful.
+ Subclasses should compile the code only if it was not
+ already compiled.
+ </LI>
+<LI>  <tt>obj.PassShaderVariables (vtkActor actor, vtkRenderer ren)</tt> -  Called to pass VTK actor/property/light values and other
+ Shader variables over to the shader. This is called by the ShaderProgram
+ during each render.
+ </LI>
+<LI>  <tt>obj.Bind ()</tt> -  Called to unbind the shader. As with Bind(), this is only applicable
+ to Cg.
+ </LI>
+<LI>  <tt>obj.Unbind ()</tt> -  Release any graphics resources that are being consumed by this actor.
+ The parameter window could be used to determine which graphic
+ resources to release.
+ </LI>
+<LI>  <tt>obj.ReleaseGraphicsResources (vtkWindow )</tt> -  Get/Set the XMLShader representation for this shader.
+ A shader is not valid without a XMLShader.
+ </LI>
+<LI>  <tt>obj.SetXMLShader (vtkXMLShader )</tt> -  Get/Set the XMLShader representation for this shader.
+ A shader is not valid without a XMLShader.
+ </LI>
+<LI>  <tt>vtkXMLShader = obj.GetXMLShader ()</tt> -  Get/Set the XMLShader representation for this shader.
+ A shader is not valid without a XMLShader.
+ </LI>
+<LI>  <tt>int = obj.HasShaderVariable (string name)</tt> -  Indicates if a variable by the given name exists.
+ </LI>
+<LI>  <tt>obj.AddShaderVariable (string name, int num_of_elements, int values)</tt> -  Methods to add shader variables to this shader.
+ The shader variable type must match with that declared in
+ the Material xml, otherwise, the variable is not made available 
+ to the shader.
+ </LI>
+<LI>  <tt>obj.AddShaderVariable (string name, int num_of_elements, float values)</tt> -  Methods to add shader variables to this shader.
+ The shader variable type must match with that declared in
+ the Material xml, otherwise, the variable is not made available 
+ to the shader.
+ </LI>
+<LI>  <tt>obj.AddShaderVariable (string name, int num_of_elements, double values)</tt> -  Methods to add shader variables to this shader.
+ The shader variable type must match with that declared in
+ the Material xml, otherwise, the variable is not made available 
+ to the shader.
+ </LI>
+<LI>  <tt>int = obj.GetShaderVariableSize (string name)</tt> -  Get number of elements in a Shader variable. Return 0 if
+ failed to find the shader variable.
+ </LI>
+<LI>  <tt>int = obj.GetShaderVariableType (string name)</tt> -  Returns the type of a Shader variable with the given name.
+ Return 0 on error.
+ </LI>
+<LI>  <tt>int = obj.GetShaderVariable (string name, int values)</tt> -  Methods to get the value of shader variables with the given name.
+ Values must be at least the size of the shader variable (obtained
+ by GetShaderVariableSize(). Returns if the operation was successful.
+ </LI>
+<LI>  <tt>int = obj.GetShaderVariable (string name, float values)</tt> -  Methods to get the value of shader variables with the given name.
+ Values must be at least the size of the shader variable (obtained
+ by GetShaderVariableSize(). Returns if the operation was successful.
+ </LI>
+<LI>  <tt>int = obj.GetShaderVariable (string name, double values)</tt> -  Methods to get the value of shader variables with the given name.
+ Values must be at least the size of the shader variable (obtained
+ by GetShaderVariableSize(). Returns if the operation was successful.
+ </LI>
+<LI>  <tt>int = obj.GetScope ()</tt> -  Returns the scope of the shader i.e. if it's a vertex or fragment shader.
+ (vtkXMLShader::SCOPE_VERTEX or vtkXMLShader::SCOPE_FRAGMENT).
+ </LI>
+</UL>
+*/

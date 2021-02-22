@@ -1,0 +1,50 @@
+
+ Usage
+
+The diary function controls the creation of a log file that
+duplicates the text that would normally appear on the
+console. The simplest syntax for the command is simply:
+
+     diary
+
+which toggles the current state of the diary command. You
+can also explicitly set the state of the diary command via
+the syntax
+
+     diary off
+
+or
+
+     diary on
+
+To specify a filename for the log (other than the default of
+diary), you can use the form:
+
+     diary filename
+
+or
+
+     diary('filename')
+
+which activates the diary with an output filename of
+filename. Note that the diary command is thread specific,
+but that the output is appended to a given file. That means
+that if you call diary with the same filename on multiple
+threads, their outputs will be intermingled in the log file
+(just as on the console). Because the diary state is tied to
+individual threads, you cannot retrieve the current diary
+state using the get(0,'Diary') syntax from MATLAB. Instead,
+you must call the diary function with no inputs and one
+output:
+
+     state = diary
+
+which returns a logical 1 if the output of the current
+thread is currently going to a diary, and a logical 0 if
+not.
+
+* FreeMat_Documentation
+* FreeMat_Functions
+* Generated on Thu Jul 25 2013 17:17:14 for FreeMat by
+  doxygen_ 1.8.1.1
+

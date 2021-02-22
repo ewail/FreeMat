@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkwidgets_vtkborderwidget" kind="page">
+    <compoundname>vtkwidgets_vtkborderwidget</compoundname>
+    <title>vtkBorderWidget</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkwidgets_1sec_vtkwidgets" kindref="member">Visualization Toolkit Widget Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>This class is a superclass for 2D widgets that may require a rectangular border. Besides drawing a border, the widget provides methods for resizing and moving the rectangular region (and associated border). The widget provides methods and internal data members so that subclasses can take advantage of this widgets capabilities, requiring only that the subclass defines a &quot;representation&quot;, i.e., some combination of props or actors that can be managed in the 2D rectangular region.</para><para>The class defines basic positioning functionality, including the ability to size the widget with locked x/y proportions. The area within the border may be made &quot;selectable&quot; as well, meaning that a selection event interior to the widget invokes a virtual SelectRegion() method, which can be used to pick objects or otherwise manipulate data interior to the widget.</para><para>.SECTION Event Bindings By default, the widget responds to the following VTK events (i.e., it watches the vtkRenderWindowInteractor for these events): <preformatted>
+ On the boundary of the widget:
+   LeftButtonPressEvent - select boundary
+   LeftButtonReleaseEvent - deselect boundary
+   MouseMoveEvent - move/resize widget depending on which portion of the
+                    boundary was selected.
+ On the interior of the widget:
+   LeftButtonPressEvent - invoke SelectButton() callback (if the ivar
+                          Selectable is on)
+ Anywhere on the widget:
+   MiddleButtonPressEvent - move the widget
+ </preformatted></para><para>Note that the event bindings described above can be changed using this class&apos;s vtkWidgetEventTranslator. This class translates VTK events into the vtkBorderWidget&apos;s widget events: <preformatted>
+   vtkWidgetEvent::Select <ndash/> some part of the widget has been selected
+   vtkWidgetEvent::EndSelect <ndash/> the selection process has completed
+   vtkWidgetEvent::Translate <ndash/> the widget is to be translated
+   vtkWidgetEvent::Move <ndash/> a request for slider motion has been invoked
+ </preformatted></para><para>In turn, when these widget events are processed, this widget invokes the following VTK events on itself (which observers can listen for): <preformatted>
+   vtkCommand::StartInteractionEvent (on vtkWidgetEvent::Select)
+   vtkCommand::EndInteractionEvent (on vtkWidgetEvent::EndSelect)
+   vtkCommand::InteractionEvent (on vtkWidgetEvent::Move)
+ </preformatted></para><para>To create an instance of class vtkBorderWidget, simply invoke its constructor as follows <verbatim>  obj = vtkBorderWidget
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkBorderWidget has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkBorderWidget class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkBorderWidget = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkBorderWidget = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetSelectable (int )</computeroutput> - Indicate whether the interior region of the widget can be selected or not. If not, then events (such as left mouse down) allow the user to &quot;move&quot; the widget, and no selection is possible. Otherwise the SelectRegion() method is invoked.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetSelectable ()</computeroutput> - Indicate whether the interior region of the widget can be selected or not. If not, then events (such as left mouse down) allow the user to &quot;move&quot; the widget, and no selection is possible. Otherwise the SelectRegion() method is invoked.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SelectableOn ()</computeroutput> - Indicate whether the interior region of the widget can be selected or not. If not, then events (such as left mouse down) allow the user to &quot;move&quot; the widget, and no selection is possible. Otherwise the SelectRegion() method is invoked.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SelectableOff ()</computeroutput> - Indicate whether the interior region of the widget can be selected or not. If not, then events (such as left mouse down) allow the user to &quot;move&quot; the widget, and no selection is possible. Otherwise the SelectRegion() method is invoked.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetResizable (int )</computeroutput> - Indicate whether the boundary of the widget can be resized. If not, the cursor will not change to &quot;resize&quot; type when mouse over the boundary.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetResizable ()</computeroutput> - Indicate whether the boundary of the widget can be resized. If not, the cursor will not change to &quot;resize&quot; type when mouse over the boundary.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ResizableOn ()</computeroutput> - Indicate whether the boundary of the widget can be resized. If not, the cursor will not change to &quot;resize&quot; type when mouse over the boundary.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ResizableOff ()</computeroutput> - Indicate whether the boundary of the widget can be resized. If not, the cursor will not change to &quot;resize&quot; type when mouse over the boundary.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetRepresentation (vtkBorderRepresentation r)</computeroutput> - Create the default widget representation if one is not set.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.CreateDefaultRepresentation ()</computeroutput> - Create the default widget representation if one is not set.  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

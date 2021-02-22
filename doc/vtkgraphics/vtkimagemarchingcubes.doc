@@ -1,0 +1,115 @@
+/*!
+\page vtkgraphics_vtkimagemarchingcubes vtkImageMarchingCubes
+
+<p>
+Section: \ref sec_vtkgraphics "Visualization Toolkit Graphics Classes"
+\section Usage
+ vtkImageMarchingCubes is a filter that takes as input images (e.g., 3D
+ image region) and generates on output one or more isosurfaces.
+ One or more contour values must be specified to generate the isosurfaces.
+ Alternatively, you can specify a min/max scalar range and the number of
+ contours to generate a series of evenly spaced contour values.
+ This filter can stream, so that the entire volume need not be loaded at
+ once.  Streaming is controlled using the instance variable
+ InputMemoryLimit, which has units KBytes.
+
+To create an instance of class vtkImageMarchingCubes, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkImageMarchingCubes
+\endverbatim
+\section Methods
+The class vtkImageMarchingCubes has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkImageMarchingCubes class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkImageMarchingCubes = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkImageMarchingCubes = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetValue (int i, double value)</tt> -  Methods to set contour values
+ </LI>
+<LI>  <tt>double = obj.GetValue (int i)</tt> -  Methods to set contour values
+ </LI>
+<LI>  <tt>obj.GetValues (double contourValues)</tt> -  Methods to set contour values
+ </LI>
+<LI>  <tt>obj.SetNumberOfContours (int number)</tt> -  Methods to set contour values
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfContours ()</tt> -  Methods to set contour values
+ </LI>
+<LI>  <tt>obj.GenerateValues (int numContours, double range[2])</tt> -  Methods to set contour values
+ </LI>
+<LI>  <tt>obj.GenerateValues (int numContours, double rangeStart, double rangeEnd)</tt> -  Methods to set contour values
+ </LI>
+<LI>  <tt>long = obj.GetMTime ()</tt> -  Because we delegate to vtkContourValues & refer to vtkImplicitFunction
+ </LI>
+<LI>  <tt>obj.SetComputeScalars (int )</tt> -  Set/Get the computation of scalars.
+ </LI>
+<LI>  <tt>int = obj.GetComputeScalars ()</tt> -  Set/Get the computation of scalars.
+ </LI>
+<LI>  <tt>obj.ComputeScalarsOn ()</tt> -  Set/Get the computation of scalars.
+ </LI>
+<LI>  <tt>obj.ComputeScalarsOff ()</tt> -  Set/Get the computation of scalars.
+ </LI>
+<LI>  <tt>obj.SetComputeNormals (int )</tt> -  Set/Get the computation of normals. Normal computation is fairly expensive
+ in both time and storage. If the output data will be processed by filters
+ that modify topology or geometry, it may be wise to turn Normals and Gradients off.
+ </LI>
+<LI>  <tt>int = obj.GetComputeNormals ()</tt> -  Set/Get the computation of normals. Normal computation is fairly expensive
+ in both time and storage. If the output data will be processed by filters
+ that modify topology or geometry, it may be wise to turn Normals and Gradients off.
+ </LI>
+<LI>  <tt>obj.ComputeNormalsOn ()</tt> -  Set/Get the computation of normals. Normal computation is fairly expensive
+ in both time and storage. If the output data will be processed by filters
+ that modify topology or geometry, it may be wise to turn Normals and Gradients off.
+ </LI>
+<LI>  <tt>obj.ComputeNormalsOff ()</tt> -  Set/Get the computation of normals. Normal computation is fairly expensive
+ in both time and storage. If the output data will be processed by filters
+ that modify topology or geometry, it may be wise to turn Normals and Gradients off.
+ </LI>
+<LI>  <tt>obj.SetComputeGradients (int )</tt> -  Set/Get the computation of gradients. Gradient computation is fairly expensive
+ in both time and storage. Note that if ComputeNormals is on, gradients will
+ have to be calculated, but will not be stored in the output dataset.
+ If the output data will be processed by filters that modify topology or
+ geometry, it may be wise to turn Normals and Gradients off.
+ </LI>
+<LI>  <tt>int = obj.GetComputeGradients ()</tt> -  Set/Get the computation of gradients. Gradient computation is fairly expensive
+ in both time and storage. Note that if ComputeNormals is on, gradients will
+ have to be calculated, but will not be stored in the output dataset.
+ If the output data will be processed by filters that modify topology or
+ geometry, it may be wise to turn Normals and Gradients off.
+ </LI>
+<LI>  <tt>obj.ComputeGradientsOn ()</tt> -  Set/Get the computation of gradients. Gradient computation is fairly expensive
+ in both time and storage. Note that if ComputeNormals is on, gradients will
+ have to be calculated, but will not be stored in the output dataset.
+ If the output data will be processed by filters that modify topology or
+ geometry, it may be wise to turn Normals and Gradients off.
+ </LI>
+<LI>  <tt>obj.ComputeGradientsOff ()</tt> -  Set/Get the computation of gradients. Gradient computation is fairly expensive
+ in both time and storage. Note that if ComputeNormals is on, gradients will
+ have to be calculated, but will not be stored in the output dataset.
+ If the output data will be processed by filters that modify topology or
+ geometry, it may be wise to turn Normals and Gradients off.
+ </LI>
+<LI>  <tt>int = obj.GetLocatorPoint (int cellX, int cellY, int edge)</tt>
+ </LI>
+<LI>  <tt>obj.AddLocatorPoint (int cellX, int cellY, int edge, int ptId)</tt>
+ </LI>
+<LI>  <tt>obj.IncrementLocatorZ ()</tt>
+ </LI>
+<LI>  <tt>obj.SetInputMemoryLimit (int )</tt> -  The InputMemoryLimit determines the chunk size (the number of slices
+ requested at each iteration).  The units of this limit is KiloBytes.
+ For now, only the Z axis is split.
+ </LI>
+<LI>  <tt>int = obj.GetInputMemoryLimit ()</tt> -  The InputMemoryLimit determines the chunk size (the number of slices
+ requested at each iteration).  The units of this limit is KiloBytes.
+ For now, only the Z axis is split.
+ </LI>
+</UL>
+*/

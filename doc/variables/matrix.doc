@@ -1,0 +1,104 @@
+/*!
+\page variables_matrix MATRIX Matrix Definitions
+
+<p>
+Section: \ref sec_variables "Variables and Arrays"
+\section Usage
+The matrix is the basic datatype of FreeMat.  Matrices can be
+defined using the following syntax
+\verbatim
+  A = [row_def1;row_def2;...,row_defN]
+\endverbatim
+where each row consists of one or more elements, seperated by
+commas
+\verbatim
+  row_defi = element_i1,element_i2,...,element_iM
+\endverbatim
+Each element can either be a scalar value or another matrix,
+provided that the resulting matrix definition makes sense.
+In general this means that all of the elements belonging
+to a row have the same number of rows themselves, and that
+all of the row definitions have the same number of columns.
+Matrices are actually special cases of N-dimensional arrays
+where <tt>N<=2</tt>.  Higher dimensional arrays cannot be constructed
+using the bracket notation described above.  The type of a
+matrix defined in this way (using the bracket notation) is
+determined by examining the types of the elements.  The resulting
+type is chosen so no information is lost on any of the elements
+(or equivalently, by choosing the highest order type from those
+present in the elements).
+\section Examples
+Here is an example of a matrix of <tt>int32</tt> elements (note that
+untyped integer constants default to type <tt>int32</tt>).
+
+\if FRAGMENT
+frag_variables_matrix_000.m
+0
+A = [1,2;5,8]
+\endif
+
+
+\verbinclude frag_variables_matrix_000.m.out 
+
+Now we define a new matrix by adding a column to the right of
+<tt>A</tt>, and using float constants.
+
+\if FRAGMENT
+frag_variables_matrix_001.m
+0
+B = [A,[3.2f;5.1f]]
+\endif
+
+
+\verbinclude frag_variables_matrix_001.m.out 
+
+Next, we add extend <tt>B</tt> by adding a row at the bottom.  Note
+how the use of an untyped floating point constant forces the
+result to be of type <tt>double</tt>
+
+\if FRAGMENT
+frag_variables_matrix_002.m
+0
+C = [B;5.2,1.0,0.0]
+\endif
+
+
+\verbinclude frag_variables_matrix_002.m.out 
+
+If we instead add a row of <tt>complex</tt> values (recall that <tt>i</tt> is
+a <tt>complex</tt> constant, not a <tt>dcomplex</tt> constant)
+
+\if FRAGMENT
+frag_variables_matrix_003.m
+0
+D = [B;2.0f+3.0f*i,i,0.0f]
+\endif
+
+
+\verbinclude frag_variables_matrix_003.m.out 
+
+Likewise, but using <tt>dcomplex</tt> constants
+
+\if FRAGMENT
+frag_variables_matrix_004.m
+0
+E = [B;2.0+3.0*i,i,0.0]
+\endif
+
+
+\verbinclude frag_variables_matrix_004.m.out 
+
+Finally, in FreeMat, you can construct matrices with strings
+as contents, but you have to make sure that if the matrix has
+more than one row, that all the strings have the same length.
+
+\if FRAGMENT
+frag_variables_matrix_005.m
+0
+F = ['hello';'there']
+\endif
+
+
+\verbinclude frag_variables_matrix_005.m.out 
+
+*/

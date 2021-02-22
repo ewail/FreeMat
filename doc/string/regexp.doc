@@ -1,0 +1,108 @@
+/*!
+\page string_regexp REGEXP Regular Expression Matching Function
+
+<p>
+Section: \ref sec_string "String Functions"
+\section Usage
+Matches regular expressions in the provided string.  This function is
+complicated, and compatibility with MATLABs syntax is not perfect.  The
+syntax for its use is
+\verbatim
+  regexp('str','expr')
+\endverbatim
+which returns a row vector containing the starting index of each substring
+of <tt>str</tt> that matches the regular expression described by <tt>expr</tt>.  The
+second form of <tt>regexp</tt> returns six outputs in the following order:
+\verbatim
+  [start stop tokenExtents match tokens names] = regexp('str','expr')
+\endverbatim
+where the meaning of each of the outputs is defined below.
+<UL>
+<LI>  <tt>start</tt> is a row vector containing the starting index of each 
+substring that matches the regular expression.
+ </LI>
+<LI>  <tt>stop</tt> is a row vector containing the ending index of each 
+substring that matches the regular expression.
+ </LI>
+<LI>  <tt>tokenExtents</tt> is a cell array containing the starting and ending
+indices of each substring that matches the <tt>tokens</tt> in the regular
+expression.  A token is a captured part of the regular expression.
+If the <tt>'once'</tt> mode is used, then this output is a <tt>double</tt> array.
+ </LI>
+<LI>  <tt>match</tt> is a cell array containing the text for each substring
+that matches the regular expression.  In <tt>'once'</tt> mode, this is a 
+string.
+ </LI>
+<LI>  <tt>tokens</tt> is a cell array of cell arrays of strings that correspond
+to the tokens in the regular expression.  In <tt>'once'</tt> mode, this is a
+cell array of strings.
+ </LI>
+<LI>  <tt>named</tt> is a structure array containing the named tokens captured
+in a regular expression. Each named token is assigned a field in the resulting
+structure array, and each element of the array corresponds to a different
+match.
+ </LI>
+</UL>
+If you want only some of the the outputs,  you can use the 
+following variant of <tt>regexp</tt>:
+\verbatim
+  [o1 o2 ...] = regexp('str','expr', 'p1', 'p2', ...)
+\endverbatim
+where <tt>p1</tt> etc. are the names of the outputs (and the order we want
+the outputs in).  As a final variant, you can supply some mode 
+flags to <tt>regexp</tt>
+\verbatim
+  [o1 o2 ...] = regexp('str','expr', p1, p2, ..., 'mode1', 'mode2')
+\endverbatim
+where acceptable <tt>mode</tt> flags are:
+<UL>
+<LI>  <tt>'once'</tt> - only the first match is returned.
+ </LI>
+<LI>  <tt>'matchcase'</tt> - letter case must match (selected by default for <tt>regexp</tt>)
+ </LI>
+<LI>  <tt>'ignorecase'</tt> - letter case is ignored (selected by default for <tt>regexpi</tt>)
+ </LI>
+<LI>  <tt>'dotall'</tt> - the <tt>'.'</tt> operator matches any character (default)
+ </LI>
+<LI>  <tt>'dotexceptnewline'</tt> - the <tt>'.'</tt> operator does not match the newline character
+ </LI>
+<LI>  <tt>'stringanchors'</tt> - the <tt>^</tt> and <tt>$</tt> operators match at the beginning and 
+end (respectively) of a string.
+ </LI>
+<LI>  <tt>'lineanchors'</tt> - the <tt>^</tt> and <tt>$</tt> operators match at the beginning and
+end (respectively) of a line.
+ </LI>
+<LI>  <tt>'literalspacing'</tt> - the space characters and comment characters <tt>#</tt> are matched
+as literals, just like any other ordinary character (default).
+ </LI>
+<LI>  <tt>'freespacing'</tt> - all spaces and comments are ignored in the regular expression.
+You must use '\ ' and '\#' to match spaces and comment characters, respectively.
+ </LI>
+</UL>
+Note the following behavior differences between MATLABs regexp and FreeMats:
+<UL>
+<LI>  If you have an old version of <tt>pcre</tt> installed, then named tokens must use the
+older <tt><?P\<name\></tt> syntax, instead of the new <tt><?\<name\></tt> syntax.  
+ </LI>
+<LI>  The <tt>pcre</tt> library is pickier about named tokens and their appearance in 
+expressions.  So, for example, the regexp from the MATLAB 
+manual <tt>'(?\<first\>\\w+)\\s+(?\<last\>\\w+)</tt>(?\<last\>\\w+),\\s+(?\<first\>\\w+)'|
+does not work correctly (as of this writing) because the same named 
+tokens appear multiple
+times.  The workaround is to assign different names to each token, and then collapse
+the results later.
+ </LI>
+</UL>
+\section Example
+Some examples of using the <tt>regexp</tt> function
+
+\if FRAGMENT
+frag_string_regexp_000.m
+0
+[start,stop,tokenExtents,match,tokens,named] = regexp('quick down town zoo','(.)own')
+\endif
+
+
+\verbinclude frag_string_regexp_000.m.out 
+
+*/

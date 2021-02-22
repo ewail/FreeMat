@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="transforms_fft" kind="page">
+    <compoundname>transforms_fft</compoundname>
+    <title>FFT (Inverse) Fast Fourier Transform Function</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_transforms_1sec_transforms" kindref="member">Transforms/Decompositions</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>Computes the Discrete Fourier Transform (DFT) of a vector using the Fast Fourier Transform technique. The general syntax for its use is <verbatim>  y = fft(x,n,d)
+</verbatim> where <computeroutput>x</computeroutput> is an <computeroutput>n</computeroutput>-dimensional array of numerical type. Integer types are promoted to the <computeroutput>double</computeroutput> type prior to calculation of the DFT. The argument <computeroutput>n</computeroutput> is the length of the FFT, and <computeroutput>d</computeroutput> is the dimension along which to take the DFT. If |n| is larger than the length of <computeroutput>x</computeroutput> along dimension <computeroutput>d</computeroutput>, then <computeroutput>x</computeroutput> is zero-padded (by appending zeros) prior to calculation of the DFT. If <computeroutput>n</computeroutput> is smaller than the length of <computeroutput>x</computeroutput> along the given dimension, then <computeroutput>x</computeroutput> is truncated (by removing elements at the end) to length <computeroutput>n</computeroutput>.</para><para>If <computeroutput>d</computeroutput> is omitted, then the DFT is taken along the first non-singleton dimension of <computeroutput>x</computeroutput>. If <computeroutput>n</computeroutput> is omitted, then the DFT length is chosen to match of the length of <computeroutput>x</computeroutput> along dimension <computeroutput>d</computeroutput>.</para><para>Note that FFT support on Linux builds requires availability of the FFTW libraries at compile time. On Windows and Mac OS X, single and double precision FFTs are available by default. </para></sect1>
+<sect1 id="transforms_svd_1Function">
+<title>Internals</title>
+<para>The output is computed via <formula id="157">\[ y(m_1,\ldots,m_{d-1},l,m_{d+1},\ldots,m_{p}) = \sum_{k=1}^{n} x(m_1,\ldots,m_{d-1},k,m_{d+1},\ldots,m_{p}) e^{-\frac{2\pi(k-1)l}{n}}. \]</formula></para><para>For the inverse DFT, the calculation is similar, and the arguments have the same meanings as the DFT: <formula id="158">\[ y(m_1,\ldots,m_{d-1},l,m_{d+1},\ldots,m_{p}) = \frac{1}{n} \sum_{k=1}^{n} x(m_1,\ldots,m_{d-1},k,m_{d+1},\ldots,m_{p}) e^{\frac{2\pi(k-1)l}{n}}. \]</formula> The FFT is computed using the FFTPack library, available from netlib at <computeroutput><ulink url="http://www.netlib.org">http://www.netlib.org</ulink></computeroutput>. Generally speaking, the computational cost for a FFT is (in worst case) <computeroutput>O(n^2)</computeroutput>. However, if <computeroutput>n</computeroutput> is composite, and can be factored as <formula id="159">\[ n = \prod_{k=1}^{p} m_k, \]</formula> then the DFT can be computed in <formula id="160">\[ O(n \sum_{k=1}^{p} m_k) \]</formula> operations. If <computeroutput>n</computeroutput> is a power of 2, then the FFT can be calculated in <computeroutput>O(n log_2 n)</computeroutput>. The calculations for the inverse FFT are identical. </para></sect1>
+<sect1 id="variables_struct_1Example">
+<title>Example</title>
+<para>The following piece of code plots the FFT for a sinusoidal signal:</para><para><verbatim>--&gt; t = linspace(0,2*pi,128);
+--&gt; x = cos(15*t);
+--&gt; y = fft(x);
+--&gt; plot(t,abs(y));
+</verbatim></para><para>The resulting plot is: <image type="html" name="fft1.png"></image>
+ <image type="latex" name="fft1" width="12cm">fft1</image>
+</para><para>The FFT can also be taken along different dimensions, and with padding and/or truncation. The following example demonstrates the Fourier Transform being computed along each column, and then along each row.</para><para><verbatim>--&gt; A = [2,5;3,6]
+
+A = 
+ 2 5 
+ 3 6 
+
+--&gt; real(fft(A,[],1))
+
+ans = 
+  5 11 
+ -1 -1 
+
+--&gt; real(fft(A,[],2))
+
+ans = 
+  7 -3 
+  9 -3 
+</verbatim></para><para>Fourier transforms can also be padded using the <computeroutput>n</computeroutput> argument. This pads the signal with zeros prior to taking the Fourier transform. Zero padding in the time domain results in frequency interpolation. The following example demonstrates the FFT of a pulse (consisting of 10 ones) with (red line) and without (green circles) padding.</para><para><verbatim>--&gt; delta(1:10) = 1;
+--&gt; plot((0:255)/256*pi*2,real(fft(delta,256)),&apos;r-&apos;);
+--&gt; hold on
+--&gt; plot((0:9)/10*pi*2,real(fft(delta)),&apos;go&apos;);
+</verbatim></para><para>The resulting plot is: <image type="html" name="fft2.png"></image>
+ <image type="latex" name="fft2" width="12cm">fft2</image>
+ </para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

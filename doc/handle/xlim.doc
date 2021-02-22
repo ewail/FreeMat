@@ -1,0 +1,79 @@
+/*!
+\page handle_xlim XLIM Adjust X Axis limits of plot
+
+<p>
+Section: \ref sec_handle "Handle-Based Graphics"
+\section Usage
+There are several ways to use <tt>xlim</tt> to adjust the X axis limits of
+a plot.  The various syntaxes are
+\verbatim
+   xlim
+   xlim([lo,hi])   
+   xlim('auto')
+   xlim('manual')
+   xlim('mode')
+   xlim(handle,...)
+\endverbatim
+The first form (without arguments), returns a 2-vector containing the
+current limits.  The second form sets the limits on the plot to <tt>[lo,hi]</tt>.
+The third and fourth form set the mode for the limit to <tt>auto</tt> and <tt>manual</tt>
+respectively.  In <tt>auto</tt> mode, FreeMat chooses the range for the axis 
+automatically.  The <tt>xlim('mode')</tt> form returns the current mode for the axis
+(either <tt>'auto'</tt> or <tt>'manual'</tt>).  Finally, you can specify the handle of an
+axis to manipulate instead of using the current one.
+
+As an additional feature, you can now specify <tt>inf</tt> for a limit, and
+FreeMat will take that limit from the automatic set.  So, for example 
+<tt>xlim([10,inf])</tt> will set the minimum for the x axis, but use the
+automatic value for the maximum.
+\section Example
+
+\if FRAGMENT
+frag_handle_xlim_000.m
+0
+x = linspace(-1,1);
+y = sin(2*pi*x);
+plot(x,y,'r-');
+xlim  % what are the current limits?
+mprint xlim1
+\endif
+
+
+\verbinclude frag_handle_xlim_000.m.out 
+
+which results in
+\image html xlim1.png
+\image latex xlim1.eps "xlim1" width=12cm
+Next, we zoom in on the plot using the <tt>xlim</tt> function
+
+\if FRAGMENT
+frag_handle_xlim_001.m
+0
+plot(x,y,'r-')
+xlim([-0.2,0.2])
+mprint xlim2
+\endif
+
+
+\verbinclude frag_handle_xlim_001.m.out 
+
+which results in
+\image html xlim2.png
+\image latex xlim2.eps "xlim2" width=12cm
+To demonstrate the infinite limits feature.  Consider the following
+
+\if FRAGMENT
+frag_handle_xlim_002.m
+0
+plot(x,y,'r-');
+xlim([0,inf])
+mprint xlim3
+\endif
+
+
+\verbinclude frag_handle_xlim_002.m.out 
+
+which results in 
+\image html xlim3.png
+\image latex xlim3.eps "xlim3" width=12cm
+*/

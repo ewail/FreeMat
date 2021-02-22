@@ -1,0 +1,79 @@
+/*!
+\page handle_ylim YLIM Adjust Y Axis limits of plot
+
+<p>
+Section: \ref sec_handle "Handle-Based Graphics"
+\section Usage
+There are several ways to use <tt>ylim</tt> to adjust the Y axis limits of
+a plot.  The various syntaxes are
+\verbatim
+   ylim
+   ylim([lo,hi])   
+   ylim('auto')
+   ylim('manual')
+   ylim('mode')
+   ylim(handle,...)
+\endverbatim
+The first form (without arguments), returns a 2-vector containing the
+current limits.  The second form sets the limits on the plot to <tt>[lo,hi]</tt>.
+The third and fourth form set the mode for the limit to <tt>auto</tt> and <tt>manual</tt>
+respectively.  In <tt>auto</tt> mode, FreeMat chooses the range for the axis 
+automatically.  The <tt>ylim('mode')</tt> form returns the current mode for the axis
+(either <tt>'auto'</tt> or <tt>'manual'</tt>).  Finally, you can specify the handle of an
+axis to manipulate instead of using the current one.
+
+As an additional feature, you can now specify <tt>inf</tt> for a limit, and
+FreeMat will take that limit from the automatic set.  So, for example 
+<tt>ylim([10,inf])</tt> will set the minimum for the y axis, but use the
+automatic value for the maximum.
+\section Example
+
+\if FRAGMENT
+frag_handle_ylim_000.m
+0
+x = linspace(-1,1);
+y = sin(2*pi*x);
+plot(x,y,'r-');
+ylim  % what are the current limits?
+mprint ylim1
+\endif
+
+
+\verbinclude frag_handle_ylim_000.m.out 
+
+which results in
+\image html ylim1.png
+\image latex ylim1.eps "ylim1" width=12cm
+Next, we zoom in on the plot using the <tt>ylim</tt> function
+
+\if FRAGMENT
+frag_handle_ylim_001.m
+0
+plot(x,y,'r-')
+ylim([-0.2,0.2])
+mprint ylim2
+\endif
+
+
+\verbinclude frag_handle_ylim_001.m.out 
+
+which results in
+\image html ylim2.png
+\image latex ylim2.eps "ylim2" width=12cm
+To demonstrate the infinite limits feature.  Consider the following
+
+\if FRAGMENT
+frag_handle_ylim_002.m
+0
+plot(x,y,'r-');
+ylim([0,inf])
+mprint ylim3
+\endif
+
+
+\verbinclude frag_handle_ylim_002.m.out 
+
+which results in 
+\image html ylim3.png
+\image latex ylim3.eps "ylim3" width=12cm
+*/

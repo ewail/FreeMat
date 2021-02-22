@@ -1,0 +1,65 @@
+
+ Usage
+
+Generates random variables with a gamma distribution. The
+general syntax for its use is
+
+     y = randgamma(a,r),
+
+where a and r are vectors describing the parameters of the
+gamma distribution. Roughly speaking, if a is the mean time
+between changes of a Poisson random process, and we wait for
+the r change, the resulting wait time is Gamma distributed
+with parameters a and r.
+
+
+ Internals
+
+The Gamma distribution arises in Poisson random processes.
+It represents the waiting time to the occurance of the r-th
+event in a process with mean time a between events. The
+probability distribution of a Gamma random variable is
+ \[ P(x) = \frac{a^r x^{r-1} e^{-ax}}{\Gamma(r)}. \]
+Note also that for integer values of r that a Gamma random
+variable is effectively the sum of r exponential random
+variables with parameter a.
+
+
+ Example
+
+Here we use the randgamma function to generate Gamma-
+distributed random variables, and then generate them again
+using the randexp function.
+
+  --> randgamma(1,15*ones(1,9))
+
+  ans =
+
+   Columns 1 to 7
+
+     10.0227   12.4783   18.0388   21.7056   14.1249
+  15.9260   22.0177
+
+   Columns 8 to 9
+
+     15.9170   24.3781
+
+  --> sum(randexp(ones(15,9)))
+
+  ans =
+
+   Columns 1 to 7
+
+     14.5031   12.8908   10.5201   16.9976    9.8463
+  12.7479   13.6879
+
+   Columns 8 to 9
+
+     21.7005   11.4172
+
+
+* FreeMat_Documentation
+* Random_Number_Generation
+* Generated on Thu Jul 25 2013 17:17:46 for FreeMat by
+  doxygen_ 1.8.1.1
+

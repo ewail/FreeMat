@@ -1,0 +1,49 @@
+/*!
+\page io_dlmread DLMREAD Read ASCII-delimited File
+
+<p>
+Section: \ref sec_io "Input/Ouput Functions"
+\section Usage
+Loads a matrix from an ASCII-formatted text file with a delimiter
+between the entries.  This function is similar to the <tt>load -ascii</tt>
+command, except that it can handle complex data, and it allows you
+to specify the delimiter.  Also, you can read only a subset of the
+data from the file.  The general syntax for the <tt>dlmread</tt> function
+is
+\verbatim
+    y = dlmread(filename)
+\endverbatim
+where <tt>filename</tt> is a string containing the name of the file to read.
+In this form, FreeMat will guess at the type of the delimiter in the 
+file.  The guess is made by examining the input for common delimiter
+characters, which are <tt>,;:</tt> or a whitespace (e.g., tab).  The text
+in the file is preprocessed to replace these characters with whitespace
+and the file is then read in using a whitespace for the delimiter.
+
+If you know the delimiter in the file, you can specify it using
+this form of the function:
+\verbatim
+    y = dlmread(filename, delimiter)
+\endverbatim
+where <tt>delimiter</tt> is a string containing the delimiter.  If <tt>delimiter</tt>
+is the empty string, then the delimiter is guessed from the file.
+
+You can also read only a portion of the file by specifying a start row
+and start column:
+\verbatim
+    y = dlmread(filename, delimiter, startrow, startcol)
+\endverbatim
+where <tt>startrow</tt> and <tt>startcol</tt> are zero-based.  You can also specify
+the data to read using a range argument:
+\verbatim
+    y = dlmread(filename, delimiter, range)
+\endverbatim
+where <tt>range</tt> is either a vector <tt>[startrow,startcol,stoprow,stopcol]</tt>
+or is specified in spreadsheet notation as <tt>B4..ZA5</tt>.
+
+Note that complex numbers can be present in the file if they are encoded
+without whitespaces inside the number, and use either <tt>i</tt> or <tt>j</tt> as 
+the indicator.  Note also that when the delimiter is given, each incidence
+of the delimiter counts as a separator.  Multiple separators generate
+zeros in the matrix.
+*/

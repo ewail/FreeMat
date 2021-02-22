@@ -1,0 +1,49 @@
+/*!
+\page signal_conv2 CONV2 Matrix Convolution
+
+<p>
+Section: \ref sec_signal "Signal Processing Functions"
+\section Usage
+The <tt>conv2</tt> function performs a two-dimensional convolution of
+matrix arguments.  The syntax for its use is
+\verbatim
+    Z = conv2(X,Y)
+\endverbatim
+which performs the full 2-D convolution of <tt>X</tt> and <tt>Y</tt>.  If the 
+input matrices are of size <tt>[xm,xn]</tt> and <tt>[ym,yn]</tt> respectively,
+then the output is of size <tt>[xm+ym-1,xn+yn-1]</tt>.  Another form is
+\verbatim
+    Z = conv2(hcol,hrow,X)
+\endverbatim
+where <tt>hcol</tt> and <tt>hrow</tt> are vectors.  In this form, <tt>conv2</tt>
+first convolves <tt>Y</tt> along the columns with <tt>hcol</tt>, and then 
+convolves <tt>Y</tt> along the rows with <tt>hrow</tt>.  This is equivalent
+to <tt>conv2(hcol(:)*hrow(:)',Y)</tt>.
+
+You can also provide an optional <tt>shape</tt> argument to <tt>conv2</tt>
+via either
+\verbatim
+    Z = conv2(X,Y,'shape')
+    Z = conv2(hcol,hrow,X,'shape')
+\endverbatim
+where <tt>shape</tt> is one of the following strings
+<UL>
+<LI>  <tt>'full'</tt> - compute the full convolution result - this is the default if no <tt>shape</tt> argument is provided.
+ </LI>
+<LI>  <tt>'same'</tt> - returns the central part of the result that is the same size as <tt>X</tt>.
+ </LI>
+<LI>  <tt>'valid'</tt> - returns the portion of the convolution that is computed without the zero-padded edges.  In this situation, <tt>Z</tt> has 
+size <tt>[xm-ym+1,xn-yn+1]</tt> when <tt>xm>=ym</tt> and <tt>xn>=yn</tt>.  Otherwise
+<tt>conv2</tt> returns an empty matrix.
+ </LI>
+</UL>
+\section Function Internals
+The convolution is computed explicitly using the definition:
+\f[
+  Z(m,n) = \sum_{k} \sum_{j} X(k,j) Y(m-k,n-j)
+\f]
+If the full output is requested, then <tt>m</tt> ranges over <tt>0 <= m < xm+ym-1</tt>
+and <tt>n</tt> ranges over <tt>0 <= n < xn+yn-1</tt>.  For the case where <tt>shape</tt>
+is <tt>'same'</tt>, the output ranges over <tt>(ym-1)/2 <= m < xm + (ym-1)/2</tt>
+and <tt>(yn-1)/2 <= n < xn + (yn-1)/2</tt>.
+*/

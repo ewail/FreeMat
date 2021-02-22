@@ -1,0 +1,312 @@
+
+ Usage
+
+vtkPolyData is a data object that is a concrete
+implementation of vtkDataSet. vtkPolyData represents a
+geometric structure consisting of vertices, lines, polygons,
+and/or triangle strips. Point and cell attribute values
+(e.g., scalars, vectors, etc.) also are represented.
+The actual cell types (vtkCellType.h) supported by
+vtkPolyData are: vtkVertex, vtkPolyVertex, vtkLine,
+vtkPolyLine, vtkTriangle, vtkQuad, vtkPolygon, and
+vtkTriangleStrip.
+One important feature of vtkPolyData objects is that special
+traversal and data manipulation methods are available to
+process data. These methods are generally more efficient
+than vtkDataSet methods and should be used whenever
+possible. For example, traversing the cells in a dataset we
+would use GetCell(). To traverse cells with vtkPolyData we
+would retrieve the cell array object representing polygons
+(for example using GetPolys()) and then use vtkCellArray's
+InitTraversal() and GetNextCell() methods.
+To create an instance of class vtkPolyData, simply invoke
+its constructor as follows
+
+    obj = vtkPolyData
+
+
+
+ Methods
+
+The class vtkPolyData has several methods that can be used.
+They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkPolyData class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkPolyData = obj.NewInstance ()
+* vtkPolyData = obj.SafeDownCast (vtkObject o)
+* int = obj.GetDataObjectType () - Copy the geometric and
+  topological structure of an input poly data object.
+* obj.CopyStructure (vtkDataSet ds) - Copy the geometric and
+  topological structure of an input poly data object.
+* vtkIdType = obj.GetNumberOfCells () - Standard vtkDataSet
+  interface.
+* vtkCell = obj.GetCell (vtkIdType cellId) - Standard
+  vtkDataSet interface.
+* obj.GetCell (vtkIdType cellId, vtkGenericCell cell) -
+  Standard vtkDataSet interface.
+* int = obj.GetCellType (vtkIdType cellId) - Standard
+  vtkDataSet interface.
+* obj.GetCellBounds (vtkIdType cellId, double bounds[6]) -
+  Standard vtkDataSet interface.
+* obj.GetCellNeighbors (vtkIdType cellId, vtkIdList ptIds,
+  vtkIdList cellIds) - Standard vtkDataSet interface.
+* obj.CopyCells (vtkPolyData pd, vtkIdList idList,
+  vtkPointLocator locatorNULL) - Copy cells listed in idList
+  from pd, including points, point data, and cell data. This
+  method assumes that point and cell data have been
+  allocated. If you pass in a point locator, then the points
+  won't be duplicated in the output.
+* obj.GetCellPoints (vtkIdType cellId, vtkIdList ptIds) -
+  Copy a cells point ids into list provided. (Less
+  efficient.)
+* obj.GetPointCells (vtkIdType ptId, vtkIdList cellIds) -
+  Efficient method to obtain cells using a particular point.
+  Make sure that routine BuildLinks() has been called.
+* obj.ComputeBounds () - Compute the (X, Y, Z) bounds of the
+  data.
+* obj.Squeeze () - Recover extra allocated memory when
+  creating data whose initial size is unknown. Examples
+  include using the InsertNextCell() method, or when using
+  the CellArray::EstimateSize() method to create vertices,
+  lines, polygons, or triangle strips.
+* int = obj.GetMaxCellSize () - Return the maximum cell size
+  in this poly data.
+* obj.SetVerts (vtkCellArray v) - Set the cell array
+  defining vertices.
+* vtkCellArray = obj.GetVerts () - Get the cell array
+  defining vertices. If there are no vertices, an empty
+  array will be returned (convenience to simplify
+  traversal).
+* obj.SetLines (vtkCellArray l) - Set the cell array
+  defining lines.
+* vtkCellArray = obj.GetLines () - Get the cell array
+  defining lines. If there are no lines, an empty array will
+  be returned (convenience to simplify traversal).
+* obj.SetPolys (vtkCellArray p) - Set the cell array
+  defining polygons.
+* vtkCellArray = obj.GetPolys () - Get the cell array
+  defining polygons. If there are no polygons, an empty
+  array will be returned (convenience to simplify
+  traversal).
+* obj.SetStrips (vtkCellArray s) - Set the cell array
+  defining triangle strips.
+* vtkCellArray = obj.GetStrips () - Get the cell array
+  defining triangle strips. If there are no triangle strips,
+  an empty array will be returned (convenience to simplify
+  traversal).
+* vtkIdType = obj.GetNumberOfVerts () - Return the number of
+  primitives of a particular type held..
+* vtkIdType = obj.GetNumberOfLines () - Return the number of
+  primitives of a particular type held..
+* vtkIdType = obj.GetNumberOfPolys () - Return the number of
+  primitives of a particular type held..
+* vtkIdType = obj.GetNumberOfStrips () - Return the number
+  of primitives of a particular type held..
+* obj.Allocate (vtkIdType numCells, int extSize) - Method
+  allocates initial storage for vertex, line, polygon, and
+  triangle strip arrays. Use this method before the method
+  PolyData::InsertNextCell(). (Or, provide vertex, line,
+  polygon, and triangle strip cell arrays.)
+* obj.Allocate (vtkPolyData inPolyData, vtkIdType numCells,
+  int extSize) - Similar to the method above, this method
+  allocates initial storage for vertex, line, polygon, and
+  triangle strip arrays. It does this more intelligently,
+  examining the supplied inPolyData to determine whether to
+  allocate the verts, lines, polys, and strips arrays.
+  (These arrays are allocated only if there is data in the
+  corresponding arrays in the inPolyData.) Caution: if the
+  inPolyData has no verts, and after allocating with this
+  method an PolyData::InsertNextCell() is invoked where a
+  vertex is inserted, bad things will happen.
+* int = obj.InsertNextCell (int type, vtkIdList pts) -
+  Insert a cell of type VTK_VERTEX, VTK_POLY_VERTEX,
+  VTK_LINE, VTK_POLY_LINE, VTK_TRIANGLE, VTK_QUAD,
+  VTK_POLYGON, or VTK_TRIANGLE_STRIP. Make sure that the
+  PolyData::Allocate() function has been called first or
+  that vertex, line, polygon, and triangle strip arrays have
+  been supplied. Note: will also insert VTK_PIXEL, but
+  converts it to VTK_QUAD.
+* obj.Reset () - Begin inserting data all over again. Memory
+  is not freed but otherwise objects are returned to their
+  initial state.
+* obj.BuildCells () - Create data structure that allows
+  random access of cells.
+* obj.BuildLinks (int initialSize) - Create upward links
+  from points to cells that use each point. Enables
+  topologically complex queries. Normally the links array is
+  allocated based on the number of points in the
+  vtkPolyData. The optional initialSize parameter can be
+  used to allocate a larger size initially.
+* obj.DeleteCells () - Release data structure that allows
+  random access of the cells. This must be done before a 2nd
+  call to BuildLinks(). DeleteCells implicitly deletes the
+  links as well since they are no longer valid.
+* obj.DeleteLinks () - Release the upward links from point
+  to cells that use each point.
+* obj.GetCellEdgeNeighbors (vtkIdType cellId, vtkIdType p1,
+  vtkIdType p2, vtkIdList cellIds) - Get the neighbors at an
+  edge. More efficient than the general GetCellNeighbors().
+  Assumes links have been built (with BuildLinks()), and
+  looks specifically for edge neighbors.
+* int = obj.IsTriangle (int v1, int v2, int v3) - Given
+  three vertices, determine whether it's a triangle. Make
+  sure BuildLinks() has been called first.
+* int = obj.IsEdge (vtkIdType p1, vtkIdType p2) - Determine
+  whether two points form an edge. If they do, return non-
+  zero. By definition PolyVertex and PolyLine have no edges
+  since 1-dimensional edges are only found on cells 2D and
+  higher. Edges are defined as 1-D boundary entities to
+  cells. Make sure BuildLinks() has been called first.
+* int = obj.IsPointUsedByCell (vtkIdType ptId, vtkIdType
+  cellId) - Determine whether a point is used by a
+  particular cell. If it is, return non-zero. Make sure
+  BuildCells() has been called first.
+* obj.ReplaceCellPoint (vtkIdType cellId, vtkIdType oldPtId,
+  vtkIdType newPtId) - Replace a point in the cell
+  connectivity list with a different point.
+* obj.ReverseCell (vtkIdType cellId) - Reverse the order of
+  point ids defining the cell.
+* obj.DeletePoint (vtkIdType ptId) - Mark a point/cell as
+  deleted from this vtkPolyData.
+* obj.DeleteCell (vtkIdType cellId) - Mark a point/cell as
+  deleted from this vtkPolyData.
+* obj.RemoveDeletedCells () - The cells marked by calls to
+  DeleteCell are stored in the Cell Array VTK_EMPTY_CELL,
+  but they still exist in the polys array. Calling
+  RemoveDeletedCells will travers the poly array and remove/
+  compact the cell array as well as any cell data thus truly
+  removing the cells from the polydata object. WARNING. This
+  only handles the polys at the moment
+* int = obj.InsertNextLinkedPoint (int numLinks) - Add a
+  point to the cell data structure (after cell pointers have
+  been built). This method adds the point and then allocates
+  memory for the links to the cells. (To use this method,
+  make sure points are available and BuildLinks() has been
+  invoked.) Of the two methods below, one inserts a point
+  coordinate and the other just makes room for cell links.
+* int = obj.InsertNextLinkedPoint (double x[3], int
+  numLinks) - Add a point to the cell data structure (after
+  cell pointers have been built). This method adds the point
+  and then allocates memory for the links to the cells. (To
+  use this method, make sure points are available and
+  BuildLinks() has been invoked.) Of the two methods below,
+  one inserts a point coordinate and the other just makes
+  room for cell links.
+* obj.RemoveCellReference (vtkIdType cellId) - Remove all
+  references to cell in cell structure. This means the links
+  from the cell's points to the cell are deleted. Memory is
+  not reclaimed. Use the method ResizeCellList() to resize
+  the link list from a point to its using cells. (This
+  operator assumes BuildLinks() has been called.)
+* obj.AddCellReference (vtkIdType cellId) - Add references
+  to cell in cell structure. This means the links from the
+  cell's points to the cell are modified. Memory is not
+  extended. Use the method ResizeCellList() to resize the
+  link list from a point to its using cells. (This operator
+  assumes BuildLinks() has been called.)
+* obj.RemoveReferenceToCell (vtkIdType ptId, vtkIdType
+  cellId) - Remove a reference to a cell in a particular
+  point's link list. You may also consider using
+  RemoveCellReference() to remove the references from all
+  the cell's points to the cell. This operator does not
+  reallocate memory; use the operator ResizeCellList() to do
+  this if necessary.
+* obj.AddReferenceToCell (vtkIdType ptId, vtkIdType cellId)
+  - Add a reference to a cell in a particular point's link
+  list. (You may also consider using AddCellReference() to
+  add the references from all the cell's points to the
+  cell.) This operator does not realloc memory; use the
+  operator ResizeCellList() to do this if necessary.
+* obj.ResizeCellList (vtkIdType ptId, int size) - Resize the
+  list of cells using a particular point. (This operator
+  assumes that BuildLinks() has been called.)
+* obj.Initialize () - Restore object to initial state.
+  Release memory back to system.
+* int = obj.GetUpdateExtent () - We need this here to avoid
+  hiding superclass method
+* obj.GetUpdateExtent (int extent[6]) - We need this here to
+  avoid hiding superclass method
+* int = obj.GetPiece () - Get the piece and the number of
+  pieces. Similar to extent in 3D.
+* int = obj.GetNumberOfPieces () - Get the piece and the
+  number of pieces. Similar to extent in 3D.
+* int = obj.GetGhostLevel () - Get the ghost level.
+* long = obj.GetActualMemorySize () - Return the actual size
+  of the data in kilobytes. This number is valid only after
+  the pipeline has updated. The memory size returned is
+  guaranteed to be greater than or equal to the memory
+  required to represent the data (e.g., extra space in
+  arrays, etc. are not included in the return value). THIS
+  METHOD IS THREAD SAFE.
+* obj.ShallowCopy (vtkDataObject src) - Shallow and Deep
+  copy.
+* obj.DeepCopy (vtkDataObject src) - Shallow and Deep copy.
+* obj.RemoveGhostCells (int level) - This method will remove
+  any cell that has a ghost level array value greater or
+  equal to level. It does not remove unused points (yet).
+* int = obj.GetScalarFieldCriticalIndex (vtkIdType pointId,
+  vtkDataArray scalarField) - Scalar field critical point
+  classification (for manifold 2D meshes). Reference: J.
+  Milnor "Morse Theory", Princeton University Press, 1963.
+  Given a pointId and an attribute representing a scalar
+  field, this member returns the index of the critical
+  point: vtkPolyData::MINIMUM (index 0): local minimum;
+  vtkPolyData::SADDLE (index 1): local saddle; vtkPolyData::
+  MAXIMUM (index 2): local maximum.
+  Other returned values are: vtkPolyData::REGULAR_POINT:
+  regular point (the gradient does not vanish);
+  vtkPolyData::ERR_NON_MANIFOLD_STAR: the star of the
+  considered vertex is not manifold (could not evaluate the
+  index) vtkPolyData::ERR_INCORRECT_FIELD: the number of
+  entries in the scalar field array is different form the
+  number of vertices in the mesh. vtkPolyData::
+  ERR_NO_SUCH_FIELD: the specified scalar field does not
+  exist.
+* int = obj.GetScalarFieldCriticalIndex (vtkIdType pointId,
+  int fieldId) - Scalar field critical point classification
+  (for manifold 2D meshes). Reference: J. Milnor "Morse
+  Theory", Princeton University Press, 1963.
+  Given a pointId and an attribute representing a scalar
+  field, this member returns the index of the critical
+  point: vtkPolyData::MINIMUM (index 0): local minimum;
+  vtkPolyData::SADDLE (index 1): local saddle; vtkPolyData::
+  MAXIMUM (index 2): local maximum.
+  Other returned values are: vtkPolyData::REGULAR_POINT:
+  regular point (the gradient does not vanish);
+  vtkPolyData::ERR_NON_MANIFOLD_STAR: the star of the
+  considered vertex is not manifold (could not evaluate the
+  index) vtkPolyData::ERR_INCORRECT_FIELD: the number of
+  entries in the scalar field array is different form the
+  number of vertices in the mesh. vtkPolyData::
+  ERR_NO_SUCH_FIELD: the specified scalar field does not
+  exist.
+* int = obj.GetScalarFieldCriticalIndex (vtkIdType pointId,
+  string fieldName) - Scalar field critical point
+  classification (for manifold 2D meshes). Reference: J.
+  Milnor "Morse Theory", Princeton University Press, 1963.
+  Given a pointId and an attribute representing a scalar
+  field, this member returns the index of the critical
+  point: vtkPolyData::MINIMUM (index 0): local minimum;
+  vtkPolyData::SADDLE (index 1): local saddle; vtkPolyData::
+  MAXIMUM (index 2): local maximum.
+  Other returned values are: vtkPolyData::REGULAR_POINT:
+  regular point (the gradient does not vanish);
+  vtkPolyData::ERR_NON_MANIFOLD_STAR: the star of the
+  considered vertex is not manifold (could not evaluate the
+  index) vtkPolyData::ERR_INCORRECT_FIELD: the number of
+  entries in the scalar field array is different form the
+  number of vertices in the mesh. vtkPolyData::
+  ERR_NO_SUCH_FIELD: the specified scalar field does not
+  exist.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Filtering_Classes
+* Generated on Thu Jul 25 2013 17:18:31 for FreeMat by
+  doxygen_ 1.8.1.1
+

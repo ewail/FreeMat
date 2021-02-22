@@ -1,0 +1,174 @@
+
+ Usage
+
+vtkParametricFunction is an abstract interface for functions
+defined by parametric mapping i.e. f(u,v,w)->(x,y,z) where
+u_min <= u < u_max, v_min <= v < v_max, w_min <= w < w_max.
+(For notational convenience, we will write f(u)->x and
+assume that u means (u,v,w) and x means (x,y,z).)
+The interface contains the pure virtual function, Evaluate
+(), that generates a point and the derivatives at that point
+which are then used to construct the surface. A second pure
+virtual function, EvaluateScalar(), can be used to generate
+a scalar for the surface. Finally, the GetDimension()
+virtual function is used to differentiate 1D, 2D, and 3D
+parametric functions. Since this abstract class defines a
+pure virtual API, its subclasses must implement the pure
+virtual functions GetDimension(), Evaluate() and
+EvaluateScalar().
+This class has also methods for defining a range of
+parametric values (u,v,w).
+.SECTION Thanks Andrew Maclean
+a.mac.nosp@m.lean.nosp@m.@cas..nosp@m.edu..nosp@m.au for
+creating and contributing the class.
+To create an instance of class vtkParametricFunction, simply
+invoke its constructor as follows
+
+    obj = vtkParametricFunction
+
+
+
+ Methods
+
+The class vtkParametricFunction has several methods that can
+be used. They are listed below. Note that the documentation
+is translated automatically from the VTK sources, and may
+not be completely intelligible. When in doubt, consult the
+VTK website. In the methods listed below, obj is an instance
+of the vtkParametricFunction class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkParametricFunction = obj.NewInstance ()
+* vtkParametricFunction = obj.SafeDownCast (vtkObject o)
+* int = obj.GetDimension ()
+* obj.Evaluate (double uvw[3], double Pt[3], double Duvw[9])
+  - Performs the mapping $f(uvw)->(Pt,Duvw)$f. This is a
+  pure virtual function that must be instantiated in a
+  derived class.
+  uvw are the parameters, with u corresponding to uvw[0], v
+  to uvw[1] and w to uvw[2] respectively. Pt is the returned
+  Cartesian point, Duvw are the derivatives of this point
+  with respect to u, v and w. Note that the first three
+  values in Duvw are Du, the next three are Dv, and the
+  final three are Dw. Du Dv Dw are the partial derivatives
+  of the function at the point Pt with respect to u, v and w
+  respectively.
+* double = obj.EvaluateScalar (double uvw[3], double Pt[3],
+  double Duvw[9]) - Calculate a user defined scalar using
+  one or all of uvw, Pt, Duvw. This is a pure virtual
+  function that must be instantiated in a derived class.
+  uvw are the parameters with Pt being the the cartesian
+  point, Duvw are the derivatives of this point with respect
+  to u, v, and w. Pt, Duvw are obtained from Evaluate().
+* obj.SetMinimumU (double ) - Set/Get the minimum u-value.
+* double = obj.GetMinimumU () - Set/Get the minimum u-value.
+* obj.SetMaximumU (double ) - Set/Get the maximum u-value.
+* double = obj.GetMaximumU () - Set/Get the maximum u-value.
+* obj.SetMinimumV (double ) - Set/Get the minimum v-value.
+* double = obj.GetMinimumV () - Set/Get the minimum v-value.
+* obj.SetMaximumV (double ) - Set/Get the maximum v-value.
+* double = obj.GetMaximumV () - Set/Get the maximum v-value.
+* obj.SetMinimumW (double ) - Set/Get the minimum w-value.
+* double = obj.GetMinimumW () - Set/Get the minimum w-value.
+* obj.SetMaximumW (double ) - Set/Get the maximum w-value.
+* double = obj.GetMaximumW () - Set/Get the maximum w-value.
+* obj.SetJoinU (int ) - Set/Get the flag which joins the
+  first triangle strip to the last one.
+* int = obj.GetJoinU () - Set/Get the flag which joins the
+  first triangle strip to the last one.
+* obj.JoinUOn () - Set/Get the flag which joins the first
+  triangle strip to the last one.
+* obj.JoinUOff () - Set/Get the flag which joins the first
+  triangle strip to the last one.
+* obj.SetJoinV (int ) - Set/Get the flag which joins the the
+  ends of the triangle strips.
+* int = obj.GetJoinV () - Set/Get the flag which joins the
+  the ends of the triangle strips.
+* obj.JoinVOn () - Set/Get the flag which joins the the ends
+  of the triangle strips.
+* obj.JoinVOff () - Set/Get the flag which joins the the
+  ends of the triangle strips.
+* obj.SetTwistU (int ) - Set/Get the flag which joins the
+  first triangle strip to the last one with a twist. JoinU
+  must also be set if this is set. Used when building some
+  non-orientable surfaces.
+* int = obj.GetTwistU () - Set/Get the flag which joins the
+  first triangle strip to the last one with a twist. JoinU
+  must also be set if this is set. Used when building some
+  non-orientable surfaces.
+* obj.TwistUOn () - Set/Get the flag which joins the first
+  triangle strip to the last one with a twist. JoinU must
+  also be set if this is set. Used when building some non-
+  orientable surfaces.
+* obj.TwistUOff () - Set/Get the flag which joins the first
+  triangle strip to the last one with a twist. JoinU must
+  also be set if this is set. Used when building some non-
+  orientable surfaces.
+* obj.SetTwistV (int ) - Set/Get the flag which joins the
+  ends of the triangle strips with a twist. JoinV must also
+  be set if this is set. Used when building some non-
+  orientable surfaces.
+* int = obj.GetTwistV () - Set/Get the flag which joins the
+  ends of the triangle strips with a twist. JoinV must also
+  be set if this is set. Used when building some non-
+  orientable surfaces.
+* obj.TwistVOn () - Set/Get the flag which joins the ends of
+  the triangle strips with a twist. JoinV must also be set
+  if this is set. Used when building some non-orientable
+  surfaces.
+* obj.TwistVOff () - Set/Get the flag which joins the ends
+  of the triangle strips with a twist. JoinV must also be
+  set if this is set. Used when building some non-orientable
+  surfaces.
+* obj.SetClockwiseOrdering (int ) - Set/Get the flag which
+  determines the ordering of the the vertices forming the
+  triangle strips. The ordering of the points being inserted
+  into the triangle strip is important because it determines
+  the direction of the normals for the lighting. If set, the
+  ordering is clockwise, otherwise the ordering is anti-
+  clockwise. Default is true (i.e. clockwise ordering).
+* int = obj.GetClockwiseOrdering () - Set/Get the flag which
+  determines the ordering of the the vertices forming the
+  triangle strips. The ordering of the points being inserted
+  into the triangle strip is important because it determines
+  the direction of the normals for the lighting. If set, the
+  ordering is clockwise, otherwise the ordering is anti-
+  clockwise. Default is true (i.e. clockwise ordering).
+* obj.ClockwiseOrderingOn () - Set/Get the flag which
+  determines the ordering of the the vertices forming the
+  triangle strips. The ordering of the points being inserted
+  into the triangle strip is important because it determines
+  the direction of the normals for the lighting. If set, the
+  ordering is clockwise, otherwise the ordering is anti-
+  clockwise. Default is true (i.e. clockwise ordering).
+* obj.ClockwiseOrderingOff () - Set/Get the flag which
+  determines the ordering of the the vertices forming the
+  triangle strips. The ordering of the points being inserted
+  into the triangle strip is important because it determines
+  the direction of the normals for the lighting. If set, the
+  ordering is clockwise, otherwise the ordering is anti-
+  clockwise. Default is true (i.e. clockwise ordering).
+* obj.SetDerivativesAvailable (int ) - Set/Get the flag
+  which determines whether derivatives are available from
+  the parametric function (i.e., whether the Evaluate()
+  method returns valid derivatives).
+* int = obj.GetDerivativesAvailable () - Set/Get the flag
+  which determines whether derivatives are available from
+  the parametric function (i.e., whether the Evaluate()
+  method returns valid derivatives).
+* obj.DerivativesAvailableOn () - Set/Get the flag which
+  determines whether derivatives are available from the
+  parametric function (i.e., whether the Evaluate() method
+  returns valid derivatives).
+* obj.DerivativesAvailableOff () - Set/Get the flag which
+  determines whether derivatives are available from the
+  parametric function (i.e., whether the Evaluate() method
+  returns valid derivatives).
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Common_Classes
+* Generated on Thu Jul 25 2013 17:18:30 for FreeMat by
+  doxygen_ 1.8.1.1
+

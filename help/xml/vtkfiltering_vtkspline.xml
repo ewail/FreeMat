@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkfiltering_vtkspline" kind="page">
+    <compoundname>vtkfiltering_vtkspline</compoundname>
+    <title>vtkSpline</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkfiltering_1sec_vtkfiltering" kindref="member">Visualization Toolkit Filtering Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>vtkSpline interpolates a set of data points (i.e., interpolation means that the spline passes through the points). vtkSpline is an abstract class: its subclasses vtkCardinalSpline and vtkKochenekSpline do the interpolation. Note that this spline maps the 1D parametric coordinate t into a single value x. Thus if you want to use the spline to interpolate points (i.e. x[3]), you have to create three splines for each of the x-y-z coordinates. Fortunately, the vtkParametricSpline class does this for you.</para><para>Typically a spline is used by adding a sequence of parametric coordinate / data (t,x) values followed by use of an evaluation function (e.g., vtkCardinalSpline::Evaluate()). Since these splines are 1D, a point in this context is an independent / dependent variable pair.</para><para>Splines can also be set up to be closed or open. Closed splines continue from the last point to the first point with continuous function and derivative values. (You don&apos;t need to duplicate the first point to close the spline, just set ClosedOn.)</para><para>This implementation of splines does not use a normalized parametric coordinate. If the spline is open, then the parameter space is (tMin &lt;= t &lt;= tMax) where tMin and tMax are the minimum and maximum parametric values seen when performing AddPoint(). If the spline is closed, then the parameter space is (tMin &lt;= t &lt;= (tMax+1)) where tMin and tMax are the minimum and maximum parametric values seen when performing AddPoint(). Note, however, that this behavior can be changed by explicitly setting the ParametricRange(tMin,tMax). If set, the parameter space remains (tMin &lt;= t &lt;= tMax), except that additions of data with parametric values outside this range are clamped within this range.</para><para>To create an instance of class vtkSpline, simply invoke its constructor as follows <verbatim>  obj = vtkSpline
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkSpline has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkSpline class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkSpline = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkSpline = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetParametricRange (double tMin, double tMax)</computeroutput> - Set/Get the parametric range. If not set, the range is determined implicitly by keeping track of the (min,max) parameter values for t. If set, the AddPoint() method will clamp the t value to lie within the specified range.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetParametricRange (double tRange[2])</computeroutput> - Set/Get the parametric range. If not set, the range is determined implicitly by keeping track of the (min,max) parameter values for t. If set, the AddPoint() method will clamp the t value to lie within the specified range.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GetParametricRange (double tRange[2]) const</computeroutput> - Set/Get the parametric range. If not set, the range is determined implicitly by keeping track of the (min,max) parameter values for t. If set, the AddPoint() method will clamp the t value to lie within the specified range.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetClampValue (int )</computeroutput> - Set/Get ClampValue. If On, results of the interpolation will be clamped to the min/max of the input data.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetClampValue ()</computeroutput> - Set/Get ClampValue. If On, results of the interpolation will be clamped to the min/max of the input data.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ClampValueOn ()</computeroutput> - Set/Get ClampValue. If On, results of the interpolation will be clamped to the min/max of the input data.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ClampValueOff ()</computeroutput> - Set/Get ClampValue. If On, results of the interpolation will be clamped to the min/max of the input data.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.Compute ()</computeroutput> - Compute the coefficients for the spline.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.Evaluate (double t)</computeroutput> - Interpolate the value of the spline at parametric location of t.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetNumberOfPoints ()</computeroutput> - Return the number of points inserted thus far.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.AddPoint (double t, double x)</computeroutput> - Add a pair of points to be fit with the spline.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.RemovePoint (double t)</computeroutput> - Remove a point from the data to be fit with the spline.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.RemoveAllPoints ()</computeroutput> - Remove all points from the data.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetClosed (int )</computeroutput> - Control whether the spline is open or closed. A closed spline forms a continuous loop: the first and last points are the same, and derivatives are continuous.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetClosed ()</computeroutput> - Control whether the spline is open or closed. A closed spline forms a continuous loop: the first and last points are the same, and derivatives are continuous.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ClosedOn ()</computeroutput> - Control whether the spline is open or closed. A closed spline forms a continuous loop: the first and last points are the same, and derivatives are continuous.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ClosedOff ()</computeroutput> - Control whether the spline is open or closed. A closed spline forms a continuous loop: the first and last points are the same, and derivatives are continuous.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetLeftConstraint (int )</computeroutput> - Set the type of constraint of the left(right) end points. Four constraints are available:</para><para>0: the first derivative at left(right) most point is determined from the line defined from the first(last) two points.</para><para>1: the first derivative at left(right) most point is set to Left(Right)Value.</para><para>2: the second derivative at left(right) most point is set to Left(Right)Value.</para><para>3: the second derivative at left(right)most points is Left(Right)Value times second derivative at first interior point.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetLeftConstraintMinValue ()</computeroutput> - Set the type of constraint of the left(right) end points. Four constraints are available:</para><para>0: the first derivative at left(right) most point is determined from the line defined from the first(last) two points.</para><para>1: the first derivative at left(right) most point is set to Left(Right)Value.</para><para>2: the second derivative at left(right) most point is set to Left(Right)Value.</para><para>3: the second derivative at left(right)most points is Left(Right)Value times second derivative at first interior point.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetLeftConstraintMaxValue ()</computeroutput> - Set the type of constraint of the left(right) end points. Four constraints are available:</para><para>0: the first derivative at left(right) most point is determined from the line defined from the first(last) two points.</para><para>1: the first derivative at left(right) most point is set to Left(Right)Value.</para><para>2: the second derivative at left(right) most point is set to Left(Right)Value.</para><para>3: the second derivative at left(right)most points is Left(Right)Value times second derivative at first interior point.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetLeftConstraint ()</computeroutput> - Set the type of constraint of the left(right) end points. Four constraints are available:</para><para>0: the first derivative at left(right) most point is determined from the line defined from the first(last) two points.</para><para>1: the first derivative at left(right) most point is set to Left(Right)Value.</para><para>2: the second derivative at left(right) most point is set to Left(Right)Value.</para><para>3: the second derivative at left(right)most points is Left(Right)Value times second derivative at first interior point.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetRightConstraint (int )</computeroutput> - Set the type of constraint of the left(right) end points. Four constraints are available:</para><para>0: the first derivative at left(right) most point is determined from the line defined from the first(last) two points.</para><para>1: the first derivative at left(right) most point is set to Left(Right)Value.</para><para>2: the second derivative at left(right) most point is set to Left(Right)Value.</para><para>3: the second derivative at left(right)most points is Left(Right)Value times second derivative at first interior point.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetRightConstraintMinValue ()</computeroutput> - Set the type of constraint of the left(right) end points. Four constraints are available:</para><para>0: the first derivative at left(right) most point is determined from the line defined from the first(last) two points.</para><para>1: the first derivative at left(right) most point is set to Left(Right)Value.</para><para>2: the second derivative at left(right) most point is set to Left(Right)Value.</para><para>3: the second derivative at left(right)most points is Left(Right)Value times second derivative at first interior point.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetRightConstraintMaxValue ()</computeroutput> - Set the type of constraint of the left(right) end points. Four constraints are available:</para><para>0: the first derivative at left(right) most point is determined from the line defined from the first(last) two points.</para><para>1: the first derivative at left(right) most point is set to Left(Right)Value.</para><para>2: the second derivative at left(right) most point is set to Left(Right)Value.</para><para>3: the second derivative at left(right)most points is Left(Right)Value times second derivative at first interior point.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetRightConstraint ()</computeroutput> - Set the type of constraint of the left(right) end points. Four constraints are available:</para><para>0: the first derivative at left(right) most point is determined from the line defined from the first(last) two points.</para><para>1: the first derivative at left(right) most point is set to Left(Right)Value.</para><para>2: the second derivative at left(right) most point is set to Left(Right)Value.</para><para>3: the second derivative at left(right)most points is Left(Right)Value times second derivative at first interior point.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetLeftValue (double )</computeroutput> - The values of the derivative on the left and right sides. The value is used only if the left(right) constraint is type 1-3.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetLeftValue ()</computeroutput> - The values of the derivative on the left and right sides. The value is used only if the left(right) constraint is type 1-3.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetRightValue (double )</computeroutput> - The values of the derivative on the left and right sides. The value is used only if the left(right) constraint is type 1-3.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetRightValue ()</computeroutput> - The values of the derivative on the left and right sides. The value is used only if the left(right) constraint is type 1-3.  </para></listitem>
+<listitem>
+<para><computeroutput>long = obj.GetMTime ()</computeroutput> - Return the MTime also considering the Piecewise function.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.DeepCopy (vtkSpline s)</computeroutput> - Deep copy of spline data.  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

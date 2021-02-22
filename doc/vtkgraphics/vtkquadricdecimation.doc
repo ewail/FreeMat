@@ -1,0 +1,239 @@
+/*!
+\page vtkgraphics_vtkquadricdecimation vtkQuadricDecimation
+
+<p>
+Section: \ref sec_vtkgraphics "Visualization Toolkit Graphics Classes"
+\section Usage
+ vtkQuadricDecimation is a filter to reduce the number of triangles in
+ a triangle mesh, forming a good approximation to the original geometry. 
+ The input to vtkQuadricDecimation is a vtkPolyData object, and only
+ triangles are treated. If you desire to decimate polygonal meshes, first
+ triangulate the polygons with vtkTriangleFilter.
+
+ The algorithm is based on repeated edge collapses until the requested mesh
+ reduction is achieved. Edges are placed in a priority queue based on the
+ "cost" to delete the edge. The cost is an approximate measure of error
+ (distance to the original surface)--described by the so-called quadric
+ error measure. The quadric error measure is associated with each vertex of
+ the mesh and represents a matrix of planes incident on that vertex. The
+ distance of the planes to the vertex is the error in the position of the
+ vertex (originally the vertex error iz zero). As edges are deleted, the
+ quadric error measure associated with the two end points of the edge are
+ summed (this combines the plane equations) and an optimal collapse point
+ can be computed. Edges connected to the collapse point are then reinserted
+ into the queue after computing the new cost to delete them. The process
+ continues until the desired reduction level is reached or topological
+ constraints prevent further reduction. Note that this basic algorithm can
+ be extended to higher dimensions by
+ taking into account variation in attributes (i.e., scalars, vectors, and
+ so on).
+
+ This paper is based on the work of Garland and Heckbert who first
+ presented the quadric error measure at Siggraph '97 "Surface
+ Simplification Using Quadric Error Metrics". For details of the algorithm
+ Michael Garland's Ph.D. thesis is also recommended. Hughues Hoppe's Vis
+ '99 paper, "New Quadric Metric for Simplifying Meshes with Appearance
+ Attributes" is also a good take on the subject especially as it pertains
+ to the error metric applied to attributes.
+
+ .SECTION Thanks
+ Thanks to Bradley Lowekamp of the National Library of Medicine/NIH for
+ contributing this class.
+
+To create an instance of class vtkQuadricDecimation, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkQuadricDecimation
+\endverbatim
+\section Methods
+The class vtkQuadricDecimation has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkQuadricDecimation class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkQuadricDecimation = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkQuadricDecimation = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetTargetReduction (double )</tt> -  Set/Get the desired reduction (expressed as a fraction of the original
+ number of triangles). The actual reduction may be less depending on
+ triangulation and topological constraints.
+ </LI>
+<LI>  <tt>double = obj.GetTargetReductionMinValue ()</tt> -  Set/Get the desired reduction (expressed as a fraction of the original
+ number of triangles). The actual reduction may be less depending on
+ triangulation and topological constraints.
+ </LI>
+<LI>  <tt>double = obj.GetTargetReductionMaxValue ()</tt> -  Set/Get the desired reduction (expressed as a fraction of the original
+ number of triangles). The actual reduction may be less depending on
+ triangulation and topological constraints.
+ </LI>
+<LI>  <tt>double = obj.GetTargetReduction ()</tt> -  Set/Get the desired reduction (expressed as a fraction of the original
+ number of triangles). The actual reduction may be less depending on
+ triangulation and topological constraints.
+ </LI>
+<LI>  <tt>obj.SetAttributeErrorMetric (int )</tt> -  Decide whether to include data attributes in the error metric. If off,
+ then only geometric error is used to control the decimation. By default
+ the attribute errors are off.
+ </LI>
+<LI>  <tt>int = obj.GetAttributeErrorMetric ()</tt> -  Decide whether to include data attributes in the error metric. If off,
+ then only geometric error is used to control the decimation. By default
+ the attribute errors are off.
+ </LI>
+<LI>  <tt>obj.AttributeErrorMetricOn ()</tt> -  Decide whether to include data attributes in the error metric. If off,
+ then only geometric error is used to control the decimation. By default
+ the attribute errors are off.
+ </LI>
+<LI>  <tt>obj.AttributeErrorMetricOff ()</tt> -  Decide whether to include data attributes in the error metric. If off,
+ then only geometric error is used to control the decimation. By default
+ the attribute errors are off.
+ </LI>
+<LI>  <tt>obj.SetScalarsAttribute (int )</tt> -  If attribute errors are to be included in the metric (i.e.,
+ AttributeErrorMetric is on), then the following flags control which
+ attributes are to be included in the error calculation. By default all
+ of these are on.
+ </LI>
+<LI>  <tt>int = obj.GetScalarsAttribute ()</tt> -  If attribute errors are to be included in the metric (i.e.,
+ AttributeErrorMetric is on), then the following flags control which
+ attributes are to be included in the error calculation. By default all
+ of these are on.
+ </LI>
+<LI>  <tt>obj.ScalarsAttributeOn ()</tt> -  If attribute errors are to be included in the metric (i.e.,
+ AttributeErrorMetric is on), then the following flags control which
+ attributes are to be included in the error calculation. By default all
+ of these are on.
+ </LI>
+<LI>  <tt>obj.ScalarsAttributeOff ()</tt> -  If attribute errors are to be included in the metric (i.e.,
+ AttributeErrorMetric is on), then the following flags control which
+ attributes are to be included in the error calculation. By default all
+ of these are on.
+ </LI>
+<LI>  <tt>obj.SetVectorsAttribute (int )</tt> -  If attribute errors are to be included in the metric (i.e.,
+ AttributeErrorMetric is on), then the following flags control which
+ attributes are to be included in the error calculation. By default all
+ of these are on.
+ </LI>
+<LI>  <tt>int = obj.GetVectorsAttribute ()</tt> -  If attribute errors are to be included in the metric (i.e.,
+ AttributeErrorMetric is on), then the following flags control which
+ attributes are to be included in the error calculation. By default all
+ of these are on.
+ </LI>
+<LI>  <tt>obj.VectorsAttributeOn ()</tt> -  If attribute errors are to be included in the metric (i.e.,
+ AttributeErrorMetric is on), then the following flags control which
+ attributes are to be included in the error calculation. By default all
+ of these are on.
+ </LI>
+<LI>  <tt>obj.VectorsAttributeOff ()</tt> -  If attribute errors are to be included in the metric (i.e.,
+ AttributeErrorMetric is on), then the following flags control which
+ attributes are to be included in the error calculation. By default all
+ of these are on.
+ </LI>
+<LI>  <tt>obj.SetNormalsAttribute (int )</tt> -  If attribute errors are to be included in the metric (i.e.,
+ AttributeErrorMetric is on), then the following flags control which
+ attributes are to be included in the error calculation. By default all
+ of these are on.
+ </LI>
+<LI>  <tt>int = obj.GetNormalsAttribute ()</tt> -  If attribute errors are to be included in the metric (i.e.,
+ AttributeErrorMetric is on), then the following flags control which
+ attributes are to be included in the error calculation. By default all
+ of these are on.
+ </LI>
+<LI>  <tt>obj.NormalsAttributeOn ()</tt> -  If attribute errors are to be included in the metric (i.e.,
+ AttributeErrorMetric is on), then the following flags control which
+ attributes are to be included in the error calculation. By default all
+ of these are on.
+ </LI>
+<LI>  <tt>obj.NormalsAttributeOff ()</tt> -  If attribute errors are to be included in the metric (i.e.,
+ AttributeErrorMetric is on), then the following flags control which
+ attributes are to be included in the error calculation. By default all
+ of these are on.
+ </LI>
+<LI>  <tt>obj.SetTCoordsAttribute (int )</tt> -  If attribute errors are to be included in the metric (i.e.,
+ AttributeErrorMetric is on), then the following flags control which
+ attributes are to be included in the error calculation. By default all
+ of these are on.
+ </LI>
+<LI>  <tt>int = obj.GetTCoordsAttribute ()</tt> -  If attribute errors are to be included in the metric (i.e.,
+ AttributeErrorMetric is on), then the following flags control which
+ attributes are to be included in the error calculation. By default all
+ of these are on.
+ </LI>
+<LI>  <tt>obj.TCoordsAttributeOn ()</tt> -  If attribute errors are to be included in the metric (i.e.,
+ AttributeErrorMetric is on), then the following flags control which
+ attributes are to be included in the error calculation. By default all
+ of these are on.
+ </LI>
+<LI>  <tt>obj.TCoordsAttributeOff ()</tt> -  If attribute errors are to be included in the metric (i.e.,
+ AttributeErrorMetric is on), then the following flags control which
+ attributes are to be included in the error calculation. By default all
+ of these are on.
+ </LI>
+<LI>  <tt>obj.SetTensorsAttribute (int )</tt> -  If attribute errors are to be included in the metric (i.e.,
+ AttributeErrorMetric is on), then the following flags control which
+ attributes are to be included in the error calculation. By default all
+ of these are on.
+ </LI>
+<LI>  <tt>int = obj.GetTensorsAttribute ()</tt> -  If attribute errors are to be included in the metric (i.e.,
+ AttributeErrorMetric is on), then the following flags control which
+ attributes are to be included in the error calculation. By default all
+ of these are on.
+ </LI>
+<LI>  <tt>obj.TensorsAttributeOn ()</tt> -  If attribute errors are to be included in the metric (i.e.,
+ AttributeErrorMetric is on), then the following flags control which
+ attributes are to be included in the error calculation. By default all
+ of these are on.
+ </LI>
+<LI>  <tt>obj.TensorsAttributeOff ()</tt> -  If attribute errors are to be included in the metric (i.e.,
+ AttributeErrorMetric is on), then the following flags control which
+ attributes are to be included in the error calculation. By default all
+ of these are on.
+ </LI>
+<LI>  <tt>obj.SetScalarsWeight (double )</tt> -  Set/Get the scaling weight contribution of the attribute. These
+ values are used to weight the contribution of the attributes
+ towards the error metric.
+ </LI>
+<LI>  <tt>obj.SetVectorsWeight (double )</tt> -  Set/Get the scaling weight contribution of the attribute. These
+ values are used to weight the contribution of the attributes
+ towards the error metric.
+ </LI>
+<LI>  <tt>obj.SetNormalsWeight (double )</tt> -  Set/Get the scaling weight contribution of the attribute. These
+ values are used to weight the contribution of the attributes
+ towards the error metric.
+ </LI>
+<LI>  <tt>obj.SetTCoordsWeight (double )</tt> -  Set/Get the scaling weight contribution of the attribute. These
+ values are used to weight the contribution of the attributes
+ towards the error metric.
+ </LI>
+<LI>  <tt>obj.SetTensorsWeight (double )</tt> -  Set/Get the scaling weight contribution of the attribute. These
+ values are used to weight the contribution of the attributes
+ towards the error metric.
+ </LI>
+<LI>  <tt>double = obj.GetScalarsWeight ()</tt> -  Set/Get the scaling weight contribution of the attribute. These
+ values are used to weight the contribution of the attributes
+ towards the error metric.
+ </LI>
+<LI>  <tt>double = obj.GetVectorsWeight ()</tt> -  Set/Get the scaling weight contribution of the attribute. These
+ values are used to weight the contribution of the attributes
+ towards the error metric.
+ </LI>
+<LI>  <tt>double = obj.GetNormalsWeight ()</tt> -  Set/Get the scaling weight contribution of the attribute. These
+ values are used to weight the contribution of the attributes
+ towards the error metric.
+ </LI>
+<LI>  <tt>double = obj.GetTCoordsWeight ()</tt> -  Set/Get the scaling weight contribution of the attribute. These
+ values are used to weight the contribution of the attributes
+ towards the error metric.
+ </LI>
+<LI>  <tt>double = obj.GetTensorsWeight ()</tt> -  Set/Get the scaling weight contribution of the attribute. These
+ values are used to weight the contribution of the attributes
+ towards the error metric.
+ </LI>
+<LI>  <tt>double = obj.GetActualReduction ()</tt> -  Get the actual reduction. This value is only valid after the
+ filter has executed.
+ </LI>
+</UL>
+*/

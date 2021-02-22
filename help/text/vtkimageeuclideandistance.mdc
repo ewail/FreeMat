@@ -1,0 +1,115 @@
+
+ Usage
+
+vtkImageEuclideanDistance implements the Euclidean DT using
+Saito's algorithm. The distance map produced contains the
+square of the Euclidean distance values.
+The algorithm has a o(n^(D+1)) complexity over nxnx...xn
+images in D dimensions. It is very efficient on relatively
+small images. Cuisenaire's algorithms should be used instead
+if n >> 500. These are not implemented yet.
+For the special case of images where the slice-size is a
+multiple of 2^N with a large N (typically for 256x256
+slices), Saito's algorithm encounters a lot of cache
+conflicts during the 3rd iteration which can slow it very
+significantly. In that case, one should use ::
+SetAlgorithmToSaitoCached() instead for better performance.
+References:
+T. Saito and J.I. Toriwaki. New algorithms for Euclidean
+distance transformations of an n-dimensional digitised
+picture with applications. Pattern Recognition, 27(11). pp.
+1551&ndash;1565, 1994.
+O. Cuisenaire. Distance Transformation: fast algorithms and
+applications to medical image processing. PhD Thesis,
+Universite catholique de Louvain, October 1999. http://
+ltswww.epfl.ch/~cuisenai/papers/oc_thesis.pdf
+To create an instance of class vtkImageEuclideanDistance,
+simply invoke its constructor as follows
+
+    obj = vtkImageEuclideanDistance
+
+
+
+ Methods
+
+The class vtkImageEuclideanDistance has several methods that
+can be used. They are listed below. Note that the
+documentation is translated automatically from the VTK
+sources, and may not be completely intelligible. When in
+doubt, consult the VTK website. In the methods listed below,
+obj is an instance of the vtkImageEuclideanDistance class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkImageEuclideanDistance = obj.NewInstance ()
+* vtkImageEuclideanDistance = obj.SafeDownCast (vtkObject o)
+* int = obj.SplitExtent (int splitExt[6], int startExt[6],
+  int num, int total) - Used internally for streaming and
+  threads. Splits output update extent into num pieces. This
+  method needs to be called num times. Results must not
+  overlap for consistent starting extent. Subclass can
+  override this method. This method returns the number of
+  peices resulting from a successful split. This can be from
+  1 to "total". If 1 is returned, the extent cannot be
+  split.
+* obj.SetInitialize (int ) - Used to set all non-zero voxels
+  to MaximumDistance before starting the distance
+  transformation. Setting Initialize off keeps the current
+  value in the input image as starting point. This allows to
+  superimpose several distance maps.
+* int = obj.GetInitialize () - Used to set all non-zero
+  voxels to MaximumDistance before starting the distance
+  transformation. Setting Initialize off keeps the current
+  value in the input image as starting point. This allows to
+  superimpose several distance maps.
+* obj.InitializeOn () - Used to set all non-zero voxels to
+  MaximumDistance before starting the distance
+  transformation. Setting Initialize off keeps the current
+  value in the input image as starting point. This allows to
+  superimpose several distance maps.
+* obj.InitializeOff () - Used to set all non-zero voxels to
+  MaximumDistance before starting the distance
+  transformation. Setting Initialize off keeps the current
+  value in the input image as starting point. This allows to
+  superimpose several distance maps.
+* obj.SetConsiderAnisotropy (int ) - Used to define whether
+  Spacing should be used in the computation of the distances
+* int = obj.GetConsiderAnisotropy () - Used to define
+  whether Spacing should be used in the computation of the
+  distances
+* obj.ConsiderAnisotropyOn () - Used to define whether
+  Spacing should be used in the computation of the distances
+* obj.ConsiderAnisotropyOff () - Used to define whether
+  Spacing should be used in the computation of the distances
+* obj.SetMaximumDistance (double ) - Any distance bigger
+  than this->MaximumDistance will not ne computed but set to
+  this->MaximumDistance instead.
+* double = obj.GetMaximumDistance () - Any distance bigger
+  than this->MaximumDistance will not ne computed but set to
+  this->MaximumDistance instead.
+* obj.SetAlgorithm (int ) - Selects a Euclidean DT
+  algorithm.
+
+    1. Saito
+    2. Saito-cached More algorithms will be added later on.
+
+* int = obj.GetAlgorithm () - Selects a Euclidean DT
+  algorithm.
+
+    1. Saito
+    2. Saito-cached More algorithms will be added later on.
+
+* obj.SetAlgorithmToSaito () - Selects a Euclidean DT
+  algorithm.
+
+    1. Saito
+    2. Saito-cached More algorithms will be added later on.
+
+* obj.SetAlgorithmToSaitoCached ()
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Imaging_Classes
+* Generated on Thu Jul 25 2013 17:18:33 for FreeMat by
+  doxygen_ 1.8.1.1
+

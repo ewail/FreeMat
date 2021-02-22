@@ -1,0 +1,111 @@
+/*!
+\page vtkhybrid_vtkpexodusiireader vtkPExodusIIReader
+
+<p>
+Section: \ref sec_vtkhybrid "Visualization Toolkit Hybrid Classes"
+\section Usage
+ vtkPExodusIIReader is a unstructured grid source object that reads
+ ExodusII files. Most of the meta data associated with the
+ file is loaded when UpdateInformation is called. This includes
+ information like Title, number of blocks, number and names of
+ arrays. This data can be retrieved from methods in this
+ reader. Separate arrays that are meant to be a single vector, are
+ combined internally for convenience. To be combined, the array
+ names have to be identical except for a trailing X,Y and Z (or
+ x,y,z). By default all cell and point arrays are loaded. However,
+ the user can flag arrays not to load with the methods
+ "SetPointDataArrayLoadFlag" and "SetCellDataArrayLoadFlag". The
+ reader responds to piece requests by loading only a range of the
+ possible blocks. Unused points are filtered out internally.
+
+To create an instance of class vtkPExodusIIReader, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkPExodusIIReader
+\endverbatim
+\section Methods
+The class vtkPExodusIIReader has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkPExodusIIReader class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkPExodusIIReader = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkPExodusIIReader = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetController (vtkMultiProcessController c)</tt> -  Set/get the communication object used to relay a list of files
+ from the rank 0 process to all others. This is the only interprocess
+ communication required by vtkPExodusIIReader.
+ </LI>
+<LI>  <tt>vtkMultiProcessController = obj.GetController ()</tt> -  Set/get the communication object used to relay a list of files
+ from the rank 0 process to all others. This is the only interprocess
+ communication required by vtkPExodusIIReader.
+ </LI>
+<LI>  <tt>obj.SetFilePattern (string )</tt> -  These methods tell the reader that the data is ditributed across
+ multiple files. This is for distributed execution. It this case,
+ pieces are mapped to files. The pattern should have one %d to
+ format the file number. FileNumberRange is used to generate file
+ numbers. I was thinking of having an arbitrary list of file
+ numbers. This may happen in the future. (That is why there is no
+ GetFileNumberRange method.
+ </LI>
+<LI>  <tt>string = obj.GetFilePattern ()</tt> -  These methods tell the reader that the data is ditributed across
+ multiple files. This is for distributed execution. It this case,
+ pieces are mapped to files. The pattern should have one %d to
+ format the file number. FileNumberRange is used to generate file
+ numbers. I was thinking of having an arbitrary list of file
+ numbers. This may happen in the future. (That is why there is no
+ GetFileNumberRange method.
+ </LI>
+<LI>  <tt>obj.SetFilePrefix (string )</tt> -  These methods tell the reader that the data is ditributed across
+ multiple files. This is for distributed execution. It this case,
+ pieces are mapped to files. The pattern should have one %d to
+ format the file number. FileNumberRange is used to generate file
+ numbers. I was thinking of having an arbitrary list of file
+ numbers. This may happen in the future. (That is why there is no
+ GetFileNumberRange method.
+ </LI>
+<LI>  <tt>string = obj.GetFilePrefix ()</tt> -  These methods tell the reader that the data is ditributed across
+ multiple files. This is for distributed execution. It this case,
+ pieces are mapped to files. The pattern should have one %d to
+ format the file number. FileNumberRange is used to generate file
+ numbers. I was thinking of having an arbitrary list of file
+ numbers. This may happen in the future. (That is why there is no
+ GetFileNumberRange method.
+ </LI>
+<LI>  <tt>obj.SetFileRange (int , int )</tt> -  Set the range of files that are being loaded. The range for single
+ file should add to 0.
+ </LI>
+<LI>  <tt>obj.SetFileRange (int r)</tt> -  Set the range of files that are being loaded. The range for single
+ file should add to 0.
+ </LI>
+<LI>  <tt>int = obj. GetFileRange ()</tt> -  Set the range of files that are being loaded. The range for single
+ file should add to 0.
+ </LI>
+<LI>  <tt>obj.SetFileName (string name)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfFileNames ()</tt> -    Return the number of files to be read.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfFiles ()</tt> -    Return the number of files to be read.
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetTotalNumberOfElements ()</tt>
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetTotalNumberOfNodes ()</tt>
+ </LI>
+<LI>  <tt>obj.UpdateTimeInformation ()</tt> -  Calls UpdateTimeInformation() on all serial readers so they'll re-read
+ their time info from the file. 
+ The last time step that they all have in common
+ is stored in LastCommonTimeStep, which is used in RequestInformation()
+ to override the output time-specific information keys with the range
+ of times that ALL readers can actually read.
+ </LI>
+<LI>  <tt>obj.Broadcast (vtkMultiProcessController ctrl)</tt> -  Sends metadata (that read from the input file, not settings modified
+ through this API) from the rank 0 node to all other processes in a job.
+ </LI>
+</UL>
+*/

@@ -1,0 +1,221 @@
+/*!
+\page handle_plot PLOT Plot Function
+
+<p>
+Section: \ref sec_handle "Handle-Based Graphics"
+\section Usage
+This is the basic plot command for FreeMat.  The general syntax for its
+use is
+\verbatim
+  plot(\<data 1\>,{linespec 1},\<data 2\>,{linespec 2}...,properties...)
+\endverbatim
+where the <tt>\<data\></tt> arguments can have various forms, and the
+<tt>linespec</tt> arguments are optional.  We start with the
+<tt>\<data\></tt> term, which can take on one of multiple forms:
+<UL>
+<LI>  Vector Matrix Case -- In this case the argument data is a pair
+    of variables.  A set of <tt>x</tt> coordinates in a numeric vector, and a 
+    set of <tt>y</tt> coordinates in the columns of the second, numeric matrix.
+    <tt>x</tt> must have as many elements as <tt>y</tt> has columns (unless <tt>y</tt>
+    is a vector, in which case only the number of elements must match).  Each
+    column of <tt>y</tt> is plotted sequentially against the common vector <tt>x</tt>.
+ </LI>
+<LI>  Unpaired Matrix Case -- In this case the argument data is a 
+    single numeric matrix <tt>y</tt> that constitutes the <tt>y</tt>-values
+    of the plot.  An <tt>x</tt> vector is synthesized as <tt>x = 1:length(y)</tt>,
+    and each column of <tt>y</tt> is plotted sequentially against this common <tt>x</tt>
+    axis.
+ </LI>
+<LI>  Complex Matrix Case -- Here the argument data is a complex
+    matrix, in which case, the real part of each column is plotted against
+    the imaginary part of each column.  All columns receive the same line
+    styles.
+ </LI>
+</UL>
+Multiple data arguments in a single plot command are treated as a <STRONG>sequence</STRONG>, meaning
+that all of the plots are overlapped on the same set of axes.
+The <tt>linespec</tt> is a string used to change the characteristics of the line.  In general,
+the <tt>linespec</tt> is composed of three optional parts, the <tt>colorspec</tt>, the 
+<tt>symbolspec</tt> and the <tt>linestylespec</tt> in any order.  Each of these specifications
+is a single character that determines the corresponding characteristic.  First, the 
+<tt>colorspec</tt>:
+<UL>
+<LI>  <tt>'b'</tt> - Color Blue
+ </LI>
+<LI>  <tt>'g'</tt> - Color Green
+ </LI>
+<LI>  <tt>'r'</tt> - Color Red
+ </LI>
+<LI>  <tt>'c'</tt> - Color Cyan
+ </LI>
+<LI>  <tt>'m'</tt> - Color Magenta
+ </LI>
+<LI>  <tt>'y'</tt> - Color Yellow
+ </LI>
+<LI>  <tt>'k'</tt> - Color Black
+ </LI>
+</UL>
+The <tt>symbolspec</tt> specifies the (optional) symbol to be drawn at each data point:
+<UL>
+<LI>  <tt>'.'</tt> - Dot symbol
+ </LI>
+<LI>  <tt>'o'</tt> - Circle symbol
+ </LI>
+<LI>  <tt>'x'</tt> - Times symbol
+ </LI>
+<LI>  <tt>'+'</tt> - Plus symbol
+ </LI>
+<LI>  <tt>'*'</tt> - Asterisk symbol
+ </LI>
+<LI>  <tt>'s'</tt> - Square symbol
+ </LI>
+<LI>  <tt>'d'</tt> - Diamond symbol
+ </LI>
+<LI>  <tt>'v'</tt> - Downward-pointing triangle symbol
+ </LI>
+<LI>  <tt>'^'</tt> - Upward-pointing triangle symbol
+ </LI>
+<LI>  <tt>'<'</tt> - Left-pointing triangle symbol
+ </LI>
+<LI>  <tt>'>'</tt> - Right-pointing triangle symbol
+ </LI>
+</UL>
+The <tt>linestylespec</tt> specifies the (optional) line style to use for each data series:
+<UL>
+<LI>  <tt>'-'</tt> - Solid line style
+ </LI>
+<LI>  <tt>':'</tt> - Dotted line style
+ </LI>
+<LI>  <tt>'-.'</tt> - Dot-Dash-Dot-Dash line style
+ </LI>
+<LI>  <tt>'--'</tt> - Dashed line style
+ </LI>
+</UL>
+For sequences of plots, the <tt>linespec</tt> is recycled with color order determined
+by the properties of the current axes.  You can also use the <tt>properties</tt>
+argument to specify handle properties that will be inherited by all of the plots
+generated during this event.  Finally, you can also specify the handle for the
+axes that are the target of the <tt>plot</tt> operation.
+\verbatim
+  handle = plot(handle,...)
+\endverbatim
+\section Example
+The most common use of the <tt>plot</tt> command probably involves the vector-matrix
+paired case.  Here, we generate a simple cosine, and plot it using a red line, with
+no symbols (i.e., a <tt>linespec</tt> of <tt>'r-'</tt>).
+
+\if FRAGMENT
+frag_handle_plot_000.m
+0
+x = linspace(-pi,pi);
+y = cos(x);
+plot(x,y,'r-');
+mprint plot1
+\endif
+
+
+\verbinclude frag_handle_plot_000.m.out 
+
+which results in the following plot.
+\image html plot1.png
+\image latex plot1.eps "plot1" width=12cm
+
+Next, we plot multiple sinusoids (at different frequencies).  First, we construct
+a matrix, in which each column corresponds to a different sinusoid, and then plot
+them all at once.
+
+\if FRAGMENT
+frag_handle_plot_001.m
+0
+x = linspace(-pi,pi);
+y = [cos(x(:)),cos(3*x(:)),cos(5*x(:))];
+plot(x,y);
+mprint plot2
+\endif
+
+
+\verbinclude frag_handle_plot_001.m.out 
+
+In this case, we do not specify a <tt>linespec</tt>, so that we cycle through the
+colors automatically (in the order listed in the previous section).
+\image html plot2.png
+\image latex plot2.eps "plot2" width=12cm
+
+This time, we produce the same plot, but as we want to assign individual
+<tt>linespec</tt>s to each line, we use a sequence of arguments in a single plot
+command, which has the effect of plotting all of the data sets on a common 
+axis, but which allows us to control the <tt>linespec</tt> of each plot. In 
+the following example, the first line (harmonic) has red, solid lines with 
+times symbols
+marking the data points, the second line (third harmonic) has blue, solid lines
+with right-pointing triangle symbols, and the third line (fifth harmonic) has
+green, dotted lines with asterisk symbols.
+
+\if FRAGMENT
+frag_handle_plot_002.m
+0
+plot(x,y(:,1),'rx-',x,y(:,2),'b>-',x,y(:,3),'g*:');
+mprint plot3
+\endif
+
+
+\verbinclude frag_handle_plot_002.m.out 
+
+\image html plot3.png
+\image latex plot3.eps "plot3" width=12cm
+
+The second most frequently used case is the unpaired matrix case.  Here, we need
+to provide only one data component, which will be automatically plotted against
+a vector of natural number of the appropriate length.  Here, we use a plot sequence
+to change the style of each line to be dotted, dot-dashed, and dashed.
+
+\if FRAGMENT
+frag_handle_plot_003.m
+0
+plot(y(:,1),'r:',y(:,2),'b;',y(:,3),'g|');
+mprint plot4
+\endif
+
+
+\verbinclude frag_handle_plot_003.m.out 
+
+Note in the resulting plot that the <tt>x</tt>-axis no longer runs from <tt>[-pi,pi]</tt>, but 
+instead runs from <tt>[1,100]</tt>.
+\image html plot4.png
+\image latex plot4.eps "plot4" width=12cm
+
+The final case is for complex matrices.  For complex arguments, the real part is
+plotted against the imaginary part.  Hence, we can generate a 2-dimensional plot
+from a vector as follows.
+
+\if FRAGMENT
+frag_handle_plot_004.m
+0
+y = cos(2*x) + i * cos(3*x);
+plot(y);
+mprint plot5
+\endif
+
+
+\verbinclude frag_handle_plot_004.m.out 
+
+\image html plot5.png
+\image latex plot5.eps "plot5" width=12cm
+
+Here is an example of using the handle properties to influence the behavior
+of the generated lines.
+
+\if FRAGMENT
+frag_handle_plot_005.m
+0
+t = linspace(-3,3);
+plot(cos(5*t).*exp(-t),'r-','linewidth',3);
+mprint plot6
+\endif
+
+
+\verbinclude frag_handle_plot_005.m.out 
+
+\image html plot6.png
+\image latex plot6.eps "plot6" width=12cm
+*/

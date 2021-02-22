@@ -1,0 +1,74 @@
+/*!
+\page curvefit_gausfit GAUSFIT Gaussian Curve Fit
+
+<p>
+Section: \ref sec_curvefit "Optimization and Curve Fitting"
+\section Usage
+The <tt>gausfit</tt> routine has the following syntax
+\verbatim
+  [mu,sigma,dc,gain,yhat] = gausfit(t,y,w,mug,sigmag,dcg,gaing).
+\endverbatim
+where the required inputs are
+<UL>
+<LI>  <tt>t</tt> - the values of the independant variable (e.g., time samples)
+ </LI>
+<LI>  <tt>y</tt> - the values of the dependant variable (e.g., f(t))
+ </LI>
+</UL>
+The following inputs are all optional, and default values are
+available for each of them.
+<UL>
+<LI>  <tt>w</tt> - the weights to use in the fitting (set to ones if omitted)
+ </LI>
+<LI>  <tt>mug</tt> - initial estimate of the mean
+ </LI>
+<LI>  <tt>sigmag</tt> - initial estimate of the sigma (standard deviation)
+ </LI>
+<LI>  <tt>dcg</tt> - initial estimate of the DC value
+ </LI>
+<LI>  <tt>gaing</tt> - initial estimate of the gain
+ </LI>
+</UL>
+The fit is of the form <tt>yhat=gain*exp((t-mu).^2/(2*sigma^2))+dc</tt>.
+The outputs are 
+<UL>
+<LI>  <tt>mu</tt> - the mean of the fit
+ </LI>
+<LI>  <tt>sigma</tt> - the sigma of the fit
+ </LI>
+<LI>  <tt>dc</tt> - the dc term of the fit
+ </LI>
+<LI>  <tt>gain</tt> - the gain of the gaussian fit
+ </LI>
+<LI>  <tt>yhat</tt> - the output samples (the Gaussian fits)
+ </LI>
+</UL>
+Because the fit is nonlinear, a good initial guess is critical to
+convergence of the solution.  Thus, you can supply initial guesses
+for each of the parameters using the <tt>mug</tt>, <tt>sigmag</tt>, <tt>dcg</tt>, 
+<tt>gaing</tt> arguments.  Any arguments not supplied are estimated using 
+a simple algorithm. In particular, the DC value is estimated by 
+taking the minimum value  from the vector <tt>y</tt>.  The gain is 
+estimated from the range of <tt>y</tt>.  The mean and standard deviation 
+are estimated using the first and second order moments of <tt>y</tt>.
+This function uses <tt>fitfun</tt>.
+\section Example
+Suppose we want to fit a cycle of a cosine using a Gaussian shape.
+
+\if FRAGMENT
+frag_curvefit_gausfit_000.m
+0
+t = linspace(-pi,pi); 
+y = cos(t);
+[mu,sigma,dc,gain,yhat] = gausfit(t,y);
+plot(t,y,'rx',t,yhat,'g-');
+mprint gausfit1
+\endif
+
+
+\verbinclude frag_curvefit_gausfit_000.m.out 
+
+Which results in the following plot
+\image html gausfit1.png
+\image latex gausfit1.eps "gausfit1" width=12cm
+*/

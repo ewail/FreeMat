@@ -1,0 +1,148 @@
+
+ Usage
+
+vtkContourFilter is a filter that takes as input any dataset
+and generates on output isosurfaces and/or isolines. The
+exact form of the output depends upon the dimensionality of
+the input data. Data consisting of 3D cells will generate
+isosurfaces, data consisting of 2D cells will generate
+isolines, and data with 1D or 0D cells will generate
+isopoints. Combinations of output type are possible if the
+input dimension is mixed.
+To use this filter you must specify one or more contour
+values. You can either use the method SetValue() to specify
+each contour value, or use GenerateValues() to generate a
+series of evenly spaced contours. It is also possible to
+accelerate the operation of this filter (at the cost of
+extra memory) by using a vtkScalarTree. A scalar tree is
+used to quickly locate cells that contain a contour surface.
+This is especially effective if multiple contours are being
+extracted. If you want to use a scalar tree, invoke the
+method UseScalarTreeOn().
+To create an instance of class vtkContourFilter, simply
+invoke its constructor as follows
+
+    obj = vtkContourFilter
+
+
+
+ Methods
+
+The class vtkContourFilter has several methods that can be
+used. They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkContourFilter class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkContourFilter = obj.NewInstance ()
+* vtkContourFilter = obj.SafeDownCast (vtkObject o)
+* obj.SetValue (int i, double value) - Methods to set / get
+  contour values.
+* double = obj.GetValue (int i) - Methods to set / get
+  contour values.
+* obj.GetValues (double contourValues) - Methods to set /
+  get contour values.
+* obj.SetNumberOfContours (int number) - Methods to set /
+  get contour values.
+* int = obj.GetNumberOfContours () - Methods to set / get
+  contour values.
+* obj.GenerateValues (int numContours, double range[2]) -
+  Methods to set / get contour values.
+* obj.GenerateValues (int numContours, double rangeStart,
+  double rangeEnd) - Methods to set / get contour values.
+* long = obj.GetMTime () - Modified GetMTime Because we
+  delegate to vtkContourValues
+* obj.SetComputeNormals (int ) - Set/Get the computation of
+  normals. Normal computation is fairly expensive in both
+  time and storage. If the output data will be processed by
+  filters that modify topology or geometry, it may be wise
+  to turn Normals and Gradients off.
+* int = obj.GetComputeNormals () - Set/Get the computation
+  of normals. Normal computation is fairly expensive in both
+  time and storage. If the output data will be processed by
+  filters that modify topology or geometry, it may be wise
+  to turn Normals and Gradients off.
+* obj.ComputeNormalsOn () - Set/Get the computation of
+  normals. Normal computation is fairly expensive in both
+  time and storage. If the output data will be processed by
+  filters that modify topology or geometry, it may be wise
+  to turn Normals and Gradients off.
+* obj.ComputeNormalsOff () - Set/Get the computation of
+  normals. Normal computation is fairly expensive in both
+  time and storage. If the output data will be processed by
+  filters that modify topology or geometry, it may be wise
+  to turn Normals and Gradients off.
+* obj.SetComputeGradients (int ) - Set/Get the computation
+  of gradients. Gradient computation is fairly expensive in
+  both time and storage. Note that if ComputeNormals is on,
+  gradients will have to be calculated, but will not be
+  stored in the output dataset. If the output data will be
+  processed by filters that modify topology or geometry, it
+  may be wise to turn Normals and Gradients off.
+* int = obj.GetComputeGradients () - Set/Get the computation
+  of gradients. Gradient computation is fairly expensive in
+  both time and storage. Note that if ComputeNormals is on,
+  gradients will have to be calculated, but will not be
+  stored in the output dataset. If the output data will be
+  processed by filters that modify topology or geometry, it
+  may be wise to turn Normals and Gradients off.
+* obj.ComputeGradientsOn () - Set/Get the computation of
+  gradients. Gradient computation is fairly expensive in
+  both time and storage. Note that if ComputeNormals is on,
+  gradients will have to be calculated, but will not be
+  stored in the output dataset. If the output data will be
+  processed by filters that modify topology or geometry, it
+  may be wise to turn Normals and Gradients off.
+* obj.ComputeGradientsOff () - Set/Get the computation of
+  gradients. Gradient computation is fairly expensive in
+  both time and storage. Note that if ComputeNormals is on,
+  gradients will have to be calculated, but will not be
+  stored in the output dataset. If the output data will be
+  processed by filters that modify topology or geometry, it
+  may be wise to turn Normals and Gradients off.
+* obj.SetComputeScalars (int ) - Set/Get the computation of
+  scalars.
+* int = obj.GetComputeScalars () - Set/Get the computation
+  of scalars.
+* obj.ComputeScalarsOn () - Set/Get the computation of
+  scalars.
+* obj.ComputeScalarsOff () - Set/Get the computation of
+  scalars.
+* obj.SetUseScalarTree (int ) - Enable the use of a scalar
+  tree to accelerate contour extraction.
+* int = obj.GetUseScalarTree () - Enable the use of a scalar
+  tree to accelerate contour extraction.
+* obj.UseScalarTreeOn () - Enable the use of a scalar tree
+  to accelerate contour extraction.
+* obj.UseScalarTreeOff () - Enable the use of a scalar tree
+  to accelerate contour extraction.
+* obj.SetScalarTree (vtkScalarTree ) - Enable the use of a
+  scalar tree to accelerate contour extraction.
+* vtkScalarTree = obj.GetScalarTree () - Enable the use of a
+  scalar tree to accelerate contour extraction.
+* obj.SetLocator (vtkIncrementalPointLocator locator) - Set
+  / get a spatial locator for merging points. By default, an
+  instance of vtkMergePoints is used.
+* vtkIncrementalPointLocator = obj.GetLocator () - Set / get
+  a spatial locator for merging points. By default, an
+  instance of vtkMergePoints is used.
+* obj.CreateDefaultLocator () - Create default locator. Used
+  to create one when none is specified. The locator is used
+  to merge coincident points.
+* obj.SetArrayComponent (int ) - Set/get which component of
+  the scalar array to contour on; defaults to 0. Currently
+  this feature only works if the input is a vtkImageData.
+* int = obj.GetArrayComponent () - Set/get which component
+  of the scalar array to contour on; defaults to 0.
+  Currently this feature only works if the input is a
+  vtkImageData.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Graphics_Classes
+* Generated on Thu Jul 25 2013 17:18:31 for FreeMat by
+  doxygen_ 1.8.1.1
+

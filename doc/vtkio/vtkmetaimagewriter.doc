@@ -1,0 +1,79 @@
+/*!
+\page vtkio_vtkmetaimagewriter vtkMetaImageWriter
+
+<p>
+Section: \ref sec_vtkio "Visualization Toolkit IO Classes"
+\section Usage
+ One of the formats for which a reader is already available in the toolkit is
+ the MetaImage file format. This is a fairly simple yet powerful format
+ consisting of a text header and a binary data section. The following
+ instructions describe how you can write a MetaImage header for the data that
+ you download from the BrainWeb page.
+
+ The minimal structure of the MetaImage header is the following:
+
+    NDims = 3
+    DimSize = 181 217 181
+    ElementType = MET_UCHAR
+    ElementSpacing = 1.0 1.0 1.0
+    ElementByteOrderMSB = False
+    ElementDataFile = brainweb1.raw
+
+    * NDims indicate that this is a 3D image. ITK can handle images of
+      arbitrary dimension.
+    * DimSize indicates the size of the volume in pixels along each
+      direction.
+    * ElementType indicate the primitive type used for pixels. In this case
+      is "unsigned char", implying that the data is digitized in 8 bits /
+      pixel.
+    * ElementSpacing indicates the physical separation between the center of
+      one pixel and the center of the next pixel along each direction in space.
+      The units used are millimeters.
+    * ElementByteOrderMSB indicates is the data is encoded in little or big
+      endian order. You might want to play with this value when moving data
+      between different computer platforms.
+    * ElementDataFile is the name of the file containing the raw binary data
+      of the image. This file must be in the same directory as the header. 
+
+ MetaImage headers are expected to have extension: ".mha" or ".mhd"
+
+ Once you write this header text file, it should be possible to read the
+ image into your ITK based application using the itk::FileIOToImageFilter
+ class.
+
+To create an instance of class vtkMetaImageWriter, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkMetaImageWriter
+\endverbatim
+\section Methods
+The class vtkMetaImageWriter has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkMetaImageWriter class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkMetaImageWriter = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkMetaImageWriter = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetFileName (string fname)</tt> -  Specify file name of meta file
+ </LI>
+<LI>  <tt>string = obj.GetFileName ()</tt> -  Specify the file name of the raw image data.
+ </LI>
+<LI>  <tt>obj.SetRAWFileName (string fname)</tt> -  Specify the file name of the raw image data.
+ </LI>
+<LI>  <tt>string = obj.GetRAWFileName ()</tt> -  Specify the file name of the raw image data.
+ </LI>
+<LI>  <tt>obj.SetCompression (bool compress)</tt>
+ </LI>
+<LI>  <tt>bool = obj.GetCompression (void )</tt>
+ </LI>
+<LI>  <tt>obj.Write ()</tt>
+ </LI>
+</UL>
+*/

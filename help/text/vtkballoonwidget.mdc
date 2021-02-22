@@ -1,0 +1,133 @@
+
+ Usage
+
+The vtkBalloonWidget is used to popup text and/or an image
+when the mouse hovers over an instance of vtkProp. The
+widget keeps track of (vtkProp,vtkBalloon) pairs (where the
+internal vtkBalloon class is defined by a pair of
+vtkStdString and vtkImageData), and when the mouse stops
+moving for a user-specified period of time over the vtkProp,
+then the vtkBalloon is drawn nearby the vtkProp. Note that
+an instance of vtkBalloonRepresentation is used to draw the
+balloon.
+To use this widget, specify an instance of vtkBalloonWidget
+and a representation (e.g., vtkBalloonRepresentation). Then
+list all instances of vtkProp, a text string, and/or an
+instance of vtkImageData to be associated with each vtkProp.
+(Note that you can specify both text and an image, or just
+one or the other.) You may also wish to specify the hover
+delay (i.e., set in the superclass vtkHoverWidget).
+.SECTION Event Bindings By default, the widget observes the
+following VTK events (i.e., it watches the
+vtkRenderWindowInteractor for these events):
+
+     MouseMoveEvent - occurs when mouse is moved in render
+  window.
+     TimerEvent - occurs when the time between events (e.g.,
+  mouse move)
+                  is greater than TimerDuration.
+     KeyPressEvent - when the "Enter" key is pressed after
+  the balloon appears,
+                     a callback is activited (e.g.,
+  WidgetActivateEvent).
+
+Note that the event bindings described above can be changed
+using this class's vtkWidgetEventTranslator. This class
+translates VTK events into the vtkBalloonWidget's widget
+events:
+
+     vtkWidgetEvent::Move &ndash; start the timer
+     vtkWidgetEvent::TimedOut &ndash; when hovering occurs,
+     vtkWidgetEvent::SelectAction &ndash; activate any
+  callbacks associated
+                                     with the balloon.
+
+This widget invokes the following VTK events on itself
+(which observers can listen for):
+
+     vtkCommand::TimerEvent (when hovering is determined to
+  occur)
+     vtkCommand::EndInteractionEvent (after a hover has
+  occured and the
+                                      mouse begins moving
+  again).
+     vtkCommand::WidgetActivateEvent (when the balloon is
+  selected with a
+                                      keypress).
+
+To create an instance of class vtkBalloonWidget, simply
+invoke its constructor as follows
+
+    obj = vtkBalloonWidget
+
+
+
+ Methods
+
+The class vtkBalloonWidget has several methods that can be
+used. They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkBalloonWidget class.
+
+* string = obj.GetClassName () - Standard methods for a VTK
+  class.
+* int = obj.IsA (string name) - Standard methods for a VTK
+  class.
+* vtkBalloonWidget = obj.NewInstance () - Standard methods
+  for a VTK class.
+* vtkBalloonWidget = obj.SafeDownCast (vtkObject o) -
+  Standard methods for a VTK class.
+* obj.SetEnabled (int ) - The method for activiating and
+  deactiviating this widget. This method must be overridden
+  because it performs special timer-related operations.
+* obj.SetRepresentation (vtkBalloonRepresentation r) -
+  Create the default widget representation if one is not
+  set.
+* obj.CreateDefaultRepresentation () - Create the default
+  widget representation if one is not set.
+* obj.AddBalloon (vtkProp prop, string str, vtkImageData
+  img) - Add and remove text and/or an image to be
+  associated with a vtkProp. You may add one or both of
+  them.
+* obj.AddBalloon (vtkProp prop, string str) - Add and remove
+  text and/or an image to be associated with a vtkProp. You
+  may add one or both of them.
+* obj.RemoveBalloon (vtkProp prop) - Add and remove text
+  and/or an image to be associated with a vtkProp. You may
+  add one or both of them.
+* string = obj.GetBalloonString (vtkProp prop) - Methods to
+  retrieve the information associated with each vtkProp
+  (i.e., the information that makes up each balloon). A NULL
+  will be returned if the vtkProp does not exist, or if a
+  string or image have not been associated with the
+  specified vtkProp.
+* vtkImageData = obj.GetBalloonImage (vtkProp prop) -
+  Methods to retrieve the information associated with each
+  vtkProp (i.e., the information that makes up each
+  balloon). A NULL will be returned if the vtkProp does not
+  exist, or if a string or image have not been associated
+  with the specified vtkProp.
+* vtkProp = obj.GetCurrentProp () - Set/Get the object used
+  to perform pick operations. Since the vtkBalloonWidget
+  operates on vtkProps, the picker must be a subclass of
+  vtkAbstractPropPicker. (Note: if not specified, an
+  instance of vtkPropPicker is used.)
+* obj.SetPicker (vtkAbstractPropPicker ) - Set/Get the
+  object used to perform pick operations. Since the
+  vtkBalloonWidget operates on vtkProps, the picker must be
+  a subclass of vtkAbstractPropPicker. (Note: if not
+  specified, an instance of vtkPropPicker is used.)
+* vtkAbstractPropPicker = obj.GetPicker () - Set/Get the
+  object used to perform pick operations. Since the
+  vtkBalloonWidget operates on vtkProps, the picker must be
+  a subclass of vtkAbstractPropPicker. (Note: if not
+  specified, an instance of vtkPropPicker is used.)
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Widget_Classes
+* Generated on Thu Jul 25 2013 17:18:36 for FreeMat by
+  doxygen_ 1.8.1.1
+

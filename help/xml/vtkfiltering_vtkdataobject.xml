@@ -1,0 +1,190 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkfiltering_vtkdataobject" kind="page">
+    <compoundname>vtkfiltering_vtkdataobject</compoundname>
+    <title>vtkDataObject</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkfiltering_1sec_vtkfiltering" kindref="member">Visualization Toolkit Filtering Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>vtkDataObject is an general representation of visualization data. It serves to encapsulate instance variables and methods for visualization network execution, as well as representing data consisting of a field (i.e., just an unstructured pile of data). This is to be compared with a vtkDataSet, which is data with geometric and/or topological structure.</para><para>vtkDataObjects are used to represent arbitrary repositories of data via the vtkFieldData instance variable. These data must be eventually mapped into a concrete subclass of vtkDataSet before they can actually be displayed.</para><para>To create an instance of class vtkDataObject, simply invoke its constructor as follows <verbatim>  obj = vtkDataObject
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkDataObject has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkDataObject class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkDataObject = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkDataObject = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkSource = obj.GetSource ()</computeroutput> - Set/Get the source object creating this data object.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetSource (vtkSource s)</computeroutput> - Set/Get the source object creating this data object.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkInformation = obj.GetInformation ()</computeroutput> - Set/Get the information object associated with this data object.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetInformation (vtkInformation )</computeroutput> - Set/Get the information object associated with this data object.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkInformation = obj.GetPipelineInformation ()</computeroutput> - Get/Set the pipeline information object that owns this data object.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetPipelineInformation (vtkInformation )</computeroutput> - Get/Set the pipeline information object that owns this data object.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkAlgorithmOutput = obj.GetProducerPort ()</computeroutput> - Get the port currently producing this object.  </para></listitem>
+<listitem>
+<para><computeroutput>long = obj.GetMTime ()</computeroutput> - Data objects are composite objects and need to check each part for MTime. The information object also needs to be considered.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.Initialize ()</computeroutput> - Restore data object to initial state,  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ReleaseData ()</computeroutput> - Release data back to system to conserve memory resource. Used during visualization network execution. Releasing this data does not make down-stream data invalid, so it does not modify the MTime of this data object.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.ShouldIReleaseData ()</computeroutput> - Return flag indicating whether data should be released after use by a filter.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetDataReleased ()</computeroutput> - Get the flag indicating the data has been released.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetReleaseDataFlag (int )</computeroutput> - Turn on/off flag to control whether this object&apos;s data is released after being used by a filter.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetReleaseDataFlag ()</computeroutput> - Turn on/off flag to control whether this object&apos;s data is released after being used by a filter.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ReleaseDataFlagOn ()</computeroutput> - Turn on/off flag to control whether this object&apos;s data is released after being used by a filter.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ReleaseDataFlagOff ()</computeroutput> - Turn on/off flag to control whether this object&apos;s data is released after being used by a filter.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GlobalReleaseDataFlagOn ()</computeroutput> - Turn on/off flag to control whether every object releases its data after being used by a filter.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GlobalReleaseDataFlagOff ()</computeroutput> - Turn on/off flag to control whether every object releases its data after being used by a filter.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetFieldData (vtkFieldData )</computeroutput> - Assign or retrieve a general field data to this data object.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkFieldData = obj.GetFieldData ()</computeroutput> - Assign or retrieve a general field data to this data object.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.Register (vtkObjectBase o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.UnRegister (vtkObjectBase o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.Update ()</computeroutput> - Provides opportunity for the data object to insure internal consistency before access. Also causes owning source/filter (if any) to update itself. The Update() method is composed of UpdateInformation(), PropagateUpdateExtent(), TriggerAsynchronousUpdate(), and UpdateData().  </para></listitem>
+<listitem>
+<para><computeroutput>obj.UpdateInformation ()</computeroutput> - WARNING: INTERNAL METHOD - NOT FOR GENERAL USE. THIS METHOD IS PART OF THE PIPELINE UPDATE FUNCTIONALITY. Update all the &quot;easy to update&quot; information about the object such as the extent which will be used to control the update. This propagates all the way up then back down the pipeline. As a by-product the PipelineMTime is updated.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.PropagateUpdateExtent ()</computeroutput> - WARNING: INTERNAL METHOD - NOT FOR GENERAL USE. THIS METHOD IS PART OF THE PIPELINE UPDATE FUNCTIONALITY. The update extent for this object is propagated up the pipeline. This propagation may early terminate based on the PipelineMTime.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.TriggerAsynchronousUpdate ()</computeroutput> - WARNING: INTERNAL METHOD - NOT FOR GENERAL USE. THIS METHOD IS PART OF THE PIPELINE UPDATE FUNCTIONALITY. Propagate back up the pipeline for ports and trigger the update on the other side of the port to allow for asynchronous parallel processing in the pipeline. This propagation may early terminate based on the PipelineMTime.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.UpdateData ()</computeroutput> - WARNING: INTERNAL METHOD - NOT FOR GENERAL USE. THIS METHOD IS PART OF THE PIPELINE UPDATE FUNCTIONALITY. Propagate the update back up the pipeline, and perform the actual work of updating on the way down. When the propagate arrives at a port, block and wait for the asynchronous update to finish on the other side. This propagation may early terminate based on the PipelineMTime.  </para></listitem>
+<listitem>
+<para><computeroutput>long = obj.GetEstimatedMemorySize ()</computeroutput> - Get the estimated size of this data object itself. Should be called after UpdateInformation() and PropagateUpdateExtent() have both been called. Should be overridden in a subclass - otherwise the default is to assume that this data object requires no memory. The size is returned in kilobytes.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetUpdateExtent (int piece, int numPieces, int ghostLevel)</computeroutput> - A generic way of specifying an update extent. Subclasses must decide what a piece is. When the NumberOfPieces is zero, then no data is requested, and the source will not execute.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetUpdateExtent (int piece, int numPieces)</computeroutput> - Set the update extent for data objects that use 3D extents. Using this method on data objects that set extents as pieces (such as vtkPolyData or vtkUnstructuredGrid) has no real effect. Don&apos;t use the set macro to set the update extent since we don&apos;t want this object to be modified just due to a change in update extent. When the volume of the extent is zero (0, -1,..), then no data is requested, and the source will not execute.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetUpdateExtent (int x0, int x1, int y0, int y1, int z0, int z1)</computeroutput> - Set the update extent for data objects that use 3D extents. Using this method on data objects that set extents as pieces (such as vtkPolyData or vtkUnstructuredGrid) has no real effect. Don&apos;t use the set macro to set the update extent since we don&apos;t want this object to be modified just due to a change in update extent. When the volume of the extent is zero (0, -1,..), then no data is requested, and the source will not execute.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetUpdateExtent (int extent[6])</computeroutput> - Set the update extent for data objects that use 3D extents. Using this method on data objects that set extents as pieces (such as vtkPolyData or vtkUnstructuredGrid) has no real effect. Don&apos;t use the set macro to set the update extent since we don&apos;t want this object to be modified just due to a change in update extent. When the volume of the extent is zero (0, -1,..), then no data is requested, and the source will not execute.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetUpdateExtent ()</computeroutput> - Set the update extent for data objects that use 3D extents. Using this method on data objects that set extents as pieces (such as vtkPolyData or vtkUnstructuredGrid) has no real effect. Don&apos;t use the set macro to set the update extent since we don&apos;t want this object to be modified just due to a change in update extent. When the volume of the extent is zero (0, -1,..), then no data is requested, and the source will not execute.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GetUpdateExtent (int extent[6])</computeroutput> - Set the update extent for data objects that use 3D extents. Using this method on data objects that set extents as pieces (such as vtkPolyData or vtkUnstructuredGrid) has no real effect. Don&apos;t use the set macro to set the update extent since we don&apos;t want this object to be modified just due to a change in update extent. When the volume of the extent is zero (0, -1,..), then no data is requested, and the source will not execute.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetDataObjectType ()</computeroutput> - Used by Threaded ports to determine if they should initiate an asynchronous update (still in development).  </para></listitem>
+<listitem>
+<para><computeroutput>long = obj.GetUpdateTime ()</computeroutput> - Used by Threaded ports to determine if they should initiate an asynchronous update (still in development).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetUpdateExtentToWholeExtent ()</computeroutput> - If the whole input extent is required to generate the requested output extent, this method can be called to set the input update extent to the whole input extent. This method assumes that the whole extent is known (that UpdateInformation has been called)  </para></listitem>
+<listitem>
+<para><computeroutput>long = obj.GetPipelineMTime ()</computeroutput> - Get the cumulative modified time of everything upstream. Does not include the MTime of this object.  </para></listitem>
+<listitem>
+<para><computeroutput>long = obj.GetActualMemorySize ()</computeroutput> - Return the actual size of the data in kilobytes. This number is valid only after the pipeline has updated. The memory size returned is guaranteed to be greater than or equal to the memory required to represent the data (e.g., extra space in arrays, etc. are not included in the return value).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.CopyInformation (vtkDataObject data)</computeroutput> - Copy the generic information (WholeExtent ...)  </para></listitem>
+<listitem>
+<para><computeroutput>obj.CopyTypeSpecificInformation (vtkDataObject data)</computeroutput> - By default, there is no type specific information  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetUpdatePiece (int piece)</computeroutput> - Set / Get the update piece and the update number of pieces. Similar to update extent in 3D.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetUpdateNumberOfPieces (int num)</computeroutput> - Set / Get the update piece and the update number of pieces. Similar to update extent in 3D.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetUpdatePiece ()</computeroutput> - Set / Get the update piece and the update number of pieces. Similar to update extent in 3D.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetUpdateNumberOfPieces ()</computeroutput> - Set / Get the update piece and the update number of pieces. Similar to update extent in 3D.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetUpdateGhostLevel (int level)</computeroutput> - Set / Get the update ghost level and the update number of ghost levels. Similar to update extent in 3D.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetUpdateGhostLevel ()</computeroutput> - Set / Get the update ghost level and the update number of ghost levels. Similar to update extent in 3D.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetRequestExactExtent (int flag)</computeroutput> - This request flag indicates whether the requester can handle more data than requested. Right now it is used in vtkImageData. Image filters can return more data than requested. The the consumer cannot handle this (i.e. DataSetToDataSetFitler) the image will crop itself. This functionality used to be in ImageToStructuredPoints.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetRequestExactExtent ()</computeroutput> - This request flag indicates whether the requester can handle more data than requested. Right now it is used in vtkImageData. Image filters can return more data than requested. The the consumer cannot handle this (i.e. DataSetToDataSetFitler) the image will crop itself. This functionality used to be in ImageToStructuredPoints.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.RequestExactExtentOn ()</computeroutput> - This request flag indicates whether the requester can handle more data than requested. Right now it is used in vtkImageData. Image filters can return more data than requested. The the consumer cannot handle this (i.e. DataSetToDataSetFitler) the image will crop itself. This functionality used to be in ImageToStructuredPoints.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.RequestExactExtentOff ()</computeroutput> - This request flag indicates whether the requester can handle more data than requested. Right now it is used in vtkImageData. Image filters can return more data than requested. The the consumer cannot handle this (i.e. DataSetToDataSetFitler) the image will crop itself. This functionality used to be in ImageToStructuredPoints.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetWholeExtent (int x0, int x1, int y0, int y1, int z0, int z1)</computeroutput> - Set/Get the whole extent of this data object. The whole extent is meta data for structured data sets. It gets set by the source during the update information call.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetWholeExtent (int extent[6])</computeroutput> - Set/Get the whole extent of this data object. The whole extent is meta data for structured data sets. It gets set by the source during the update information call.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetWholeExtent ()</computeroutput> - Set/Get the whole extent of this data object. The whole extent is meta data for structured data sets. It gets set by the source during the update information call.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GetWholeExtent (int extent[6])</computeroutput> - Set/Get the whole extent of this data object. The whole extent is meta data for structured data sets. It gets set by the source during the update information call.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetWholeBoundingBox (double x0, double x1, double y0, double y1, double z0, double z1)</computeroutput> - Set/Get the whole bounding box of this data object. The whole whole bounding box is meta data for data sets It gets set by the source during the update information call.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetWholeBoundingBox (double bb[6])</computeroutput> - Set/Get the whole bounding box of this data object. The whole whole bounding box is meta data for data sets It gets set by the source during the update information call.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetWholeBoundingBox ()</computeroutput> - Set/Get the whole bounding box of this data object. The whole whole bounding box is meta data for data sets It gets set by the source during the update information call.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GetWholeBoundingBox (double extent[6])</computeroutput> - Set/Get the whole bounding box of this data object. The whole whole bounding box is meta data for data sets It gets set by the source during the update information call.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetMaximumNumberOfPieces (int )</computeroutput> - Set/Get the maximum number of pieces that can be requested. The maximum number of pieces is meta data for unstructured data sets. It gets set by the source during the update information call. A value of -1 indicates that there is no maximum. A value of  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetMaximumNumberOfPieces ()</computeroutput> - Set/Get the maximum number of pieces that can be requested. The maximum number of pieces is meta data for unstructured data sets. It gets set by the source during the update information call. A value of -1 indicates that there is no maximum. A value of  </para></listitem>
+<listitem>
+<para><computeroutput>obj.CopyInformationToPipeline (vtkInformation request, vtkInformation input, vtkInformation output, int forceCopy)</computeroutput> - Copy information about this data object to the output information from its own Information for the given request. If the second argument is not NULL then it is the pipeline information object for the input to this data object&apos;s producer. If forceCopy is true, information is copied even if it exists in the output.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.CopyInformationToPipeline (vtkInformation request, vtkInformation input)</computeroutput> - Copy information about this data object from the PipelineInformation to its own Information for the given request.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.CopyInformationFromPipeline (vtkInformation request)</computeroutput> - Copy information about this data object from the PipelineInformation to its own Information for the given request.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.DataHasBeenGenerated ()</computeroutput> - This method is called by the source when it executes to generate data. It is sort of the opposite of ReleaseData. It sets the DataReleased flag to 0, and sets a new UpdateTime.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.PrepareForNewData ()</computeroutput> - make the output data ready for new data to be inserted. For most objects we just call Initialize. But for vtkImageData we leave the old data in case the memory can be reused.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ShallowCopy (vtkDataObject src)</computeroutput> - Shallow and Deep copy. These copy the data, but not any of the pipeline connections.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.DeepCopy (vtkDataObject src)</computeroutput> - Shallow and Deep copy. These copy the data, but not any of the pipeline connections.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetExtentTranslator (vtkExtentTranslator translator)</computeroutput> - An object that will translate pieces into structured extents.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkExtentTranslator = obj.GetExtentTranslator ()</computeroutput> - An object that will translate pieces into structured extents.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetExtentType ()</computeroutput> - The ExtentType will be left as VTK_PIECES_EXTENT for data objects such as vtkPolyData and vtkUnstructuredGrid. The ExtentType will be changed to VTK_3D_EXTENT for data objects with 3D structure such as vtkImageData (and its subclass vtkStructuredPoints), vtkRectilinearGrid, and vtkStructuredGrid. The default is the have an extent in pieces, with only one piece (no streaming possible).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.Crop ()</computeroutput> - This method crops the data object (if necesary) so that the extent matches the update extent.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkDataSetAttributes = obj.GetAttributes (int type)</computeroutput> - Returns the attributes of the data object of the specified attribute type. The type may be: <itemizedlist>
+<listitem>
+<para>POINT - Defined in vtkDataSet subclasses. </para></listitem>
+<listitem>
+<para>CELL - Defined in vtkDataSet subclasses. </para></listitem>
+<listitem>
+<para>VERTEX - Defined in vtkGraph subclasses. </para></listitem>
+<listitem>
+<para>EDGE - Defined in vtkGraph subclasses. </para></listitem>
+<listitem>
+<para>ROW - Defined in vtkTable. </para></listitem>
+</itemizedlist>
+The other attribute type, FIELD, will return NULL since field data is stored as a vtkFieldData instance, not a vtkDataSetAttributes instance. To retrieve field data, use GetAttributesAsFieldData.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkFieldData = obj.GetAttributesAsFieldData (int type)</computeroutput> - Returns the attributes of the data object as a vtkFieldData. This returns non-null values in all the same cases as GetAttributes, in addition to the case of FIELD, which will return the field data for any vtkDataObject subclass.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetAttributeTypeForArray (vtkAbstractArray arr)</computeroutput> - Retrieves the attribute type that an array came from. This is useful for obtaining which attribute type a input array to an algorithm came from (retrieved from GetInputAbstractArrayToProcesss).  </para></listitem>
+<listitem>
+<para><computeroutput>vtkIdType = obj.GetNumberOfElements (int type)</computeroutput> - Get the number of elements for a specific attribute type (POINT, CELL, etc.).  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

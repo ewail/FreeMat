@@ -1,0 +1,130 @@
+/*!
+\page vtkwidgets_vtkparallelopipedrepresentation vtkParallelopipedRepresentation
+
+<p>
+Section: \ref sec_vtkwidgets "Visualization Toolkit Widget Classes"
+\section Usage
+ This class provides the default geometrical representation for 
+ vtkParallelopipedWidget. As a result of interactions of the widget, this
+ representation can take on of the following shapes:
+ <p>1) A parallelopiped. (8 handles, 6 faces)
+ <p>2) Paralleopiped with a chair depression on any one handle. (A chair
+ is a depression on one of the handles that carves inwards so as to allow 
+ the user to visualize cuts in the volume). (14 handles, 9 faces).
+
+
+To create an instance of class vtkParallelopipedRepresentation, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkParallelopipedRepresentation
+\endverbatim
+\section Methods
+The class vtkParallelopipedRepresentation has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkParallelopipedRepresentation class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt> -  Standard methods for instances of this class.
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt> -  Standard methods for instances of this class.
+ </LI>
+<LI>  <tt>vtkParallelopipedRepresentation = obj.NewInstance ()</tt> -  Standard methods for instances of this class.
+ </LI>
+<LI>  <tt>vtkParallelopipedRepresentation = obj.SafeDownCast (vtkObject o)</tt> -  Standard methods for instances of this class.
+ </LI>
+<LI>  <tt>obj.GetActors (vtkPropCollection pc)</tt> -  Methods to satisfy the superclass.
+ </LI>
+<LI>  <tt>obj.PlaceWidget (double bounds[6])</tt> -  Place the widget in the scene. You can use either of the two APIs : 
+ 1) PlaceWidget( double bounds[6] ) 
+      Creates a cuboid conforming to the said bounds.
+ 2) PlaceWidget( double corners[8][3] )
+      Creates a parallelopiped with corners specified. The order in 
+      which corners are specified must obey the following rule:
+      Corner 0 - 1 - 2 - 3 - 0  forms a face
+      Corner 4 - 5 - 6 - 7 - 4  forms a face
+      Corner 0 - 4 - 5 - 1 - 0  forms a face
+      Corner 1 - 5 - 6 - 2 - 1  forms a face
+      Corner 2 - 6 - 7 - 3 - 2  forms a face
+      Corner 3 - 7 - 4 - 0 - 3  forms a face
+ </LI>
+<LI>  <tt>obj.SetInteractionState (int )</tt> -  The interaction state may be set from a widget (e.g., PointWidget) 
+ or other object. This controls how the interaction with the
+ widget proceeds.
+ </LI>
+<LI>  <tt>obj.GetBoundingPlanes (vtkPlaneCollection pc)</tt> -  Get the bounding planes of the object. The first 6 planes will
+ be bounding planes of the parallelopiped. If in chair mode, three 
+ additional planes will be present. The last three planes will be those
+ of the chair. The normals of all the planes will point into the object.
+ </LI>
+<LI>  <tt>obj.GetPolyData (vtkPolyData pd)</tt> -  The parallelopiped polydata.
+ </LI>
+<LI>  <tt>double = obj.GetBounds ()</tt> -  The parallelopiped polydata.
+ </LI>
+<LI>  <tt>obj.SetHandleProperty (vtkProperty )</tt> -  Set/Get the handle properties. 
+ </LI>
+<LI>  <tt>obj.SetHoveredHandleProperty (vtkProperty )</tt> -  Set/Get the handle properties. 
+ </LI>
+<LI>  <tt>obj.SetSelectedHandleProperty (vtkProperty )</tt> -  Set/Get the handle properties. 
+ </LI>
+<LI>  <tt>vtkProperty = obj.GetHandleProperty ()</tt> -  Set/Get the handle properties. 
+ </LI>
+<LI>  <tt>vtkProperty = obj.GetHoveredHandleProperty ()</tt> -  Set/Get the handle properties. 
+ </LI>
+<LI>  <tt>vtkProperty = obj.GetSelectedHandleProperty ()</tt> -  Set/Get the handle properties. 
+ </LI>
+<LI>  <tt>obj.SetHandleRepresentation (vtkHandleRepresentation handle)</tt>
+ </LI>
+<LI>  <tt>vtkHandleRepresentation = obj.GetHandleRepresentation (int index)</tt>
+ </LI>
+<LI>  <tt>obj.HandlesOn ()</tt> -  Turns the visibility of the handles on/off. Sometimes they may get in
+ the way of visualization.
+ </LI>
+<LI>  <tt>obj.HandlesOff ()</tt> -  Turns the visibility of the handles on/off. Sometimes they may get in
+ the way of visualization.
+ </LI>
+<LI>  <tt>vtkProperty = obj.GetFaceProperty ()</tt> -  Get the face properties. When a face is being translated, the face gets
+ highlighted with the SelectedFaceProperty.
+ </LI>
+<LI>  <tt>vtkProperty = obj.GetSelectedFaceProperty ()</tt> -  Get the face properties. When a face is being translated, the face gets
+ highlighted with the SelectedFaceProperty.
+ </LI>
+<LI>  <tt>vtkProperty = obj.GetOutlineProperty ()</tt> -  Get the outline properties. These are the properties with which the
+ parallelopiped wireframe is rendered.
+ </LI>
+<LI>  <tt>vtkProperty = obj.GetSelectedOutlineProperty ()</tt> -  Get the outline properties. These are the properties with which the
+ parallelopiped wireframe is rendered.
+ </LI>
+<LI>  <tt>obj.BuildRepresentation ()</tt> -  This actually constructs the geometry of the widget from the various
+ data parameters.
+ </LI>
+<LI>  <tt>obj.ReleaseGraphicsResources (vtkWindow w)</tt> -  Methods required by vtkProp superclass.
+ </LI>
+<LI>  <tt>int = obj.RenderOverlay (vtkViewport viewport)</tt> -  Methods required by vtkProp superclass.
+ </LI>
+<LI>  <tt>int = obj.RenderOpaqueGeometry (vtkViewport viewport)</tt> -  Methods required by vtkProp superclass.
+ </LI>
+<LI>  <tt>int = obj.ComputeInteractionState (int X, int Y, int modify)</tt> -  Given and x-y display coordinate, compute the interaction state of 
+ the widget.
+ </LI>
+<LI>  <tt>obj.Translate (double translation[3])</tt>
+ </LI>
+<LI>  <tt>obj.Translate (int X, int Y)</tt>
+ </LI>
+<LI>  <tt>obj.Scale (int X, int Y)</tt>
+ </LI>
+<LI>  <tt>obj.PositionHandles ()</tt> -  Synchronize the parallelopiped handle positions with the 
+ Polygonal datastructure.
+ </LI>
+<LI>  <tt>obj.SetMinimumThickness (double )</tt> -  Minimum thickness for the parallelopiped. User interactions cannot make
+ any individual axis of the parallopiped thinner than this value.
+ Default is 0.05 expressed as a fraction of the diagonal of the bounding
+ box used in the PlaceWidget() invocation.
+ </LI>
+<LI>  <tt>double = obj.GetMinimumThickness ()</tt> -  Minimum thickness for the parallelopiped. User interactions cannot make
+ any individual axis of the parallopiped thinner than this value.
+ Default is 0.05 expressed as a fraction of the diagonal of the bounding
+ box used in the PlaceWidget() invocation.
+ </LI>
+</UL>
+*/

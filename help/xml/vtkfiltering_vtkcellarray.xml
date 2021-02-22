@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkfiltering_vtkcellarray" kind="page">
+    <compoundname>vtkfiltering_vtkcellarray</compoundname>
+    <title>vtkCellArray</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkfiltering_1sec_vtkfiltering" kindref="member">Visualization Toolkit Filtering Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>vtkCellArray is a supporting object that explicitly represents cell connectivity. The cell array structure is a raw integer list of the form: (n,id1,id2,...,idn, n,id1,id2,...,idn, ...) where n is the number of points in the cell, and id is a zero-offset index into an associated point list.</para><para>Advantages of this data structure are its compactness, simplicity, and easy interface to external data. However, it is totally inadequate for random access. This functionality (when necessary) is accomplished by using the vtkCellTypes and vtkCellLinks objects to extend the definition of the data structure.</para><para>To create an instance of class vtkCellArray, simply invoke its constructor as follows <verbatim>  obj = vtkCellArray
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkCellArray has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkCellArray class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkCellArray = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkCellArray = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.Allocate (vtkIdType sz, int ext)</computeroutput> - Free any memory and reset to an empty state.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.Initialize ()</computeroutput> - Free any memory and reset to an empty state.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkIdType = obj.GetNumberOfCells ()</computeroutput> - Get the number of cells in the array.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetNumberOfCells (vtkIdType )</computeroutput> - Set the number of cells in the array. DO NOT do any kind of allocation, advanced use only.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkIdType = obj.EstimateSize (vtkIdType numCells, int maxPtsPerCell)</computeroutput> - A cell traversal methods that is more efficient than vtkDataSet traversal methods. InitTraversal() initializes the traversal of the list of cells.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.InitTraversal ()</computeroutput> - A cell traversal methods that is more efficient than vtkDataSet traversal methods. InitTraversal() initializes the traversal of the list of cells.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkIdType = obj.GetSize ()</computeroutput> - Get the total number of entries (i.e., data values) in the connectivity array. This may be much less than the allocated size (i.e., return value from GetSize().)  </para></listitem>
+<listitem>
+<para><computeroutput>vtkIdType = obj.GetNumberOfConnectivityEntries ()</computeroutput> - Internal method used to retrieve a cell given an offset into the internal array.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkIdType = obj.InsertNextCell (vtkCell cell)</computeroutput> - Insert a cell object. Return the cell id of the cell.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkIdType = obj.InsertNextCell (vtkIdList pts)</computeroutput> - Create a cell by specifying a list of point ids. Return the cell id of the cell.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkIdType = obj.InsertNextCell (int npts)</computeroutput> - Create cells by specifying count, and then adding points one at a time using method InsertCellPoint(). If you don&apos;t know the count initially, use the method UpdateCellCount() to complete the cell. Return the cell id of the cell.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.InsertCellPoint (vtkIdType id)</computeroutput> - Used in conjunction with InsertNextCell(int npts) to add another point to the list of cells.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.UpdateCellCount (int npts)</computeroutput> - Used in conjunction with InsertNextCell(int npts) and InsertCellPoint() to update the number of points defining the cell.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkIdType = obj.GetInsertLocation (int npts)</computeroutput> - Computes the current insertion location within the internal array. Used in conjunction with GetCell(int loc,...).  </para></listitem>
+<listitem>
+<para><computeroutput>vtkIdType = obj.GetTraversalLocation ()</computeroutput> - Get/Set the current traversal location.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetTraversalLocation (vtkIdType loc)</computeroutput> - Computes the current traversal location within the internal array. Used in conjunction with GetCell(int loc,...).  </para></listitem>
+<listitem>
+<para><computeroutput>vtkIdType = obj.GetTraversalLocation (vtkIdType npts)</computeroutput> - Special method inverts ordering of current cell. Must be called carefully or the cell topology may be corrupted.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ReverseCell (vtkIdType loc)</computeroutput> - Special method inverts ordering of current cell. Must be called carefully or the cell topology may be corrupted.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetMaxCellSize ()</computeroutput> - Returns the size of the largest cell. The size is the number of points defining the cell.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkIdType = obj.GetPointer ()</computeroutput> - Get pointer to data array for purpose of direct writes of data. Size is the total storage consumed by the cell array. ncells is the number of cells represented in the array.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkIdType = obj.WritePointer (vtkIdType ncells, vtkIdType size)</computeroutput> - Get pointer to data array for purpose of direct writes of data. Size is the total storage consumed by the cell array. ncells is the number of cells represented in the array.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetCells (vtkIdType ncells, vtkIdTypeArray cells)</computeroutput> - Define multiple cells by providing a connectivity list. The list is in the form (npts,p0,p1,...p(npts-1), repeated for each cell). Be careful using this method because it discards the old cells, and anything referring these cells becomes invalid (for example, if BuildCells() has been called see vtkPolyData). The traversal location is reset to the beginning of the list; the insertion location is set to the end of the list.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.DeepCopy (vtkCellArray ca)</computeroutput> - Perform a deep copy (no reference counting) of the given cell array.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkIdTypeArray = obj.GetData ()</computeroutput> - Reuse list. Reset to initial condition.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.Reset ()</computeroutput> - Reuse list. Reset to initial condition.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.Squeeze ()</computeroutput> - Return the memory in kilobytes consumed by this cell array. Used to support streaming and reading/writing data. The value returned is guaranteed to be greater than or equal to the memory required to actually represent the data represented by this object. The information returned is valid only after the pipeline has been updated.  </para></listitem>
+<listitem>
+<para><computeroutput>long = obj.GetActualMemorySize ()</computeroutput> - Return the memory in kilobytes consumed by this cell array. Used to support streaming and reading/writing data. The value returned is guaranteed to be greater than or equal to the memory required to actually represent the data represented by this object. The information returned is valid only after the pipeline has been updated.  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

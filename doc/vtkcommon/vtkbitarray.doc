@@ -1,0 +1,146 @@
+/*!
+\page vtkcommon_vtkbitarray vtkBitArray
+
+<p>
+Section: \ref sec_vtkcommon "Visualization Toolkit Common Classes"
+\section Usage
+ vtkBitArray is an array of bits (0/1 data value). The array is packed 
+ so that each byte stores eight bits. vtkBitArray provides methods
+ for insertion and retrieval of bits, and will automatically resize 
+ itself to hold new data.
+
+To create an instance of class vtkBitArray, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkBitArray
+\endverbatim
+\section Methods
+The class vtkBitArray has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkBitArray class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkBitArray = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkBitArray = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>int = obj.Allocate (vtkIdType sz, vtkIdType ext)</tt> -  Allocate memory for this array. Delete old storage only if necessary.
+ Note that ext is no longer used.
+ </LI>
+<LI>  <tt>obj.Initialize ()</tt> -  Release storage and reset array to initial state.
+ </LI>
+<LI>  <tt>int = obj.GetDataType ()</tt>
+ </LI>
+<LI>  <tt>int = obj.GetDataTypeSize ()</tt> -  Set the number of n-tuples in the array.
+ </LI>
+<LI>  <tt>obj.SetNumberOfTuples (vtkIdType number)</tt> -  Set the number of n-tuples in the array.
+ </LI>
+<LI>  <tt>obj.SetTuple (vtkIdType i, vtkIdType j, vtkAbstractArray source)</tt> -  Set the tuple at the ith location using the jth tuple in the source array.
+ This method assumes that the two arrays have the same type
+ and structure. Note that range checking and memory allocation is not 
+ performed; use in conjunction with SetNumberOfTuples() to allocate space.
+ </LI>
+<LI>  <tt>obj.InsertTuple (vtkIdType i, vtkIdType j, vtkAbstractArray source)</tt> -  Insert the jth tuple in the source array, at ith location in this array. 
+ Note that memory allocation is performed as necessary to hold the data.
+ </LI>
+<LI>  <tt>vtkIdType = obj.InsertNextTuple (vtkIdType j, vtkAbstractArray source)</tt> -  Insert the jth tuple in the source array, at the end in this array. 
+ Note that memory allocation is performed as necessary to hold the data.
+ Returns the location at which the data was inserted.
+ </LI>
+<LI>  <tt>obj.GetTuple (vtkIdType i, double tuple)</tt> -  Copy the tuple value into a user-provided array.
+ </LI>
+<LI>  <tt>obj.SetTuple (vtkIdType i, float tuple)</tt> -  Set the tuple value at the ith location in the array.
+ </LI>
+<LI>  <tt>obj.SetTuple (vtkIdType i, double tuple)</tt> -  Set the tuple value at the ith location in the array.
+ </LI>
+<LI>  <tt>obj.InsertTuple (vtkIdType i, float tuple)</tt> -  Insert (memory allocation performed) the tuple into the ith location
+ in the array.
+ </LI>
+<LI>  <tt>obj.InsertTuple (vtkIdType i, double tuple)</tt> -  Insert (memory allocation performed) the tuple into the ith location
+ in the array.
+ </LI>
+<LI>  <tt>vtkIdType = obj.InsertNextTuple (float tuple)</tt> -  Insert (memory allocation performed) the tuple onto the end of the array.
+ </LI>
+<LI>  <tt>vtkIdType = obj.InsertNextTuple (double tuple)</tt> -  Insert (memory allocation performed) the tuple onto the end of the array.
+ </LI>
+<LI>  <tt>obj.RemoveTuple (vtkIdType id)</tt> -  These methods remove tuples from the data array. They shift data and
+ resize array, so the data array is still valid after this operation. Note,
+ this operation is fairly slow.
+ </LI>
+<LI>  <tt>obj.RemoveFirstTuple ()</tt> -  These methods remove tuples from the data array. They shift data and
+ resize array, so the data array is still valid after this operation. Note,
+ this operation is fairly slow.
+ </LI>
+<LI>  <tt>obj.RemoveLastTuple ()</tt> -  These methods remove tuples from the data array. They shift data and
+ resize array, so the data array is still valid after this operation. Note,
+ this operation is fairly slow.
+ </LI>
+<LI>  <tt>obj.SetComponent (vtkIdType i, int j, double c)</tt> -  Set the data component at the ith tuple and jth component location.
+ Note that i is less then NumberOfTuples and j is less then 
+ NumberOfComponents. Make sure enough memory has been allocated (use 
+ SetNumberOfTuples() and  SetNumberOfComponents()).
+ </LI>
+<LI>  <tt>obj.Squeeze ()</tt> -  Free any unneeded memory.
+ </LI>
+<LI>  <tt>int = obj.Resize (vtkIdType numTuples)</tt> -  Resize the array while conserving the data.
+ </LI>
+<LI>  <tt>int = obj.GetValue (vtkIdType id)</tt> -  Get the data at a particular index.
+ </LI>
+<LI>  <tt>obj.SetNumberOfValues (vtkIdType number)</tt> -  Fast method based setting of values without memory checks. First
+ use SetNumberOfValues then use SetValue to actually set them.
+ Specify the number of values for this object to hold. Does an
+ allocation as well as setting the MaxId ivar. Used in conjunction with
+ SetValue() method for fast insertion.
+ </LI>
+<LI>  <tt>obj.SetValue (vtkIdType id, int value)</tt> -  Set the data at a particular index. Does not do range checking. Make sure
+ you use the method SetNumberOfValues() before inserting data.
+ </LI>
+<LI>  <tt>obj.InsertValue (vtkIdType id, int i)</tt> -  Insets values and checks to make sure there is enough memory
+ </LI>
+<LI>  <tt>vtkIdType = obj.InsertNextValue (int i)</tt>
+ </LI>
+<LI>  <tt>obj.InsertComponent (vtkIdType i, int j, double c)</tt> -  Insert the data component at ith tuple and jth component location. 
+ Note that memory allocation is performed as necessary to hold the data.
+ </LI>
+<LI>  <tt>obj.DeepCopy (vtkDataArray da)</tt> -  Deep copy of another bit array.
+ </LI>
+<LI>  <tt>obj.DeepCopy (vtkAbstractArray aa)</tt> -  This method lets the user specify data to be held by the array.  The 
+ array argument is a pointer to the data.  size is the size of 
+ the array supplied by the user.  Set save to 1 to keep the class
+ from deleting the array when it cleans up or reallocates memory.
+ The class uses the actual array provided; it does not copy the data 
+ from the suppled array. If save 0, the array must have been allocated
+ with new[] not malloc.
+ </LI>
+<LI>  <tt>obj.SetArray (string array, vtkIdType size, int save)</tt> -  This method lets the user specify data to be held by the array.  The 
+ array argument is a pointer to the data.  size is the size of 
+ the array supplied by the user.  Set save to 1 to keep the class
+ from deleting the array when it cleans up or reallocates memory.
+ The class uses the actual array provided; it does not copy the data 
+ from the suppled array. If save 0, the array must have been allocated
+ with new[] not malloc.
+ </LI>
+<LI>  <tt>vtkArrayIterator = obj.NewIterator ()</tt> -  Returns a new vtkBitArrayIterator instance.
+ </LI>
+<LI>  <tt>vtkIdType = obj.LookupValue (int value)</tt>
+ </LI>
+<LI>  <tt>obj.LookupValue (int value, vtkIdList ids)</tt>
+ </LI>
+<LI>  <tt>obj.DataChanged ()</tt> -  Tell the array explicitly that the data has changed.
+ This is only necessary to call when you modify the array contents
+ without using the array's API (i.e. you retrieve a pointer to the
+ data and modify the array contents).  You need to call this so that
+ the fast lookup will know to rebuild itself.  Otherwise, the lookup
+ functions will give incorrect results.
+ </LI>
+<LI>  <tt>obj.ClearLookup ()</tt> -  Delete the associated fast lookup data structure on this array,
+ if it exists.  The lookup will be rebuilt on the next call to a lookup
+ function.
+ </LI>
+</UL>
+*/

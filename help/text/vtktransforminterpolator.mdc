@@ -1,0 +1,196 @@
+
+ Usage
+
+This class is used to interpolate a series of 4x4
+transformation matrices. Position, scale and orientation
+(i.e., rotations) are interpolated separately, and can be
+interpolated linearly or with a spline function. Note that
+orientation is interpolated using quaternions via SLERP
+(spherical linear interpolation) or the special
+vtkQuaternionSpline class.
+To use this class, specify at least two pairs of
+(t,transformation matrix) with the AddTransform() method.
+Then interpolated the transforms with the
+InterpolateTransform(t,transform) method, where "t" must be
+in the range of (min,max) times specified by the
+AddTransform() method.
+By default, spline interpolation is used for the
+interpolation of the transformation matrices. The position,
+scale and orientation of the matrices are interpolated with
+instances of the classes vtkTupleInterpolator
+(position,scale) and vtkQuaternionInterpolator (rotation).
+The user can override the interpolation behavior by gaining
+access to these separate interpolation classes. These
+interpolator classes (vtkTupleInterpolator and
+vtkQuaternionInterpolator) can be modified to perform linear
+versus spline interpolation, and/or different spline basis
+functions can be specified.
+To create an instance of class vtkTransformInterpolator,
+simply invoke its constructor as follows
+
+    obj = vtkTransformInterpolator
+
+
+
+ Methods
+
+The class vtkTransformInterpolator has several methods that
+can be used. They are listed below. Note that the
+documentation is translated automatically from the VTK
+sources, and may not be completely intelligible. When in
+doubt, consult the VTK website. In the methods listed below,
+obj is an instance of the vtkTransformInterpolator class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkTransformInterpolator = obj.NewInstance ()
+* vtkTransformInterpolator = obj.SafeDownCast (vtkObject o)
+* int = obj.GetNumberOfTransforms () - Return the number of
+  transforms in the list of transforms.
+* double = obj.GetMinimumT () - Obtain some information
+  about the interpolation range. The numbers returned
+  (corresponding to parameter t, usually thought of as time)
+  are undefined if the list of transforms is empty.
+* double = obj.GetMaximumT () - Obtain some information
+  about the interpolation range. The numbers returned
+  (corresponding to parameter t, usually thought of as time)
+  are undefined if the list of transforms is empty.
+* obj.Initialize () - Clear the list of transforms.
+* obj.AddTransform (double t, vtkTransform xform) - Add
+  another transform to the list of transformations defining
+  the transform function. Note that using the same time t
+  value more than once replaces the previous transform value
+  at t. At least two transforms must be added to define a
+  function. There are variants to this method depending on
+  whether you are adding a vtkTransform, vtkMaxtirx4x4, and/
+  or vtkProp3D.
+* obj.AddTransform (double t, vtkMatrix4x4 matrix) - Add
+  another transform to the list of transformations defining
+  the transform function. Note that using the same time t
+  value more than once replaces the previous transform value
+  at t. At least two transforms must be added to define a
+  function. There are variants to this method depending on
+  whether you are adding a vtkTransform, vtkMaxtirx4x4, and/
+  or vtkProp3D.
+* obj.AddTransform (double t, vtkProp3D prop3D) - Add
+  another transform to the list of transformations defining
+  the transform function. Note that using the same time t
+  value more than once replaces the previous transform value
+  at t. At least two transforms must be added to define a
+  function. There are variants to this method depending on
+  whether you are adding a vtkTransform, vtkMaxtirx4x4, and/
+  or vtkProp3D.
+* obj.RemoveTransform (double t) - Delete the transform at a
+  particular parameter t. If there is no transform defined
+  at location t, then the method does nothing.
+* obj.InterpolateTransform (double t, vtkTransform xform) -
+  Interpolate the list of transforms and determine a new
+  transform (i.e., fill in the transformation provided). If
+  t is outside the range of (min,max) values, then t is
+  clamped.
+* obj.SetInterpolationType (int ) - These are convenience
+  methods to switch between linear and spline interpolation.
+  The methods simply forward the request for linear or
+  spline interpolation to the position, scale and
+  orientation interpolators. Note that if the
+  InterpolationType is set to "Manual", then the
+  interpolators are expected to be directly manipulated and
+  this class does not forward the request for interpolation
+  type to its interpolators.
+* int = obj.GetInterpolationTypeMinValue () - These are
+  convenience methods to switch between linear and spline
+  interpolation. The methods simply forward the request for
+  linear or spline interpolation to the position, scale and
+  orientation interpolators. Note that if the
+  InterpolationType is set to "Manual", then the
+  interpolators are expected to be directly manipulated and
+  this class does not forward the request for interpolation
+  type to its interpolators.
+* int = obj.GetInterpolationTypeMaxValue () - These are
+  convenience methods to switch between linear and spline
+  interpolation. The methods simply forward the request for
+  linear or spline interpolation to the position, scale and
+  orientation interpolators. Note that if the
+  InterpolationType is set to "Manual", then the
+  interpolators are expected to be directly manipulated and
+  this class does not forward the request for interpolation
+  type to its interpolators.
+* int = obj.GetInterpolationType () - These are convenience
+  methods to switch between linear and spline interpolation.
+  The methods simply forward the request for linear or
+  spline interpolation to the position, scale and
+  orientation interpolators. Note that if the
+  InterpolationType is set to "Manual", then the
+  interpolators are expected to be directly manipulated and
+  this class does not forward the request for interpolation
+  type to its interpolators.
+* obj.SetInterpolationTypeToLinear () - These are
+  convenience methods to switch between linear and spline
+  interpolation. The methods simply forward the request for
+  linear or spline interpolation to the position, scale and
+  orientation interpolators. Note that if the
+  InterpolationType is set to "Manual", then the
+  interpolators are expected to be directly manipulated and
+  this class does not forward the request for interpolation
+  type to its interpolators.
+* obj.SetInterpolationTypeToSpline () - These are
+  convenience methods to switch between linear and spline
+  interpolation. The methods simply forward the request for
+  linear or spline interpolation to the position, scale and
+  orientation interpolators. Note that if the
+  InterpolationType is set to "Manual", then the
+  interpolators are expected to be directly manipulated and
+  this class does not forward the request for interpolation
+  type to its interpolators.
+* obj.SetInterpolationTypeToManual () - Set/Get the tuple
+  interpolator used to interpolate the position portion of
+  the transformation matrix. Note that you can modify the
+  behavior of the interpolator (linear vs spline
+  interpolation; change spline basis) by manipulating the
+  interpolator instances.
+* obj.SetPositionInterpolator (vtkTupleInterpolator ) - Set/
+  Get the tuple interpolator used to interpolate the
+  position portion of the transformation matrix. Note that
+  you can modify the behavior of the interpolator (linear vs
+  spline interpolation; change spline basis) by manipulating
+  the interpolator instances.
+* vtkTupleInterpolator = obj.GetPositionInterpolator () -
+  Set/Get the tuple interpolator used to interpolate the
+  position portion of the transformation matrix. Note that
+  you can modify the behavior of the interpolator (linear vs
+  spline interpolation; change spline basis) by manipulating
+  the interpolator instances.
+* obj.SetScaleInterpolator (vtkTupleInterpolator ) - Set/Get
+  the tuple interpolator used to interpolate the scale
+  portion of the transformation matrix. Note that you can
+  modify the behavior of the interpolator (linear vs spline
+  interpolation; change spline basis) by manipulating the
+  interpolator instances.
+* vtkTupleInterpolator = obj.GetScaleInterpolator () - Set/
+  Get the tuple interpolator used to interpolate the scale
+  portion of the transformation matrix. Note that you can
+  modify the behavior of the interpolator (linear vs spline
+  interpolation; change spline basis) by manipulating the
+  interpolator instances.
+* obj.SetRotationInterpolator (vtkQuaternionInterpolator ) -
+  Set/Get the tuple interpolator used to interpolate the
+  orientation portion of the transformation matrix. Note
+  that you can modify the behavior of the interpolator
+  (linear vs spline interpolation; change spline basis) by
+  manipulating the interpolator instances.
+* vtkQuaternionInterpolator = obj.GetRotationInterpolator ()
+  - Set/Get the tuple interpolator used to interpolate the
+  orientation portion of the transformation matrix. Note
+  that you can modify the behavior of the interpolator
+  (linear vs spline interpolation; change spline basis) by
+  manipulating the interpolator instances.
+* long = obj.GetMTime () - Override GetMTime() because we
+  depend on the interpolators which may be modified outside
+  of this class.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Rendering_Classes
+* Generated on Thu Jul 25 2013 17:18:35 for FreeMat by
+  doxygen_ 1.8.1.1
+

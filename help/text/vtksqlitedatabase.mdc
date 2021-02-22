@@ -1,0 +1,95 @@
+
+ Usage
+
+SQLite (http://www.sqlite.org) is a public-domain SQL
+database written in C++. It's small, fast, and can be easily
+embedded inside other applications. Its databases are stored
+in files.
+This class provides a VTK interface to SQLite. You do not
+need to download any external libraries: we include a copy
+of SQLite 3.3.16 in VTK/Utilities/vtksqlite.
+If you want to open a database that stays in memory and
+never gets written to disk, pass in the URL 'sqlite://:
+memory:'; otherwise, specifiy the file path by passing the
+URL 'sqlite://<file_path>'.
+.SECTION Thanks Thanks to Andrew Wilson and Philippe Pebay
+from Sandia National Laboratories for implementing this
+class.
+To create an instance of class vtkSQLiteDatabase, simply
+invoke its constructor as follows
+
+    obj = vtkSQLiteDatabase
+
+
+
+ Methods
+
+The class vtkSQLiteDatabase has several methods that can be
+used. They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkSQLiteDatabase class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkSQLiteDatabase = obj.NewInstance ()
+* vtkSQLiteDatabase = obj.SafeDownCast (vtkObject o)
+* bool = obj.Open (string password) - Open a new connection
+  to the database. You need to set the filename before
+  calling this function. Returns true if the database was
+  opened successfully; false otherwise.
+
+  o USE_EXISTING (default) - Fail if the file does not
+    exist.
+  o USE_EXISTING_OR_CREATE - Create a new file if necessary.
+  o CREATE_OR_CLEAR - Create new or clear existing file.
+  o CREATE - Create new, fail if file exists.
+
+* bool = obj.Open (string password, int mode) - Open a new
+  connection to the database. You need to set the filename
+  before calling this function. Returns true if the database
+  was opened successfully; false otherwise.
+
+  o USE_EXISTING (default) - Fail if the file does not
+    exist.
+  o USE_EXISTING_OR_CREATE - Create a new file if necessary.
+  o CREATE_OR_CLEAR - Create new or clear existing file.
+  o CREATE - Create new, fail if file exists.
+
+* obj.Close () - Close the connection to the database.
+* bool = obj.IsOpen () - Return whether the database has an
+  open connection
+* vtkSQLQuery = obj.GetQueryInstance () - Return an empty
+  query on this database.
+* vtkStringArray = obj.GetTables () - Get the list of tables
+  from the database
+* vtkStringArray = obj.GetRecord (string table) - Get the
+  list of fields for a particular table
+* bool = obj.IsSupported (int feature) - Return whether a
+  feature is supported by the database.
+* bool = obj.HasError () - Did the last operation generate
+  an error
+* string = obj.GetLastErrorText () - Get the last error text
+  from the database
+* string = obj.GetDatabaseType () - String representing
+  database type (e.g. "sqlite").
+* string = obj.GetDatabaseFileName () - String representing
+  the database filename.
+* obj.SetDatabaseFileName (string ) - String representing
+  the database filename.
+* vtkStdString = obj.GetURL () - Get the URL of the
+  database.
+* vtkStdString = obj.GetColumnSpecification
+  (vtkSQLDatabaseSchema schema, int tblHandle, int
+  colHandle) - Return the SQL string with the syntax to
+  create a column inside a "CREATE TABLE" SQL statement. NB:
+  this method implements the SQLite-specific syntax: <column
+  name>=""> <column type>=""> <column attributes>="">
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_IO_Classes
+* Generated on Thu Jul 25 2013 17:18:34 for FreeMat by
+  doxygen_ 1.8.1.1
+

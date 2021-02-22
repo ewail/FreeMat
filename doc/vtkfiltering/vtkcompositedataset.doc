@@ -1,0 +1,79 @@
+/*!
+\page vtkfiltering_vtkcompositedataset vtkCompositeDataSet
+
+<p>
+Section: \ref sec_vtkfiltering "Visualization Toolkit Filtering Classes"
+\section Usage
+ vtkCompositeDataSet is an abstract class that represents a collection
+ of datasets (including other composite datasets). It
+ provides an interface to access the datasets through iterators.
+ vtkCompositeDataSet provides methods that are used by subclasses to store the
+ datasets.
+ vtkCompositeDataSet provides the datastructure for a full tree 
+ representation. Subclasses provide the semantics for it and control how
+ this tree is built.
+
+To create an instance of class vtkCompositeDataSet, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkCompositeDataSet
+\endverbatim
+\section Methods
+The class vtkCompositeDataSet has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkCompositeDataSet class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkCompositeDataSet = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkCompositeDataSet = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>vtkCompositeDataIterator = obj.NewIterator ()</tt> -  Return a new iterator (the iterator has to be deleted by user).
+ </LI>
+<LI>  <tt>int = obj.GetDataObjectType ()</tt> -  Get the port currently producing this object.
+ </LI>
+<LI>  <tt>vtkAlgorithmOutput = obj.GetProducerPort ()</tt> -  Get the port currently producing this object.
+ </LI>
+<LI>  <tt>obj.CopyStructure (vtkCompositeDataSet input)</tt> -  Copies the tree structure from the input. All pointers to non-composite
+ data objects are intialized to NULL. This also shallow copies the meta data
+ associated with all the nodes.
+ </LI>
+<LI>  <tt>obj.SetDataSet (vtkCompositeDataIterator iter, vtkDataObject dataObj)</tt> -  Sets the data set at the location pointed by the iterator.
+ The iterator does not need to be iterating over this dataset itself. It can
+ be any composite datasite with similar structure (achieved by using
+ CopyStructure).
+ </LI>
+<LI>  <tt>vtkDataObject = obj.GetDataSet (vtkCompositeDataIterator iter)</tt> -  Returns the dataset located at the positiong pointed by the iterator.
+ The iterator does not need to be iterating over this dataset itself. It can
+ be an iterator for composite dataset with similar structure (achieved by
+ using CopyStructure).
+ </LI>
+<LI>  <tt>vtkInformation = obj.GetMetaData (vtkCompositeDataIterator iter)</tt> -  Returns the meta-data associated with the position pointed by the iterator.
+ This will create a new vtkInformation object if none already exists. Use
+ HasMetaData to avoid creating the vtkInformation object unnecessarily.
+ The iterator does not need to be iterating over this dataset itself. It can
+ be an iterator for composite dataset with similar structure (achieved by
+ using CopyStructure).
+ </LI>
+<LI>  <tt>int = obj.HasMetaData (vtkCompositeDataIterator iter)</tt> -  Returns if any meta-data associated with the position pointed by the iterator.
+ The iterator does not need to be iterating over this dataset itself. It can
+ be an iterator for composite dataset with similar structure (achieved by
+ using CopyStructure).
+ </LI>
+<LI>  <tt>obj.Initialize ()</tt> -  Restore data object to initial state,
+ </LI>
+<LI>  <tt>obj.ShallowCopy (vtkDataObject src)</tt> -  Shallow and Deep copy.
+ </LI>
+<LI>  <tt>obj.DeepCopy (vtkDataObject src)</tt> -  Shallow and Deep copy.
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetNumberOfPoints ()</tt> -  Returns the total number of points of all blocks. This will
+ iterate over all blocks and call GetNumberOfPoints() so it
+ might be expansive.
+ </LI>
+</UL>
+*/

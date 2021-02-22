@@ -1,0 +1,85 @@
+
+ Usage
+
+This class (and subclasses) are used to iterate over cells.
+Use it only in conjunction with vtkGenericDataSet (i.e., the
+adaptor framework).
+Typical use is:
+
+   vtkGenericDataSet *dataset;
+   vtkGenericCellIterator *it = dataset->NewCellIterator(2);
+   for (it->Begin(); !it->IsAtEnd(); it->Next());
+     {
+     spec=it->GetCell();
+     }
+
+To create an instance of class vtkGenericCellIterator,
+simply invoke its constructor as follows
+
+    obj = vtkGenericCellIterator
+
+
+
+ Methods
+
+The class vtkGenericCellIterator has several methods that
+can be used. They are listed below. Note that the
+documentation is translated automatically from the VTK
+sources, and may not be completely intelligible. When in
+doubt, consult the VTK website. In the methods listed below,
+obj is an instance of the vtkGenericCellIterator class.
+
+* string = obj.GetClassName () - Standard VTK construction
+  and type macros.
+* int = obj.IsA (string name) - Standard VTK construction
+  and type macros.
+* vtkGenericCellIterator = obj.NewInstance () - Standard VTK
+  construction and type macros.
+* vtkGenericCellIterator = obj.SafeDownCast (vtkObject o) -
+  Standard VTK construction and type macros.
+* obj.Begin () - Move iterator to first position if any
+  (loop initialization).
+* int = obj.IsAtEnd () - Is the iterator at the end of
+  traversal?
+* vtkGenericAdaptorCell = obj.NewCell () - Create an empty
+  cell. The user is responsible for deleting it.
+
+
+    Postcondition:
+        result_exists: result!=0
+
+* obj.GetCell (vtkGenericAdaptorCell c) - Get the cell at
+  current position. The cell should be instantiated with the
+  NewCell() method.
+
+
+    Precondition:
+        not_at_end: !IsAtEnd()
+        c_exists: c!=0 THREAD SAFE
+
+* vtkGenericAdaptorCell = obj.GetCell () - Get the cell at
+  the current traversal position. NOT THREAD SAFE
+
+
+    Precondition:
+        not_at_end: !IsAtEnd()
+
+
+
+    Postcondition:
+        result_exits: result!=0
+
+* obj.Next () - Move the iterator to the next position in
+  the list.
+
+
+    Precondition:
+        not_at_end: !IsAtEnd()
+
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Filtering_Classes
+* Generated on Thu Jul 25 2013 17:18:30 for FreeMat by
+  doxygen_ 1.8.1.1
+

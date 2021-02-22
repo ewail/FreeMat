@@ -1,0 +1,47 @@
+/*!
+\page io_wavread WAVREAD Read a WAV Audio File
+
+<p>
+Section: \ref sec_io "Input/Ouput Functions"
+\section Usage
+The <tt>wavread</tt> function (attempts) to read the contents of a linear PCM
+audio WAV file.  This function could definitely use improvements - it is
+based on a very simplistic notion of a WAV file.  The simplest form for
+its use is
+\verbatim
+   y = wavread(filename)
+\endverbatim
+where <tt>filename</tt> is the name of the WAV file to read.  If no extension
+is provided, FreeMat will add a '.wav' extension.  This loads the data
+from the WAV file into <tt>y</tt>, and returns it in <tt>double</tt> precision,
+normalized format.  If you want additional information on, for example,
+the WAV sampling rate or bit depth, you can request it via
+\verbatim
+  [y, SamplingRate, BitDepth] = wavread(filename)
+\endverbatim
+where <tt>SamplingRate</tt> and <tt>BitDepth</tt> are the sampling rate (in Hz) and
+the bit depth of the original data in the WAV file.  If you only want to
+load part of the WAV file, you can use
+\verbatim
+  [...] = wavread(filename, N)
+\endverbatim
+where <tt>N</tt> indicates the number of samples to read from the file.
+Alternately, you can indicate a range of samples to load via
+\verbatim
+  [...] = wavread(filename, [N1 N2])
+\endverbatim
+which returns only the indicated samples from each channel in the file.
+By default, the output format is <tt>double</tt> precision.  You can cntrol
+the format of the output by indicating
+\verbatim
+  [...] = wavread(filename, format)
+\endverbatim
+where <tt>format</tt> is either <tt>'double'</tt> for double precision output, or
+<tt>'native'</tt> for native precision output (meaning whatever bitdepth that
+was present in the original file).  Finally, you can use the <tt>'size'</tt> flag
+\verbatim
+  y_siz = wavread(filename,'size')
+\endverbatim
+which returns a vector <tt>[samples channels]</tt> indicating the size of the
+data present in the WAV file.
+*/

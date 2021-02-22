@@ -1,0 +1,65 @@
+/*!
+\page flow_switch SWITCH Switch statement
+
+<p>
+Section: \ref sec_flow "Flow Control"
+\section Usage
+The <tt>switch</tt> statement is used to selective execute code
+based on the value of either scalar value or a string.
+The general syntax for a <tt>switch</tt> statement is
+\verbatim
+  switch(expression)
+    case test_expression_1
+      statements
+    case test_expression_2
+      statements
+    otherwise
+      statements
+  end
+\endverbatim
+The <tt>otherwise</tt> clause is optional.  Note that each test
+expression can either be a scalar value, a string to test
+against (if the switch expression is a string), or a
+<tt>cell-array</tt> of expressions to test against.  Note that
+unlike <tt>C</tt> <tt>switch</tt> statements, the FreeMat <tt>switch</tt>
+does not have fall-through, meaning that the statements
+associated with the first matching case are executed, and
+then the <tt>switch</tt> ends.  Also, if the <tt>switch</tt> expression
+matches multiple <tt>case</tt> expressions, only the first one
+is executed.
+\section Examples
+Here is an example of a <tt>switch</tt> expression that tests
+against a string input:
+
+\if FILE
+switch_test.m
+function c = switch_test(a)
+  switch(a)
+    case {'lima beans','root beer'}
+      c = 'food';
+    case {'red','green','blue'}
+      c = 'color';
+    otherwise
+      c = 'not sure';
+  end
+\endif
+\verbatim
+     switch_test.m
+\endverbatim
+
+\verbinclude switch_test.m
+
+Now we exercise the switch statements
+
+\if FRAGMENT
+frag_flow_switch_000.m
+0
+switch_test('root beer')
+switch_test('red')
+switch_test('carpet')
+\endif
+
+
+\verbinclude frag_flow_switch_000.m.out 
+
+*/

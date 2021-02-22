@@ -1,0 +1,75 @@
+
+ Usage
+
+vtkPolygonalSurfaceContourLineInterpolator interpolates and
+places contour points on polygonal surfaces. The class
+interpolates nodes by computing a graph geodesic lying on
+the polygonal data. By graph Geodesic, we mean that the line
+interpolating the two end points traverses along on the mesh
+edges so as to form the shortest path. A Dijkstra algorithm
+is used to compute the path. See
+vtkDijkstraGraphGeodesicPath.
+The class is mean to be used in conjunction with
+vtkPolygonalSurfacePointPlacer. The reason for this weak
+coupling is a performance issue, both classes need to
+perform a cell pick, and coupling avoids multiple cell picks
+(cell picks are slow).
+To create an instance of class
+vtkPolygonalSurfaceContourLineInterpolator, simply invoke
+its constructor as follows
+
+    obj = vtkPolygonalSurfaceContourLineInterpolator
+
+
+
+ Methods
+
+The class vtkPolygonalSurfaceContourLineInterpolator has
+several methods that can be used. They are listed below.
+Note that the documentation is translated automatically from
+the VTK sources, and may not be completely intelligible.
+When in doubt, consult the VTK website. In the methods
+listed below, obj is an instance of the
+vtkPolygonalSurfaceContourLineInterpolator class.
+
+* string = obj.GetClassName () - Standard methods for
+  instances of this class.
+* int = obj.IsA (string name) - Standard methods for
+  instances of this class.
+* vtkPolygonalSurfaceContourLineInterpolator =
+  obj.NewInstance () - Standard methods for instances of
+  this class.
+* vtkPolygonalSurfaceContourLineInterpolator =
+  obj.SafeDownCast (vtkObject o) - Standard methods for
+  instances of this class.
+* int = obj.InterpolateLine (vtkRenderer ren,
+  vtkContourRepresentation rep, int idx1, int idx2) -
+  Subclasses that wish to interpolate a line segment must
+  implement this. For instance
+  vtkBezierContourLineInterpolator adds nodes between idx1
+  and idx2, that allow the contour to adhere to a bezier
+  curve.
+* int = obj.UpdateNode (vtkRenderer ,
+  vtkContourRepresentation , double , int ) - The
+  interpolator is given a chance to update the node.
+  vtkImageContourLineInterpolator updates the idx'th node in
+  the contour, so it automatically sticks to edges in the
+  vicinity as the user constructs the contour. Returns 0 if
+  the node (world position) is unchanged.
+* obj.SetDistanceOffset (double ) - Height offset at which
+  points may be placed on the polygonal surface. If you
+  specify a non-zero value here, be sure to have computed
+  vertex normals on your input polygonal data. (easily done
+  with vtkPolyDataNormals).
+* double = obj.GetDistanceOffset () - Height offset at which
+  points may be placed on the polygonal surface. If you
+  specify a non-zero value here, be sure to have computed
+  vertex normals on your input polygonal data. (easily done
+  with vtkPolyDataNormals).
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Widget_Classes
+* Generated on Thu Jul 25 2013 17:18:36 for FreeMat by
+  doxygen_ 1.8.1.1
+

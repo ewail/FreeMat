@@ -1,0 +1,9 @@
+0
+typeof(uint8(3))
+typeof(int8(8))
+typeof(uint16(3))
+typeof(int16(8))
+typeof(uint32(3))
+typeof(int32(3))
+typeof(uint64(3))
+typeof(int64(3))

@@ -1,0 +1,94 @@
+
+ Usage
+
+This class is an adapter between a vtkPainter and a
+rendering device (such as an OpenGL machine). Having an
+abstract adapter allows vtkPainters to be re-used for any
+rendering system.
+Although VTK really only uses OpenGL right now, there are
+reasons to swap out the rendering functions. Sometimes MESA
+with mangled names is used. Also, different shader
+extensions use different functions. Furthermore, Cg also has
+its own interface.
+The interface for this class should be familier to anyone
+experienced with OpenGL.
+To create an instance of class vtkPainterDeviceAdapter,
+simply invoke its constructor as follows
+
+    obj = vtkPainterDeviceAdapter
+
+
+
+ Methods
+
+The class vtkPainterDeviceAdapter has several methods that
+can be used. They are listed below. Note that the
+documentation is translated automatically from the VTK
+sources, and may not be completely intelligible. When in
+doubt, consult the VTK website. In the methods listed below,
+obj is an instance of the vtkPainterDeviceAdapter class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkPainterDeviceAdapter = obj.NewInstance ()
+* vtkPainterDeviceAdapter = obj.SafeDownCast (vtkObject o)
+* obj.BeginPrimitive (int mode) - Signals the start of
+  sending a primitive to the graphics card. The mode is one
+  of VTK_VERTEX, VTK_POLY_VERTEX, VTK_LINE, VTK_POLY_LINE,
+  VTK_TRIANGLE, VTK_TRIANGLE_STRIP, VTK_POLYGON, or
+  VTK_QUAD. The primitive is defined by the attributes sent
+  between the calls to BeginPrimitive and EndPrimitive. You
+  do not need to call EndPrimitive/BeginPrimitive between
+  primitives that have a constant number of points (i.e.
+  VTK_VERTEX, VTK_LINE, VTK_TRIANGLE, and VTK_QUAD).
+* obj.EndPrimitive () - Signals the end of sending a
+  primitive to the graphics card.
+* int = obj.IsAttributesSupported (int attribute) - Returns
+  if the given attribute type is supported by the device.
+  Returns 1 is supported, 0 otherwise.
+* obj.SetAttributePointer (int index, vtkDataArray
+  attributeArray) - Sets an array of attributes. This allows
+  you to send all the data for a particular attribute with
+  one call, thus greatly reducing function call overhead.
+  Once set, the array is enabled with EnableAttributeArray,
+  and the data is sent with a call to DrawArrays
+  DrawElements.
+* obj.EnableAttributeArray (int index) - Enable/disable the
+  attribute array set with SetAttributePointer.
+* obj.DisableAttributeArray (int index) - Enable/disable the
+  attribute array set with SetAttributePointer.
+* obj.DrawArrays (int mode, vtkIdType first, vtkIdType
+  count) - Send a section of the enabled attribute pointers
+  to the graphics card to define a primitive. The mode is
+  one of VTK_VERTEX, VTK_POLY_VERTEX, VTK_LINE,
+  VTK_POLY_LINE, VTK_TRIANGLE, VTK_TRIANGLE_STRIP,
+  VTK_POLYGON, or VTK_QUAD. It identifies which type of
+  primitive the attribute data is defining. The parameters
+  first and count identify what part of the attribute arrays
+  define the given primitive. If mode is a primitive that
+  has a constant number of points (i.e. VTK_VERTEX,
+  VTK_LINE, VTK_TRIANGLE, and VTK_QUAD), you may draw
+  multiple primitives with one call to DrawArrays.
+* int = obj.Compatible (vtkRenderer renderer) - Returns true
+  if this device adapter is compatable with the given
+  vtkRenderer.
+* obj.MakeLighting (int mode) - Turns lighting on and off.
+* int = obj.QueryLighting () - Returns current lighting
+  setting.
+* obj.MakeMultisampling (int mode) - Turns antialiasing on
+  and off.
+* int = obj.QueryMultisampling () - Returns current
+  antialiasing setting.
+* obj.MakeBlending (int mode) - Turns blending on and off.
+* int = obj.QueryBlending () - Returns current blending
+  setting.
+* obj.MakeVertexEmphasis (bool mode) - Turns emphasis of
+  vertices on or off for vertex selection.
+* obj.MakeVertexEmphasisWithStencilCheck (int ) -
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Rendering_Classes
+* Generated on Thu Jul 25 2013 17:18:35 for FreeMat by
+  doxygen_ 1.8.1.1
+

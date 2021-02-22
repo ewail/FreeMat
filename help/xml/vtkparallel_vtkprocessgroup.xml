@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkparallel_vtkprocessgroup" kind="page">
+    <compoundname>vtkparallel_vtkprocessgroup</compoundname>
+    <title>vtkProcessGroup</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkparallel_1sec_vtkparallel" kindref="member">Visualization Toolkit Parallel Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>This class is used for creating groups of processes. A vtkProcessGroup is initialized by passing the controller or communicator on which the group is based off of. You can then use the group to subset and reorder the the processes. Eventually, you can pass the group object to the CreateSubController method of vtkMultiProcessController to create a controller for the defined group of processes. You must use the same controller (or attached communicator) from which this group was initialized with.</para><para>To create an instance of class vtkProcessGroup, simply invoke its constructor as follows <verbatim>  obj = vtkProcessGroup
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkProcessGroup has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkProcessGroup class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkProcessGroup = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkProcessGroup = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.Initialize (vtkMultiProcessController controller)</computeroutput> - Initialize the group to the given controller or communicator. The group will be set to contain all of the processes in the controller/communicator in the same order.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.Initialize (vtkCommunicator communicator)</computeroutput> - Initialize the group to the given controller or communicator. The group will be set to contain all of the processes in the controller/communicator in the same order.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkCommunicator = obj.GetCommunicator ()</computeroutput> - Get the communicator on which this group is based on.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetCommunicator (vtkCommunicator communicator)</computeroutput> - Set the communicator. This has the same effect as Initialize except that the contents of the group will not be modified (although they may be truncated if the new communicator is smaller than the current group). Note that this can lead to an invalid group if there are values in the group that are not valid in the new communicator.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetNumberOfProcessIds ()</computeroutput> - Returns the size of this group (the number of processes defined in it).  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetProcessId (int pos)</computeroutput> - Get the process id for the local process (as defined by the group&apos;s communicator). Returns -1 if the local process is not in the group.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetLocalProcessId ()</computeroutput> - Get the process id for the local process (as defined by the group&apos;s communicator). Returns -1 if the local process is not in the group.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.FindProcessId (int processId)</computeroutput> - Given a process id in the communicator, this method returns its location in the group or -1 if it is not in the group. For example, if this group contains {6, 2, 8, 1}, then FindProcessId(2) will return 1 and FindProcessId(3) will return -1.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.AddProcessId (int processId)</computeroutput> - Add a process id to the end of the group (if it is not already in the group). Returns the location where the id was stored.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.RemoveProcessId (int processId)</computeroutput> - Remove the given process id from the group (assuming it is in the group). All ids to the &quot;right&quot; of the removed id are shifted over. Returns 1 if the process id was removed, 0 if the process id was not in the group in the first place.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.RemoveAllProcessIds ()</computeroutput> - Removes all the processes ids from the group, leaving the group empty.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.Copy (vtkProcessGroup group)</computeroutput> - Copies the given group&apos;s communicator and process ids.  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

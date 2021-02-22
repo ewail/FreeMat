@@ -1,0 +1,643 @@
+/*!
+\page vtkhybrid_vtkexodusiireader vtkExodusIIReader
+
+<p>
+Section: \ref sec_vtkhybrid "Visualization Toolkit Hybrid Classes"
+\section Usage
+ vtkExodusIIReader is a unstructured grid source object that reads ExodusII
+ files.  Most of the meta data associated with the file is loaded when 
+ UpdateInformation is called.  This includes information like Title, number
+ of blocks, number and names of arrays. This data can be retrieved from 
+ methods in this reader. Separate arrays that are meant to be a single 
+ vector, are combined internally for convenience.  To be combined, the array 
+ names have to be identical except for a trailing X,Y and Z (or x,y,z).  By 
+ default cell and point arrays are not loaded.  However, the user can flag 
+ arrays to load with the methods "SetPointArrayStatus" and
+ "SetCellArrayStatus".  The reader DOES NOT respond to piece requests
+ 
+
+To create an instance of class vtkExodusIIReader, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkExodusIIReader
+\endverbatim
+\section Methods
+The class vtkExodusIIReader has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkExodusIIReader class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkExodusIIReader = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkExodusIIReader = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>int = obj.CanReadFile (string fname)</tt> -  Determine if the file can be readed with this reader.
+ </LI>
+<LI>  <tt>long = obj.GetMTime ()</tt> -  Return the object's MTime. This is overridden to include the timestamp of its internal class.
+ </LI>
+<LI>  <tt>long = obj.GetMetadataMTime ()</tt> -  Return the MTime of the internal data structure.
+ This is really only intended for use by vtkPExodusIIReader in order
+ to determine if the filename is newer than the metadata.
+ </LI>
+<LI>  <tt>obj.SetFileName (string fname)</tt> -  Specify file name of the Exodus file.
+ </LI>
+<LI>  <tt>string = obj.GetFileName ()</tt> -  Specify file name of the Exodus file.
+ </LI>
+<LI>  <tt>obj.SetXMLFileName (string fname)</tt> -  Specify file name of the xml file.
+ </LI>
+<LI>  <tt>string = obj.GetXMLFileName ()</tt> -  Specify file name of the xml file.
+ </LI>
+<LI>  <tt>obj.SetTimeStep (int )</tt> -  Which TimeStep to read.    
+ </LI>
+<LI>  <tt>int = obj.GetTimeStep ()</tt> -  Which TimeStep to read.    
+ </LI>
+<LI>  <tt>obj.SetModeShape (int val)</tt> -  Returns the available range of valid integer time steps.
+ </LI>
+<LI>  <tt>int = obj. GetTimeStepRange ()</tt> -  Returns the available range of valid integer time steps.
+ </LI>
+<LI>  <tt>obj.SetTimeStepRange (int , int )</tt> -  Returns the available range of valid integer time steps.
+ </LI>
+<LI>  <tt>obj.SetTimeStepRange (int  a[2])</tt> -  Returns the available range of valid integer time steps.
+ </LI>
+<LI>  <tt>obj.SetGenerateObjectIdCellArray (int g)</tt> -  Extra cell data array that can be generated.  By default, this array
+ is ON.  The value of the array is the integer id found
+ in the exodus file. The name of the array is returned by 
+ GetBlockIdArrayName(). For cells representing elements from
+ an Exodus element block, this is set to the element block ID. For
+ cells representing edges from an Exodus edge block, this is the
+ edge block ID. Similarly, ths is the face block ID for cells
+ representing faces from an Exodus face block. The same holds
+ for cells representing entries of node, edge, face, side, and element sets.
+ </LI>
+<LI>  <tt>int = obj.GetGenerateObjectIdCellArray ()</tt> -  Extra cell data array that can be generated.  By default, this array
+ is ON.  The value of the array is the integer id found
+ in the exodus file. The name of the array is returned by 
+ GetBlockIdArrayName(). For cells representing elements from
+ an Exodus element block, this is set to the element block ID. For
+ cells representing edges from an Exodus edge block, this is the
+ edge block ID. Similarly, ths is the face block ID for cells
+ representing faces from an Exodus face block. The same holds
+ for cells representing entries of node, edge, face, side, and element sets.
+ </LI>
+<LI>  <tt>obj.GenerateObjectIdCellArrayOn ()</tt> -  Extra cell data array that can be generated.  By default, this array
+ is ON.  The value of the array is the integer id found
+ in the exodus file. The name of the array is returned by 
+ GetBlockIdArrayName(). For cells representing elements from
+ an Exodus element block, this is set to the element block ID. For
+ cells representing edges from an Exodus edge block, this is the
+ edge block ID. Similarly, ths is the face block ID for cells
+ representing faces from an Exodus face block. The same holds
+ for cells representing entries of node, edge, face, side, and element sets.
+ </LI>
+<LI>  <tt>obj.GenerateObjectIdCellArrayOff ()</tt> -  Extra cell data array that can be generated.  By default, this array
+ is ON.  The value of the array is the integer id found
+ in the exodus file. The name of the array is returned by 
+ GetBlockIdArrayName(). For cells representing elements from
+ an Exodus element block, this is set to the element block ID. For
+ cells representing edges from an Exodus edge block, this is the
+ edge block ID. Similarly, ths is the face block ID for cells
+ representing faces from an Exodus face block. The same holds
+ for cells representing entries of node, edge, face, side, and element sets.
+ </LI>
+<LI>  <tt>obj.SetGenerateGlobalElementIdArray (int g)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetGenerateGlobalElementIdArray ()</tt>
+ </LI>
+<LI>  <tt>obj.GenerateGlobalElementIdArrayOn ()</tt>
+ </LI>
+<LI>  <tt>obj.GenerateGlobalElementIdArrayOff ()</tt>
+ </LI>
+<LI>  <tt>obj.SetGenerateGlobalNodeIdArray (int g)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetGenerateGlobalNodeIdArray ()</tt>
+ </LI>
+<LI>  <tt>obj.GenerateGlobalNodeIdArrayOn ()</tt>
+ </LI>
+<LI>  <tt>obj.GenerateGlobalNodeIdArrayOff ()</tt>
+ </LI>
+<LI>  <tt>obj.SetGenerateImplicitElementIdArray (int g)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetGenerateImplicitElementIdArray ()</tt>
+ </LI>
+<LI>  <tt>obj.GenerateImplicitElementIdArrayOn ()</tt>
+ </LI>
+<LI>  <tt>obj.GenerateImplicitElementIdArrayOff ()</tt>
+ </LI>
+<LI>  <tt>obj.SetGenerateImplicitNodeIdArray (int g)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetGenerateImplicitNodeIdArray ()</tt>
+ </LI>
+<LI>  <tt>obj.GenerateImplicitNodeIdArrayOn ()</tt>
+ </LI>
+<LI>  <tt>obj.GenerateImplicitNodeIdArrayOff ()</tt>
+ </LI>
+<LI>  <tt>obj.SetGenerateFileIdArray (int f)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetGenerateFileIdArray ()</tt>
+ </LI>
+<LI>  <tt>obj.GenerateFileIdArrayOn ()</tt>
+ </LI>
+<LI>  <tt>obj.GenerateFileIdArrayOff ()</tt>
+ </LI>
+<LI>  <tt>obj.SetFileId (int f)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetFileId ()</tt>
+ </LI>
+<LI>  <tt>obj.SetApplyDisplacements (int d)</tt> -  Geometric locations can include displacements.  By default, 
+ this is ON.  The nodal positions are 'displaced' by the
+ standard exodus displacment vector. If displacements
+ are turned 'off', the user can explicitly add them by
+ applying a warp filter.
+ </LI>
+<LI>  <tt>int = obj.GetApplyDisplacements ()</tt> -  Geometric locations can include displacements.  By default, 
+ this is ON.  The nodal positions are 'displaced' by the
+ standard exodus displacment vector. If displacements
+ are turned 'off', the user can explicitly add them by
+ applying a warp filter.
+ </LI>
+<LI>  <tt>obj.ApplyDisplacementsOn ()</tt> -  Geometric locations can include displacements.  By default, 
+ this is ON.  The nodal positions are 'displaced' by the
+ standard exodus displacment vector. If displacements
+ are turned 'off', the user can explicitly add them by
+ applying a warp filter.
+ </LI>
+<LI>  <tt>obj.ApplyDisplacementsOff ()</tt> -  Geometric locations can include displacements.  By default, 
+ this is ON.  The nodal positions are 'displaced' by the
+ standard exodus displacment vector. If displacements
+ are turned 'off', the user can explicitly add them by
+ applying a warp filter.
+ </LI>
+<LI>  <tt>obj.SetDisplacementMagnitude (float s)</tt> -  Geometric locations can include displacements.  By default, 
+ this is ON.  The nodal positions are 'displaced' by the
+ standard exodus displacment vector. If displacements
+ are turned 'off', the user can explicitly add them by
+ applying a warp filter.
+ </LI>
+<LI>  <tt>float = obj.GetDisplacementMagnitude ()</tt> -  Geometric locations can include displacements.  By default, 
+ this is ON.  The nodal positions are 'displaced' by the
+ standard exodus displacment vector. If displacements
+ are turned 'off', the user can explicitly add them by
+ applying a warp filter.
+ </LI>
+<LI>  <tt>obj.SetHasModeShapes (int ms)</tt> -  Set/Get whether the Exodus sequence number corresponds to time steps or mode shapes.
+ By default, HasModeShapes is false unless two time values in the Exodus file are identical,
+ in which case it is true.
+ </LI>
+<LI>  <tt>int = obj.GetHasModeShapes ()</tt> -  Set/Get whether the Exodus sequence number corresponds to time steps or mode shapes.
+ By default, HasModeShapes is false unless two time values in the Exodus file are identical,
+ in which case it is true.
+ </LI>
+<LI>  <tt>obj.HasModeShapesOn ()</tt> -  Set/Get whether the Exodus sequence number corresponds to time steps or mode shapes.
+ By default, HasModeShapes is false unless two time values in the Exodus file are identical,
+ in which case it is true.
+ </LI>
+<LI>  <tt>obj.HasModeShapesOff ()</tt> -  Set/Get whether the Exodus sequence number corresponds to time steps or mode shapes.
+ By default, HasModeShapes is false unless two time values in the Exodus file are identical,
+ in which case it is true.
+ </LI>
+<LI>  <tt>obj.SetModeShapeTime (double phase)</tt> -  Set/Get the time used to animate mode shapes.
+ This is a number between 0 and 1 that is used to scale the \a DisplacementMagnitude
+ in a sinusoidal pattern. Specifically, the displacement vector for each vertex is scaled by
+ \f$ \mathrm{DisplacementMagnitude} cos( 2\pi \mathrm{ModeShapeTime} ) \f$ before it is
+ added to the vertex coordinates.
+ </LI>
+<LI>  <tt>double = obj.GetModeShapeTime ()</tt> -  Set/Get the time used to animate mode shapes.
+ This is a number between 0 and 1 that is used to scale the \a DisplacementMagnitude
+ in a sinusoidal pattern. Specifically, the displacement vector for each vertex is scaled by
+ \f$ \mathrm{DisplacementMagnitude} cos( 2\pi \mathrm{ModeShapeTime} ) \f$ before it is
+ added to the vertex coordinates.
+ </LI>
+<LI>  <tt>obj.SetAnimateModeShapes (int flag)</tt> -  If this flag is on (the default) and HasModeShapes is also on, then this
+ reader will report a continuous time range [0,1] and animate the
+ displacements in a periodic sinusoid.  If this flag is off and
+ HasModeShapes is on, this reader ignores time.  This flag has no effect if
+ HasModeShapes is off.
+ </LI>
+<LI>  <tt>int = obj.GetAnimateModeShapes ()</tt> -  If this flag is on (the default) and HasModeShapes is also on, then this
+ reader will report a continuous time range [0,1] and animate the
+ displacements in a periodic sinusoid.  If this flag is off and
+ HasModeShapes is on, this reader ignores time.  This flag has no effect if
+ HasModeShapes is off.
+ </LI>
+<LI>  <tt>obj.AnimateModeShapesOn ()</tt> -  If this flag is on (the default) and HasModeShapes is also on, then this
+ reader will report a continuous time range [0,1] and animate the
+ displacements in a periodic sinusoid.  If this flag is off and
+ HasModeShapes is on, this reader ignores time.  This flag has no effect if
+ HasModeShapes is off.
+ </LI>
+<LI>  <tt>obj.AnimateModeShapesOff ()</tt> -  If this flag is on (the default) and HasModeShapes is also on, then this
+ reader will report a continuous time range [0,1] and animate the
+ displacements in a periodic sinusoid.  If this flag is off and
+ HasModeShapes is on, this reader ignores time.  This flag has no effect if
+ HasModeShapes is off.
+ </LI>
+<LI>  <tt>obj.SetEdgeFieldDecorations (int d)</tt> -  FIXME
+ </LI>
+<LI>  <tt>int = obj.GetEdgeFieldDecorations ()</tt> -  FIXME
+ </LI>
+<LI>  <tt>obj.EdgeFieldDecorationsNone ()</tt> -  FIXME
+ </LI>
+<LI>  <tt>obj.EdgeFieldDecorationsGlyphs ()</tt> -  FIXME
+ </LI>
+<LI>  <tt>obj.EdgeFieldDecorationsCornerAveraged ()</tt> -  FIXME
+ </LI>
+<LI>  <tt>obj.SetFaceFieldDecorations (int d)</tt> -  FIXME
+ </LI>
+<LI>  <tt>int = obj.GetFaceFieldDecorations ()</tt> -  FIXME
+ </LI>
+<LI>  <tt>obj.FaceFieldDecorationsNone ()</tt> -  FIXME
+ </LI>
+<LI>  <tt>obj.FaceFieldDecorationsGlyphs ()</tt> -  FIXME
+ </LI>
+<LI>  <tt>obj.FaceFieldDecorationsCornerAveraged ()</tt> -  Access to meta data generated by UpdateInformation.
+ </LI>
+<LI>  <tt>string = obj.GetTitle ()</tt> -  Access to meta data generated by UpdateInformation.
+ </LI>
+<LI>  <tt>int = obj.GetDimensionality ()</tt> -  Access to meta data generated by UpdateInformation.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfTimeSteps ()</tt> -  Access to meta data generated by UpdateInformation.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfNodesInFile ()</tt>
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfEdgesInFile ()</tt>
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfFacesInFile ()</tt>
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfElementsInFile ()</tt>
+ </LI>
+<LI>  <tt>int = obj.GetObjectTypeFromName (string name)</tt>
+ </LI>
+<LI>  <tt>string = obj.GetObjectTypeName (int )</tt>
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfNodes ()</tt>
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfObjects (int objectType)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfEntriesInObject (int objectType, int objectIndex)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetObjectId (int objectType, int objectIndex)</tt>
+ </LI>
+<LI>  <tt>string = obj.GetObjectName (int objectType, int objectIndex)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetObjectIndex (int objectType, string objectName)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetObjectIndex (int objectType, int id)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetObjectStatus (int objectType, int objectIndex)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetObjectStatus (int objectType, string objectName)</tt>
+ </LI>
+<LI>  <tt>obj.SetObjectStatus (int objectType, int objectIndex, int status)</tt>
+ </LI>
+<LI>  <tt>obj.SetObjectStatus (int objectType, string objectName, int status)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfObjectArrays (int objectType)</tt>
+ </LI>
+<LI>  <tt>string = obj.GetObjectArrayName (int objectType, int arrayIndex)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetObjectArrayIndex (int objectType, string arrayName)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfObjectArrayComponents (int objectType, int arrayIndex)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetObjectArrayStatus (int objectType, int arrayIndex)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetObjectArrayStatus (int objectType, string arrayName)</tt>
+ </LI>
+<LI>  <tt>obj.SetObjectArrayStatus (int objectType, int arrayIndex, int status)</tt>
+ </LI>
+<LI>  <tt>obj.SetObjectArrayStatus (int objectType, string arrayName, int status)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfObjectAttributes (int objectType, int objectIndex)</tt>
+ </LI>
+<LI>  <tt>string = obj.GetObjectAttributeName (int objectType, int objectIndex, int attribIndex)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetObjectAttributeIndex (int objectType, int objectIndex, string attribName)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetObjectAttributeStatus (int objectType, int objectIndex, int attribIndex)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetObjectAttributeStatus (int objectType, int objectIndex, string attribName)</tt>
+ </LI>
+<LI>  <tt>obj.SetObjectAttributeStatus (int objectType, int objectIndex, int attribIndex, int status)</tt>
+ </LI>
+<LI>  <tt>obj.SetObjectAttributeStatus (int objectType, int objectIndex, string attribName, int status)</tt>
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetTotalNumberOfNodes ()</tt>
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetTotalNumberOfEdges ()</tt>
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetTotalNumberOfFaces ()</tt>
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetTotalNumberOfElements ()</tt>
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfPartArrays ()</tt>
+ </LI>
+<LI>  <tt>string = obj.GetPartArrayName (int arrayIdx)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetPartArrayID (string name)</tt>
+ </LI>
+<LI>  <tt>string = obj.GetPartBlockInfo (int arrayIdx)</tt>
+ </LI>
+<LI>  <tt>obj.SetPartArrayStatus (int index, int flag)</tt>
+ </LI>
+<LI>  <tt>obj.SetPartArrayStatus (string , int flag)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetPartArrayStatus (int index)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetPartArrayStatus (string )</tt>
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfMaterialArrays ()</tt>
+ </LI>
+<LI>  <tt>string = obj.GetMaterialArrayName (int arrayIdx)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetMaterialArrayID (string name)</tt>
+ </LI>
+<LI>  <tt>obj.SetMaterialArrayStatus (int index, int flag)</tt>
+ </LI>
+<LI>  <tt>obj.SetMaterialArrayStatus (string , int flag)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetMaterialArrayStatus (int index)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetMaterialArrayStatus (string )</tt>
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfAssemblyArrays ()</tt>
+ </LI>
+<LI>  <tt>string = obj.GetAssemblyArrayName (int arrayIdx)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetAssemblyArrayID (string name)</tt>
+ </LI>
+<LI>  <tt>obj.SetAssemblyArrayStatus (int index, int flag)</tt>
+ </LI>
+<LI>  <tt>obj.SetAssemblyArrayStatus (string , int flag)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetAssemblyArrayStatus (int index)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetAssemblyArrayStatus (string )</tt>
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfHierarchyArrays ()</tt>
+ </LI>
+<LI>  <tt>string = obj.GetHierarchyArrayName (int arrayIdx)</tt>
+ </LI>
+<LI>  <tt>obj.SetHierarchyArrayStatus (int index, int flag)</tt>
+ </LI>
+<LI>  <tt>obj.SetHierarchyArrayStatus (string , int flag)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetHierarchyArrayStatus (int index)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetHierarchyArrayStatus (string )</tt>
+ </LI>
+<LI>  <tt>int = obj.GetDisplayType ()</tt>
+ </LI>
+<LI>  <tt>obj.SetDisplayType (int type)</tt>
+ </LI>
+<LI>  <tt>obj.ExodusModelMetadataOn ()</tt>
+ </LI>
+<LI>  <tt>obj.ExodusModelMetadataOff ()</tt>
+ </LI>
+<LI>  <tt>obj.SetExodusModelMetadata (int )</tt>
+ </LI>
+<LI>  <tt>int = obj.GetExodusModelMetadata ()</tt>
+ </LI>
+<LI>  <tt>vtkExodusModel = obj.GetExodusModel ()</tt> -    Returns the object which encapsulates the model metadata.
+ </LI>
+<LI>  <tt>obj.SetPackExodusModelOntoOutput (int )</tt>
+ </LI>
+<LI>  <tt>int = obj.GetPackExodusModelOntoOutput ()</tt>
+ </LI>
+<LI>  <tt>obj.PackExodusModelOntoOutputOn ()</tt>
+ </LI>
+<LI>  <tt>obj.PackExodusModelOntoOutputOff ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsValidVariable (string type, string name)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetVariableID (string type, string name)</tt>
+ </LI>
+<LI>  <tt>obj.SetAllArrayStatus (int otype, int status)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetTimeSeriesData (int ID, string vName, string vType, vtkFloatArray result)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfEdgeBlockArrays ()</tt>
+ </LI>
+<LI>  <tt>string = obj.GetEdgeBlockArrayName (int index)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetEdgeBlockArrayStatus (string name)</tt>
+ </LI>
+<LI>  <tt>obj.SetEdgeBlockArrayStatus (string name, int flag)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfFaceBlockArrays ()</tt>
+ </LI>
+<LI>  <tt>string = obj.GetFaceBlockArrayName (int index)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetFaceBlockArrayStatus (string name)</tt>
+ </LI>
+<LI>  <tt>obj.SetFaceBlockArrayStatus (string name, int flag)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfElementBlockArrays ()</tt>
+ </LI>
+<LI>  <tt>string = obj.GetElementBlockArrayName (int index)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetElementBlockArrayStatus (string name)</tt>
+ </LI>
+<LI>  <tt>obj.SetElementBlockArrayStatus (string name, int flag)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfGlobalResultArrays ()</tt>
+ </LI>
+<LI>  <tt>string = obj.GetGlobalResultArrayName (int index)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetGlobalResultArrayStatus (string name)</tt>
+ </LI>
+<LI>  <tt>obj.SetGlobalResultArrayStatus (string name, int flag)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfPointResultArrays ()</tt>
+ </LI>
+<LI>  <tt>string = obj.GetPointResultArrayName (int index)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetPointResultArrayStatus (string name)</tt>
+ </LI>
+<LI>  <tt>obj.SetPointResultArrayStatus (string name, int flag)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfEdgeResultArrays ()</tt>
+ </LI>
+<LI>  <tt>string = obj.GetEdgeResultArrayName (int index)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetEdgeResultArrayStatus (string name)</tt>
+ </LI>
+<LI>  <tt>obj.SetEdgeResultArrayStatus (string name, int flag)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfFaceResultArrays ()</tt>
+ </LI>
+<LI>  <tt>string = obj.GetFaceResultArrayName (int index)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetFaceResultArrayStatus (string name)</tt>
+ </LI>
+<LI>  <tt>obj.SetFaceResultArrayStatus (string name, int flag)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfElementResultArrays ()</tt>
+ </LI>
+<LI>  <tt>string = obj.GetElementResultArrayName (int index)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetElementResultArrayStatus (string name)</tt>
+ </LI>
+<LI>  <tt>obj.SetElementResultArrayStatus (string name, int flag)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfNodeMapArrays ()</tt>
+ </LI>
+<LI>  <tt>string = obj.GetNodeMapArrayName (int index)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetNodeMapArrayStatus (string name)</tt>
+ </LI>
+<LI>  <tt>obj.SetNodeMapArrayStatus (string name, int flag)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfEdgeMapArrays ()</tt>
+ </LI>
+<LI>  <tt>string = obj.GetEdgeMapArrayName (int index)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetEdgeMapArrayStatus (string name)</tt>
+ </LI>
+<LI>  <tt>obj.SetEdgeMapArrayStatus (string name, int flag)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfFaceMapArrays ()</tt>
+ </LI>
+<LI>  <tt>string = obj.GetFaceMapArrayName (int index)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetFaceMapArrayStatus (string name)</tt>
+ </LI>
+<LI>  <tt>obj.SetFaceMapArrayStatus (string name, int flag)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfElementMapArrays ()</tt>
+ </LI>
+<LI>  <tt>string = obj.GetElementMapArrayName (int index)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetElementMapArrayStatus (string name)</tt>
+ </LI>
+<LI>  <tt>obj.SetElementMapArrayStatus (string name, int flag)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfNodeSetArrays ()</tt>
+ </LI>
+<LI>  <tt>string = obj.GetNodeSetArrayName (int index)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetNodeSetArrayStatus (string name)</tt>
+ </LI>
+<LI>  <tt>obj.SetNodeSetArrayStatus (string name, int flag)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfSideSetArrays ()</tt>
+ </LI>
+<LI>  <tt>string = obj.GetSideSetArrayName (int index)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetSideSetArrayStatus (string name)</tt>
+ </LI>
+<LI>  <tt>obj.SetSideSetArrayStatus (string name, int flag)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfEdgeSetArrays ()</tt>
+ </LI>
+<LI>  <tt>string = obj.GetEdgeSetArrayName (int index)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetEdgeSetArrayStatus (string name)</tt>
+ </LI>
+<LI>  <tt>obj.SetEdgeSetArrayStatus (string name, int flag)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfFaceSetArrays ()</tt>
+ </LI>
+<LI>  <tt>string = obj.GetFaceSetArrayName (int index)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetFaceSetArrayStatus (string name)</tt>
+ </LI>
+<LI>  <tt>obj.SetFaceSetArrayStatus (string name, int flag)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfElementSetArrays ()</tt>
+ </LI>
+<LI>  <tt>string = obj.GetElementSetArrayName (int index)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetElementSetArrayStatus (string name)</tt>
+ </LI>
+<LI>  <tt>obj.SetElementSetArrayStatus (string name, int flag)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfNodeSetResultArrays ()</tt>
+ </LI>
+<LI>  <tt>string = obj.GetNodeSetResultArrayName (int index)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetNodeSetResultArrayStatus (string name)</tt>
+ </LI>
+<LI>  <tt>obj.SetNodeSetResultArrayStatus (string name, int flag)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfSideSetResultArrays ()</tt>
+ </LI>
+<LI>  <tt>string = obj.GetSideSetResultArrayName (int index)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetSideSetResultArrayStatus (string name)</tt>
+ </LI>
+<LI>  <tt>obj.SetSideSetResultArrayStatus (string name, int flag)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfEdgeSetResultArrays ()</tt>
+ </LI>
+<LI>  <tt>string = obj.GetEdgeSetResultArrayName (int index)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetEdgeSetResultArrayStatus (string name)</tt>
+ </LI>
+<LI>  <tt>obj.SetEdgeSetResultArrayStatus (string name, int flag)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfFaceSetResultArrays ()</tt>
+ </LI>
+<LI>  <tt>string = obj.GetFaceSetResultArrayName (int index)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetFaceSetResultArrayStatus (string name)</tt>
+ </LI>
+<LI>  <tt>obj.SetFaceSetResultArrayStatus (string name, int flag)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfElementSetResultArrays ()</tt>
+ </LI>
+<LI>  <tt>string = obj.GetElementSetResultArrayName (int index)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetElementSetResultArrayStatus (string name)</tt>
+ </LI>
+<LI>  <tt>obj.SetElementSetResultArrayStatus (string name, int flag)</tt> -  Set the fast-path keys. All three must be set for the fast-path
+ option to work.
+ Possible argument values: "POINT","CELL","EDGE","FACE"
+ </LI>
+<LI>  <tt>obj.SetFastPathObjectType (string type)</tt> -  Set the fast-path keys. All three must be set for the fast-path
+ option to work.
+ Possible argument values: "POINT","CELL","EDGE","FACE"
+ </LI>
+<LI>  <tt>obj.SetFastPathIdType (string type)</tt> -  Possible argument values: "INDEX","GLOBAL"
+ "GLOBAL" means the id refers to a global id
+ "INDEX" means the id refers to an index into the VTK array
+ </LI>
+<LI>  <tt>obj.SetFastPathObjectId (vtkIdType id)</tt> -  Possible argument values: "INDEX","GLOBAL"
+ "GLOBAL" means the id refers to a global id
+ "INDEX" means the id refers to an index into the VTK array
+ </LI>
+<LI>  <tt>obj.Reset ()</tt> -  Reset the user-specified parameters and flush internal arrays
+ so that the reader state is just as it was after the reader was
+ instantiated.
+
+ It doesn't make sense to let users reset only the internal state;
+ both the settings and the state are changed by this call.
+ </LI>
+<LI>  <tt>obj.ResetSettings ()</tt> -  Reset the user-specified parameters to their default values.
+ The only settings not affected are the filename and/or pattern
+ because these have no default.
+
+ Resetting the settings but not the state allows users to
+ keep the active cache but return to initial array selections, etc.
+ </LI>
+<LI>  <tt>obj.ResetCache ()</tt> -  Clears out the cache entries.
+ </LI>
+<LI>  <tt>obj.UpdateTimeInformation ()</tt> -  Re-reads time information from the exodus file and updates
+ TimeStepRange accordingly.
+ </LI>
+<LI>  <tt>obj.Dump ()</tt>
+ </LI>
+<LI>  <tt>vtkGraph = obj.GetSIL ()</tt> -  SIL describes organization of/relationships between classifications 
+ eg. blocks/materials/hierarchies.
+ </LI>
+<LI>  <tt>int = obj.GetSILUpdateStamp ()</tt> -  Every time the SIL is updated a this will return a different value.
+ </LI>
+<LI>  <tt>bool = obj.GetProducedFastPathOutput ()</tt> -  HACK: Used by vtkPExodusIIReader to tell is the reader produced a valid
+ fast path output.
+ </LI>
+</UL>
+*/

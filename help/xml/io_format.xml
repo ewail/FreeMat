@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="io_format" kind="page">
+    <compoundname>io_format</compoundname>
+    <title>FORMAT Control the Format of Matrix Display</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_io_1sec_io" kindref="member">Input/Ouput Functions</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>FreeMat supports several modes for displaying matrices (either through the <computeroutput>disp</computeroutput> function or simply by entering expressions on the command line. There are several options for the format command. The default mode is equivalent to <verbatim>   format short
+</verbatim> which generally displays matrices with 4 decimals, and scales matrices if the entries have magnitudes larger than roughly <computeroutput>1e2</computeroutput> or smaller than <computeroutput>1e-2</computeroutput>. For more information you can use <verbatim>   format long
+</verbatim> which displays roughly 7 decimals for <computeroutput>float</computeroutput> and <computeroutput>complex</computeroutput> arrays, and 14 decimals for <computeroutput>double</computeroutput> and <computeroutput>dcomplex</computeroutput>. You can also use <verbatim>   format short e
+</verbatim> to get exponential format with 4 decimals. Matrices are not scaled for exponential formats. Similarly, you can use <verbatim>   format long e
+</verbatim> which displays the same decimals as <computeroutput>format long</computeroutput>, but in exponential format. You can also use the <computeroutput>format</computeroutput> command to retrieve the current format: <verbatim>   s = format
+</verbatim> where <computeroutput>s</computeroutput> is a string describing the current format. </para></sect1>
+<sect1 id="variables_struct_1Example">
+<title>Example</title>
+<para>We start with the short format, and two matrices, one of double precision, and the other of single precision.</para><para><verbatim>--&gt; format short
+--&gt; a = randn(4)
+
+a = 
+   -0.3756    0.0920    0.9516    1.8527 
+    0.5078   -0.2088   -0.3120   -0.2380 
+    0.5578    0.7695    0.0226    2.9326 
+   -0.4420   -0.4871   -0.7582   -0.5059 
+
+--&gt; b = float(randn(4))
+
+b = 
+    0.2010    0.3416    0.1562   -0.5460 
+    1.2842   -0.3808   -1.2720   -0.3398 
+   -0.7660   -0.6251    2.4811    0.7956 
+   -0.1727    0.8577    1.5701   -1.5048 
+</verbatim></para><para>Note that in the short format, these two matrices are displayed with the same format. In <computeroutput>long</computeroutput> format, however, they display differently</para><para><verbatim>--&gt; format long
+--&gt; a
+
+ans = 
+
+ Columns 1 to 3
+
+  -0.37559630424227   0.09196341864118   0.95155934364300 
+   0.50776589164635  -0.20877480315311  -0.31198760445638 
+   0.55783547335483   0.76954243414671   0.02264031516947 
+  -0.44202929771190  -0.48708606879623  -0.75822963661106 
+
+ Columns 4 to 4
+
+   1.85265231634028 
+  -0.23799081322695 
+   2.93263318869123 
+  -0.50590405332950 
+
+--&gt; b
+
+ans = 
+   0.2010476   0.3415550   0.1561587  -0.5460028 
+   1.2841575  -0.3808453  -1.2719837  -0.3397521 
+  -0.7659672  -0.6251388   2.4811494   0.7956446 
+  -0.1726678   0.8576548   1.5701485  -1.5048176 
+</verbatim></para><para>Note also that we we scale the contents of the matrices, FreeMat rescales the entries with a scale premultiplier.</para><para><verbatim>--&gt; format short
+--&gt; a*1e4
+
+ans = 
+
+   1.0e+04 * 
+   -0.3756    0.0920    0.9516    1.8527 
+    0.5078   -0.2088   -0.3120   -0.2380 
+    0.5578    0.7695    0.0226    2.9326 
+   -0.4420   -0.4871   -0.7582   -0.5059 
+
+--&gt; a*1e-4
+
+ans = 
+
+   1.0e-04 * 
+   -0.3756    0.0920    0.9516    1.8527 
+    0.5078   -0.2088   -0.3120   -0.2380 
+    0.5578    0.7695    0.0226    2.9326 
+   -0.4420   -0.4871   -0.7582   -0.5059 
+
+--&gt; b*1e4
+
+ans = 
+
+   1.0e+04 * 
+    0.2010    0.3416    0.1562   -0.5460 
+    1.2842   -0.3808   -1.2720   -0.3398 
+   -0.7660   -0.6251    2.4811    0.7956 
+   -0.1727    0.8577    1.5701   -1.5048 
+
+--&gt; b*1e-4
+
+ans = 
+
+   1.0e-04 * 
+    0.2010    0.3416    0.1562   -0.5460 
+    1.2842   -0.3808   -1.2720   -0.3398 
+   -0.7660   -0.6251    2.4811    0.7956 
+   -0.1727    0.8577    1.5701   -1.5048 
+</verbatim></para><para>Next, we use the exponential formats:</para><para><verbatim>--&gt; format short e
+--&gt; a*1e4
+
+ans = 
+ -3.7560e+03  9.1963e+02  9.5156e+03  1.8527e+04 
+  5.0777e+03 -2.0877e+03 -3.1199e+03 -2.3799e+03 
+  5.5784e+03  7.6954e+03  2.2640e+02  2.9326e+04 
+ -4.4203e+03 -4.8709e+03 -7.5823e+03 -5.0590e+03 
+
+--&gt; a*1e-4
+
+ans = 
+ -3.7560e-05  9.1963e-06  9.5156e-05  1.8527e-04 
+  5.0777e-05 -2.0877e-05 -3.1199e-05 -2.3799e-05 
+  5.5784e-05  7.6954e-05  2.2640e-06  2.9326e-04 
+ -4.4203e-05 -4.8709e-05 -7.5823e-05 -5.0590e-05 
+
+--&gt; b*1e4
+
+ans = 
+  2.0105e+03  3.4156e+03  1.5616e+03 -5.4600e+03 
+  1.2842e+04 -3.8085e+03 -1.2720e+04 -3.3975e+03 
+ -7.6597e+03 -6.2514e+03  2.4811e+04  7.9564e+03 
+ -1.7267e+03  8.5765e+03  1.5701e+04 -1.5048e+04 
+
+--&gt; b*1e-4
+
+ans = 
+  2.0105e-05  3.4155e-05  1.5616e-05 -5.4600e-05 
+  1.2842e-04 -3.8085e-05 -1.2720e-04 -3.3975e-05 
+ -7.6597e-05 -6.2514e-05  2.4811e-04  7.9564e-05 
+ -1.7267e-05  8.5765e-05  1.5701e-04 -1.5048e-04 
+</verbatim></para><para>Finally, if we assign the <computeroutput>format</computeroutput> function to a variable, we can retrieve the current format:</para><para><verbatim>--&gt; format short
+--&gt; t = format
+
+t = 
+short
+</verbatim> </para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

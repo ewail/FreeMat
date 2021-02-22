@@ -1,0 +1,103 @@
+/*!
+\page vtkgeovis_vtkgeotreenode vtkGeoTreeNode
+
+<p>
+Section: \ref sec_vtkgeovis "Visualization Toolkit Geo Vis Classes"
+\section Usage
+ A self-referential data structure for storing geometry or imagery for
+ the geospatial views. The data is organized in a quadtree. Each node
+ contains a pointer to its parent and owns references to its four
+ child nodes. The ID of each node is unique in its level, and encodes
+ the path from the root node in its bits.
+
+To create an instance of class vtkGeoTreeNode, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkGeoTreeNode
+\endverbatim
+\section Methods
+The class vtkGeoTreeNode has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkGeoTreeNode class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkGeoTreeNode = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkGeoTreeNode = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetId (long )</tt> -  The id uniquely specified this node.
+ For this implementation I am going to store the branch path
+ in the bits.
+ </LI>
+<LI>  <tt>long = obj.GetId ()</tt> -  The id uniquely specified this node.
+ For this implementation I am going to store the branch path
+ in the bits.
+ </LI>
+<LI>  <tt>obj.SetLevel (int )</tt>
+ </LI>
+<LI>  <tt>int = obj.GetLevel ()</tt>
+ </LI>
+<LI>  <tt>obj.SetLongitudeRange (double , double )</tt> -  Longitude and latitude range of the terrain model.
+ </LI>
+<LI>  <tt>obj.SetLongitudeRange (double  a[2])</tt> -  Longitude and latitude range of the terrain model.
+ </LI>
+<LI>  <tt>double = obj. GetLongitudeRange ()</tt> -  Longitude and latitude range of the terrain model.
+ </LI>
+<LI>  <tt>obj.SetLatitudeRange (double , double )</tt> -  Longitude and latitude range of the terrain model.
+ </LI>
+<LI>  <tt>obj.SetLatitudeRange (double  a[2])</tt> -  Longitude and latitude range of the terrain model.
+ </LI>
+<LI>  <tt>double = obj. GetLatitudeRange ()</tt> -  Longitude and latitude range of the terrain model.
+ </LI>
+<LI>  <tt>obj.SetChild (vtkGeoTreeNode node, int idx)</tt> -  Get a child of this node. If one is set, then they all should
+ set.  No not mix subclasses.
+ </LI>
+<LI>  <tt>obj.SetParent (vtkGeoTreeNode node)</tt> -  Manage links to older and newer tree nodes.
+ These are used to periodically delete unused patches.
+ </LI>
+<LI>  <tt>obj.SetOlder (vtkGeoTreeNode node)</tt> -  Manage links to older and newer tree nodes.
+ These are used to periodically delete unused patches.
+ </LI>
+<LI>  <tt>vtkGeoTreeNode = obj.GetOlder ()</tt> -  Manage links to older and newer tree nodes.
+ These are used to periodically delete unused patches.
+ </LI>
+<LI>  <tt>obj.SetNewer (vtkGeoTreeNode node)</tt> -  Manage links to older and newer tree nodes.
+ These are used to periodically delete unused patches.
+ </LI>
+<LI>  <tt>vtkGeoTreeNode = obj.GetNewer ()</tt> -  Returns whether this node has valid data associated
+ with it, or if it is an "empty" node.
+ </LI>
+<LI>  <tt>bool = obj.HasData ()</tt> -  Deletes the data associated with the node to make this
+ an "empty" node. This is performed when the node has
+ been unused for a certain amount of time.
+ </LI>
+<LI>  <tt>obj.DeleteData ()</tt>
+ </LI>
+<LI>  <tt>int = obj.GetWhichChildAreYou ()</tt>
+ </LI>
+<LI>  <tt>bool = obj.IsDescendantOf (vtkGeoTreeNode elder)</tt> -  This method returns true if this node descends from the
+ elder node.  The descision is made from the node ids, so the nodes do
+ not have to be in the same tree!
+ </LI>
+<LI>  <tt>int = obj.CreateChildren ()</tt>
+ </LI>
+<LI>  <tt>vtkGeoTreeNode = obj.GetChildTreeNode (int idx)</tt> -  Get the parent as a vtkGeoTreeNode.
+ Subclasses also implement GetParent() which returns the parent
+ as the appropriate subclass type.
+ </LI>
+<LI>  <tt>vtkGeoTreeNode = obj.GetParentTreeNode ()</tt> -  Shallow and Deep copy. Deep copy performs a shallow copy
+ of the Child nodes.
+ </LI>
+<LI>  <tt>obj.ShallowCopy (vtkGeoTreeNode src)</tt> -  Shallow and Deep copy. Deep copy performs a shallow copy
+ of the Child nodes.
+ </LI>
+<LI>  <tt>obj.DeepCopy (vtkGeoTreeNode src)</tt> -  Shallow and Deep copy. Deep copy performs a shallow copy
+ of the Child nodes.
+ </LI>
+</UL>
+*/

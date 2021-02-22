@@ -1,0 +1,129 @@
+/*!
+\page vtkfiltering_vtkcompositedataiterator vtkCompositeDataIterator
+
+<p>
+Section: \ref sec_vtkfiltering "Visualization Toolkit Filtering Classes"
+\section Usage
+ vtkCompositeDataIterator provides an interface for accessing datasets
+ in a collection (vtkCompositeDataIterator). 
+
+To create an instance of class vtkCompositeDataIterator, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkCompositeDataIterator
+\endverbatim
+\section Methods
+The class vtkCompositeDataIterator has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkCompositeDataIterator class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkCompositeDataIterator = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkCompositeDataIterator = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetDataSet (vtkCompositeDataSet ds)</tt> -  Set the composite dataset this iterator is iterating over. 
+ Must be set before traversal begins.
+ </LI>
+<LI>  <tt>vtkCompositeDataSet = obj.GetDataSet ()</tt> -  Set the composite dataset this iterator is iterating over. 
+ Must be set before traversal begins.
+ </LI>
+<LI>  <tt>obj.InitTraversal ()</tt> -  Begin iterating over the composite dataset structure.
+ </LI>
+<LI>  <tt>obj.InitReverseTraversal ()</tt> -  Begin iterating over the composite dataset structure in reverse order.
+ </LI>
+<LI>  <tt>obj.GoToFirstItem ()</tt> -  Move the iterator to the beginning of the collection.
+ </LI>
+<LI>  <tt>obj.GoToNextItem ()</tt> -  Move the iterator to the next item in the collection.
+ </LI>
+<LI>  <tt>int = obj.IsDoneWithTraversal ()</tt> -  Test whether the iterator is finished with the traversal.
+ Returns 1 for yes, and 0 for no. 
+ It is safe to call any of the GetCurrent...() methods only when
+ IsDoneWithTraversal() returns 0.
+ </LI>
+<LI>  <tt>vtkDataObject = obj.GetCurrentDataObject ()</tt> -  Returns the current item. Valid only when IsDoneWithTraversal() returns 0.
+ </LI>
+<LI>  <tt>vtkInformation = obj.GetCurrentMetaData ()</tt> -  Returns the meta-data associated with the current item. This will allocate
+ a new vtkInformation object is none is already present. Use
+ HasCurrentMetaData to avoid unnecessary creation of vtkInformation objects.
+ </LI>
+<LI>  <tt>int = obj.HasCurrentMetaData ()</tt> -  Returns if the a meta-data information object is present for the current
+ item. Return 1 on success, 0 otherwise.
+ </LI>
+<LI>  <tt>obj.SetVisitOnlyLeaves (int )</tt> -  If VisitOnlyLeaves is true, the iterator will only visit nodes
+ (sub-datasets) that are not composite. If it encounters a composite
+ data set, it will automatically traverse that composite dataset until
+ it finds non-composite datasets. With this options, it is possible to
+ visit all non-composite datasets in tree of composite datasets
+ (composite of composite of composite for example :-) ) If
+ VisitOnlyLeaves is false, GetCurrentDataObject() may return
+ vtkCompositeDataSet. By default, VisitOnlyLeaves is 1.
+ </LI>
+<LI>  <tt>int = obj.GetVisitOnlyLeaves ()</tt> -  If VisitOnlyLeaves is true, the iterator will only visit nodes
+ (sub-datasets) that are not composite. If it encounters a composite
+ data set, it will automatically traverse that composite dataset until
+ it finds non-composite datasets. With this options, it is possible to
+ visit all non-composite datasets in tree of composite datasets
+ (composite of composite of composite for example :-) ) If
+ VisitOnlyLeaves is false, GetCurrentDataObject() may return
+ vtkCompositeDataSet. By default, VisitOnlyLeaves is 1.
+ </LI>
+<LI>  <tt>obj.VisitOnlyLeavesOn ()</tt> -  If VisitOnlyLeaves is true, the iterator will only visit nodes
+ (sub-datasets) that are not composite. If it encounters a composite
+ data set, it will automatically traverse that composite dataset until
+ it finds non-composite datasets. With this options, it is possible to
+ visit all non-composite datasets in tree of composite datasets
+ (composite of composite of composite for example :-) ) If
+ VisitOnlyLeaves is false, GetCurrentDataObject() may return
+ vtkCompositeDataSet. By default, VisitOnlyLeaves is 1.
+ </LI>
+<LI>  <tt>obj.VisitOnlyLeavesOff ()</tt> -  If VisitOnlyLeaves is true, the iterator will only visit nodes
+ (sub-datasets) that are not composite. If it encounters a composite
+ data set, it will automatically traverse that composite dataset until
+ it finds non-composite datasets. With this options, it is possible to
+ visit all non-composite datasets in tree of composite datasets
+ (composite of composite of composite for example :-) ) If
+ VisitOnlyLeaves is false, GetCurrentDataObject() may return
+ vtkCompositeDataSet. By default, VisitOnlyLeaves is 1.
+ </LI>
+<LI>  <tt>obj.SetTraverseSubTree (int )</tt> -  If TraverseSubTree is set to true, the iterator will visit the entire tree
+ structure, otherwise it only visits the first level children. Set to 1 by
+ default.
+ </LI>
+<LI>  <tt>int = obj.GetTraverseSubTree ()</tt> -  If TraverseSubTree is set to true, the iterator will visit the entire tree
+ structure, otherwise it only visits the first level children. Set to 1 by
+ default.
+ </LI>
+<LI>  <tt>obj.TraverseSubTreeOn ()</tt> -  If TraverseSubTree is set to true, the iterator will visit the entire tree
+ structure, otherwise it only visits the first level children. Set to 1 by
+ default.
+ </LI>
+<LI>  <tt>obj.TraverseSubTreeOff ()</tt> -  If TraverseSubTree is set to true, the iterator will visit the entire tree
+ structure, otherwise it only visits the first level children. Set to 1 by
+ default.
+ </LI>
+<LI>  <tt>obj.SetSkipEmptyNodes (int )</tt> -  If SkipEmptyNodes is true, then NULL datasets will be skipped. Default is
+ true.
+ </LI>
+<LI>  <tt>int = obj.GetSkipEmptyNodes ()</tt> -  If SkipEmptyNodes is true, then NULL datasets will be skipped. Default is
+ true.
+ </LI>
+<LI>  <tt>obj.SkipEmptyNodesOn ()</tt> -  If SkipEmptyNodes is true, then NULL datasets will be skipped. Default is
+ true.
+ </LI>
+<LI>  <tt>obj.SkipEmptyNodesOff ()</tt> -  If SkipEmptyNodes is true, then NULL datasets will be skipped. Default is
+ true.
+ </LI>
+<LI>  <tt>int = obj.GetCurrentFlatIndex ()</tt> -  Flat index is an index obtained by traversing the tree in preorder.
+ This can be used to uniquely identify nodes in the tree.
+ Not valid if IsDoneWithTraversal() returns true.
+ </LI>
+<LI>  <tt>int = obj.GetReverse ()</tt> -  Returns if the iteration is in reverse order.
+ </LI>
+</UL>
+*/

@@ -1,0 +1,87 @@
+/*!
+\page vtkinfovis_vtkdescriptivestatistics vtkDescriptiveStatistics
+
+<p>
+Section: \ref sec_vtkinfovis "Visualization Toolkit Infovis Classes"
+\section Usage
+ Given a selection of columns of interest in an input data table, this 
+ class provides the following functionalities, depending on the
+ execution mode it is executed in:
+ * Learn: calculate extremal values, arithmetic mean, unbiased variance 
+   estimator, skewness estimator, and both sample and G2 estimation of the 
+   kurtosis excess. More precisely, Learn calculates the sums; if
+   \p finalize is set to true (default), the final statistics are calculated
+   with CalculateFromSums. Otherwise, only raw sums are output; this 
+   option is made for efficient parallel calculations.
+   Note that CalculateFromSums is a static function, so that it can be used
+   directly with no need to instantiate a vtkDescriptiveStatistics object.
+ * Assess: given an input data set in port INPUT_DATA, and a reference value x along
+   with an acceptable deviation d>0, assess all entries in the data set which
+   are outside of [x-d,x+d].
+
+ .SECTION Thanks
+ Thanks to Philippe Pebay and David Thompson from Sandia National Laboratories 
+ for implementing this class.
+
+To create an instance of class vtkDescriptiveStatistics, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkDescriptiveStatistics
+\endverbatim
+\section Methods
+The class vtkDescriptiveStatistics has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkDescriptiveStatistics class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkDescriptiveStatistics = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkDescriptiveStatistics = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetUnbiasedVariance (int )</tt> -  Set/get whether the unbiased estimator for the variance should be used, or if
+ the population variance will be calculated.
+ The default is that the unbiased estimator will be used.
+ </LI>
+<LI>  <tt>int = obj.GetUnbiasedVariance ()</tt> -  Set/get whether the unbiased estimator for the variance should be used, or if
+ the population variance will be calculated.
+ The default is that the unbiased estimator will be used.
+ </LI>
+<LI>  <tt>obj.UnbiasedVarianceOn ()</tt> -  Set/get whether the unbiased estimator for the variance should be used, or if
+ the population variance will be calculated.
+ The default is that the unbiased estimator will be used.
+ </LI>
+<LI>  <tt>obj.UnbiasedVarianceOff ()</tt> -  Set/get whether the unbiased estimator for the variance should be used, or if
+ the population variance will be calculated.
+ The default is that the unbiased estimator will be used.
+ </LI>
+<LI>  <tt>obj.SetSignedDeviations (int )</tt> -  Set/get whether the deviations returned should be signed, or should
+ only have their magnitude reported.
+ The default is that signed deviations will be computed.
+ </LI>
+<LI>  <tt>int = obj.GetSignedDeviations ()</tt> -  Set/get whether the deviations returned should be signed, or should
+ only have their magnitude reported.
+ The default is that signed deviations will be computed.
+ </LI>
+<LI>  <tt>obj.SignedDeviationsOn ()</tt> -  Set/get whether the deviations returned should be signed, or should
+ only have their magnitude reported.
+ The default is that signed deviations will be computed.
+ </LI>
+<LI>  <tt>obj.SignedDeviationsOff ()</tt> -  Set/get whether the deviations returned should be signed, or should
+ only have their magnitude reported.
+ The default is that signed deviations will be computed.
+ </LI>
+<LI>  <tt>obj.SetNominalParameter (string name)</tt> -  A convenience method (in particular for UI wrapping) to set the name of the
+ column that contains the nominal value for the Assess option.
+ </LI>
+<LI>  <tt>obj.SetDeviationParameter (string name)</tt> -  A convenience method (in particular for UI wrapping) to set the name of the
+ column that contains the deviation for the Assess option.
+ </LI>
+<LI>  <tt>obj.Aggregate (vtkDataObjectCollection , vtkDataObject )</tt> -  Given a collection of models, calculate aggregate model
+ </LI>
+</UL>
+*/

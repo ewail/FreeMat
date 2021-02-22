@@ -1,0 +1,57 @@
+/*!
+\page vtkrendering_vtkrenderpass vtkRenderPass
+
+<p>
+Section: \ref sec_vtkrendering "Visualization Toolkit Rendering Classes"
+\section Usage
+ vtkRenderPass is a deferred class with a simple deferred method Render.
+ This method performs a rendering pass of the scene described in
+ vtkRenderState.
+ Subclasses define what really happens during rendering.
+
+ Directions to write a subclass of vtkRenderPass:
+ It is up to the subclass to decide if it needs to delegate part of its job
+ to some other vtkRenderPass objects ("delegates").
+ - The subclass has to define ivar to set/get its delegates.
+ - The documentation of the subclass has to describe:
+  - what each delegate is supposed to perform
+  - if a delegate is supposed to be used once or multiple times 
+  - what it expects to have in the framebuffer before starting (status
+ of colorbuffers, depth buffer, stencil buffer)
+  - what it will change in the framebuffer.
+ - A pass cannot modify the vtkRenderState where it will perform but
+ it can build a new vtkRenderState (it can change the FrameBuffer, change the
+ prop array, changed the required prop properties keys (usually adding some
+ to a copy of the existing list) but it has to keep the same vtkRenderer
+ object), make it current and pass it to its delegate.
+ - at the end of the execution of Render, the pass has to ensure the
+ current vtkRenderState is the one it has in argument.
+
+To create an instance of class vtkRenderPass, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkRenderPass
+\endverbatim
+\section Methods
+The class vtkRenderPass has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkRenderPass class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkRenderPass = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkRenderPass = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfRenderedProps ()</tt> -  Number of props rendered at the last Render call.
+ </LI>
+<LI>  <tt>obj.ReleaseGraphicsResources (vtkWindow w)</tt> -  Release graphics resources and ask components to release their own
+ resources. Default implementation is empty.
+ \pre w_exists: w!=0
+ </LI>
+</UL>
+*/

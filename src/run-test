@@ -1,0 +1,14 @@
+#!/bin/sh
+abs_path=`cd $srcdir/../toolbox && pwd`
+mkdir -p tmp
+cd tmp
+../$1 -p "$abs_path:$abs_path/array:$abs_path/binary:$abs_path/fitting:$abs_path/func:$abs_path/funfun:$abs_path/general:$abs_path/geom:$abs_path/graph:$abs_path/help:$abs_path/io:$abs_path/matrix:$abs_path/mpi:$abs_path/numerical:$abs_path/os:$abs_path/poly:$abs_path/signal:$abs_path/sparse:$abs_path/stat:$abs_path/string:$abs_path/time:$abs_path/trig:$abs_path/util:$abs_path/test" -nogreet -nogui -e -f run_tests | tee runlog.txt
+if (grep "ALL TESTS PASSED" runlog.txt); then
+  cd ..
+  rm -rf tmp
+  exit 0
+else
+  cd ..
+  rm -rf tmp
+  exit 1
+fi

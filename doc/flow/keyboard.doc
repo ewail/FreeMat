@@ -1,0 +1,80 @@
+/*!
+\page flow_keyboard KEYBOARD Initiate Interactive Debug Session
+
+<p>
+Section: \ref sec_flow "Flow Control"
+\section Usage
+The <tt>keyboard</tt> statement is used to initiate an
+interactive session at a specific point in a function.
+The general syntax for the <tt>keyboard</tt> statement is
+\verbatim
+   keyboard
+\endverbatim
+A <tt>keyboard</tt> statement can be issued in a <tt>script</tt>,
+in a <tt>function</tt>, or from within another <tt>keyboard</tt> session.
+The result of a <tt>keyboard</tt> statement is that execution
+of the program is halted, and you are given a prompt
+of the form:
+\verbatim
+ [scope,n] -->
+\endverbatim
+where <tt>scope</tt> is the current scope of execution (either
+the name of the function we are executing, or <tt>base</tt> otherwise).
+And <tt>n</tt> is the depth of the <tt>keyboard</tt> session. If, for example,
+we are in a <tt>keyboard</tt> session, and we call a function that issues
+another <tt>keyboard</tt> session, the depth of that second session
+will be one higher.  Put another way, <tt>n</tt> is the number of <tt>return</tt>
+statements you have to issue to get back to the base workspace.
+Incidentally, a <tt>return</tt> is how you exit the <tt>keyboard</tt> session
+and resume execution of the program from where it left off.  A
+<tt>retall</tt> can be used to shortcut execution and return to the base
+workspace.
+
+The <tt>keyboard</tt> statement is an excellent tool for debugging
+FreeMat code, and along with <tt>eval</tt> provide a unique set of
+capabilities not usually found in compiled environments.  Indeed,
+the <tt>keyboard</tt> statement is equivalent to a debugger breakpoint in
+more traditional environments, but with significantly more inspection
+power.
+\section Example
+Here we demonstrate a two-level <tt>keyboard</tt> situation.  We have
+a simple function that calls <tt>keyboard</tt> internally:
+
+\if FILE
+key_one.m
+function c = key_one(a,b)
+c = a + b;
+keyboard
+\endif
+\verbatim
+     key_one.m
+\endverbatim
+
+\verbinclude key_one.m
+
+Now, we execute the function from the base workspace, and
+at the <tt>keyboard</tt> prompt, we call it again.  This action
+puts us at depth 2.  We can confirm that we are in the second
+invocation of the function by examining the arguments.  We
+then issue two <tt>return</tt> statements to return to the base
+workspace.
+
+\if FRAGMENT
+frag_flow_keyboard_000.m
+0
+key_one(1,2)
+key_one(5,7)
+a
+b
+c
+return
+a
+b
+c
+return
+\endif
+
+
+\verbinclude frag_flow_keyboard_000.m.out 
+
+*/

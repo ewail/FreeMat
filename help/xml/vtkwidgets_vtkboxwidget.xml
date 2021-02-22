@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkwidgets_vtkboxwidget" kind="page">
+    <compoundname>vtkwidgets_vtkboxwidget</compoundname>
+    <title>vtkBoxWidget</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkwidgets_1sec_vtkwidgets" kindref="member">Visualization Toolkit Widget Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>This 3D widget defines a region of interest that is represented by an arbitrarily oriented hexahedron with interior face angles of 90 degrees (orthogonal faces). The object creates 7 handles that can be moused on and manipulated. The first six correspond to the six faces, the seventh is in the center of the hexahedron. In addition, a bounding box outline is shown, the &quot;faces&quot; of which can be selected for object rotation or scaling. A nice feature of the object is that the vtkBoxWidget, like any 3D widget, will work with the current interactor style. That is, if vtkBoxWidget does not handle an event, then all other registered observers (including the interactor style) have an opportunity to process the event. Otherwise, the vtkBoxWidget will terminate the processing of the event that it handles.</para><para>To use this object, just invoke SetInteractor() with the argument of the method a vtkRenderWindowInteractor. You may also wish to invoke &quot;PlaceWidget()&quot; to initially position the widget. The interactor will act normally until the &quot;i&quot; key (for &quot;interactor&quot;) is pressed, at which point the vtkBoxWidget will appear. (See superclass documentation for information about changing this behavior.) By grabbing the six face handles (use the left mouse button), faces can be moved. By grabbing the center handle (with the left mouse button), the entire hexahedron can be translated. (Translation can also be employed by using the &quot;shift-left-mouse-button&quot; combination inside of the widget.) Scaling is achieved by using the right mouse button &quot;up&quot; the render window (makes the widget bigger) or &quot;down&quot; the render window (makes the widget smaller). To rotate vtkBoxWidget, pick a face (but not a face handle) and move the left mouse. (Note: the mouse button must be held down during manipulation.) Events that occur outside of the widget (i.e., no part of the widget is picked) are propagated to any other registered obsevers (such as the interaction style). Turn off the widget by pressing the &quot;i&quot; key again. (See the superclass documentation on key press activiation.)</para><para>The vtkBoxWidget is very flexible. It can be used to select, cut, clip, or perform any other operation that depends on an implicit function (use the GetPlanes() method); or it can be used to transform objects using a linear transformation (use the GetTransform() method). Typical usage of the widget is to make use of the StartInteractionEvent, InteractionEvent, and EndInteractionEvent events. The InteractionEvent is called on mouse motion; the other two events are called on button down and button up (either left or right button).</para><para>Some additional features of this class include the ability to control the rendered properties of the widget. You can set the properties of the selected and unselected representations of the parts of the widget. For example, you can set the property for the handles, faces, and outline in their normal and selected states.</para><para>To create an instance of class vtkBoxWidget, simply invoke its constructor as follows <verbatim>  obj = vtkBoxWidget
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkBoxWidget has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkBoxWidget class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkBoxWidget = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkBoxWidget = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetEnabled (int )</computeroutput> - Methods that satisfy the superclass&apos; API.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.PlaceWidget (double bounds[6])</computeroutput> - Methods that satisfy the superclass&apos; API.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.PlaceWidget ()</computeroutput> - Methods that satisfy the superclass&apos; API.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.PlaceWidget (double xmin, double xmax, double ymin, double ymax, double zmin, double zmax)</computeroutput> - Get the planes describing the implicit function defined by the box widget. The user must provide the instance of the class vtkPlanes. Note that vtkPlanes is a subclass of vtkImplicitFunction, meaning that it can be used by a variety of filters to perform clipping, cutting, and selection of data. (The direction of the normals of the planes can be reversed enabling the InsideOut flag.)  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GetPlanes (vtkPlanes planes)</computeroutput> - Get the planes describing the implicit function defined by the box widget. The user must provide the instance of the class vtkPlanes. Note that vtkPlanes is a subclass of vtkImplicitFunction, meaning that it can be used by a variety of filters to perform clipping, cutting, and selection of data. (The direction of the normals of the planes can be reversed enabling the InsideOut flag.)  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetInsideOut (int )</computeroutput> - Set/Get the InsideOut flag. When off, the normals point out of the box. When on, the normals point into the hexahedron. InsideOut is off by default.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetInsideOut ()</computeroutput> - Set/Get the InsideOut flag. When off, the normals point out of the box. When on, the normals point into the hexahedron. InsideOut is off by default.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.InsideOutOn ()</computeroutput> - Set/Get the InsideOut flag. When off, the normals point out of the box. When on, the normals point into the hexahedron. InsideOut is off by default.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.InsideOutOff ()</computeroutput> - Set/Get the InsideOut flag. When off, the normals point out of the box. When on, the normals point into the hexahedron. InsideOut is off by default.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GetTransform (vtkTransform t)</computeroutput> - Retrieve a linear transform characterizing the transformation of the box. Note that the transformation is relative to where PlaceWidget was initially called. This method modifies the transform provided. The transform can be used to control the position of vtkProp3D&apos;s, as well as other transformation operations (e.g., vtkTranformPolyData).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetTransform (vtkTransform t)</computeroutput> - Set the position, scale and orientation of the box widget using the transform specified. Note that the transformation is relative to where PlaceWidget was initially called (i.e., the original bounding box).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GetPolyData (vtkPolyData pd)</computeroutput> - Grab the polydata (including points) that define the box widget. The polydata consists of 6 quadrilateral faces and 15 points. The first eight points define the eight corner vertices; the next six define the -x,+x, -y,+y, -z,+z face points; and the final point (the 15th out of 15 points) defines the center of the hexahedron. These point values are guaranteed to be up-to-date when either the InteractionEvent or EndInteractionEvent events are invoked. The user provides the vtkPolyData and the points and cells are added to it.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkProperty = obj.GetHandleProperty ()</computeroutput> - Get the handle properties (the little balls are the handles). The properties of the handles when selected and normal can be set.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkProperty = obj.GetSelectedHandleProperty ()</computeroutput> - Get the handle properties (the little balls are the handles). The properties of the handles when selected and normal can be set.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.HandlesOn ()</computeroutput> - Switches handles (the spheres) on or off by manipulating the actor visibility.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.HandlesOff ()</computeroutput> - Switches handles (the spheres) on or off by manipulating the actor visibility.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkProperty = obj.GetFaceProperty ()</computeroutput> - Get the face properties (the faces of the box). The properties of the face when selected and normal can be set.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkProperty = obj.GetSelectedFaceProperty ()</computeroutput> - Get the face properties (the faces of the box). The properties of the face when selected and normal can be set.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkProperty = obj.GetOutlineProperty ()</computeroutput> - Get the outline properties (the outline of the box). The properties of the outline when selected and normal can be set.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkProperty = obj.GetSelectedOutlineProperty ()</computeroutput> - Get the outline properties (the outline of the box). The properties of the outline when selected and normal can be set.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetOutlineFaceWires (int )</computeroutput> - Control the representation of the outline. This flag enables face wires. By default face wires are off.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetOutlineFaceWires ()</computeroutput> - Control the representation of the outline. This flag enables face wires. By default face wires are off.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.OutlineFaceWiresOn ()</computeroutput> - Control the representation of the outline. This flag enables face wires. By default face wires are off.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.OutlineFaceWiresOff ()</computeroutput> - Control the representation of the outline. This flag enables the cursor lines running between the handles. By default cursor wires are on.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetOutlineCursorWires (int )</computeroutput> - Control the representation of the outline. This flag enables the cursor lines running between the handles. By default cursor wires are on.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetOutlineCursorWires ()</computeroutput> - Control the representation of the outline. This flag enables the cursor lines running between the handles. By default cursor wires are on.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.OutlineCursorWiresOn ()</computeroutput> - Control the representation of the outline. This flag enables the cursor lines running between the handles. By default cursor wires are on.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.OutlineCursorWiresOff ()</computeroutput> - Control the behavior of the widget. Translation, rotation, and scaling can all be enabled and disabled.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetTranslationEnabled (int )</computeroutput> - Control the behavior of the widget. Translation, rotation, and scaling can all be enabled and disabled.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetTranslationEnabled ()</computeroutput> - Control the behavior of the widget. Translation, rotation, and scaling can all be enabled and disabled.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.TranslationEnabledOn ()</computeroutput> - Control the behavior of the widget. Translation, rotation, and scaling can all be enabled and disabled.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.TranslationEnabledOff ()</computeroutput> - Control the behavior of the widget. Translation, rotation, and scaling can all be enabled and disabled.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetScalingEnabled (int )</computeroutput> - Control the behavior of the widget. Translation, rotation, and scaling can all be enabled and disabled.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetScalingEnabled ()</computeroutput> - Control the behavior of the widget. Translation, rotation, and scaling can all be enabled and disabled.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ScalingEnabledOn ()</computeroutput> - Control the behavior of the widget. Translation, rotation, and scaling can all be enabled and disabled.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ScalingEnabledOff ()</computeroutput> - Control the behavior of the widget. Translation, rotation, and scaling can all be enabled and disabled.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetRotationEnabled (int )</computeroutput> - Control the behavior of the widget. Translation, rotation, and scaling can all be enabled and disabled.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetRotationEnabled ()</computeroutput> - Control the behavior of the widget. Translation, rotation, and scaling can all be enabled and disabled.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.RotationEnabledOn ()</computeroutput> - Control the behavior of the widget. Translation, rotation, and scaling can all be enabled and disabled.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.RotationEnabledOff ()</computeroutput> - Control the behavior of the widget. Translation, rotation, and scaling can all be enabled and disabled.  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

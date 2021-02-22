@@ -1,0 +1,110 @@
+
+ Usage
+
+MINC is a NetCDF-based medical image file format that was
+developed at the Montreal Neurological Institute in 1992.
+The data is written slice-by-slice, and this writer is
+therefore suitable for streaming MINC data that is larger
+than the memory size through VTK. This writer can also
+produce files with up to 4 dimensions, where the fourth
+dimension is provided by using AddInput() to specify
+multiple input data sets. If you want to set header
+information for the file, you must supply a
+vtkMINCImageAttributes
+To create an instance of class vtkMINCImageWriter, simply
+invoke its constructor as follows
+
+    obj = vtkMINCImageWriter
+
+
+
+ Methods
+
+The class vtkMINCImageWriter has several methods that can be
+used. They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkMINCImageWriter class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkMINCImageWriter = obj.NewInstance ()
+* vtkMINCImageWriter = obj.SafeDownCast (vtkObject o)
+* string = obj.GetFileExtensions () - Get the name of this
+  file format.
+* string = obj.GetDescriptiveName () - Set the file name.
+* obj.SetFileName (string name) - Set the file name.
+* obj.Write () - Write the data. This will attempt to stream
+  the data slice-by-slice through the pipeline and out to
+  the file, unless the whole extent of the input has already
+  been updated.
+* obj.SetDirectionCosines (vtkMatrix4x4 matrix) - Set a
+  matrix that describes the orientation of the data. The
+  three columns of this matrix should give the unit-vector
+  directions for the VTK x, y and z dimensions respectively.
+  The writer will use this information to determine how to
+  map the VTK dimensions to the canonical MINC dimensions,
+  and if necessary, the writer will re-order one or more
+  dimensions back-to-front to ensure that no MINC dimension
+  ends up with a direction cosines vector whose dot product
+  with the canonical unit vector for that dimension is
+  negative.
+* vtkMatrix4x4 = obj.GetDirectionCosines () - Set a matrix
+  that describes the orientation of the data. The three
+  columns of this matrix should give the unit-vector
+  directions for the VTK x, y and z dimensions respectively.
+  The writer will use this information to determine how to
+  map the VTK dimensions to the canonical MINC dimensions,
+  and if necessary, the writer will re-order one or more
+  dimensions back-to-front to ensure that no MINC dimension
+  ends up with a direction cosines vector whose dot product
+  with the canonical unit vector for that dimension is
+  negative.
+* obj.SetRescaleSlope (double ) - Set the slope and
+  intercept for rescaling the intensities. The default
+  values are zero, which indicates to the reader that no
+  rescaling is to be performed.
+* double = obj.GetRescaleSlope () - Set the slope and
+  intercept for rescaling the intensities. The default
+  values are zero, which indicates to the reader that no
+  rescaling is to be performed.
+* obj.SetRescaleIntercept (double ) - Set the slope and
+  intercept for rescaling the intensities. The default
+  values are zero, which indicates to the reader that no
+  rescaling is to be performed.
+* double = obj.GetRescaleIntercept () - Set the slope and
+  intercept for rescaling the intensities. The default
+  values are zero, which indicates to the reader that no
+  rescaling is to be performed.
+* obj.SetImageAttributes (vtkMINCImageAttributes attributes)
+  - Set the image attributes, which contain patient
+  information and other useful metadata.
+* vtkMINCImageAttributes = obj.GetImageAttributes () - Set
+  the image attributes, which contain patient information
+  and other useful metadata.
+* obj.SetStrictValidation (int ) - Set whether to validate
+  that all variable attributes that have been set are ones
+  that are listed in the MINC standard.
+* obj.StrictValidationOn () - Set whether to validate that
+  all variable attributes that have been set are ones that
+  are listed in the MINC standard.
+* obj.StrictValidationOff () - Set whether to validate that
+  all variable attributes that have been set are ones that
+  are listed in the MINC standard.
+* int = obj.GetStrictValidation () - Set whether to validate
+  that all variable attributes that have been set are ones
+  that are listed in the MINC standard.
+* obj.SetHistoryAddition (string ) - Set a string value to
+  append to the history of the file. This string should
+  describe, briefly, how the file was processed.
+* string = obj.GetHistoryAddition () - Set a string value to
+  append to the history of the file. This string should
+  describe, briefly, how the file was processed.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_IO_Classes
+* Generated on Thu Jul 25 2013 17:18:34 for FreeMat by
+  doxygen_ 1.8.1.1
+

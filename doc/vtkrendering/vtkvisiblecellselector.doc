@@ -1,0 +1,101 @@
+/*!
+\page vtkrendering_vtkvisiblecellselector vtkVisibleCellSelector
+
+<p>
+Section: \ref sec_vtkrendering "Visualization Toolkit Rendering Classes"
+\section Usage
+ DEPRECATED: Please refer to vtkHardwareSelector instead.
+ This class can be used to determine what cells are visible within a given
+ rectangle of the RenderWindow. To use it, call in order, SetRenderer(), 
+ SetArea(), SetProcessorId(), SetRenderPasses(), and then Select(). Select 
+ will cause the attached vtkRenderer to render in a special color mode, 
+ where each cell is given it own color so that later inspection of the 
+ Rendered Pixels can determine what cells are visible. In practice up to 
+ five different rendering passes may occur depending on your choices in 
+ SetRenderPasses. After Select(), a list of the visible cells can be 
+ obtained by calling GetSelectedIds().
+
+ Limitations:
+ Antialiasing will break this class. If your graphics card settings force
+ their use this class will return invalid results.
+
+ Currently only cells from PolyDataMappers can be selected from. When 
+ vtkRenderer is put into a SelectMode, it temporarily swaps in a new 
+ vtkIdentColoredPainter to do the color index rendering of each cell in 
+ each vtkProp that it renders. Until alternatives to vtkIdentColoredPainter
+ exist that can do a similar coloration of other vtkDataSet types, only
+ polygonal data can be selected. If you need to select other data types,
+ consider using vtkDataSetMapper and turning on it's PassThroughCellIds 
+ feature, or using vtkFrustumExtractor.
+
+ Only Opaque geometry in Actors is selected from. Assemblies and LODMappers 
+ are not currently supported. 
+
+ During selection, visible datasets that can not be selected from are
+ temporarily hidden so as not to produce invalid indices from their colors.
+
+
+To create an instance of class vtkVisibleCellSelector, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkVisibleCellSelector
+\endverbatim
+\section Methods
+The class vtkVisibleCellSelector has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkVisibleCellSelector class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkVisibleCellSelector = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkVisibleCellSelector = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetRenderer (vtkRenderer )</tt> -  Call to let this know where to select within.
+ </LI>
+<LI>  <tt>obj.SetArea (int x0, int y0, int x1, int y1)</tt> -  Call to set the selection area region.
+ This crops the selected area to the renderers pixel limits.
+ </LI>
+<LI>  <tt>obj.SetProcessorId (int pid)</tt> -  Call to let this know what processor number to render as in the processor
+ select pass. Internally this adds 1 to pid because 0 is reserved for miss.
+ </LI>
+<LI>  <tt>int = obj.GetProcessorId ()</tt> -  Call to let this know what processor number to render as in the processor
+ select pass. Internally this adds 1 to pid because 0 is reserved for miss.
+ </LI>
+<LI>  <tt>obj.SetRenderPasses (int DoProcessor, int DoActor, int DoCellIdHi, int DoCellIdMid, int DoCellIdLo, int DoVertexId)</tt> -  Call to let this know what selection render passes to do.
+ If you have only one processor or one actor, you can leave DoProcessor 
+ and DoActor as false (the default). If you have less than 2^48 cells in 
+ any actor, you do not need the CellIdHi pass, or similarly if you have 
+ less than 2^24 cells, you do not need DoCellIdMid.
+ The DoPointId will enable another render pass for determining visible
+ vertices.
+ </LI>
+<LI>  <tt>obj.Select ()</tt> -  Execute the selection algorithm.
+ </LI>
+<LI>  <tt>obj.GetSelectedIds (vtkIdTypeArray ToCopyInto)</tt> -  After Select(), this will return the list of selected Ids.
+ The ProcessorId and Actor Id are returned in the first two components.
+ The CellId is returned in the last two components (only 64 bits total).
+ </LI>
+<LI>  <tt>obj.GetSelectedIds (vtkSelection ToCopyInto)</tt> -  After Select(), this will return the list of selected Ids.
+ </LI>
+<LI>  <tt>obj.GetSelectedVertices (vtkIdTypeArray VertexPointers, vtkIdTypeArray VertexIds)</tt> -  After Select(), (assuming DoVertexId is on), the will return arrays that
+ describe which cell vertices are visible.
+ The VertexPointers array contains one index into the VertexIds array for
+ every visible cell. Any index may be -1 in which case no vertices were 
+ visible for that cell. The VertexIds array contains a set of integers for
+ each cell that has visible vertices. The first entry in the set is
+ the number of visible vertices. The rest are visible vertex ranks. 
+ A set such at 2,0,4, means that a particular polygon's first and fifth
+ vertices were visible.
+ </LI>
+<LI>  <tt>vtkProp = obj.GetActorFromId (vtkIdType id)</tt> -  After a select, this will return a pointer to the actor corresponding to
+ a particular id. This will return NULL if id is out of range.
+ </LI>
+<LI>  <tt>obj.PrintSelectedIds (vtkIdTypeArray IdsToPrint)</tt> -  For debugging - prints out the list of selected ids.
+ </LI>
+</UL>
+*/

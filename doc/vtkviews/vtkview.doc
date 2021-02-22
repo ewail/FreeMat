@@ -1,0 +1,105 @@
+/*!
+\page vtkviews_vtkview vtkView
+
+<p>
+Section: \ref sec_vtkviews "Visualization Toolkit View Classes"
+\section Usage
+ vtkView is the superclass for views.  A view is generally an area of an
+ application's canvas devoted to displaying one or more VTK data objects.
+ Associated representations (subclasses of vtkDataRepresentation) are
+ responsible for converting the data into a displayable format.  These
+ representations are then added to the view.
+
+ For views which display only one data object at a time you may set a
+ data object or pipeline connection directly on the view itself (e.g.
+ vtkGraphLayoutView, vtkLandscapeView, vtkTreeMapView).
+ The view will internally create a vtkDataRepresentation for the data.
+
+ A view has the concept of linked selection.  If the same data is displayed
+ in multiple views, their selections may be linked by setting the same
+ vtkAnnotationLink on their representations (see vtkDataRepresentation).
+
+To create an instance of class vtkView, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkView
+\endverbatim
+\section Methods
+The class vtkView has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkView class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkView = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkView = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.AddRepresentation (vtkDataRepresentation rep)</tt> -  Adds the representation to the view.
+ </LI>
+<LI>  <tt>obj.SetRepresentation (vtkDataRepresentation rep)</tt> -  Set the representation to the view.
+ </LI>
+<LI>  <tt>vtkDataRepresentation = obj.AddRepresentationFromInputConnection (vtkAlgorithmOutput conn)</tt> -  Convenience method which creates a simple representation with the 
+ connection and adds it to the view.
+ Returns the representation internally created.
+ NOTE: The returned representation pointer is not reference-counted, 
+ so you MUST call Register() on the representation if you want to 
+ keep a reference to it.
+ </LI>
+<LI>  <tt>vtkDataRepresentation = obj.SetRepresentationFromInputConnection (vtkAlgorithmOutput conn)</tt> -  Convenience method which sets the representation with the 
+ connection and adds it to the view.
+ Returns the representation internally created.
+ NOTE: The returned representation pointer is not reference-counted, 
+ so you MUST call Register() on the representation if you want to 
+ keep a reference to it.
+ </LI>
+<LI>  <tt>vtkDataRepresentation = obj.AddRepresentationFromInput (vtkDataObject input)</tt> -  Convenience method which creates a simple representation with the 
+ specified input and adds it to the view.
+ NOTE: The returned representation pointer is not reference-counted, 
+ so you MUST call Register() on the representation if you want to 
+ keep a reference to it.
+ </LI>
+<LI>  <tt>vtkDataRepresentation = obj.SetRepresentationFromInput (vtkDataObject input)</tt> -  Convenience method which sets the representation to the 
+ specified input and adds it to the view.
+ NOTE: The returned representation pointer is not reference-counted, 
+ so you MUST call Register() on the representation if you want to 
+ keep a reference to it.
+ </LI>
+<LI>  <tt>obj.RemoveRepresentation (vtkDataRepresentation rep)</tt> -  Removes the representation from the view.
+ </LI>
+<LI>  <tt>obj.RemoveRepresentation (vtkAlgorithmOutput rep)</tt> -  Removes any representation with this connection from the view.
+ </LI>
+<LI>  <tt>obj.RemoveAllRepresentations ()</tt> -  Removes all representations from the view.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfRepresentations ()</tt> -  Returns the number of representations from first port(0) in this view.
+ </LI>
+<LI>  <tt>vtkDataRepresentation = obj.GetRepresentation (int index)</tt> -  The representation at a specified index.
+ </LI>
+<LI>  <tt>bool = obj.IsRepresentationPresent (vtkDataRepresentation rep)</tt> -  Check to see if a representation is present in the view.
+ </LI>
+<LI>  <tt>obj.Update ()</tt> -  Update the view.
+ </LI>
+<LI>  <tt>obj.ApplyViewTheme (vtkViewTheme )</tt> -  Meant for use by subclasses and vtkRepresentation subclasses.
+ Call this method to register vtkObjects (generally
+ vtkAlgorithm subclasses) which fire vtkCommand::ProgressEvent with the
+ view. The view listens to vtkCommand::ProgressEvent and fires
+ ViewProgressEvent with ViewProgressEventCallData containing the message and
+ the progress amount. If message is not provided, then the class name for
+ the algorithm is used.
+ </LI>
+<LI>  <tt>obj.RegisterProgress (vtkObject algorithm, string messageNULL)</tt> -  Meant for use by subclasses and vtkRepresentation subclasses.
+ Call this method to register vtkObjects (generally
+ vtkAlgorithm subclasses) which fire vtkCommand::ProgressEvent with the
+ view. The view listens to vtkCommand::ProgressEvent and fires
+ ViewProgressEvent with ViewProgressEventCallData containing the message and
+ the progress amount. If message is not provided, then the class name for
+ the algorithm is used.
+ </LI>
+<LI>  <tt>obj.UnRegisterProgress (vtkObject algorithm)</tt> -  Unregister objects previously registered with RegisterProgress.
+ </LI>
+</UL>
+*/

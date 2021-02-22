@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkwidgets_vtkballoonrepresentation" kind="page">
+    <compoundname>vtkwidgets_vtkballoonrepresentation</compoundname>
+    <title>vtkBalloonRepresentation</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkwidgets_1sec_vtkwidgets" kindref="member">Visualization Toolkit Widget Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>The vtkBalloonRepresentation is used to represent the vtkBalloonWidget. This representation is defined by two items: a text string and an image. At least one of these two items must be defined, but it is allowable to specify both, or just an image or just text. If both the text and image are specified, then methods are available for positioning the text and image with respect to each other.</para><para>The balloon representation consists of three parts: text, a rectangular frame behind the text, and an image placed next to the frame and sized to match the frame.</para><para>The size of the balloon is ultimately controlled by the text properties (i.e., font size). This representation uses a layout policy as follows.</para><para>If there is just text and no image, then the text properties and padding are used to control the size of the balloon.</para><para>If there is just an image and no text, then the ImageSize[2] member is used to control the image size. (The image will fit into this rectangle, but will not necessarily fill the whole rectangle, i.e., the image is not stretched).</para><para>If there is text and an image, the following approach ia used. First, based on the font size and other related properties (e.g., padding), determine the size of the frame. Second, depending on the layout of the image and text frame, control the size of the neighboring image (since the frame and image share a common edge). However, if this results in an image that is smaller than ImageSize[2], then the image size will be set to ImageSize[2] and the frame will be adjusted accordingly. The text is always placed in the center of the frame if the frame is resized.</para><para>To create an instance of class vtkBalloonRepresentation, simply invoke its constructor as follows <verbatim>  obj = vtkBalloonRepresentation
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkBalloonRepresentation has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkBalloonRepresentation class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput> - Standard VTK methods.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput> - Standard VTK methods.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkBalloonRepresentation = obj.NewInstance ()</computeroutput> - Standard VTK methods.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkBalloonRepresentation = obj.SafeDownCast (vtkObject o)</computeroutput> - Standard VTK methods.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetBalloonImage (vtkImageData img)</computeroutput> - Specify/retrieve the image to display in the balloon.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkImageData = obj.GetBalloonImage ()</computeroutput> - Specify/retrieve the image to display in the balloon.  </para></listitem>
+<listitem>
+<para><computeroutput>string = obj.GetBalloonText ()</computeroutput> - Specify/retrieve the text to display in the balloon.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetBalloonText (string )</computeroutput> - Specify/retrieve the text to display in the balloon.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetImageSize (int , int )</computeroutput> - Specify the minimum size for the image. Note that this is a bounding rectangle, the image will fit inside of it. However, if the balloon consists of text plus an image, then the image may be bigger than ImageSize[2] to fit into the balloon frame.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetImageSize (int a[2])</computeroutput> - Specify the minimum size for the image. Note that this is a bounding rectangle, the image will fit inside of it. However, if the balloon consists of text plus an image, then the image may be bigger than ImageSize[2] to fit into the balloon frame.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj. GetImageSize ()</computeroutput> - Specify the minimum size for the image. Note that this is a bounding rectangle, the image will fit inside of it. However, if the balloon consists of text plus an image, then the image may be bigger than ImageSize[2] to fit into the balloon frame.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetTextProperty (vtkTextProperty p)</computeroutput> - Set/get the text property (relevant only if text is shown).  </para></listitem>
+<listitem>
+<para><computeroutput>vtkTextProperty = obj.GetTextProperty ()</computeroutput> - Set/get the text property (relevant only if text is shown).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetFrameProperty (vtkProperty2D p)</computeroutput> - Set/get the frame property (relevant only if text is shown). The frame lies behind the text.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkProperty2D = obj.GetFrameProperty ()</computeroutput> - Set/get the frame property (relevant only if text is shown). The frame lies behind the text.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetImageProperty (vtkProperty2D p)</computeroutput> - Set/get the image property (relevant only if an image is shown).  </para></listitem>
+<listitem>
+<para><computeroutput>vtkProperty2D = obj.GetImageProperty ()</computeroutput> - Set/get the image property (relevant only if an image is shown).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetBalloonLayout (int )</computeroutput> - Specify the layout of the image and text within the balloon. Note that there are reduncies in these methods, for example SetBalloonLayoutToImageLeft() results in the same effect as SetBalloonLayoutToTextRight(). If only text is specified, or only an image is specified, then it doesn&apos;t matter how the layout is specified.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetBalloonLayout ()</computeroutput> - Specify the layout of the image and text within the balloon. Note that there are reduncies in these methods, for example SetBalloonLayoutToImageLeft() results in the same effect as SetBalloonLayoutToTextRight(). If only text is specified, or only an image is specified, then it doesn&apos;t matter how the layout is specified.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetBalloonLayoutToImageLeft ()</computeroutput> - Specify the layout of the image and text within the balloon. Note that there are reduncies in these methods, for example SetBalloonLayoutToImageLeft() results in the same effect as SetBalloonLayoutToTextRight(). If only text is specified, or only an image is specified, then it doesn&apos;t matter how the layout is specified.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetBalloonLayoutToImageRight ()</computeroutput> - Specify the layout of the image and text within the balloon. Note that there are reduncies in these methods, for example SetBalloonLayoutToImageLeft() results in the same effect as SetBalloonLayoutToTextRight(). If only text is specified, or only an image is specified, then it doesn&apos;t matter how the layout is specified.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetBalloonLayoutToImageBottom ()</computeroutput> - Specify the layout of the image and text within the balloon. Note that there are reduncies in these methods, for example SetBalloonLayoutToImageLeft() results in the same effect as SetBalloonLayoutToTextRight(). If only text is specified, or only an image is specified, then it doesn&apos;t matter how the layout is specified.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetBalloonLayoutToImageTop ()</computeroutput> - Specify the layout of the image and text within the balloon. Note that there are reduncies in these methods, for example SetBalloonLayoutToImageLeft() results in the same effect as SetBalloonLayoutToTextRight(). If only text is specified, or only an image is specified, then it doesn&apos;t matter how the layout is specified.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetBalloonLayoutToTextLeft ()</computeroutput> - Specify the layout of the image and text within the balloon. Note that there are reduncies in these methods, for example SetBalloonLayoutToImageLeft() results in the same effect as SetBalloonLayoutToTextRight(). If only text is specified, or only an image is specified, then it doesn&apos;t matter how the layout is specified.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetBalloonLayoutToTextRight ()</computeroutput> - Specify the layout of the image and text within the balloon. Note that there are reduncies in these methods, for example SetBalloonLayoutToImageLeft() results in the same effect as SetBalloonLayoutToTextRight(). If only text is specified, or only an image is specified, then it doesn&apos;t matter how the layout is specified.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetBalloonLayoutToTextTop ()</computeroutput> - Specify the layout of the image and text within the balloon. Note that there are reduncies in these methods, for example SetBalloonLayoutToImageLeft() results in the same effect as SetBalloonLayoutToTextRight(). If only text is specified, or only an image is specified, then it doesn&apos;t matter how the layout is specified.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetBalloonLayoutToTextBottom ()</computeroutput> - Set/Get the offset from the mouse pointer from which to place the balloon. The representation will try and honor this offset unless there is a collision with the side of the renderer, in which case the balloon will be repositioned to lie within the rendering window.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetOffset (int , int )</computeroutput> - Set/Get the offset from the mouse pointer from which to place the balloon. The representation will try and honor this offset unless there is a collision with the side of the renderer, in which case the balloon will be repositioned to lie within the rendering window.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetOffset (int a[2])</computeroutput> - Set/Get the offset from the mouse pointer from which to place the balloon. The representation will try and honor this offset unless there is a collision with the side of the renderer, in which case the balloon will be repositioned to lie within the rendering window.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj. GetOffset ()</computeroutput> - Set/Get the offset from the mouse pointer from which to place the balloon. The representation will try and honor this offset unless there is a collision with the side of the renderer, in which case the balloon will be repositioned to lie within the rendering window.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetPadding (int )</computeroutput> - Set/Get the padding (in pixels) that is used between the text and the frame.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetPaddingMinValue ()</computeroutput> - Set/Get the padding (in pixels) that is used between the text and the frame.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetPaddingMaxValue ()</computeroutput> - Set/Get the padding (in pixels) that is used between the text and the frame.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetPadding ()</computeroutput> - Set/Get the padding (in pixels) that is used between the text and the frame.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.StartWidgetInteraction (double e[2])</computeroutput> - These are methods that satisfy vtkWidgetRepresentation&apos;s API.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.EndWidgetInteraction (double e[2])</computeroutput> - These are methods that satisfy vtkWidgetRepresentation&apos;s API.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.BuildRepresentation ()</computeroutput> - These are methods that satisfy vtkWidgetRepresentation&apos;s API.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ReleaseGraphicsResources (vtkWindow w)</computeroutput> - Methods required by vtkProp superclass.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.RenderOverlay (vtkViewport viewport)</computeroutput> - Methods required by vtkProp superclass.  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

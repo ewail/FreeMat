@@ -1,0 +1,218 @@
+/*!
+\page external_import IMPORT Foreign Function Import
+
+<p>
+Section: \ref sec_external "FreeMat External Interface"
+\section Usage
+The import function allows you to call functions that are compiled into
+shared libraries, as if they were FreeMat functions. The usage is
+\verbatim
+  import(libraryname,symbol,function,return,arguments)
+\endverbatim
+The argument <tt>libraryname</tt> is the name of the library (as a string)
+to import the function from.  The second argument <tt>symbol</tt> (also
+a string), is the name of the symbol to import from the library.  The
+third argument <tt>function</tt> is the the name of the function after its
+been imported into Freemat.  The fourth argument is a string that
+specifies the return type of the function. It can take on one of the 
+following types:
+<UL>
+<LI>  'uint8' for an unsigned, 8-bit integer.
+ </LI>
+<LI>  'int8' for a signed, 8-bit integer.
+ </LI>
+<LI>  'uint16' an unsigned, 16-bit  integer.
+ </LI>
+<LI>  'int16' a signed, 16-bit integer.
+ </LI>
+<LI>  'uint32' for an unsigned, 32-bit integer.
+ </LI>
+<LI>  'int32' for a signed, 32-bit integer.
+ </LI>
+<LI>  'single' for a 32-bit floating point.
+ </LI>
+<LI>  'double' for a 64-bit floating point.
+ </LI>
+<LI>  'void' for no return type.
+ </LI>
+</UL>
+The fourth argument is more complicated.  It encodes the arguments of the
+imported function using a special syntax.  In general, the argument list
+is a string consisting of entries of the form:
+
+\verbatim
+  type[optional bounds check] {optional &}name
+\endverbatim
+
+Here is a list of various scenarios (expressed in 'C'), and the corresponding
+entries, along with snippets of code.
+
+<H2>Scalar variable passed by value</H2>
+Suppose a function is defined in the library as
+\verbatim
+  int fooFunction(float t),
+\endverbatim
+i.e., it takes a scalar value (or a string) that is passed by value.  Then
+the corresponding argument string would be
+\verbatim
+  'float t'
+\endverbatim
+For a C-string, which corresponds to a function prototype of
+\verbatim
+  int fooFunction(const char *t),
+\endverbatim
+the corresponding argument string would be
+\verbatim
+  'string t'
+\endverbatim
+Other types are as listed above.  Note that FreeMat will automatically
+promote the type of scalar variables to the type expected by the <tt>C</tt>
+function.  For example, if we call a function expecting a <tt>float</tt>
+with a <tt>double</tt> or <tt>int16</tt> argument, then FreeMat will automatically
+apply type promotion rules prior to calling the function.
+
+<H2>Scalar variable passed by reference:</H2>
+Suppose a function is defined in the library as
+\verbatim
+  int fooFunction(float *t),
+\endverbatim
+i.e., it takes a scalar value (or a string) that is passed as a pointer.  Then
+the corresponding argument string would be
+\verbatim
+  'float &t'
+\endverbatim
+If the function <tt>fooFunction</tt> modifies <tt>t</tt>, then the argument
+passed in FreeMat will also be modified.
+
+<H2>Array variable passed by value:</H2>
+In <tt>C</tt>, it is impossible to distinguish an array being passed from
+a simple pointer being passed.  More often than not, another argument
+indicates the length of the array.  FreeMat has the ability to perform
+bounds-checking on array values.  For example, suppose we have a function
+of the form
+\verbatim
+  int sum_onehundred_ints(int *t),
+\endverbatim
+where <tt>sum_onehundred_ints</tt> assumes that <tt>t</tt> is a length <tt>100</tt> vector. 
+Then the corresponding FreeMat argument is
+\verbatim
+  'float32[100] t'.
+\endverbatim
+Note that because the argument is marked as not being passed by reference,
+that if <tt>sub_onehundred_ints</tt> modifies the array <tt>t</tt>, this
+will not affect the FreeMat argument.  Note that the bounds-check expression
+can be any legal scalar expression that evaluates to an integer, and can be
+a function of the arguments.  For example to pass a square \f$N \times N\f$ 
+matrix to the following function:
+\verbatim
+  float determinantmatrix(int N, float *A),
+\endverbatim
+we can use the following argument to <tt>import</tt>:
+\verbatim
+  'int32 N, float[N*N] t'.
+\endverbatim
+
+<H2>Array variable passed by reference:</H2>
+If the function in <tt>C</tt> modifies an array, and we wish this to be
+reflected in the FreeMat side, we must pass that argument by reference.
+Hence, consider the following hypothetical function that squares the
+elements of an array (functionally equivalent to \f$x.^2\f$):
+\verbatim
+  void squarearray(int N, float *A)
+\endverbatim
+we can use the following argument to <tt>import</tt>:
+\verbatim
+  'int32 N, float[N] &A'.
+\endverbatim
+Note that to avoid problems with memory allocation, external functions
+are not allowed to return pointers.  As a result, as a general operating
+mechanism, the FreeMat code must allocate the proper arrays, and then
+pass them by reference to the external function.
+
+<H2>Sending text to the FreeMat console:</H2>
+Starting with FreeMat 4.0, it is possible for external code that is 
+called using the <tt>import</tt> statement to send text to the FreeMat console.
+To do so, you must define in each library that wants to send text a 
+function with the name <tt>freemat_io_handler</tt> that captures its 
+argument (a function pointer), and stores it
+for use by functions in the library.  That function pointer takes a 
+standard C string argument.  Here is a snippet of code to demonstrate
+how this works:
+\verbatim
+  /* just to make it readable */
+  typedef void (*strfunc)(const char*); 
+
+  /* The name we want to use for the function */
+  strfunc FreeMatText;                  
+
+  /* this name is case sensitive and must not be mangled (i.e., use extern "C") */
+  void freemat_io_handler(strfunc printFunc) {
+     FreeMatText = printFunc;
+  }
+
+  double SomeImportedFunction(double t) {
+     FreeMatText("I am going to double that argument!\n");
+     return (t*2);
+  }
+\endverbatim
+In this case, once <tt>SomeImportedFunction</tt> is called from within FreeMat, the
+text <tt>"I am going to double that argument"</tt> will appear in the FreeMat console.
+
+Your <tt>freemat_io_handler</tt> function is automatically called when your library is
+loaded by FreeMat, which happens with the first <tt>import</tt> statement that references
+it.
+
+Repeating <tt>import</tt> calls to import the same function name will be ignored, except
+the first call. In order to refresh the function without restarting FreeMat,
+you have to first clear all imported libraries via:
+\verbatim
+   clear 'libs'
+\endverbatim
+
+\section Example
+Here is a complete example.  We have a <tt>C</tt> function that adds
+two float vectors of the same length, and stores the result in a third array 
+that is modified by the function.  First, the <tt>C</tt> code:
+
+\if FILE
+addArrays.c
+void addArrays(int N, float *a, float *b, float *c) {
+  int i;
+ 
+  for (i=0;i<N;i++)
+   c[i] = a[i] + b[i];
+}
+\endif
+\verbatim
+     addArrays.c
+\endverbatim
+
+\verbinclude addArrays.c
+
+We then compile this into a dynamic library, say, <tt>add.so</tt>.  The import 
+command would then be:
+\verbatim
+  import('add.so','addArrays','addArrays','void', ...
+         'int32 N, float[N] a, float[N] b, float[N] &c');
+\endverbatim
+We could then exercise the function exactly as if it had been written
+in FreeMat.  The following only works on systems using the GNU
+C Compiler:
+
+\if FRAGMENT
+frag_external_import_000.m
+0
+if (strcmp(computer,'MAC')) system('gcc -bundle -flat_namespace -undefined suppress -o add.so addArrays.c'); end;
+if (~strcmp(computer,'MAC')) system('gcc -shared -fPIC -o add.so addArrays.c'); end;
+import('add.so','addArrays','addArrays','void','int32 N, float[N] a, float[N] b, float[N] &c');
+a = [3,2,3,1];
+b = [5,6,0,2]; 
+c = [0,0,0,0];
+addArrays(length(a),a,b,c)
+c
+\endif
+
+
+\verbinclude frag_external_import_000.m.out 
+
+*/

@@ -1,0 +1,59 @@
+/*!
+\page flow_try TRY-CATCH Try and Catch Statement
+
+<p>
+Section: \ref sec_flow "Flow Control"
+\section Usage
+The <tt>try</tt> and <tt>catch</tt> statements are used for error handling
+and control.  A concept present in <tt>C++</tt>, the <tt>try</tt> and <tt>catch</tt>
+statements are used with two statement blocks as follows
+\verbatim
+   try
+     statements_1
+   catch
+     statements_2
+   end
+\endverbatim
+The meaning of this construction is: try to execute <tt>statements_1</tt>,
+and if any errors occur during the execution, then execute the
+code in <tt>statements_2</tt>.  An error can either be a FreeMat generated
+error (such as a syntax error in the use of a built in function), or
+an error raised with the <tt>error</tt> command.
+\section Examples
+Here is an example of a function that uses error control via <tt>try</tt>
+and <tt>catch</tt> to check for failures in <tt>fopen</tt>.
+
+\if FILE
+read_file.m
+function c = read_file(filename)
+try
+   fp = fopen(filename,'r');
+   c = fgetline(fp);
+   fclose(fp);
+catch
+   c = ['could not open file because of error :' lasterr]
+end
+\endif
+\verbatim
+     read_file.m
+\endverbatim
+
+\verbinclude read_file.m
+
+Now we try it on an example file - first one that does not exist,
+and then on one that we create (so that we know it exists).
+
+\if FRAGMENT
+frag_flow_try_000.m
+0
+read_file('this_filename_is_invalid')
+fp = fopen('test_text.txt','w');
+fprintf(fp,'a line of text\n');
+fclose(fp);
+read_file('test_text.txt')
+\endif
+
+
+\verbinclude frag_flow_try_000.m.out 
+
+*/

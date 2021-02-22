@@ -1,0 +1,63 @@
+
+ Usage
+
+Moves the file pointer associated with the given file handle
+to the specified offset (in bytes). The usage is
+
+    fseek(handle,offset,style)
+
+The handle argument must be a value and active file handle.
+The offset parameter indicates the desired seek offset (how
+much the file pointer is moved in bytes). The style
+parameter determines how the offset is treated. Three values
+for the style parameter are understood:
+
+* string 'bof' or the value -1, which indicate the seek is
+  relative to the beginning of the file. This is equivalent
+  to SEEK_SET in ANSI C.
+* string 'cof' or the value 0, which indicates the seek is
+  relative to the current position of the file. This is
+  equivalent to SEEK_CUR in ANSI C.
+* string 'eof' or the value 1, which indicates the seek is
+  relative to the end of the file. This is equivalent to
+  SEEK_END in ANSI C.
+
+The offset can be positive or negative.
+
+
+ Example
+
+The first example reads a file and then ``rewinds'' the file
+pointer by seeking to the beginning. The next example seeks
+forward by 2048 bytes from the files current position, and
+then reads a line of 512 floats.
+
+  --> % First we create the file
+  --> fp = fopen('test.dat','wb');
+  --> fwrite(fp,float(rand(4096,1)));
+  --> fclose(fp);
+  --> % Now we open it
+  --> fp = fopen('test.dat','rb');
+  --> % Read the whole thing
+  --> x = fread(fp,[1,inf],'float');
+  --> % Rewind to the beginning
+  --> fseek(fp,0,'bof');
+  --> % Read part of the file
+  --> y = fread(fp,[1,1024],'float');
+  --> who x y
+    Variable Name       Type   Flags             Size
+                x    double                    [1x4096]
+                y    double                    [1x1024]
+  --> % Seek 2048 bytes into the file
+  --> fseek(fp,2048,'cof');
+  --> % Read 512 floats from the file
+  --> x = fread(fp,[512,1],'float');
+  --> % Close the file
+  --> fclose(fp);
+
+
+* FreeMat_Documentation
+* Input/Ouput_Functions
+* Generated on Thu Jul 25 2013 17:17:38 for FreeMat by
+  doxygen_ 1.8.1.1
+

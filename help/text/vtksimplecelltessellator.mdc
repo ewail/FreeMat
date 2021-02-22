@@ -1,0 +1,190 @@
+
+ Usage
+
+vtkSimpleCellTessellator is a helper class to perform
+adaptive tessellation of particular cell topologies. The
+major purpose for this class is to transform higher-order
+cell types (e.g., higher-order finite elements) into linear
+cells that can then be easily visualized by VTK. This class
+works in conjunction with the vtkGenericDataSet and
+vtkGenericAdaptorCell classes.
+This algorithm is based on edge subdivision. An error metric
+along each edge is evaluated, and if the error is greater
+than some tolerance, the edge is subdivided (as well as all
+connected 2D and 3D cells). The process repeats until the
+error metric is satisfied. Since the algorithm is based on
+edge subdivision it inherently avoid T-junctions.
+A significant issue addressed by this algorithm is to insure
+face compatibility across neigboring cells. That is,
+diagonals due to face triangulation must match to insure
+that the mesh is compatible. The algorithm employs a
+precomputed table to accelerate the tessellation process.
+The table was generated with the help of
+vtkOrderedTriangulator the basic idea is that the choice of
+diagonal is made only by considering the relative value of
+the point ids.
+To create an instance of class vtkSimpleCellTessellator,
+simply invoke its constructor as follows
+
+    obj = vtkSimpleCellTessellator
+
+
+
+ Methods
+
+The class vtkSimpleCellTessellator has several methods that
+can be used. They are listed below. Note that the
+documentation is translated automatically from the VTK
+sources, and may not be completely intelligible. When in
+doubt, consult the VTK website. In the methods listed below,
+obj is an instance of the vtkSimpleCellTessellator class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkSimpleCellTessellator = obj.NewInstance ()
+* vtkSimpleCellTessellator = obj.SafeDownCast (vtkObject o)
+* vtkGenericAdaptorCell = obj.GetGenericCell () - Get the
+  higher order cell in order to access the evaluation
+  function.
+* obj.TessellateFace (vtkGenericAdaptorCell cell,
+  vtkGenericAttributeCollection att, vtkIdType index,
+  vtkDoubleArray points, vtkCellArray cellArray,
+  vtkPointData internalPd) - Tessellate a face of a 3D
+  `cell'. The face is specified by the index value. The
+  result is a set of smaller linear triangles in `cellArray'
+  with `points' and point data `internalPd'.
+
+
+    Precondition:
+        cell_exists: cell!=0
+        valid_dimension: cell->GetDimension()==3
+        valid_index_range: (index>=0) &amp;&amp;
+        (index<cell->GetNumberOfBoundaries(2))
+        att_exists: att!=0
+        points_exists: points!=0
+        cellArray_exists: cellArray!=0
+        internalPd_exists: internalPd!=0
+
+* obj.Tessellate (vtkGenericAdaptorCell cell,
+  vtkGenericAttributeCollection att, vtkDoubleArray points,
+  vtkCellArray cellArray, vtkPointData internalPd) -
+  Tessellate a 3D `cell'. The result is a set of smaller
+  linear tetrahedra in `cellArray' with `points' and point
+  data `internalPd'.
+
+
+    Precondition:
+        cell_exists: cell!=0
+        valid_dimension: cell->GetDimension()==3
+        att_exists: att!=0
+        points_exists: points!=0
+        cellArray_exists: cellArray!=0
+        internalPd_exists: internalPd!=0
+
+* obj.Triangulate (vtkGenericAdaptorCell cell,
+  vtkGenericAttributeCollection att, vtkDoubleArray points,
+  vtkCellArray cellArray, vtkPointData internalPd) -
+  Triangulate a 2D `cell'. The result is a set of smaller
+  linear triangles in `cellArray' with `points' and point
+  data `internalPd'.
+
+
+    Precondition:
+        cell_exists: cell!=0
+        valid_dimension: cell->GetDimension()==2
+        att_exists: att!=0
+        points_exists: points!=0
+        cellArray_exists: cellArray!=0
+        internalPd_exists: internalPd!=0
+
+* obj.Reset () - Reset the output for repeated use of this
+  class.
+* obj.Initialize (vtkGenericDataSet ds) - Initialize the
+  tessellator with a data set `ds'.
+* int = obj.GetFixedSubdivisions () - Return the number of
+  fixed subdivisions. It is used to prevent from infinite
+  loop in degenerated cases. For order 3 or higher, if the
+  inflection point is exactly on the mid-point, error metric
+  will not detect that a subdivision is required. 0 means no
+  fixed subdivision: there will be only adaptive
+  subdivisions.
+  The algorithm first performs `GetFixedSubdivisions' non
+  adaptive subdivisions followed by at most
+  `GetMaxAdaptiveSubdivisions' adaptive subdivisions. Hence,
+  there are at most `GetMaxSubdivisionLevel' subdivisions.
+
+
+    Postcondition:
+        positive_result: result>=0 &amp;&amp;
+        result<=GetMaxSubdivisionLevel()
+
+* int = obj.GetMaxSubdivisionLevel () - Return the maximum
+  level of subdivision. It is used to prevent from infinite
+  loop in degenerated cases. For order 3 or higher, if the
+  inflection point is exactly on the mid-point, error metric
+  will not detect that a subdivision is required. 0 means no
+  subdivision, neither fixed nor adaptive.
+
+
+    Postcondition:
+        positive_result: result>=GetFixedSubdivisions()
+
+* int = obj.GetMaxAdaptiveSubdivisions () - Return the
+  maximum number of adaptive subdivisions.
+
+
+    Postcondition:
+        valid_result: result==GetMaxSubdivisionLevel()-
+        GetFixedSubdivisions()
+
+* obj.SetFixedSubdivisions (int level) - Set the number of
+  fixed subdivisions. See GetFixedSubdivisions() for more
+  explanations.
+
+
+    Precondition:
+        positive_level: level>=0 &amp;&amp;
+        level<=GetMaxSubdivisionLevel()
+
+
+
+    Postcondition:
+        is_set: GetFixedSubdivisions()==level
+
+* obj.SetMaxSubdivisionLevel (int level) - Set the maximum
+  level of subdivision. See GetMaxSubdivisionLevel() for
+  more explanations.
+
+
+    Precondition:
+        positive_level: level>=GetFixedSubdivisions()
+
+
+
+    Postcondition:
+        is_set: level==GetMaxSubdivisionLevel()
+
+* obj.SetSubdivisionLevels (int fixed, int maxLevel) - Set
+  both the number of fixed subdivisions and the maximum
+  level of subdivisions. See GetFixedSubdivisions(),
+  GetMaxSubdivisionLevel() and GetMaxAdaptiveSubdivisions()
+  for more explanations.
+
+
+    Precondition:
+        positive_fixed: fixed>=0
+        valid_range: fixed<=maxLevel
+
+
+
+    Postcondition:
+        fixed_is_set: fixed==GetFixedSubdivisions()
+        maxLevel_is_set: maxLevel==GetMaxSubdivisionLevel()
+
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Filtering_Classes
+* Generated on Thu Jul 25 2013 17:18:31 for FreeMat by
+  doxygen_ 1.8.1.1
+

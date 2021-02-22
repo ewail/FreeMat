@@ -1,0 +1,93 @@
+/*!
+\page vtkrendering_vtkinteractorstyleunicam vtkInteractorStyleUnicam
+
+<p>
+Section: \ref sec_vtkrendering "Visualization Toolkit Rendering Classes"
+\section Usage
+ UniCam is a camera interactor.  Here, just the primary features of the
+ UniCam technique are implemented.  UniCam requires just one mouse button
+ and supports context sensitive dollying, panning, and rotation.  (In this
+ implementation, it uses the right mouse button, leaving the middle and
+ left available for other functions.) For more information, see the paper
+ at:
+ 
+    ftp://ftp.cs.brown.edu/pub/papers/graphics/research/unicam.pdf
+ 
+ The following is a brief description of the UniCam Camera Controls.  You
+ can perform 3 operations on the camera: rotate, pan, and dolly the camera.
+ All operations are reached through the right mouse button & mouse
+ movements.
+ 
+ IMPORTANT: UniCam assumes there is an axis that makes sense as a "up"
+ vector for the world.  By default, this axis is defined to be the
+ vector <0,0,1>.  You can set it explicitly for the data you are
+ viewing with the 'SetWorldUpVector(..)' method in C++, or similarly
+ in Tcl/Tk (or other interpreted languages).
+ 
+ 1. ROTATE:
+ 
+ Position the cursor over the point you wish to rotate around and press and
+ release the left mouse button.  A 'focus dot' appears indicating the
+ point that will be the center of rotation.  To rotate, press and hold the
+ left mouse button and drag the mouse.. release the button to complete the
+ rotation.
+ 
+ Rotations can be done without placing a focus dot first by moving the
+ mouse cursor to within 10% of the window border & pressing and holding the
+ left button followed by dragging the mouse.  The last focus dot position
+ will be re-used.
+ 
+ 2. PAN:
+ 
+ Click and hold the left mouse button, and initially move the mouse left
+ or right.  The point under the initial pick will pick correlate w/ the
+ mouse tip-- (i.e., direct manipulation).
+ 
+ 3. DOLLY (+ PAN):
+ 
+ Click and hold the left mouse button, and initially move the mouse up or
+ down.  Moving the mouse down will dolly towards the picked point, and moving
+ the mouse up will dolly away from it.  Dollying occurs relative to the
+ picked point which simplifies the task of dollying towards a region of
+ interest. Left and right mouse movements will pan the camera left and right.
+ 
+
+To create an instance of class vtkInteractorStyleUnicam, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkInteractorStyleUnicam
+\endverbatim
+\section Methods
+The class vtkInteractorStyleUnicam has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkInteractorStyleUnicam class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkInteractorStyleUnicam = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkInteractorStyleUnicam = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetWorldUpVector (double a[3])</tt>
+ </LI>
+<LI>  <tt>obj.SetWorldUpVector (double x, double y, double z)</tt>
+ </LI>
+<LI>  <tt>double = obj. GetWorldUpVector ()</tt>
+ </LI>
+<LI>  <tt>obj.OnMouseMove ()</tt> -  Concrete implementation of event bindings
+ </LI>
+<LI>  <tt>obj.OnLeftButtonDown ()</tt> -  Concrete implementation of event bindings
+ </LI>
+<LI>  <tt>obj.OnLeftButtonUp ()</tt> -  Concrete implementation of event bindings
+ </LI>
+<LI>  <tt>obj.OnLeftButtonMove ()</tt> -  Concrete implementation of event bindings
+ </LI>
+<LI>  <tt>obj.OnTimer ()</tt> -  OnTimer calls RotateCamera, RotateActor etc which should be overridden by
+ style subclasses.
+ </LI>
+</UL>
+*/

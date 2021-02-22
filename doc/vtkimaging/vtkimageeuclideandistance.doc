@@ -1,0 +1,116 @@
+/*!
+\page vtkimaging_vtkimageeuclideandistance vtkImageEuclideanDistance
+
+<p>
+Section: \ref sec_vtkimaging "Visualization Toolkit Imaging Classes"
+\section Usage
+ vtkImageEuclideanDistance implements the Euclidean DT using
+ Saito's algorithm. The distance map produced contains the square of the
+ Euclidean distance values. 
+
+ The algorithm has a o(n^(D+1)) complexity over nxnx...xn images in D 
+ dimensions. It is very efficient on relatively small images. Cuisenaire's
+ algorithms should be used instead if n >> 500. These are not implemented
+ yet.
+
+ For the special case of images where the slice-size is a multiple of 
+ 2^N with a large N (typically for 256x256 slices), Saito's algorithm 
+ encounters a lot of cache conflicts during the 3rd iteration which can 
+ slow it very significantly. In that case, one should use 
+ ::SetAlgorithmToSaitoCached() instead for better performance. 
+
+ References:
+
+ T. Saito and J.I. Toriwaki. New algorithms for Euclidean distance 
+ transformations of an n-dimensional digitised picture with applications.
+ Pattern Recognition, 27(11). pp. 1551--1565, 1994. 
+ 
+ O. Cuisenaire. Distance Transformation: fast algorithms and applications
+ to medical image processing. PhD Thesis, Universite catholique de Louvain,
+ October 1999. http://ltswww.epfl.ch/~cuisenai/papers/oc_thesis.pdf 
+
+To create an instance of class vtkImageEuclideanDistance, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkImageEuclideanDistance
+\endverbatim
+\section Methods
+The class vtkImageEuclideanDistance has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkImageEuclideanDistance class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkImageEuclideanDistance = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkImageEuclideanDistance = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>int = obj.SplitExtent (int splitExt[6], int startExt[6], int num, int total)</tt> -  Used internally for streaming and threads.  
+ Splits output update extent into num pieces.
+ This method needs to be called num times.  Results must not overlap for
+ consistent starting extent.  Subclass can override this method.
+ This method returns the number of peices resulting from a
+ successful split.  This can be from 1 to "total".  
+ If 1 is returned, the extent cannot be split.
+ </LI>
+<LI>  <tt>obj.SetInitialize (int )</tt> -  Used to set all non-zero voxels to MaximumDistance before starting
+ the distance transformation. Setting Initialize off keeps the current 
+ value in the input image as starting point. This allows to superimpose 
+ several distance maps. 
+ </LI>
+<LI>  <tt>int = obj.GetInitialize ()</tt> -  Used to set all non-zero voxels to MaximumDistance before starting
+ the distance transformation. Setting Initialize off keeps the current 
+ value in the input image as starting point. This allows to superimpose 
+ several distance maps. 
+ </LI>
+<LI>  <tt>obj.InitializeOn ()</tt> -  Used to set all non-zero voxels to MaximumDistance before starting
+ the distance transformation. Setting Initialize off keeps the current 
+ value in the input image as starting point. This allows to superimpose 
+ several distance maps. 
+ </LI>
+<LI>  <tt>obj.InitializeOff ()</tt> -  Used to set all non-zero voxels to MaximumDistance before starting
+ the distance transformation. Setting Initialize off keeps the current 
+ value in the input image as starting point. This allows to superimpose 
+ several distance maps. 
+ </LI>
+<LI>  <tt>obj.SetConsiderAnisotropy (int )</tt> -  Used to define whether Spacing should be used in the computation of the
+ distances 
+ </LI>
+<LI>  <tt>int = obj.GetConsiderAnisotropy ()</tt> -  Used to define whether Spacing should be used in the computation of the
+ distances 
+ </LI>
+<LI>  <tt>obj.ConsiderAnisotropyOn ()</tt> -  Used to define whether Spacing should be used in the computation of the
+ distances 
+ </LI>
+<LI>  <tt>obj.ConsiderAnisotropyOff ()</tt> -  Used to define whether Spacing should be used in the computation of the
+ distances 
+ </LI>
+<LI>  <tt>obj.SetMaximumDistance (double )</tt> -  Any distance bigger than this->MaximumDistance will not ne computed but
+ set to this->MaximumDistance instead. 
+ </LI>
+<LI>  <tt>double = obj.GetMaximumDistance ()</tt> -  Any distance bigger than this->MaximumDistance will not ne computed but
+ set to this->MaximumDistance instead. 
+ </LI>
+<LI>  <tt>obj.SetAlgorithm (int )</tt> -  Selects a Euclidean DT algorithm. 
+ 1. Saito
+ 2. Saito-cached 
+ More algorithms will be added later on. 
+ </LI>
+<LI>  <tt>int = obj.GetAlgorithm ()</tt> -  Selects a Euclidean DT algorithm. 
+ 1. Saito
+ 2. Saito-cached 
+ More algorithms will be added later on. 
+ </LI>
+<LI>  <tt>obj.SetAlgorithmToSaito ()</tt> -  Selects a Euclidean DT algorithm. 
+ 1. Saito
+ 2. Saito-cached 
+ More algorithms will be added later on. 
+ </LI>
+<LI>  <tt>obj.SetAlgorithmToSaitoCached ()</tt>
+ </LI>
+</UL>
+*/

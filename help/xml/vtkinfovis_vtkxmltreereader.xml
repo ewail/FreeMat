@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkinfovis_vtkxmltreereader" kind="page">
+    <compoundname>vtkinfovis_vtkxmltreereader</compoundname>
+    <title>vtkXMLTreeReader</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkinfovis_1sec_vtkinfovis" kindref="member">Visualization Toolkit Infovis Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>vtkXMLTreeReader parses an XML file and uses the nesting structure of the XML tags to generate a tree. Node attributes are assigned to node arrays, and the special arrays .tagname and .chardata contain the tag type and the text internal to the tag, respectively. The arrays are of type vtkStringArray. There is an array for each attribute type in the XML file, even if it appears in only one tag. If an attribute is missing from a tag, its value is the empty string.</para><para>If MaskArrays is on (the default is off), the filter will additionally make bit arrays whose names are prepended with &quot;.valid.&quot; which are 1 if the element contains that attribute, and 0 otherwise.</para><para>For example, the XML file containing the text: <preformatted>
+ &lt;node name=&quot;jeff&quot; age=&quot;26&quot;&gt;
+   this is text in jeff&apos;s node
+   &lt;node name=&quot;joe&quot;&gt;
+     &lt;node name=&quot;al&quot; initials=&quot;amb&quot; other=&quot;something&quot;/&gt;
+     &lt;node name=&quot;dave&quot; age=&quot;30&quot;/&gt;
+   &lt;/node&gt;
+   &lt;node name=&quot;lisa&quot;&gt;this is text in lisa&apos;s node&lt;/node&gt;
+   &lt;node name=&quot;darlene&quot; age=&quot;29&quot;/&gt;
+ &lt;/node&gt;
+ </preformatted></para><para>would be parsed into a tree with the following node IDs and structure:</para><para><preformatted>
+ 0 (jeff) - children: 1 (joe), 4 (lisa), 5 (darlene)
+ 1 (joe)  - children: 2 (al), 3 (dave)
+ 2 (al)
+ 3 (dave)
+ 4 (lisa)
+ 5 (darlene)
+ </preformatted></para><para>and the node data arrays would be as follows:</para><para><preformatted>
+ name      initials  other     age       .tagname  .chardata
+ ------------------------------------------------------------------------------------------------
+ jeff      (empty)   (empty)   26         node     &quot;  this is text in jeff&apos;s node\n  \n  \n  \n&quot;
+ joe       (empty)   (empty)   (empty)    node     &quot;\n    \n    \n  &quot;
+ al        amb       something (empty)    node     (empty)
+ dave      (empty)   (empty)   30         node     (empty)
+ lisa      (empty)   (empty)   (empty)    node     &quot;this is text in lisa&apos;s node&quot;
+ darlene   (empty)   (empty)   29         node     (empty)
+ </preformatted></para><para>There would also be the following bit arrays if MaskArrays is on:</para><para><preformatted>
+ .valid.name   .valid.initials   .valid.other   .valid.age
+ ---------------------------------------------------------
+ 1             0                 0              1
+ 1             0                 0              0
+ 1             1                 1              0
+ 1             0                 0              1
+ 1             0                 0              0
+ 1             0                 0              1
+ </preformatted></para><para>To create an instance of class vtkXMLTreeReader, simply invoke its constructor as follows <verbatim>  obj = vtkXMLTreeReader
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkXMLTreeReader has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkXMLTreeReader class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkXMLTreeReader = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkXMLTreeReader = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>string = obj.GetFileName ()</computeroutput> - If set, reads in the XML file specified.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetFileName (string )</computeroutput> - If set, reads in the XML file specified.  </para></listitem>
+<listitem>
+<para><computeroutput>string = obj.GetXMLString ()</computeroutput> - If set, and FileName is not set, reads in the XML string.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetXMLString (string )</computeroutput> - If set, and FileName is not set, reads in the XML string.  </para></listitem>
+<listitem>
+<para><computeroutput>string = obj.GetEdgePedigreeIdArrayName ()</computeroutput> - The name of the edge pedigree ids. Default is &quot;edge id&quot;.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetEdgePedigreeIdArrayName (string )</computeroutput> - The name of the edge pedigree ids. Default is &quot;edge id&quot;.  </para></listitem>
+<listitem>
+<para><computeroutput>string = obj.GetVertexPedigreeIdArrayName ()</computeroutput> - The name of the vertex pedigree ids. Default is &quot;vertex id&quot;.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetVertexPedigreeIdArrayName (string )</computeroutput> - The name of the vertex pedigree ids. Default is &quot;vertex id&quot;.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetGenerateEdgePedigreeIds (bool )</computeroutput> - Set whether to use an property from the XML file as pedigree ids (off), or generate a new array with integer values starting at zero (on). Default is on.  </para></listitem>
+<listitem>
+<para><computeroutput>bool = obj.GetGenerateEdgePedigreeIds ()</computeroutput> - Set whether to use an property from the XML file as pedigree ids (off), or generate a new array with integer values starting at zero (on). Default is on.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GenerateEdgePedigreeIdsOn ()</computeroutput> - Set whether to use an property from the XML file as pedigree ids (off), or generate a new array with integer values starting at zero (on). Default is on.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GenerateEdgePedigreeIdsOff ()</computeroutput> - Set whether to use an property from the XML file as pedigree ids (off), or generate a new array with integer values starting at zero (on). Default is on.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetGenerateVertexPedigreeIds (bool )</computeroutput> - Set whether to use an property from the XML file as pedigree ids (off), or generate a new array with integer values starting at zero (on). Default is on.  </para></listitem>
+<listitem>
+<para><computeroutput>bool = obj.GetGenerateVertexPedigreeIds ()</computeroutput> - Set whether to use an property from the XML file as pedigree ids (off), or generate a new array with integer values starting at zero (on). Default is on.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GenerateVertexPedigreeIdsOn ()</computeroutput> - Set whether to use an property from the XML file as pedigree ids (off), or generate a new array with integer values starting at zero (on). Default is on.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GenerateVertexPedigreeIdsOff ()</computeroutput> - Set whether to use an property from the XML file as pedigree ids (off), or generate a new array with integer values starting at zero (on). Default is on.  </para></listitem>
+<listitem>
+<para><computeroutput>bool = obj.GetMaskArrays ()</computeroutput> - If on, makes bit arrays for each attribute with name .valid.attribute_name for each attribute. Default is off.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetMaskArrays (bool )</computeroutput> - If on, makes bit arrays for each attribute with name .valid.attribute_name for each attribute. Default is off.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.MaskArraysOn ()</computeroutput> - If on, makes bit arrays for each attribute with name .valid.attribute_name for each attribute. Default is off.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.MaskArraysOff ()</computeroutput> - If on, makes bit arrays for each attribute with name .valid.attribute_name for each attribute. Default is off.  </para></listitem>
+<listitem>
+<para><computeroutput>bool = obj.GetReadCharData ()</computeroutput> - If on, stores the XML character data (i.e. textual data between tags) into an array named CharDataField, otherwise this field is skipped. Default is off.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetReadCharData (bool )</computeroutput> - If on, stores the XML character data (i.e. textual data between tags) into an array named CharDataField, otherwise this field is skipped. Default is off.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ReadCharDataOn ()</computeroutput> - If on, stores the XML character data (i.e. textual data between tags) into an array named CharDataField, otherwise this field is skipped. Default is off.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ReadCharDataOff ()</computeroutput> - If on, stores the XML character data (i.e. textual data between tags) into an array named CharDataField, otherwise this field is skipped. Default is off.  </para></listitem>
+<listitem>
+<para><computeroutput>bool = obj.GetReadTagName ()</computeroutput> - If on, stores the XML tag name data in a field called .tagname otherwise this field is skipped. Default is on.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetReadTagName (bool )</computeroutput> - If on, stores the XML tag name data in a field called .tagname otherwise this field is skipped. Default is on.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ReadTagNameOn ()</computeroutput> - If on, stores the XML tag name data in a field called .tagname otherwise this field is skipped. Default is on.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ReadTagNameOff ()</computeroutput> - If on, stores the XML tag name data in a field called .tagname otherwise this field is skipped. Default is on.  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

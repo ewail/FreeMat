@@ -1,0 +1,133 @@
+
+ Usage
+
+There are two distinct syntaxes for the colon : operator -
+the two argument form
+
+    y = a : c
+
+and the three argument form
+
+    y = a : b : c
+
+The two argument form is exactly equivalent to a:1:c. The
+output y is the vector
+ \[ y = [a,a+b,a+2b,\ldots,a+nb] \]
+where a+nb <= c. There is a third form of the colon
+operator, the no-argument form used in indexing (see
+indexing for more details).
+
+
+ Internals
+
+The colon operator turns out to be trickier to implement
+than one might believe at first, primarily because the
+floating point versions should do the right thing, which is
+not the obvious behavior. For example, suppose the user
+issues a three point colon command
+
+     y = a : b : c
+
+The first question that one might need to answer is: how
+many points in this vector? If you answered
+ \[ n = \frac{c-a}{b}+1 \]
+then you would be doing the straighforward, but not correct
+thing. because a, b, and c are all floating point values,
+there are errors associated with each of the quantities that
+can lead to n not being an integer. A better way (and the
+way FreeMat currently does the calculation) is to compute
+the bounding values (for b positive)
+ \[ n \in \left[\frac{(c-a) \rightarrow 0}{b \rightarrow
+\infty}, \frac{(c-a) \rightarrow \infty}{b \rightarrow 0}
+\right] + 1 \]
+where
+ \[ x \rightarrow y \]
+means we replace x by the floating point number that is
+closest to it in the direction of y. Once we have determined
+the number of points we have to compute the intermediate
+values
+ \[ [a, a+b, a+2*b, \ldots, a+n*b] \]
+but one can readily verify for themselves that this may not
+be the same as the vector
+ \[ \mathrm{fliplr} [c, c-b, c-2*b, \ldots, c-n*b] \]
+even for the case where
+ \[ c = a + n*b \]
+for some n. The reason is that the roundoff in the
+calculations may be different depending on the nature of the
+sum. FreeMat uses the following strategy to compute the
+double-colon vector:
+
+  1. The value n is computed by taking the floor of the
+     larger value in the interval defined above.
+  2. If n falls inside the interval defined above, then it
+     is assumed that the user intended c = a + n*b, and the
+     symmetric algorithm is used. Otherwise, the
+     nonsymmetric algorithm is used.
+  3. The symmetric algorithm computes the vector via
+      \[ [a, a+b, a+2b,\ldots,c-2b,c-b,c] \]
+     working symmetrically from both ends of the vector
+     (hence the nomenclature), while the nonsymmetric
+     algorithm computes
+      \[ [a, a+b ,a+2b,\ldots,a+nb] \]
+     In practice, the entries are computed by repeated
+     accumulation instead of multiplying the step size by an
+     integer.
+  4. The real interval calculation is modified so that we
+     get the exact same result with a:b:c and c:-b:a (which
+     basically means that instead of moving towards
+     infinity, we move towards the signed infinity where the
+     sign is inherited from b).
+
+If you think this is all very obscure, it is. But without
+it, you will be confronted by mysterious vectors where the
+last entry is dropped, or where the values show
+progressively larger amounts of accumulated roundoff error.
+
+
+ Examples
+
+Some simple examples of index generation.
+
+  --> y = 1:4
+
+  y =
+   1 2 3 4
+
+Now by half-steps:
+
+  --> y = 1:.5:4
+
+  y =
+      1.0000    1.5000    2.0000    2.5000    3.0000
+  3.5000    4.0000
+
+Now going backwards (negative steps)
+
+  --> y = 4:-.5:1
+
+  y =
+      4.0000    3.5000    3.0000    2.5000    2.0000
+  1.5000    1.0000
+
+If the endpoints are the same, one point is generated,
+regardless of the step size (middle argument)
+
+  --> y = 4:1:4
+
+  y =
+   4
+
+If the endpoints define an empty interval, the output is an
+empty matrix:
+
+  --> y = 5:4
+
+  y =
+    Empty array 1x0
+
+
+* FreeMat_Documentation
+* Mathematical_Operators
+* Generated on Thu Jul 25 2013 17:17:45 for FreeMat by
+  doxygen_ 1.8.1.1
+

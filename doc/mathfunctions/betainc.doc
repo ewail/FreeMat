@@ -1,0 +1,44 @@
+/*!
+\page mathfunctions_betainc BETAINC Incomplete Beta Function
+
+<p>
+Section: \ref sec_mathfunctions "Mathematical Functions"
+\section Usage
+Computes the incomplete beta function.  The <tt>betainc</tt>
+function takes 3 or 4 arguments
+\verbatim
+  A = betainc(X,Y,Z)
+\endverbatim
+\verbatim
+  A = betainc(X,Y,Z,tail)
+\endverbatim
+where <tt>X</tt> is either a <tt>float</tt> or <tt>double</tt> array with elements in [0,1] interval, <tt>Y</tt> and <tt>Z</tt> are real non-negative arrays. 
+<tt>tail</tt> specifies the tail of the incomplete beta function. 
+If <tt>tail</tt> is 'lower' (default) than the integral from 0 to x is computed. If <tt>tail</tt> is 'upper' than the integral from x to 1 is computed.
+All arrays must be the same size or be scalar. The output
+vector <tt>A</tt> is the same size (and type) as input arrays.
+\section Function Internals
+The incomplete beta function is defined by the integral:
+\f[
+  BetaI_x(a,b)=B_x(a,b)/B(a,b) where B_x(a,b) = \int_0^x t^{a-1} (1-t)^{b-1} dt 
+  for 0 <= x <= 1. For a > 0, b > 0
+\f]
+\section Example
+Here is a plot of the betainc function over the range <tt>[.2,.8]</tt>.
+
+\if FRAGMENT
+frag_mathfunctions_betainc_000.m
+0
+x=.2:.01:.8;
+y = betainc(x,5,3);
+plot(x,y); xlabel('x'); ylabel('betainc(x,5,3)');
+mprint betainc1
+\endif
+
+
+\verbinclude frag_mathfunctions_betainc_000.m.out 
+
+which results in the following plot.
+\image html betainc1.png
+\image latex betainc1.eps "betainc1" width=12cm
+*/

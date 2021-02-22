@@ -1,0 +1,65 @@
+/*!
+\page array_cond COND Condition Number of a Matrix
+
+<p>
+Section: \ref sec_array "Array Generation and Manipulations"
+\section Usage
+Calculates the condition number of a matrix.  To compute the
+2-norm condition number of a matrix (ratio of largest to smallest
+singular values), use the syntax
+\verbatim
+   y = cond(A)
+\endverbatim
+where A is a matrix.  If you want to compute the condition number
+in a different norm (e.g., the 1-norm), use the second syntax
+\verbatim
+   y = cond(A,p)
+\endverbatim
+where <tt>p</tt> is the norm to use when computing the condition number.
+The following choices of <tt>p</tt> are supported
+<UL>
+<LI>  <tt>p = 1</tt> returns the 1-norm, or the max column sum of A
+ </LI>
+<LI>  <tt>p = 2</tt> returns the 2-norm (largest singular value of A)
+ </LI>
+<LI>  <tt>p = inf</tt> returns the infinity norm, or the max row sum of A
+ </LI>
+<LI>  <tt>p = 'fro'</tt> returns the Frobenius-norm (vector Euclidean norm, or RMS value)
+ </LI>
+</UL>
+\section Function Internals
+The condition number is defined as
+\f[
+  \frac{\|A\|_p}{\|A^{-1}\|_p}
+\f]
+This equation is precisely how the condition number is computed for
+the case <tt>p ~= 2</tt>.  For the <tt>p=2</tt> case, the condition number can 
+be computed much more efficiently using the ratio of the largest and
+smallest singular values.
+\section Example
+The condition number of this matrix is large
+
+\if FRAGMENT
+frag_array_cond_000.m
+0
+A = [1,1;0,1e-15]
+cond(A)
+cond(A,1)
+\endif
+
+
+\verbinclude frag_array_cond_000.m.out 
+
+You can also (for the case <tt>p=1</tt> use <tt>rcond</tt> to calculate an estimate
+of the condition number
+
+\if FRAGMENT
+frag_array_cond_001.m
+0
+1/rcond(A)
+\endif
+
+
+\verbinclude frag_array_cond_001.m.out 
+
+*/

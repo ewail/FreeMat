@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="transforms_lu" kind="page">
+    <compoundname>transforms_lu</compoundname>
+    <title>LU LU Decomposition for Matrices</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_transforms_1sec_transforms" kindref="member">Transforms/Decompositions</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>Computes the LU decomposition for a matrix. The form of the command depends on the type of the argument. For full (non-sparse) matrices, the primary form for <computeroutput>lu</computeroutput> is <verbatim>   [L,U,P] = lu(A),
+</verbatim> where <computeroutput>L</computeroutput> is lower triangular, <computeroutput>U</computeroutput> is upper triangular, and <computeroutput>P</computeroutput> is a permutation matrix such that <computeroutput>L*U = P*A</computeroutput>. The second form is <verbatim>   [V,U] = lu(A),
+</verbatim> where <computeroutput>V</computeroutput> is <computeroutput>P&apos;*L</computeroutput> (a row-permuted lower triangular matrix), and <computeroutput>U</computeroutput> is upper triangular. For sparse, square matrices, the LU decomposition has the following form: <verbatim>   [L,U,P,Q,R] = lu(A),
+</verbatim> where <computeroutput>A</computeroutput> is a sparse matrix of either <computeroutput>double</computeroutput> or <computeroutput>dcomplex</computeroutput> type. The matrices are such that <computeroutput>L*U=P*R*A*Q</computeroutput>, where <computeroutput>L</computeroutput> is a lower triangular matrix, <computeroutput>U</computeroutput> is upper triangular, <computeroutput>P</computeroutput> and <computeroutput>Q</computeroutput> are permutation vectors and <computeroutput>R</computeroutput> is a diagonal matrix of row scaling factors. The decomposition is computed using UMFPACK for sparse matrices, and LAPACK for dense matrices. </para></sect1>
+<sect1 id="variables_struct_1Example">
+<title>Example</title>
+<para>First, we compute the LU decomposition of a dense matrix.</para><para><verbatim>--&gt; a = float([1,2,3;4,5,8;10,12,3])
+
+a = 
+  1  2  3 
+  4  5  8 
+ 10 12  3 
+
+--&gt; [l,u,p] = lu(a)
+l = 
+    1.0000         0         0 
+    0.1000    1.0000         0 
+    0.4000    0.2500    1.0000 
+
+u = 
+   10.0000   12.0000    3.0000 
+         0    0.8000    2.7000 
+         0         0    6.1250 
+
+p = 
+ 0 0 1 
+ 1 0 0 
+ 0 1 0 
+
+--&gt; l*u
+
+ans = 
+ 10 12  3 
+  1  2  3 
+  4  5  8 
+
+--&gt; p*a
+
+ans = 
+ 10 12  3 
+  1  2  3 
+  4  5  8 
+</verbatim></para><para>Now we repeat the exercise with a sparse matrix, and demonstrate the use of the permutation vectors.</para><para><verbatim>--&gt; a = sparse([1,0,0,4;3,2,0,0;0,0,0,1;4,3,2,4])
+
+a = 
+ 1 1 1
+ 2 1 3
+ 4 1 4
+ 2 2 2
+ 4 2 3
+ 4 3 2
+ 1 4 4
+ 3 4 1
+ 4 4 4
+--&gt; [l,u,p,q,r] = lu(a)
+l = 
+ 1 1 1
+ 2 2 1
+ 3 3 1
+ 4 4 1
+u = 
+ 1 1 0.153846
+ 1 2 0.230769
+ 2 2 0.4
+ 1 3 0.307692
+ 2 3 0.6
+ 3 3 0.2
+ 1 4 0.307692
+ 3 4 0.8
+ 4 4 1
+p = 
+ 4 
+ 2 
+ 1 
+ 3 
+
+q = 
+ 3 
+ 2 
+ 1 
+ 4 
+
+r = 
+ 1 1 0.2
+ 2 2 0.2
+ 3 3 1
+ 4 4 0.0769231
+--&gt; full(l*a)
+
+ans = 
+ 1 0 0 4 
+ 3 2 0 0 
+ 0 0 0 1 
+ 4 3 2 4 
+
+--&gt; b = r*a
+
+b = 
+ 1 1 0.2
+ 2 1 0.6
+ 3 1 0
+ 4 1 0.307692
+ 1 2 0
+ 2 2 0.4
+ 3 2 0
+ 4 2 0.230769
+ 1 3 0
+ 2 3 0
+ 3 3 0
+ 4 3 0.153846
+ 1 4 0.8
+ 2 4 0
+ 3 4 1
+ 4 4 0.307692
+--&gt; full(b(p,q))
+
+ans = 
+    0.1538    0.2308    0.3077    0.3077 
+         0    0.4000    0.6000         0 
+         0         0    0.2000    0.8000 
+         0         0         0    1.0000 
+</verbatim> </para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

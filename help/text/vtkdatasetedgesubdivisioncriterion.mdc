@@ -1,0 +1,85 @@
+
+ Usage
+
+This is a subclass of vtkEdgeSubdivisionCriterion that is
+used for tessellating cells of a vtkDataSet, particularly
+nonlinear cells.
+It provides functions for setting the current cell being
+tessellated and a convenience routine, EvaluateFields() to
+evaluate field values at a point. You should call
+EvaluateFields() from inside EvaluateEdge() whenever the
+result of EvaluateEdge() will be true. Otherwise, do not
+call EvaluateFields() as the midpoint is about to be
+discarded. (Implementor's note: This isn't true if
+UGLY_ASPECT_RATIO_HACK has been defined. But in that case,
+we don't want the exact field values; we need the linearly
+interpolated ones at the midpoint for continuity.)
+To create an instance of class
+vtkDataSetEdgeSubdivisionCriterion, simply invoke its
+constructor as follows
+
+    obj = vtkDataSetEdgeSubdivisionCriterion
+
+
+
+ Methods
+
+The class vtkDataSetEdgeSubdivisionCriterion has several
+methods that can be used. They are listed below. Note that
+the documentation is translated automatically from the VTK
+sources, and may not be completely intelligible. When in
+doubt, consult the VTK website. In the methods listed below,
+obj is an instance of the vtkDataSetEdgeSubdivisionCriterion
+class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkDataSetEdgeSubdivisionCriterion = obj.NewInstance ()
+* vtkDataSetEdgeSubdivisionCriterion = obj.SafeDownCast
+  (vtkObject o)
+* obj.SetMesh (vtkDataSet )
+* vtkDataSet = obj.GetMesh ()
+* obj.SetCellId (vtkIdType cell)
+* vtkIdType = obj.GetCellId () const
+* vtkCell = obj.GetCell ()
+* bool = obj.EvaluateEdge (double p0, double midpt, double
+  p1, int field_start)
+* obj.EvaluatePointDataField (double result, double weights,
+  int field) - Evaluate either a cell or nodal field. This
+  exists because of the funky way that Exodus data will be
+  handled. Sure, it's a hack, but what are ya gonna do?
+* obj.EvaluateCellDataField (double result, double weights,
+  int field) - Evaluate either a cell or nodal field. This
+  exists because of the funky way that Exodus data will be
+  handled. Sure, it's a hack, but what are ya gonna do?
+* obj.SetChordError2 (double ) - Get/Set the square of the
+  allowable chord error at any edge's midpoint. This value
+  is used by EvaluateEdge.
+* double = obj.GetChordError2 () - Get/Set the square of the
+  allowable chord error at any edge's midpoint. This value
+  is used by EvaluateEdge.
+* obj.SetFieldError2 (int s, double err) - Get/Set the
+  square of the allowable error magnitude for the scalar
+  field s at any edge's midpoint. A value less than or equal
+  to 0 indicates that the field should not be used as a
+  criterion for subdivision.
+* double = obj.GetFieldError2 (int s) const - Get/Set the
+  square of the allowable error magnitude for the scalar
+  field s at any edge's midpoint. A value less than or equal
+  to 0 indicates that the field should not be used as a
+  criterion for subdivision.
+* obj.ResetFieldError2 () - Tell the subdivider not to use
+  any field values as subdivision criteria. Effectively
+  calls SetFieldError2( a, -1. ) for all fields.
+* int = obj.GetActiveFieldCriteria () - Return a bitfield
+  specifying which FieldError2 criteria are positive (i.e.,
+  actively used to decide edge subdivisions). This is stored
+  as separate state to make subdivisions go faster.
+* int = obj.GetActiveFieldCriteria () const
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Graphics_Classes
+* Generated on Thu Jul 25 2013 17:18:31 for FreeMat by
+  doxygen_ 1.8.1.1
+

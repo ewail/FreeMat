@@ -1,0 +1,117 @@
+
+\begin{DoxyItemize}
+\item \hyperlink{num_cumtrapz}{C\-U\-M\-T\-R\-A\-P\-Z Trapezoidal Rule Cumulative Integration}  
+\item \hyperlink{num_ode45}{O\-D\-E45 Numerical Solution of O\-D\-Es}  
+\item \hyperlink{num_trapz}{T\-R\-A\-P\-Z Trapezoidal Rule Integration}  
+\end{DoxyItemize}\hypertarget{num_cumtrapz}{}\section{C\-U\-M\-T\-R\-A\-P\-Z Trapezoidal Rule Cumulative Integration}\label{num_cumtrapz}
+Section\-: \hyperlink{sec_num}{Numerical Methods} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+The cumtrapz routine has the following syntax @\mbox{[} \mbox{[}z\mbox{]} = cumtrapz(x,y) @\mbox{]} where $|$x$|$ is a dependent vector and $|$y$|$ an m-\/by-\/n matrix equal in at least one dimension to x. (e.\-g.\-:x = time samples, y = f(t))
+
+Alternatively, you can enter \begin{DoxyVerb}      [z] = cumtrapz(y) 
+\end{DoxyVerb}
+ for a unit integration of $|$y$|$.
+
+If $|$y$|$ is a matrix, m must be equal to length(x) (e.\-g.\-: y must have the same number of rows as x has elements). In this case, integrals are taken for each row, returned in a resulting vector z of dimension (1,n) \hypertarget{num_ode45}{}\section{O\-D\-E45 Numerical Solution of O\-D\-Es}\label{num_ode45}
+Section\-: \hyperlink{sec_num}{Numerical Methods} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+function \mbox{[}t,y\mbox{]} = ode45(f,tspan,y0,options,varargin) function S\-O\-L = ode45(f,tspan,y0,options,varargin)
+
+ode45 is a solver for ordinary differential equations and initial value problems. To solve the O\-D\-E \begin{DoxyVerb}      y'(t) =  f(t,y)
+      y(0)  =  y0
+\end{DoxyVerb}
+ over the interval tspan=\mbox{[}t0 t1\mbox{]}, you can use ode45. For example, to solve the ode \begin{DoxyVerb} y'   =  y
+ y(0) =  1
+\end{DoxyVerb}
+
+
+whose exact solution is y(t)=exp(t), over the interval t0=0, t1=3, do
+
+
+\begin{DoxyVerbInclude}
+-->       [t,y]=ode45(@(t,y) y,[0 3],1)
+t = 
+
+ Columns 1 to 7
+
+         0    0.0030    0.0180    0.0930    0.3930    0.6930    0.9930 
+
+ Columns 8 to 14
+
+    1.2930    1.5930    1.8930    2.1930    2.4930    2.7930    3.0000 
+
+y = 
+    1.0000 
+    1.0030 
+    1.0182 
+    1.0975 
+    1.4814 
+    1.9997 
+    2.6993 
+    3.6437 
+    4.9185 
+    6.6392 
+    8.9620 
+   12.0975 
+   16.3299 
+   20.0854 
+\end{DoxyVerbInclude}
+
+
+If you want a dense output (i.\-e., an output that also contains an interpolating spline), use instead
+
+
+\begin{DoxyVerbInclude}
+-->       SOL=ode45(@(t,y) y,[0 3],1)
+
+SOL = 
+    x: 1x14 double array
+    y: 1x14 double array
+    xe: 
+    ye: 
+    ie: 
+    solver: generic_ode_solver
+    interpolant: 1x1 functionpointer array
+    idata: 1x1 struct array
+\end{DoxyVerbInclude}
+
+
+You can view the result using \begin{DoxyVerb}      plot(0:0.01:3,deval(SOL,0:0.01:3))
+\end{DoxyVerb}
+ You will notice that this function is available for \char`\"{}every\char`\"{} value of t, while \begin{DoxyVerb} plot(t,y,'o-')
+\end{DoxyVerb}
+
+
+is only available at a few points.
+
+The optional argument 'options' is a structure. It may contain any of the following fields\-:
+
+'Abs\-Tol' -\/ Absolute tolerance, default is 1e-\/6. 'Rel\-Tol' -\/ Relative tolerance, default is 1e-\/3. 'Max\-Step' -\/ Maximum step size, default is (tspan(2)-\/tspan(1))/10 'Initial\-Step' -\/ Initial step size, default is maxstep/100 'Stepper' -\/ To override the default Fehlberg integrator 'Events' -\/ To provide an event function 'Projection' -\/ To provide a projection function
+
+The varargin is ignored by this function, but is passed to all your callbacks, i.\-e., f, the event function and the projection function.
+
+==Event Function==
+
+The event function can be used to detect situations where the integrator should stop, possibly because the right-\/hand-\/side has changed, because of a collision, etc...
+
+An event function should look like
+
+function \mbox{[}val,isterminal,direction\mbox{]}=event(t,y,...)
+
+The return values are\-:
+
+val -\/ the value of the event function. isterminal -\/ whether or not this event should cause termination of the integrator. direction -\/ 1=upcrossings only matter, -\/1=downcrossings only, 0=both.
+
+== Projection function ==
+
+For geometric integration, you can provide a projection function which will be called after each time step. The projection function has the following signature\-: \begin{DoxyVerb}function yn=project(t,yn,...);
+\end{DoxyVerb}
+
+
+If the output yn is very different from the input yn, the quality of interpolation may decrease. \hypertarget{num_trapz}{}\section{T\-R\-A\-P\-Z Trapezoidal Rule Integration}\label{num_trapz}
+Section\-: \hyperlink{sec_num}{Numerical Methods} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+The trapz routine has the following syntax @\mbox{[} z = trapz(x,y) @\mbox{]} where $|$x$|$ is a dependent vector and $|$y$|$ an m-\/by-\/n matrix equal in at least one dimension to x. (e.\-g.\-:$|$x$|$ = time samples, y = f(t))
+
+Alternatively, you can enter \begin{DoxyVerb}     z = trapz(y) 
+\end{DoxyVerb}
+ for a unit integration of y.
+
+If y is a matrix, m must be equal to length(x) (e.\-g.\-: y must have the same number of rows as x has elements). In this case, integrals are taken for each row, returned in a resulting vector z of dimension (1,n) 

@@ -1,0 +1,158 @@
+/*!
+\page vtkfiltering_vtkpiecewisefunction vtkPiecewiseFunction
+
+<p>
+Section: \ref sec_vtkfiltering "Visualization Toolkit Filtering Classes"
+\section Usage
+ Defines a piecewise function mapping. This mapping allows the addition
+ of control points, and allows the user to control the function between
+ the control points. A piecewise hermite curve is used between control 
+ points, based on the sharpness and midpoint parameters. A sharpness of
+ 0 yields a piecewise linear function and a sharpness of 1 yields a
+ piecewise constant function. The midpoint is the normalized distance
+ between control points at which the curve reaches the median Y value.
+ The midpoint and sharpness values specified when adding a node are used
+ to control the transition to the next node (the last node's values are
+ ignored) Outside the range of nodes, the values are 0 if Clamping is off,
+ or the nearest node point if Clamping is on. Using the legacy methods for
+ adding points  (which do not have Sharpness and Midpoint parameters) 
+ will default to Midpoint = 0.5 (halfway between the control points) and
+ Sharpness = 0.0 (linear).
+
+To create an instance of class vtkPiecewiseFunction, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkPiecewiseFunction
+\endverbatim
+\section Methods
+The class vtkPiecewiseFunction has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkPiecewiseFunction class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkPiecewiseFunction = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkPiecewiseFunction = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.DeepCopy (vtkDataObject f)</tt>
+ </LI>
+<LI>  <tt>obj.ShallowCopy (vtkDataObject f)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetDataObjectType ()</tt> -  Return what type of dataset this is.
+ </LI>
+<LI>  <tt>int = obj.GetSize ()</tt> -  Get the number of points used to specify the function
+ </LI>
+<LI>  <tt>int = obj.AddPoint (double x, double y)</tt> -  Add/Remove points to/from the function. If a duplicate point is added
+ then the function value is changed at that location.
+ Return the index of the point (0 based), or -1 on error.
+ </LI>
+<LI>  <tt>int = obj.AddPoint (double x, double y, double midpoint, double sharpness)</tt> -  Add/Remove points to/from the function. If a duplicate point is added
+ then the function value is changed at that location.
+ Return the index of the point (0 based), or -1 on error.
+ </LI>
+<LI>  <tt>int = obj.RemovePoint (double x)</tt> -  Add/Remove points to/from the function. If a duplicate point is added
+ then the function value is changed at that location.
+ Return the index of the point (0 based), or -1 on error.
+ </LI>
+<LI>  <tt>obj.RemoveAllPoints ()</tt> -  Removes all points from the function. 
+ </LI>
+<LI>  <tt>obj.AddSegment (double x1, double y1, double x2, double y2)</tt> -  Add a line segment to the function. All points defined between the
+ two points specified are removed from the function. This is a legacy
+ method that does not allow the specification of the sharpness and
+ midpoint values for the two nodes.
+ </LI>
+<LI>  <tt>double = obj.GetValue (double x)</tt> -  Returns the value of the function at the specified location using
+ the specified interpolation. 
+ </LI>
+<LI>  <tt>int = obj.GetNodeValue (int index, double val[4])</tt> -  For the node specified by index, set/get the
+ location (X), value (Y), midpoint, and sharpness 
+ values at the node.
+ </LI>
+<LI>  <tt>int = obj.SetNodeValue (int index, double val[4])</tt> -  For the node specified by index, set/get the
+ location (X), value (Y), midpoint, and sharpness 
+ values at the node.
+ </LI>
+<LI>  <tt>obj.FillFromDataPointer (int , double )</tt> -  Returns a pointer to the data stored in the table.
+ Fills from a pointer to data stored in a similar table. These are
+ legacy methods which will be maintained for compatibility - however,
+ note that the vtkPiecewiseFunction no longer stores the nodes 
+ in a double array internally.
+ </LI>
+<LI>  <tt>double = obj. GetRange ()</tt> -  Returns the min and max node locations of the function.
+ </LI>
+<LI>  <tt>int = obj.AdjustRange (double range[2])</tt> -  Remove all points out of the new range, and make sure there is a point
+ at each end of that range.
+ Return 1 on success, 0 otherwise.
+ </LI>
+<LI>  <tt>obj.GetTable (double x1, double x2, int size, float table, int stride)</tt> -  Fills in an array of function values evaluated at regular intervals.
+ Parameter "stride" is used to step through the output "table". 
+ </LI>
+<LI>  <tt>obj.GetTable (double x1, double x2, int size, double table, int stride)</tt> -  Fills in an array of function values evaluated at regular intervals.
+ Parameter "stride" is used to step through the output "table". 
+ </LI>
+<LI>  <tt>obj.BuildFunctionFromTable (double x1, double x2, int size, double table, int stride)</tt> -  Constructs a piecewise function from a table.  Function range is
+ is set to [x1, x2], function size is set to size, and function points
+ are regularly spaced between x1 and x2.  Parameter "stride" is
+ is step through the input table.  
+ </LI>
+<LI>  <tt>obj.SetClamping (int )</tt> -  When zero range clamping is Off, GetValue() returns 0.0 when a
+ value is requested outside of the points specified.
+ When zero range clamping is On, GetValue() returns the value at
+ the value at the lowest point for a request below all points 
+ specified and returns the value at the highest point for a request 
+ above all points specified. On is the default.
+ </LI>
+<LI>  <tt>int = obj.GetClamping ()</tt> -  When zero range clamping is Off, GetValue() returns 0.0 when a
+ value is requested outside of the points specified.
+ When zero range clamping is On, GetValue() returns the value at
+ the value at the lowest point for a request below all points 
+ specified and returns the value at the highest point for a request 
+ above all points specified. On is the default.
+ </LI>
+<LI>  <tt>obj.ClampingOn ()</tt> -  When zero range clamping is Off, GetValue() returns 0.0 when a
+ value is requested outside of the points specified.
+ When zero range clamping is On, GetValue() returns the value at
+ the value at the lowest point for a request below all points 
+ specified and returns the value at the highest point for a request 
+ above all points specified. On is the default.
+ </LI>
+<LI>  <tt>obj.ClampingOff ()</tt> -  When zero range clamping is Off, GetValue() returns 0.0 when a
+ value is requested outside of the points specified.
+ When zero range clamping is On, GetValue() returns the value at
+ the value at the lowest point for a request below all points 
+ specified and returns the value at the highest point for a request 
+ above all points specified. On is the default.
+ </LI>
+<LI>  <tt>string = obj.GetType ()</tt> -  Return the type of function:
+ Function Types:
+    0 : Constant        (No change in slope between end points)
+    1 : NonDecreasing   (Always increasing or zero slope)
+    2 : NonIncreasing   (Always decreasing or zero slope)
+    3 : Varied          (Contains both decreasing and increasing slopes)
+ </LI>
+<LI>  <tt>double = obj.GetFirstNonZeroValue ()</tt> -  Returns the first point location which precedes a non-zero segment of the
+ function. Note that the value at this point may be zero.
+ </LI>
+<LI>  <tt>obj.Initialize ()</tt> -  Clears out the current function. A newly created vtkPiecewiseFunction
+ is alreay initialized, so there is no need to call this method which
+ in turn simply calls RemoveAllPoints() 
+ </LI>
+<LI>  <tt>obj.SetAllowDuplicateScalars (int )</tt> -  Toggle whether to allow duplicate scalar values in the piecewise
+ function (off by default).
+ </LI>
+<LI>  <tt>int = obj.GetAllowDuplicateScalars ()</tt> -  Toggle whether to allow duplicate scalar values in the piecewise
+ function (off by default).
+ </LI>
+<LI>  <tt>obj.AllowDuplicateScalarsOn ()</tt> -  Toggle whether to allow duplicate scalar values in the piecewise
+ function (off by default).
+ </LI>
+<LI>  <tt>obj.AllowDuplicateScalarsOff ()</tt> -  Toggle whether to allow duplicate scalar values in the piecewise
+ function (off by default).
+ </LI>
+</UL>
+*/

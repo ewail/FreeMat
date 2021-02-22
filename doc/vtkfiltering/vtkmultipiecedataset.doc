@@ -1,0 +1,67 @@
+/*!
+\page vtkfiltering_vtkmultipiecedataset vtkMultiPieceDataSet
+
+<p>
+Section: \ref sec_vtkfiltering "Visualization Toolkit Filtering Classes"
+\section Usage
+ A vtkMultiPieceDataSet dataset groups multiple data pieces together. 
+ For example, say that a simulation broke a volume into 16 piece so that 
+ each piece can be processed with 1 process in parallel. We want to load 
+ this volume in a visualization cluster of 4 nodes. Each node will get 4 
+ pieces, not necessarily forming a whole rectangular piece. In this case, 
+ it is not possible to append the 4 pieces together into a vtkImageData. 
+ In this case, these 4 pieces can be collected together using a 
+ vtkMultiPieceDataSet. 
+ Note that vtkMultiPieceDataSet is intended to be included in other composite
+ datasets eg. vtkMultiBlockDataSet, vtkHierarchicalBoxDataSet. Hence the lack
+ of algorithms producting vtkMultiPieceDataSet.
+
+To create an instance of class vtkMultiPieceDataSet, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkMultiPieceDataSet
+\endverbatim
+\section Methods
+The class vtkMultiPieceDataSet has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkMultiPieceDataSet class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkMultiPieceDataSet = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkMultiPieceDataSet = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetDataObjectType ()</tt> -  Set the number of pieces. This will cause allocation if the new number of
+ pieces is greater than the current size. All new pieces are initialized to
+ null.
+ </LI>
+<LI>  <tt>obj.SetNumberOfPieces (int numpieces)</tt> -  Set the number of pieces. This will cause allocation if the new number of
+ pieces is greater than the current size. All new pieces are initialized to
+ null.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfPieces ()</tt> -  Returns the number of pieces.
+ </LI>
+<LI>  <tt>vtkDataSet = obj.GetPiece (int pieceno)</tt> -  Returns the piece at the given index. 
+ </LI>
+<LI>  <tt>vtkDataObject = obj.GetPieceAsDataObject (int pieceno)</tt> -  Returns the piece at the given index. 
+ </LI>
+<LI>  <tt>obj.SetPiece (int pieceno, vtkDataObject piece)</tt> -  Sets the data object as the given piece. The total number of pieces will 
+ be resized to fit the requested piece no.
+ </LI>
+<LI>  <tt>int = obj.HasMetaData (int piece)</tt> -  Returns the meta-data for the piece. If none is already present, a new
+ vtkInformation object will be allocated. Use HasMetaData to avoid
+ allocating vtkInformation objects.
+ </LI>
+<LI>  <tt>vtkInformation = obj.GetMetaData (int pieceno)</tt> -  Unhiding superclass method.
+ </LI>
+<LI>  <tt>vtkInformation = obj.GetMetaData (vtkCompositeDataIterator iter)</tt> -  Unhiding superclass method.
+ </LI>
+<LI>  <tt>int = obj.HasMetaData (vtkCompositeDataIterator iter)</tt>
+ </LI>
+</UL>
+*/

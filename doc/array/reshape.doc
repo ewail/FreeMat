@@ -1,0 +1,78 @@
+/*!
+\page array_reshape RESHAPE Reshape An Array
+
+<p>
+Section: \ref sec_array "Array Generation and Manipulations"
+\section Usage
+Reshapes an array from one size to another. Two seperate 
+syntaxes are possible.  The first syntax specifies the array 
+dimensions as a sequence of scalar dimensions:
+\verbatim
+   y = reshape(x,d1,d2,...,dn).
+\endverbatim
+The resulting array has the given dimensions, and is filled with
+the contents of <tt>x</tt>.  The type of <tt>y</tt> is the same as <tt>x</tt>.
+
+As a special case, you can specify exactly one of the dimensions
+as an empty matrix <tt>[]</tt>, in which case FreeMat will compute the
+size required in that dimension to make the reshape work.  The
+syntax for this version is
+\verbatim
+   y = reshape(x,d1,...,da,[],db,...,dn)
+\endverbatim
+
+The second syntax specifies the array dimensions as a vector,
+where each element in the vector specifies a dimension length:
+\verbatim
+   y = reshape(x,[d1,d2,...,dn]).
+\endverbatim
+This syntax is more convenient for calling <tt>reshape</tt> using a 
+variable for the argument. The
+<tt>reshape</tt> function requires that the length of <tt>x</tt> equal the product
+of the <tt>di</tt> values.
+Note that arrays are stored in column format, 
+which means that elements in <tt>x</tt> are transferred to the new array
+<tt>y</tt> starting with the first column first element, then proceeding to 
+the last element of the first column, then the first element of the
+second column, etc.
+\section Example
+Here are several examples of the use of <tt>reshape</tt> applied to
+various arrays.  The first example reshapes a row vector into a 
+matrix.
+
+\if FRAGMENT
+frag_array_reshape_000.m
+0
+a = uint8(1:6)
+reshape(a,2,3)
+\endif
+
+
+\verbinclude frag_array_reshape_000.m.out 
+
+The second example reshapes a longer row vector into a volume with 
+two planes.
+
+\if FRAGMENT
+frag_array_reshape_001.m
+0
+a = uint8(1:12)
+reshape(a,[2,3,2])
+\endif
+
+
+\verbinclude frag_array_reshape_001.m.out 
+
+The third example reshapes a matrix into another matrix.
+
+\if FRAGMENT
+frag_array_reshape_002.m
+0
+a = [1,6,7;3,4,2]
+reshape(a,3,2)
+\endif
+
+
+\verbinclude frag_array_reshape_002.m.out 
+
+*/

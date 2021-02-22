@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkparallel_vtkexodusiiwriter" kind="page">
+    <compoundname>vtkparallel_vtkexodusiiwriter</compoundname>
+    <title>vtkExodusIIWriter</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkparallel_1sec_vtkparallel" kindref="member">Visualization Toolkit Parallel Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>This is a vtkWriter that writes it&apos;s vtkUnstructuredGrid input out to an Exodus II file. Go to <ulink url="http://endo.sandia.gov/SEACAS/">http://endo.sandia.gov/SEACAS/</ulink> for more information about the Exodus II format.</para><para>Exodus files contain much information that is not captured in a vtkUnstructuredGrid, such as time steps, information lines, node sets, and side sets. This information can be stored in a vtkModelMetadata object.</para><para>The vtkExodusReader and vtkPExodusReader can create a vtkModelMetadata object and embed it in a vtkUnstructuredGrid in a series of field arrays. This writer searches for these field arrays and will use the metadata contained in them when creating the new Exodus II file.</para><para>You can also explicitly give the vtkExodusIIWriter a vtkModelMetadata object to use when writing the file.</para><para>In the absence of the information provided by vtkModelMetadata, if this writer is not part of a parallel application, we will use reasonable defaults for all the values in the output Exodus file. If you don&apos;t provide a block ID element array, we&apos;ll create a block for each cell type that appears in the unstructured grid.</para><para>However if this writer is part of a parallel application (hence writing out a distributed Exodus file), then we need at the very least a list of all the block IDs that appear in the file. And we need the element array of block IDs for the input unstructured grid.</para><para>In the absense of a vtkModelMetadata object, you can also provide time step information which we will include in the output Exodus file.</para><para>.SECTION Caveats If the input floating point field arrays and point locations are all floats or all doubles, this class will operate more efficiently. Mixing floats and doubles will slow you down, because Exodus II requires that we write only floats or only doubles.</para><para>We use the terms &quot;point&quot; and &quot;node&quot; interchangeably. Also, we use the terms &quot;element&quot; and &quot;cell&quot; interchangeably.</para><para>To create an instance of class vtkExodusIIWriter, simply invoke its constructor as follows <verbatim>  obj = vtkExodusIIWriter
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkExodusIIWriter has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkExodusIIWriter class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkExodusIIWriter = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkExodusIIWriter = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetModelMetadata (vtkModelMetadata )</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkModelMetadata = obj.GetModelMetadata ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetFileName (string )</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>string = obj.GetFileName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetStoreDoubles (int )</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetStoreDoubles ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetGhostLevel (int )</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetGhostLevel ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetWriteOutBlockIdArray (int )</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetWriteOutBlockIdArray ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.WriteOutBlockIdArrayOn ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.WriteOutBlockIdArrayOff ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetWriteOutGlobalNodeIdArray (int )</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetWriteOutGlobalNodeIdArray ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.WriteOutGlobalNodeIdArrayOn ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.WriteOutGlobalNodeIdArrayOff ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetWriteOutGlobalElementIdArray (int )</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetWriteOutGlobalElementIdArray ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.WriteOutGlobalElementIdArrayOn ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.WriteOutGlobalElementIdArrayOff ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetWriteAllTimeSteps (int )</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetWriteAllTimeSteps ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.WriteAllTimeStepsOn ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.WriteAllTimeStepsOff ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetBlockIdArrayName (string )</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>string = obj.GetBlockIdArrayName ()</computeroutput>  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,196 @@
+/*!
+\page vtkfiltering_vtkstreamingdemanddrivenpipeline vtkStreamingDemandDrivenPipeline
+
+<p>
+Section: \ref sec_vtkfiltering "Visualization Toolkit Filtering Classes"
+\section Usage
+ vtkStreamingDemandDrivenPipeline is an executive that supports
+ updating only a portion of the data set in the pipeline.  This is
+ the style of pipeline update that is provided by the old-style VTK
+ 4.x pipeline.  Instead of always updating an entire data set, this
+ executive supports asking for pieces or sub-extents.
+
+To create an instance of class vtkStreamingDemandDrivenPipeline, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkStreamingDemandDrivenPipeline
+\endverbatim
+\section Methods
+The class vtkStreamingDemandDrivenPipeline has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkStreamingDemandDrivenPipeline class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkStreamingDemandDrivenPipeline = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkStreamingDemandDrivenPipeline = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>int = obj.Update ()</tt> -  Bring the outputs up-to-date.
+ </LI>
+<LI>  <tt>int = obj.Update (int port)</tt> -  Bring the outputs up-to-date.
+ </LI>
+<LI>  <tt>int = obj.UpdateWholeExtent ()</tt> -  Bring the outputs up-to-date.
+ </LI>
+<LI>  <tt>int = obj.PropagateUpdateExtent (int outputPort)</tt> -  Propagate the update request from the given output port back
+ through the pipeline.  Should be called only when information is
+ up to date.
+ </LI>
+<LI>  <tt>int = obj.SetMaximumNumberOfPieces (int port, int n)</tt> -  Set/Get the maximum number of pieces that can be requested from
+ the given port.  The maximum number of pieces is meta data for
+ unstructured data sets.  It gets set by the source during the
+ update information call.  A value of -1 indicates that there is
+ no maximum.
+ </LI>
+<LI>  <tt>int = obj.SetMaximumNumberOfPieces (vtkInformation , int n)</tt> -  Set/Get the maximum number of pieces that can be requested from
+ the given port.  The maximum number of pieces is meta data for
+ unstructured data sets.  It gets set by the source during the
+ update information call.  A value of -1 indicates that there is
+ no maximum.
+ </LI>
+<LI>  <tt>int = obj.GetMaximumNumberOfPieces (int port)</tt> -  Set/Get the maximum number of pieces that can be requested from
+ the given port.  The maximum number of pieces is meta data for
+ unstructured data sets.  It gets set by the source during the
+ update information call.  A value of -1 indicates that there is
+ no maximum.
+ </LI>
+<LI>  <tt>int = obj.GetMaximumNumberOfPieces (vtkInformation )</tt> -  Set/Get the maximum number of pieces that can be requested from
+ the given port.  The maximum number of pieces is meta data for
+ unstructured data sets.  It gets set by the source during the
+ update information call.  A value of -1 indicates that there is
+ no maximum.
+ </LI>
+<LI>  <tt>int = obj.SetWholeExtent (vtkInformation , int extent[6])</tt> -  Set/Get the whole extent of an output port.  The whole extent is
+ meta data for structured data sets.  It gets set by the algorithm
+ during the update information pass.
+ </LI>
+<LI>  <tt>obj.GetWholeExtent (vtkInformation , int extent[6])</tt> -  Set/Get the whole extent of an output port.  The whole extent is
+ meta data for structured data sets.  It gets set by the algorithm
+ during the update information pass.
+ </LI>
+<LI>  <tt>int = obj.SetUpdateExtentToWholeExtent (int port)</tt> -  If the whole input extent is required to generate the requested output
+ extent, this method can be called to set the input update extent to the
+ whole input extent. This method assumes that the whole extent is known
+ (that UpdateInformation has been called)
+ </LI>
+<LI>  <tt>int = obj.SetUpdateExtentToWholeExtent (vtkInformation )</tt> -  If the whole input extent is required to generate the requested output
+ extent, this method can be called to set the input update extent to the
+ whole input extent. This method assumes that the whole extent is known
+ (that UpdateInformation has been called)
+ </LI>
+<LI>  <tt>int = obj.SetUpdateExtent (int port, int extent[6])</tt> -  Get/Set the update extent for output ports that use 3D extents.
+ </LI>
+<LI>  <tt>int = obj.SetUpdateExtent (vtkInformation , int extent[6])</tt> -  Get/Set the update extent for output ports that use 3D extents.
+ </LI>
+<LI>  <tt>obj.GetUpdateExtent (vtkInformation , int extent[6])</tt> -  Get/Set the update extent for output ports that use 3D extents.
+ </LI>
+<LI>  <tt>int = obj.SetUpdateExtent (int port, int piece, int numPieces, int ghostLevel)</tt> -  Set/Get the update piece, update number of pieces, and update
+ number of ghost levels for an output port.  Similar to update
+ extent in 3D.
+ </LI>
+<LI>  <tt>int = obj.SetUpdateExtent (vtkInformation , int piece, int numPieces, int ghostLevel)</tt> -  Set/Get the update piece, update number of pieces, and update
+ number of ghost levels for an output port.  Similar to update
+ extent in 3D.
+ </LI>
+<LI>  <tt>int = obj.SetUpdatePiece (vtkInformation , int piece)</tt> -  Set/Get the update piece, update number of pieces, and update
+ number of ghost levels for an output port.  Similar to update
+ extent in 3D.
+ </LI>
+<LI>  <tt>int = obj.GetUpdatePiece (vtkInformation )</tt> -  Set/Get the update piece, update number of pieces, and update
+ number of ghost levels for an output port.  Similar to update
+ extent in 3D.
+ </LI>
+<LI>  <tt>int = obj.SetUpdateNumberOfPieces (vtkInformation , int n)</tt> -  Set/Get the update piece, update number of pieces, and update
+ number of ghost levels for an output port.  Similar to update
+ extent in 3D.
+ </LI>
+<LI>  <tt>int = obj.GetUpdateNumberOfPieces (vtkInformation )</tt> -  Set/Get the update piece, update number of pieces, and update
+ number of ghost levels for an output port.  Similar to update
+ extent in 3D.
+ </LI>
+<LI>  <tt>int = obj.SetUpdateGhostLevel (vtkInformation , int n)</tt> -  Set/Get the update piece, update number of pieces, and update
+ number of ghost levels for an output port.  Similar to update
+ extent in 3D.
+ </LI>
+<LI>  <tt>int = obj.GetUpdateGhostLevel (vtkInformation )</tt> -  Set/Get the update piece, update number of pieces, and update
+ number of ghost levels for an output port.  Similar to update
+ extent in 3D.
+ </LI>
+<LI>  <tt>int = obj.SetUpdateResolution (int port, double r)</tt> -  Set/Get the update piece, update number of pieces, and update
+ number of ghost levels for an output port.  Similar to update
+ extent in 3D.
+ </LI>
+<LI>  <tt>int = obj.SetUpdateResolution (vtkInformation , double r)</tt> -  Set/Get the update piece, update number of pieces, and update
+ number of ghost levels for an output port.  Similar to update
+ extent in 3D.
+ </LI>
+<LI>  <tt>double = obj.GetUpdateResolution (vtkInformation )</tt> -  Set/Get the update piece, update number of pieces, and update
+ number of ghost levels for an output port.  Similar to update
+ extent in 3D.
+ </LI>
+<LI>  <tt>int = obj.SetSplitUpdateExtent (int port, int major, int minor, int numPieces, int ghostLevel)</tt> -  Get/Set the update extent for output ports that use Temporal Extents
+ </LI>
+<LI>  <tt>int = obj.SetUpdateTimeSteps (int port, double times, int length)</tt> -  Get/Set the update extent for output ports that use Temporal Extents
+ </LI>
+<LI>  <tt>int = obj.SetUpdateTimeSteps (vtkInformation , double times, int length)</tt> -  Get/Set the update extent for output ports that use Temporal Extents
+ </LI>
+<LI>  <tt>int = obj.SetUpdateTimeStep (int port, double time)</tt> -  Get/Set the update extent for output ports that use Temporal Extents
+ </LI>
+<LI>  <tt>int = obj.SetRequestExactExtent (int port, int flag)</tt> -  This request flag indicates whether the requester can handle more
+ data than requested for the given port.  Right now it is used in
+ vtkImageData.  Image filters can return more data than requested.
+ The the consumer cannot handle this (i.e. DataSetToDataSetFitler)
+ the image will crop itself.  This functionality used to be in
+ ImageToStructuredPoints.
+ </LI>
+<LI>  <tt>int = obj.GetRequestExactExtent (int port)</tt> -  This request flag indicates whether the requester can handle more
+ data than requested for the given port.  Right now it is used in
+ vtkImageData.  Image filters can return more data than requested.
+ The the consumer cannot handle this (i.e. DataSetToDataSetFitler)
+ the image will crop itself.  This functionality used to be in
+ ImageToStructuredPoints.
+ </LI>
+<LI>  <tt>int = obj.SetExtentTranslator (int port, vtkExtentTranslator translator)</tt> -  Get/Set the object that will translate pieces into structured
+ extents for an output port.
+ </LI>
+<LI>  <tt>int = obj.SetExtentTranslator (vtkInformation , vtkExtentTranslator translator)</tt> -  Get/Set the object that will translate pieces into structured
+ extents for an output port.
+ </LI>
+<LI>  <tt>vtkExtentTranslator = obj.GetExtentTranslator (int port)</tt> -  Get/Set the object that will translate pieces into structured
+ extents for an output port.
+ </LI>
+<LI>  <tt>vtkExtentTranslator = obj.GetExtentTranslator (vtkInformation info)</tt> -  Get/Set the object that will translate pieces into structured
+ extents for an output port.
+ </LI>
+<LI>  <tt>int = obj.SetWholeBoundingBox (int port, double bb[6])</tt> -  Set/Get the whole bounding box of an output port data object.
+ The whole whole bounding box is meta data for data sets.  It gets
+ set by the algorithm during the update information pass.
+ </LI>
+<LI>  <tt>obj.GetWholeBoundingBox (int port, double bb[6])</tt> -  Set/Get the whole bounding box of an output port data object.
+ The whole whole bounding box is meta data for data sets.  It gets
+ set by the algorithm during the update information pass.
+ </LI>
+<LI>  <tt>int = obj.SetPieceBoundingBox (int port, double bb[6])</tt> -  Set/Get the piece bounding box of an output port data object.
+ The piece bounding box is meta data for data sets.  It gets
+ set by the algorithm during the update extent information pass.
+ </LI>
+<LI>  <tt>obj.GetPieceBoundingBox (int port, double bb[6])</tt> -  Set/Get the piece bounding box of an output port data object.
+ The piece bounding box is meta data for data sets.  It gets
+ set by the algorithm during the update extent information pass.
+ </LI>
+<LI>  <tt>double = obj.ComputePriority ()</tt> -  Issues pipeline request to determine and return the priority of the 
+ piece described by the current update extent. The priority is a 
+ number between 0.0 and 1.0 with 0 meaning skippable (REQUEST_DATA 
+ not needed) and 1.0 meaning important. 
+ </LI>
+<LI>  <tt>double = obj.ComputePriority (int port)</tt> -  Issues pipeline request to determine and return the priority of the 
+ piece described by the current update extent. The priority is a 
+ number between 0.0 and 1.0 with 0 meaning skippable (REQUEST_DATA 
+ not needed) and 1.0 meaning important. 
+ </LI>
+</UL>
+*/

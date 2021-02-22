@@ -1,0 +1,70 @@
+/*!
+\page handle_clim CLIM Adjust Color limits of plot
+
+<p>
+Section: \ref sec_handle "Handle-Based Graphics"
+\section Usage
+There are several ways to use <tt>clim</tt> to adjust the color limits of
+a plot.  The various syntaxes are
+\verbatim
+   clim
+   clim([lo,hi])   
+   clim('auto')
+   clim('manual')
+   clim('mode')
+   clim(handle,...)
+\endverbatim
+The first form (without arguments), returns a 2-vector containing the
+current limits.  The second form sets the limits on the plot to <tt>[lo,hi]</tt>.
+The third and fourth form set the mode for the limit to <tt>auto</tt> and <tt>manual</tt>
+respectively.  In <tt>auto</tt> mode, FreeMat chooses the range for the axis 
+automatically.  The <tt>clim('mode')</tt> form returns the current mode for the axis
+(either <tt>'auto'</tt> or <tt>'manual'</tt>).  
+
+Switching to <tt>manual</tt> mode does not change the limits, it simply allows
+ you to modify them (and disables the automatic adjustment of the limits
+as more objects are added to the plot).  Also, if you specify a set of 
+limits explicitly, the mode is set to <tt>manual</tt>
+ 
+Finally, you can specify the handle of an
+axis to manipulate instead of using the current one.
+\section Example
+Here is an example of using <tt>clim</tt> to change the effective window and
+level onto an image.  First, the image with default
+limits
+
+\if FRAGMENT
+frag_handle_clim_000.m
+0
+x = repmat(linspace(-1,1),[100,1]); y = x';
+z = exp(-x.^2-y.^2);
+image(z);
+min(z(:))
+max(z(:))
+mprint clim1
+\endif
+
+
+\verbinclude frag_handle_clim_000.m.out 
+
+which results in
+\image html clim1.png
+\image latex clim1.eps "clim1" width=12cm
+Next, we change the colorscale of the image using the
+ <tt>clim</tt> function
+
+\if FRAGMENT
+frag_handle_clim_001.m
+0
+image(z);
+clim([0,0.2]);
+mprint clim2
+\endif
+
+
+\verbinclude frag_handle_clim_001.m.out 
+
+which results in
+\image html clim2.png
+\image latex clim2.eps "clim2" width=12cm
+*/

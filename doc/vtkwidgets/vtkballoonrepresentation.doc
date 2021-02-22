@@ -1,0 +1,192 @@
+/*!
+\page vtkwidgets_vtkballoonrepresentation vtkBalloonRepresentation
+
+<p>
+Section: \ref sec_vtkwidgets "Visualization Toolkit Widget Classes"
+\section Usage
+ The vtkBalloonRepresentation is used to represent the vtkBalloonWidget.
+ This representation is defined by two items: a text string and an image.
+ At least one of these two items must be defined, but it is allowable to
+ specify both, or just an image or just text. If both the text and image
+ are specified, then methods are available for positioning the text and
+ image with respect to each other.
+
+ The balloon representation consists of three parts: text, a rectangular
+ frame behind the text, and an image placed next to the frame and sized
+ to match the frame.
+
+ The size of the balloon is ultimately controlled by the text properties
+ (i.e., font size). This representation uses a layout policy as follows.
+ 
+ If there is just text and no image, then the text properties and padding
+ are used to control the size of the balloon.
+
+ If there is just an image and no text, then the ImageSize[2] member is
+ used to control the image size. (The image will fit into this rectangle,
+ but will not necessarily fill the whole rectangle, i.e., the image is not
+ stretched).
+
+ If there is text and an image, the following approach ia used. First,
+ based on the font size and other related properties (e.g., padding),
+ determine the size of the frame. Second, depending on the layout of the
+ image and text frame, control the size of the neighboring image (since the
+ frame and image share a common edge). However, if this results in an image
+ that is smaller than ImageSize[2], then the image size will be set to
+ ImageSize[2] and the frame will be adjusted accordingly. The text is
+ always placed in the center of the frame if the frame is resized.
+
+To create an instance of class vtkBalloonRepresentation, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkBalloonRepresentation
+\endverbatim
+\section Methods
+The class vtkBalloonRepresentation has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkBalloonRepresentation class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt> -  Standard VTK methods.
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt> -  Standard VTK methods.
+ </LI>
+<LI>  <tt>vtkBalloonRepresentation = obj.NewInstance ()</tt> -  Standard VTK methods.
+ </LI>
+<LI>  <tt>vtkBalloonRepresentation = obj.SafeDownCast (vtkObject o)</tt> -  Standard VTK methods.
+ </LI>
+<LI>  <tt>obj.SetBalloonImage (vtkImageData img)</tt> -  Specify/retrieve the image to display in the balloon.
+ </LI>
+<LI>  <tt>vtkImageData = obj.GetBalloonImage ()</tt> -  Specify/retrieve the image to display in the balloon.
+ </LI>
+<LI>  <tt>string = obj.GetBalloonText ()</tt> -  Specify/retrieve the text to display in the balloon.
+ </LI>
+<LI>  <tt>obj.SetBalloonText (string )</tt> -  Specify/retrieve the text to display in the balloon.
+ </LI>
+<LI>  <tt>obj.SetImageSize (int , int )</tt> -  Specify the minimum size for the image. Note that this is a bounding
+ rectangle, the image will fit inside of it. However, if the balloon
+ consists of text plus an image, then the image may be bigger than
+ ImageSize[2] to fit into the balloon frame.
+ </LI>
+<LI>  <tt>obj.SetImageSize (int  a[2])</tt> -  Specify the minimum size for the image. Note that this is a bounding
+ rectangle, the image will fit inside of it. However, if the balloon
+ consists of text plus an image, then the image may be bigger than
+ ImageSize[2] to fit into the balloon frame.
+ </LI>
+<LI>  <tt>int = obj. GetImageSize ()</tt> -  Specify the minimum size for the image. Note that this is a bounding
+ rectangle, the image will fit inside of it. However, if the balloon
+ consists of text plus an image, then the image may be bigger than
+ ImageSize[2] to fit into the balloon frame.
+ </LI>
+<LI>  <tt>obj.SetTextProperty (vtkTextProperty p)</tt> -  Set/get the text property (relevant only if text is shown).
+ </LI>
+<LI>  <tt>vtkTextProperty = obj.GetTextProperty ()</tt> -  Set/get the text property (relevant only if text is shown).
+ </LI>
+<LI>  <tt>obj.SetFrameProperty (vtkProperty2D p)</tt> -  Set/get the frame property (relevant only if text is shown).
+ The frame lies behind the text.
+ </LI>
+<LI>  <tt>vtkProperty2D = obj.GetFrameProperty ()</tt> -  Set/get the frame property (relevant only if text is shown).
+ The frame lies behind the text.
+ </LI>
+<LI>  <tt>obj.SetImageProperty (vtkProperty2D p)</tt> -  Set/get the image property (relevant only if an image is shown).
+ </LI>
+<LI>  <tt>vtkProperty2D = obj.GetImageProperty ()</tt> -  Set/get the image property (relevant only if an image is shown).
+ </LI>
+<LI>  <tt>obj.SetBalloonLayout (int )</tt> -  Specify the layout of the image and text within the balloon. Note that
+ there are reduncies in these methods, for example
+ SetBalloonLayoutToImageLeft() results in the same effect as
+ SetBalloonLayoutToTextRight(). If only text is specified, or only an
+ image is specified, then it doesn't matter how the layout is specified.
+ </LI>
+<LI>  <tt>int = obj.GetBalloonLayout ()</tt> -  Specify the layout of the image and text within the balloon. Note that
+ there are reduncies in these methods, for example
+ SetBalloonLayoutToImageLeft() results in the same effect as
+ SetBalloonLayoutToTextRight(). If only text is specified, or only an
+ image is specified, then it doesn't matter how the layout is specified.
+ </LI>
+<LI>  <tt>obj.SetBalloonLayoutToImageLeft ()</tt> -  Specify the layout of the image and text within the balloon. Note that
+ there are reduncies in these methods, for example
+ SetBalloonLayoutToImageLeft() results in the same effect as
+ SetBalloonLayoutToTextRight(). If only text is specified, or only an
+ image is specified, then it doesn't matter how the layout is specified.
+ </LI>
+<LI>  <tt>obj.SetBalloonLayoutToImageRight ()</tt> -  Specify the layout of the image and text within the balloon. Note that
+ there are reduncies in these methods, for example
+ SetBalloonLayoutToImageLeft() results in the same effect as
+ SetBalloonLayoutToTextRight(). If only text is specified, or only an
+ image is specified, then it doesn't matter how the layout is specified.
+ </LI>
+<LI>  <tt>obj.SetBalloonLayoutToImageBottom ()</tt> -  Specify the layout of the image and text within the balloon. Note that
+ there are reduncies in these methods, for example
+ SetBalloonLayoutToImageLeft() results in the same effect as
+ SetBalloonLayoutToTextRight(). If only text is specified, or only an
+ image is specified, then it doesn't matter how the layout is specified.
+ </LI>
+<LI>  <tt>obj.SetBalloonLayoutToImageTop ()</tt> -  Specify the layout of the image and text within the balloon. Note that
+ there are reduncies in these methods, for example
+ SetBalloonLayoutToImageLeft() results in the same effect as
+ SetBalloonLayoutToTextRight(). If only text is specified, or only an
+ image is specified, then it doesn't matter how the layout is specified.
+ </LI>
+<LI>  <tt>obj.SetBalloonLayoutToTextLeft ()</tt> -  Specify the layout of the image and text within the balloon. Note that
+ there are reduncies in these methods, for example
+ SetBalloonLayoutToImageLeft() results in the same effect as
+ SetBalloonLayoutToTextRight(). If only text is specified, or only an
+ image is specified, then it doesn't matter how the layout is specified.
+ </LI>
+<LI>  <tt>obj.SetBalloonLayoutToTextRight ()</tt> -  Specify the layout of the image and text within the balloon. Note that
+ there are reduncies in these methods, for example
+ SetBalloonLayoutToImageLeft() results in the same effect as
+ SetBalloonLayoutToTextRight(). If only text is specified, or only an
+ image is specified, then it doesn't matter how the layout is specified.
+ </LI>
+<LI>  <tt>obj.SetBalloonLayoutToTextTop ()</tt> -  Specify the layout of the image and text within the balloon. Note that
+ there are reduncies in these methods, for example
+ SetBalloonLayoutToImageLeft() results in the same effect as
+ SetBalloonLayoutToTextRight(). If only text is specified, or only an
+ image is specified, then it doesn't matter how the layout is specified.
+ </LI>
+<LI>  <tt>obj.SetBalloonLayoutToTextBottom ()</tt> -  Set/Get the offset from the mouse pointer from which to place the
+ balloon. The representation will try and honor this offset unless there
+ is a collision with the side of the renderer, in which case the balloon 
+ will be repositioned to lie within the rendering window.
+ </LI>
+<LI>  <tt>obj.SetOffset (int , int )</tt> -  Set/Get the offset from the mouse pointer from which to place the
+ balloon. The representation will try and honor this offset unless there
+ is a collision with the side of the renderer, in which case the balloon 
+ will be repositioned to lie within the rendering window.
+ </LI>
+<LI>  <tt>obj.SetOffset (int  a[2])</tt> -  Set/Get the offset from the mouse pointer from which to place the
+ balloon. The representation will try and honor this offset unless there
+ is a collision with the side of the renderer, in which case the balloon 
+ will be repositioned to lie within the rendering window.
+ </LI>
+<LI>  <tt>int = obj. GetOffset ()</tt> -  Set/Get the offset from the mouse pointer from which to place the
+ balloon. The representation will try and honor this offset unless there
+ is a collision with the side of the renderer, in which case the balloon 
+ will be repositioned to lie within the rendering window.
+ </LI>
+<LI>  <tt>obj.SetPadding (int )</tt> -  Set/Get the padding (in pixels) that is used between the text and the
+ frame.
+ </LI>
+<LI>  <tt>int = obj.GetPaddingMinValue ()</tt> -  Set/Get the padding (in pixels) that is used between the text and the
+ frame.
+ </LI>
+<LI>  <tt>int = obj.GetPaddingMaxValue ()</tt> -  Set/Get the padding (in pixels) that is used between the text and the
+ frame.
+ </LI>
+<LI>  <tt>int = obj.GetPadding ()</tt> -  Set/Get the padding (in pixels) that is used between the text and the
+ frame.
+ </LI>
+<LI>  <tt>obj.StartWidgetInteraction (double e[2])</tt> -  These are methods that satisfy vtkWidgetRepresentation's API.
+ </LI>
+<LI>  <tt>obj.EndWidgetInteraction (double e[2])</tt> -  These are methods that satisfy vtkWidgetRepresentation's API.
+ </LI>
+<LI>  <tt>obj.BuildRepresentation ()</tt> -  These are methods that satisfy vtkWidgetRepresentation's API.
+ </LI>
+<LI>  <tt>obj.ReleaseGraphicsResources (vtkWindow w)</tt> -  Methods required by vtkProp superclass.
+ </LI>
+<LI>  <tt>int = obj.RenderOverlay (vtkViewport viewport)</tt> -  Methods required by vtkProp superclass.
+ </LI>
+</UL>
+*/

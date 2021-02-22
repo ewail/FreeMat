@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkrendering_vtksobelgradientmagnitudepass" kind="page">
+    <compoundname>vtkrendering_vtksobelgradientmagnitudepass</compoundname>
+    <title>vtkSobelGradientMagnitudePass</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkrendering_1sec_vtkrendering" kindref="member">Visualization Toolkit Rendering Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>Detect the edges of the image renderered by its delegate. Edge-detection uses a Sobel high-pass filter (3x3 kernel).</para><para>This pass expects an initialized depth buffer and color buffer. Initialized buffers means they have been cleared with farest z-value and background color/gradient/transparent color. An opaque pass may have been performed right after the initialization.</para><para>The delegate is used once.</para><para>Its delegate is usually set to a vtkCameraPass or to a post-processing pass.</para><para>This pass requires a OpenGL context that supports texture objects (TO), framebuffer objects (FBO) and GLSL. If not, it will emit an error message and will render its delegate and return.</para><para>.SECTION Implementation To compute the gradient magnitude, the x and y components of the gradient (Gx and Gy) have to be computed first. Each computation of Gx and Gy uses a separable filter. The first pass takes the image from the delegate as the single input texture. The first pass has two outputs, one for the first part of Gx, Gx1, result of a convolution with (-1 0 1), one for the first part of Gy, Gy1, result of a convolution with (1 2 1). The second pass has two inputs, Gx1 and Gy1. Kernel (1 2 1)^T is applied to Gx1 and kernel (-1 0 1)^T is applied to Gx2. It gives the values for Gx and Gy. Thoses values are then used to compute the magnitude of the gradient which is stored in the render target. The gradient computation happens per component (R,G,B). A is arbitrarly set to 1 (full opacity).</para><para>To create an instance of class vtkSobelGradientMagnitudePass, simply invoke its constructor as follows <verbatim>  obj = vtkSobelGradientMagnitudePass
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkSobelGradientMagnitudePass has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkSobelGradientMagnitudePass class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkSobelGradientMagnitudePass = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkSobelGradientMagnitudePass = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ReleaseGraphicsResources (vtkWindow w)</computeroutput> - Release graphics resources and ask components to release their own resources. <simplesect kind="pre"><para>w_exists: w!=0  </para></simplesect>
+</para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

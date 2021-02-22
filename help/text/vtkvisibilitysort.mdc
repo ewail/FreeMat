@@ -1,0 +1,107 @@
+
+ Usage
+
+vtkVisibilitySort encapsulates a method for depth sorting
+the cells of a vtkDataSet for a given viewpoint. It should
+be noted that subclasses are not required to give an
+absolutely correct sorting. Many types of unstructured grids
+may have sorting cycles, meaning that there is no possible
+correct sorting. Some subclasses also only give an
+approximate sorting in the interest of speed.
+.SECTION Note The Input field of this class tends to causes
+reference cycles. To help break these cycles, garbage
+collection is enabled on this object and the input parameter
+is traced. For this to work, though, an object in the loop
+holding the visibility sort should also report that to the
+garbage collector.
+To create an instance of class vtkVisibilitySort, simply
+invoke its constructor as follows
+
+    obj = vtkVisibilitySort
+
+
+
+ Methods
+
+The class vtkVisibilitySort has several methods that can be
+used. They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkVisibilitySort class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkVisibilitySort = obj.NewInstance ()
+* vtkVisibilitySort = obj.SafeDownCast (vtkObject o)
+* obj.InitTraversal () - To facilitate incremental sorting
+  algorithms, the cells are retrieved in an iteration
+  process. That is, call InitTraversal to start the
+  iteration and call GetNextCells to get the cell IDs in
+  order. However, for efficiencies sake, GetNextCells
+  returns an ordered list of several id's in once call (but
+  not necessarily all). GetNextCells will return NULL once
+  the entire sorted list is output. The vtkIdTypeArray
+  returned from GetNextCells is a cached array, so do not
+  delete it. At the same note, do not expect the array to be
+  valid after subsequent calls to GetNextCells.
+* vtkIdTypeArray = obj.GetNextCells () - To facilitate
+  incremental sorting algorithms, the cells are retrieved in
+  an iteration process. That is, call InitTraversal to start
+  the iteration and call GetNextCells to get the cell IDs in
+  order. However, for efficiencies sake, GetNextCells
+  returns an ordered list of several id's in once call (but
+  not necessarily all). GetNextCells will return NULL once
+  the entire sorted list is output. The vtkIdTypeArray
+  returned from GetNextCells is a cached array, so do not
+  delete it. At the same note, do not expect the array to be
+  valid after subsequent calls to GetNextCells.
+* obj.SetMaxCellsReturned (int ) - Set/Get the maximum
+  number of cells that GetNextCells will return in one
+  invocation.
+* int = obj.GetMaxCellsReturnedMinValue () - Set/Get the
+  maximum number of cells that GetNextCells will return in
+  one invocation.
+* int = obj.GetMaxCellsReturnedMaxValue () - Set/Get the
+  maximum number of cells that GetNextCells will return in
+  one invocation.
+* int = obj.GetMaxCellsReturned () - Set/Get the maximum
+  number of cells that GetNextCells will return in one
+  invocation.
+* obj.SetModelTransform (vtkMatrix4x4 mat) - Set/Get the
+  matrix that transforms from object space to world space.
+  Generally, you get this matrix from a call to GetMatrix of
+  a vtkProp3D (vtkActor).
+* vtkMatrix4x4 = obj.GetModelTransform () - Set/Get the
+  matrix that transforms from object space to world space.
+  Generally, you get this matrix from a call to GetMatrix of
+  a vtkProp3D (vtkActor).
+* vtkMatrix4x4 = obj.GetInverseModelTransform ()
+* obj.SetCamera (vtkCamera camera) - Set/Get the camera that
+  specifies the viewing parameters.
+* vtkCamera = obj.GetCamera () - Set/Get the camera that
+  specifies the viewing parameters.
+* obj.SetInput (vtkDataSet data) - Set/Get the data set
+  containing the cells to sort.
+* vtkDataSet = obj.GetInput () - Set/Get the data set
+  containing the cells to sort.
+* int = obj.GetDirection () - Set/Get the sorting direction.
+  Be default, the direction is set to back to front.
+* obj.SetDirection (int ) - Set/Get the sorting direction.
+  Be default, the direction is set to back to front.
+* obj.SetDirectionToBackToFront () - Set/Get the sorting
+  direction. Be default, the direction is set to back to
+  front.
+* obj.SetDirectionToFrontToBack () - Overwritten to enable
+  garbage collection.
+* obj.Register (vtkObjectBase o) - Overwritten to enable
+  garbage collection.
+* obj.UnRegister (vtkObjectBase o) - Overwritten to enable
+  garbage collection.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Rendering_Classes
+* Generated on Thu Jul 25 2013 17:18:35 for FreeMat by
+  doxygen_ 1.8.1.1
+

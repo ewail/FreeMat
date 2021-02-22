@@ -1,0 +1,233 @@
+
+ Usage
+
+vtkCellPicker will shoot a ray into a 3D scene and return
+information about the first object that the ray hits. It
+works for all Prop3Ds. For vtkVolume objects, it shoots a
+ray into the volume and returns the point where the ray
+intersects an isosurface of a chosen opacity. For
+vtkImageActor objects, it intersects the ray with the
+displayed slice. For vtkActor objects, it intersects the
+actor's polygons. If the object's mapper has ClippingPlanes,
+then it takes the clipping into account, and will return the
+Id of the clipping plane that was intersected. For all prop
+types, it returns point and cell information, plus the
+normal of the surface that was intersected at the pick
+position. For volumes and images, it also returns (i,j,k)
+coordinates for the point and the cell that were picked.
+To create an instance of class vtkCellPicker, simply invoke
+its constructor as follows
+
+    obj = vtkCellPicker
+
+
+
+ Methods
+
+The class vtkCellPicker has several methods that can be
+used. They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkCellPicker class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkCellPicker = obj.NewInstance ()
+* vtkCellPicker = obj.SafeDownCast (vtkObject o)
+* int = obj.Pick (double selectionX, double selectionY,
+  double selectionZ, vtkRenderer renderer) - Perform pick
+  operation with selection point provided. Normally the
+  first two values are the (x,y) pixel coordinates for the
+  pick, and the third value is z=0. The return value will be
+  non-zero if something was successfully picked.
+* obj.AddLocator (vtkAbstractCellLocator locator) - Add a
+  locator for one of the data sets that will be included in
+  the scene. You must set up the locator with exactly the
+  same data set that was input to the mapper of one or more
+  of the actors in the scene. As well, you must either build
+  the locator before doing the pick, or you must turn on
+  LazyEvaluation in the locator to make it build itself on
+  the first pick. Note that if you try to add the same
+  locator to the picker twice, the second addition will be
+  ignored.
+* obj.RemoveLocator (vtkAbstractCellLocator locator) -
+  Remove a locator that was previously added. If you try to
+  remove a nonexistent locator, then nothing will happen and
+  no errors will be raised.
+* obj.RemoveAllLocators () - Remove all locators associated
+  with this picker.
+* obj.SetVolumeOpacityIsovalue (double ) - Set the opacity
+  isovalue to use for defining volume surfaces. The pick
+  will occur at the location along the pick ray where the
+  opacity of the volume is equal to this isovalue. If you
+  want to do the pick based on an actual data isovalue
+  rather than the opacity, then pass the data value through
+  the scalar opacity function before using this method.
+* double = obj.GetVolumeOpacityIsovalue () - Set the opacity
+  isovalue to use for defining volume surfaces. The pick
+  will occur at the location along the pick ray where the
+  opacity of the volume is equal to this isovalue. If you
+  want to do the pick based on an actual data isovalue
+  rather than the opacity, then pass the data value through
+  the scalar opacity function before using this method.
+* obj.SetUseVolumeGradientOpacity (int ) - Use the product
+  of the scalar and gradient opacity functions when
+  computing the opacity isovalue, instead of just using the
+  scalar opacity. This parameter is only relevant to volume
+  picking and is off by default.
+* obj.UseVolumeGradientOpacityOn () - Use the product of the
+  scalar and gradient opacity functions when computing the
+  opacity isovalue, instead of just using the scalar
+  opacity. This parameter is only relevant to volume picking
+  and is off by default.
+* obj.UseVolumeGradientOpacityOff () - Use the product of
+  the scalar and gradient opacity functions when computing
+  the opacity isovalue, instead of just using the scalar
+  opacity. This parameter is only relevant to volume picking
+  and is off by default.
+* int = obj.GetUseVolumeGradientOpacity () - Use the product
+  of the scalar and gradient opacity functions when
+  computing the opacity isovalue, instead of just using the
+  scalar opacity. This parameter is only relevant to volume
+  picking and is off by default.
+* obj.SetPickClippingPlanes (int ) - The PickClippingPlanes
+  setting controls how clipping planes are handled by the
+  pick. If it is On, then the clipping planes become
+  pickable objects, even though they are usually invisible.
+  This means that if the pick ray intersects a clipping
+  plane before it hits anything else, the pick will stop at
+  that clipping plane. The GetProp3D() and GetMapper()
+  methods will return the Prop3D and Mapper that the
+  clipping plane belongs to. The GetClippingPlaneId() method
+  will return the index of the clipping plane so that you
+  can retrieve it from the mapper, or -1 if no clipping
+  plane was picked. The picking of vtkImageActors is not
+  influenced by this setting, since they have no clipping
+  planes.
+* obj.PickClippingPlanesOn () - The PickClippingPlanes
+  setting controls how clipping planes are handled by the
+  pick. If it is On, then the clipping planes become
+  pickable objects, even though they are usually invisible.
+  This means that if the pick ray intersects a clipping
+  plane before it hits anything else, the pick will stop at
+  that clipping plane. The GetProp3D() and GetMapper()
+  methods will return the Prop3D and Mapper that the
+  clipping plane belongs to. The GetClippingPlaneId() method
+  will return the index of the clipping plane so that you
+  can retrieve it from the mapper, or -1 if no clipping
+  plane was picked. The picking of vtkImageActors is not
+  influenced by this setting, since they have no clipping
+  planes.
+* obj.PickClippingPlanesOff () - The PickClippingPlanes
+  setting controls how clipping planes are handled by the
+  pick. If it is On, then the clipping planes become
+  pickable objects, even though they are usually invisible.
+  This means that if the pick ray intersects a clipping
+  plane before it hits anything else, the pick will stop at
+  that clipping plane. The GetProp3D() and GetMapper()
+  methods will return the Prop3D and Mapper that the
+  clipping plane belongs to. The GetClippingPlaneId() method
+  will return the index of the clipping plane so that you
+  can retrieve it from the mapper, or -1 if no clipping
+  plane was picked. The picking of vtkImageActors is not
+  influenced by this setting, since they have no clipping
+  planes.
+* int = obj.GetPickClippingPlanes () - The
+  PickClippingPlanes setting controls how clipping planes
+  are handled by the pick. If it is On, then the clipping
+  planes become pickable objects, even though they are
+  usually invisible. This means that if the pick ray
+  intersects a clipping plane before it hits anything else,
+  the pick will stop at that clipping plane. The GetProp3D()
+  and GetMapper() methods will return the Prop3D and Mapper
+  that the clipping plane belongs to. The GetClippingPlaneId
+  () method will return the index of the clipping plane so
+  that you can retrieve it from the mapper, or -1 if no
+  clipping plane was picked. The picking of vtkImageActors
+  is not influenced by this setting, since they have no
+  clipping planes.
+* int = obj.GetClippingPlaneId () - Get the index of the
+  clipping plane that was intersected during the pick. This
+  will be set regardless of whether PickClippingPlanes is
+  On, all that is required is that the pick intersected a
+  clipping plane of the Prop3D that was picked. The result
+  will be -1 if the Prop3D that was picked has no clipping
+  planes, or if the ray didn't intersect the planes.
+* double = obj. GetPickNormal () - Return the normal of the
+  picked surface at the PickPosition. If no surface was
+  picked, then a vector pointing back at the camera is
+  returned.
+* double = obj. GetMapperNormal () - Return the normal of
+  the surface at the PickPosition in mapper coordinates. The
+  result is undefined if no prop was picked.
+* int = obj. GetPointIJK () - Get the structured coordinates
+  of the point at the PickPosition. Only valid for image
+  actors and volumes with vtkImageData.
+* int = obj. GetCellIJK () - Get the structured coordinates
+  of the cell at the PickPosition. Only valid for image
+  actors and volumes with vtkImageData. Combine this with
+  the PCoords to get the position within the cell.
+* vtkIdType = obj.GetPointId () - Get the id of the picked
+  point. If PointId = -1, nothing was picked. This point
+  will be a member of any cell that is picked.
+* vtkIdType = obj.GetCellId () - Get the id of the picked
+  cell. If CellId = -1, nothing was picked.
+* int = obj.GetSubId () - Get the subId of the picked cell.
+  This is useful, for example, if the data is made of
+  triangle strips. If SubId = -1, nothing was picked.
+* double = obj. GetPCoords () - Get the parametric
+  coordinates of the picked cell. Only valid if a prop was
+  picked. The PCoords can be used to compute the weights
+  that are needed to interpolate data values within the
+  cell.
+* vtkTexture = obj.GetTexture () - Get the texture that was
+  picked. This will always be set if the picked prop has a
+  texture, and will always be null otherwise.
+* obj.SetPickTextureData (int ) - If this is "On" and if the
+  picked prop has a texture, then the data returned by
+  GetDataSet() will be the texture's data instead of the
+  mapper's data. The GetPointId(), GetCellId(), GetPCoords()
+  etc. will all return information for use with the
+  texture's data. If the picked prop does not have any
+  texture, then GetDataSet() will return the mapper's data
+  instead and GetPointId() etc. will return information
+  related to the mapper's data. The default value of
+  PickTextureData is "Off".
+* obj.PickTextureDataOn () - If this is "On" and if the
+  picked prop has a texture, then the data returned by
+  GetDataSet() will be the texture's data instead of the
+  mapper's data. The GetPointId(), GetCellId(), GetPCoords()
+  etc. will all return information for use with the
+  texture's data. If the picked prop does not have any
+  texture, then GetDataSet() will return the mapper's data
+  instead and GetPointId() etc. will return information
+  related to the mapper's data. The default value of
+  PickTextureData is "Off".
+* obj.PickTextureDataOff () - If this is "On" and if the
+  picked prop has a texture, then the data returned by
+  GetDataSet() will be the texture's data instead of the
+  mapper's data. The GetPointId(), GetCellId(), GetPCoords()
+  etc. will all return information for use with the
+  texture's data. If the picked prop does not have any
+  texture, then GetDataSet() will return the mapper's data
+  instead and GetPointId() etc. will return information
+  related to the mapper's data. The default value of
+  PickTextureData is "Off".
+* int = obj.GetPickTextureData () - If this is "On" and if
+  the picked prop has a texture, then the data returned by
+  GetDataSet() will be the texture's data instead of the
+  mapper's data. The GetPointId(), GetCellId(), GetPCoords()
+  etc. will all return information for use with the
+  texture's data. If the picked prop does not have any
+  texture, then GetDataSet() will return the mapper's data
+  instead and GetPointId() etc. will return information
+  related to the mapper's data. The default value of
+  PickTextureData is "Off".
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Rendering_Classes
+* Generated on Thu Jul 25 2013 17:18:35 for FreeMat by
+  doxygen_ 1.8.1.1
+

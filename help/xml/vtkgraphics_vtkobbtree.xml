@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkgraphics_vtkobbtree" kind="page">
+    <compoundname>vtkgraphics_vtkobbtree</compoundname>
+    <title>vtkOBBTree</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkgraphics_1sec_vtkgraphics" kindref="member">Visualization Toolkit Graphics Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>vtkOBBTree is an object to generate oriented bounding box (OBB) trees. An oriented bounding box is a bounding box that does not necessarily line up along coordinate axes. The OBB tree is a hierarchical tree structure of such boxes, where deeper levels of OBB confine smaller regions of space.</para><para>To build the OBB, a recursive, top-down process is used. First, the root OBB is constructed by finding the mean and covariance matrix of the cells (and their points) that define the dataset. The eigenvectors of the covariance matrix are extracted, giving a set of three orthogonal vectors that define the tightest-fitting OBB. To create the two children OBB&apos;s, a split plane is found that (approximately) divides the number cells in half. These are then assigned to the children OBB&apos;s. This process then continues until the MaxLevel ivar limits the recursion, or no split plane can be found.</para><para>A good reference for OBB-trees is Gottschalk &amp; Manocha in Proceedings of Siggraph `96.</para><para>To create an instance of class vtkOBBTree, simply invoke its constructor as follows <verbatim>  obj = vtkOBBTree
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkOBBTree has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkOBBTree class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkOBBTree = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkOBBTree = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IntersectWithLine (double a0[3], double a1[3], vtkPoints points, vtkIdList cellIds)</computeroutput> - Take the passed line segment and intersect it with the data set. This method assumes that the data set is a vtkPolyData that describes a closed surface, and the intersection points that are returned in &apos;points&apos; alternate between entrance points and exit points. The return value of the function is 0 if no intersections were found, -1 if point &apos;a0&apos; lies inside the closed surface, or +1 if point &apos;a0&apos; lies outside the closed surface. Either &apos;points&apos; or &apos;cellIds&apos; can be set to NULL if you don&apos;t want to receive that information.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ComputeOBB (vtkDataSet input, double corner[3], double max[3], double mid[3], double min[3], double size[3])</computeroutput> - Compute an OBB for the input dataset using the cells in the data. Return the corner point and the three axes defining the orientation of the OBB. Also return a sorted list of relative &quot;sizes&quot; of axes for comparison purposes.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.InsideOrOutside (double point[3])</computeroutput> - Determine whether a point is inside or outside the data used to build this OBB tree. The data must be a closed surface vtkPolyData data set. The return value is +1 if outside, -1 if inside, and 0 if undecided.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.FreeSearchStructure ()</computeroutput> - Satisfy locator&apos;s abstract interface, see vtkLocator.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.BuildLocator ()</computeroutput> - Satisfy locator&apos;s abstract interface, see vtkLocator.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GenerateRepresentation (int level, vtkPolyData pd)</computeroutput> - Create polygonal representation for OBB tree at specified level. If level &lt; 0, then the leaf OBB nodes will be gathered. The aspect ratio (ar) and line diameter (d) are used to control the building of the representation. If a OBB node edge ratio&apos;s are greater than ar, then the dimension of the OBB is collapsed (OBB-&gt;plane-&gt;line). A &quot;line&quot; OBB will be represented either as two crossed polygons, or as a line, depending on the relative diameter of the OBB compared to the diameter (d).  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

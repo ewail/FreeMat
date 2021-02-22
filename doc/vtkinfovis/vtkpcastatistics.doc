@@ -1,0 +1,293 @@
+/*!
+\page vtkinfovis_vtkpcastatistics vtkPCAStatistics
+
+<p>
+Section: \ref sec_vtkinfovis "Visualization Toolkit Infovis Classes"
+\section Usage
+ This class derives from the multi-correlative statistics algorithm and
+ uses the covariance matrix and Cholesky decomposition computed by it.
+ However, when it finalizes the statistics in Learn mode, the PCA class
+ computes the SVD of the covariance matrix in order to obtain its eigenvectors.
+
+ In the assess mode, the input data are
+ - projected into the basis defined by the eigenvectors,
+ - the energy associated with each datum is computed,
+ - or some combination thereof.
+ Additionally, the user may specify some threshold energy or
+ eigenvector entry below which the basis is truncated. This allows
+ projection into a lower-dimensional state while minimizing (in a 
+ least squares sense) the projection error.
+
+
+ .SECTION Thanks
+ Thanks to David Thompson, Philippe Pebay and Jackson Mayo from
+ Sandia National Laboratories for implementing this class.
+
+To create an instance of class vtkPCAStatistics, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkPCAStatistics
+\endverbatim
+\section Methods
+The class vtkPCAStatistics has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkPCAStatistics class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkPCAStatistics = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkPCAStatistics = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetNormalizationScheme (int )</tt> -  This determines how (or if) the covariance matrix \a cov is normalized before PCA.
+
+ When set to NONE, no normalization is performed. This is the default.
+
+ When set to TRIANGLE_SPECIFIED, each entry cov(i,j) is divided by V(i,j).
+ The list V of normalization factors must be set using the SetNormalization method
+ before the filter is executed.
+
+ When set to DIAGONAL_SPECIFIED, each entry cov(i,j) is divided by sqrt(V(i)*V(j)).
+ The list V of normalization factors must be set using the SetNormalization method
+ before the filter is executed.
+
+ When set to DIAGONAL_VARIANCE, each entry cov(i,j) is divided by sqrt(cov(i,i)*cov(j,j)).
+ <b>Warning</b>: Although this is accepted practice in some fields,
+ some people think you should not turn this option on unless there
+ is a good physically-based reason for doing so. Much better instead
+ to determine how component magnitudes should be compared using
+ physical reasoning and use DIAGONAL_SPECIFIED, TRIANGLE_SPECIFIED, or
+ perform some pre-processing to shift and scale input data columns
+ appropriately than to expect magical results from a shady normalization hack.
+ </LI>
+<LI>  <tt>int = obj.GetNormalizationScheme ()</tt> -  This determines how (or if) the covariance matrix \a cov is normalized before PCA.
+
+ When set to NONE, no normalization is performed. This is the default.
+
+ When set to TRIANGLE_SPECIFIED, each entry cov(i,j) is divided by V(i,j).
+ The list V of normalization factors must be set using the SetNormalization method
+ before the filter is executed.
+
+ When set to DIAGONAL_SPECIFIED, each entry cov(i,j) is divided by sqrt(V(i)*V(j)).
+ The list V of normalization factors must be set using the SetNormalization method
+ before the filter is executed.
+
+ When set to DIAGONAL_VARIANCE, each entry cov(i,j) is divided by sqrt(cov(i,i)*cov(j,j)).
+ <b>Warning</b>: Although this is accepted practice in some fields,
+ some people think you should not turn this option on unless there
+ is a good physically-based reason for doing so. Much better instead
+ to determine how component magnitudes should be compared using
+ physical reasoning and use DIAGONAL_SPECIFIED, TRIANGLE_SPECIFIED, or
+ perform some pre-processing to shift and scale input data columns
+ appropriately than to expect magical results from a shady normalization hack.
+ </LI>
+<LI>  <tt>obj.SetNormalizationSchemeByName (string sname)</tt> -  This determines how (or if) the covariance matrix \a cov is normalized before PCA.
+
+ When set to NONE, no normalization is performed. This is the default.
+
+ When set to TRIANGLE_SPECIFIED, each entry cov(i,j) is divided by V(i,j).
+ The list V of normalization factors must be set using the SetNormalization method
+ before the filter is executed.
+
+ When set to DIAGONAL_SPECIFIED, each entry cov(i,j) is divided by sqrt(V(i)*V(j)).
+ The list V of normalization factors must be set using the SetNormalization method
+ before the filter is executed.
+
+ When set to DIAGONAL_VARIANCE, each entry cov(i,j) is divided by sqrt(cov(i,i)*cov(j,j)).
+ <b>Warning</b>: Although this is accepted practice in some fields,
+ some people think you should not turn this option on unless there
+ is a good physically-based reason for doing so. Much better instead
+ to determine how component magnitudes should be compared using
+ physical reasoning and use DIAGONAL_SPECIFIED, TRIANGLE_SPECIFIED, or
+ perform some pre-processing to shift and scale input data columns
+ appropriately than to expect magical results from a shady normalization hack.
+ </LI>
+<LI>  <tt>string = obj.GetNormalizationSchemeName (int scheme)</tt> -  This determines how (or if) the covariance matrix \a cov is normalized before PCA.
+
+ When set to NONE, no normalization is performed. This is the default.
+
+ When set to TRIANGLE_SPECIFIED, each entry cov(i,j) is divided by V(i,j).
+ The list V of normalization factors must be set using the SetNormalization method
+ before the filter is executed.
+
+ When set to DIAGONAL_SPECIFIED, each entry cov(i,j) is divided by sqrt(V(i)*V(j)).
+ The list V of normalization factors must be set using the SetNormalization method
+ before the filter is executed.
+
+ When set to DIAGONAL_VARIANCE, each entry cov(i,j) is divided by sqrt(cov(i,i)*cov(j,j)).
+ <b>Warning</b>: Although this is accepted practice in some fields,
+ some people think you should not turn this option on unless there
+ is a good physically-based reason for doing so. Much better instead
+ to determine how component magnitudes should be compared using
+ physical reasoning and use DIAGONAL_SPECIFIED, TRIANGLE_SPECIFIED, or
+ perform some pre-processing to shift and scale input data columns
+ appropriately than to expect magical results from a shady normalization hack.
+ </LI>
+<LI>  <tt>vtkTable = obj.GetSpecifiedNormalization ()</tt> -  These methods allow you to set/get values used to normalize the covariance matrix before PCA.
+ The normalization values apply to all requests, so you do not specify a single
+ vector but a 3-column table.
+
+ The first two columns contain the names of columns from input 0 and the third column contains
+ the value to normalize the corresponding entry in the covariance matrix.
+ The table must always have 3 columns even when the NormalizationScheme is DIAGONAL_SPECIFIED.
+ When only diagonal entries are to be used, only table rows where the first two columns are
+ identical to one another will be employed.
+ If there are multiple rows specifying different values for the same pair of columns,
+ the entry nearest the bottom of the table takes precedence.
+
+ These functions are actually convenience methods that set/get the third input of the filter.
+ Because the table is the third input, you may use other filters to produce a table of
+ normalizations and have the pipeline take care of updates.
+
+ Any missing entries will be set to 1.0 and a warning issued.
+ An error will occur if the third input to the filter is not set and the
+ NormalizationScheme is DIAGONAL_SPECIFIED or TRIANGLE_SPECIFIED.
+ </LI>
+<LI>  <tt>obj.SetSpecifiedNormalization (vtkTable )</tt> -  These methods allow you to set/get values used to normalize the covariance matrix before PCA.
+ The normalization values apply to all requests, so you do not specify a single
+ vector but a 3-column table.
+
+ The first two columns contain the names of columns from input 0 and the third column contains
+ the value to normalize the corresponding entry in the covariance matrix.
+ The table must always have 3 columns even when the NormalizationScheme is DIAGONAL_SPECIFIED.
+ When only diagonal entries are to be used, only table rows where the first two columns are
+ identical to one another will be employed.
+ If there are multiple rows specifying different values for the same pair of columns,
+ the entry nearest the bottom of the table takes precedence.
+
+ These functions are actually convenience methods that set/get the third input of the filter.
+ Because the table is the third input, you may use other filters to produce a table of
+ normalizations and have the pipeline take care of updates.
+
+ Any missing entries will be set to 1.0 and a warning issued.
+ An error will occur if the third input to the filter is not set and the
+ NormalizationScheme is DIAGONAL_SPECIFIED or TRIANGLE_SPECIFIED.
+ </LI>
+<LI>  <tt>obj.SetBasisScheme (int )</tt> -  This variable controls the dimensionality of output tuples in Assess mode.
+ Consider the case where you have requested a PCA on D columns.
+
+ When set to vtkPCAStatistics::FULL_BASIS, the entire set of basis vectors
+ is used to derive new coordinates for each tuple being assessed.
+ In this mode, you are guaranteed to have output tuples of the same dimension
+ as the input tuples. (That dimension is D, so there will be D additional
+ columns added to the table for the request.)
+
+ When set to vtkPCAStatistics::FIXED_BASIS_SIZE, only the first N basis vectors
+ are used to derive new coordinates for each tuple being assessed.
+ In this mode, you are guaranteed to have output tuples of dimension min(N,D).
+ You must set N prior to assessing data using the SetFixedBasisSize() method.
+ When N < D, this turns the PCA into a projection (instead of change of basis).
+
+ When set to vtkPCAStatistics::FIXED_BASIS_ENERGY, the number of basis vectors
+ used to derive new coordinates for each tuple will be the minimum number
+ of columns N that satisfy
+ \f[
+   \frac{\sum_{i=1}^{N} \lambda_i}{\sum_{i=1}^{D} \lambda_i} < T
+ \f]
+ You must set T prior to assessing data using the SetFixedBasisEnergy() method.
+ When T < 1, this turns the PCA into a projection (instead of change of basis).
+
+ By default BasisScheme is set to vtkPCAStatistics::FULL_BASIS.
+ </LI>
+<LI>  <tt>int = obj.GetBasisScheme ()</tt> -  This variable controls the dimensionality of output tuples in Assess mode.
+ Consider the case where you have requested a PCA on D columns.
+
+ When set to vtkPCAStatistics::FULL_BASIS, the entire set of basis vectors
+ is used to derive new coordinates for each tuple being assessed.
+ In this mode, you are guaranteed to have output tuples of the same dimension
+ as the input tuples. (That dimension is D, so there will be D additional
+ columns added to the table for the request.)
+
+ When set to vtkPCAStatistics::FIXED_BASIS_SIZE, only the first N basis vectors
+ are used to derive new coordinates for each tuple being assessed.
+ In this mode, you are guaranteed to have output tuples of dimension min(N,D).
+ You must set N prior to assessing data using the SetFixedBasisSize() method.
+ When N < D, this turns the PCA into a projection (instead of change of basis).
+
+ When set to vtkPCAStatistics::FIXED_BASIS_ENERGY, the number of basis vectors
+ used to derive new coordinates for each tuple will be the minimum number
+ of columns N that satisfy
+ \f[
+   \frac{\sum_{i=1}^{N} \lambda_i}{\sum_{i=1}^{D} \lambda_i} < T
+ \f]
+ You must set T prior to assessing data using the SetFixedBasisEnergy() method.
+ When T < 1, this turns the PCA into a projection (instead of change of basis).
+
+ By default BasisScheme is set to vtkPCAStatistics::FULL_BASIS.
+ </LI>
+<LI>  <tt>string = obj.GetBasisSchemeName (int schemeIndex)</tt> -  This variable controls the dimensionality of output tuples in Assess mode.
+ Consider the case where you have requested a PCA on D columns.
+
+ When set to vtkPCAStatistics::FULL_BASIS, the entire set of basis vectors
+ is used to derive new coordinates for each tuple being assessed.
+ In this mode, you are guaranteed to have output tuples of the same dimension
+ as the input tuples. (That dimension is D, so there will be D additional
+ columns added to the table for the request.)
+
+ When set to vtkPCAStatistics::FIXED_BASIS_SIZE, only the first N basis vectors
+ are used to derive new coordinates for each tuple being assessed.
+ In this mode, you are guaranteed to have output tuples of dimension min(N,D).
+ You must set N prior to assessing data using the SetFixedBasisSize() method.
+ When N < D, this turns the PCA into a projection (instead of change of basis).
+
+ When set to vtkPCAStatistics::FIXED_BASIS_ENERGY, the number of basis vectors
+ used to derive new coordinates for each tuple will be the minimum number
+ of columns N that satisfy
+ \f[
+   \frac{\sum_{i=1}^{N} \lambda_i}{\sum_{i=1}^{D} \lambda_i} < T
+ \f]
+ You must set T prior to assessing data using the SetFixedBasisEnergy() method.
+ When T < 1, this turns the PCA into a projection (instead of change of basis).
+
+ By default BasisScheme is set to vtkPCAStatistics::FULL_BASIS.
+ </LI>
+<LI>  <tt>obj.SetBasisSchemeByName (string schemeName)</tt> -  This variable controls the dimensionality of output tuples in Assess mode.
+ Consider the case where you have requested a PCA on D columns.
+
+ When set to vtkPCAStatistics::FULL_BASIS, the entire set of basis vectors
+ is used to derive new coordinates for each tuple being assessed.
+ In this mode, you are guaranteed to have output tuples of the same dimension
+ as the input tuples. (That dimension is D, so there will be D additional
+ columns added to the table for the request.)
+
+ When set to vtkPCAStatistics::FIXED_BASIS_SIZE, only the first N basis vectors
+ are used to derive new coordinates for each tuple being assessed.
+ In this mode, you are guaranteed to have output tuples of dimension min(N,D).
+ You must set N prior to assessing data using the SetFixedBasisSize() method.
+ When N < D, this turns the PCA into a projection (instead of change of basis).
+
+ When set to vtkPCAStatistics::FIXED_BASIS_ENERGY, the number of basis vectors
+ used to derive new coordinates for each tuple will be the minimum number
+ of columns N that satisfy
+ \f[
+   \frac{\sum_{i=1}^{N} \lambda_i}{\sum_{i=1}^{D} \lambda_i} < T
+ \f]
+ You must set T prior to assessing data using the SetFixedBasisEnergy() method.
+ When T < 1, this turns the PCA into a projection (instead of change of basis).
+
+ By default BasisScheme is set to vtkPCAStatistics::FULL_BASIS.
+ </LI>
+<LI>  <tt>obj.SetFixedBasisSize (int )</tt> -  The number of basis vectors to use. See SetBasisScheme() for more information.
+ When FixedBasisSize <= 0 (the default), the fixed basis size scheme is equivalent to the full basis scheme.
+ </LI>
+<LI>  <tt>int = obj.GetFixedBasisSize ()</tt> -  The number of basis vectors to use. See SetBasisScheme() for more information.
+ When FixedBasisSize <= 0 (the default), the fixed basis size scheme is equivalent to the full basis scheme.
+ </LI>
+<LI>  <tt>obj.SetFixedBasisEnergy (double )</tt> -  The minimum energy the new basis should use, as a fraction. See SetBasisScheme() for more information.
+ When FixedBasisEnergy >= 1 (the default), the fixed basis energy scheme is equivalent to the full basis scheme.
+ </LI>
+<LI>  <tt>double = obj.GetFixedBasisEnergyMinValue ()</tt> -  The minimum energy the new basis should use, as a fraction. See SetBasisScheme() for more information.
+ When FixedBasisEnergy >= 1 (the default), the fixed basis energy scheme is equivalent to the full basis scheme.
+ </LI>
+<LI>  <tt>double = obj.GetFixedBasisEnergyMaxValue ()</tt> -  The minimum energy the new basis should use, as a fraction. See SetBasisScheme() for more information.
+ When FixedBasisEnergy >= 1 (the default), the fixed basis energy scheme is equivalent to the full basis scheme.
+ </LI>
+<LI>  <tt>double = obj.GetFixedBasisEnergy ()</tt> -  The minimum energy the new basis should use, as a fraction. See SetBasisScheme() for more information.
+ When FixedBasisEnergy >= 1 (the default), the fixed basis energy scheme is equivalent to the full basis scheme.
+ </LI>
+</UL>
+*/

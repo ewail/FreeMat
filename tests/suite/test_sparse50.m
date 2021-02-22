@@ -1,0 +1,10 @@
+function x = test_sparse50
+a = rand(200,100);
+b = rand(100,300);
+a(a>0.1) = 0;
+b(b>0.1) = 0;
+c = a*b;
+A = sparse(a);
+B = sparse(b);
+C = A*B;
+x = testeq(c,C);

@@ -1,0 +1,116 @@
+/*!
+\page handle_contour CONTOUR Contour Plot Function
+
+<p>
+Section: \ref sec_handle "Handle-Based Graphics"
+\section Usage
+This command generates contour plots.  There are several syntaxes for
+the command.  The simplest is
+\verbatim
+  contour(Z)
+\endverbatim
+which generates a contour plot of the data in matrix <tt>Z</tt>, and will
+automatically select the contour levels.  The <tt>x,y</tt> coordinates of the
+contour default to <tt>1:n</tt> and <tt>1:m</tt>, where <tt>n</tt> is the number of
+columns and <tt>m</tt> is the number of rows in the <tt>Z</tt> matrix.  Alternately,
+you can specify a scalar <tt>n</tt>
+\verbatim
+  contour(Z,n)
+\endverbatim
+which indicates that you want <tt>n</tt> contour levels.  For more control,
+you can provide a vector <tt>v</tt> containing the levels to contour.  If you
+want to generate a contour for a particular level, you must pass a
+vector <tt>[t,t]</tt> where <tt>t</tt> is the level you want to contour.  If you
+have data that lies on a particular <tt>X,Y</tt> grid, you can pass either
+vectors <tt>x,y</tt> or matrices <tt>X,Y</tt> to the contour function via
+\verbatim
+  contour(X,Y,Z)
+  contour(X,Y,Z,n)
+  contour(X,Y,Z,v)
+\endverbatim
+Each form of <tt>contour</tt> can optionally take a line spec to indicate the
+color and linestyle of the contours to draw:
+\verbatim
+  contour(...,linespec)
+\endverbatim
+or any of the other forms of <tt>contour</tt>.  Furthermore, you can supply an
+axis to target the <tt>contour</tt> plot to (so that it does not get added to
+the current axis, which is the default):
+\verbatim
+  contour(axis_handle,...)
+\endverbatim
+Finally, the <tt>contour</tt> command returns a handle to the newly returned
+contour plot. 
+\verbatim
+  handle = contour(...)
+\endverbatim
+To place labels on the contour plot, use the <tt>clabel</tt> function.
+\section Example
+Here is a simple example of a contour plot with the default <tt>x,y</tt>
+coordinates:
+
+\if FRAGMENT
+frag_handle_contour_000.m
+0
+[x,y] = meshgrid(linspace(-1,1,25),linspace(-2,2,30));
+z = x.*exp(-x.^2-y.^2);
+contour(z)
+mprint contour1
+\endif
+
+
+\verbinclude frag_handle_contour_000.m.out 
+
+which results in the following plot
+\image html contour1.png
+\image latex contour1.eps "contour1" width=12cm
+Here, we specify the <tt>x</tt> and <tt>y</tt> coordinates explictly
+
+\if FRAGMENT
+frag_handle_contour_001.m
+0
+contour(x,y,z)
+mprint contour2
+\endif
+
+
+\verbinclude frag_handle_contour_001.m.out 
+
+note that the axis limits have changed appropriately
+\image html contour2.png
+\image latex contour2.eps "contour2" width=12cm
+By default, contours are created at values selected by FreeMat.  To
+provide our own set of contour values (asymmetrically about zero in this
+case), we supply them as
+
+\if FRAGMENT
+frag_handle_contour_002.m
+0
+contour(x,y,z,[-.4,0.,3])
+mprint contour3
+\endif
+
+
+\verbinclude frag_handle_contour_002.m.out 
+
+which is here
+\image html contour3.png
+\image latex contour3.eps "contour3" width=12cm
+Also be default, <tt>contour</tt> uses the current color map and <tt>clim</tt>
+limits to determine the coloring of the contours.  Here, we override the
+color spec so that we have all black contour
+
+\if FRAGMENT
+frag_handle_contour_003.m
+0
+contour(x,y,z,'b-')
+mprint contour4
+\endif
+
+
+\verbinclude frag_handle_contour_003.m.out 
+
+which is here
+\image html contour4.png
+\image latex contour4.eps "contour4" width=12cm
+*/

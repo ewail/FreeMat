@@ -1,0 +1,86 @@
+
+ Usage
+
+Computes the singular value decomposition (SVD) of a matrix.
+The svd function has three forms. The first returns only the
+singular values of the matrix:
+
+    s = svd(A)
+
+The second form returns both the singular values in a
+diagonal matrix S, as well as the left and right
+eigenvectors.
+
+    [U,S,V] = svd(A)
+
+The third form returns a more compact decomposition, with
+the left and right singular vectors corresponding to zero
+singular values being eliminated. The syntax is
+
+    [U,S,V] = svd(A,0)
+
+
+
+ Internals
+
+Recall that sigma_i is a singular value of an M x N matrix A
+if there exists two vectors u_i, v_i where u_i is of length
+M, and v_i is of length u_i and
+ \[ A v_i = \sigma_i u_i \]
+and generally
+ \[ A = \sum_{i=1}^{K} \sigma_i u_i*v_i', \]
+where K is the rank of A. In matrix form, the left singular
+vectors u_i are stored in the matrix U as
+ \[ U = [u_1,\ldots,u_m], V = [v_1,\ldots,v_n] \]
+The matrix S is then of size M x N with the singular values
+along the diagonal. The SVD is computed using the LAPACK
+class of functions GESVD (Note that this has changed.
+Previous versions of FreeMat used GESDD, which yields a
+valid, but slightly different choice of the decomposition.
+Starting in version 4, it was changed to GESVD to improve
+compatibility.
+
+
+ Examples
+
+Here is an example of a partial and complete singular value
+decomposition.
+
+  --> A = float(randn(2,3))
+
+  A =
+      0.1962   -1.7828   -1.0621
+     -0.6022   -0.6335    0.5810
+
+  --> [U,S,V] = svd(A)
+  U =
+     -0.9929   -0.1189
+     -0.1189    0.9929
+
+  S =
+      2.0957         0         0
+           0    1.0268         0
+
+  V =
+     -0.0588   -0.6051    0.7940
+      0.8806   -0.4061   -0.2443
+      0.4702    0.6848    0.5567
+
+  --> U*S*V'
+
+  ans =
+      0.1962   -1.7828   -1.0621
+     -0.6022   -0.6335    0.5810
+
+  --> svd(A)
+
+  ans =
+      2.0957
+      1.0268
+
+
+* FreeMat_Documentation
+* Transforms/Decompositions
+* Generated on Thu Jul 25 2013 17:18:29 for FreeMat by
+  doxygen_ 1.8.1.1
+

@@ -1,0 +1,128 @@
+/*!
+\page vtkgraphics_vtkunstructuredgridgeometryfilter vtkUnstructuredGridGeometryFilter
+
+<p>
+Section: \ref sec_vtkgraphics "Visualization Toolkit Graphics Classes"
+\section Usage
+ vtkUnstructuredGridGeometryFilter is a filter that extracts
+ geometry (and associated data) from an unstructured grid. It differs from
+ vtkGeometryFilter by not tessellating higher order faces: 2D faces of
+ quadratic 3D cells will be quadratic. A quadratic edge is extracted as a
+ quadratic edge. For that purpose, the output of this filter is an
+ unstructured grid, not a polydata.
+ Also, the face of a voxel is a pixel, not a quad.
+ Geometry is obtained as follows: all 0D, 1D, and 2D cells are extracted.
+ All 2D faces that are used by only one 3D cell (i.e., boundary faces) are
+ extracted. It also is possible to specify conditions on point ids, cell ids,
+ and on bounding box (referred to as "Extent") to control the extraction
+ process.
+
+
+To create an instance of class vtkUnstructuredGridGeometryFilter, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkUnstructuredGridGeometryFilter
+\endverbatim
+\section Methods
+The class vtkUnstructuredGridGeometryFilter has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkUnstructuredGridGeometryFilter class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkUnstructuredGridGeometryFilter = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkUnstructuredGridGeometryFilter = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetPointClipping (int )</tt> -  Turn on/off selection of geometry by point id.
+ </LI>
+<LI>  <tt>int = obj.GetPointClipping ()</tt> -  Turn on/off selection of geometry by point id.
+ </LI>
+<LI>  <tt>obj.PointClippingOn ()</tt> -  Turn on/off selection of geometry by point id.
+ </LI>
+<LI>  <tt>obj.PointClippingOff ()</tt> -  Turn on/off selection of geometry by point id.
+ </LI>
+<LI>  <tt>obj.SetCellClipping (int )</tt> -  Turn on/off selection of geometry by cell id.
+ </LI>
+<LI>  <tt>int = obj.GetCellClipping ()</tt> -  Turn on/off selection of geometry by cell id.
+ </LI>
+<LI>  <tt>obj.CellClippingOn ()</tt> -  Turn on/off selection of geometry by cell id.
+ </LI>
+<LI>  <tt>obj.CellClippingOff ()</tt> -  Turn on/off selection of geometry by cell id.
+ </LI>
+<LI>  <tt>obj.SetExtentClipping (int )</tt> -  Turn on/off selection of geometry via bounding box.
+ </LI>
+<LI>  <tt>int = obj.GetExtentClipping ()</tt> -  Turn on/off selection of geometry via bounding box.
+ </LI>
+<LI>  <tt>obj.ExtentClippingOn ()</tt> -  Turn on/off selection of geometry via bounding box.
+ </LI>
+<LI>  <tt>obj.ExtentClippingOff ()</tt> -  Turn on/off selection of geometry via bounding box.
+ </LI>
+<LI>  <tt>obj.SetPointMinimum (vtkIdType )</tt> -  Specify the minimum point id for point id selection.
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetPointMinimumMinValue ()</tt> -  Specify the minimum point id for point id selection.
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetPointMinimumMaxValue ()</tt> -  Specify the minimum point id for point id selection.
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetPointMinimum ()</tt> -  Specify the minimum point id for point id selection.
+ </LI>
+<LI>  <tt>obj.SetPointMaximum (vtkIdType )</tt> -  Specify the maximum point id for point id selection.
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetPointMaximumMinValue ()</tt> -  Specify the maximum point id for point id selection.
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetPointMaximumMaxValue ()</tt> -  Specify the maximum point id for point id selection.
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetPointMaximum ()</tt> -  Specify the maximum point id for point id selection.
+ </LI>
+<LI>  <tt>obj.SetCellMinimum (vtkIdType )</tt> -  Specify the minimum cell id for point id selection.
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetCellMinimumMinValue ()</tt> -  Specify the minimum cell id for point id selection.
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetCellMinimumMaxValue ()</tt> -  Specify the minimum cell id for point id selection.
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetCellMinimum ()</tt> -  Specify the minimum cell id for point id selection.
+ </LI>
+<LI>  <tt>obj.SetCellMaximum (vtkIdType )</tt> -  Specify the maximum cell id for point id selection.
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetCellMaximumMinValue ()</tt> -  Specify the maximum cell id for point id selection.
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetCellMaximumMaxValue ()</tt> -  Specify the maximum cell id for point id selection.
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetCellMaximum ()</tt> -  Specify the maximum cell id for point id selection.
+ </LI>
+<LI>  <tt>obj.SetExtent (double xMin, double xMax, double yMin, double yMax, double zMin, double zMax)</tt> -  Specify a (xmin,xmax, ymin,ymax, zmin,zmax) bounding box to clip data.
+ </LI>
+<LI>  <tt>obj.SetExtent (double extent[6])</tt> -  Set / get a (xmin,xmax, ymin,ymax, zmin,zmax) bounding box to clip data.
+ </LI>
+<LI>  <tt>obj.SetMerging (int )</tt> -  Turn on/off merging of coincident points. Note that is merging is
+ on, points with different point attributes (e.g., normals) are merged,
+ which may cause rendering artifacts.
+ </LI>
+<LI>  <tt>int = obj.GetMerging ()</tt> -  Turn on/off merging of coincident points. Note that is merging is
+ on, points with different point attributes (e.g., normals) are merged,
+ which may cause rendering artifacts.
+ </LI>
+<LI>  <tt>obj.MergingOn ()</tt> -  Turn on/off merging of coincident points. Note that is merging is
+ on, points with different point attributes (e.g., normals) are merged,
+ which may cause rendering artifacts.
+ </LI>
+<LI>  <tt>obj.MergingOff ()</tt> -  Turn on/off merging of coincident points. Note that is merging is
+ on, points with different point attributes (e.g., normals) are merged,
+ which may cause rendering artifacts.
+ </LI>
+<LI>  <tt>obj.SetLocator (vtkIncrementalPointLocator locator)</tt> -  Set / get a spatial locator for merging points. By
+ default an instance of vtkMergePoints is used.
+ </LI>
+<LI>  <tt>vtkIncrementalPointLocator = obj.GetLocator ()</tt> -  Set / get a spatial locator for merging points. By
+ default an instance of vtkMergePoints is used.
+ </LI>
+<LI>  <tt>obj.CreateDefaultLocator ()</tt> -  Create default locator. Used to create one when none is specified.
+ </LI>
+<LI>  <tt>long = obj.GetMTime ()</tt> -  Return the MTime also considering the locator.
+ </LI>
+</UL>
+*/

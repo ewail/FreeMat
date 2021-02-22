@@ -1,0 +1,96 @@
+
+ Usage
+
+The abstract superclass of query classes that return row-
+oriented (table) results. A subclass will provide database-
+specific query parameters and implement the vtkRowQuery API
+to return query results:
+Execute() - Execute the query. No results need to be
+retrieved at this point, unless you are performing caching.
+GetNumberOfFields() - After Execute() is performed, returns
+the number of fields in the query results.
+GetFieldName() - The name of the field at an index.
+GetFieldType() - The data type of the field at an index.
+NextRow() - Advances the query results by one row, and
+returns whether there are more rows left in the query.
+DataValue() - Extract a single data value from the current
+row.
+.SECTION Thanks Thanks to Andrew Wilson from Sandia National
+Laboratories for his work on the database classes.
+To create an instance of class vtkRowQuery, simply invoke
+its constructor as follows
+
+    obj = vtkRowQuery
+
+
+
+ Methods
+
+The class vtkRowQuery has several methods that can be used.
+They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkRowQuery class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkRowQuery = obj.NewInstance ()
+* vtkRowQuery = obj.SafeDownCast (vtkObject o)
+* bool = obj.Execute () - Execute the query. This must be
+  performed before any field name or data access functions
+  are used.
+* int = obj.GetNumberOfFields () - The number of fields in
+  the query result.
+* string = obj.GetFieldName (int i) - Return the name of the
+  specified query field.
+* int = obj.GetFieldType (int i) - Return the type of the
+  field, using the constants defined in vtkType.h.
+* int = obj.GetFieldIndex (string name) - Return the index
+  of the specified query field. Uses GetNumberOfFields() and
+  GetFieldName() to match field name.
+* bool = obj.NextRow () - Advance row, return false if past
+  end.
+* bool = obj.IsActive () - Return true if the query is
+  active (i.e. execution was successful and results are
+  ready to be fetched). Returns false on error or inactive
+  query.
+* bool = obj.HasError () - Returns true if an error is set,
+  otherwise false.
+* string = obj.GetLastErrorText () - Get the last error text
+  from the query
+* obj.SetCaseSensitiveFieldNames (bool ) - Many databases do
+  not preserve case in field names. This can cause
+  GetFieldIndex to fail if you search for a field named
+  someFieldName when the database actually stores it as
+  SOMEFIELDNAME. This ivar controls whether GetFieldIndex()
+  expects field names to be case-sensitive. The default is
+  OFF, i.e. case is not preserved.
+* bool = obj.GetCaseSensitiveFieldNames () - Many databases
+  do not preserve case in field names. This can cause
+  GetFieldIndex to fail if you search for a field named
+  someFieldName when the database actually stores it as
+  SOMEFIELDNAME. This ivar controls whether GetFieldIndex()
+  expects field names to be case-sensitive. The default is
+  OFF, i.e. case is not preserved.
+* obj.CaseSensitiveFieldNamesOn () - Many databases do not
+  preserve case in field names. This can cause GetFieldIndex
+  to fail if you search for a field named someFieldName when
+  the database actually stores it as SOMEFIELDNAME. This
+  ivar controls whether GetFieldIndex() expects field names
+  to be case-sensitive. The default is OFF, i.e. case is not
+  preserved.
+* obj.CaseSensitiveFieldNamesOff () - Many databases do not
+  preserve case in field names. This can cause GetFieldIndex
+  to fail if you search for a field named someFieldName when
+  the database actually stores it as SOMEFIELDNAME. This
+  ivar controls whether GetFieldIndex() expects field names
+  to be case-sensitive. The default is OFF, i.e. case is not
+  preserved.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_IO_Classes
+* Generated on Thu Jul 25 2013 17:18:34 for FreeMat by
+  doxygen_ 1.8.1.1
+

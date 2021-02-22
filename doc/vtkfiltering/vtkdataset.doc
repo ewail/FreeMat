@@ -1,0 +1,206 @@
+/*!
+\page vtkfiltering_vtkdataset vtkDataSet
+
+<p>
+Section: \ref sec_vtkfiltering "Visualization Toolkit Filtering Classes"
+\section Usage
+ vtkDataSet is an abstract class that specifies an interface for dataset
+ objects. vtkDataSet also provides methods to provide informations about
+ the data, such as center, bounding box, and representative length.
+
+ In vtk a dataset consists of a structure (geometry and topology) and 
+ attribute data. The structure is defined implicitly or explicitly as
+ a collection of cells. The geometry of the structure is contained in
+ point coordinates plus the cell interpolation functions. The topology
+ of the dataset structure is defined by cell types and how the cells
+ share their defining points. 
+
+ Attribute data in vtk is either point data (data at points) or cell data
+ (data at cells). Typically filters operate on point data, but some may
+ operate on cell data, both cell and point data, either one, or none.
+
+To create an instance of class vtkDataSet, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkDataSet
+\endverbatim
+\section Methods
+The class vtkDataSet has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkDataSet class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkDataSet = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkDataSet = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.CopyStructure (vtkDataSet ds)</tt> -  Copy the geometric and topological structure of an object. Note that
+ the invoking object and the object pointed to by the parameter ds must
+ be of the same type.
+ THIS METHOD IS NOT THREAD SAFE.
+ </LI>
+<LI>  <tt>obj.CopyAttributes (vtkDataSet ds)</tt> -  Copy the attributes associated with the specified dataset to this
+ instance of vtkDataSet.
+ THIS METHOD IS NOT THREAD SAFE.
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetNumberOfPoints ()</tt> -  Determine the number of points composing the dataset.
+ THIS METHOD IS THREAD SAFE
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetNumberOfCells ()</tt> -  Determine the number of cells composing the dataset.
+ THIS METHOD IS THREAD SAFE
+ </LI>
+<LI>  <tt>double = obj.GetPoint (vtkIdType ptId)</tt> -  Get point coordinates with ptId such that: 0 <= ptId < NumberOfPoints.
+ THIS METHOD IS NOT THREAD SAFE.
+ </LI>
+<LI>  <tt>obj.GetPoint (vtkIdType id, double x[3])</tt> -  Copy point coordinates into user provided array x[3] for specified
+ point id.
+ THIS METHOD IS THREAD SAFE IF FIRST CALLED FROM A SINGLE THREAD AND
+ THE DATASET IS NOT MODIFIED
+ </LI>
+<LI>  <tt>vtkCell = obj.GetCell (vtkIdType cellId)</tt> -  Get cell with cellId such that: 0 <= cellId < NumberOfCells.
+ THIS METHOD IS NOT THREAD SAFE.
+ </LI>
+<LI>  <tt>obj.GetCell (vtkIdType cellId, vtkGenericCell cell)</tt> -  Get cell with cellId such that: 0 <= cellId < NumberOfCells. 
+ This is a thread-safe alternative to the previous GetCell()
+ method.
+ THIS METHOD IS THREAD SAFE IF FIRST CALLED FROM A SINGLE THREAD AND
+ THE DATASET IS NOT MODIFIED
+ </LI>
+<LI>  <tt>obj.GetCellBounds (vtkIdType cellId, double bounds[6])</tt> -  Get the bounds of the cell with cellId such that:
+     0 <= cellId < NumberOfCells.
+ A subclass may be able to determine the bounds of cell without using
+ an expensive GetCell() method. A default implementation is provided
+ that actually uses a GetCell() call.  This is to ensure the method
+ is available to all datasets.  Subclasses should override this method
+ to provide an efficient implementation.
+ THIS METHOD IS THREAD SAFE IF FIRST CALLED FROM A SINGLE THREAD AND
+ THE DATASET IS NOT MODIFIED
+ </LI>
+<LI>  <tt>int = obj.GetCellType (vtkIdType cellId)</tt> -  Get type of cell with cellId such that: 0 <= cellId < NumberOfCells.
+ THIS METHOD IS THREAD SAFE IF FIRST CALLED FROM A SINGLE THREAD AND
+ THE DATASET IS NOT MODIFIED
+ </LI>
+<LI>  <tt>obj.GetCellTypes (vtkCellTypes types)</tt> -  Get a list of types of cells in a dataset. The list consists of an array
+ of types (not necessarily in any order), with a single entry per type.
+ For example a dataset 5 triangles, 3 lines, and 100 hexahedra would
+ result a list of three entries, corresponding to the types VTK_TRIANGLE,
+ VTK_LINE, and VTK_HEXAHEDRON.
+ THIS METHOD IS THREAD SAFE IF FIRST CALLED FROM A SINGLE THREAD AND
+ THE DATASET IS NOT MODIFIED
+ </LI>
+<LI>  <tt>obj.GetCellPoints (vtkIdType cellId, vtkIdList ptIds)</tt> -  Topological inquiry to get points defining cell.
+ THIS METHOD IS THREAD SAFE IF FIRST CALLED FROM A SINGLE THREAD AND
+ THE DATASET IS NOT MODIFIED
+ </LI>
+<LI>  <tt>obj.GetPointCells (vtkIdType ptId, vtkIdList cellIds)</tt> -  Topological inquiry to get cells using point.
+ THIS METHOD IS THREAD SAFE IF FIRST CALLED FROM A SINGLE THREAD AND
+ THE DATASET IS NOT MODIFIED
+ </LI>
+<LI>  <tt>obj.GetCellNeighbors (vtkIdType cellId, vtkIdList ptIds, vtkIdList cellIds)</tt> -  Topological inquiry to get all cells using list of points exclusive of
+ cell specified (e.g., cellId). Note that the list consists of only
+ cells that use ALL the points provided.
+ THIS METHOD IS THREAD SAFE IF FIRST CALLED FROM A SINGLE THREAD AND
+ THE DATASET IS NOT MODIFIED
+ </LI>
+<LI>  <tt>vtkIdType = obj.FindPoint (double x, double y, double z)</tt> -  Locate the closest point to the global coordinate x. Return the
+ point id. If point id < 0; then no point found. (This may arise
+ when point is outside of dataset.)
+ THIS METHOD IS THREAD SAFE IF FIRST CALLED FROM A SINGLE THREAD AND
+ THE DATASET IS NOT MODIFIED
+ </LI>
+<LI>  <tt>vtkIdType = obj.FindPoint (double x[3])</tt> -  Locate the closest point to the global coordinate x. Return the
+ point id. If point id < 0; then no point found. (This may arise
+ when point is outside of dataset.)
+ THIS METHOD IS THREAD SAFE IF FIRST CALLED FROM A SINGLE THREAD AND
+ THE DATASET IS NOT MODIFIED
+ </LI>
+<LI>  <tt>long = obj.GetMTime ()</tt> -  Datasets are composite objects and need to check each part for MTime
+ THIS METHOD IS THREAD SAFE
+ </LI>
+<LI>  <tt>vtkCellData = obj.GetCellData ()</tt> -  Return a pointer to this dataset's cell data.
+ THIS METHOD IS THREAD SAFE
+ </LI>
+<LI>  <tt>vtkPointData = obj.GetPointData ()</tt> -  Return a pointer to this dataset's point data.
+ THIS METHOD IS THREAD SAFE
+ </LI>
+<LI>  <tt>obj.Squeeze ()</tt> -  Reclaim any extra memory used to store data.
+ THIS METHOD IS NOT THREAD SAFE.
+ </LI>
+<LI>  <tt>obj.ComputeBounds ()</tt> -  Compute the data bounding box from data points.
+ THIS METHOD IS NOT THREAD SAFE.
+ </LI>
+<LI>  <tt>double = obj.GetBounds ()</tt> -  Return a pointer to the geometry bounding box in the form
+ (xmin,xmax, ymin,ymax, zmin,zmax).
+ THIS METHOD IS NOT THREAD SAFE.
+ </LI>
+<LI>  <tt>obj.GetBounds (double bounds[6])</tt> -  Return a pointer to the geometry bounding box in the form
+ (xmin,xmax, ymin,ymax, zmin,zmax).
+ THIS METHOD IS THREAD SAFE IF FIRST CALLED FROM A SINGLE THREAD AND
+ THE DATASET IS NOT MODIFIED
+ </LI>
+<LI>  <tt>double = obj.GetCenter ()</tt> -  Get the center of the bounding box.
+ THIS METHOD IS NOT THREAD SAFE.
+ </LI>
+<LI>  <tt>obj.GetCenter (double center[3])</tt> -  Get the center of the bounding box.
+ THIS METHOD IS THREAD SAFE IF FIRST CALLED FROM A SINGLE THREAD AND
+ THE DATASET IS NOT MODIFIED
+ </LI>
+<LI>  <tt>double = obj.GetLength ()</tt> -  Return the length of the diagonal of the bounding box.
+ THIS METHOD IS THREAD SAFE IF FIRST CALLED FROM A SINGLE THREAD AND
+ THE DATASET IS NOT MODIFIED
+ </LI>
+<LI>  <tt>obj.Initialize ()</tt> -  Restore data object to initial state,
+ THIS METHOD IS NOT THREAD SAFE.
+ </LI>
+<LI>  <tt>obj.GetScalarRange (double range[2])</tt> -  Convenience method to get the range of the scalar data (if there is any 
+ scalar data). Returns the (min/max) range of combined point and cell data.
+ If there are no point or cell scalars the method will return (0,1).
+ Note: Update needs to be called to create the scalars.
+ THIS METHOD IS THREAD SAFE IF FIRST CALLED FROM A SINGLE THREAD AND
+ THE DATASET IS NOT MODIFIED
+ </LI>
+<LI>  <tt>double = obj.GetScalarRange ()</tt> -  Convenience method to get the range of the scalar data (if there is any 
+ scalar data). 
+ THIS METHOD IS NOT THREAD SAFE.
+ </LI>
+<LI>  <tt>int = obj.GetMaxCellSize ()</tt> -  Convenience method returns largest cell size in dataset. This is generally
+ used to allocate memory for supporting data structures.
+ THIS METHOD IS THREAD SAFE
+ </LI>
+<LI>  <tt>long = obj.GetActualMemorySize ()</tt> -  Return the actual size of the data in kilobytes. This number
+ is valid only after the pipeline has updated. The memory size
+ returned is guaranteed to be greater than or equal to the
+ memory required to represent the data (e.g., extra space in
+ arrays, etc. are not included in the return value). THIS METHOD
+ IS THREAD SAFE.
+ </LI>
+<LI>  <tt>int = obj.GetDataObjectType ()</tt> -  Shallow and Deep copy.
+ </LI>
+<LI>  <tt>obj.ShallowCopy (vtkDataObject src)</tt> -  Shallow and Deep copy.
+ </LI>
+<LI>  <tt>obj.DeepCopy (vtkDataObject src)</tt> -  Shallow and Deep copy.
+ </LI>
+<LI>  <tt>int = obj.CheckAttributes ()</tt> -  This method checks to see if the cell and point attributes
+ match the geometry.  Many filters will crash if the number of
+ tupples in an array is less than the number of points/cells.
+ This method returns 1 if there is a mismatch,
+ and 0 if everything is ok.  It prints an error if an
+ array is too short, and a warning if an array is too long.
+ </LI>
+<LI>  <tt>obj.GenerateGhostLevelArray ()</tt> -  Normally called by pipeline executives or algoritgms only. This method
+ computes the ghost arrays for a given dataset.
+ </LI>
+<LI>  <tt>vtkFieldData = obj.GetAttributesAsFieldData (int type)</tt> -  Returns the attributes of the data object as a vtkFieldData.
+ This returns non-null values in all the same cases as GetAttributes,
+ in addition to the case of FIELD, which will return the field data
+ for any vtkDataObject subclass.
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetNumberOfElements (int type)</tt> -  Get the number of elements for a specific attribute type (POINT, CELL, etc.).
+ </LI>
+</UL>
+*/

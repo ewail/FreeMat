@@ -1,0 +1,56 @@
+/*!
+\page handle_clabel CLABEL Add Labels To Contour Plot
+
+<p>
+Section: \ref sec_handle "Handle-Based Graphics"
+\section Usage
+The <tt>clabel</tt> function adds labels to a contour plot
+Generate contour labels for a contour plot.  The syntax
+for its use is either:
+\verbatim
+   handles = clabel(contourhandle,property,value,property,value,...)
+\endverbatim
+which labels all of the contours in the plot, or
+\verbatim
+   handles = clabel(contourhandle,vals,property,value,property,value,...)
+\endverbatim
+which only labels those contours indicated by the vector <tt>vals</tt>.
+The <tt>contourhandle</tt> must be the handle to a contour plot object.
+The remaining property/value pairs are passed to the <tt>text</tt> function
+to control the parameters of the generated text labels.  See the 
+<tt>text properties</tt> for the details on what can be used in those labels.
+\section Example
+
+\if FRAGMENT
+frag_handle_clabel_000.m
+0
+[x,y] = meshgrid(linspace(-1,1,50));
+z = x.*exp(-(x.^2+y.^2));
+h = contour(z);
+clabel(h,'backgroundcolor',[1,1,.6],'edgecolor',[.7,.7,.7]);
+mprint clabel1
+\endif
+
+
+\verbinclude frag_handle_clabel_000.m.out 
+
+which results in
+\image html clabel1.png
+\image latex clabel1.eps "clabel1" width=12cm
+Alternately, we can just label a subset of the contours
+
+\if FRAGMENT
+frag_handle_clabel_001.m
+0
+h = contour(z);
+clabel(h,[-.2,0,.3]);
+mprint clabel2
+\endif
+
+
+\verbinclude frag_handle_clabel_001.m.out 
+
+which results in
+\image html clabel2.png
+\image latex clabel2.eps "clabel2" width=12cm
+*/

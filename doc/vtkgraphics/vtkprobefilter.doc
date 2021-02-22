@@ -1,0 +1,102 @@
+/*!
+\page vtkgraphics_vtkprobefilter vtkProbeFilter
+
+<p>
+Section: \ref sec_vtkgraphics "Visualization Toolkit Graphics Classes"
+\section Usage
+ vtkProbeFilter is a filter that computes point attributes (e.g., scalars,
+ vectors, etc.) at specified point positions. The filter has two inputs:
+ the Input and Source. The Input geometric structure is passed through the
+ filter. The point attributes are computed at the Input point positions
+ by interpolating into the source data. For example, we can compute data
+ values on a plane (plane specified as Input) from a volume (Source).
+ The cell data of the source data is copied to the output based on in
+ which source cell each input point is. If an array of the same name exists
+ both in source's point and cell data, only the one from the point data is
+ probed.
+
+ This filter can be used to resample data, or convert one dataset form into
+ another. For example, an unstructured grid (vtkUnstructuredGrid) can be
+ probed with a volume (three-dimensional vtkImageData), and then volume
+ rendering techniques can be used to visualize the results. Another example:
+ a line or curve can be used to probe data to produce x-y plots along
+ that line or curve.
+
+To create an instance of class vtkProbeFilter, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkProbeFilter
+\endverbatim
+\section Methods
+The class vtkProbeFilter has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkProbeFilter class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkProbeFilter = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkProbeFilter = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetSource (vtkDataObject source)</tt> -  Specify the point locations used to probe input. Any geometry
+ can be used. Old style. Do not use unless for backwards compatibility.
+ </LI>
+<LI>  <tt>vtkDataObject = obj.GetSource ()</tt> -  Specify the point locations used to probe input. Any geometry
+ can be used. Old style. Do not use unless for backwards compatibility.
+ </LI>
+<LI>  <tt>obj.SetSourceConnection (vtkAlgorithmOutput algOutput)</tt> -  Specify the point locations used to probe input. Any geometry
+ can be used. New style. Equivalent to SetInputConnection(1, algOutput).
+ </LI>
+<LI>  <tt>obj.SetSpatialMatch (int )</tt> -  This flag is used only when a piece is requested to update.  By default
+ the flag is off.  Because no spatial correspondence between input pieces
+ and source pieces is known, all of the source has to be requested no
+ matter what piece of the output is requested.  When there is a spatial 
+ correspondence, the user/application can set this flag.  This hint allows
+ the breakup of the probe operation to be much more efficient.  When piece
+ m of n is requested for update by the user, then only n of m needs to
+ be requested of the source. 
+ </LI>
+<LI>  <tt>int = obj.GetSpatialMatch ()</tt> -  This flag is used only when a piece is requested to update.  By default
+ the flag is off.  Because no spatial correspondence between input pieces
+ and source pieces is known, all of the source has to be requested no
+ matter what piece of the output is requested.  When there is a spatial 
+ correspondence, the user/application can set this flag.  This hint allows
+ the breakup of the probe operation to be much more efficient.  When piece
+ m of n is requested for update by the user, then only n of m needs to
+ be requested of the source. 
+ </LI>
+<LI>  <tt>obj.SpatialMatchOn ()</tt> -  This flag is used only when a piece is requested to update.  By default
+ the flag is off.  Because no spatial correspondence between input pieces
+ and source pieces is known, all of the source has to be requested no
+ matter what piece of the output is requested.  When there is a spatial 
+ correspondence, the user/application can set this flag.  This hint allows
+ the breakup of the probe operation to be much more efficient.  When piece
+ m of n is requested for update by the user, then only n of m needs to
+ be requested of the source. 
+ </LI>
+<LI>  <tt>obj.SpatialMatchOff ()</tt> -  This flag is used only when a piece is requested to update.  By default
+ the flag is off.  Because no spatial correspondence between input pieces
+ and source pieces is known, all of the source has to be requested no
+ matter what piece of the output is requested.  When there is a spatial 
+ correspondence, the user/application can set this flag.  This hint allows
+ the breakup of the probe operation to be much more efficient.  When piece
+ m of n is requested for update by the user, then only n of m needs to
+ be requested of the source. 
+ </LI>
+<LI>  <tt>vtkIdTypeArray = obj.GetValidPoints ()</tt> -  Get the list of point ids in the output that contain attribute data
+ interpolated from the source.
+ </LI>
+<LI>  <tt>obj.SetValidPointMaskArrayName (string )</tt> -  Returns the name of the char array added to the output with values 1 for
+ valid points and 0 for invalid points.
+ Set to "vtkValidPointMask" by default.
+ </LI>
+<LI>  <tt>string = obj.GetValidPointMaskArrayName ()</tt> -  Returns the name of the char array added to the output with values 1 for
+ valid points and 0 for invalid points.
+ Set to "vtkValidPointMask" by default.
+ </LI>
+</UL>
+*/

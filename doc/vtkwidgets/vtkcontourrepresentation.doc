@@ -1,0 +1,319 @@
+/*!
+\page vtkwidgets_vtkcontourrepresentation vtkContourRepresentation
+
+<p>
+Section: \ref sec_vtkwidgets "Visualization Toolkit Widget Classes"
+\section Usage
+ The vtkContourRepresentation is a superclass for various types of
+ representations for the vtkContourWidget.
+
+ .SECTION Managing contour points
+ The classes vtkContourRepresentationNode, vtkContourRepresentationInternals, 
+ vtkContourRepresentationPoint manage the data structure used to represent 
+ nodes and points on a contour. A contour may contain several nodes and 
+ several more points. Nodes are usually the result of user clicked points on
+ the contour. Additional points are created between nodes to generate a 
+ smooth curve using some Interpolator. See the method \c SetLineInterpolator.
+ \par
+ The data structure stores both the world and display positions for every 
+ point. (This may seem like a duplication.) The default behaviour of this 
+ class is to use the WorldPosition to do all the math. Typically a point is
+ added at a given display position. Its corresponding world position is 
+ computed using the point placer and stored. Any query of the display 
+ position of a stored point is done via the Renderer, which computes the 
+ display position given a world position. 
+ 
+ \par 
+ So why maintain the display position ? Consider drawing a contour on a 
+ volume widget. You might want the contour to be located at a certain world
+ position in the volume or you might want to be overlayed over the window 
+ like an Actor2D. The default behaviour of this class is to provide the 
+ former behaviour. 
+
+ \par
+ To achieve the latter behaviour override the methods that return the display 
+ position (to return the set display position instead of computing it from
+ the world positions) and the method \c BuildLines() to interpolate lines 
+ using their display positions intead of world positions.
+
+
+To create an instance of class vtkContourRepresentation, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkContourRepresentation
+\endverbatim
+\section Methods
+The class vtkContourRepresentation has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkContourRepresentation class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt> -  Standard VTK methods.
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt> -  Standard VTK methods.
+ </LI>
+<LI>  <tt>vtkContourRepresentation = obj.NewInstance ()</tt> -  Standard VTK methods.
+ </LI>
+<LI>  <tt>vtkContourRepresentation = obj.SafeDownCast (vtkObject o)</tt> -  Standard VTK methods.
+ </LI>
+<LI>  <tt>int = obj.AddNodeAtWorldPosition (double x, double y, double z)</tt> -  Add a node at a specific world position. Returns 0 if the
+ node could not be added, 1 otherwise.
+ </LI>
+<LI>  <tt>int = obj.AddNodeAtWorldPosition (double worldPos[3])</tt> -  Add a node at a specific world position. Returns 0 if the
+ node could not be added, 1 otherwise.
+ </LI>
+<LI>  <tt>int = obj.AddNodeAtWorldPosition (double worldPos[3], double worldOrient[9])</tt> -  Add a node at a specific world position. Returns 0 if the
+ node could not be added, 1 otherwise.
+ </LI>
+<LI>  <tt>int = obj.AddNodeAtDisplayPosition (double displayPos[2])</tt> -  Add a node at a specific display position. This will be
+ converted into a world position according to the current
+ constraints of the point placer. Return 0 if a point could
+ not be added, 1 otherwise.
+ </LI>
+<LI>  <tt>int = obj.AddNodeAtDisplayPosition (int displayPos[2])</tt> -  Add a node at a specific display position. This will be
+ converted into a world position according to the current
+ constraints of the point placer. Return 0 if a point could
+ not be added, 1 otherwise.
+ </LI>
+<LI>  <tt>int = obj.AddNodeAtDisplayPosition (int X, int Y)</tt> -  Add a node at a specific display position. This will be
+ converted into a world position according to the current
+ constraints of the point placer. Return 0 if a point could
+ not be added, 1 otherwise.
+ </LI>
+<LI>  <tt>int = obj.ActivateNode (double displayPos[2])</tt> -  Given a display position, activate a node. The closest
+ node within tolerance will be activated. If a node is
+ activated, 1 will be returned, otherwise 0 will be
+ returned.
+ </LI>
+<LI>  <tt>int = obj.ActivateNode (int displayPos[2])</tt> -  Given a display position, activate a node. The closest
+ node within tolerance will be activated. If a node is
+ activated, 1 will be returned, otherwise 0 will be
+ returned.
+ </LI>
+<LI>  <tt>int = obj.ActivateNode (int X, int Y)</tt> -  Given a display position, activate a node. The closest
+ node within tolerance will be activated. If a node is
+ activated, 1 will be returned, otherwise 0 will be
+ returned.
+ </LI>
+<LI>  <tt>int = obj.SetActiveNodeToWorldPosition (double pos[3])</tt>
+ </LI>
+<LI>  <tt>int = obj.SetActiveNodeToWorldPosition (double pos[3], double orient[9])</tt>
+ </LI>
+<LI>  <tt>int = obj.SetActiveNodeToDisplayPosition (double pos[2])</tt> -  Move the active node based on a specified display position.
+ The display position will be converted into a world
+ position. If the new position is not valid or there is
+ no active node, a 0 will be returned. Otherwise, on
+ success a 1 will be returned.
+ </LI>
+<LI>  <tt>int = obj.SetActiveNodeToDisplayPosition (int pos[2])</tt> -  Move the active node based on a specified display position.
+ The display position will be converted into a world
+ position. If the new position is not valid or there is
+ no active node, a 0 will be returned. Otherwise, on
+ success a 1 will be returned.
+ </LI>
+<LI>  <tt>int = obj.SetActiveNodeToDisplayPosition (int X, int Y)</tt> -  Move the active node based on a specified display position.
+ The display position will be converted into a world
+ position. If the new position is not valid or there is
+ no active node, a 0 will be returned. Otherwise, on
+ success a 1 will be returned.
+ </LI>
+<LI>  <tt>int = obj.ToggleActiveNodeSelected ()</tt> -  Set/Get whether the active or nth node is selected. 
+ </LI>
+<LI>  <tt>int = obj.GetActiveNodeSelected ()</tt> -  Set/Get whether the active or nth node is selected. 
+ </LI>
+<LI>  <tt>int = obj.GetNthNodeSelected (int )</tt> -  Set/Get whether the active or nth node is selected. 
+ </LI>
+<LI>  <tt>int = obj.SetNthNodeSelected (int )</tt> -  Set/Get whether the active or nth node is selected. 
+ </LI>
+<LI>  <tt>int = obj.GetActiveNodeWorldPosition (double pos[3])</tt> -  Get the world position of the active node. Will return
+ 0 if there is no active node, or 1 otherwise.
+ </LI>
+<LI>  <tt>int = obj.GetActiveNodeWorldOrientation (double orient[9])</tt> -  Get the world orientation of the active node. Will return
+ 0 if there is no active node, or 1 otherwise.  
+ </LI>
+<LI>  <tt>int = obj.GetActiveNodeDisplayPosition (double pos[2])</tt> -  Get the display position of the active node. Will return
+ 0 if there is no active node, or 1 otherwise.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfNodes ()</tt> -  Get the number of nodes.
+ </LI>
+<LI>  <tt>int = obj.GetNthNodeDisplayPosition (int n, double pos[2])</tt> -  Get the nth node's display position. Will return
+ 1 on success, or 0 if there are not at least 
+ (n+1) nodes (0 based counting).
+ </LI>
+<LI>  <tt>int = obj.GetNthNodeWorldPosition (int n, double pos[3])</tt> -  Get the nth node's world position. Will return
+ 1 on success, or 0 if there are not at least 
+ (n+1) nodes (0 based counting).
+ </LI>
+<LI>  <tt>int = obj.GetNthNodeWorldOrientation (int n, double orient[9])</tt> -  Get the nth node's world orientation. Will return
+ 1 on success, or 0 if there are not at least 
+ (n+1) nodes (0 based counting).
+ </LI>
+<LI>  <tt>int = obj.SetNthNodeDisplayPosition (int n, int X, int Y)</tt> -  Set the nth node's display position. Display position
+ will be converted into world position according to the
+ constraints of the point placer. Will return
+ 1 on success, or 0 if there are not at least 
+ (n+1) nodes (0 based counting) or the world position
+ is not valid.
+ </LI>
+<LI>  <tt>int = obj.SetNthNodeDisplayPosition (int n, int pos[2])</tt> -  Set the nth node's display position. Display position
+ will be converted into world position according to the
+ constraints of the point placer. Will return
+ 1 on success, or 0 if there are not at least 
+ (n+1) nodes (0 based counting) or the world position
+ is not valid.
+ </LI>
+<LI>  <tt>int = obj.SetNthNodeDisplayPosition (int n, double pos[2])</tt> -  Set the nth node's display position. Display position
+ will be converted into world position according to the
+ constraints of the point placer. Will return
+ 1 on success, or 0 if there are not at least 
+ (n+1) nodes (0 based counting) or the world position
+ is not valid.
+ </LI>
+<LI>  <tt>int = obj.SetNthNodeWorldPosition (int n, double pos[3])</tt> -  Set the nth node's world position. Will return
+ 1 on success, or 0 if there are not at least 
+ (n+1) nodes (0 based counting) or the world
+ position is not valid according to the point
+ placer.
+ </LI>
+<LI>  <tt>int = obj.SetNthNodeWorldPosition (int n, double pos[3], double orient[9])</tt> -  Set the nth node's world position. Will return
+ 1 on success, or 0 if there are not at least 
+ (n+1) nodes (0 based counting) or the world
+ position is not valid according to the point
+ placer.
+ </LI>
+<LI>  <tt>int = obj.GetNthNodeSlope (int idx, double slope[3])</tt> -  Get the nth node's slope. Will return
+ 1 on success, or 0 if there are not at least 
+ (n+1) nodes (0 based counting).
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfIntermediatePoints (int n)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetIntermediatePointWorldPosition (int n, int idx, double point[3])</tt> -  Get the world position of the intermediate point at
+ index idx between nodes n and (n+1) (or n and 0 if
+ n is the last node and the loop is closed). Returns
+ 1 on success or 0 if n or idx are out of range.
+ </LI>
+<LI>  <tt>int = obj.AddIntermediatePointWorldPosition (int n, double point[3])</tt> -  Add an intermediate point between node n and n+1
+ (or n and 0 if n is the last node and the loop is closed).
+ Returns 1 on success or 0 if n is out of range.
+ </LI>
+<LI>  <tt>int = obj.DeleteLastNode ()</tt> -  Delete the last node. Returns 1 on success or 0 if 
+ there were not any nodes.
+ </LI>
+<LI>  <tt>int = obj.DeleteActiveNode ()</tt> -  Delete the active node. Returns 1 on success or 0 if
+ the active node did not indicate a valid node.
+ </LI>
+<LI>  <tt>int = obj.DeleteNthNode (int n)</tt> -  Delete the nth node. Return 1 on success or 0 if n
+ is out of range.
+ </LI>
+<LI>  <tt>obj.ClearAllNodes ()</tt> -  Delete all nodes. 
+ </LI>
+<LI>  <tt>int = obj.AddNodeOnContour (int X, int Y)</tt> -  Given a specific X, Y pixel location, add a new node 
+ on the contour at this location. 
+ </LI>
+<LI>  <tt>obj.SetPixelTolerance (int )</tt> -  The tolerance to use when calculations are performed in 
+ display coordinates
+ </LI>
+<LI>  <tt>int = obj.GetPixelToleranceMinValue ()</tt> -  The tolerance to use when calculations are performed in 
+ display coordinates
+ </LI>
+<LI>  <tt>int = obj.GetPixelToleranceMaxValue ()</tt> -  The tolerance to use when calculations are performed in 
+ display coordinates
+ </LI>
+<LI>  <tt>int = obj.GetPixelTolerance ()</tt> -  The tolerance to use when calculations are performed in 
+ display coordinates
+ </LI>
+<LI>  <tt>obj.SetWorldTolerance (double )</tt> -  The tolerance to use when calculations are performed in
+ world coordinates
+ </LI>
+<LI>  <tt>double = obj.GetWorldToleranceMinValue ()</tt> -  The tolerance to use when calculations are performed in
+ world coordinates
+ </LI>
+<LI>  <tt>double = obj.GetWorldToleranceMaxValue ()</tt> -  The tolerance to use when calculations are performed in
+ world coordinates
+ </LI>
+<LI>  <tt>double = obj.GetWorldTolerance ()</tt> -  The tolerance to use when calculations are performed in
+ world coordinates
+ </LI>
+<LI>  <tt>int = obj.GetCurrentOperation ()</tt> -  Set / get the current operation. The widget is either
+ inactive, or it is being translated.
+ </LI>
+<LI>  <tt>obj.SetCurrentOperation (int )</tt> -  Set / get the current operation. The widget is either
+ inactive, or it is being translated.
+ </LI>
+<LI>  <tt>int = obj.GetCurrentOperationMinValue ()</tt> -  Set / get the current operation. The widget is either
+ inactive, or it is being translated.
+ </LI>
+<LI>  <tt>int = obj.GetCurrentOperationMaxValue ()</tt> -  Set / get the current operation. The widget is either
+ inactive, or it is being translated.
+ </LI>
+<LI>  <tt>obj.SetCurrentOperationToInactive ()</tt> -  Set / get the current operation. The widget is either
+ inactive, or it is being translated.
+ </LI>
+<LI>  <tt>obj.SetCurrentOperationToTranslate ()</tt> -  Set / get the current operation. The widget is either
+ inactive, or it is being translated.
+ </LI>
+<LI>  <tt>obj.SetCurrentOperationToShift ()</tt> -  Set / get the current operation. The widget is either
+ inactive, or it is being translated.
+ </LI>
+<LI>  <tt>obj.SetCurrentOperationToScale ()</tt>
+ </LI>
+<LI>  <tt>obj.SetPointPlacer (vtkPointPlacer )</tt>
+ </LI>
+<LI>  <tt>vtkPointPlacer = obj.GetPointPlacer ()</tt>
+ </LI>
+<LI>  <tt>obj.SetLineInterpolator (vtkContourLineInterpolator )</tt> -  Set / Get the Line Interpolator. The line interpolator
+ is responsible for generating the line segments connecting
+ nodes.
+ </LI>
+<LI>  <tt>vtkContourLineInterpolator = obj.GetLineInterpolator ()</tt> -  Set / Get the Line Interpolator. The line interpolator
+ is responsible for generating the line segments connecting
+ nodes.
+ </LI>
+<LI>  <tt>obj.BuildRepresentation ()</tt> -  These are methods that satisfy vtkWidgetRepresentation's API.
+ </LI>
+<LI>  <tt>int = obj.ComputeInteractionState (int X, int Y, int modified)</tt> -  These are methods that satisfy vtkWidgetRepresentation's API.
+ </LI>
+<LI>  <tt>obj.StartWidgetInteraction (double e[2])</tt> -  These are methods that satisfy vtkWidgetRepresentation's API.
+ </LI>
+<LI>  <tt>obj.WidgetInteraction (double e[2])</tt> -  These are methods that satisfy vtkWidgetRepresentation's API.
+ </LI>
+<LI>  <tt>obj.ReleaseGraphicsResources (vtkWindow w)</tt> -  Methods required by vtkProp superclass.
+ </LI>
+<LI>  <tt>int = obj.RenderOverlay (vtkViewport viewport)</tt> -  Methods required by vtkProp superclass.
+ </LI>
+<LI>  <tt>int = obj.RenderOpaqueGeometry (vtkViewport viewport)</tt> -  Methods required by vtkProp superclass.
+ </LI>
+<LI>  <tt>int = obj.RenderTranslucentPolygonalGeometry (vtkViewport viewport)</tt> -  Methods required by vtkProp superclass.
+ </LI>
+<LI>  <tt>int = obj.HasTranslucentPolygonalGeometry ()</tt> -  Methods required by vtkProp superclass.
+ </LI>
+<LI>  <tt>obj.SetClosedLoop (int val)</tt> -  Set / Get the ClosedLoop value. This ivar indicates whether the contour
+ forms a closed loop. 
+ </LI>
+<LI>  <tt>int = obj.GetClosedLoop ()</tt> -  Set / Get the ClosedLoop value. This ivar indicates whether the contour
+ forms a closed loop. 
+ </LI>
+<LI>  <tt>obj.ClosedLoopOn ()</tt> -  Set / Get the ClosedLoop value. This ivar indicates whether the contour
+ forms a closed loop. 
+ </LI>
+<LI>  <tt>obj.ClosedLoopOff ()</tt> -  Set / Get the ClosedLoop value. This ivar indicates whether the contour
+ forms a closed loop. 
+ </LI>
+<LI>  <tt>obj.SetShowSelectedNodes (int )</tt> -  A flag to indicate whether to show the Selected nodes
+ Default is to set it to false.
+ </LI>
+<LI>  <tt>int = obj.GetShowSelectedNodes ()</tt> -  A flag to indicate whether to show the Selected nodes
+ Default is to set it to false.
+ </LI>
+<LI>  <tt>obj.ShowSelectedNodesOn ()</tt> -  A flag to indicate whether to show the Selected nodes
+ Default is to set it to false.
+ </LI>
+<LI>  <tt>obj.ShowSelectedNodesOff ()</tt> -  A flag to indicate whether to show the Selected nodes
+ Default is to set it to false.
+ </LI>
+<LI>  <tt>obj.GetNodePolyData (vtkPolyData poly)</tt> -  Get the nodes and not the intermediate points in this 
+ contour as a vtkPolyData.
+ </LI>
+</UL>
+*/

@@ -1,0 +1,185 @@
+/*!
+\page vtkio_vtkplywriter vtkPLYWriter
+
+<p>
+Section: \ref sec_vtkio "Visualization Toolkit IO Classes"
+\section Usage
+ vtkPLYWriter writes polygonal data in Stanford University PLY format
+ (see http://graphics.stanford.edu/data/3Dscanrep/). The data can be
+ written in either binary (little or big endian) or ASCII representation.
+ As for PointData and CellData, vtkPLYWriter cannot handle normals or
+ vectors. It only handles RGB PointData and CellData. You need to set the
+ name of the array (using SetName for the array and SetArrayName for the
+ writer). If the array is not a vtkUnsignedCharArray with 3 components,
+ you need to specify a vtkLookupTable to map the scalars to RGB.
+
+To create an instance of class vtkPLYWriter, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkPLYWriter
+\endverbatim
+\section Methods
+The class vtkPLYWriter has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkPLYWriter class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkPLYWriter = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkPLYWriter = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetDataByteOrder (int )</tt> -  If the file type is binary, then the user can specify which
+ byte order to use (little versus big endian).
+ </LI>
+<LI>  <tt>int = obj.GetDataByteOrderMinValue ()</tt> -  If the file type is binary, then the user can specify which
+ byte order to use (little versus big endian).
+ </LI>
+<LI>  <tt>int = obj.GetDataByteOrderMaxValue ()</tt> -  If the file type is binary, then the user can specify which
+ byte order to use (little versus big endian).
+ </LI>
+<LI>  <tt>int = obj.GetDataByteOrder ()</tt> -  If the file type is binary, then the user can specify which
+ byte order to use (little versus big endian).
+ </LI>
+<LI>  <tt>obj.SetDataByteOrderToBigEndian ()</tt> -  If the file type is binary, then the user can specify which
+ byte order to use (little versus big endian).
+ </LI>
+<LI>  <tt>obj.SetDataByteOrderToLittleEndian ()</tt> -  These methods enable the user to control how to add color into the PLY
+ output file. The default behavior is as follows. The user provides the
+ name of an array and a component number. If the type of the array is
+ three components, unsigned char, then the data is written as three
+ separate "red", "green" and "blue" properties. If the type is not
+ unsigned char, and a lookup table is provided, then the array/component
+ are mapped through the table to generate three separate "red", "green"
+ and "blue" properties in the PLY file. The user can also set the
+ ColorMode to specify a uniform color for the whole part (on a vertex
+ colors, face colors, or both. (Note: vertex colors or cell colors may be
+ written, depending on where the named array is found. If points and
+ cells have the arrays with the same name, then both colors will be
+ written.)
+ </LI>
+<LI>  <tt>obj.SetColorMode (int )</tt> -  These methods enable the user to control how to add color into the PLY
+ output file. The default behavior is as follows. The user provides the
+ name of an array and a component number. If the type of the array is
+ three components, unsigned char, then the data is written as three
+ separate "red", "green" and "blue" properties. If the type is not
+ unsigned char, and a lookup table is provided, then the array/component
+ are mapped through the table to generate three separate "red", "green"
+ and "blue" properties in the PLY file. The user can also set the
+ ColorMode to specify a uniform color for the whole part (on a vertex
+ colors, face colors, or both. (Note: vertex colors or cell colors may be
+ written, depending on where the named array is found. If points and
+ cells have the arrays with the same name, then both colors will be
+ written.)
+ </LI>
+<LI>  <tt>int = obj.GetColorMode ()</tt> -  These methods enable the user to control how to add color into the PLY
+ output file. The default behavior is as follows. The user provides the
+ name of an array and a component number. If the type of the array is
+ three components, unsigned char, then the data is written as three
+ separate "red", "green" and "blue" properties. If the type is not
+ unsigned char, and a lookup table is provided, then the array/component
+ are mapped through the table to generate three separate "red", "green"
+ and "blue" properties in the PLY file. The user can also set the
+ ColorMode to specify a uniform color for the whole part (on a vertex
+ colors, face colors, or both. (Note: vertex colors or cell colors may be
+ written, depending on where the named array is found. If points and
+ cells have the arrays with the same name, then both colors will be
+ written.)
+ </LI>
+<LI>  <tt>obj.SetColorModeToDefault ()</tt> -  These methods enable the user to control how to add color into the PLY
+ output file. The default behavior is as follows. The user provides the
+ name of an array and a component number. If the type of the array is
+ three components, unsigned char, then the data is written as three
+ separate "red", "green" and "blue" properties. If the type is not
+ unsigned char, and a lookup table is provided, then the array/component
+ are mapped through the table to generate three separate "red", "green"
+ and "blue" properties in the PLY file. The user can also set the
+ ColorMode to specify a uniform color for the whole part (on a vertex
+ colors, face colors, or both. (Note: vertex colors or cell colors may be
+ written, depending on where the named array is found. If points and
+ cells have the arrays with the same name, then both colors will be
+ written.)
+ </LI>
+<LI>  <tt>obj.SetColorModeToUniformCellColor ()</tt> -  These methods enable the user to control how to add color into the PLY
+ output file. The default behavior is as follows. The user provides the
+ name of an array and a component number. If the type of the array is
+ three components, unsigned char, then the data is written as three
+ separate "red", "green" and "blue" properties. If the type is not
+ unsigned char, and a lookup table is provided, then the array/component
+ are mapped through the table to generate three separate "red", "green"
+ and "blue" properties in the PLY file. The user can also set the
+ ColorMode to specify a uniform color for the whole part (on a vertex
+ colors, face colors, or both. (Note: vertex colors or cell colors may be
+ written, depending on where the named array is found. If points and
+ cells have the arrays with the same name, then both colors will be
+ written.)
+ </LI>
+<LI>  <tt>obj.SetColorModeToUniformPointColor ()</tt> -  These methods enable the user to control how to add color into the PLY
+ output file. The default behavior is as follows. The user provides the
+ name of an array and a component number. If the type of the array is
+ three components, unsigned char, then the data is written as three
+ separate "red", "green" and "blue" properties. If the type is not
+ unsigned char, and a lookup table is provided, then the array/component
+ are mapped through the table to generate three separate "red", "green"
+ and "blue" properties in the PLY file. The user can also set the
+ ColorMode to specify a uniform color for the whole part (on a vertex
+ colors, face colors, or both. (Note: vertex colors or cell colors may be
+ written, depending on where the named array is found. If points and
+ cells have the arrays with the same name, then both colors will be
+ written.)
+ </LI>
+<LI>  <tt>obj.SetColorModeToUniformColor ()</tt> -  These methods enable the user to control how to add color into the PLY
+ output file. The default behavior is as follows. The user provides the
+ name of an array and a component number. If the type of the array is
+ three components, unsigned char, then the data is written as three
+ separate "red", "green" and "blue" properties. If the type is not
+ unsigned char, and a lookup table is provided, then the array/component
+ are mapped through the table to generate three separate "red", "green"
+ and "blue" properties in the PLY file. The user can also set the
+ ColorMode to specify a uniform color for the whole part (on a vertex
+ colors, face colors, or both. (Note: vertex colors or cell colors may be
+ written, depending on where the named array is found. If points and
+ cells have the arrays with the same name, then both colors will be
+ written.)
+ </LI>
+<LI>  <tt>obj.SetColorModeToOff ()</tt> -  Specify the array name to use to color the data.
+ </LI>
+<LI>  <tt>obj.SetArrayName (string )</tt> -  Specify the array name to use to color the data.
+ </LI>
+<LI>  <tt>string = obj.GetArrayName ()</tt> -  Specify the array name to use to color the data.
+ </LI>
+<LI>  <tt>obj.SetComponent (int )</tt> -  Specify the array component to use to color the data.
+ </LI>
+<LI>  <tt>int = obj.GetComponentMinValue ()</tt> -  Specify the array component to use to color the data.
+ </LI>
+<LI>  <tt>int = obj.GetComponentMaxValue ()</tt> -  Specify the array component to use to color the data.
+ </LI>
+<LI>  <tt>int = obj.GetComponent ()</tt> -  Specify the array component to use to color the data.
+ </LI>
+<LI>  <tt>obj.SetLookupTable (vtkScalarsToColors )</tt> -  A lookup table can be specified in order to convert data arrays to
+ RGBA colors.
+ </LI>
+<LI>  <tt>vtkScalarsToColors = obj.GetLookupTable ()</tt> -  A lookup table can be specified in order to convert data arrays to
+ RGBA colors.
+ </LI>
+<LI>  <tt>obj.SetColor (char , char , char )</tt> -  Set the color to use when using a uniform color (either point or cells,
+ or both). The color is specified as a triplet of three unsigned chars
+ between (0,255). This only takes effect when the ColorMode is set to
+ uniform point, uniform cell, or uniform color.
+ </LI>
+<LI>  <tt>obj.SetColor (char  a[3])</tt> -  Set the color to use when using a uniform color (either point or cells,
+ or both). The color is specified as a triplet of three unsigned chars
+ between (0,255). This only takes effect when the ColorMode is set to
+ uniform point, uniform cell, or uniform color.
+ </LI>
+<LI>  <tt>char = obj. GetColor ()</tt> -  Set the color to use when using a uniform color (either point or cells,
+ or both). The color is specified as a triplet of three unsigned chars
+ between (0,255). This only takes effect when the ColorMode is set to
+ uniform point, uniform cell, or uniform color.
+ </LI>
+</UL>
+*/

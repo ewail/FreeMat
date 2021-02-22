@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkwidgets_vtklinewidget" kind="page">
+    <compoundname>vtkwidgets_vtklinewidget</compoundname>
+    <title>vtkLineWidget</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkwidgets_1sec_vtkwidgets" kindref="member">Visualization Toolkit Widget Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>This 3D widget defines a line that can be interactively placed in a scene. The line has two handles (at its endpoints), plus the line can be picked to translate it in the scene. A nice feature of the object is that the vtkLineWidget, like any 3D widget, will work with the current interactor style and any other widgets present in the scene. That is, if vtkLineWidget does not handle an event, then all other registered observers (including the interactor style) have an opportunity to process the event. Otherwise, the vtkLineWidget will terminate the processing of the event that it handles.</para><para>To use this object, just invoke SetInteractor() with the argument of the method a vtkRenderWindowInteractor. You may also wish to invoke &quot;PlaceWidget()&quot; to initially position the widget. The interactor will act normally until the &quot;i&quot; key (for &quot;interactor&quot;) is pressed, at which point the vtkLineWidget will appear. (See superclass documentation for information about changing this behavior.) By grabbing one of the two end point handles (use the left mouse button), the line can be oriented and stretched (the other end point remains fixed). By grabbing the line itself, or using the middle mouse button, the entire line can be translated. Scaling (about the center of the line) is achieved by using the right mouse button. By moving the mouse &quot;up&quot; the render window the line will be made bigger; by moving &quot;down&quot; the render window the widget will be made smaller. Turn off the widget by pressing the &quot;i&quot; key again (or invoke the Off() method). (Note: picking the line or either one of the two end point handles causes a vtkPointWidget to appear. This widget has the ability to constrain motion to an axis by pressing the &quot;shift&quot; key while moving the mouse.)</para><para>The vtkLineWidget has several methods that can be used in conjunction with other VTK objects. The Set/GetResolution() methods control the number of subdivisions of the line; the GetPolyData() method can be used to get the polygonal representation and can be used for things like seeding streamlines. Typical usage of the widget is to make use of the StartInteractionEvent, InteractionEvent, and EndInteractionEvent events. The InteractionEvent is called on mouse motion; the other two events are called on button down and button up (either left or right button).</para><para>Some additional features of this class include the ability to control the properties of the widget. You can set the properties of the selected and unselected representations of the line. For example, you can set the property for the handles and line. In addition there are methods to constrain the line so that it is aligned along the x-y-z axes.</para><para>To create an instance of class vtkLineWidget, simply invoke its constructor as follows <verbatim>  obj = vtkLineWidget
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkLineWidget has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkLineWidget class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkLineWidget = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkLineWidget = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetEnabled (int )</computeroutput> - Methods that satisfy the superclass&apos; API.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.PlaceWidget (double bounds[6])</computeroutput> - Methods that satisfy the superclass&apos; API.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.PlaceWidget ()</computeroutput> - Methods that satisfy the superclass&apos; API.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.PlaceWidget (double xmin, double xmax, double ymin, double ymax, double zmin, double zmax)</computeroutput> - Set/Get the resolution (number of subdivisions) of the line.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetResolution (int r)</computeroutput> - Set/Get the resolution (number of subdivisions) of the line.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetResolution ()</computeroutput> - Set/Get the position of first end point.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetPoint1 (double x, double y, double z)</computeroutput> - Set/Get the position of first end point.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetPoint1 (double x[3])</computeroutput> - Set/Get the position of first end point.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetPoint1 ()</computeroutput> - Set/Get the position of first end point.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GetPoint1 (double xyz[3])</computeroutput> - Set position of other end point.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetPoint2 (double x, double y, double z)</computeroutput> - Set position of other end point.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetPoint2 (double x[3])</computeroutput> - Set position of other end point.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetPoint2 ()</computeroutput> - Set position of other end point.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GetPoint2 (double xyz[3])</computeroutput> - Force the line widget to be aligned with one of the x-y-z axes. Remember that when the state changes, a ModifiedEvent is invoked. This can be used to snap the line to the axes if it is orginally not aligned.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetAlign (int )</computeroutput> - Force the line widget to be aligned with one of the x-y-z axes. Remember that when the state changes, a ModifiedEvent is invoked. This can be used to snap the line to the axes if it is orginally not aligned.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetAlignMinValue ()</computeroutput> - Force the line widget to be aligned with one of the x-y-z axes. Remember that when the state changes, a ModifiedEvent is invoked. This can be used to snap the line to the axes if it is orginally not aligned.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetAlignMaxValue ()</computeroutput> - Force the line widget to be aligned with one of the x-y-z axes. Remember that when the state changes, a ModifiedEvent is invoked. This can be used to snap the line to the axes if it is orginally not aligned.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetAlign ()</computeroutput> - Force the line widget to be aligned with one of the x-y-z axes. Remember that when the state changes, a ModifiedEvent is invoked. This can be used to snap the line to the axes if it is orginally not aligned.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetAlignToXAxis ()</computeroutput> - Force the line widget to be aligned with one of the x-y-z axes. Remember that when the state changes, a ModifiedEvent is invoked. This can be used to snap the line to the axes if it is orginally not aligned.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetAlignToYAxis ()</computeroutput> - Force the line widget to be aligned with one of the x-y-z axes. Remember that when the state changes, a ModifiedEvent is invoked. This can be used to snap the line to the axes if it is orginally not aligned.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetAlignToZAxis ()</computeroutput> - Force the line widget to be aligned with one of the x-y-z axes. Remember that when the state changes, a ModifiedEvent is invoked. This can be used to snap the line to the axes if it is orginally not aligned.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetAlignToNone ()</computeroutput> - Enable/disable clamping of the point end points to the bounding box of the data. The bounding box is defined from the last PlaceWidget() invocation, and includes the effect of the PlaceFactor which is used to gram/shrink the bounding box.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetClampToBounds (int )</computeroutput> - Enable/disable clamping of the point end points to the bounding box of the data. The bounding box is defined from the last PlaceWidget() invocation, and includes the effect of the PlaceFactor which is used to gram/shrink the bounding box.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetClampToBounds ()</computeroutput> - Enable/disable clamping of the point end points to the bounding box of the data. The bounding box is defined from the last PlaceWidget() invocation, and includes the effect of the PlaceFactor which is used to gram/shrink the bounding box.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ClampToBoundsOn ()</computeroutput> - Enable/disable clamping of the point end points to the bounding box of the data. The bounding box is defined from the last PlaceWidget() invocation, and includes the effect of the PlaceFactor which is used to gram/shrink the bounding box.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ClampToBoundsOff ()</computeroutput> - Enable/disable clamping of the point end points to the bounding box of the data. The bounding box is defined from the last PlaceWidget() invocation, and includes the effect of the PlaceFactor which is used to gram/shrink the bounding box.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GetPolyData (vtkPolyData pd)</computeroutput> - Grab the polydata (including points) that defines the line. The polydata consists of n+1 points, where n is the resolution of the line. These point values are guaranteed to be up-to-date when either the InteractionEvent or EndInteraction events are invoked. The user provides the vtkPolyData and the points and polyline are added to it.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkProperty = obj.GetHandleProperty ()</computeroutput> - Get the handle properties (the little balls are the handles). The properties of the handles when selected and normal can be manipulated.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkProperty = obj.GetSelectedHandleProperty ()</computeroutput> - Get the handle properties (the little balls are the handles). The properties of the handles when selected and normal can be manipulated.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkProperty = obj.GetLineProperty ()</computeroutput> - Get the line properties. The properties of the line when selected and unselected can be manipulated.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkProperty = obj.GetSelectedLineProperty ()</computeroutput> - Get the line properties. The properties of the line when selected and unselected can be manipulated.  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,98 @@
+/*!
+\page vtkio_vtknetcdfreader vtkNetCDFReader
+
+<p>
+Section: \ref sec_vtkio "Visualization Toolkit IO Classes"
+\section Usage
+
+ A superclass for reading netCDF files.  Subclass add conventions to the
+ reader.  This class just outputs data into a multi block data set with a
+ vtkImageData at each block.  A block is created for each variable except that
+ variables with matching dimensions will be placed in the same block.
+
+To create an instance of class vtkNetCDFReader, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkNetCDFReader
+\endverbatim
+\section Methods
+The class vtkNetCDFReader has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkNetCDFReader class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkNetCDFReader = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkNetCDFReader = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetFileName (string filename)</tt>
+ </LI>
+<LI>  <tt>string = obj.GetFileName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.UpdateMetaData ()</tt> -  Update the meta data from the current file.  Automatically called
+ during the RequestInformation pipeline update stage.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfVariableArrays ()</tt> -  Variable array selection.
+ </LI>
+<LI>  <tt>string = obj.GetVariableArrayName (int idx)</tt> -  Variable array selection.
+ </LI>
+<LI>  <tt>int = obj.GetVariableArrayStatus (string name)</tt> -  Variable array selection.
+ </LI>
+<LI>  <tt>obj.SetVariableArrayStatus (string name, int status)</tt> -  Variable array selection.
+ </LI>
+<LI>  <tt>vtkStringArray = obj.GetVariableDimensions ()</tt> -  Returns an array with string encodings for the dimensions used in each of
+ the variables.  The indices in the returned array correspond to those used
+ in the GetVariableArrayName method.  Two arrays with the same dimensions
+ will have the same encoded string returned by this method.
+ </LI>
+<LI>  <tt>obj.SetDimensions (string dimensions)</tt> -  Loads the grid with the given dimensions.  The dimensions are encoded in a
+ string that conforms to the same format as returned by
+ GetVariableDimensions and GetAllDimensions.  This method is really a
+ convenience method for SetVariableArrayStatus.  It turns on all variables
+ that have the given dimensions and turns off all other variables.
+ </LI>
+<LI>  <tt>vtkStringArray = obj.GetAllDimensions ()</tt> -  Returns an array with string encodings for the dimension combinations used
+ in the variables.  The result is the same as GetVariableDimensions except
+ that each entry in the array is unique (a set of dimensions is only given
+ once even if it occurs for multiple variables) and the order is
+ meaningless.
+ </LI>
+<LI>  <tt>int = obj.GetReplaceFillValueWithNan ()</tt> -  If on, any float or double variable read that has a _FillValue attribute
+ will have that fill value replaced with a not-a-number (NaN) value.  The
+ advantage of setting these to NaN values is that, if implemented properly
+ by the system and careful math operations are used, they can implicitly be
+ ignored by calculations like finding the range of the values.  That said,
+ this option should be used with caution as VTK does not fully support NaN
+ values and therefore odd calculations may occur.  By default this is off.
+ </LI>
+<LI>  <tt>obj.SetReplaceFillValueWithNan (int )</tt> -  If on, any float or double variable read that has a _FillValue attribute
+ will have that fill value replaced with a not-a-number (NaN) value.  The
+ advantage of setting these to NaN values is that, if implemented properly
+ by the system and careful math operations are used, they can implicitly be
+ ignored by calculations like finding the range of the values.  That said,
+ this option should be used with caution as VTK does not fully support NaN
+ values and therefore odd calculations may occur.  By default this is off.
+ </LI>
+<LI>  <tt>obj.ReplaceFillValueWithNanOn ()</tt> -  If on, any float or double variable read that has a _FillValue attribute
+ will have that fill value replaced with a not-a-number (NaN) value.  The
+ advantage of setting these to NaN values is that, if implemented properly
+ by the system and careful math operations are used, they can implicitly be
+ ignored by calculations like finding the range of the values.  That said,
+ this option should be used with caution as VTK does not fully support NaN
+ values and therefore odd calculations may occur.  By default this is off.
+ </LI>
+<LI>  <tt>obj.ReplaceFillValueWithNanOff ()</tt> -  If on, any float or double variable read that has a _FillValue attribute
+ will have that fill value replaced with a not-a-number (NaN) value.  The
+ advantage of setting these to NaN values is that, if implemented properly
+ by the system and careful math operations are used, they can implicitly be
+ ignored by calculations like finding the range of the values.  That said,
+ this option should be used with caution as VTK does not fully support NaN
+ values and therefore odd calculations may occur.  By default this is off.
+ </LI>
+</UL>
+*/

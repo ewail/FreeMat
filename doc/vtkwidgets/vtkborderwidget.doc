@@ -1,0 +1,116 @@
+/*!
+\page vtkwidgets_vtkborderwidget vtkBorderWidget
+
+<p>
+Section: \ref sec_vtkwidgets "Visualization Toolkit Widget Classes"
+\section Usage
+ This class is a superclass for 2D widgets that may require a rectangular
+ border. Besides drawing a border, the widget provides methods for resizing
+ and moving the rectangular region (and associated border). The widget
+ provides methods and internal data members so that subclasses can take
+ advantage of this widgets capabilities, requiring only that the subclass
+ defines a "representation", i.e., some combination of props or actors
+ that can be managed in the 2D rectangular region. 
+
+ The class defines basic positioning functionality, including the ability
+ to size the widget with locked x/y proportions. The area within the border
+ may be made "selectable" as well, meaning that a selection event interior
+ to the widget invokes a virtual SelectRegion() method, which can be used
+ to pick objects or otherwise manipulate data interior to the widget.
+
+ .SECTION Event Bindings
+ By default, the widget responds to the following VTK events (i.e., it
+ watches the vtkRenderWindowInteractor for these events):
+ <pre>
+ On the boundary of the widget:
+   LeftButtonPressEvent - select boundary
+   LeftButtonReleaseEvent - deselect boundary
+   MouseMoveEvent - move/resize widget depending on which portion of the
+                    boundary was selected.
+ On the interior of the widget:
+   LeftButtonPressEvent - invoke SelectButton() callback (if the ivar
+                          Selectable is on)
+ Anywhere on the widget:
+   MiddleButtonPressEvent - move the widget
+ </pre>
+
+ Note that the event bindings described above can be changed using this
+ class's vtkWidgetEventTranslator. This class translates VTK events 
+ into the vtkBorderWidget's widget events:
+ <pre>
+   vtkWidgetEvent::Select -- some part of the widget has been selected
+   vtkWidgetEvent::EndSelect -- the selection process has completed
+   vtkWidgetEvent::Translate -- the widget is to be translated
+   vtkWidgetEvent::Move -- a request for slider motion has been invoked
+ </pre>
+
+ In turn, when these widget events are processed, this widget invokes the
+ following VTK events on itself (which observers can listen for):
+ <pre>
+   vtkCommand::StartInteractionEvent (on vtkWidgetEvent::Select)
+   vtkCommand::EndInteractionEvent (on vtkWidgetEvent::EndSelect)
+   vtkCommand::InteractionEvent (on vtkWidgetEvent::Move)
+ </pre>
+
+To create an instance of class vtkBorderWidget, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkBorderWidget
+\endverbatim
+\section Methods
+The class vtkBorderWidget has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkBorderWidget class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkBorderWidget = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkBorderWidget = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetSelectable (int )</tt> -  Indicate whether the interior region of the widget can be selected or
+ not. If not, then events (such as left mouse down) allow the user to
+ "move" the widget, and no selection is possible. Otherwise the
+ SelectRegion() method is invoked.
+ </LI>
+<LI>  <tt>int = obj.GetSelectable ()</tt> -  Indicate whether the interior region of the widget can be selected or
+ not. If not, then events (such as left mouse down) allow the user to
+ "move" the widget, and no selection is possible. Otherwise the
+ SelectRegion() method is invoked.
+ </LI>
+<LI>  <tt>obj.SelectableOn ()</tt> -  Indicate whether the interior region of the widget can be selected or
+ not. If not, then events (such as left mouse down) allow the user to
+ "move" the widget, and no selection is possible. Otherwise the
+ SelectRegion() method is invoked.
+ </LI>
+<LI>  <tt>obj.SelectableOff ()</tt> -  Indicate whether the interior region of the widget can be selected or
+ not. If not, then events (such as left mouse down) allow the user to
+ "move" the widget, and no selection is possible. Otherwise the
+ SelectRegion() method is invoked.
+ </LI>
+<LI>  <tt>obj.SetResizable (int )</tt> -  Indicate whether the boundary of the widget can be resized.
+ If not, the cursor will not change to "resize" type when mouse
+ over the boundary.
+ </LI>
+<LI>  <tt>int = obj.GetResizable ()</tt> -  Indicate whether the boundary of the widget can be resized.
+ If not, the cursor will not change to "resize" type when mouse
+ over the boundary.
+ </LI>
+<LI>  <tt>obj.ResizableOn ()</tt> -  Indicate whether the boundary of the widget can be resized.
+ If not, the cursor will not change to "resize" type when mouse
+ over the boundary.
+ </LI>
+<LI>  <tt>obj.ResizableOff ()</tt> -  Indicate whether the boundary of the widget can be resized.
+ If not, the cursor will not change to "resize" type when mouse
+ over the boundary.
+ </LI>
+<LI>  <tt>obj.SetRepresentation (vtkBorderRepresentation r)</tt> -  Create the default widget representation if one is not set. 
+ </LI>
+<LI>  <tt>obj.CreateDefaultRepresentation ()</tt> -  Create the default widget representation if one is not set. 
+ </LI>
+</UL>
+*/

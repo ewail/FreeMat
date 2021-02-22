@@ -1,0 +1,78 @@
+/*!
+\page vtkfiltering_vtkgenericedgetable vtkGenericEdgeTable
+
+<p>
+Section: \ref sec_vtkfiltering "Visualization Toolkit Filtering Classes"
+\section Usage
+ vtkGenericEdgeTable is used to indicate the existance of and hold
+ information about edges. Similar to vtkEdgeTable, this class is
+ more sophisticated in that it uses reference counting to keep track
+ of when information about an edge should be deleted.
+
+ vtkGenericEdgeTable is a helper class used in the adaptor framework.  It
+ is used during the tessellation process to hold information about the
+ error metric on each edge. This avoids recomputing the error metric each
+ time the same edge is visited.
+
+To create an instance of class vtkGenericEdgeTable, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkGenericEdgeTable
+\endverbatim
+\section Methods
+The class vtkGenericEdgeTable has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkGenericEdgeTable class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt> -  Standard VTK type and print macros.
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt> -  Standard VTK type and print macros.
+ </LI>
+<LI>  <tt>vtkGenericEdgeTable = obj.NewInstance ()</tt> -  Standard VTK type and print macros.
+ </LI>
+<LI>  <tt>vtkGenericEdgeTable = obj.SafeDownCast (vtkObject o)</tt> -  Standard VTK type and print macros.
+ </LI>
+<LI>  <tt>obj.InsertEdge (vtkIdType e1, vtkIdType e2, vtkIdType cellId, int ref)</tt> -  Insert an edge but do not split it.
+ </LI>
+<LI>  <tt>int = obj.RemoveEdge (vtkIdType e1, vtkIdType e2)</tt> -  Method to remove an edge from the table. The method returns the
+ current reference count.
+ </LI>
+<LI>  <tt>int = obj.IncrementEdgeReferenceCount (vtkIdType e1, vtkIdType e2, vtkIdType cellId)</tt> -  Method that increments the referencecount and returns it.
+ </LI>
+<LI>  <tt>int = obj.CheckEdgeReferenceCount (vtkIdType e1, vtkIdType e2)</tt> -  Return the edge reference count.
+ </LI>
+<LI>  <tt>obj.Initialize (vtkIdType start)</tt> -  To specify the starting point id. It will initialize LastPointId
+ This is very sensitive the start point should be cautiously chosen
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfComponents ()</tt> -  Return the total number of components for the point-centered attributes.
+ \post positive_result: result>0
+ </LI>
+<LI>  <tt>obj.SetNumberOfComponents (int count)</tt> -  Set the total number of components for the point-centered attributes.
+ \pre positive_count: count>0
+ </LI>
+<LI>  <tt>int = obj.CheckPoint (vtkIdType ptId)</tt> -  Check if a point is already in the point table.
+ </LI>
+<LI>  <tt>int = obj.CheckPoint (vtkIdType ptId, double point[3], double scalar)</tt> -  Check for the existence of a point and return its coordinate value.
+ \pre scalar_size: sizeof(scalar)==this->GetNumberOfComponents()
+ </LI>
+<LI>  <tt>obj.InsertPoint (vtkIdType ptId, double point[3])</tt> -  Insert point associated with an edge.
+ </LI>
+<LI>  <tt>obj.InsertPointAndScalar (vtkIdType ptId, double pt[3], double s)</tt> -  Insert point associated with an edge.
+ \pre: sizeof(s)==GetNumberOfComponents()
+ </LI>
+<LI>  <tt>obj.RemovePoint (vtkIdType ptId)</tt> -  Remove a point from the point table.
+ </LI>
+<LI>  <tt>obj.IncrementPointReferenceCount (vtkIdType ptId)</tt> -  Increment the reference count for the indicated point.
+ </LI>
+<LI>  <tt>obj.DumpTable ()</tt> -  For debugging purposes. It is particularly useful to dump the table
+ and check that nothing is left after a complete iteration. LoadFactor
+ should ideally be very low to be able to have a constant time access
+ </LI>
+<LI>  <tt>obj.LoadFactor ()</tt> -  For debugging purposes. It is particularly useful to dump the table
+ and check that nothing is left after a complete iteration. LoadFactor
+ should ideally be very low to be able to have a constant time access
+ </LI>
+</UL>
+*/

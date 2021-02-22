@@ -1,0 +1,90 @@
+/*!
+\page vtkhybrid_vtkprocrustesalignmentfilter vtkProcrustesAlignmentFilter
+
+<p>
+Section: \ref sec_vtkhybrid "Visualization Toolkit Hybrid Classes"
+\section Usage
+ 
+ vtkProcrustesAlignmentFilter is a filter that takes a set of pointsets
+ (any object derived from vtkPointSet) and aligns them in a least-squares 
+ sense to their mutual mean. The algorithm is iterated until convergence, 
+ as the mean must be recomputed after each alignment. 
+
+ Call SetNumberOfInputs(n) before calling SetInput(0) ... SetInput(n-1).
+
+ Retrieve the outputs using GetOutput(0) ... GetOutput(n-1).
+
+ The default (in vtkLandmarkTransform) is for a similarity alignment.
+ For a rigid-body alignment (to build a 'size-and-shape' model) use: 
+
+    GetLandmarkTransform()->SetModeToRigidBody(). 
+
+ Affine alignments are not normally used but are left in for completeness:
+
+    GetLandmarkTransform()->SetModeToAffine(). 
+
+ vtkProcrustesAlignmentFilter is an implementation of:
+
+    J.C. Gower (1975) 
+    Generalized Procrustes Analysis. Psychometrika, 40:33-51.
+
+
+To create an instance of class vtkProcrustesAlignmentFilter, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkProcrustesAlignmentFilter
+\endverbatim
+\section Methods
+The class vtkProcrustesAlignmentFilter has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkProcrustesAlignmentFilter class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkProcrustesAlignmentFilter = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkProcrustesAlignmentFilter = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>vtkLandmarkTransform = obj.GetLandmarkTransform ()</tt> -  Get the internal landmark transform. Use it to constrain the number of
+ degrees of freedom of the alignment (i.e. rigid body, similarity, etc.).
+ The default is a similarity alignment.
+ </LI>
+<LI>  <tt>vtkPoints = obj.GetMeanPoints ()</tt> -  Get the estimated mean point cloud
+ </LI>
+<LI>  <tt>obj.SetNumberOfInputs (int n)</tt> -  Specify how many pointsets are going to be given as input.
+ </LI>
+<LI>  <tt>obj.SetInput (int idx, vtkPointSet p)</tt> -  Specify the input pointset with index idx.
+ Call SetNumberOfInputs before calling this function.
+ </LI>
+<LI>  <tt>obj.SetInput (int idx, vtkDataObject input)</tt> -  Specify the input pointset with index idx.
+ Call SetNumberOfInputs before calling this function.
+ </LI>
+<LI>  <tt>obj.SetStartFromCentroid (bool )</tt> -  When on, the initial alignment is to the centroid 
+ of the cohort curves.  When off, the alignment is to the 
+ centroid of the first input.  Default is off for
+ backward compatibility.
+ </LI>
+<LI>  <tt>bool = obj.GetStartFromCentroid ()</tt> -  When on, the initial alignment is to the centroid 
+ of the cohort curves.  When off, the alignment is to the 
+ centroid of the first input.  Default is off for
+ backward compatibility.
+ </LI>
+<LI>  <tt>obj.StartFromCentroidOn ()</tt> -  When on, the initial alignment is to the centroid 
+ of the cohort curves.  When off, the alignment is to the 
+ centroid of the first input.  Default is off for
+ backward compatibility.
+ </LI>
+<LI>  <tt>obj.StartFromCentroidOff ()</tt> -  When on, the initial alignment is to the centroid 
+ of the cohort curves.  When off, the alignment is to the 
+ centroid of the first input.  Default is off for
+ backward compatibility.
+ </LI>
+<LI>  <tt>vtkPointSet = obj.GetInput (int idx)</tt> -  Retrieve the input point set with index idx (usually only for pipeline
+ tracing).
+ </LI>
+</UL>
+*/

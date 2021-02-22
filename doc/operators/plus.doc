@@ -1,0 +1,87 @@
+/*!
+\page operators_plus PLUS Addition Operator
+
+<p>
+Section: \ref sec_operators "Mathematical Operators"
+\section Usage
+Adds two numerical arrays (elementwise) together.  There are two forms
+for its use, both with the same general syntax:
+\verbatim
+  y = a + b
+\endverbatim
+where <tt>a</tt> and <tt>b</tt> are <tt>n</tt>-dimensional arrays of numerical type.  In the
+first case, the two arguments are the same size, in which case, the 
+output <tt>y</tt> is the same size as the inputs, and is the element-wise the sum 
+of <tt>a</tt> and <tt>b</tt>.  In the second case, either <tt>a</tt> or <tt>b</tt> is a scalar, 
+in which case <tt>y</tt> is the same size as the larger argument,
+and is the sum of the scalar added to each element of the other argument.
+
+The rules for manipulating types has changed in FreeMat 4.0.  See <tt>typerules</tt>
+for more details.
+
+\section Function Internals
+There are three formulae for the addition operator, depending on the
+sizes of the three arguments.  In the most general case, in which 
+the two arguments are the same size, the output is computed via:
+\f[
+y(m_1,\ldots,m_d) = a(m_1,\ldots,m_d) + b(m_1,\ldots,m_d)
+\f]
+If <tt>a</tt> is a scalar, then the output is computed via
+\f[
+y(m_1,\ldots,m_d) = a + b(m_1,\ldots,m_d).
+\f]
+On the other hand, if <tt>b</tt> is a scalar, then the output is computed via
+\f[
+y(m_1,\ldots,m_d) = a(m_1,\ldots,m_d) + b.
+\f]
+\section Examples
+Here are some examples of using the addition operator.  First, a 
+straight-forward usage of the plus operator.  The first example
+is straightforward:
+
+\if FRAGMENT
+frag_operators_plus_000.m
+0
+3 + 8
+\endif
+
+
+\verbinclude frag_operators_plus_000.m.out 
+
+Next, we add a scalar to a vector of values:
+
+\if FRAGMENT
+frag_operators_plus_001.m
+0
+3.1 + [2,4,5,6,7]
+\endif
+
+
+\verbinclude frag_operators_plus_001.m.out 
+
+With complex values
+
+\if FRAGMENT
+frag_operators_plus_002.m
+0
+a = 3 + 4*i
+b = a + 2
+\endif
+
+
+\verbinclude frag_operators_plus_002.m.out 
+
+Finally, the element-wise version:
+
+\if FRAGMENT
+frag_operators_plus_003.m
+0
+a = [1,2;3,4]
+b = [2,3;6,7]
+c = a + b
+\endif
+
+
+\verbinclude frag_operators_plus_003.m.out 
+
+*/

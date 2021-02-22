@@ -1,0 +1,57 @@
+/*!
+\page vtkinfovis_vtkkmeansdistancefunctor vtkKMeansDistanceFunctor
+
+<p>
+Section: \ref sec_vtkinfovis "Visualization Toolkit Infovis Classes"
+\section Usage
+ This is an abstract class (with a default concrete subclass) that implements
+ algorithms used by the vtkKMeansStatistics filter that rely on a distance metric.
+ If you wish to use a non-Euclidean distance metric (this could include
+ working with strings that do not have a Euclidean distance metric, implementing
+ k-mediods, or trying distance metrics in norms other than L2), you
+ should subclass vtkKMeansDistanceFunctor.
+
+To create an instance of class vtkKMeansDistanceFunctor, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkKMeansDistanceFunctor
+\endverbatim
+\section Methods
+The class vtkKMeansDistanceFunctor has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkKMeansDistanceFunctor class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkKMeansDistanceFunctor = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkKMeansDistanceFunctor = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>vtkVariantArray = obj.GetEmptyTuple (vtkIdType dimension)</tt> -  Return an empty tuple. These values are used as cluster center coordinates
+ when no initial cluster centers are specified.
+ </LI>
+<LI>  <tt>obj.PairwiseUpdate (vtkTable clusterCenters, vtkIdType row, vtkVariantArray data, vtkIdType dataCardinality, vtkIdType totalCardinality)</tt> -  This is called once per observation per run per iteration in order to assign the
+ observation to its nearest cluster center after the distance functor has been
+ evaluated for all the cluster centers.
+
+ The distance functor is responsible for incrementally updating the cluster centers
+ to account for the assignment.
+ </LI>
+<LI>  <tt>obj.PerturbElement (vtkTable , vtkTable , vtkIdType , vtkIdType , vtkIdType , double )</tt> -  When a cluster center (1) has no observations that are closer to it than other cluster centers
+ or (2) has exactly the same coordinates as another cluster center, its coordinates should be
+ perturbed. This function should perform that perturbation.
+
+ Since perturbation relies on a distance metric, this function is the responsibility of the
+ distance functor.
+ </LI>
+<LI>  <tt>vtkAbstractArray = obj.CreateCoordinateArray ()</tt> -  Return a vtkAbstractArray capable of holding cluster center coordinates.
+ This is used by vtkPKMeansStatistics to hold cluster center coordinates sent to (received from) other processes.
+ </LI>
+<LI>  <tt>int = obj.GetDataType ()</tt> -  Return the data type used to store cluster center coordinates.
+ </LI>
+</UL>
+*/

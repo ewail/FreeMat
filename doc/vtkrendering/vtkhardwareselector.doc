@@ -1,0 +1,144 @@
+/*!
+\page vtkrendering_vtkhardwareselector vtkHardwareSelector
+
+<p>
+Section: \ref sec_vtkrendering "Visualization Toolkit Rendering Classes"
+\section Usage
+ vtkHardwareSelector is a helper that orchestrates color buffer based
+ selection. This relies on OpenGL. 
+ vtkHardwareSelector can be used to select visible cells or points within a
+ given rectangle of the RenderWindow.
+ To use it, call in order:
+ \li SetRenderer() - to select the renderer in which we
+ want to select the cells/points.
+ \li SetArea() - to set the rectangular region in the render window to select
+ in.
+ \li SetFieldAssociation() -  to select the attribute to select i.e.
+ cells/points etc. 
+ \li Finally, call Select().
+ Select will cause the attached vtkRenderer to render in a special color mode,
+ where each cell/point is given it own color so that later inspection of the 
+ Rendered Pixels can determine what cells are visible. Select() returns a new
+ vtkSelection instance with the cells/points selected.
+
+ Limitations:
+ Antialiasing will break this class. If your graphics card settings force
+ their use this class will return invalid results.
+
+ Currently only cells from PolyDataMappers can be selected from. When 
+ vtkRenderer::Selector is non-null vtkPainterPolyDataMapper uses the
+ vtkHardwareSelectionPolyDataPainter which make appropriate calls to
+ BeginRenderProp(), EndRenderProp(), RenderAttributeId() to render colors
+ correctly. Until alternatives to vtkHardwareSelectionPolyDataPainter
+ exist that can do a similar coloration of other vtkDataSet types, only
+ polygonal data can be selected. If you need to select other data types,
+ consider using vtkDataSetMapper and turning on it's PassThroughCellIds 
+ feature, or using vtkFrustumExtractor.
+
+ Only Opaque geometry in Actors is selected from. Assemblies and LODMappers 
+ are not currently supported. 
+
+ During selection, visible datasets that can not be selected from are
+ temporarily hidden so as not to produce invalid indices from their colors.
+
+
+To create an instance of class vtkHardwareSelector, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkHardwareSelector
+\endverbatim
+\section Methods
+The class vtkHardwareSelector has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkHardwareSelector class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkHardwareSelector = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkHardwareSelector = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetRenderer (vtkRenderer )</tt> -  Get/Set the renderer to perform the selection on.
+ </LI>
+<LI>  <tt>vtkRenderer = obj.GetRenderer ()</tt> -  Get/Set the renderer to perform the selection on.
+ </LI>
+<LI>  <tt>obj.SetArea (int , int , int , int )</tt> -  Get/Set the area to select as (xmin, ymin, xmax, ymax).
+ </LI>
+<LI>  <tt>obj.SetArea (int  a[4])</tt> -  Get/Set the area to select as (xmin, ymin, xmax, ymax).
+ </LI>
+<LI>  <tt>int = obj. GetArea ()</tt> -  Get/Set the area to select as (xmin, ymin, xmax, ymax).
+ </LI>
+<LI>  <tt>obj.SetFieldAssociation (int )</tt> -  Set the field type to select. Valid values are 
+ \li vtkDataObject::FIELD_ASSOCIATION_POINTS
+ \li vtkDataObject::FIELD_ASSOCIATION_CELLS
+ \li vtkDataObject::FIELD_ASSOCIATION_VERTICES
+ \li vtkDataObject::FIELD_ASSOCIATION_EDGES
+ \li vtkDataObject::FIELD_ASSOCIATION_ROWS
+ Currently only FIELD_ASSOCIATION_POINTS and FIELD_ASSOCIATION_CELLS are
+ supported.
+ </LI>
+<LI>  <tt>int = obj.GetFieldAssociation ()</tt> -  Set the field type to select. Valid values are 
+ \li vtkDataObject::FIELD_ASSOCIATION_POINTS
+ \li vtkDataObject::FIELD_ASSOCIATION_CELLS
+ \li vtkDataObject::FIELD_ASSOCIATION_VERTICES
+ \li vtkDataObject::FIELD_ASSOCIATION_EDGES
+ \li vtkDataObject::FIELD_ASSOCIATION_ROWS
+ Currently only FIELD_ASSOCIATION_POINTS and FIELD_ASSOCIATION_CELLS are
+ supported.
+ </LI>
+<LI>  <tt>vtkSelection = obj.Select ()</tt> -  Perform the selection. Returns  a new instance of vtkSelection containing
+ the selection on success.
+ </LI>
+<LI>  <tt>bool = obj.CaptureBuffers ()</tt> -  It is possible to use the vtkHardwareSelector for a custom picking. (Look
+ at vtkScenePicker). In that case instead of Select() on can use
+ CaptureBuffers() to render the selection buffers and then get information
+ about pixel locations suing GetPixelInformation(). Use ClearBuffers() to
+ clear buffers after one's done with the scene.
+ The optional final parameter maxDist will look for a cell within the specified
+ number of pixels from display_position.
+ </LI>
+<LI>  <tt>obj.ClearBuffers ()</tt> -  Called by any vtkMapper or vtkProp subclass to render an attribute's id.
+ </LI>
+<LI>  <tt>obj.RenderAttributeId (vtkIdType attribid)</tt> -  Called by any vtkMapper or vtkProp subclass to render an attribute's id.
+ </LI>
+<LI>  <tt>obj.BeginRenderProp ()</tt> -  Called by the mapper (vtkHardwareSelectionPolyDataPainter) before and after
+ rendering each prop.
+ </LI>
+<LI>  <tt>obj.EndRenderProp ()</tt> -  Called by the mapper (vtkHardwareSelectionPolyDataPainter) before and after
+ rendering each prop.
+ </LI>
+<LI>  <tt>obj.SetProcessID (int )</tt> -  Get/Set the process id. If process id < 0 (default -1), then the
+ PROCESS_PASS is not rendered.
+ </LI>
+<LI>  <tt>int = obj.GetProcessID ()</tt> -  Get/Set the process id. If process id < 0 (default -1), then the
+ PROCESS_PASS is not rendered.
+ </LI>
+<LI>  <tt>int = obj.GetCurrentPass ()</tt> -  Get the current pass number.
+ </LI>
+<LI>  <tt>vtkSelection = obj.GenerateSelection ()</tt> -  Generates the vtkSelection from pixel buffers.
+ Requires that CaptureBuffers() has already been called.
+ Optionally you may pass a screen region (xmin, ymin, xmax, ymax)
+ to generate a selection from. The region must be a subregion
+ of the region specified by SetArea(), otherwise it will be
+ clipped to that region.
+ </LI>
+<LI>  <tt>vtkSelection = obj.GenerateSelection (int r[4])</tt> -  Generates the vtkSelection from pixel buffers.
+ Requires that CaptureBuffers() has already been called.
+ Optionally you may pass a screen region (xmin, ymin, xmax, ymax)
+ to generate a selection from. The region must be a subregion
+ of the region specified by SetArea(), otherwise it will be
+ clipped to that region.
+ </LI>
+<LI>  <tt>vtkSelection = obj.GenerateSelection (int x1, int y1, int x2, int y2)</tt> -  Generates the vtkSelection from pixel buffers.
+ Requires that CaptureBuffers() has already been called.
+ Optionally you may pass a screen region (xmin, ymin, xmax, ymax)
+ to generate a selection from. The region must be a subregion
+ of the region specified by SetArea(), otherwise it will be
+ clipped to that region.
+ </LI>
+</UL>
+*/

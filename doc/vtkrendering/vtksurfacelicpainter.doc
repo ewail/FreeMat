@@ -1,0 +1,119 @@
+/*!
+\page vtkrendering_vtksurfacelicpainter vtkSurfaceLICPainter
+
+<p>
+Section: \ref sec_vtkrendering "Visualization Toolkit Rendering Classes"
+\section Usage
+  vtkSurfaceLICPainter painter performs LIC on the surface of arbitrary
+  geometry. Point vectors are used as the vector field for generating the LIC.
+  The implementation is based on "Image Space Based Visualization on Unstread
+  Flow on Surfaces" by Laramee, Jobard and Hauser appered in proceedings of 
+  IEEE Visualization '03, pages 131-138.
+  
+
+To create an instance of class vtkSurfaceLICPainter, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkSurfaceLICPainter
+\endverbatim
+\section Methods
+The class vtkSurfaceLICPainter has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkSurfaceLICPainter class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkSurfaceLICPainter = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkSurfaceLICPainter = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.ReleaseGraphicsResources (vtkWindow )</tt> -  Release any graphics resources that are being consumed by this mapper.
+ The parameter window could be used to determine which graphic
+ resources to release. In this case, releases the display lists.
+ </LI>
+<LI>  <tt>vtkDataObject = obj.GetOutput ()</tt> -  Get the output data object from this painter. 
+ Overridden to pass the input points (or cells) vectors as the tcoords to
+ the deletage painters. This is required by the internal GLSL shader
+ programs used for generating LIC.
+ </LI>
+<LI>  <tt>obj.SetEnable (int )</tt> -  Enable/Disable this painter.
+ </LI>
+<LI>  <tt>int = obj.GetEnable ()</tt> -  Enable/Disable this painter.
+ </LI>
+<LI>  <tt>obj.EnableOn ()</tt> -  Enable/Disable this painter.
+ </LI>
+<LI>  <tt>obj.EnableOff ()</tt> -  Enable/Disable this painter.
+ </LI>
+<LI>  <tt>obj.SetInputArrayToProcess (int fieldAssociation, string name)</tt> -  Set the vectors to used for applying LIC. By default point vectors are
+ used. Arguments are same as those passed to
+ vtkAlgorithm::SetInputArrayToProcess except the first 3 arguments i.e. idx,
+ port, connection.
+ </LI>
+<LI>  <tt>obj.SetInputArrayToProcess (int fieldAssociation, int fieldAttributeType)</tt> -  Set the vectors to used for applying LIC. By default point vectors are
+ used. Arguments are same as those passed to
+ vtkAlgorithm::SetInputArrayToProcess except the first 3 arguments i.e. idx,
+ port, connection.
+ </LI>
+<LI>  <tt>obj.SetEnhancedLIC (int )</tt> -  Enable/Disable enhanced LIC that improves image quality by increasing
+ inter-streamline contrast while suppressing artifacts. Enhanced LIC
+ performs two passes of LIC, with a 3x3 Laplacian high-pass filter in
+ between that processes the output of pass #1 LIC and forwards the result
+ as the input 'noise' to pass #2 LIC. This flag is automatically turned
+ off during user interaction.
+ </LI>
+<LI>  <tt>int = obj.GetEnhancedLIC ()</tt> -  Enable/Disable enhanced LIC that improves image quality by increasing
+ inter-streamline contrast while suppressing artifacts. Enhanced LIC
+ performs two passes of LIC, with a 3x3 Laplacian high-pass filter in
+ between that processes the output of pass #1 LIC and forwards the result
+ as the input 'noise' to pass #2 LIC. This flag is automatically turned
+ off during user interaction.
+ </LI>
+<LI>  <tt>obj.EnhancedLICOn ()</tt> -  Enable/Disable enhanced LIC that improves image quality by increasing
+ inter-streamline contrast while suppressing artifacts. Enhanced LIC
+ performs two passes of LIC, with a 3x3 Laplacian high-pass filter in
+ between that processes the output of pass #1 LIC and forwards the result
+ as the input 'noise' to pass #2 LIC. This flag is automatically turned
+ off during user interaction.
+ </LI>
+<LI>  <tt>obj.EnhancedLICOff ()</tt> -  Enable/Disable enhanced LIC that improves image quality by increasing
+ inter-streamline contrast while suppressing artifacts. Enhanced LIC
+ performs two passes of LIC, with a 3x3 Laplacian high-pass filter in
+ between that processes the output of pass #1 LIC and forwards the result
+ as the input 'noise' to pass #2 LIC. This flag is automatically turned
+ off during user interaction.
+ </LI>
+<LI>  <tt>obj.SetNumberOfSteps (int )</tt> -  Get/Set the number of integration steps in each direction.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfSteps ()</tt> -  Get/Set the number of integration steps in each direction.
+ </LI>
+<LI>  <tt>obj.SetStepSize (double )</tt> -  Get/Set the step size (in pixels).
+ </LI>
+<LI>  <tt>double = obj.GetStepSize ()</tt> -  Get/Set the step size (in pixels).
+ </LI>
+<LI>  <tt>obj.SetLICIntensity (double )</tt> -  Control the contribution of the LIC in the final output image.
+ 0.0 produces same result as disabling LIC alltogether, while 1.0 implies
+ show LIC result alone.
+ </LI>
+<LI>  <tt>double = obj.GetLICIntensityMinValue ()</tt> -  Control the contribution of the LIC in the final output image.
+ 0.0 produces same result as disabling LIC alltogether, while 1.0 implies
+ show LIC result alone.
+ </LI>
+<LI>  <tt>double = obj.GetLICIntensityMaxValue ()</tt> -  Control the contribution of the LIC in the final output image.
+ 0.0 produces same result as disabling LIC alltogether, while 1.0 implies
+ show LIC result alone.
+ </LI>
+<LI>  <tt>double = obj.GetLICIntensity ()</tt> -  Control the contribution of the LIC in the final output image.
+ 0.0 produces same result as disabling LIC alltogether, while 1.0 implies
+ show LIC result alone.
+ </LI>
+<LI>  <tt>int = obj.GetRenderingPreparationSuccess ()</tt> -  Check if the LIC process runs properly.
+ </LI>
+<LI>  <tt>int = obj.GetLICSuccess ()</tt> -  Returns true is the rendering context supports extensions needed by this
+ painter.
+ </LI>
+</UL>
+*/

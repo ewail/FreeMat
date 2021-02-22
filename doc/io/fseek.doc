@@ -1,0 +1,63 @@
+/*!
+\page io_fseek FSEEK Seek File To A Given Position
+
+<p>
+Section: \ref sec_io "Input/Ouput Functions"
+\section Usage
+Moves the file pointer associated with the given file handle to 
+the specified offset (in bytes).  The usage is
+\verbatim
+  fseek(handle,offset,style)
+\endverbatim
+The <tt>handle</tt> argument must be a value and active file handle.  The
+<tt>offset</tt> parameter indicates the desired seek offset (how much the
+file pointer is moved in bytes).  The <tt>style</tt> parameter determines
+how the offset is treated.  Three values for the <tt>style</tt> parameter
+are understood:
+<UL>
+<LI>  string <tt>'bof'</tt> or the value -1, which indicate the seek is relative
+to the beginning of the file.  This is equivalent to <tt>SEEK_SET</tt> in
+ANSI C.
+ </LI>
+<LI>  string <tt>'cof'</tt> or the value 0, which indicates the seek is relative
+to the current position of the file.  This is equivalent to 
+<tt>SEEK_CUR</tt> in ANSI C.
+ </LI>
+<LI>  string <tt>'eof'</tt> or the value 1, which indicates the seek is relative
+to the end of the file.  This is equivalent to <tt>SEEK_END</tt> in ANSI
+C.
+ </LI>
+</UL>
+The offset can be positive or negative.
+\section Example
+The first example reads a file and then ``rewinds'' the file pointer by seeking to the beginning.
+The next example seeks forward by 2048 bytes from the files current position, and then reads a line of 512 floats.
+
+\if FRAGMENT
+frag_io_fseek_000.m
+0
+% First we create the file
+fp = fopen('test.dat','wb');
+fwrite(fp,float(rand(4096,1)));
+fclose(fp);
+% Now we open it
+fp = fopen('test.dat','rb');
+% Read the whole thing
+x = fread(fp,[1,inf],'float');
+% Rewind to the beginning
+fseek(fp,0,'bof');
+% Read part of the file
+y = fread(fp,[1,1024],'float');
+who x y
+% Seek 2048 bytes into the file
+fseek(fp,2048,'cof');
+% Read 512 floats from the file
+x = fread(fp,[512,1],'float');
+% Close the file
+fclose(fp);
+\endif
+
+
+\verbinclude frag_io_fseek_000.m.out 
+
+*/

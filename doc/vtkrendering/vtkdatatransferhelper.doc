@@ -1,0 +1,205 @@
+/*!
+\page vtkrendering_vtkdatatransferhelper vtkDataTransferHelper
+
+<p>
+Section: \ref sec_vtkrendering "Visualization Toolkit Rendering Classes"
+\section Usage
+  vtkDataTransferHelper is a helper class that aids in transferring data
+  between the CPU memory and the GPU memory. The data in GPU memory is 
+  stored as textures which that in CPU memory is stored as vtkDataArray.
+  vtkDataTransferHelper provides API to transfer only a sub-extent of CPU
+  structured data to/from the GPU.
+
+
+To create an instance of class vtkDataTransferHelper, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkDataTransferHelper
+\endverbatim
+\section Methods
+The class vtkDataTransferHelper has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkDataTransferHelper class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkDataTransferHelper = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkDataTransferHelper = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetContext (vtkRenderWindow context)</tt> -  Get/Set the context. Context must be a vtkOpenGLRenderWindow. 
+ This does not increase the reference count of the 
+ context to avoid reference loops.
+ SetContext() may raise an error is the OpenGL context does not support the
+ required OpenGL extensions.
+ </LI>
+<LI>  <tt>vtkRenderWindow = obj.GetContext ()</tt> -  Get/Set the context. Context must be a vtkOpenGLRenderWindow. 
+ This does not increase the reference count of the 
+ context to avoid reference loops.
+ SetContext() may raise an error is the OpenGL context does not support the
+ required OpenGL extensions.
+ </LI>
+<LI>  <tt>obj.SetCPUExtent (int , int , int , int , int , int )</tt> -  Set the CPU data extent. The extent matches the vtkDataArray size.
+ If the vtkDataArray comes from an vtkImageData and it is part of the
+ point data, it is usually the vtkImageData extent.
+ It can be on cell data too, but in this case it does not match the
+ vtkImageData extent.
+ If the vtkDataArray comes from a vtkDataSet, just
+ set it to a one-dimenstional extent equal to the number of tuples.
+ Initial value is (0,0,0,0,0,0), a valid one tuple array.
+ </LI>
+<LI>  <tt>obj.SetCPUExtent (int  a[6])</tt> -  Set the CPU data extent. The extent matches the vtkDataArray size.
+ If the vtkDataArray comes from an vtkImageData and it is part of the
+ point data, it is usually the vtkImageData extent.
+ It can be on cell data too, but in this case it does not match the
+ vtkImageData extent.
+ If the vtkDataArray comes from a vtkDataSet, just
+ set it to a one-dimenstional extent equal to the number of tuples.
+ Initial value is (0,0,0,0,0,0), a valid one tuple array.
+ </LI>
+<LI>  <tt>int = obj. GetCPUExtent ()</tt> -  Set the CPU data extent. The extent matches the vtkDataArray size.
+ If the vtkDataArray comes from an vtkImageData and it is part of the
+ point data, it is usually the vtkImageData extent.
+ It can be on cell data too, but in this case it does not match the
+ vtkImageData extent.
+ If the vtkDataArray comes from a vtkDataSet, just
+ set it to a one-dimenstional extent equal to the number of tuples.
+ Initial value is (0,0,0,0,0,0), a valid one tuple array.
+ </LI>
+<LI>  <tt>obj.SetGPUExtent (int , int , int , int , int , int )</tt> -  Set the GPU data extent. This is the sub-extent to copy from or to the GPU.
+ This extent matches the size of the data to transfer.
+ GPUExtent and TextureExtent don't have to match (GPUExtent can be 1D
+ whereas TextureExtent is 2D) but the number of elements have to match.
+ Initial value is (0,0,0,0,0,0), a valid one tuple array.
+ </LI>
+<LI>  <tt>obj.SetGPUExtent (int  a[6])</tt> -  Set the GPU data extent. This is the sub-extent to copy from or to the GPU.
+ This extent matches the size of the data to transfer.
+ GPUExtent and TextureExtent don't have to match (GPUExtent can be 1D
+ whereas TextureExtent is 2D) but the number of elements have to match.
+ Initial value is (0,0,0,0,0,0), a valid one tuple array.
+ </LI>
+<LI>  <tt>int = obj. GetGPUExtent ()</tt> -  Set the GPU data extent. This is the sub-extent to copy from or to the GPU.
+ This extent matches the size of the data to transfer.
+ GPUExtent and TextureExtent don't have to match (GPUExtent can be 1D
+ whereas TextureExtent is 2D) but the number of elements have to match.
+ Initial value is (0,0,0,0,0,0), a valid one tuple array.
+ </LI>
+<LI>  <tt>obj.SetTextureExtent (int , int , int , int , int , int )</tt> -  Set the texture data extent. This is the extent of the texture image that
+ will receive the data. This extent matches the size of the data to
+ transfer. If it is set to an invalid extent, GPUExtent is used.
+ See more comment on GPUExtent.
+ Initial value is an invalid extent.
+ </LI>
+<LI>  <tt>obj.SetTextureExtent (int  a[6])</tt> -  Set the texture data extent. This is the extent of the texture image that
+ will receive the data. This extent matches the size of the data to
+ transfer. If it is set to an invalid extent, GPUExtent is used.
+ See more comment on GPUExtent.
+ Initial value is an invalid extent.
+ </LI>
+<LI>  <tt>int = obj. GetTextureExtent ()</tt> -  Set the texture data extent. This is the extent of the texture image that
+ will receive the data. This extent matches the size of the data to
+ transfer. If it is set to an invalid extent, GPUExtent is used.
+ See more comment on GPUExtent.
+ Initial value is an invalid extent.
+ </LI>
+<LI>  <tt>bool = obj.GetExtentIsValid (int extent)</tt> -  Tells if the given extent (6 int) is valid. True if min
+ extent<=max extent.
+ \pre extent_exists: extent!=0
+ </LI>
+<LI>  <tt>bool = obj.GetCPUExtentIsValid ()</tt> -  Tells if CPUExtent is valid. True if min extent<=max extent.
+ </LI>
+<LI>  <tt>bool = obj.GetGPUExtentIsValid ()</tt> -  Tells if GPUExtent is valid. True if min extent<=max extent.
+ </LI>
+<LI>  <tt>bool = obj.GetTextureExtentIsValid ()</tt> -  Tells if TextureExtent is valid. True if min extent<=max extent.
+ </LI>
+<LI>  <tt>obj.SetMinTextureDimension (int )</tt> -  Define the minimal dimension of the texture regardless of the dimensions
+ of the TextureExtent. Initial value is 1.
+ A texture extent can have a given dimension 0D (one value), 1D, 2D or 3D.
+ By default 0D and 1D are translated into a 1D texture, 2D is translated
+ into a 2D texture, 3D is translated into a 3D texture. To make life easier
+ when writting GLSL code and use only one type of sampler (ex: sampler2d),
+ the default behavior can be changed by forcing a type of texture with
+ this ivar.
+ 1: default behavior. Initial value.
+ 2: force 0D and 1D to be in a 2D texture
+ 3: force 0D, 1D and 2D texture to be in a 3D texture.
+ </LI>
+<LI>  <tt>int = obj.GetMinTextureDimension ()</tt> -  Define the minimal dimension of the texture regardless of the dimensions
+ of the TextureExtent. Initial value is 1.
+ A texture extent can have a given dimension 0D (one value), 1D, 2D or 3D.
+ By default 0D and 1D are translated into a 1D texture, 2D is translated
+ into a 2D texture, 3D is translated into a 3D texture. To make life easier
+ when writting GLSL code and use only one type of sampler (ex: sampler2d),
+ the default behavior can be changed by forcing a type of texture with
+ this ivar.
+ 1: default behavior. Initial value.
+ 2: force 0D and 1D to be in a 2D texture
+ 3: force 0D, 1D and 2D texture to be in a 3D texture.
+ </LI>
+<LI>  <tt>vtkDataArray = obj.GetArray ()</tt> -  Get/Set the CPU data buffer. Initial value is 0.
+ </LI>
+<LI>  <tt>obj.SetArray (vtkDataArray array)</tt> -  Get/Set the CPU data buffer. Initial value is 0.
+ </LI>
+<LI>  <tt>vtkTextureObject = obj.GetTexture ()</tt> -  Get/Set the GPU data buffer. Initial value is 0.
+ </LI>
+<LI>  <tt>obj.SetTexture (vtkTextureObject texture)</tt> -  Get/Set the GPU data buffer. Initial value is 0.
+ </LI>
+<LI>  <tt>bool = obj.Upload (int components, int componentListNULL)</tt> -  Old comment.
+ Upload Extent from CPU data buffer to GPU.
+ The WholeExtent must match the Array size.
+ New comment.
+ Upload GPUExtent from CPU vtkDataArray to GPU texture.
+ It is possible to send a subset of the components or to specify and
+ order of components or both. If components=0, componentList is ignored
+ and all components are passed, a texture cannot have more than 4
+ components.
+ \pre array_exists: array!=0
+ \pre array_not_empty: array->GetNumberOfTuples()>0
+ \pre valid_cpu_extent: this->GetCPUExtentIsValid()
+ \pre valid_cpu_extent_size: (CPUExtent[1]-CPUExtent[0]+1)*(CPUExtent[3]-CPUExtent[2]+1)*(CPUExtent[5]-CPUExtent[4]+1)==array->GetNumberOfTuples()
+ \pre valid_gpu_extent: this->GetGPUExtentIsValid()
+ \pre gpu_extent_in_cpu_extent: CPUExtent[0]<=GPUExtent[0] && GPUExtent[1]<=CPUExtent[1] && CPUExtent[2]<=GPUExtent[2] && GPUExtent[3]<=CPUExtent[3] && CPUExtent[4]<=GPUExtent[4] && GPUExtent[5]<=CPUExtent[5]
+ \pre gpu_texture_size: !this->GetTextureExtentIsValid() || (GPUExtent[1]-GPUExtent[0]+1)*(GPUExtent[3]-GPUExtent[2]+1)*(GPUExtent[5]-GPUExtent[4]+1)==(TextureExtent[1]-TextureExtent[0]+1)*(TextureExtent[3]-TextureExtent[2]+1)*(TextureExtent[5]-TextureExtent[4]+1)
+ \pre texture_can_exist_or_not: texture==0 || texture!=0
+ \pre valid_components: (components==0 && componentList==0 && array->GetNumberOfComponents()<=4) || (components>=1 && components<=array->GetNumberOfComponents() && components<=4 && componentList!=0)
+ </LI>
+<LI>  <tt>bool = obj.Download ()</tt> -  old comment:
+ Downlad Extent from GPU data buffer to CPU.
+ GPU data size must exactly match Extent.
+ CPU data buffer will be resized to match WholeExtent in which only the
+ Extent will be filled with the GPU data.
+ new comment:
+ Download GPUExtent from GPU texture to CPU vtkDataArray.
+ If Array is not provided, it will be created with the size of CPUExtent.
+ But only the tuples covered by GPUExtent will be download. In this case,
+ if GPUExtent does not cover all GPUExtent, some of the vtkDataArray will
+ be uninitialized.
+ Reminder: A=>B <=> !A||B
+ \pre texture_exists: texture!=0
+ \pre array_not_empty: array==0 || array->GetNumberOfTuples()>0
+ \pre valid_cpu_extent: this->GetCPUExtentIsValid()
+ \pre valid_cpu_extent_size: array==0 || (CPUExtent[1]-CPUExtent[0]+1)*(CPUExtent[3]-CPUExtent[2]+1)*(CPUExtent[5]-CPUExtent[4]+1)==array->GetNumberOfTuples()
+ \pre valid_gpu_extent: this->GetGPUExtentIsValid()
+ \pre gpu_extent_in_cpu_extent: CPUExtent[0]<=GPUExtent[0] && GPUExtent[1]<=CPUExtent[1] && CPUExtent[2]<=GPUExtent[2] && GPUExtent[3]<=CPUExtent[3] && CPUExtent[4]<=GPUExtent[4] && GPUExtent[5]<=CPUExtent[5]
+ \pre gpu_texture_size: !this->GetTextureExtentIsValid() || (GPUExtent[1]-GPUExtent[0]+1)*(GPUExtent[3]-GPUExtent[2]+1)*(GPUExtent[5]-GPUExtent[4]+1)==(TextureExtent[1]-TextureExtent[0]+1)*(TextureExtent[3]-TextureExtent[2]+1)*(TextureExtent[5]-TextureExtent[4]+1)
+ \pre valid_components: array==0 || array->GetNumberOfComponents()<=4
+ \pre components_match: array==0 || (texture->GetComponents()==array->GetNumberOfComponents())
+ </LI>
+<LI>  <tt>bool = obj.DownloadAsync1 ()</tt> -  Splits the download in two operations
+ * Asynchronously download from texture memory to PBO (DownloadAsync1()).
+ * Copy from pbo to user array (DownloadAsync2()).
+ </LI>
+<LI>  <tt>bool = obj.DownloadAsync2 ()</tt> -  Splits the download in two operations
+ * Asynchronously download from texture memory to PBO (DownloadAsync1()).
+ * Copy from pbo to user array (DownloadAsync2()).
+ </LI>
+<LI>  <tt>bool = obj.GetShaderSupportsTextureInt ()</tt>
+ </LI>
+<LI>  <tt>obj.SetShaderSupportsTextureInt (bool value)</tt>
+ </LI>
+</UL>
+*/

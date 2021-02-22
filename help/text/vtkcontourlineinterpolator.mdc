@@ -1,0 +1,76 @@
+
+ Usage
+
+vtkContourLineInterpolator is an abstract base class for
+interpolators that work are used by the contour
+representation class to interpolate and/or modify nodes in a
+contour. Subclasses must override the virtual method:
+InterpolateLine. This is used by the contour representation
+to give the interpolator a chance to define an interpolation
+scheme between nodes. See vtkBezierContourLineInterpolator
+for a concrete implementation. Subclasses may also override,
+UpdateNode. This provides a way for the representation to
+give the interpolator a chance to modify the nodes, as the
+user constructs the contours. For instance a sticky contour
+widget may be implemented that moves nodes to nearby regions
+of high gradient, to be used in contour guided segmentation.
+To create an instance of class vtkContourLineInterpolator,
+simply invoke its constructor as follows
+
+    obj = vtkContourLineInterpolator
+
+
+
+ Methods
+
+The class vtkContourLineInterpolator has several methods
+that can be used. They are listed below. Note that the
+documentation is translated automatically from the VTK
+sources, and may not be completely intelligible. When in
+doubt, consult the VTK website. In the methods listed below,
+obj is an instance of the vtkContourLineInterpolator class.
+
+* string = obj.GetClassName () - Standard methods for
+  instances of this class.
+* int = obj.IsA (string name) - Standard methods for
+  instances of this class.
+* vtkContourLineInterpolator = obj.NewInstance () - Standard
+  methods for instances of this class.
+* vtkContourLineInterpolator = obj.SafeDownCast (vtkObject
+  o) - Standard methods for instances of this class.
+* int = obj.InterpolateLine (vtkRenderer ren,
+  vtkContourRepresentation rep, int idx1, int idx2) -
+  Subclasses that wish to interpolate a line segment must
+  implement this. For instance
+  vtkBezierContourLineInterpolator adds nodes between idx1
+  and idx2, that allow the contour to adhere to a bezier
+  curve.
+* int = obj.UpdateNode (vtkRenderer ,
+  vtkContourRepresentation , double , int ) - The
+  interpolator is given a chance to update the node. For
+  instance, the vtkImageContourLineInterpolator updates the
+  idx'th node in the contour, so it automatically sticks to
+  edges in the vicinity as the user constructs the contour.
+  Returns 0 if the node (world position) is unchanged.
+* obj.GetSpan (int nodeIndex, vtkIntArray nodeIndices,
+  vtkContourRepresentation rep) - Span of the interpolator.
+  ie. the number of control points its supposed to
+  interpolate given a node.
+  The first argument is the current nodeIndex. ie, you'd be
+  trying to interpolate between nodes "nodeIndex" and
+  "nodeIndex-1", unless you're closing the contour in which
+  case, you're trying to interpolate "nodeIndex" and
+  "Node=0".
+  The node span is returned in a vtkIntArray. The default
+  node span is 1 (ie. nodeIndices is a 2 tuple (nodeIndex,
+  nodeIndex-1)). However, it need not always be 1. For
+  instance, cubic spline interpolators, which have a span of
+  3 control points, it can be larger. See
+  vtkBezierContourLineInterpolator for instance.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Widget_Classes
+* Generated on Thu Jul 25 2013 17:18:36 for FreeMat by
+  doxygen_ 1.8.1.1
+

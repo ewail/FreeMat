@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="handle_image" kind="page">
+    <compoundname>handle_image</compoundname>
+    <title>IMAGE Image Display Function</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_handle_1sec_handle" kindref="member">Handle-Based Graphics</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>The <computeroutput>image</computeroutput> command has the following general syntax <verbatim>  handle = image(x,y,C,properties...)
+</verbatim> where <computeroutput>x</computeroutput> is a two vector containing the <computeroutput>x</computeroutput> coordinates of the first and last pixels along a column, and <computeroutput>y</computeroutput> is a two vector containing the <computeroutput>y</computeroutput> coordinates of the first and last pixels along a row. The matrix <computeroutput>C</computeroutput> constitutes the image data. It must either be a scalar matrix, in which case the image is colormapped using the <computeroutput>colormap</computeroutput> for the current figure. If the matrix is <computeroutput>M x N x 3</computeroutput>, then <computeroutput>C</computeroutput> is intepreted as RGB data, and the image is not colormapped. The <computeroutput>properties</computeroutput> argument is a set of <computeroutput>property/value</computeroutput> pairs that affect the final image. You can also omit the <computeroutput>x</computeroutput> and <computeroutput>y</computeroutput>, <verbatim>  handle = image(C, properties...)
+</verbatim> in which case they default to <computeroutput>x = [1,size(C,2)]</computeroutput> and <computeroutput>y = [1,size(C,1)]</computeroutput>. Finally, you can use the <computeroutput>image</computeroutput> function with only formal arguments <verbatim>  handle = image(properties...)
+</verbatim></para><para>To support legacy FreeMat code, you can also use the following form of <computeroutput>image</computeroutput> <verbatim>  image(C, zoomfactor)
+</verbatim> which is equivalent to <computeroutput>image(C)</computeroutput> with the axes removed so that the image takes up the full figure window, and the size of the figure window adjusted to achieve the desired zoom factor using the <computeroutput>zoom</computeroutput> command. </para></sect1>
+<sect1 id="variables_struct_1Example">
+<title>Example</title>
+<para>In this example, we create an image that is <computeroutput>512 x 512</computeroutput> pixels square, and set the background to a noise pattern. We set the central <computeroutput>128 x 256</computeroutput> pixels to be white.</para><para><verbatim>--&gt; x = rand(512);
+--&gt; x((-64:63)+256,(-128:127)+256) = 1.0;
+--&gt; figure
+
+ans = 
+ 1 
+
+--&gt; image(x)
+--&gt; colormap(gray)
+</verbatim></para><para>The resulting image looks like: <image type="html" name="image1.png"></image>
+ <image type="latex" name="image1" width="12cm">image1</image>
+ Here is an example of an RGB image</para><para><verbatim>--&gt; t = linspace(0,1);
+--&gt; red = t&apos;*t;
+--&gt; green = t&apos;*(t.^2);
+--&gt; blue = t&apos;*(0*t+1);
+--&gt; A(:,:,1) = red; 
+--&gt; A(:,:,2) = green; 
+--&gt; A(:,:,3) = blue;
+--&gt; image(A);
+</verbatim></para><para>The resulting image looks like: <image type="html" name="image2.png"></image>
+ <image type="latex" name="image2" width="12cm">image2</image>
+ </para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,345 @@
+
+ Usage
+
+vtkCubeAxesActor2D is a composite actor that draws three
+axes of the bounding box of an input dataset. The axes
+include labels and titles for the x-y-z axes. The algorithm
+selects the axes that are on the "exterior" of the bounding
+box, exterior as determined from examining outer edges of
+the bounding box in projection (display) space.
+Alternatively, the edges closest to the viewer (i.e., camera
+position) can be drawn.
+To use this object you must define a bounding box and the
+camera used to render the vtkCubeAxesActor2D. The camera is
+used to control the scaling and position of the
+vtkCubeAxesActor2D so that it fits in the viewport and
+always remains visible.)
+The font property of the axes titles and labels can be
+modified through the AxisTitleTextProperty and
+AxisLabelTextProperty attributes. You may also use the
+GetXAxisActor2D, GetYAxisActor2D or GetZAxisActor2D methods
+to access each individual axis actor to modify their font
+properties.
+The bounding box to use is defined in one of three ways.
+First, if the Input ivar is defined, then the input
+dataset's bounds is used. If the Input is not defined, and
+the Prop (superclass of all actors) is defined, then the
+Prop's bounds is used. If neither the Input or Prop is
+defined, then the Bounds instance variable (an array of six
+doubles) is used.
+To create an instance of class vtkCubeAxesActor2D, simply
+invoke its constructor as follows
+
+    obj = vtkCubeAxesActor2D
+
+
+
+ Methods
+
+The class vtkCubeAxesActor2D has several methods that can be
+used. They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkCubeAxesActor2D class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkCubeAxesActor2D = obj.NewInstance ()
+* vtkCubeAxesActor2D = obj.SafeDownCast (vtkObject o)
+* int = obj.RenderOverlay (vtkViewport ) - Draw the axes as
+  per the vtkProp superclass' API.
+* int = obj.RenderOpaqueGeometry (vtkViewport ) - Draw the
+  axes as per the vtkProp superclass' API.
+* int = obj.RenderTranslucentPolygonalGeometry (vtkViewport
+  ) - Does this prop have some translucent polygonal
+  geometry?
+* int = obj.HasTranslucentPolygonalGeometry () - Does this
+  prop have some translucent polygonal geometry?
+* obj.SetInput (vtkDataSet ) - Use the bounding box of this
+  input dataset to draw the cube axes. If this is not
+  specified, then the class will attempt to determine the
+  bounds from the defined Prop or Bounds.
+* vtkDataSet = obj.GetInput () - Use the bounding box of
+  this input dataset to draw the cube axes. If this is not
+  specified, then the class will attempt to determine the
+  bounds from the defined Prop or Bounds.
+* obj.SetViewProp (vtkProp prop) - Use the bounding box of
+  this prop to draw the cube axes. The ViewProp is used to
+  determine the bounds only if the Input is not defined.
+* vtkProp = obj.GetViewProp () - Use the bounding box of
+  this prop to draw the cube axes. The ViewProp is used to
+  determine the bounds only if the Input is not defined.
+* obj.SetBounds (double , double , double , double , double
+  , double ) - Explicitly specify the region in space around
+  which to draw the bounds. The bounds is used only when no
+  Input or Prop is specified. The bounds are specified
+  according to (xmin,xmax, ymin,ymax, zmin,zmax), making
+  sure that the min's are less than the max's.
+* obj.SetBounds (double a[6]) - Explicitly specify the
+  region in space around which to draw the bounds. The
+  bounds is used only when no Input or Prop is specified.
+  The bounds are specified according to (xmin,xmax,
+  ymin,ymax, zmin,zmax), making sure that the min's are less
+  than the max's.
+* double = obj.GetBounds () - Explicitly specify the region
+  in space around which to draw the bounds. The bounds is
+  used only when no Input or Prop is specified. The bounds
+  are specified according to (xmin,xmax, ymin,ymax,
+  zmin,zmax), making sure that the min's are less than the
+  max's.
+* obj.GetBounds (double bounds[6]) - Explicitly specify the
+  region in space around which to draw the bounds. The
+  bounds is used only when no Input or Prop is specified.
+  The bounds are specified according to (xmin,xmax,
+  ymin,ymax, zmin,zmax), making sure that the min's are less
+  than the max's.
+* obj.SetRanges (double , double , double , double , double
+  , double ) - Explicitly specify the range of values used
+  on the bounds. The ranges are specified according to
+  (xmin,xmax, ymin,ymax, zmin,zmax), making sure that the
+  min's are less than the max's.
+* obj.SetRanges (double a[6]) - Explicitly specify the range
+  of values used on the bounds. The ranges are specified
+  according to (xmin,xmax, ymin,ymax, zmin,zmax), making
+  sure that the min's are less than the max's.
+* double = obj.GetRanges () - Explicitly specify the range
+  of values used on the bounds. The ranges are specified
+  according to (xmin,xmax, ymin,ymax, zmin,zmax), making
+  sure that the min's are less than the max's.
+* obj.GetRanges (double ranges[6]) - Explicitly specify the
+  range of values used on the bounds. The ranges are
+  specified according to (xmin,xmax, ymin,ymax, zmin,zmax),
+  making sure that the min's are less than the max's.
+* obj.SetXOrigin (double ) - Explicitly specify an origin
+  for the axes. These usually intersect at one of the
+  corners of the bounding box, however users have the option
+  to override this if necessary
+* obj.SetYOrigin (double ) - Explicitly specify an origin
+  for the axes. These usually intersect at one of the
+  corners of the bounding box, however users have the option
+  to override this if necessary
+* obj.SetZOrigin (double ) - Explicitly specify an origin
+  for the axes. These usually intersect at one of the
+  corners of the bounding box, however users have the option
+  to override this if necessary
+* obj.SetUseRanges (int ) - Set/Get a flag that controls
+  whether the axes use the data ranges or the ranges set by
+  SetRanges. By default the axes use the data ranges.
+* int = obj.GetUseRanges () - Set/Get a flag that controls
+  whether the axes use the data ranges or the ranges set by
+  SetRanges. By default the axes use the data ranges.
+* obj.UseRangesOn () - Set/Get a flag that controls whether
+  the axes use the data ranges or the ranges set by
+  SetRanges. By default the axes use the data ranges.
+* obj.UseRangesOff () - Set/Get a flag that controls whether
+  the axes use the data ranges or the ranges set by
+  SetRanges. By default the axes use the data ranges.
+* obj.SetCamera (vtkCamera ) - Set/Get the camera to perform
+  scaling and translation of the vtkCubeAxesActor2D.
+* vtkCamera = obj.GetCamera () - Set/Get the camera to
+  perform scaling and translation of the vtkCubeAxesActor2D.
+* obj.SetFlyMode (int ) - Specify a mode to control how the
+  axes are drawn: either outer edges or closest triad to the
+  camera position, or you may also disable flying of the
+  axes.
+* int = obj.GetFlyModeMinValue () - Specify a mode to
+  control how the axes are drawn: either outer edges or
+  closest triad to the camera position, or you may also
+  disable flying of the axes.
+* int = obj.GetFlyModeMaxValue () - Specify a mode to
+  control how the axes are drawn: either outer edges or
+  closest triad to the camera position, or you may also
+  disable flying of the axes.
+* int = obj.GetFlyMode () - Specify a mode to control how
+  the axes are drawn: either outer edges or closest triad to
+  the camera position, or you may also disable flying of the
+  axes.
+* obj.SetFlyModeToOuterEdges () - Specify a mode to control
+  how the axes are drawn: either outer edges or closest
+  triad to the camera position, or you may also disable
+  flying of the axes.
+* obj.SetFlyModeToClosestTriad () - Specify a mode to
+  control how the axes are drawn: either outer edges or
+  closest triad to the camera position, or you may also
+  disable flying of the axes.
+* obj.SetFlyModeToNone () - Specify a mode to control how
+  the axes are drawn: either outer edges or closest triad to
+  the camera position, or you may also disable flying of the
+  axes.
+* obj.SetScaling (int ) - Set/Get a flag that controls
+  whether the axes are scaled to fit in the viewport. If
+  off, the axes size remains constant (i.e., stay the size
+  of the bounding box). By default scaling is on so the axes
+  are scaled to fit inside the viewport.
+* int = obj.GetScaling () - Set/Get a flag that controls
+  whether the axes are scaled to fit in the viewport. If
+  off, the axes size remains constant (i.e., stay the size
+  of the bounding box). By default scaling is on so the axes
+  are scaled to fit inside the viewport.
+* obj.ScalingOn () - Set/Get a flag that controls whether
+  the axes are scaled to fit in the viewport. If off, the
+  axes size remains constant (i.e., stay the size of the
+  bounding box). By default scaling is on so the axes are
+  scaled to fit inside the viewport.
+* obj.ScalingOff () - Set/Get a flag that controls whether
+  the axes are scaled to fit in the viewport. If off, the
+  axes size remains constant (i.e., stay the size of the
+  bounding box). By default scaling is on so the axes are
+  scaled to fit inside the viewport.
+* obj.SetNumberOfLabels (int ) - Set/Get the number of
+  annotation labels to show along the x, y, and z axes. This
+  values is a suggestion: the number of labels may vary
+  depending on the particulars of the data.
+* int = obj.GetNumberOfLabelsMinValue () - Set/Get the
+  number of annotation labels to show along the x, y, and z
+  axes. This values is a suggestion: the number of labels
+  may vary depending on the particulars of the data.
+* int = obj.GetNumberOfLabelsMaxValue () - Set/Get the
+  number of annotation labels to show along the x, y, and z
+  axes. This values is a suggestion: the number of labels
+  may vary depending on the particulars of the data.
+* int = obj.GetNumberOfLabels () - Set/Get the number of
+  annotation labels to show along the x, y, and z axes. This
+  values is a suggestion: the number of labels may vary
+  depending on the particulars of the data.
+* obj.SetXLabel (string ) - Set/Get the labels for the x, y,
+  and z axes. By default, use "X", "Y" and "Z".
+* string = obj.GetXLabel () - Set/Get the labels for the x,
+  y, and z axes. By default, use "X", "Y" and "Z".
+* obj.SetYLabel (string ) - Set/Get the labels for the x, y,
+  and z axes. By default, use "X", "Y" and "Z".
+* string = obj.GetYLabel () - Set/Get the labels for the x,
+  y, and z axes. By default, use "X", "Y" and "Z".
+* obj.SetZLabel (string ) - Set/Get the labels for the x, y,
+  and z axes. By default, use "X", "Y" and "Z".
+* string = obj.GetZLabel () - Set/Get the labels for the x,
+  y, and z axes. By default, use "X", "Y" and "Z".
+* vtkAxisActor2D = obj.GetXAxisActor2D () - Retrieve handles
+  to the X, Y and Z axis (so that you can set their text
+  properties for example)
+* vtkAxisActor2D = obj.GetYAxisActor2D () - Retrieve handles
+  to the X, Y and Z axis (so that you can set their text
+  properties for example)
+* vtkAxisActor2D = obj.GetZAxisActor2D () - Set/Get the
+  title text property of all axes. Note that each axis can
+  be controlled individually through the GetX/Y/ZAxisActor2D
+  () methods.
+* obj.SetAxisTitleTextProperty (vtkTextProperty p) - Set/Get
+  the title text property of all axes. Note that each axis
+  can be controlled individually through the GetX/Y/
+  ZAxisActor2D() methods.
+* vtkTextProperty = obj.GetAxisTitleTextProperty () - Set/
+  Get the title text property of all axes. Note that each
+  axis can be controlled individually through the GetX/Y/
+  ZAxisActor2D() methods.
+* obj.SetAxisLabelTextProperty (vtkTextProperty p) - Set/Get
+  the labels text property of all axes. Note that each axis
+  can be controlled individually through the GetX/Y/
+  ZAxisActor2D() methods.
+* vtkTextProperty = obj.GetAxisLabelTextProperty () - Set/
+  Get the labels text property of all axes. Note that each
+  axis can be controlled individually through the GetX/Y/
+  ZAxisActor2D() methods.
+* obj.SetLabelFormat (string ) - Set/Get the format with
+  which to print the labels on each of the x-y-z axes.
+* string = obj.GetLabelFormat () - Set/Get the format with
+  which to print the labels on each of the x-y-z axes.
+* obj.SetFontFactor (double ) - Set/Get the factor that
+  controls the overall size of the fonts used to label and
+  title the axes.
+* double = obj.GetFontFactorMinValue () - Set/Get the factor
+  that controls the overall size of the fonts used to label
+  and title the axes.
+* double = obj.GetFontFactorMaxValue () - Set/Get the factor
+  that controls the overall size of the fonts used to label
+  and title the axes.
+* double = obj.GetFontFactor () - Set/Get the factor that
+  controls the overall size of the fonts used to label and
+  title the axes.
+* obj.SetInertia (int ) - Set/Get the inertial factor that
+  controls how often (i.e, how many renders) the axes can
+  switch position (jump from one axes to another).
+* int = obj.GetInertiaMinValue () - Set/Get the inertial
+  factor that controls how often (i.e, how many renders) the
+  axes can switch position (jump from one axes to another).
+* int = obj.GetInertiaMaxValue () - Set/Get the inertial
+  factor that controls how often (i.e, how many renders) the
+  axes can switch position (jump from one axes to another).
+* int = obj.GetInertia () - Set/Get the inertial factor that
+  controls how often (i.e, how many renders) the axes can
+  switch position (jump from one axes to another).
+* obj.SetShowActualBounds (int ) - Set/Get the variable that
+  controls whether the actual bounds of the dataset are
+  always shown. Setting this variable to 1 means that
+  clipping is disabled and that the actual value of the
+  bounds is displayed even with corner offsets Setting this
+  variable to 0 means these axis will clip themselves and
+  show variable bounds (legacy mode)
+* int = obj.GetShowActualBoundsMinValue () - Set/Get the
+  variable that controls whether the actual bounds of the
+  dataset are always shown. Setting this variable to 1 means
+  that clipping is disabled and that the actual value of the
+  bounds is displayed even with corner offsets Setting this
+  variable to 0 means these axis will clip themselves and
+  show variable bounds (legacy mode)
+* int = obj.GetShowActualBoundsMaxValue () - Set/Get the
+  variable that controls whether the actual bounds of the
+  dataset are always shown. Setting this variable to 1 means
+  that clipping is disabled and that the actual value of the
+  bounds is displayed even with corner offsets Setting this
+  variable to 0 means these axis will clip themselves and
+  show variable bounds (legacy mode)
+* int = obj.GetShowActualBounds () - Set/Get the variable
+  that controls whether the actual bounds of the dataset are
+  always shown. Setting this variable to 1 means that
+  clipping is disabled and that the actual value of the
+  bounds is displayed even with corner offsets Setting this
+  variable to 0 means these axis will clip themselves and
+  show variable bounds (legacy mode)
+* obj.SetCornerOffset (double ) - Specify an offset value to
+  "pull back" the axes from the corner at which they are
+  joined to avoid overlap of axes labels. The "CornerOffset"
+  is the fraction of the axis length to pull back.
+* double = obj.GetCornerOffset () - Specify an offset value
+  to "pull back" the axes from the corner at which they are
+  joined to avoid overlap of axes labels. The "CornerOffset"
+  is the fraction of the axis length to pull back.
+* obj.ReleaseGraphicsResources (vtkWindow ) - Release any
+  graphics resources that are being consumed by this actor.
+  The parameter window could be used to determine which
+  graphic resources to release.
+* obj.SetXAxisVisibility (int ) - Turn on and off the
+  visibility of each axis.
+* int = obj.GetXAxisVisibility () - Turn on and off the
+  visibility of each axis.
+* obj.XAxisVisibilityOn () - Turn on and off the visibility
+  of each axis.
+* obj.XAxisVisibilityOff () - Turn on and off the visibility
+  of each axis.
+* obj.SetYAxisVisibility (int ) - Turn on and off the
+  visibility of each axis.
+* int = obj.GetYAxisVisibility () - Turn on and off the
+  visibility of each axis.
+* obj.YAxisVisibilityOn () - Turn on and off the visibility
+  of each axis.
+* obj.YAxisVisibilityOff () - Turn on and off the visibility
+  of each axis.
+* obj.SetZAxisVisibility (int ) - Turn on and off the
+  visibility of each axis.
+* int = obj.GetZAxisVisibility () - Turn on and off the
+  visibility of each axis.
+* obj.ZAxisVisibilityOn () - Turn on and off the visibility
+  of each axis.
+* obj.ZAxisVisibilityOff () - Turn on and off the visibility
+  of each axis.
+* obj.ShallowCopy (vtkCubeAxesActor2D actor) - Shallow copy
+  of a CubeAxesActor2D.
+* obj.SetProp (vtkProp prop) -
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Hybrid_Classes
+* Generated on Thu Jul 25 2013 17:18:32 for FreeMat by
+  doxygen_ 1.8.1.1
+

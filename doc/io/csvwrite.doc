@@ -1,0 +1,53 @@
+/*!
+\page io_csvwrite CSVWRITE Write Comma Separated Value (CSV) File
+
+<p>
+Section: \ref sec_io "Input/Ouput Functions"
+\section Usage
+The <tt>csvwrite</tt> function writes a given matrix to a text
+file using comma separated value (CSV) notation.  Note that
+you can create CSV files with arbitrary sized matrices, but
+that <tt>csvread</tt> has limits on line length.  If you need to
+reliably read and write large matrices, use <tt>rawwrite</tt> and
+<tt>rawread</tt> respectively.  The syntax for <tt>csvwrite</tt> is 
+\verbatim
+   csvwrite('filename',x)
+\endverbatim
+where <tt>x</tt> is a numeric array.  The contents of <tt>x</tt> are written
+to <tt>filename</tt> as comma-separated values.  You can also specify
+a row and column offset to <tt>csvwrite</tt> to force <tt>csvwrite</tt> to
+write the matrix <tt>x</tt> starting at the specified location in the 
+file.  This syntax of the function is
+\verbatim
+   csvwrite('filename',x,startrow,startcol)
+\endverbatim
+where <tt>startrow</tt> and <tt>startcol</tt> are the offsets in zero-based
+indexing.  
+\section Example
+Here we create a simple matrix, and write it to a CSV file
+
+\if FRAGMENT
+frag_io_csvwrite_000.m
+0
+x = [1,2,3;5,6,7]
+csvwrite('csvwrite.csv',x)
+csvread('csvwrite.csv')
+\endif
+
+
+\verbinclude frag_io_csvwrite_000.m.out 
+
+Next, we do the same with an offset.
+
+\if FRAGMENT
+frag_io_csvwrite_001.m
+0
+csvwrite('csvwrite.csv',x,1,2)
+csvread('csvwrite.csv')
+\endif
+
+
+\verbinclude frag_io_csvwrite_001.m.out 
+
+Note the extra zeros.
+*/

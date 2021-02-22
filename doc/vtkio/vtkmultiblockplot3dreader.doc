@@ -1,0 +1,272 @@
+/*!
+\page vtkio_vtkmultiblockplot3dreader vtkMultiBlockPLOT3DReader
+
+<p>
+Section: \ref sec_vtkio "Visualization Toolkit IO Classes"
+\section Usage
+ vtkMultiBlockPLOT3DReader is a reader object that reads PLOT3D formatted
+ files and generates structured grid(s) on output. PLOT3D is a computer
+ graphics program designed to visualize the grids and solutions of
+ computational fluid dynamics. Please see the "PLOT3D User's Manual"
+ available from NASA Ames Research Center, Moffett Field CA.
+
+ PLOT3D files consist of a grid file (also known as XYZ file), an 
+ optional solution file (also known as a Q file), and an optional function 
+ file that contains user created data (currently unsupported). The Q file 
+ contains solution  information as follows: the four parameters free stream 
+ mach number (Fsmach), angle of attack (Alpha), Reynolds number (Re), and 
+ total integration time (Time). This information is stored in an array
+ called Properties in the FieldData of each output (tuple 0: fsmach, tuple 1:
+ alpha, tuple 2: re, tuple 3: time). In addition, the solution file contains 
+ the flow density (scalar), flow momentum (vector), and flow energy (scalar).
+
+ The reader can generate additional scalars and vectors (or "functions")
+ from this information. To use vtkMultiBlockPLOT3DReader, you must specify the 
+ particular function number for the scalar and vector you want to visualize.
+ This implementation of the reader provides the following functions. The
+ scalar functions are:
+    -1  - don't read or compute any scalars
+    100 - density
+    110 - pressure
+    120 - temperature
+    130 - enthalpy
+    140 - internal energy
+    144 - kinetic energy
+    153 - velocity magnitude
+    163 - stagnation energy
+    170 - entropy
+    184 - swirl.
+
+ The vector functions are:
+    -1  - don't read or compute any vectors
+    200 - velocity
+    201 - vorticity
+    202 - momentum
+    210 - pressure gradient.
+
+ (Other functions are described in the PLOT3D spec, but only those listed are
+ implemented here.) Note that by default, this reader creates the density 
+ scalar (100) and momentum vector (202) as output. (These are just read in
+ from the solution file.) Please note that the validity of computation is
+ a function of this class's gas constants (R, Gamma) and the equations used.
+ They may not be suitable for your computational domain.
+
+ Additionally, you can read other data and associate it as a vtkDataArray
+ into the output's point attribute data. Use the method AddFunction()
+ to list all the functions that you'd like to read. AddFunction() accepts
+ an integer parameter that defines the function number.
+
+
+To create an instance of class vtkMultiBlockPLOT3DReader, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkMultiBlockPLOT3DReader
+\endverbatim
+\section Methods
+The class vtkMultiBlockPLOT3DReader has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkMultiBlockPLOT3DReader class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkMultiBlockPLOT3DReader = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkMultiBlockPLOT3DReader = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetFileName (string name)</tt> -  Set/Get the PLOT3D geometry filename.
+ </LI>
+<LI>  <tt>string = obj.GetFileName ()</tt> -  Set/Get the PLOT3D geometry filename.
+ </LI>
+<LI>  <tt>obj.SetXYZFileName (string )</tt> -  Set/Get the PLOT3D geometry filename.
+ </LI>
+<LI>  <tt>string = obj.GetXYZFileName ()</tt> -  Set/Get the PLOT3D geometry filename.
+ </LI>
+<LI>  <tt>obj.SetQFileName (string )</tt> -  Set/Get the PLOT3D solution filename.
+ </LI>
+<LI>  <tt>string = obj.GetQFileName ()</tt> -  Set/Get the PLOT3D solution filename.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfBlocks ()</tt> -  This returns the number of outputs this reader will produce.
+ This number is equal to the number of grids in the current 
+ file. This method has to be called before getting any output
+ if the number of outputs will be greater than 1 (the first
+ output is always the same). Note that every time this method
+ is invoked, the header file is opened and part of the header 
+ is read.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfGrids ()</tt> -  Is the file to be read written in binary format (as opposed
+ to ascii).
+ </LI>
+<LI>  <tt>obj.SetBinaryFile (int )</tt> -  Is the file to be read written in binary format (as opposed
+ to ascii).
+ </LI>
+<LI>  <tt>int = obj.GetBinaryFile ()</tt> -  Is the file to be read written in binary format (as opposed
+ to ascii).
+ </LI>
+<LI>  <tt>obj.BinaryFileOn ()</tt> -  Is the file to be read written in binary format (as opposed
+ to ascii).
+ </LI>
+<LI>  <tt>obj.BinaryFileOff ()</tt> -  Is the file to be read written in binary format (as opposed
+ to ascii).
+ </LI>
+<LI>  <tt>obj.SetMultiGrid (int )</tt> -  Does the file to be read contain information about number of
+ grids. In some PLOT3D files, the first value contains the number 
+ of grids (even if there is only 1). If reading such a file,
+ set this to true.
+ </LI>
+<LI>  <tt>int = obj.GetMultiGrid ()</tt> -  Does the file to be read contain information about number of
+ grids. In some PLOT3D files, the first value contains the number 
+ of grids (even if there is only 1). If reading such a file,
+ set this to true.
+ </LI>
+<LI>  <tt>obj.MultiGridOn ()</tt> -  Does the file to be read contain information about number of
+ grids. In some PLOT3D files, the first value contains the number 
+ of grids (even if there is only 1). If reading such a file,
+ set this to true.
+ </LI>
+<LI>  <tt>obj.MultiGridOff ()</tt> -  Does the file to be read contain information about number of
+ grids. In some PLOT3D files, the first value contains the number 
+ of grids (even if there is only 1). If reading such a file,
+ set this to true.
+ </LI>
+<LI>  <tt>obj.SetHasByteCount (int )</tt> -  Were the arrays written with leading and trailing byte counts ?
+ Usually, files written by a fortran program will contain these
+ byte counts whereas the ones written by C/C++ won't.
+ </LI>
+<LI>  <tt>int = obj.GetHasByteCount ()</tt> -  Were the arrays written with leading and trailing byte counts ?
+ Usually, files written by a fortran program will contain these
+ byte counts whereas the ones written by C/C++ won't.
+ </LI>
+<LI>  <tt>obj.HasByteCountOn ()</tt> -  Were the arrays written with leading and trailing byte counts ?
+ Usually, files written by a fortran program will contain these
+ byte counts whereas the ones written by C/C++ won't.
+ </LI>
+<LI>  <tt>obj.HasByteCountOff ()</tt> -  Were the arrays written with leading and trailing byte counts ?
+ Usually, files written by a fortran program will contain these
+ byte counts whereas the ones written by C/C++ won't.
+ </LI>
+<LI>  <tt>obj.SetIBlanking (int )</tt> -  Is there iblanking (point visibility) information in the file.
+ If there is iblanking arrays, these will be read and assigned
+ to the PointVisibility array of the output.
+ </LI>
+<LI>  <tt>int = obj.GetIBlanking ()</tt> -  Is there iblanking (point visibility) information in the file.
+ If there is iblanking arrays, these will be read and assigned
+ to the PointVisibility array of the output.
+ </LI>
+<LI>  <tt>obj.IBlankingOn ()</tt> -  Is there iblanking (point visibility) information in the file.
+ If there is iblanking arrays, these will be read and assigned
+ to the PointVisibility array of the output.
+ </LI>
+<LI>  <tt>obj.IBlankingOff ()</tt> -  Is there iblanking (point visibility) information in the file.
+ If there is iblanking arrays, these will be read and assigned
+ to the PointVisibility array of the output.
+ </LI>
+<LI>  <tt>obj.SetTwoDimensionalGeometry (int )</tt> -  If only two-dimensional data was written to the file,
+ turn this on.
+ </LI>
+<LI>  <tt>int = obj.GetTwoDimensionalGeometry ()</tt> -  If only two-dimensional data was written to the file,
+ turn this on.
+ </LI>
+<LI>  <tt>obj.TwoDimensionalGeometryOn ()</tt> -  If only two-dimensional data was written to the file,
+ turn this on.
+ </LI>
+<LI>  <tt>obj.TwoDimensionalGeometryOff ()</tt> -  If only two-dimensional data was written to the file,
+ turn this on.
+ </LI>
+<LI>  <tt>obj.SetForceRead (int )</tt> -  Try to read a binary file even if the file length seems to be
+ inconsistent with the header information. Use this with caution,
+ if the file length is not the same as calculated from the header.
+ either the file is corrupt or the settings are wrong. 
+ </LI>
+<LI>  <tt>int = obj.GetForceRead ()</tt> -  Try to read a binary file even if the file length seems to be
+ inconsistent with the header information. Use this with caution,
+ if the file length is not the same as calculated from the header.
+ either the file is corrupt or the settings are wrong. 
+ </LI>
+<LI>  <tt>obj.ForceReadOn ()</tt> -  Try to read a binary file even if the file length seems to be
+ inconsistent with the header information. Use this with caution,
+ if the file length is not the same as calculated from the header.
+ either the file is corrupt or the settings are wrong. 
+ </LI>
+<LI>  <tt>obj.ForceReadOff ()</tt> -  Try to read a binary file even if the file length seems to be
+ inconsistent with the header information. Use this with caution,
+ if the file length is not the same as calculated from the header.
+ either the file is corrupt or the settings are wrong. 
+ </LI>
+<LI>  <tt>obj.SetByteOrderToBigEndian ()</tt> -  Set the byte order of the file (remember, more Unix workstations
+ write big endian whereas PCs write little endian). Default is
+ big endian (since most older PLOT3D files were written by
+ workstations).
+ </LI>
+<LI>  <tt>obj.SetByteOrderToLittleEndian ()</tt> -  Set the byte order of the file (remember, more Unix workstations
+ write big endian whereas PCs write little endian). Default is
+ big endian (since most older PLOT3D files were written by
+ workstations).
+ </LI>
+<LI>  <tt>obj.SetByteOrder (int )</tt> -  Set the byte order of the file (remember, more Unix workstations
+ write big endian whereas PCs write little endian). Default is
+ big endian (since most older PLOT3D files were written by
+ workstations).
+ </LI>
+<LI>  <tt>int = obj.GetByteOrder ()</tt> -  Set the byte order of the file (remember, more Unix workstations
+ write big endian whereas PCs write little endian). Default is
+ big endian (since most older PLOT3D files were written by
+ workstations).
+ </LI>
+<LI>  <tt>string = obj.GetByteOrderAsString ()</tt> -  Set the byte order of the file (remember, more Unix workstations
+ write big endian whereas PCs write little endian). Default is
+ big endian (since most older PLOT3D files were written by
+ workstations).
+ </LI>
+<LI>  <tt>obj.SetR (double )</tt> -  Set/Get the gas constant. Default is 1.0.
+ </LI>
+<LI>  <tt>double = obj.GetR ()</tt> -  Set/Get the gas constant. Default is 1.0.
+ </LI>
+<LI>  <tt>obj.SetGamma (double )</tt> -  Set/Get the ratio of specific heats. Default is 1.4.
+ </LI>
+<LI>  <tt>double = obj.GetGamma ()</tt> -  Set/Get the ratio of specific heats. Default is 1.4.
+ </LI>
+<LI>  <tt>obj.SetUvinf (double )</tt> -  Set/Get the x-component of the free-stream velocity. Default is 1.0.
+ </LI>
+<LI>  <tt>double = obj.GetUvinf ()</tt> -  Set/Get the x-component of the free-stream velocity. Default is 1.0.
+ </LI>
+<LI>  <tt>obj.SetVvinf (double )</tt> -  Set/Get the y-component of the free-stream velocity. Default is 1.0.
+ </LI>
+<LI>  <tt>double = obj.GetVvinf ()</tt> -  Set/Get the y-component of the free-stream velocity. Default is 1.0.
+ </LI>
+<LI>  <tt>obj.SetWvinf (double )</tt> -  Set/Get the z-component of the free-stream velocity. Default is 1.0.
+ </LI>
+<LI>  <tt>double = obj.GetWvinf ()</tt> -  Set/Get the z-component of the free-stream velocity. Default is 1.0.
+ </LI>
+<LI>  <tt>obj.SetScalarFunctionNumber (int num)</tt> -  Specify the scalar function to extract. If ==(-1), then no scalar 
+ function is extracted.
+ </LI>
+<LI>  <tt>int = obj.GetScalarFunctionNumber ()</tt> -  Specify the scalar function to extract. If ==(-1), then no scalar 
+ function is extracted.
+ </LI>
+<LI>  <tt>obj.SetVectorFunctionNumber (int num)</tt> -  Specify the vector function to extract. If ==(-1), then no vector
+ function is extracted.
+ </LI>
+<LI>  <tt>int = obj.GetVectorFunctionNumber ()</tt> -  Specify the vector function to extract. If ==(-1), then no vector
+ function is extracted.
+ </LI>
+<LI>  <tt>obj.AddFunction (int functionNumber)</tt> -  Specify additional functions to read. These are placed into the
+ point data as data arrays. Later on they can be used by labeling
+ them as scalars, etc.
+ </LI>
+<LI>  <tt>obj.RemoveFunction (int )</tt> -  Specify additional functions to read. These are placed into the
+ point data as data arrays. Later on they can be used by labeling
+ them as scalars, etc.
+ </LI>
+<LI>  <tt>obj.RemoveAllFunctions ()</tt> -  Specify additional functions to read. These are placed into the
+ point data as data arrays. Later on they can be used by labeling
+ them as scalars, etc.
+ </LI>
+<LI>  <tt>int = obj.CanReadBinaryFile (string fname)</tt> -  Return 1 if the reader can read the given file name. Only meaningful
+ for binary files.
+ </LI>
+</UL>
+*/

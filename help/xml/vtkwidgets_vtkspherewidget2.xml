@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkwidgets_vtkspherewidget2" kind="page">
+    <compoundname>vtkwidgets_vtkspherewidget2</compoundname>
+    <title>vtkSphereWidget2</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkwidgets_1sec_vtkwidgets" kindref="member">Visualization Toolkit Widget Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>This 3D widget interacts with a vtkSphereRepresentation class (i.e., it handles the events that drive its corresponding representation). It can be used to position a point on a sphere (for example, to place a light or camera), or to position a sphere in a scene, including translating and scaling the sphere.</para><para>A nice feature of vtkSphereWidget2, like any 3D widget, is that it will work in combination with the current interactor style (or any other interactor observer). That is, if vtkSphereWidget2 does not handle an event, then all other registered observers (including the interactor style) have an opportunity to process the event. Otherwise, the vtkSphereWidget2 will terminate the processing of the event that it handles.</para><para>To use this widget, you generally pair it with a vtkSphereRepresentation (or a subclass). Variuos options are available in the representation for controlling how the widget appears, and how the widget functions.</para><para>.SECTION Event Bindings By default, the widget responds to the following VTK events (i.e., it watches the vtkRenderWindowInteractor for these events): <preformatted>
+ If the handle or sphere are selected:
+   LeftButtonPressEvent - select the handle or sphere
+   LeftButtonReleaseEvent - release the handle ot sphere
+   MouseMoveEvent - move the handle or translate the sphere
+ In all the cases, independent of what is picked, the widget responds to the 
+ following VTK events:
+   MiddleButtonPressEvent - translate the representation
+   MiddleButtonReleaseEvent - stop translating the representation
+   RightButtonPressEvent - scale the widget&apos;s representation
+   RightButtonReleaseEvent - stop scaling the representation
+   MouseMoveEvent - scale (if right button) or move (if middle button) the widget
+ </preformatted></para><para>Note that the event bindings described above can be changed using this class&apos;s vtkWidgetEventTranslator. This class translates VTK events into the vtkSphereWidget2&apos;s widget events: <preformatted>
+   vtkWidgetEvent::Select <ndash/> some part of the widget has been selected
+   vtkWidgetEvent::EndSelect <ndash/> the selection process has completed
+   vtkWidgetEvent::Scale <ndash/> some part of the widget has been selected
+   vtkWidgetEvent::EndScale <ndash/> the selection process has completed
+   vtkWidgetEvent::Translate <ndash/> some part of the widget has been selected
+   vtkWidgetEvent::EndTranslate <ndash/> the selection process has completed
+   vtkWidgetEvent::Move <ndash/> a request for motion has been invoked
+ </preformatted></para><para>In turn, when these widget events are processed, the vtkSphereWidget2 invokes the following VTK events on itself (which observers can listen for): <preformatted>
+   vtkCommand::StartInteractionEvent (on vtkWidgetEvent::Select)
+   vtkCommand::EndInteractionEvent (on vtkWidgetEvent::EndSelect)
+   vtkCommand::InteractionEvent (on vtkWidgetEvent::Move)
+ </preformatted></para><para>To create an instance of class vtkSphereWidget2, simply invoke its constructor as follows <verbatim>  obj = vtkSphereWidget2
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkSphereWidget2 has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkSphereWidget2 class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput> - Standard class methods for type information and printing.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput> - Standard class methods for type information and printing.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkSphereWidget2 = obj.NewInstance ()</computeroutput> - Standard class methods for type information and printing.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkSphereWidget2 = obj.SafeDownCast (vtkObject o)</computeroutput> - Standard class methods for type information and printing.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetRepresentation (vtkSphereRepresentation r)</computeroutput> - Control the behavior of the widget (i.e., how it processes events). Translation, and scaling can all be enabled and disabled.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetTranslationEnabled (int )</computeroutput> - Control the behavior of the widget (i.e., how it processes events). Translation, and scaling can all be enabled and disabled.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetTranslationEnabled ()</computeroutput> - Control the behavior of the widget (i.e., how it processes events). Translation, and scaling can all be enabled and disabled.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.TranslationEnabledOn ()</computeroutput> - Control the behavior of the widget (i.e., how it processes events). Translation, and scaling can all be enabled and disabled.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.TranslationEnabledOff ()</computeroutput> - Control the behavior of the widget (i.e., how it processes events). Translation, and scaling can all be enabled and disabled.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetScalingEnabled (int )</computeroutput> - Control the behavior of the widget (i.e., how it processes events). Translation, and scaling can all be enabled and disabled.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetScalingEnabled ()</computeroutput> - Control the behavior of the widget (i.e., how it processes events). Translation, and scaling can all be enabled and disabled.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ScalingEnabledOn ()</computeroutput> - Control the behavior of the widget (i.e., how it processes events). Translation, and scaling can all be enabled and disabled.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ScalingEnabledOff ()</computeroutput> - Control the behavior of the widget (i.e., how it processes events). Translation, and scaling can all be enabled and disabled.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.CreateDefaultRepresentation ()</computeroutput> - Create the default widget representation if one is not set. By default, this is an instance of the vtkSphereRepresentation class.  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

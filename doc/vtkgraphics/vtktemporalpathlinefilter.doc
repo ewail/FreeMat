@@ -1,0 +1,116 @@
+/*!
+\page vtkgraphics_vtktemporalpathlinefilter vtkTemporalPathLineFilter
+
+<p>
+Section: \ref sec_vtkgraphics "Visualization Toolkit Graphics Classes"
+\section Usage
+ vtkTemporalPathLineFilter takes any dataset as input, it extracts the point
+ locations of all cells over time to build up a polyline trail.
+ The point number (index) is used as the 'key' if the points are randomly 
+ changing their respective order in the points list, then you should specify
+ a scalar that represents the unique ID. This is intended to handle the output
+ of a filter such as the TemporalStreamTracer.
+ 
+
+To create an instance of class vtkTemporalPathLineFilter, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkTemporalPathLineFilter
+\endverbatim
+\section Methods
+The class vtkTemporalPathLineFilter has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkTemporalPathLineFilter class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt> -  Standard Type-Macro
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt> -  Standard Type-Macro
+ </LI>
+<LI>  <tt>vtkTemporalPathLineFilter = obj.NewInstance ()</tt> -  Standard Type-Macro
+ </LI>
+<LI>  <tt>vtkTemporalPathLineFilter = obj.SafeDownCast (vtkObject o)</tt> -  Standard Type-Macro
+ </LI>
+<LI>  <tt>obj.SetMaskPoints (int )</tt> -  Set the number of particles to track as a ratio of the input
+ example: setting MaskPoints to 10 will track every 10th point
+ </LI>
+<LI>  <tt>int = obj.GetMaskPoints ()</tt> -  Set the number of particles to track as a ratio of the input
+ example: setting MaskPoints to 10 will track every 10th point
+ </LI>
+<LI>  <tt>obj.SetMaxTrackLength (int )</tt> -  If the Particles being traced animate for a long time, the
+ trails or traces will become long and stringy. Setting
+ the MaxTraceTimeLength will limit how much of the trace
+ is displayed. Tracks longer then the Max will disappear
+ and the trace will apppear like a snake of fixed length
+ which progresses as the particle moves
+ </LI>
+<LI>  <tt>int = obj.GetMaxTrackLength ()</tt> -  If the Particles being traced animate for a long time, the
+ trails or traces will become long and stringy. Setting
+ the MaxTraceTimeLength will limit how much of the trace
+ is displayed. Tracks longer then the Max will disappear
+ and the trace will apppear like a snake of fixed length
+ which progresses as the particle moves
+ </LI>
+<LI>  <tt>obj.SetIdChannelArray (string )</tt> -  Specify the name of a scalar array which will be used to fetch
+ the index of each point. This is necessary only if the particles
+ change position (Id order) on each time step. The Id can be used
+ to identify particles at each step and hence track them properly.
+ If this array is NULL, the global point ids are used.  If an Id
+ array cannot otherwise be found, the point index is used as the ID.
+ </LI>
+<LI>  <tt>string = obj.GetIdChannelArray ()</tt> -  Specify the name of a scalar array which will be used to fetch
+ the index of each point. This is necessary only if the particles
+ change position (Id order) on each time step. The Id can be used
+ to identify particles at each step and hence track them properly.
+ If this array is NULL, the global point ids are used.  If an Id
+ array cannot otherwise be found, the point index is used as the ID.
+ </LI>
+<LI>  <tt>obj.SetScalarArray (string )</tt>
+ </LI>
+<LI>  <tt>string = obj.GetScalarArray ()</tt>
+ </LI>
+<LI>  <tt>obj.SetMaxStepDistance (double , double , double )</tt> -  If a particle disappears from one end of a simulation and reappears
+ on the other side, the track left will be unrepresentative.
+ Set a MaxStepDistance{x,y,z} which acts as a threshold above which
+ if a step occurs larger than the value (for the dimension), the track will
+ be dropped and restarted after the step. (ie the part before the wrap 
+ around will be dropped and the newer part kept).
+ </LI>
+<LI>  <tt>obj.SetMaxStepDistance (double  a[3])</tt> -  If a particle disappears from one end of a simulation and reappears
+ on the other side, the track left will be unrepresentative.
+ Set a MaxStepDistance{x,y,z} which acts as a threshold above which
+ if a step occurs larger than the value (for the dimension), the track will
+ be dropped and restarted after the step. (ie the part before the wrap 
+ around will be dropped and the newer part kept).
+ </LI>
+<LI>  <tt>double = obj. GetMaxStepDistance ()</tt> -  If a particle disappears from one end of a simulation and reappears
+ on the other side, the track left will be unrepresentative.
+ Set a MaxStepDistance{x,y,z} which acts as a threshold above which
+ if a step occurs larger than the value (for the dimension), the track will
+ be dropped and restarted after the step. (ie the part before the wrap 
+ around will be dropped and the newer part kept).
+ </LI>
+<LI>  <tt>obj.SetKeepDeadTrails (int )</tt> -  When a particle 'disappears', the trail belonging to it is removed from
+ the list. When this flag is enabled, dead trails will persist
+ until the next time the list is cleared. Use carefully as it may cause
+ excessive memory consumption if left on by mistake.
+ </LI>
+<LI>  <tt>int = obj.GetKeepDeadTrails ()</tt> -  When a particle 'disappears', the trail belonging to it is removed from
+ the list. When this flag is enabled, dead trails will persist
+ until the next time the list is cleared. Use carefully as it may cause
+ excessive memory consumption if left on by mistake.
+ </LI>
+<LI>  <tt>obj.Flush ()</tt> -  Flush will wipe any existing data so that traces can be restarted from
+ whatever time step is next supplied.
+ </LI>
+<LI>  <tt>obj.SetSelectionConnection (vtkAlgorithmOutput algOutput)</tt> -  Set a second input which is a selection. Particles with the same
+ Id in the selection as the primary input will be chosen for pathlines
+ Note that you must have the same IdChannelArray in the selection as the input
+ </LI>
+<LI>  <tt>obj.SetSelection (vtkDataSet input)</tt> -  Set a second input which is a selection. Particles with the same
+ Id in the selection as the primary input will be chosen for pathlines
+ Note that you must have the same IdChannelArray in the selection as the input
+ </LI>
+</UL>
+*/

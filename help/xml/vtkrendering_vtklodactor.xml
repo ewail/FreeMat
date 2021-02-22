@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkrendering_vtklodactor" kind="page">
+    <compoundname>vtkrendering_vtklodactor</compoundname>
+    <title>vtkLODActor</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkrendering_1sec_vtkrendering" kindref="member">Visualization Toolkit Rendering Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>vtkLODActor is an actor that stores multiple levels of detail (LOD) and can automatically switch between them. It selects which level of detail to use based on how much time it has been allocated to render. Currently a very simple method of TotalTime/NumberOfActors is used. (In the future this should be modified to dynamically allocate the rendering time between different actors based on their needs.)</para><para>There are three levels of detail by default. The top level is just the normal data. The lowest level of detail is a simple bounding box outline of the actor. The middle level of detail is a point cloud of a fixed number of points that have been randomly sampled from the mapper&apos;s input data. Point attributes are copied over to the point cloud. These two lower levels of detail are accomplished by creating instances of a vtkOutlineFilter (low-res) and vtkMaskPoints (medium-res). Additional levels of detail can be add using the AddLODMapper() method.</para><para>To control the frame rate, you typically set the vtkRenderWindowInteractor DesiredUpdateRate and StillUpdateRate. This then will cause vtkLODActor to adjust its LOD to fulfill the requested update rate.</para><para>For greater control on levels of detail, see also vtkLODProp3D. That class allows arbitrary definition of each LOD.</para><para>To create an instance of class vtkLODActor, simply invoke its constructor as follows <verbatim>  obj = vtkLODActor
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkLODActor has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkLODActor class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkLODActor = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkLODActor = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.Render (vtkRenderer , vtkMapper )</computeroutput> - This causes the actor to be rendered. It, in turn, will render the actor&apos;s property and then mapper.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.RenderOpaqueGeometry (vtkViewport viewport)</computeroutput> - This method is used internally by the rendering process. We overide the superclass method to properly set the estimated render time.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ReleaseGraphicsResources (vtkWindow )</computeroutput> - Release any graphics resources that are being consumed by this actor. The parameter window could be used to determine which graphic resources to release.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.AddLODMapper (vtkMapper mapper)</computeroutput> - Add another level of detail. They do not have to be in any order of complexity.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetLowResFilter (vtkPolyDataAlgorithm )</computeroutput> - You may plug in your own filters to decimate/subsample the input. The default is to use a vtkOutlineFilter (low-res) and vtkMaskPoints (medium-res).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetMediumResFilter (vtkPolyDataAlgorithm )</computeroutput> - You may plug in your own filters to decimate/subsample the input. The default is to use a vtkOutlineFilter (low-res) and vtkMaskPoints (medium-res).  </para></listitem>
+<listitem>
+<para><computeroutput>vtkPolyDataAlgorithm = obj.GetLowResFilter ()</computeroutput> - You may plug in your own filters to decimate/subsample the input. The default is to use a vtkOutlineFilter (low-res) and vtkMaskPoints (medium-res).  </para></listitem>
+<listitem>
+<para><computeroutput>vtkPolyDataAlgorithm = obj.GetMediumResFilter ()</computeroutput> - You may plug in your own filters to decimate/subsample the input. The default is to use a vtkOutlineFilter (low-res) and vtkMaskPoints (medium-res).  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetNumberOfCloudPoints ()</computeroutput> - Set/Get the number of random points for the point cloud.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetNumberOfCloudPoints (int )</computeroutput> - Set/Get the number of random points for the point cloud.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkMapperCollection = obj.GetLODMappers ()</computeroutput> - All the mappers for different LODs are stored here. The order is not important.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.Modified ()</computeroutput> - When this objects gets modified, this method also modifies the object.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ShallowCopy (vtkProp prop)</computeroutput> - Shallow copy of an LOD actor. Overloads the virtual vtkProp method.  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,94 @@
+/*!
+\page vtkwidgets_vtkhoverwidget vtkHoverWidget
+
+<p>
+Section: \ref sec_vtkwidgets "Visualization Toolkit Widget Classes"
+\section Usage
+ The vtkHoverWidget is used to invoke an event when hovering in a render window.
+ Hovering occurs when mouse motion (in the render window) does not occur
+ for a specified amount of time (i.e., TimerDuration). This class can be used
+ as is (by observing TimerEvents) or for class derivation for those classes
+ wishing to do more with the hover event.
+ 
+ To use this widget, specify an instance of vtkHoverWidget and specify the
+ time (in milliseconds) defining the hover period. Unlike most widgets,
+ this widget does not require a representation (although subclasses like
+ vtkBalloonWidget do require a representation).
+
+ .SECTION Event Bindings
+ By default, the widget observes the following VTK events (i.e., it
+ watches the vtkRenderWindowInteractor for these events):
+ <pre>
+   MouseMoveEvent - manages a timer used to determine whether the mouse
+                    is hovering.
+   TimerEvent - when the time between events (e.g., mouse move), then a
+                timer event is invoked.
+   KeyPressEvent - when the "Enter" key is pressed after the balloon appears,
+                   a callback is activited (e.g., WidgetActivateEvent).
+ </pre>
+
+ Note that the event bindings described above can be changed using this
+ class's vtkWidgetEventTranslator. This class translates VTK events 
+ into the vtkHoverWidget's widget events:
+ <pre>
+   vtkWidgetEvent::Move -- start (or reset) the timer
+   vtkWidgetEvent::TimedOut -- when enough time is elapsed between defined
+                               VTK events the hover event is invoked.
+   vtkWidgetEvent::SelectAction -- activate any callbacks associated 
+                                   with the balloon.
+ </pre>
+
+ This widget invokes the following VTK events on itself when the widget 
+ determines that it is hovering. Note that observers of this widget can
+ listen for these events and take appropriate action.
+ <pre>
+   vtkCommand::TimerEvent (when hovering is determined to occur)
+   vtkCommand::EndInteractionEvent (after a hover has occured and the
+                                    mouse begins moving again).
+   vtkCommand::WidgetActivateEvent (when the balloon is selected with a
+                                    keypress).
+ </pre>
+
+To create an instance of class vtkHoverWidget, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkHoverWidget
+\endverbatim
+\section Methods
+The class vtkHoverWidget has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkHoverWidget class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt> -  Standard methods for a VTK class.
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt> -  Standard methods for a VTK class.
+ </LI>
+<LI>  <tt>vtkHoverWidget = obj.NewInstance ()</tt> -  Standard methods for a VTK class.
+ </LI>
+<LI>  <tt>vtkHoverWidget = obj.SafeDownCast (vtkObject o)</tt> -  Standard methods for a VTK class.
+ </LI>
+<LI>  <tt>obj.SetTimerDuration (int )</tt> -  Specify the hovering interval (in milliseconds). If after moving the
+ mouse the pointer stays over a vtkProp for this duration, then a
+ vtkTimerEvent::TimerEvent is invoked.
+ </LI>
+<LI>  <tt>int = obj.GetTimerDurationMinValue ()</tt> -  Specify the hovering interval (in milliseconds). If after moving the
+ mouse the pointer stays over a vtkProp for this duration, then a
+ vtkTimerEvent::TimerEvent is invoked.
+ </LI>
+<LI>  <tt>int = obj.GetTimerDurationMaxValue ()</tt> -  Specify the hovering interval (in milliseconds). If after moving the
+ mouse the pointer stays over a vtkProp for this duration, then a
+ vtkTimerEvent::TimerEvent is invoked.
+ </LI>
+<LI>  <tt>int = obj.GetTimerDuration ()</tt> -  Specify the hovering interval (in milliseconds). If after moving the
+ mouse the pointer stays over a vtkProp for this duration, then a
+ vtkTimerEvent::TimerEvent is invoked.
+ </LI>
+<LI>  <tt>obj.SetEnabled (int )</tt> -  The method for activiating and deactiviating this widget. This method
+ must be overridden because it performs special timer-related operations.
+ </LI>
+<LI>  <tt>obj.CreateDefaultRepresentation ()</tt>
+ </LI>
+</UL>
+*/

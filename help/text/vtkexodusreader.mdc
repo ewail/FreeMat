@@ -1,0 +1,359 @@
+
+ Usage
+
+vtkExodusReader is a unstructured grid source object that
+reads ExodusII files. Most of the meta data associated with
+the file is loaded when UpdateInformation is called. This
+includes information like Title, number of blocks, number
+and names of arrays. This data can be retrieved from methods
+in this reader. Separate arrays that are meant to be a
+single vector, are combined internally for convenience. To
+be combined, the array names have to be identical except for
+a trailing X,Y and Z (or x,y,z). By default cell and point
+arrays are not loaded. However, the user can flag arrays to
+load with the methods "SetPointArrayStatus" and
+"SetCellArrayStatus". The reader DOES NOT respond to piece
+requests
+To create an instance of class vtkExodusReader, simply
+invoke its constructor as follows
+
+    obj = vtkExodusReader
+
+
+
+ Methods
+
+The class vtkExodusReader has several methods that can be
+used. They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkExodusReader class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkExodusReader = obj.NewInstance ()
+* vtkExodusReader = obj.SafeDownCast (vtkObject o)
+* int = obj.CanReadFile (string fname) - Determine if the
+  file can be readed with this reader.
+* obj.SetFileName (string ) - Specify file name of the
+  Exodus file.
+* string = obj.GetFileName () - Specify file name of the
+  Exodus file.
+* obj.SetXMLFileName (string ) - Specify file name of the
+  xml file.
+* string = obj.GetXMLFileName () - Specify file name of the
+  xml file.
+* obj.SetTimeStep (int ) - Which TimeStep to read.
+* int = obj.GetTimeStep () - Which TimeStep to read.
+* obj.SetGenerateBlockIdCellArray (int ) - Extra cell data
+  array that can be generated. By default, this array is ON.
+  The value of the array is the integer id found in the
+  exodus file. The name of the array is returned by
+  GetBlockIdArrayName()
+* int = obj.GetGenerateBlockIdCellArray () - Extra cell data
+  array that can be generated. By default, this array is ON.
+  The value of the array is the integer id found in the
+  exodus file. The name of the array is returned by
+  GetBlockIdArrayName()
+* obj.GenerateBlockIdCellArrayOn () - Extra cell data array
+  that can be generated. By default, this array is ON. The
+  value of the array is the integer id found in the exodus
+  file. The name of the array is returned by
+  GetBlockIdArrayName()
+* obj.GenerateBlockIdCellArrayOff () - Extra cell data array
+  that can be generated. By default, this array is ON. The
+  value of the array is the integer id found in the exodus
+  file. The name of the array is returned by
+  GetBlockIdArrayName()
+* string = obj.GetBlockIdArrayName () - Extra cell data
+  array that can be generated. By default, this array is
+  off. The value of the array is the integer global id of
+  the cell. The name of the array is returned by
+  GetGlobalElementIdArrayName()
+* obj.SetGenerateGlobalElementIdArray (int ) - Extra cell
+  data array that can be generated. By default, this array
+  is off. The value of the array is the integer global id of
+  the cell. The name of the array is returned by
+  GetGlobalElementIdArrayName()
+* int = obj.GetGenerateGlobalElementIdArray () - Extra cell
+  data array that can be generated. By default, this array
+  is off. The value of the array is the integer global id of
+  the cell. The name of the array is returned by
+  GetGlobalElementIdArrayName()
+* obj.GenerateGlobalElementIdArrayOn () - Extra cell data
+  array that can be generated. By default, this array is
+  off. The value of the array is the integer global id of
+  the cell. The name of the array is returned by
+  GetGlobalElementIdArrayName()
+* obj.GenerateGlobalElementIdArrayOff () - Extra cell data
+  array that can be generated. By default, this array is
+  off. The value of the array is the integer global id of
+  the cell. The name of the array is returned by
+  GetGlobalElementIdArrayName()
+* obj.SetGenerateGlobalNodeIdArray (int ) - Extra point data
+  array that can be generated. By default, this array is ON.
+  The value of the array is the integer id of the node. The
+  id is relative to the entire data set. The name of the
+  array is returned by GlobalNodeIdArrayName().
+* int = obj.GetGenerateGlobalNodeIdArray () - Extra point
+  data array that can be generated. By default, this array
+  is ON. The value of the array is the integer id of the
+  node. The id is relative to the entire data set. The name
+  of the array is returned by GlobalNodeIdArrayName().
+* obj.GenerateGlobalNodeIdArrayOn () - Extra point data
+  array that can be generated. By default, this array is ON.
+  The value of the array is the integer id of the node. The
+  id is relative to the entire data set. The name of the
+  array is returned by GlobalNodeIdArrayName().
+* obj.GenerateGlobalNodeIdArrayOff () - Extra point data
+  array that can be generated. By default, this array is ON.
+  The value of the array is the integer id of the node. The
+  id is relative to the entire data set. The name of the
+  array is returned by GlobalNodeIdArrayName().
+* obj.SetApplyDisplacements (int ) - Geometric locations can
+  include displacements. By default, this is ON. The nodal
+  positions are 'displaced' by the standard exodus
+  displacment vector. If displacements are turned 'off', the
+  user can explicitly add them by applying a warp filter.
+* int = obj.GetApplyDisplacements () - Geometric locations
+  can include displacements. By default, this is ON. The
+  nodal positions are 'displaced' by the standard exodus
+  displacment vector. If displacements are turned 'off', the
+  user can explicitly add them by applying a warp filter.
+* obj.ApplyDisplacementsOn () - Geometric locations can
+  include displacements. By default, this is ON. The nodal
+  positions are 'displaced' by the standard exodus
+  displacment vector. If displacements are turned 'off', the
+  user can explicitly add them by applying a warp filter.
+* obj.ApplyDisplacementsOff () - Geometric locations can
+  include displacements. By default, this is ON. The nodal
+  positions are 'displaced' by the standard exodus
+  displacment vector. If displacements are turned 'off', the
+  user can explicitly add them by applying a warp filter.
+* obj.SetDisplacementMagnitude (float ) - Geometric
+  locations can include displacements. By default, this is
+  ON. The nodal positions are 'displaced' by the standard
+  exodus displacment vector. If displacements are turned
+  'off', the user can explicitly add them by applying a warp
+  filter.
+* float = obj.GetDisplacementMagnitude () - Geometric
+  locations can include displacements. By default, this is
+  ON. The nodal positions are 'displaced' by the standard
+  exodus displacment vector. If displacements are turned
+  'off', the user can explicitly add them by applying a warp
+  filter.
+* string = obj.GetTitle () - Access to meta data generated
+  by UpdateInformation.
+* int = obj.GetDimensionality () - Access to meta data
+  generated by UpdateInformation.
+* int = obj.GetNumberOfTimeSteps () - Access to meta data
+  generated by UpdateInformation.
+* int = obj.GetNumberOfElements () - Access to meta data
+  generated by UpdateInformation.
+* int = obj.GetNumberOfNodeSets () - Access to meta data
+  generated by UpdateInformation.
+* int = obj.GetNumberOfSideSets () - Access to meta data
+  generated by UpdateInformation.
+* int = obj.GetNumberOfBlocks () - Access to meta data
+  generated by UpdateInformation.
+* int = obj. GetTimeStepRange () - Access to meta data
+  generated by UpdateInformation.
+* obj.SetTimeStepRange (int , int ) - Access to meta data
+  generated by UpdateInformation.
+* obj.SetTimeStepRange (int a[2]) - Access to meta data
+  generated by UpdateInformation.
+* int = obj.GetNumberOfNodes () - Access to meta data
+  generated by UpdateInformation.
+* int = obj.GetNumberOfElementsInBlock (int block_idx) -
+  Access to meta data generated by UpdateInformation.
+* int = obj.GetBlockId (int block_idx) - Access to meta data
+  generated by UpdateInformation.
+* int = obj.GetTotalNumberOfNodes ()
+* int = obj.GetNumberOfPointArrays ()
+* string = obj.GetPointArrayName (int index)
+* int = obj.GetPointArrayID (string name)
+* int = obj.GetPointArrayNumberOfComponents (int index)
+* obj.SetPointArrayStatus (int index, int flag)
+* obj.SetPointArrayStatus (string , int flag)
+* int = obj.GetPointArrayStatus (int index)
+* int = obj.GetPointArrayStatus (string )
+* int = obj.GetNumberOfCellArrays ()
+* string = obj.GetCellArrayName (int index)
+* int = obj.GetCellArrayID (string name)
+* int = obj.GetCellArrayNumberOfComponents (int index)
+* obj.SetCellArrayStatus (int index, int flag)
+* obj.SetCellArrayStatus (string , int flag)
+* int = obj.GetCellArrayStatus (int index)
+* int = obj.GetCellArrayStatus (string )
+* int = obj.GetTotalNumberOfElements ()
+* int = obj.GetNumberOfBlockArrays ()
+* string = obj.GetBlockArrayName (int index)
+* int = obj.GetBlockArrayID (string name)
+* obj.SetBlockArrayStatus (int index, int flag)
+* obj.SetBlockArrayStatus (string , int flag)
+* int = obj.GetBlockArrayStatus (int index)
+* int = obj.GetBlockArrayStatus (string )
+* int = obj.GetNumberOfNodeSetArrays () - By default Node/
+  Side sets are not loaded, These methods allow the user to
+  select which Node/Side sets they want to load.
+  NumberOfNodeSets and NumberOfSideSets (set by vtk macros)
+  are stored in vtkExodusReader but other Node/Side set
+  metadata are stored in vtkExodusMetaData Note:
+  GetNumberOfNodeSetArrays and GetNumberOfSideSetArrays are
+  just syntatic sugar for paraview server xml
+* int = obj.GetNodeSetArrayStatus (int index) - By default
+  Node/Side sets are not loaded, These methods allow the
+  user to select which Node/Side sets they want to load.
+  NumberOfNodeSets and NumberOfSideSets (set by vtk macros)
+  are stored in vtkExodusReader but other Node/Side set
+  metadata are stored in vtkExodusMetaData Note:
+  GetNumberOfNodeSetArrays and GetNumberOfSideSetArrays are
+  just syntatic sugar for paraview server xml
+* int = obj.GetNodeSetArrayStatus (string name) - By default
+  Node/Side sets are not loaded, These methods allow the
+  user to select which Node/Side sets they want to load.
+  NumberOfNodeSets and NumberOfSideSets (set by vtk macros)
+  are stored in vtkExodusReader but other Node/Side set
+  metadata are stored in vtkExodusMetaData Note:
+  GetNumberOfNodeSetArrays and GetNumberOfSideSetArrays are
+  just syntatic sugar for paraview server xml
+* obj.SetNodeSetArrayStatus (int index, int flag) - By
+  default Node/Side sets are not loaded, These methods allow
+  the user to select which Node/Side sets they want to load.
+  NumberOfNodeSets and NumberOfSideSets (set by vtk macros)
+  are stored in vtkExodusReader but other Node/Side set
+  metadata are stored in vtkExodusMetaData Note:
+  GetNumberOfNodeSetArrays and GetNumberOfSideSetArrays are
+  just syntatic sugar for paraview server xml
+* obj.SetNodeSetArrayStatus (string name, int flag) - By
+  default Node/Side sets are not loaded, These methods allow
+  the user to select which Node/Side sets they want to load.
+  NumberOfNodeSets and NumberOfSideSets (set by vtk macros)
+  are stored in vtkExodusReader but other Node/Side set
+  metadata are stored in vtkExodusMetaData Note:
+  GetNumberOfNodeSetArrays and GetNumberOfSideSetArrays are
+  just syntatic sugar for paraview server xml
+* string = obj.GetNodeSetArrayName (int index) - By default
+  Node/Side sets are not loaded, These methods allow the
+  user to select which Node/Side sets they want to load.
+  NumberOfNodeSets and NumberOfSideSets (set by vtk macros)
+  are stored in vtkExodusReader but other Node/Side set
+  metadata are stored in vtkExodusMetaData Note:
+  GetNumberOfNodeSetArrays and GetNumberOfSideSetArrays are
+  just syntatic sugar for paraview server xml
+* int = obj.GetNumberOfSideSetArrays ()
+* int = obj.GetSideSetArrayStatus (int index)
+* int = obj.GetSideSetArrayStatus (string name)
+* obj.SetSideSetArrayStatus (int index, int flag)
+* obj.SetSideSetArrayStatus (string name, int flag)
+* string = obj.GetSideSetArrayName (int index)
+* int = obj.GetNumberOfPartArrays ()
+* string = obj.GetPartArrayName (int arrayIdx)
+* int = obj.GetPartArrayID (string name)
+* string = obj.GetPartBlockInfo (int arrayIdx)
+* obj.SetPartArrayStatus (int index, int flag)
+* obj.SetPartArrayStatus (string , int flag)
+* int = obj.GetPartArrayStatus (int index)
+* int = obj.GetPartArrayStatus (string )
+* int = obj.GetNumberOfMaterialArrays ()
+* string = obj.GetMaterialArrayName (int arrayIdx)
+* int = obj.GetMaterialArrayID (string name)
+* obj.SetMaterialArrayStatus (int index, int flag)
+* obj.SetMaterialArrayStatus (string , int flag)
+* int = obj.GetMaterialArrayStatus (int index)
+* int = obj.GetMaterialArrayStatus (string )
+* int = obj.GetNumberOfAssemblyArrays ()
+* string = obj.GetAssemblyArrayName (int arrayIdx)
+* int = obj.GetAssemblyArrayID (string name)
+* obj.SetAssemblyArrayStatus (int index, int flag)
+* obj.SetAssemblyArrayStatus (string , int flag)
+* int = obj.GetAssemblyArrayStatus (int index)
+* int = obj.GetAssemblyArrayStatus (string )
+* int = obj.GetNumberOfHierarchyArrays ()
+* string = obj.GetHierarchyArrayName (int arrayIdx)
+* obj.SetHierarchyArrayStatus (int index, int flag)
+* obj.SetHierarchyArrayStatus (string , int flag)
+* int = obj.GetHierarchyArrayStatus (int index)
+* int = obj.GetHierarchyArrayStatus (string )
+* int = obj.GetHasModeShapes () - Some simulations overload
+  the Exodus time steps to represent mode shapes. In this
+  case, it does not make sense to iterate over the "time
+  steps", because they are not meant to be played in order.
+  Rather, each represents the vibration at a different
+  "mode." Setting this to 1 changes the semantics of the
+  reader to not report the time steps to downstream filters.
+  By default, this is off, which is the case for most Exodus
+  files.
+* obj.SetHasModeShapes (int ) - Some simulations overload
+  the Exodus time steps to represent mode shapes. In this
+  case, it does not make sense to iterate over the "time
+  steps", because they are not meant to be played in order.
+  Rather, each represents the vibration at a different
+  "mode." Setting this to 1 changes the semantics of the
+  reader to not report the time steps to downstream filters.
+  By default, this is off, which is the case for most Exodus
+  files.
+* obj.HasModeShapesOn () - Some simulations overload the
+  Exodus time steps to represent mode shapes. In this case,
+  it does not make sense to iterate over the "time steps",
+  because they are not meant to be played in order. Rather,
+  each represents the vibration at a different "mode."
+  Setting this to 1 changes the semantics of the reader to
+  not report the time steps to downstream filters. By
+  default, this is off, which is the case for most Exodus
+  files.
+* obj.HasModeShapesOff () - Some simulations overload the
+  Exodus time steps to represent mode shapes. In this case,
+  it does not make sense to iterate over the "time steps",
+  because they are not meant to be played in order. Rather,
+  each represents the vibration at a different "mode."
+  Setting this to 1 changes the semantics of the reader to
+  not report the time steps to downstream filters. By
+  default, this is off, which is the case for most Exodus
+  files.
+* int = obj.GetDisplayType ()
+* obj.SetDisplayType (int type)
+* obj.ExodusModelMetadataOn ()
+* obj.ExodusModelMetadataOff ()
+* obj.SetExodusModelMetadata (int )
+* int = obj.GetExodusModelMetadata ()
+* vtkExodusModel = obj.GetExodusModel ()
+* obj.SetPackExodusModelOntoOutput (int )
+* int = obj.GetPackExodusModelOntoOutput ()
+* obj.PackExodusModelOntoOutputOn ()
+* obj.PackExodusModelOntoOutputOff ()
+* int = obj.IsValidVariable (string type, string name)
+* int = obj.GetVariableID (string type, string name)
+* obj.SetAllAssemblyArrayStatus (int status)
+* obj.SetAllBlockArrayStatus (int status)
+* obj.SetAllCellArrayStatus (int status)
+* obj.SetAllHierarchyArrayStatus (int status)
+* obj.SetAllMaterialArrayStatus (int status)
+* obj.SetAllPartArrayStatus (int status)
+* obj.SetAllPointArrayStatus (int status)
+* obj.SetArrayStatus (string type, string name, int flag)
+* int = obj.GetArrayStatus (string type, string name)
+* int = obj.GetTimeSeriesData (int ID, string vName, string
+  vType, vtkFloatArray result)
+* int = obj.GetNumberOfVariableArrays ()
+* string = obj.GetVariableArrayName (int a_which)
+* obj.EnableDSPFiltering ()
+* obj.AddFilter (vtkDSPFilterDefinition a_filter)
+* obj.StartAddingFilter ()
+* obj.AddFilterInputVar (string name)
+* obj.AddFilterOutputVar (string name)
+* obj.AddFilterNumeratorWeight (double weight)
+* obj.AddFilterForwardNumeratorWeight (double weight)
+* obj.AddFilterDenominatorWeight (double weight)
+* obj.FinishAddingFilter ()
+* obj.RemoveFilter (string a_outputVariableName)
+* obj.GetDSPOutputArrays (int exoid, vtkUnstructuredGrid
+  output)
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Hybrid_Classes
+* Generated on Thu Jul 25 2013 17:18:33 for FreeMat by
+  doxygen_ 1.8.1.1
+

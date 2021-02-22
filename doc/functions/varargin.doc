@@ -1,0 +1,51 @@
+/*!
+\page functions_varargin VARARGIN Variable Input Arguments
+
+<p>
+Section: \ref sec_functions "Functions and Scripts"
+\section Usage
+FreeMat functions can take a variable number of input arguments
+by setting the last argument in the argument list to <tt>varargin</tt>.
+This special keyword indicates that all arguments to the
+function (beyond the last non-<tt>varargin</tt> keyword) are assigned
+to a cell array named <tt>varargin</tt> available to the function.
+Variable argument functions are usually used when writing
+driver functions, i.e., functions that need to pass arguments
+to another function.  The general syntax for a function that
+takes a variable number of arguments is
+\verbatim
+  function [out_1,...,out_M] = fname(in_1,..,in_M,varargin)
+\endverbatim
+Inside the function body, <tt>varargin</tt> collects the arguments
+to <tt>fname</tt> that are not assigned to the <tt>in_k</tt>.
+\section Example
+Here is a simple wrapper to <tt>feval</tt> that demonstrates the
+use of variable arguments functions.
+
+\if FILE
+wrapcall.m
+function wrapcall(fname,varargin)
+  feval(fname,varargin{:});
+\endif
+\verbatim
+     wrapcall.m
+\endverbatim
+
+\verbinclude wrapcall.m
+
+Now we show a call of the <tt>wrapcall</tt> function with a number
+of arguments
+
+\if FRAGMENT
+frag_functions_varargin_000.m
+0
+wrapcall('printf','%f...%f\n',pi,e)
+\endif
+
+
+\verbinclude frag_functions_varargin_000.m.out 
+
+A more serious driver routine could, for example, optimize
+a one dimensional function that takes a number of auxilliary
+parameters that are passed through <tt>varargin</tt>.
+*/

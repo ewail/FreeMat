@@ -1,0 +1,132 @@
+
+ Usage
+
+vtkCoordinate represents position in a variety of coordinate
+systems, and converts position to other coordinate systems.
+It also supports relative positioning, so you can create a
+cascade of vtkCoordinate objects (no loops please!) that
+refer to each other. The typical usage of this object is to
+set the coordinate system in which to represent a position
+(e.g., SetCoordinateSystemToNormalizedDisplay()), set the
+value of the coordinate (e.g., SetValue()), and then invoke
+the appropriate method to convert to another coordinate
+system (e.g., GetComputedWorldValue()).
+The coordinate systems in vtk are as follows:
+
+    DISPLAY -             x-y pixel values in window
+    NORMALIZED DISPLAY -  x-y (0,1) normalized values
+    VIEWPORT -            x-y pixel values in viewport
+    NORMALIZED VIEWPORT - x-y (0,1) normalized value in
+  viewport
+    VIEW -                x-y-z (-1,1) values in camera
+  coordinates. (z is depth)
+    WORLD -               x-y-z global coordinate values
+    USERDEFINED -         x-y-z in User defined space
+
+If you cascade vtkCoordinate objects, you refer to another
+vtkCoordinate object which in turn can refer to others, and
+so on. This allows you to create composite groups of things
+like vtkActor2D that are positioned relative to one another.
+Note that in cascaded sequences, each vtkCoordinate object
+may be specified in different coordinate systems!
+To create an instance of class vtkCoordinate, simply invoke
+its constructor as follows
+
+    obj = vtkCoordinate
+
+
+
+ Methods
+
+The class vtkCoordinate has several methods that can be
+used. They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkCoordinate class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkCoordinate = obj.NewInstance ()
+* vtkCoordinate = obj.SafeDownCast (vtkObject o)
+* obj.SetCoordinateSystem (int ) - Set/get the coordinate
+  system which this coordinate is defined in. The options
+  are Display, Normalized Display, Viewport, Normalized
+  Viewport, View, and World.
+* int = obj.GetCoordinateSystem () - Set/get the coordinate
+  system which this coordinate is defined in. The options
+  are Display, Normalized Display, Viewport, Normalized
+  Viewport, View, and World.
+* obj.SetCoordinateSystemToDisplay () - Set/get the
+  coordinate system which this coordinate is defined in. The
+  options are Display, Normalized Display, Viewport,
+  Normalized Viewport, View, and World.
+* obj.SetCoordinateSystemToNormalizedDisplay () - Set/get
+  the coordinate system which this coordinate is defined in.
+  The options are Display, Normalized Display, Viewport,
+  Normalized Viewport, View, and World.
+* obj.SetCoordinateSystemToViewport () - Set/get the
+  coordinate system which this coordinate is defined in. The
+  options are Display, Normalized Display, Viewport,
+  Normalized Viewport, View, and World.
+* obj.SetCoordinateSystemToNormalizedViewport () - Set/get
+  the coordinate system which this coordinate is defined in.
+  The options are Display, Normalized Display, Viewport,
+  Normalized Viewport, View, and World.
+* obj.SetCoordinateSystemToView () - Set/get the coordinate
+  system which this coordinate is defined in. The options
+  are Display, Normalized Display, Viewport, Normalized
+  Viewport, View, and World.
+* obj.SetCoordinateSystemToWorld ()
+* string = obj.GetCoordinateSystemAsString ()
+* obj.SetValue (double , double , double ) - Set/get the
+  value of this coordinate. This can be thought of as the
+  position of this coordinate in its coordinate system.
+* obj.SetValue (double a[3]) - Set/get the value of this
+  coordinate. This can be thought of as the position of this
+  coordinate in its coordinate system.
+* double = obj. GetValue () - Set/get the value of this
+  coordinate. This can be thought of as the position of this
+  coordinate in its coordinate system.
+* obj.SetValue (double a, double b) - If this coordinate is
+  relative to another coordinate, then specify that
+  coordinate as the ReferenceCoordinate. If this is NULL the
+  coordinate is assumed to be absolute.
+* obj.SetReferenceCoordinate (vtkCoordinate ) - If this
+  coordinate is relative to another coordinate, then specify
+  that coordinate as the ReferenceCoordinate. If this is
+  NULL the coordinate is assumed to be absolute.
+* vtkCoordinate = obj.GetReferenceCoordinate () - If this
+  coordinate is relative to another coordinate, then specify
+  that coordinate as the ReferenceCoordinate. If this is
+  NULL the coordinate is assumed to be absolute.
+* obj.SetViewport (vtkViewport viewport) - If you want this
+  coordinate to be relative to a specific vtkViewport
+  (vtkRenderer) then you can specify that here. NOTE: this
+  is a raw pointer, not a weak pointer not a reference
+  counted object to avoid reference cycle loop between
+  rendering classes and filter classes.
+* vtkViewport = obj.GetViewport () - If you want this
+  coordinate to be relative to a specific vtkViewport
+  (vtkRenderer) then you can specify that here. NOTE: this
+  is a raw pointer, not a weak pointer not a reference
+  counted object to avoid reference cycle loop between
+  rendering classes and filter classes.
+* double = obj.GetComputedWorldValue (vtkViewport ) - Return
+  the computed value in a specified coordinate system.
+* int = obj.GetComputedViewportValue (vtkViewport ) - Return
+  the computed value in a specified coordinate system.
+* int = obj.GetComputedDisplayValue (vtkViewport ) - Return
+  the computed value in a specified coordinate system.
+* int = obj.GetComputedLocalDisplayValue (vtkViewport ) -
+  Return the computed value in a specified coordinate
+  system.
+* double = obj.GetComputedDoubleViewportValue (vtkViewport )
+* double = obj.GetComputedDoubleDisplayValue (vtkViewport )
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Filtering_Classes
+* Generated on Thu Jul 25 2013 17:18:30 for FreeMat by
+  doxygen_ 1.8.1.1
+

@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="transforms_eig" kind="page">
+    <compoundname>transforms_eig</compoundname>
+    <title>EIG Eigendecomposition of a Matrix</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_transforms_1sec_transforms" kindref="member">Transforms/Decompositions</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>Computes the eigendecomposition of a square matrix. The <computeroutput>eig</computeroutput> function has several forms. The first returns only the eigenvalues of the matrix: <verbatim>  s = eig(A)
+</verbatim> The second form returns both the eigenvectors and eigenvalues as two matrices (the eigenvalues are stored in a diagonal matrix): <verbatim>  [V,D] = eig(A)
+</verbatim> where <computeroutput>D</computeroutput> is the diagonal matrix of eigenvalues, and <computeroutput>V</computeroutput> is the matrix of eigenvectors.</para><para>Eigenvalues and eigenvectors for asymmetric matrices <computeroutput>A</computeroutput> normally are computed with balancing applied. Balancing is a scaling step that normaly improves the quality of the eigenvalues and eigenvectors. In some instances (see the Function Internals section for more details) it is necessary to disable balancing. For these cases, two additional forms of <computeroutput>eig</computeroutput> are available: <verbatim>  s = eig(A,&apos;nobalance&apos;),
+</verbatim> which computes the eigenvalues of <computeroutput>A</computeroutput> only, and does not balance the matrix prior to computation. Similarly, <verbatim>  [V,D] = eig(A,&apos;nobalance&apos;)
+</verbatim> recovers both the eigenvectors and eigenvalues of <computeroutput>A</computeroutput> without balancing. Note that the &apos;nobalance&apos; option has no affect on symmetric matrices.</para><para>FreeMat also provides the ability to calculate generalized eigenvalues and eigenvectors. Similarly to the regular case, there are two forms for <computeroutput>eig</computeroutput> when computing generalized eigenvector (see the Function Internals section for a description of what a generalized eigenvector is). The first returns only the generalized eigenvalues of the matrix pair <computeroutput>A,B</computeroutput> <verbatim>  s = eig(A,B)
+</verbatim> The second form also computes the generalized eigenvectors, and is accessible via <verbatim>  [V,D] = eig(A,B)
+</verbatim> </para></sect1>
+<sect1 id="transforms_svd_1Function">
+<title>Internals</title>
+<para>Recall that <computeroutput>v</computeroutput> is an eigenvector of <computeroutput>A</computeroutput> with associated eigenvalue <computeroutput>d</computeroutput> if <formula id="152">\[ A v = d v. \]</formula> This decomposition can be written in matrix form as <formula id="153">\[ A V = V D \]</formula> where <formula id="154">\[ V = [v_1,v_2,\ldots,v_n], D = \mathrm{diag}(d_1,d_2,\ldots,d_n). \]</formula> The <computeroutput>eig</computeroutput> function uses the <computeroutput>LAPACK</computeroutput> class of functions <computeroutput>GEEVX</computeroutput> to compute the eigenvalue decomposition for non-symmetric (or non-Hermitian) matrices <computeroutput>A</computeroutput>. For symmetric matrices, <computeroutput>SSYEV</computeroutput> and <computeroutput>DSYEV</computeroutput> are used for <computeroutput>float</computeroutput> and <computeroutput>double</computeroutput> matrices (respectively). For Hermitian matrices, <computeroutput>CHEEV</computeroutput> and <computeroutput>ZHEEV</computeroutput> are used for <computeroutput>complex</computeroutput> and <computeroutput>dcomplex</computeroutput> matrices.</para><para>For some matrices, the process of balancing (in which the rows and columns of the matrix are pre-scaled to facilitate the search for eigenvalues) is detrimental to the quality of the final solution. This is particularly true if the matrix contains some elements on the order of round off error. See the Example section for an example.</para><para>A generalized eigenvector of the matrix pair <computeroutput>A,B</computeroutput> is simply a vector <computeroutput>v</computeroutput> with associated eigenvalue <computeroutput>d</computeroutput> such that <formula id="155">\[ A v = d B v, \]</formula> where <computeroutput>B</computeroutput> is a square matrix of the same size as <computeroutput>A</computeroutput>. This decomposition can be written in matrix form as <formula id="156">\[ A V = B V D \]</formula> where <formula id="154">\[ V = [v_1,v_2,\ldots,v_n], D = \mathrm{diag}(d_1,d_2,\ldots,d_n). \]</formula> For general matrices <computeroutput>A</computeroutput> and <computeroutput>B</computeroutput>, the <computeroutput>GGEV</computeroutput> class of routines are used to compute the generalized eigendecomposition. If howevever, <computeroutput>A</computeroutput> and <computeroutput>B</computeroutput> are both symmetric (or Hermitian, as appropriate), Then FreeMat first attempts to use <computeroutput>SSYGV</computeroutput> and <computeroutput>DSYGV</computeroutput> for <computeroutput>float</computeroutput> and <computeroutput>double</computeroutput> arguments and <computeroutput>CHEGV</computeroutput> and <computeroutput>ZHEGV</computeroutput> for <computeroutput>complex</computeroutput> and <computeroutput>dcomplex</computeroutput> arguments (respectively). These routines requires that <computeroutput>B</computeroutput> also be positive definite, and if it fails to be, FreeMat will revert to the routines used for general arguments. </para></sect1>
+<sect1 id="variables_struct_1Example">
+<title>Example</title>
+<para>Some examples of eigenvalue decompositions. First, for a diagonal matrix, the eigenvalues are the diagonal elements of the matrix.</para><para><verbatim>--&gt; A = diag([1.02f,3.04f,1.53f])
+
+A = 
+    1.0200         0         0 
+         0    3.0400         0 
+         0         0    1.5300 
+
+--&gt; eig(A)
+
+ans = 
+    1.0200 
+    1.5300 
+    3.0400 
+</verbatim></para><para>Next, we compute the eigenvalues of an upper triangular matrix, where the eigenvalues are again the diagonal elements.</para><para><verbatim>--&gt; A = [1.0f,3.0f,4.0f;0,2.0f,6.7f;0.0f,0.0f,1.0f]
+
+A = 
+    1.0000    3.0000    4.0000 
+         0    2.0000    6.7000 
+         0         0    1.0000 
+
+--&gt; eig(A)
+
+ans = 
+ 1 
+ 2 
+ 1 
+</verbatim></para><para>Next, we compute the complete eigenvalue decomposition of a random matrix, and then demonstrate the accuracy of the solution</para><para><verbatim>--&gt; A = float(randn(2))
+
+A = 
+    0.3747   -1.5129 
+   -0.6283   -1.1096 
+
+--&gt; [V,D] = eig(A)
+V = 
+    0.9526    0.6096 
+   -0.3042    0.7927 
+
+D = 
+    0.8578         0 
+         0   -1.5928 
+
+--&gt; A*V - V*D
+
+ans = 
+
+   1.0e-08 * 
+   -5.9605         0 
+   -2.9802         0 
+</verbatim></para><para>Now, we consider a matrix that requires the nobalance option to compute the eigenvalues and eigenvectors properly. Here is an example from MATLAB&apos;s manual.</para><para><verbatim>--&gt; B = [3,-2,-.9,2*eps;-2,4,1,-eps;-eps/4,eps/2,-1,0;-.5,-.5,.1,1]
+
+B = 
+    3.0000   -2.0000   -0.9000    0.0000 
+   -2.0000    4.0000    1.0000   -0.0000 
+   -0.0000    0.0000   -1.0000         0 
+   -0.5000   -0.5000    0.1000    1.0000 
+
+--&gt; [VB,DB] = eig(B)
+VB = 
+    0.6153   -0.4176   -0.0000   -0.1495 
+   -0.7881   -0.3261   -0.0000    0.1316 
+   -0.0000   -0.0000    0.0000   -0.9570 
+    0.0189    0.8481    1.0000   -0.2110 
+
+DB = 
+    5.5616         0         0         0 
+         0    1.4384         0         0 
+         0         0    1.0000         0 
+         0         0         0   -1.0000 
+
+--&gt; B*VB - VB*DB
+
+ans = 
+         0         0    0.0000   -0.0000 
+         0    0.0000   -0.0000    0.0000 
+   -0.0000   -0.0000   -0.0000   -0.0000 
+    0.0000    0.0000    0.0000   -0.5088 
+
+--&gt; [VN,DN] = eig(B,&apos;nobalance&apos;)
+VN = 
+    0.6153   -0.4176   -0.0000   -0.1528 
+   -0.7881   -0.3261         0    0.1345 
+   -0.0000   -0.0000   -0.0000   -0.9781 
+    0.0189    0.8481   -1.0000    0.0443 
+
+DN = 
+    5.5616         0         0         0 
+         0    1.4384         0         0 
+         0         0    1.0000         0 
+         0         0         0   -1.0000 
+
+--&gt; B*VN - VN*DN
+
+ans = 
+
+   1.0e-15 * 
+   -1.7764   -0.1110   -0.5587   -0.1665 
+    3.5527    1.0547    0.3364   -0.1943 
+    0.0172    0.0015    0.0066         0 
+    0.1527   -0.2220    0.2220    0.0833 
+</verbatim> </para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

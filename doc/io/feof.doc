@@ -1,0 +1,38 @@
+/*!
+\page io_feof FEOF End Of File Function
+
+<p>
+Section: \ref sec_io "Input/Ouput Functions"
+\section Usage
+Check to see if we are at the end of the file.  The usage is
+\verbatim
+  b = feof(handle)
+\endverbatim
+The <tt>handle</tt> argument must be a valid and active file handle.  The
+return is true (logical 1) if the current position is at the end of
+the file, and false (logical 0) otherwise.  Note that simply reading
+to the end of a file will not cause <tt>feof</tt> to return <tt>true</tt>.  
+You must read past the end of the file (which will cause an error 
+anyway).  See the example for more details.
+\section Example
+Here, we read to the end of the file to demonstrate how <tt>feof</tt> works.
+At first pass, we force a read of the contents of the file by specifying
+<tt>inf</tt> for the dimension of the array to read.  We then test the
+end of file, and somewhat counter-intuitively, the answer is <tt>false</tt>.
+We then attempt to read past the end of the file, which causes an
+error.  An <tt>feof</tt> test now returns the expected value of <tt>true</tt>.
+
+\if FRAGMENT
+frag_io_feof_000.m
+0
+fp = fopen('test.dat','rb');
+x = fread(fp,[512,inf],'float');
+feof(fp)
+x = fread(fp,[1,1],'float');
+feof(fp)
+\endif
+
+
+\verbinclude frag_io_feof_000.m.out 
+
+*/

@@ -1,0 +1,203 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="variables_indexing" kind="page">
+    <compoundname>variables_indexing</compoundname>
+    <title>INDEXING Indexing Expressions</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_variables_1sec_variables" kindref="member">Variables and Arrays</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>There are three classes of indexing expressions available in FreeMat: <computeroutput>()</computeroutput>, <computeroutput>{}</computeroutput>, and <computeroutput>.</computeroutput> Each is explained below in some detail, and with its own example section. </para></sect1>
+<sect1 id="variables_indexing_1Array">
+<title>Indexing</title>
+<para>We start with array indexing <computeroutput>()</computeroutput>, which is the most general indexing expression, and can be used on any array. There are two general forms for the indexing expression - the N-dimensional form, for which the general syntax is <verbatim>  variable(index_1,index_2,...,index_n)
+</verbatim> and the vector form, for which the general syntax is <verbatim>  variable(index)
+</verbatim> Here each index expression is either a scalar, a range of integer values, or the special token <computeroutput>:</computeroutput>, which is shorthand for <computeroutput>1:end</computeroutput>. The keyword <computeroutput>end</computeroutput>, when included in an indexing expression, is assigned the length of the array in that dimension. The concept is easier to demonstrate than explain. Consider the following examples:</para><para><verbatim>--&gt; A = zeros(4)
+
+A = 
+ 0 0 0 0 
+ 0 0 0 0 
+ 0 0 0 0 
+ 0 0 0 0 
+
+--&gt; B = float(randn(2))
+
+B = 
+   -0.1688    0.5183 
+    0.9485   -0.6864 
+
+--&gt; A(2:3,2:3) = B
+
+A = 
+         0         0         0         0 
+         0   -0.1688    0.5183         0 
+         0    0.9485   -0.6864         0 
+         0         0         0         0 
+</verbatim></para><para>Here the array indexing was used on the left hand side only. It can also be used for right hand side indexing, as in</para><para><verbatim>--&gt; C = A(2:3,1:end)
+
+C = 
+         0   -0.1688    0.5183         0 
+         0    0.9485   -0.6864         0 
+</verbatim></para><para>Note that we used the <computeroutput>end</computeroutput> keyword to avoid having to know that <computeroutput>A</computeroutput> has 4 columns. Of course, we could also use the <computeroutput>:</computeroutput> token instead:</para><para><verbatim>--&gt; C = A(2:3,:)
+
+C = 
+         0   -0.1688    0.5183         0 
+         0    0.9485   -0.6864         0 
+</verbatim></para><para>An extremely useful example of <computeroutput>:</computeroutput> with array indexing is for slicing. Suppose we have a 3-D array, that is <computeroutput>2 x 2 x 3</computeroutput>, and we want to set the middle slice:</para><para><verbatim>--&gt; D = zeros(2,2,3)
+
+D = 
+
+(:,:,1) = 
+ 0 0 
+ 0 0 
+
+(:,:,2) = 
+ 0 0 
+ 0 0 
+
+(:,:,3) = 
+ 0 0 
+ 0 0 
+
+--&gt; D(:,:,2) = int32(10*rand(2,2))
+
+D = 
+
+(:,:,1) = 
+  0  0 
+  0  0 
+
+(:,:,2) = 
+  9 10 
+  5  8 
+
+(:,:,3) = 
+  0  0 
+  0  0 
+</verbatim></para><para>In another level of nuance, the assignment expression will automatically fill in the indexed rectangle on the left using data from the right hand side, as long as the lengths match. So we can take a vector and roll it into a matrix using this approach:</para><para><verbatim>--&gt; A = zeros(4)
+
+A = 
+ 0 0 0 0 
+ 0 0 0 0 
+ 0 0 0 0 
+ 0 0 0 0 
+
+--&gt; v = [1;2;3;4]
+
+v = 
+ 1 
+ 2 
+ 3 
+ 4 
+
+--&gt; A(2:3,2:3) = v
+
+A = 
+ 0 0 0 0 
+ 0 1 3 0 
+ 0 2 4 0 
+ 0 0 0 0 
+</verbatim></para><para>The N-dimensional form of the variable index is limited to accessing only (hyper-) rectangular regions of the array. You cannot, for example, use it to access only the diagonal elements of the array. To do that, you use the second form of the array access (or a loop). The vector form treats an arbitrary N-dimensional array as though it were a column vector. You can then access arbitrary subsets of the arrays elements (for example, through a <computeroutput>find</computeroutput> expression) efficiently. Note that in vector form, the <computeroutput>end</computeroutput> keyword takes the meaning of the total length of the array (defined as the product of its dimensions), as opposed to the size along the first dimension. </para></sect1>
+<sect1 id="variables_indexing_1Cell">
+<title>Indexing</title>
+<para>The second form of indexing operates, to a large extent, in the same manner as the array indexing, but it is by no means interchangable. As the name implies, <computeroutput>cell</computeroutput>-indexing applies only to <computeroutput>cell</computeroutput> arrays. For those familiar with <computeroutput>C</computeroutput>, cell- indexing is equivalent to pointer derefencing in <computeroutput>C</computeroutput>. First, the syntax: <verbatim>  variable{index_1,index_2,...,index_n}
+</verbatim> and the vector form, for which the general syntax is <verbatim>  variable{index}
+</verbatim> The rules and interpretation for N-dimensional and vector indexing are identical to <computeroutput>()</computeroutput>, so we will describe only the differences. In simple terms, applying <computeroutput>()</computeroutput> to a cell-array returns another cell array that is a subset of the original array. On the other hand, applying <computeroutput>{}</computeroutput> to a cell-array returns the contents of that cell array. A simple example makes the difference quite clear:</para><para><verbatim>--&gt; A = {1, &apos;hello&apos;, [1:4]}
+
+A = 
+ [1] [hello] [1x4 double array] 
+
+--&gt; A(1:2)
+
+ans = 
+ [1] [hello] 
+
+--&gt; A{1:2}
+
+ans = 
+
+1 of 2:
+ 1 
+
+
+2 of 2:
+hello
+</verbatim></para><para>You may be surprised by the response to the last line. The output is multiple assignments to <computeroutput>ans</computeroutput>!. The output of a cell-array dereference can be used anywhere a list of expressions is required. This includes arguments and returns for function calls, matrix construction, etc. Here is an example of using cell-arrays to pass parameters to a function:</para><para><verbatim>--&gt; A = {[1,3,0],[5,2,7]}
+
+A = 
+ [1x3 double array] [1x3 double array] 
+
+--&gt; max(A{1:end})
+
+ans = 
+ 5 3 7 
+</verbatim></para><para>And here, cell-arrays are used to capture the return.</para><para><verbatim>--&gt; [K{1:2}] = max(randn(1,4))
+K = 
+ [0.779398] [4] 
+</verbatim></para><para>Here, cell-arrays are used in the matrix construction process:</para><para><verbatim>--&gt; C = [A{1};A{2}]
+
+C = 
+ 1 3 0 
+ 5 2 7 
+</verbatim></para><para>Note that this form of indexing is used to implement variable length arguments to function. See <computeroutput>varargin</computeroutput> and <computeroutput>varargout</computeroutput> for more details. </para></sect1>
+<sect1 id="variables_indexing_1Structure">
+<title>Indexing</title>
+<para>The third form of indexing is structure indexing. It can only be applied to structure arrays, and has the general syntax <verbatim>  variable.fieldname
+</verbatim> where <computeroutput>fieldname</computeroutput> is one of the fields on the structure. Note that in FreeMat, fields are allocated dynamically, so if you reference a field that does not exist in an assignment, it is created automatically for you. If variable is an array, then the result of the <computeroutput>.</computeroutput> reference is an expression list, exactly like the <computeroutput>{}</computeroutput> operator. Hence, we can use structure indexing in a simple fashion:</para><para><verbatim>--&gt; clear A
+--&gt; A.color = &apos;blue&apos;
+
+A = 
+    color: blue
+--&gt; B = A.color
+
+B = 
+blue
+</verbatim></para><para>Or in more complicated ways using expression lists for function arguments</para><para><verbatim>--&gt; clear A
+--&gt; A(1).maxargs = [1,6,7,3]
+
+A = 
+    maxargs: 1x4 double array
+--&gt; A(2).maxargs = [5,2,9,0]
+
+A = 
+1x2 struct array with fields:
+    maxargs
+--&gt; max(A.maxargs)
+
+ans = 
+ 5 6 9 3 
+</verbatim></para><para>or to store function outputs</para><para><verbatim>--&gt; clear A
+--&gt; A(1).maxreturn = [];
+--&gt; A(2).maxreturn = [];
+--&gt; [A.maxreturn] = max(randn(1,4))
+A = 
+1x2 struct array with fields:
+    maxreturn
+</verbatim></para><para>FreeMat now also supports the so called dynamic-field indexing expressions. In this mode, the fieldname is supplied through an expression instead of being explicitly provided. For example, suppose we have a set of structure indexed by color,</para><para><verbatim>--&gt; x.red = 430;
+--&gt; x.green = 240;
+--&gt; x.blue = 53;
+--&gt; x.yello = 105
+
+x = 
+    red: 430
+    green: 240
+    blue: 53
+    yello: 105
+</verbatim></para><para>Then we can index into the structure <computeroutput>x</computeroutput> using a dynamic field reference:</para><para><verbatim>--&gt; y = &apos;green&apos;
+
+y = 
+green
+--&gt; a = x.(y)
+
+a = 
+ 240 
+</verbatim></para><para>Note that the indexing expression has to resolve to a string for dynamic field indexing to work. </para></sect1>
+<sect1 id="variables_indexing_1Complex">
+<title>Indexing</title>
+<para>The indexing expressions described above can be freely combined to affect complicated indexing expressions. Here is an example that exercises all three indexing expressions in one assignment.</para><para><verbatim>--&gt; Z{3}.foo(2) = pi
+
+Z = 
+ [0] [0] [1x1 struct array] 
+</verbatim></para><para>From this statement, FreeMat infers that Z is a cell-array of length 3, that the third element is a structure array (with one element), and that this structure array contains a field named &apos;foo&apos; with two double elements, the second of which is assigned a value of pi. </para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

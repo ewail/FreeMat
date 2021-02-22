@@ -1,0 +1,233 @@
+
+ Usage
+
+vtkApplyColors performs a coloring of the dataset using
+default colors, lookup tables, annotations, and/or a
+selection. The output is a four-component
+vtkUnsignedCharArray containing RGBA tuples for each element
+in the dataset. The first input is the dataset to be
+colored, which may be a vtkTable, vtkGraph subclass, or
+vtkDataSet subclass. The API of this algorithm refers to
+"points" and "cells". For vtkGraph, the "points" refer to
+the graph vertices and "cells" refer to graph edges. For
+vtkTable, "points" refer to table rows. For vtkDataSet
+subclasses, the meaning is obvious.
+The second (optional) input is a vtkAnnotationLayers object,
+which stores a list of annotation layers, with each layer
+holding a list of vtkAnnotation objects. The annotation
+specifies a subset of data along with other properties,
+including color. For annotations with color properties, this
+algorithm will use the color to color elements, using a "top
+one wins" strategy.
+The third (optional) input is a vtkSelection object, meant
+for specifying the current selection. You can control the
+color of the selection.
+The algorithm takes two input arrays, specified with
+SetInputArrayToProcess(0, 0, 0, vtkDataObject::
+FIELD_ASSOCIATION_POINTS, name) and SetInputArrayToProcess
+(1, 0, 0, vtkDataObject::FIELD_ASSOCIATION_CELLS, name).
+These set the point and cell data arrays to use to color the
+data with the associated lookup table. For vtkGraph,
+vtkTable inputs, you would use FIELD_ASSOCIATION_VERTICES,
+FIELD_ASSOCIATION_EDGES, or FIELD_ASSOCIATION_ROWS as
+appropriate.
+To use the color array generated here, you should do the
+following:
+mapper->SetScalarModeToUseCellFieldData(); mapper-
+>SelectColorArray("vtkApplyColors color"); mapper-
+>SetScalarVisibility(true);
+Colors are assigned with the following priorities:
+
+  1. If an item is part of the selection, it is colored with
+     that color.
+  2. Otherwise, if the item is part of an annotation, it is
+     colored with the color of the final (top) annotation in
+     the set of layers.
+  3. Otherwise, if the lookup table is used, it is colored
+     using the lookup table color for the data value of the
+     element.
+  4. Otherwise it will be colored with the default color.
+
+Note: The opacity of an unselected item is defined by the
+multiplication of default opacity, lookup table opacity, and
+annotation opacity, where opacity is taken as a number from
+0 to 1. So items will never be more opaque than any of these
+three opacities. Selected items are always given the
+selection opacity directly.
+To create an instance of class vtkApplyColors, simply invoke
+its constructor as follows
+
+    obj = vtkApplyColors
+
+
+
+ Methods
+
+The class vtkApplyColors has several methods that can be
+used. They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkApplyColors class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkApplyColors = obj.NewInstance ()
+* vtkApplyColors = obj.SafeDownCast (vtkObject o)
+* obj.SetPointLookupTable (vtkScalarsToColors lut) - The
+  lookup table to use for point colors. This is only used if
+  input array 0 is set and UsePointLookupTable is on.
+* vtkScalarsToColors = obj.GetPointLookupTable () - The
+  lookup table to use for point colors. This is only used if
+  input array 0 is set and UsePointLookupTable is on.
+* obj.SetUsePointLookupTable (bool ) - If on, uses the point
+  lookup table to set the colors of unannotated, unselected
+  elements of the data.
+* bool = obj.GetUsePointLookupTable () - If on, uses the
+  point lookup table to set the colors of unannotated,
+  unselected elements of the data.
+* obj.UsePointLookupTableOn () - If on, uses the point
+  lookup table to set the colors of unannotated, unselected
+  elements of the data.
+* obj.UsePointLookupTableOff () - If on, uses the point
+  lookup table to set the colors of unannotated, unselected
+  elements of the data.
+* obj.SetScalePointLookupTable (bool ) - If on, uses the
+  range of the data to scale the lookup table range.
+  Otherwise, uses the range defined in the lookup table.
+* bool = obj.GetScalePointLookupTable () - If on, uses the
+  range of the data to scale the lookup table range.
+  Otherwise, uses the range defined in the lookup table.
+* obj.ScalePointLookupTableOn () - If on, uses the range of
+  the data to scale the lookup table range. Otherwise, uses
+  the range defined in the lookup table.
+* obj.ScalePointLookupTableOff () - If on, uses the range of
+  the data to scale the lookup table range. Otherwise, uses
+  the range defined in the lookup table.
+* obj.SetDefaultPointColor (double , double , double ) - The
+  default point color for all unannotated, unselected
+  elements of the data. This is used if UsePointLookupTable
+  is off.
+* obj.SetDefaultPointColor (double a[3]) - The default point
+  color for all unannotated, unselected elements of the
+  data. This is used if UsePointLookupTable is off.
+* double = obj. GetDefaultPointColor () - The default point
+  color for all unannotated, unselected elements of the
+  data. This is used if UsePointLookupTable is off.
+* obj.SetDefaultPointOpacity (double ) - The default point
+  opacity for all unannotated, unselected elements of the
+  data. This is used if UsePointLookupTable is off.
+* double = obj.GetDefaultPointOpacity () - The default point
+  opacity for all unannotated, unselected elements of the
+  data. This is used if UsePointLookupTable is off.
+* obj.SetSelectedPointColor (double , double , double ) -
+  The point color for all selected elements of the data.
+  This is used if the selection input is available.
+* obj.SetSelectedPointColor (double a[3]) - The point color
+  for all selected elements of the data. This is used if the
+  selection input is available.
+* double = obj. GetSelectedPointColor () - The point color
+  for all selected elements of the data. This is used if the
+  selection input is available.
+* obj.SetSelectedPointOpacity (double ) - The point opacity
+  for all selected elements of the data. This is used if the
+  selection input is available.
+* double = obj.GetSelectedPointOpacity () - The point
+  opacity for all selected elements of the data. This is
+  used if the selection input is available.
+* obj.SetPointColorOutputArrayName (string ) - The output
+  array name for the point color RGBA array. Default is
+  "vtkApplyColors color".
+* string = obj.GetPointColorOutputArrayName () - The output
+  array name for the point color RGBA array. Default is
+  "vtkApplyColors color".
+* obj.SetCellLookupTable (vtkScalarsToColors lut) - The
+  lookup table to use for cell colors. This is only used if
+  input array 1 is set and UseCellLookupTable is on.
+* vtkScalarsToColors = obj.GetCellLookupTable () - The
+  lookup table to use for cell colors. This is only used if
+  input array 1 is set and UseCellLookupTable is on.
+* obj.SetUseCellLookupTable (bool ) - If on, uses the cell
+  lookup table to set the colors of unannotated, unselected
+  elements of the data.
+* bool = obj.GetUseCellLookupTable () - If on, uses the cell
+  lookup table to set the colors of unannotated, unselected
+  elements of the data.
+* obj.UseCellLookupTableOn () - If on, uses the cell lookup
+  table to set the colors of unannotated, unselected
+  elements of the data.
+* obj.UseCellLookupTableOff () - If on, uses the cell lookup
+  table to set the colors of unannotated, unselected
+  elements of the data.
+* obj.SetScaleCellLookupTable (bool ) - If on, uses the
+  range of the data to scale the lookup table range.
+  Otherwise, uses the range defined in the lookup table.
+* bool = obj.GetScaleCellLookupTable () - If on, uses the
+  range of the data to scale the lookup table range.
+  Otherwise, uses the range defined in the lookup table.
+* obj.ScaleCellLookupTableOn () - If on, uses the range of
+  the data to scale the lookup table range. Otherwise, uses
+  the range defined in the lookup table.
+* obj.ScaleCellLookupTableOff () - If on, uses the range of
+  the data to scale the lookup table range. Otherwise, uses
+  the range defined in the lookup table.
+* obj.SetDefaultCellColor (double , double , double ) - The
+  default cell color for all unannotated, unselected
+  elements of the data. This is used if UseCellLookupTable
+  is off.
+* obj.SetDefaultCellColor (double a[3]) - The default cell
+  color for all unannotated, unselected elements of the
+  data. This is used if UseCellLookupTable is off.
+* double = obj. GetDefaultCellColor () - The default cell
+  color for all unannotated, unselected elements of the
+  data. This is used if UseCellLookupTable is off.
+* obj.SetDefaultCellOpacity (double ) - The default cell
+  opacity for all unannotated, unselected elements of the
+  data. This is used if UseCellLookupTable is off.
+* double = obj.GetDefaultCellOpacity () - The default cell
+  opacity for all unannotated, unselected elements of the
+  data. This is used if UseCellLookupTable is off.
+* obj.SetSelectedCellColor (double , double , double ) - The
+  cell color for all selected elements of the data. This is
+  used if the selection input is available.
+* obj.SetSelectedCellColor (double a[3]) - The cell color
+  for all selected elements of the data. This is used if the
+  selection input is available.
+* double = obj. GetSelectedCellColor () - The cell color for
+  all selected elements of the data. This is used if the
+  selection input is available.
+* obj.SetSelectedCellOpacity (double ) - The cell opacity
+  for all selected elements of the data. This is used if the
+  selection input is available.
+* double = obj.GetSelectedCellOpacity () - The cell opacity
+  for all selected elements of the data. This is used if the
+  selection input is available.
+* obj.SetCellColorOutputArrayName (string ) - The output
+  array name for the cell color RGBA array. Default is
+  "vtkApplyColors color".
+* string = obj.GetCellColorOutputArrayName () - The output
+  array name for the cell color RGBA array. Default is
+  "vtkApplyColors color".
+* obj.SetUseCurrentAnnotationColor (bool ) - Use the
+  annotation to color the current annotation (i.e. the
+  current selection). Otherwise use the selection color
+  attributes of this filter.
+* bool = obj.GetUseCurrentAnnotationColor () - Use the
+  annotation to color the current annotation (i.e. the
+  current selection). Otherwise use the selection color
+  attributes of this filter.
+* obj.UseCurrentAnnotationColorOn () - Use the annotation to
+  color the current annotation (i.e. the current selection).
+  Otherwise use the selection color attributes of this
+  filter.
+* obj.UseCurrentAnnotationColorOff () - Use the annotation
+  to color the current annotation (i.e. the current
+  selection). Otherwise use the selection color attributes
+  of this filter.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Infovis_Classes
+* Generated on Thu Jul 25 2013 17:18:33 for FreeMat by
+  doxygen_ 1.8.1.1
+

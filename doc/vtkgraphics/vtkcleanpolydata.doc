@@ -1,0 +1,158 @@
+/*!
+\page vtkgraphics_vtkcleanpolydata vtkCleanPolyData
+
+<p>
+Section: \ref sec_vtkgraphics "Visualization Toolkit Graphics Classes"
+\section Usage
+ vtkCleanPolyData is a filter that takes polygonal data as input and
+ generates polygonal data as output. vtkCleanPolyData can merge duplicate
+ points (within specified tolerance and if enabled), eliminate points
+ that are not used, and if enabled, transform degenerate cells into
+ appropriate forms (for example, a triangle is converted into a line
+ if two points of triangle are merged).
+
+ Conversion of degenerate cells is controlled by the flags
+ ConvertLinesToPoints, ConvertPolysToLines, ConvertStripsToPolys which act
+ cumulatively such that a degenerate strip may become a poly.
+ The full set is
+ Line with 1 points -> Vert (if ConvertLinesToPoints)
+ Poly with 2 points -> Line (if ConvertPolysToLines)
+ Poly with 1 points -> Vert (if ConvertPolysToLines && ConvertLinesToPoints)
+ Strp with 3 points -> Poly (if ConvertStripsToPolys)
+ Strp with 2 points -> Line (if ConvertStripsToPolys && ConvertPolysToLines)
+ Strp with 1 points -> Vert (if ConvertStripsToPolys && ConvertPolysToLines
+   && ConvertLinesToPoints)
+
+ If tolerance is specified precisely=0.0, then vtkCleanPolyData will use
+ the vtkMergePoints object to merge points (which is faster). Otherwise the
+ slower vtkIncrementalPointLocator is used.  Before inserting points into the point
+ locator, this class calls a function OperateOnPoint which can be used (in
+ subclasses) to further refine the cleaning process. See
+ vtkQuantizePolyDataPoints.
+
+ Note that merging of points can be disabled. In this case, a point locator
+ will not be used, and points that are not used by any cells will be
+ eliminated, but never merged.
+
+To create an instance of class vtkCleanPolyData, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkCleanPolyData
+\endverbatim
+\section Methods
+The class vtkCleanPolyData has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkCleanPolyData class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkCleanPolyData = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkCleanPolyData = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetToleranceIsAbsolute (int )</tt> -  By default ToleranceIsAbsolute is false and Tolerance is
+ a fraction of Bounding box diagonal, if true, AbsoluteTolerance is
+ used when adding points to locator (merging)
+ </LI>
+<LI>  <tt>obj.ToleranceIsAbsoluteOn ()</tt> -  By default ToleranceIsAbsolute is false and Tolerance is
+ a fraction of Bounding box diagonal, if true, AbsoluteTolerance is
+ used when adding points to locator (merging)
+ </LI>
+<LI>  <tt>obj.ToleranceIsAbsoluteOff ()</tt> -  By default ToleranceIsAbsolute is false and Tolerance is
+ a fraction of Bounding box diagonal, if true, AbsoluteTolerance is
+ used when adding points to locator (merging)
+ </LI>
+<LI>  <tt>int = obj.GetToleranceIsAbsolute ()</tt> -  By default ToleranceIsAbsolute is false and Tolerance is
+ a fraction of Bounding box diagonal, if true, AbsoluteTolerance is
+ used when adding points to locator (merging)
+ </LI>
+<LI>  <tt>obj.SetTolerance (double )</tt> -  Specify tolerance in terms of fraction of bounding box length.
+ </LI>
+<LI>  <tt>double = obj.GetToleranceMinValue ()</tt> -  Specify tolerance in terms of fraction of bounding box length.
+ </LI>
+<LI>  <tt>double = obj.GetToleranceMaxValue ()</tt> -  Specify tolerance in terms of fraction of bounding box length.
+ </LI>
+<LI>  <tt>double = obj.GetTolerance ()</tt> -  Specify tolerance in terms of fraction of bounding box length.
+ </LI>
+<LI>  <tt>obj.SetAbsoluteTolerance (double )</tt> -  Specify tolerance in absolute terms
+ </LI>
+<LI>  <tt>double = obj.GetAbsoluteToleranceMinValue ()</tt> -  Specify tolerance in absolute terms
+ </LI>
+<LI>  <tt>double = obj.GetAbsoluteToleranceMaxValue ()</tt> -  Specify tolerance in absolute terms
+ </LI>
+<LI>  <tt>double = obj.GetAbsoluteTolerance ()</tt> -  Specify tolerance in absolute terms
+ </LI>
+<LI>  <tt>obj.SetConvertLinesToPoints (int )</tt> -  Turn on/off conversion of degenerate lines to points
+ </LI>
+<LI>  <tt>obj.ConvertLinesToPointsOn ()</tt> -  Turn on/off conversion of degenerate lines to points
+ </LI>
+<LI>  <tt>obj.ConvertLinesToPointsOff ()</tt> -  Turn on/off conversion of degenerate lines to points
+ </LI>
+<LI>  <tt>int = obj.GetConvertLinesToPoints ()</tt> -  Turn on/off conversion of degenerate lines to points
+ </LI>
+<LI>  <tt>obj.SetConvertPolysToLines (int )</tt> -  Turn on/off conversion of degenerate polys to lines
+ </LI>
+<LI>  <tt>obj.ConvertPolysToLinesOn ()</tt> -  Turn on/off conversion of degenerate polys to lines
+ </LI>
+<LI>  <tt>obj.ConvertPolysToLinesOff ()</tt> -  Turn on/off conversion of degenerate polys to lines
+ </LI>
+<LI>  <tt>int = obj.GetConvertPolysToLines ()</tt> -  Turn on/off conversion of degenerate polys to lines
+ </LI>
+<LI>  <tt>obj.SetConvertStripsToPolys (int )</tt> -  Turn on/off conversion of degenerate strips to polys
+ </LI>
+<LI>  <tt>obj.ConvertStripsToPolysOn ()</tt> -  Turn on/off conversion of degenerate strips to polys
+ </LI>
+<LI>  <tt>obj.ConvertStripsToPolysOff ()</tt> -  Turn on/off conversion of degenerate strips to polys
+ </LI>
+<LI>  <tt>int = obj.GetConvertStripsToPolys ()</tt> -  Turn on/off conversion of degenerate strips to polys
+ </LI>
+<LI>  <tt>obj.SetPointMerging (int )</tt> -  Set/Get a boolean value that controls whether point merging is
+ performed. If on, a locator will be used, and points laying within
+ the appropriate tolerance may be merged. If off, points are never
+ merged. By default, merging is on.
+ </LI>
+<LI>  <tt>int = obj.GetPointMerging ()</tt> -  Set/Get a boolean value that controls whether point merging is
+ performed. If on, a locator will be used, and points laying within
+ the appropriate tolerance may be merged. If off, points are never
+ merged. By default, merging is on.
+ </LI>
+<LI>  <tt>obj.PointMergingOn ()</tt> -  Set/Get a boolean value that controls whether point merging is
+ performed. If on, a locator will be used, and points laying within
+ the appropriate tolerance may be merged. If off, points are never
+ merged. By default, merging is on.
+ </LI>
+<LI>  <tt>obj.PointMergingOff ()</tt> -  Set/Get a boolean value that controls whether point merging is
+ performed. If on, a locator will be used, and points laying within
+ the appropriate tolerance may be merged. If off, points are never
+ merged. By default, merging is on.
+ </LI>
+<LI>  <tt>obj.SetLocator (vtkIncrementalPointLocator locator)</tt> -  Set/Get a spatial locator for speeding the search process. By
+ default an instance of vtkMergePoints is used.
+ </LI>
+<LI>  <tt>vtkIncrementalPointLocator = obj.GetLocator ()</tt> -  Set/Get a spatial locator for speeding the search process. By
+ default an instance of vtkMergePoints is used.
+ </LI>
+<LI>  <tt>obj.CreateDefaultLocator (vtkPolyData input)</tt> -  Create default locator. Used to create one when none is specified.
+ </LI>
+<LI>  <tt>obj.ReleaseLocator ()</tt> -  Get the MTime of this object also considering the locator.
+ </LI>
+<LI>  <tt>long = obj.GetMTime ()</tt> -  Get the MTime of this object also considering the locator.
+ </LI>
+<LI>  <tt>obj.OperateOnPoint (double in[3], double out[3])</tt> -  Perform operation on a point
+ </LI>
+<LI>  <tt>obj.OperateOnBounds (double in[6], double out[6])</tt> -  Perform operation on bounds
+ </LI>
+<LI>  <tt>obj.SetPieceInvariant (int )</tt>
+ </LI>
+<LI>  <tt>int = obj.GetPieceInvariant ()</tt>
+ </LI>
+<LI>  <tt>obj.PieceInvariantOn ()</tt>
+ </LI>
+<LI>  <tt>obj.PieceInvariantOff ()</tt>
+ </LI>
+</UL>
+*/

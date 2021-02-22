@@ -1,0 +1,64 @@
+
+ Usage
+
+The gausfit routine has the following syntax
+
+    [mu,sigma,dc,gain,yhat] = gausfit
+  (t,y,w,mug,sigmag,dcg,gaing).
+
+where the required inputs are
+
+* t - the values of the independant variable (e.g., time
+  samples)
+* y - the values of the dependant variable (e.g., f(t))
+
+The following inputs are all optional, and default values
+are available for each of them.
+
+* w - the weights to use in the fitting (set to ones if
+  omitted)
+* mug - initial estimate of the mean
+* sigmag - initial estimate of the sigma (standard
+  deviation)
+* dcg - initial estimate of the DC value
+* gaing - initial estimate of the gain
+
+The fit is of the form yhat=gain*exp((t-mu).^2/
+(2*sigma^2))+dc. The outputs are
+
+* mu - the mean of the fit
+* sigma - the sigma of the fit
+* dc - the dc term of the fit
+* gain - the gain of the gaussian fit
+* yhat - the output samples (the Gaussian fits)
+
+Because the fit is nonlinear, a good initial guess is
+critical to convergence of the solution. Thus, you can
+supply initial guesses for each of the parameters using the
+mug, sigmag, dcg, gaing arguments. Any arguments not
+supplied are estimated using a simple algorithm. In
+particular, the DC value is estimated by taking the minimum
+value from the vector y. The gain is estimated from the
+range of y. The mean and standard deviation are estimated
+using the first and second order moments of y. This function
+uses fitfun.
+
+
+ Example
+
+Suppose we want to fit a cycle of a cosine using a Gaussian
+shape.
+
+  --> t = linspace(-pi,pi);
+  --> y = cos(t);
+  --> [mu,sigma,dc,gain,yhat] = gausfit(t,y);
+  --> plot(t,y,'rx',t,yhat,'g-');
+
+Which results in the following plot
+ gausfit1.png
+
+* FreeMat_Documentation
+* Optimization_and_Curve_Fitting
+* Generated on Thu Jul 25 2013 17:17:13 for FreeMat by
+  doxygen_ 1.8.1.1
+

@@ -1,0 +1,56 @@
+/*!
+\page random_randchi RANDCHI Generate Chi-Square Random Variable
+
+<p>
+Section: \ref sec_random "Random Number Generation"
+\section Usage
+Generates a vector of chi-square random variables with the
+given number of degrees of freedom.  The general syntax for
+its use is 
+\verbatim
+   y = randchi(n)
+\endverbatim
+where <tt>n</tt> is an array containing the degrees of freedom for
+each generated random variable.
+\section Function Internals
+A chi-square random variable is essentially distributed as
+the squared Euclidean norm of a vector of standard Gaussian random 
+variables.  The number of degrees of freedom is generally the
+number of elements in the vector.  In general, the PDF of
+a chi-square random variable is
+\f[
+ f(x) = \frac{x^{r/2-1}e^{-x/2}}{\Gamma(r/2)2^{r/2}}
+\f]
+\section Example
+First, a plot of the PDF for a family of chi-square random variables
+
+\if FRAGMENT
+frag_random_randchi_000.m
+0
+f = zeros(7,100);
+x = (1:100)/10;
+for n=1:7;t=x.^(n/2-1).*exp(-x/2);f(n,:)=10*t/sum(t);end
+plot(x,f');
+mprint chipdf
+\endif
+
+
+\verbinclude frag_random_randchi_000.m.out 
+
+The PDF is below:
+\image html chipdf.png
+\image latex chipdf.eps "chipdf" width=12cm
+Here is an example of using <tt>randchi</tt> and <tt>randn</tt> to compute
+some chi-square random variables with four degrees of freedom.
+
+\if FRAGMENT
+frag_random_randchi_001.m
+0
+randchi(4*ones(1,6))
+sum(randn(4,6).^2)
+\endif
+
+
+\verbinclude frag_random_randchi_001.m.out 
+
+*/

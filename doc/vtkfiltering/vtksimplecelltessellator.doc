@@ -1,0 +1,126 @@
+/*!
+\page vtkfiltering_vtksimplecelltessellator vtkSimpleCellTessellator
+
+<p>
+Section: \ref sec_vtkfiltering "Visualization Toolkit Filtering Classes"
+\section Usage
+ vtkSimpleCellTessellator is a helper class to perform adaptive tessellation
+ of particular cell topologies. The major purpose for this class is to
+ transform higher-order cell types (e.g., higher-order finite elements)
+ into linear cells that can then be easily visualized by VTK. This class
+ works in conjunction with the vtkGenericDataSet and vtkGenericAdaptorCell
+ classes.
+
+ This algorithm is based on edge subdivision. An error metric along each
+ edge is evaluated, and if the error is greater than some tolerance, the
+ edge is subdivided (as well as all connected 2D and 3D cells). The process
+ repeats until the error metric is satisfied. Since the algorithm is based
+ on edge subdivision it inherently avoid T-junctions.
+
+ A significant issue addressed by this algorithm is to insure face
+ compatibility across neigboring cells. That is, diagonals due to face
+ triangulation must match to insure that the mesh is compatible. The
+ algorithm employs a precomputed table to accelerate the tessellation
+ process. The table was generated with the help of vtkOrderedTriangulator
+ the basic idea is that the choice of diagonal is made only by considering the
+ relative value of the point ids.
+
+
+To create an instance of class vtkSimpleCellTessellator, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkSimpleCellTessellator
+\endverbatim
+\section Methods
+The class vtkSimpleCellTessellator has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkSimpleCellTessellator class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkSimpleCellTessellator = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkSimpleCellTessellator = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>vtkGenericAdaptorCell = obj.GetGenericCell ()</tt> -  Get the higher order cell in order to access the evaluation function.
+ </LI>
+<LI>  <tt>obj.TessellateFace (vtkGenericAdaptorCell cell, vtkGenericAttributeCollection att, vtkIdType index, vtkDoubleArray points, vtkCellArray cellArray, vtkPointData internalPd)</tt> -  Tessellate a face of a 3D `cell'. The face is specified by the
+ index value.
+ The result is a set of smaller linear triangles in `cellArray' with
+ `points' and point data `internalPd'.
+ \pre cell_exists: cell!=0
+ \pre valid_dimension: cell->GetDimension()==3
+ \pre valid_index_range: (index>=0) && (index<cell->GetNumberOfBoundaries(2))
+ \pre att_exists: att!=0
+ \pre points_exists: points!=0
+ \pre cellArray_exists: cellArray!=0
+ \pre internalPd_exists: internalPd!=0
+ </LI>
+<LI>  <tt>obj.Tessellate (vtkGenericAdaptorCell cell, vtkGenericAttributeCollection att, vtkDoubleArray points, vtkCellArray cellArray, vtkPointData internalPd)</tt> -  Tessellate a 3D `cell'. The result is a set of smaller linear
+ tetrahedra in `cellArray' with `points' and point data `internalPd'.
+ \pre cell_exists: cell!=0
+ \pre valid_dimension: cell->GetDimension()==3
+ \pre att_exists: att!=0
+ \pre points_exists: points!=0
+ \pre cellArray_exists: cellArray!=0
+ \pre internalPd_exists: internalPd!=0
+ </LI>
+<LI>  <tt>obj.Triangulate (vtkGenericAdaptorCell cell, vtkGenericAttributeCollection att, vtkDoubleArray points, vtkCellArray cellArray, vtkPointData internalPd)</tt> -  Triangulate a 2D `cell'. The result is a set of smaller linear triangles
+ in `cellArray' with `points' and point data `internalPd'.
+ \pre cell_exists: cell!=0
+ \pre valid_dimension: cell->GetDimension()==2
+ \pre att_exists: att!=0
+ \pre points_exists: points!=0
+ \pre cellArray_exists: cellArray!=0
+ \pre internalPd_exists: internalPd!=0
+ </LI>
+<LI>  <tt>obj.Reset ()</tt> -  Reset the output for repeated use of this class.
+ </LI>
+<LI>  <tt>obj.Initialize (vtkGenericDataSet ds)</tt> -  Initialize the tessellator with a data set `ds'.
+ </LI>
+<LI>  <tt>int = obj.GetFixedSubdivisions ()</tt> -  Return the number of fixed subdivisions. It is used to prevent from
+ infinite loop in degenerated cases. For order 3 or higher, if the
+ inflection point is exactly on the mid-point, error metric will not
+ detect that a subdivision is required. 0 means no fixed subdivision:
+ there will be only adaptive subdivisions.
+
+ The algorithm first performs `GetFixedSubdivisions' non adaptive
+ subdivisions followed by at most `GetMaxAdaptiveSubdivisions' adaptive
+ subdivisions. Hence, there are at most `GetMaxSubdivisionLevel'
+ subdivisions.
+ \post positive_result: result>=0 && result<=GetMaxSubdivisionLevel()
+ </LI>
+<LI>  <tt>int = obj.GetMaxSubdivisionLevel ()</tt> -  Return the maximum level of subdivision. It is used to prevent from
+ infinite loop in degenerated cases. For order 3 or higher, if the
+ inflection point is exactly on the mid-point, error metric will not
+ detect that a subdivision is required. 0 means no subdivision,
+ neither fixed nor adaptive.
+ \post positive_result: result>=GetFixedSubdivisions()
+ </LI>
+<LI>  <tt>int = obj.GetMaxAdaptiveSubdivisions ()</tt> -  Return the maximum number of adaptive subdivisions.
+ \post valid_result: result==GetMaxSubdivisionLevel()-GetFixedSubdivisions()
+ </LI>
+<LI>  <tt>obj.SetFixedSubdivisions (int level)</tt> -  Set the number of fixed subdivisions. See GetFixedSubdivisions() for
+ more explanations.
+ \pre positive_level: level>=0 && level<=GetMaxSubdivisionLevel()
+ \post is_set: GetFixedSubdivisions()==level
+ </LI>
+<LI>  <tt>obj.SetMaxSubdivisionLevel (int level)</tt> -  Set the maximum level of subdivision. See GetMaxSubdivisionLevel() for
+ more explanations.
+ \pre positive_level: level>=GetFixedSubdivisions()
+ \post is_set: level==GetMaxSubdivisionLevel()
+ </LI>
+<LI>  <tt>obj.SetSubdivisionLevels (int fixed, int maxLevel)</tt> -  Set both the number of fixed subdivisions and the maximum level of
+ subdivisions. See GetFixedSubdivisions(), GetMaxSubdivisionLevel() and
+ GetMaxAdaptiveSubdivisions() for more explanations.
+ \pre positive_fixed: fixed>=0
+ \pre valid_range: fixed<=maxLevel
+ \post fixed_is_set: fixed==GetFixedSubdivisions()
+ \post maxLevel_is_set: maxLevel==GetMaxSubdivisionLevel()
+ </LI>
+</UL>
+*/

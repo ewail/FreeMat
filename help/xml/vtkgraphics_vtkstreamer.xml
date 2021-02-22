@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkgraphics_vtkstreamer" kind="page">
+    <compoundname>vtkgraphics_vtkstreamer</compoundname>
+    <title>vtkStreamer</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkgraphics_1sec_vtkgraphics" kindref="member">Visualization Toolkit Graphics Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>vtkStreamer is a filter that integrates a massless particle through a vector field. The integration is performed using second order Runge-Kutta method. vtkStreamer often serves as a base class for other classes that perform numerical integration through a vector field (e.g., vtkStreamLine).</para><para>Note that vtkStreamer can integrate both forward and backward in time, or in both directions. The length of the streamer is controlled by specifying an elapsed time. (The elapsed time is the time each particle travels.) Otherwise, the integration terminates after exiting the dataset or if the particle speed is reduced to a value less than the terminal speed.</para><para>vtkStreamer integrates through any type of dataset. As a result, if the dataset contains 2D cells such as polygons or triangles, the integration is constrained to lie on the surface defined by the 2D cells.</para><para>The starting point of streamers may be defined in three different ways. Starting from global x-y-z &quot;position&quot; allows you to start a single streamer at a specified x-y-z coordinate. Starting from &quot;location&quot; allows you to start at a specified cell, subId, and parametric coordinate. Finally, you may specify a source object to start multiple streamers. If you start streamers using a source object, for each point in the source that is inside the dataset a streamer is created.</para><para>vtkStreamer implements the integration process in the Integrate() method. Because vtkStreamer does not implement the Execute() method that its superclass (i.e., Filter) requires, it is an abstract class. Its subclasses implement the execute method and use the Integrate() method, and then build their own representation of the integration path (i.e., lines, dashed lines, points, etc.).</para><para>To create an instance of class vtkStreamer, simply invoke its constructor as follows <verbatim>  obj = vtkStreamer
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkStreamer has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkStreamer class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkStreamer = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkStreamer = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetStartLocation (vtkIdType cellId, int subId, double pcoords[3])</computeroutput> - Specify the start of the streamline in the cell coordinate system. That is, cellId and subId (if composite cell), and parametric coordinates.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetStartLocation (vtkIdType cellId, int subId, double r, double s, double t)</computeroutput> - Specify the start of the streamline in the cell coordinate system. That is, cellId and subId (if composite cell), and parametric coordinates.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetStartPosition (double x[3])</computeroutput> - Specify the start of the streamline in the global coordinate system. Search must be performed to find initial cell to start integration from.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetStartPosition (double x, double y, double z)</computeroutput> - Specify the start of the streamline in the global coordinate system. Search must be performed to find initial cell to start integration from.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetStartPosition ()</computeroutput> - Get the start position in global x-y-z coordinates.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetSource (vtkDataSet source)</computeroutput> - Specify the source object used to generate starting points.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkDataSet = obj.GetSource ()</computeroutput> - Specify the source object used to generate starting points.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetMaximumPropagationTime (double )</computeroutput> - Specify the maximum length of the Streamer expressed in elapsed time.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetMaximumPropagationTimeMinValue ()</computeroutput> - Specify the maximum length of the Streamer expressed in elapsed time.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetMaximumPropagationTimeMaxValue ()</computeroutput> - Specify the maximum length of the Streamer expressed in elapsed time.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetMaximumPropagationTime ()</computeroutput> - Specify the maximum length of the Streamer expressed in elapsed time.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetIntegrationDirection (int )</computeroutput> - Specify the direction in which to integrate the Streamer.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetIntegrationDirectionMinValue ()</computeroutput> - Specify the direction in which to integrate the Streamer.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetIntegrationDirectionMaxValue ()</computeroutput> - Specify the direction in which to integrate the Streamer.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetIntegrationDirection ()</computeroutput> - Specify the direction in which to integrate the Streamer.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetIntegrationDirectionToForward ()</computeroutput> - Specify the direction in which to integrate the Streamer.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetIntegrationDirectionToBackward ()</computeroutput> - Specify the direction in which to integrate the Streamer.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetIntegrationDirectionToIntegrateBothDirections ()</computeroutput> - Specify the direction in which to integrate the Streamer.  </para></listitem>
+<listitem>
+<para><computeroutput>string = obj.GetIntegrationDirectionAsString ()</computeroutput> - Specify the direction in which to integrate the Streamer.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetIntegrationStepLength (double )</computeroutput> - Specify a nominal integration step size (expressed as a fraction of the size of each cell). This value can be larger than 1.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetIntegrationStepLengthMinValue ()</computeroutput> - Specify a nominal integration step size (expressed as a fraction of the size of each cell). This value can be larger than 1.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetIntegrationStepLengthMaxValue ()</computeroutput> - Specify a nominal integration step size (expressed as a fraction of the size of each cell). This value can be larger than 1.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetIntegrationStepLength ()</computeroutput> - Specify a nominal integration step size (expressed as a fraction of the size of each cell). This value can be larger than 1.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetSpeedScalars (int )</computeroutput> - Turn on/off the creation of scalar data from velocity magnitude. If off, and input dataset has scalars, input dataset scalars are used.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetSpeedScalars ()</computeroutput> - Turn on/off the creation of scalar data from velocity magnitude. If off, and input dataset has scalars, input dataset scalars are used.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SpeedScalarsOn ()</computeroutput> - Turn on/off the creation of scalar data from velocity magnitude. If off, and input dataset has scalars, input dataset scalars are used.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SpeedScalarsOff ()</computeroutput> - Turn on/off the creation of scalar data from velocity magnitude. If off, and input dataset has scalars, input dataset scalars are used.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetOrientationScalars (int )</computeroutput> - Turn on/off the creation of scalar data from vorticity information. The scalar information is currently the orientation value &quot;theta&quot; used in rotating stream tubes. If off, and input dataset has scalars, then input dataset scalars are used, unless SpeedScalars is also on. SpeedScalars takes precedence over OrientationScalars.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetOrientationScalars ()</computeroutput> - Turn on/off the creation of scalar data from vorticity information. The scalar information is currently the orientation value &quot;theta&quot; used in rotating stream tubes. If off, and input dataset has scalars, then input dataset scalars are used, unless SpeedScalars is also on. SpeedScalars takes precedence over OrientationScalars.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.OrientationScalarsOn ()</computeroutput> - Turn on/off the creation of scalar data from vorticity information. The scalar information is currently the orientation value &quot;theta&quot; used in rotating stream tubes. If off, and input dataset has scalars, then input dataset scalars are used, unless SpeedScalars is also on. SpeedScalars takes precedence over OrientationScalars.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.OrientationScalarsOff ()</computeroutput> - Turn on/off the creation of scalar data from vorticity information. The scalar information is currently the orientation value &quot;theta&quot; used in rotating stream tubes. If off, and input dataset has scalars, then input dataset scalars are used, unless SpeedScalars is also on. SpeedScalars takes precedence over OrientationScalars.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetTerminalSpeed (double )</computeroutput> - Set/get terminal speed (i.e., speed is velocity magnitude). Terminal speed is speed at which streamer will terminate propagation.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetTerminalSpeedMinValue ()</computeroutput> - Set/get terminal speed (i.e., speed is velocity magnitude). Terminal speed is speed at which streamer will terminate propagation.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetTerminalSpeedMaxValue ()</computeroutput> - Set/get terminal speed (i.e., speed is velocity magnitude). Terminal speed is speed at which streamer will terminate propagation.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetTerminalSpeed ()</computeroutput> - Set/get terminal speed (i.e., speed is velocity magnitude). Terminal speed is speed at which streamer will terminate propagation.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetVorticity (int )</computeroutput> - Turn on/off the computation of vorticity. Vorticity is an indication of the rotation of the flow. In combination with vtkStreamLine and vtkTubeFilter can be used to create rotated tubes. If vorticity is turned on, in the output, the velocity vectors are replaced by vorticity vectors.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetVorticity ()</computeroutput> - Turn on/off the computation of vorticity. Vorticity is an indication of the rotation of the flow. In combination with vtkStreamLine and vtkTubeFilter can be used to create rotated tubes. If vorticity is turned on, in the output, the velocity vectors are replaced by vorticity vectors.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.VorticityOn ()</computeroutput> - Turn on/off the computation of vorticity. Vorticity is an indication of the rotation of the flow. In combination with vtkStreamLine and vtkTubeFilter can be used to create rotated tubes. If vorticity is turned on, in the output, the velocity vectors are replaced by vorticity vectors.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.VorticityOff ()</computeroutput> - Turn on/off the computation of vorticity. Vorticity is an indication of the rotation of the flow. In combination with vtkStreamLine and vtkTubeFilter can be used to create rotated tubes. If vorticity is turned on, in the output, the velocity vectors are replaced by vorticity vectors.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetNumberOfThreads (int )</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetNumberOfThreads ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetSavePointInterval (double )</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetSavePointInterval ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetIntegrator (vtkInitialValueProblemSolver )</computeroutput> - Set/get the integrator type to be used in the stream line calculation. The object passed is not actually used but is cloned with NewInstance by each thread/process in the process of integration (prototype pattern). The default is 2nd order Runge Kutta.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkInitialValueProblemSolver = obj.GetIntegrator ()</computeroutput> - Set/get the integrator type to be used in the stream line calculation. The object passed is not actually used but is cloned with NewInstance by each thread/process in the process of integration (prototype pattern). The default is 2nd order Runge Kutta.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetEpsilon (double )</computeroutput> - A positive value, as small as possible for numerical comparison. The initial value is 1E-12.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetEpsilon ()</computeroutput> - A positive value, as small as possible for numerical comparison. The initial value is 1E-12.  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

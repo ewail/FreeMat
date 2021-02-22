@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkfiltering_vtkmutabledirectedgraph" kind="page">
+    <compoundname>vtkfiltering_vtkmutabledirectedgraph</compoundname>
+    <title>vtkMutableDirectedGraph</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkfiltering_1sec_vtkfiltering" kindref="member">Visualization Toolkit Filtering Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>vtkMutableDirectedGraph is a directed graph which has additional methods for adding edges and vertices. AddChild() is a convenience method for constructing trees. ShallowCopy(), DeepCopy(), CheckedShallowCopy() and CheckedDeepCopy() will succeed for instances of vtkDirectedGraph, vtkMutableDirectedGraph and vtkTree.</para><para>To create an instance of class vtkMutableDirectedGraph, simply invoke its constructor as follows <verbatim>  obj = vtkMutableDirectedGraph
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkMutableDirectedGraph has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkMutableDirectedGraph class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkMutableDirectedGraph = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkMutableDirectedGraph = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkIdType = obj.AddVertex ()</computeroutput> - Adds a vertex to the graph and returns the index of the new vertex.</para><para>Note: In a distributed graph (i.e. a graph whose DistributedHelper is non-null), this routine cannot be used to add a vertex if the vertices in the graph have pedigree IDs, because this routine will always add the vertex locally, which may conflict with the proper location of the vertex based on the distribution of the pedigree IDs.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkIdType = obj.AddVertex (vtkVariantArray propertyArr)</computeroutput> - Adds a vertex to the graph with associated properties defined in <computeroutput>propertyArr</computeroutput> and returns the index of the new vertex. The number and order of values in <computeroutput>propertyArr</computeroutput> must match up with the arrays in the vertex data retrieved by GetVertexData().</para><para>If a vertex with the given pedigree ID already exists, its properties will be overwritten with the properties in <computeroutput>propertyArr</computeroutput> and the existing vertex index will be returned.</para><para>Note: In a distributed graph (i.e. a graph whose DistributedHelper is non-null) the vertex added or found might not be local. In this case, AddVertex will wait until the vertex can be added or found remotely, so that the proper vertex index can be returned. If you don&apos;t actually need to use the vertex index, consider calling LazyAddVertex, which provides better performance by eliminating the delays associated with returning the vertex index.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.LazyAddVertex ()</computeroutput> - Adds a vertex to the graph.</para><para>This method is lazily evaluated for distributed graphs (i.e. graphs whose DistributedHelper is non-null) the next time Synchronize is called on the helper.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.LazyAddVertex (vtkVariantArray propertyArr)</computeroutput> - Adds a vertex to the graph with associated properties defined in <computeroutput>propertyArr</computeroutput>. The number and order of values in <computeroutput>propertyArr</computeroutput> must match up with the arrays in the vertex data retrieved by GetVertexData().</para><para>If a vertex with the given pedigree ID already exists, its properties will be overwritten with the properties in <computeroutput>propertyArr</computeroutput>.</para><para>This method is lazily evaluated for distributed graphs (i.e. graphs whose DistributedHelper is non-null) the next time Synchronize is called on the helper.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkGraphEdge = obj.AddGraphEdge (vtkIdType u, vtkIdType v)</computeroutput> - Variant of AddEdge() that returns a heavyweight <computeroutput>vtkGraphEdge</computeroutput> object. The graph owns the reference of the edge and will replace its contents on the next call to AddGraphEdge().</para><para>Note: This is a less efficient method for use with wrappers. In C++ you should use the faster AddEdge().  </para></listitem>
+<listitem>
+<para><computeroutput>vtkIdType = obj.AddChild (vtkIdType parent, vtkVariantArray propertyArr)</computeroutput> - Convenience method for creating trees. Returns the newly created vertex id. Shortcut for <verbatim> vtkIdType v = g-&gt;AddVertex();
+ g-&gt;AddEdge(parent, v);</verbatim> If non-null, <computeroutput>propertyArr</computeroutput> provides edge properties for the newly-created edge. The values in <computeroutput>propertyArr</computeroutput> must match up with the arrays in the edge data returned by GetEdgeData().  </para></listitem>
+<listitem>
+<para><computeroutput>vtkIdType = obj.AddChild (vtkIdType parent)</computeroutput> - Removes the vertex from the graph along with any connected edges. Note: This invalidates the last vertex index, which is reassigned to v.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.RemoveVertex (vtkIdType v)</computeroutput> - Removes the vertex from the graph along with any connected edges. Note: This invalidates the last vertex index, which is reassigned to v.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.RemoveEdge (vtkIdType e)</computeroutput> - Removes the edge from the graph. Note: This invalidates the last edge index, which is reassigned to e.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.RemoveVertices (vtkIdTypeArray arr)</computeroutput> - Removes a collection of vertices from the graph along with any connected edges.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.RemoveEdges (vtkIdTypeArray arr)</computeroutput> - Removes a collection of edges from the graph.  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkcommon_vtkparametricfunction" kind="page">
+    <compoundname>vtkcommon_vtkparametricfunction</compoundname>
+    <title>vtkParametricFunction</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkcommon_1sec_vtkcommon" kindref="member">Visualization Toolkit Common Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>vtkParametricFunction is an abstract interface for functions defined by parametric mapping i.e. f(u,v,w)-&gt;(x,y,z) where u_min &lt;= u &lt; u_max, v_min &lt;= v &lt; v_max, w_min &lt;= w &lt; w_max. (For notational convenience, we will write f(u)-&gt;x and assume that u means (u,v,w) and x means (x,y,z).)</para><para>The interface contains the pure virtual function, Evaluate(), that generates a point and the derivatives at that point which are then used to construct the surface. A second pure virtual function, EvaluateScalar(), can be used to generate a scalar for the surface. Finally, the GetDimension() virtual function is used to differentiate 1D, 2D, and 3D parametric functions. Since this abstract class defines a pure virtual API, its subclasses must implement the pure virtual functions GetDimension(), Evaluate() and EvaluateScalar().</para><para>This class has also methods for defining a range of parametric values (u,v,w).</para><para>.SECTION Thanks Andrew Maclean <ulink url="mailto:a.maclean@cas.edu.au">a.maclean@cas.edu.au</ulink> for creating and contributing the class.</para><para>To create an instance of class vtkParametricFunction, simply invoke its constructor as follows <verbatim>  obj = vtkParametricFunction
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkParametricFunction has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkParametricFunction class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkParametricFunction = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkParametricFunction = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetDimension ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.Evaluate (double uvw[3], double Pt[3], double Duvw[9])</computeroutput> - Performs the mapping $f(uvw)-&gt;(Pt,Duvw)$f. This is a pure virtual function that must be instantiated in a derived class.</para><para>uvw are the parameters, with u corresponding to uvw[0], v to uvw[1] and w to uvw[2] respectively. Pt is the returned Cartesian point, Duvw are the derivatives of this point with respect to u, v and w. Note that the first three values in Duvw are Du, the next three are Dv, and the final three are Dw. Du Dv Dw are the partial derivatives of the function at the point Pt with respect to u, v and w respectively.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.EvaluateScalar (double uvw[3], double Pt[3], double Duvw[9])</computeroutput> - Calculate a user defined scalar using one or all of uvw, Pt, Duvw. This is a pure virtual function that must be instantiated in a derived class.</para><para>uvw are the parameters with Pt being the the cartesian point, Duvw are the derivatives of this point with respect to u, v, and w. Pt, Duvw are obtained from Evaluate().  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetMinimumU (double )</computeroutput> - Set/Get the minimum u-value.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetMinimumU ()</computeroutput> - Set/Get the minimum u-value.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetMaximumU (double )</computeroutput> - Set/Get the maximum u-value.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetMaximumU ()</computeroutput> - Set/Get the maximum u-value.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetMinimumV (double )</computeroutput> - Set/Get the minimum v-value.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetMinimumV ()</computeroutput> - Set/Get the minimum v-value.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetMaximumV (double )</computeroutput> - Set/Get the maximum v-value.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetMaximumV ()</computeroutput> - Set/Get the maximum v-value.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetMinimumW (double )</computeroutput> - Set/Get the minimum w-value.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetMinimumW ()</computeroutput> - Set/Get the minimum w-value.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetMaximumW (double )</computeroutput> - Set/Get the maximum w-value.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetMaximumW ()</computeroutput> - Set/Get the maximum w-value.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetJoinU (int )</computeroutput> - Set/Get the flag which joins the first triangle strip to the last one.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetJoinU ()</computeroutput> - Set/Get the flag which joins the first triangle strip to the last one.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.JoinUOn ()</computeroutput> - Set/Get the flag which joins the first triangle strip to the last one.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.JoinUOff ()</computeroutput> - Set/Get the flag which joins the first triangle strip to the last one.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetJoinV (int )</computeroutput> - Set/Get the flag which joins the the ends of the triangle strips.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetJoinV ()</computeroutput> - Set/Get the flag which joins the the ends of the triangle strips.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.JoinVOn ()</computeroutput> - Set/Get the flag which joins the the ends of the triangle strips.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.JoinVOff ()</computeroutput> - Set/Get the flag which joins the the ends of the triangle strips.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetTwistU (int )</computeroutput> - Set/Get the flag which joins the first triangle strip to the last one with a twist. JoinU must also be set if this is set. Used when building some non-orientable surfaces.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetTwistU ()</computeroutput> - Set/Get the flag which joins the first triangle strip to the last one with a twist. JoinU must also be set if this is set. Used when building some non-orientable surfaces.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.TwistUOn ()</computeroutput> - Set/Get the flag which joins the first triangle strip to the last one with a twist. JoinU must also be set if this is set. Used when building some non-orientable surfaces.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.TwistUOff ()</computeroutput> - Set/Get the flag which joins the first triangle strip to the last one with a twist. JoinU must also be set if this is set. Used when building some non-orientable surfaces.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetTwistV (int )</computeroutput> - Set/Get the flag which joins the ends of the triangle strips with a twist. JoinV must also be set if this is set. Used when building some non-orientable surfaces.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetTwistV ()</computeroutput> - Set/Get the flag which joins the ends of the triangle strips with a twist. JoinV must also be set if this is set. Used when building some non-orientable surfaces.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.TwistVOn ()</computeroutput> - Set/Get the flag which joins the ends of the triangle strips with a twist. JoinV must also be set if this is set. Used when building some non-orientable surfaces.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.TwistVOff ()</computeroutput> - Set/Get the flag which joins the ends of the triangle strips with a twist. JoinV must also be set if this is set. Used when building some non-orientable surfaces.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetClockwiseOrdering (int )</computeroutput> - Set/Get the flag which determines the ordering of the the vertices forming the triangle strips. The ordering of the points being inserted into the triangle strip is important because it determines the direction of the normals for the lighting. If set, the ordering is clockwise, otherwise the ordering is anti-clockwise. Default is true (i.e. clockwise ordering).  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetClockwiseOrdering ()</computeroutput> - Set/Get the flag which determines the ordering of the the vertices forming the triangle strips. The ordering of the points being inserted into the triangle strip is important because it determines the direction of the normals for the lighting. If set, the ordering is clockwise, otherwise the ordering is anti-clockwise. Default is true (i.e. clockwise ordering).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ClockwiseOrderingOn ()</computeroutput> - Set/Get the flag which determines the ordering of the the vertices forming the triangle strips. The ordering of the points being inserted into the triangle strip is important because it determines the direction of the normals for the lighting. If set, the ordering is clockwise, otherwise the ordering is anti-clockwise. Default is true (i.e. clockwise ordering).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ClockwiseOrderingOff ()</computeroutput> - Set/Get the flag which determines the ordering of the the vertices forming the triangle strips. The ordering of the points being inserted into the triangle strip is important because it determines the direction of the normals for the lighting. If set, the ordering is clockwise, otherwise the ordering is anti-clockwise. Default is true (i.e. clockwise ordering).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetDerivativesAvailable (int )</computeroutput> - Set/Get the flag which determines whether derivatives are available from the parametric function (i.e., whether the Evaluate() method returns valid derivatives).  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetDerivativesAvailable ()</computeroutput> - Set/Get the flag which determines whether derivatives are available from the parametric function (i.e., whether the Evaluate() method returns valid derivatives).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.DerivativesAvailableOn ()</computeroutput> - Set/Get the flag which determines whether derivatives are available from the parametric function (i.e., whether the Evaluate() method returns valid derivatives).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.DerivativesAvailableOff ()</computeroutput> - Set/Get the flag which determines whether derivatives are available from the parametric function (i.e., whether the Evaluate() method returns valid derivatives).  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

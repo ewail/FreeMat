@@ -1,0 +1,108 @@
+
+ Usage
+
+vtkImageDifference takes two rgb unsigned char images and
+compares them. It allows the images to be slightly
+different. If AllowShift is on, then each pixel can be
+shifted by one pixel. Threshold is the allowable error for
+each pixel.
+This is not a symetric filter and the difference computed is
+not symetric when AllowShift is on. Specifically in that
+case a pixel in SetImage input will be compared to the
+matching pixel in the input as well as to the input's eight
+connected neighbors. BUT... the opposite is not true. So for
+example if a valid image (SetImage) has a single white pixel
+in it, it will not find a match in the input image if the
+input image is black (because none of the nine suspect
+pixels are white). In contrast, if there is a single white
+pixel in the input image and the valid image (SetImage) is
+all black it will match with no error because all it has to
+do is find black pixels and even though the input image has
+a white pixel, its neighbors are not white.
+To create an instance of class vtkImageDifference, simply
+invoke its constructor as follows
+
+    obj = vtkImageDifference
+
+
+
+ Methods
+
+The class vtkImageDifference has several methods that can be
+used. They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkImageDifference class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkImageDifference = obj.NewInstance ()
+* vtkImageDifference = obj.SafeDownCast (vtkObject o)
+* obj.SetImage (vtkDataObject image) - Specify the Image to
+  compare the input to.
+* vtkImageData = obj.GetImage () - Specify the Image to
+  compare the input to.
+* double = obj.GetError (void ) - Return the total error in
+  comparing the two images.
+* obj.GetError (double e) - Return the total error in
+  comparing the two images.
+* double = obj.GetThresholdedError (void ) - Return the
+  total thresholded error in comparing the two images. The
+  thresholded error is the error for a given pixel minus the
+  threshold and clamped at a minimum of zero.
+* obj.GetThresholdedError (double e) - Return the total
+  thresholded error in comparing the two images. The
+  thresholded error is the error for a given pixel minus the
+  threshold and clamped at a minimum of zero.
+* obj.SetThreshold (int ) - Specify a threshold tolerance
+  for pixel differences.
+* int = obj.GetThreshold () - Specify a threshold tolerance
+  for pixel differences.
+* obj.SetAllowShift (int ) - Specify whether the comparison
+  will allow a shift of one pixel between the images. If
+  set, then the minimum difference between input images will
+  be used to determine the difference. Otherwise, the
+  difference is computed directly between pixels of
+  identical row/column values.
+* int = obj.GetAllowShift () - Specify whether the
+  comparison will allow a shift of one pixel between the
+  images. If set, then the minimum difference between input
+  images will be used to determine the difference.
+  Otherwise, the difference is computed directly between
+  pixels of identical row/column values.
+* obj.AllowShiftOn () - Specify whether the comparison will
+  allow a shift of one pixel between the images. If set,
+  then the minimum difference between input images will be
+  used to determine the difference. Otherwise, the
+  difference is computed directly between pixels of
+  identical row/column values.
+* obj.AllowShiftOff () - Specify whether the comparison will
+  allow a shift of one pixel between the images. If set,
+  then the minimum difference between input images will be
+  used to determine the difference. Otherwise, the
+  difference is computed directly between pixels of
+  identical row/column values.
+* obj.SetAveraging (int ) - Specify whether the comparison
+  will include comparison of averaged 3x3 data between the
+  images. For graphics renderings you normally would leave
+  this on. For imaging operations it should be off.
+* int = obj.GetAveraging () - Specify whether the comparison
+  will include comparison of averaged 3x3 data between the
+  images. For graphics renderings you normally would leave
+  this on. For imaging operations it should be off.
+* obj.AveragingOn () - Specify whether the comparison will
+  include comparison of averaged 3x3 data between the
+  images. For graphics renderings you normally would leave
+  this on. For imaging operations it should be off.
+* obj.AveragingOff () - Specify whether the comparison will
+  include comparison of averaged 3x3 data between the
+  images. For graphics renderings you normally would leave
+  this on. For imaging operations it should be off.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Imaging_Classes
+* Generated on Thu Jul 25 2013 17:18:33 for FreeMat by
+  doxygen_ 1.8.1.1
+

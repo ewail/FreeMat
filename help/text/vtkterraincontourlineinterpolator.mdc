@@ -1,0 +1,77 @@
+
+ Usage
+
+vtkTerrainContourLineInterpolator interpolates nodes on
+height field data. The class is meant to be used in
+conjunciton with a vtkContourWidget, enabling you to draw
+paths on terrain data. The class internally uses a
+vtkProjectedTerrainPath. Users can set kind of interpolation
+desired between two node points by setting the modes of the
+this filter. For instance:
+
+   contourRepresentation->SetLineInterpolator(interpolator);
+   interpolator->SetImageData( demDataFile );
+   interpolator->GetProjector()->SetProjectionModeToHug();
+   interpolator->SetHeightOffset(25.0);
+
+You are required to set the ImageData to this class as the
+height-field image.
+To create an instance of class
+vtkTerrainContourLineInterpolator, simply invoke its
+constructor as follows
+
+    obj = vtkTerrainContourLineInterpolator
+
+
+
+ Methods
+
+The class vtkTerrainContourLineInterpolator has several
+methods that can be used. They are listed below. Note that
+the documentation is translated automatically from the VTK
+sources, and may not be completely intelligible. When in
+doubt, consult the VTK website. In the methods listed below,
+obj is an instance of the vtkTerrainContourLineInterpolator
+class.
+
+* string = obj.GetClassName () - Standard methods for
+  instances of this class.
+* int = obj.IsA (string name) - Standard methods for
+  instances of this class.
+* vtkTerrainContourLineInterpolator = obj.NewInstance () -
+  Standard methods for instances of this class.
+* vtkTerrainContourLineInterpolator = obj.SafeDownCast
+  (vtkObject o) - Standard methods for instances of this
+  class.
+* int = obj.InterpolateLine (vtkRenderer ren,
+  vtkContourRepresentation rep, int idx1, int idx2) -
+  Interpolate to create lines between contour nodes idx1 and
+  idx2. Depending on the projection mode, the interpolated
+  line may either hug the terrain, just connect the two
+  points with a straight line or a non-occluded
+  interpolation. Used internally by
+  vtkContourRepresentation.
+* int = obj.UpdateNode (vtkRenderer ,
+  vtkContourRepresentation , double , int ) - The
+  interpolator is given a chance to update the node. Used
+  internally by vtkContourRepresentation Returns 0 if the
+  node (world position) is unchanged.
+* obj.SetImageData (vtkImageData ) - Set the height field
+  data. The height field data is a 2D image. The scalars in
+  the image represent the height field. This must be set.
+* vtkImageData = obj.GetImageData () - Set the height field
+  data. The height field data is a 2D image. The scalars in
+  the image represent the height field. This must be set.
+* vtkProjectedTerrainPath = obj.GetProjector () - Get the
+  vtkProjectedTerrainPath operator used to project the
+  terrain onto the data. This operator has several modes,
+  See the documentation of vtkProjectedTerrainPath. The
+  default mode is to hug the terrain data at 0 height
+  offset.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Widget_Classes
+* Generated on Thu Jul 25 2013 17:18:37 for FreeMat by
+  doxygen_ 1.8.1.1
+

@@ -1,0 +1,74 @@
+/*!
+\page vtkfiltering_vtkmultiblockdataset vtkMultiBlockDataSet
+
+<p>
+Section: \ref sec_vtkfiltering "Visualization Toolkit Filtering Classes"
+\section Usage
+ vtkMultiBlockDataSet is a vtkCompositeDataSet that stores
+ a hierarchy of datasets. The dataset collection consists of
+ multiple blocks. Each  block can itself be a vtkMultiBlockDataSet, thus
+ providing for a full tree structure.
+ Sub-blocks are usually used to distribute blocks across processors.
+ For example, a 1 block dataset can be distributed as following:
+ @verbatim
+ proc 0:
+ Block 0:
+   * ds 0
+   * (null)
+
+ proc 1:
+ Block 0:
+   * (null)
+   * ds 1
+ @endverbatim
+
+To create an instance of class vtkMultiBlockDataSet, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkMultiBlockDataSet
+\endverbatim
+\section Methods
+The class vtkMultiBlockDataSet has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkMultiBlockDataSet class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkMultiBlockDataSet = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkMultiBlockDataSet = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetDataObjectType ()</tt> -  Set the number of blocks. This will cause allocation if the new number of
+ blocks is greater than the current size. All new blocks are initialized to
+ null.
+ </LI>
+<LI>  <tt>obj.SetNumberOfBlocks (int numBlocks)</tt> -  Set the number of blocks. This will cause allocation if the new number of
+ blocks is greater than the current size. All new blocks are initialized to
+ null.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfBlocks ()</tt> -  Returns the number of blocks.
+ </LI>
+<LI>  <tt>vtkDataObject = obj.GetBlock (int blockno)</tt> -  Returns the block at the given index. It is recommended that one uses the
+ iterators to iterate over composite datasets rather than using this API.
+ </LI>
+<LI>  <tt>obj.SetBlock (int blockno, vtkDataObject block)</tt> -  Sets the data object as the given block. The total number of blocks will 
+ be resized to fit the requested block no.
+ </LI>
+<LI>  <tt>obj.RemoveBlock (int blockno)</tt> -  Remove the given block from the dataset.
+ </LI>
+<LI>  <tt>int = obj.HasMetaData (int blockno)</tt> -  Returns the meta-data for the block. If none is already present, a new
+ vtkInformation object will be allocated. Use HasMetaData to avoid
+ allocating vtkInformation objects.
+ </LI>
+<LI>  <tt>vtkInformation = obj.GetMetaData (int blockno)</tt> -  Unhiding superclass method.
+ </LI>
+<LI>  <tt>vtkInformation = obj.GetMetaData (vtkCompositeDataIterator iter)</tt> -  Unhiding superclass method.
+ </LI>
+<LI>  <tt>int = obj.HasMetaData (vtkCompositeDataIterator iter)</tt>
+ </LI>
+</UL>
+*/

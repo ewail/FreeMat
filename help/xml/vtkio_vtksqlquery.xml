@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkio_vtksqlquery" kind="page">
+    <compoundname>vtkio_vtksqlquery</compoundname>
+    <title>vtkSQLQuery</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkio_1sec_vtkio" kindref="member">Visualization Toolkit IO Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>The abstract superclass of SQL query classes. Instances of subclasses of vtkSQLQuery are created using the GetQueryInstance() function in vtkSQLDatabase. To implement a query connection for a new database type, subclass both vtkSQLDatabase and vtkSQLQuery, and implement the required functions. For the query class, this involves the following:</para><para>Execute() - Execute the query on the database. No results need to be retrieved at this point, unless you are performing caching.</para><para>GetNumberOfFields() - After Execute() is performed, returns the number of fields in the query results.</para><para>GetFieldName() - The name of the field at an index.</para><para>GetFieldType() - The data type of the field at an index.</para><para>NextRow() - Advances the query results by one row, and returns whether there are more rows left in the query.</para><para>DataValue() - Extract a single data value from the current row.</para><para>Begin/Rollback/CommitTransaction() - These methods are optional but recommended if the database supports transactions.</para><para>.SECTION Thanks Thanks to Andrew Wilson from Sandia National Laboratories for his work on the database classes.</para><para>To create an instance of class vtkSQLQuery, simply invoke its constructor as follows <verbatim>  obj = vtkSQLQuery
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkSQLQuery has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkSQLQuery class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkSQLQuery = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkSQLQuery = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>bool = obj.SetQuery (string query)</computeroutput> - The query string to be executed. Since some databases will process the query string as soon as it&apos;s set, this method returns a boolean to indicate success or failure.  </para></listitem>
+<listitem>
+<para><computeroutput>string = obj.GetQuery ()</computeroutput> - The query string to be executed. Since some databases will process the query string as soon as it&apos;s set, this method returns a boolean to indicate success or failure.  </para></listitem>
+<listitem>
+<para><computeroutput>bool = obj.IsActive ()</computeroutput> - Execute the query. This must be performed before any field name or data access functions are used.  </para></listitem>
+<listitem>
+<para><computeroutput>bool = obj.Execute ()</computeroutput> - Execute the query. This must be performed before any field name or data access functions are used.  </para></listitem>
+<listitem>
+<para><computeroutput>bool = obj.BeginTransaction ()</computeroutput> - Begin, commit, or roll back a transaction. If the underlying database does not support transactions these calls will do nothing.  </para></listitem>
+<listitem>
+<para><computeroutput>bool = obj.CommitTransaction ()</computeroutput> - Begin, commit, or roll back a transaction. If the underlying database does not support transactions these calls will do nothing.  </para></listitem>
+<listitem>
+<para><computeroutput>bool = obj.RollbackTransaction ()</computeroutput> - Return the database associated with the query.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkSQLDatabase = obj.GetDatabase ()</computeroutput> - Return the database associated with the query.  </para></listitem>
+<listitem>
+<para><computeroutput>bool = obj.BindParameter (int index, int value)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>bool = obj.BindParameter (int index, float value)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>bool = obj.BindParameter (int index, double value)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>bool = obj.BindParameter (int index, string stringValue)</computeroutput> - Bind a string value <ndash/> string must be null-terminated  </para></listitem>
+<listitem>
+<para><computeroutput>bool = obj.ClearParameterBindings ()</computeroutput> - Reset all parameter bindings to NULL.  </para></listitem>
+<listitem>
+<para><computeroutput>string = obj.EscapeString (string src, bool addSurroundingQuotes)</computeroutput> - Escape a string for inclusion into an SQL query. This method exists to provide a wrappable version of the method that takes and returns vtkStdString objects. You are responsible for calling delete [] on the character array returned by this method. This method simply calls the vtkStdString variant and thus need not be re-implemented by subclasses.  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

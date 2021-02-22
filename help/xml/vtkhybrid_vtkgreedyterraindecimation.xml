@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkhybrid_vtkgreedyterraindecimation" kind="page">
+    <compoundname>vtkhybrid_vtkgreedyterraindecimation</compoundname>
+    <title>vtkGreedyTerrainDecimation</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkhybrid_1sec_vtkhybrid" kindref="member">Visualization Toolkit Hybrid Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>vtkGreedyTerrainDecimation approximates a height field with a triangle mesh (triangulated irregular network - TIN) using a greedy insertion algorithm similar to that described by Garland and Heckbert in their paper &quot;Fast Polygonal Approximations of Terrain and Height Fields&quot; (Technical Report CMU-CS-95-181). The input to the filter is a height field (represented by a image whose scalar values are height) and the output of the filter is polygonal data consisting of triangles. The number of triangles in the output is reduced in number as compared to a naive tessellation of the input height field. This filter copies point data from the input to the output for those points present in the output.</para><para>An brief description of the algorithm is as follows. The algorithm uses a top-down decimation approach that initially represents the height field with two triangles (whose vertices are at the four corners of the image). These two triangles form a Delaunay triangulation. In an iterative fashion, the point in the image with the greatest error (as compared to the original height field) is injected into the triangulation. (Note that the single point with the greatest error per triangle is identified and placed into a priority queue. As the triangulation is modified, the errors from the deleted triangles are removed from the queue, error values from the new triangles are added.) The point whose error is at the top of the queue is added to the triangulaion modifying it using the standard incremental Delaunay point insertion (see vtkDelaunay2D) algorithm. Points are repeatedly inserted until the appropriate (user-specified) error criterion is met.</para><para>To use this filter, set the input and specify the error measure to be used. The error measure options are 1) the absolute number of triangles to be produced; 2) a fractional reduction of the mesh (numTris/maxTris) where maxTris is the largest possible number of triangles 2*(dims[0]-1)*(dims[1]-1); 3) an absolute measure on error (maximum difference in height field to reduced TIN); and 4) relative error (the absolute error is normalized by the diagonal of the bounding box of the height field).</para><para>To create an instance of class vtkGreedyTerrainDecimation, simply invoke its constructor as follows <verbatim>  obj = vtkGreedyTerrainDecimation
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkGreedyTerrainDecimation has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkGreedyTerrainDecimation class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkGreedyTerrainDecimation = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkGreedyTerrainDecimation = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetErrorMeasure (int )</computeroutput> - Specify how to terminate the algorithm: either as an absolute number of triangles, a relative number of triangles (normalized by the full resolution mesh), an absolute error (in the height field), or relative error (normalized by the length of the diagonal of the image).  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetErrorMeasureMinValue ()</computeroutput> - Specify how to terminate the algorithm: either as an absolute number of triangles, a relative number of triangles (normalized by the full resolution mesh), an absolute error (in the height field), or relative error (normalized by the length of the diagonal of the image).  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetErrorMeasureMaxValue ()</computeroutput> - Specify how to terminate the algorithm: either as an absolute number of triangles, a relative number of triangles (normalized by the full resolution mesh), an absolute error (in the height field), or relative error (normalized by the length of the diagonal of the image).  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetErrorMeasure ()</computeroutput> - Specify how to terminate the algorithm: either as an absolute number of triangles, a relative number of triangles (normalized by the full resolution mesh), an absolute error (in the height field), or relative error (normalized by the length of the diagonal of the image).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetErrorMeasureToNumberOfTriangles ()</computeroutput> - Specify how to terminate the algorithm: either as an absolute number of triangles, a relative number of triangles (normalized by the full resolution mesh), an absolute error (in the height field), or relative error (normalized by the length of the diagonal of the image).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetErrorMeasureToSpecifiedReduction ()</computeroutput> - Specify how to terminate the algorithm: either as an absolute number of triangles, a relative number of triangles (normalized by the full resolution mesh), an absolute error (in the height field), or relative error (normalized by the length of the diagonal of the image).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetErrorMeasureToAbsoluteError ()</computeroutput> - Specify how to terminate the algorithm: either as an absolute number of triangles, a relative number of triangles (normalized by the full resolution mesh), an absolute error (in the height field), or relative error (normalized by the length of the diagonal of the image).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetErrorMeasureToRelativeError ()</computeroutput> - Specify the number of triangles to produce on output. (It is a good idea to make sure this is less than a tessellated mesh at full resolution.) You need to set this value only when the error measure is set to NumberOfTriangles.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetNumberOfTriangles (vtkIdType )</computeroutput> - Specify the number of triangles to produce on output. (It is a good idea to make sure this is less than a tessellated mesh at full resolution.) You need to set this value only when the error measure is set to NumberOfTriangles.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkIdType = obj.GetNumberOfTrianglesMinValue ()</computeroutput> - Specify the number of triangles to produce on output. (It is a good idea to make sure this is less than a tessellated mesh at full resolution.) You need to set this value only when the error measure is set to NumberOfTriangles.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkIdType = obj.GetNumberOfTrianglesMaxValue ()</computeroutput> - Specify the number of triangles to produce on output. (It is a good idea to make sure this is less than a tessellated mesh at full resolution.) You need to set this value only when the error measure is set to NumberOfTriangles.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkIdType = obj.GetNumberOfTriangles ()</computeroutput> - Specify the number of triangles to produce on output. (It is a good idea to make sure this is less than a tessellated mesh at full resolution.) You need to set this value only when the error measure is set to NumberOfTriangles.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetReduction (double )</computeroutput> - Specify the reduction of the mesh (represented as a fraction). Note that a value of 0.10 means a 10% reduction. You need to set this value only when the error measure is set to SpecifiedReduction.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetReductionMinValue ()</computeroutput> - Specify the reduction of the mesh (represented as a fraction). Note that a value of 0.10 means a 10% reduction. You need to set this value only when the error measure is set to SpecifiedReduction.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetReductionMaxValue ()</computeroutput> - Specify the reduction of the mesh (represented as a fraction). Note that a value of 0.10 means a 10% reduction. You need to set this value only when the error measure is set to SpecifiedReduction.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetReduction ()</computeroutput> - Specify the reduction of the mesh (represented as a fraction). Note that a value of 0.10 means a 10% reduction. You need to set this value only when the error measure is set to SpecifiedReduction.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetAbsoluteError (double )</computeroutput> - Specify the absolute error of the mesh; that is, the error in height between the decimated mesh and the original height field. You need to set this value only when the error measure is set to AbsoluteError.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetAbsoluteErrorMinValue ()</computeroutput> - Specify the absolute error of the mesh; that is, the error in height between the decimated mesh and the original height field. You need to set this value only when the error measure is set to AbsoluteError.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetAbsoluteErrorMaxValue ()</computeroutput> - Specify the absolute error of the mesh; that is, the error in height between the decimated mesh and the original height field. You need to set this value only when the error measure is set to AbsoluteError.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetAbsoluteError ()</computeroutput> - Specify the absolute error of the mesh; that is, the error in height between the decimated mesh and the original height field. You need to set this value only when the error measure is set to AbsoluteError.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetRelativeError (double )</computeroutput> - Specify the relative error of the mesh; that is, the error in height between the decimated mesh and the original height field normalized by the diagonal of the image. You need to set this value only when the error measure is set to RelativeError.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetRelativeErrorMinValue ()</computeroutput> - Specify the relative error of the mesh; that is, the error in height between the decimated mesh and the original height field normalized by the diagonal of the image. You need to set this value only when the error measure is set to RelativeError.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetRelativeErrorMaxValue ()</computeroutput> - Specify the relative error of the mesh; that is, the error in height between the decimated mesh and the original height field normalized by the diagonal of the image. You need to set this value only when the error measure is set to RelativeError.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetRelativeError ()</computeroutput> - Specify the relative error of the mesh; that is, the error in height between the decimated mesh and the original height field normalized by the diagonal of the image. You need to set this value only when the error measure is set to RelativeError.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetBoundaryVertexDeletion (int )</computeroutput> - Turn on/off the deletion of vertices on the boundary of a mesh. This may limit the maximum reduction that may be achieved.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetBoundaryVertexDeletion ()</computeroutput> - Turn on/off the deletion of vertices on the boundary of a mesh. This may limit the maximum reduction that may be achieved.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.BoundaryVertexDeletionOn ()</computeroutput> - Turn on/off the deletion of vertices on the boundary of a mesh. This may limit the maximum reduction that may be achieved.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.BoundaryVertexDeletionOff ()</computeroutput> - Turn on/off the deletion of vertices on the boundary of a mesh. This may limit the maximum reduction that may be achieved.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetComputeNormals (int )</computeroutput> - Compute normals based on the input image. Off by default.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetComputeNormals ()</computeroutput> - Compute normals based on the input image. Off by default.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ComputeNormalsOn ()</computeroutput> - Compute normals based on the input image. Off by default.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ComputeNormalsOff ()</computeroutput> - Compute normals based on the input image. Off by default.  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

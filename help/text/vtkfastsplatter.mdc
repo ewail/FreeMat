@@ -1,0 +1,114 @@
+
+ Usage
+
+vtkFastSplatter takes any vtkPointSet as input (of which
+vtkPolyData and vtkUnstructuredGrid inherit). Each point in
+the data set is considered to be an impulse. These impulses
+are convolved with a given splat image. In other words, the
+splat image is added to the final image at every place where
+there is an input point.
+Note that point and cell data are thrown away. If you want a
+sampling of unstructured points consider vtkGaussianSplatter
+or vtkShepardMethod.
+Use input port 0 for the impulse data (vtkPointSet), and
+input port 1 for the splat image (vtkImageData)
+.SECTION Bugs
+Any point outside of the extents of the image is thrown
+away, even if it is close enough such that it's convolution
+with the splat image would overlap the extents.
+To create an instance of class vtkFastSplatter, simply
+invoke its constructor as follows
+
+    obj = vtkFastSplatter
+
+
+
+ Methods
+
+The class vtkFastSplatter has several methods that can be
+used. They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkFastSplatter class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkFastSplatter = obj.NewInstance ()
+* vtkFastSplatter = obj.SafeDownCast (vtkObject o)
+* obj.SetModelBounds (double , double , double , double ,
+  double , double ) - Set / get the (xmin,xmax, ymin,ymax,
+  zmin,zmax) bounding box in which the sampling is
+  performed. If any of the (min,max) bounds values are min
+  >= max, then the bounds will be computed automatically
+  from the input data. Otherwise, the user-specified bounds
+  will be used.
+* obj.SetModelBounds (double a[6]) - Set / get the
+  (xmin,xmax, ymin,ymax, zmin,zmax) bounding box in which
+  the sampling is performed. If any of the (min,max) bounds
+  values are min >= max, then the bounds will be computed
+  automatically from the input data. Otherwise, the user-
+  specified bounds will be used.
+* double = obj. GetModelBounds () - Set / get the
+  (xmin,xmax, ymin,ymax, zmin,zmax) bounding box in which
+  the sampling is performed. If any of the (min,max) bounds
+  values are min >= max, then the bounds will be computed
+  automatically from the input data. Otherwise, the user-
+  specified bounds will be used.
+* obj.SetOutputDimensions (int , int , int ) - Set/get the
+  dimensions of the output image
+* obj.SetOutputDimensions (int a[3]) - Set/get the
+  dimensions of the output image
+* int = obj. GetOutputDimensions () - Set/get the dimensions
+  of the output image
+* obj.SetLimitMode (int ) - Set/get the way voxel values
+  will be limited. If this is set to None (the default), the
+  output can have arbitrarily large values. If set to clamp,
+  the output will be clamped to [MinValue,MaxValue]. If set
+  to scale, the output will be linearly scaled between
+  MinValue and MaxValue.
+* int = obj.GetLimitMode () - Set/get the way voxel values
+  will be limited. If this is set to None (the default), the
+  output can have arbitrarily large values. If set to clamp,
+  the output will be clamped to [MinValue,MaxValue]. If set
+  to scale, the output will be linearly scaled between
+  MinValue and MaxValue.
+* obj.SetLimitModeToNone () - Set/get the way voxel values
+  will be limited. If this is set to None (the default), the
+  output can have arbitrarily large values. If set to clamp,
+  the output will be clamped to [MinValue,MaxValue]. If set
+  to scale, the output will be linearly scaled between
+  MinValue and MaxValue.
+* obj.SetLimitModeToClamp () - Set/get the way voxel values
+  will be limited. If this is set to None (the default), the
+  output can have arbitrarily large values. If set to clamp,
+  the output will be clamped to [MinValue,MaxValue]. If set
+  to scale, the output will be linearly scaled between
+  MinValue and MaxValue.
+* obj.SetLimitModeToScale () - Set/get the way voxel values
+  will be limited. If this is set to None (the default), the
+  output can have arbitrarily large values. If set to clamp,
+  the output will be clamped to [MinValue,MaxValue]. If set
+  to scale, the output will be linearly scaled between
+  MinValue and MaxValue.
+* obj.SetLimitModeToFreezeScale () - See the LimitMode
+  method.
+* obj.SetMinValue (double ) - See the LimitMode method.
+* double = obj.GetMinValue () - See the LimitMode method.
+* obj.SetMaxValue (double ) - See the LimitMode method.
+* double = obj.GetMaxValue () - See the LimitMode method.
+* int = obj.GetNumberOfPointsSplatted () - This returns the
+  number of points splatted (as opposed to discarded for
+  being outside the image) during the previous pass.
+* obj.SetSplatConnection (vtkAlgorithmOutput ) - Convenience
+  function for connecting the splat algorithm source. This
+  is provided mainly for convenience using the filter with
+  ParaView, VTK users should prefer SetInputConnection(1,
+  splat) instead.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Imaging_Classes
+* Generated on Thu Jul 25 2013 17:18:33 for FreeMat by
+  doxygen_ 1.8.1.1
+

@@ -1,0 +1,146 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkcommon_vtkdataarray" kind="page">
+    <compoundname>vtkcommon_vtkdataarray</compoundname>
+    <title>vtkDataArray</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkcommon_1sec_vtkcommon" kindref="member">Visualization Toolkit Common Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>vtkDataArray is an abstract superclass for data array objects containing numeric data. It extends the API defined in vtkAbstractArray. vtkDataArray is an abstract superclass for data array objects. This class defines an API that all array objects must support. Note that the concrete subclasses of this class represent data in native form (char, int, etc.) and often have specialized more efficient methods for operating on this data (for example, getting pointers to data or getting/inserting data in native form). Subclasses of vtkDataArray are assumed to contain data whose components are meaningful when cast to and from double.</para><para>To create an instance of class vtkDataArray, simply invoke its constructor as follows <verbatim>  obj = vtkDataArray
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkDataArray has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkDataArray class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkDataArray = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkDataArray = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsNumeric ()</computeroutput> - Return the size, in bytes, of the lowest-level element of an array. For vtkDataArray and subclasses this is the size of the data type.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetElementComponentSize ()</computeroutput> - Set the tuple at the ith location using the jth tuple in the source array. This method assumes that the two arrays have the same type and structure. Note that range checking and memory allocation is not performed; use in conjunction with SetNumberOfTuples() to allocate space.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetTuple (vtkIdType i, vtkIdType j, vtkAbstractArray source)</computeroutput> - Set the tuple at the ith location using the jth tuple in the source array. This method assumes that the two arrays have the same type and structure. Note that range checking and memory allocation is not performed; use in conjunction with SetNumberOfTuples() to allocate space.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.InsertTuple (vtkIdType i, vtkIdType j, vtkAbstractArray source)</computeroutput> - Insert the jth tuple in the source array, at ith location in this array. Note that memory allocation is performed as necessary to hold the data. This pure virtual function is redeclared here to avoid declaration hidden warnings.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkIdType = obj.InsertNextTuple (vtkIdType j, vtkAbstractArray source)</computeroutput> - Insert the jth tuple in the source array, at the end in this array. Note that memory allocation is performed as necessary to hold the data. Returns the location at which the data was inserted. This pure virtual function is redeclared here to avoid declaration hidden warnings.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GetTuples (vtkIdList ptIds, vtkAbstractArray output)</computeroutput> - Given a list of point ids, return an array of tuples. You must insure that the output array has been previously allocated with enough space to hold the data.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GetTuples (vtkIdType p1, vtkIdType p2, vtkAbstractArray output)</computeroutput> - Get the tuples for the range of points ids specified (i.e., p1-&gt;p2 inclusive). You must insure that the output array has been previously allocated with enough space to hold the data.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.InterpolateTuple (vtkIdType i, vtkIdList ptIndices, vtkAbstractArray source, double weights)</computeroutput> - Set the ith tuple in this array as the interpolated tuple value, given the ptIndices in the source array and associated interpolation weights. This method assumes that the two arrays are of the same type and strcuture.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.InterpolateTuple (vtkIdType i, vtkIdType id1, vtkAbstractArray source1, vtkIdType id2, vtkAbstractArray source2, double t)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GetTuple (vtkIdType i, double tuple)</computeroutput> - Get the data tuple at ith location by filling in a user-provided array, Make sure that your array is large enough to hold the NumberOfComponents amount of data being returned.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetTuple1 (vtkIdType i)</computeroutput> - These methods are included as convenience for the wrappers. GetTuple() and SetTuple() which return/take arrays can not be used from wrapped languages. These methods can be used instead.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetTuple2 (vtkIdType i)</computeroutput> - These methods are included as convenience for the wrappers. GetTuple() and SetTuple() which return/take arrays can not be used from wrapped languages. These methods can be used instead.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetTuple3 (vtkIdType i)</computeroutput> - These methods are included as convenience for the wrappers. GetTuple() and SetTuple() which return/take arrays can not be used from wrapped languages. These methods can be used instead.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetTuple4 (vtkIdType i)</computeroutput> - These methods are included as convenience for the wrappers. GetTuple() and SetTuple() which return/take arrays can not be used from wrapped languages. These methods can be used instead.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetTuple9 (vtkIdType i)</computeroutput> - These methods are included as convenience for the wrappers. GetTuple() and SetTuple() which return/take arrays can not be used from wrapped languages. These methods can be used instead.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetTuple (vtkIdType i, float tuple)</computeroutput> - Set the data tuple at ith location. Note that range checking or memory allocation is not performed; use this method in conjunction with SetNumberOfTuples() to allocate space.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetTuple (vtkIdType i, double tuple)</computeroutput> - Set the data tuple at ith location. Note that range checking or memory allocation is not performed; use this method in conjunction with SetNumberOfTuples() to allocate space.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetTuple1 (vtkIdType i, double value)</computeroutput> - These methods are included as convenience for the wrappers. GetTuple() and SetTuple() which return/take arrays can not be used from wrapped languages. These methods can be used instead.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetTuple2 (vtkIdType i, double val0, double val1)</computeroutput> - These methods are included as convenience for the wrappers. GetTuple() and SetTuple() which return/take arrays can not be used from wrapped languages. These methods can be used instead.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetTuple3 (vtkIdType i, double val0, double val1, double val2)</computeroutput> - These methods are included as convenience for the wrappers. GetTuple() and SetTuple() which return/take arrays can not be used from wrapped languages. These methods can be used instead.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetTuple4 (vtkIdType i, double val0, double val1, double val2, double val3)</computeroutput> - These methods are included as convenience for the wrappers. GetTuple() and SetTuple() which return/take arrays can not be used from wrapped languages. These methods can be used instead.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetTuple9 (vtkIdType i, double val0, double val1, double val2, double val3, double val4, double val5, double val6, double val7, double val8)</computeroutput> - These methods are included as convenience for the wrappers. GetTuple() and SetTuple() which return/take arrays can not be used from wrapped languages. These methods can be used instead.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.InsertTuple (vtkIdType i, float tuple)</computeroutput> - Insert the data tuple at ith location. Note that memory allocation is performed as necessary to hold the data.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.InsertTuple (vtkIdType i, double tuple)</computeroutput> - Insert the data tuple at ith location. Note that memory allocation is performed as necessary to hold the data.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.InsertTuple1 (vtkIdType i, double value)</computeroutput> - These methods are included as convenience for the wrappers. InsertTuple() which takes arrays can not be used from wrapped languages. These methods can be used instead.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.InsertTuple2 (vtkIdType i, double val0, double val1)</computeroutput> - These methods are included as convenience for the wrappers. InsertTuple() which takes arrays can not be used from wrapped languages. These methods can be used instead.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.InsertTuple3 (vtkIdType i, double val0, double val1, double val2)</computeroutput> - These methods are included as convenience for the wrappers. InsertTuple() which takes arrays can not be used from wrapped languages. These methods can be used instead.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.InsertTuple4 (vtkIdType i, double val0, double val1, double val2, double val3)</computeroutput> - These methods are included as convenience for the wrappers. InsertTuple() which takes arrays can not be used from wrapped languages. These methods can be used instead.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.InsertTuple9 (vtkIdType i, double val0, double val1, double val2, double val3, double val4, double val5, double val6, double val7, double val8)</computeroutput> - These methods are included as convenience for the wrappers. InsertTuple() which takes arrays can not be used from wrapped languages. These methods can be used instead.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkIdType = obj.InsertNextTuple (float tuple)</computeroutput> - Insert the data tuple at the end of the array and return the location at which the data was inserted. Memory is allocated as necessary to hold the data.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkIdType = obj.InsertNextTuple (double tuple)</computeroutput> - Insert the data tuple at the end of the array and return the location at which the data was inserted. Memory is allocated as necessary to hold the data.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.InsertNextTuple1 (double value)</computeroutput> - These methods are included as convenience for the wrappers. InsertTuple() which takes arrays can not be used from wrapped languages. These methods can be used instead.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.InsertNextTuple2 (double val0, double val1)</computeroutput> - These methods are included as convenience for the wrappers. InsertTuple() which takes arrays can not be used from wrapped languages. These methods can be used instead.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.InsertNextTuple3 (double val0, double val1, double val2)</computeroutput> - These methods are included as convenience for the wrappers. InsertTuple() which takes arrays can not be used from wrapped languages. These methods can be used instead.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.InsertNextTuple4 (double val0, double val1, double val2, double val3)</computeroutput> - These methods are included as convenience for the wrappers. InsertTuple() which takes arrays can not be used from wrapped languages. These methods can be used instead.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.InsertNextTuple9 (double val0, double val1, double val2, double val3, double val4, double val5, double val6, double val7, double val8)</computeroutput> - These methods are included as convenience for the wrappers. InsertTuple() which takes arrays can not be used from wrapped languages. These methods can be used instead.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.RemoveTuple (vtkIdType id)</computeroutput> - These methods remove tuples from the data array. They shift data and resize array, so the data array is still valid after this operation. Note, this operation is fairly slow.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.RemoveFirstTuple ()</computeroutput> - These methods remove tuples from the data array. They shift data and resize array, so the data array is still valid after this operation. Note, this operation is fairly slow.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.RemoveLastTuple ()</computeroutput> - These methods remove tuples from the data array. They shift data and resize array, so the data array is still valid after this operation. Note, this operation is fairly slow.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetComponent (vtkIdType i, int j)</computeroutput> - Return the data component at the ith tuple and jth component location. Note that i is less than NumberOfTuples and j is less than NumberOfComponents.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetComponent (vtkIdType i, int j, double c)</computeroutput> - Set the data component at the ith tuple and jth component location. Note that i is less than NumberOfTuples and j is less than NumberOfComponents. Make sure enough memory has been allocated (use SetNumberOfTuples() and SetNumberOfComponents()).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.InsertComponent (vtkIdType i, int j, double c)</computeroutput> - Insert the data component at ith tuple and jth component location. Note that memory allocation is performed as necessary to hold the data.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GetData (vtkIdType tupleMin, vtkIdType tupleMax, int compMin, int compMax, vtkDoubleArray data)</computeroutput> - Get the data as a double array in the range (tupleMin,tupleMax) and (compMin, compMax). The resulting double array consists of all data in the tuple range specified and only the component range specified. This process typically requires casting the data from native form into doubleing point values. This method is provided as a convenience for data exchange, and is not very fast.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.DeepCopy (vtkAbstractArray aa)</computeroutput> - Deep copy of data. Copies data from different data arrays even if they are different types (using doubleing-point exchange).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.DeepCopy (vtkDataArray da)</computeroutput> - Deep copy of data. Copies data from different data arrays even if they are different types (using doubleing-point exchange).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.FillComponent (int j, double c)</computeroutput> - Fill a component of a data array with a specified value. This method sets the specified component to specified value for all tuples in the data array. This methods can be used to initialize or reinitialize a single component of a multi-component array.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.CopyComponent (int j, vtkDataArray from, int fromComponent)</computeroutput> - Copy a component from one data array into a component on this data array. This method copies the specified component (&quot;fromComponent&quot;) from the specified data array (&quot;from&quot;) to the specified component (&quot;j&quot;) over all the tuples in this data array. This method can be used to extract a component (column) from one data array and paste that data into a component on this data array.  </para></listitem>
+<listitem>
+<para><computeroutput>long = obj.GetActualMemorySize ()</computeroutput> - Return the memory in kilobytes consumed by this data array. Used to support streaming and reading/writing data. The value returned is guaranteed to be greater than or equal to the memory required to actually represent the data represented by this object. The information returned is valid only after the pipeline has been updated.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.CreateDefaultLookupTable ()</computeroutput> - Create default lookup table. Generally used to create one when none is available.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetLookupTable (vtkLookupTable lut)</computeroutput> - Set/get the lookup table associated with this scalar data, if any.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkLookupTable = obj.GetLookupTable ()</computeroutput> - Set/get the lookup table associated with this scalar data, if any.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GetRange (double range[2], int comp)</computeroutput> - Return the range of the array values for the given component. Range is copied into the array provided. If comp is equal to -1, it returns the range of the magnitude (if the number of components is equal to 1 it still returns the range of component 0).  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetRange (int comp)</computeroutput> - Return the range of the array values for the 0th component. Range is copied into the array provided.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetRange ()</computeroutput> - Return the range of the array values for the 0th component. Range is copied into the array provided.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GetRange (double range[2])</computeroutput> - These methods return the Min and Max possible range of the native data type. For example if a vtkScalars consists of unsigned char data these will return (0,255).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GetDataTypeRange (double range[2])</computeroutput> - These methods return the Min and Max possible range of the native data type. For example if a vtkScalars consists of unsigned char data these will return (0,255).  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetDataTypeMin ()</computeroutput> - These methods return the Min and Max possible range of the native data type. For example if a vtkScalars consists of unsigned char data these will return (0,255).  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetDataTypeMax ()</computeroutput> - These methods return the Min and Max possible range of the native data type. For example if a vtkScalars consists of unsigned char data these will return (0,255).  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetMaxNorm ()</computeroutput> - Return the maximum norm for the tuples. Note that the max. is computed everytime GetMaxNorm is called.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.CopyInformation (vtkInformation infoFrom, int deep)</computeroutput> - Copy information instance. Arrays use information objects in a variety of ways. It is important to have flexibility in this regard because certain keys should not be coppied, while others must be. NOTE: Up to the implmeneter to make sure that keys not inteneded to be coppied are excluded here.  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

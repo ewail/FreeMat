@@ -1,0 +1,61 @@
+/*!
+\page transforms_lu LU LU Decomposition for Matrices
+
+<p>
+Section: \ref sec_transforms "Transforms/Decompositions"
+\section Usage
+Computes the LU decomposition for a matrix.  The form of the
+command depends on the type of the argument.  For full (non-sparse)
+matrices, the primary form for <tt>lu</tt> is
+\verbatim
+   [L,U,P] = lu(A),
+\endverbatim
+where <tt>L</tt> is lower triangular, <tt>U</tt> is upper triangular, and
+<tt>P</tt> is a permutation matrix such that <tt>L*U = P*A</tt>.  The second form is
+\verbatim
+   [V,U] = lu(A),
+\endverbatim
+where <tt>V</tt> is <tt>P'*L</tt> (a row-permuted lower triangular matrix), 
+and <tt>U</tt> is upper triangular.  For sparse, square matrices,
+the LU decomposition has the following form:
+\verbatim
+   [L,U,P,Q,R] = lu(A),
+\endverbatim
+where <tt>A</tt> is a sparse matrix of either <tt>double</tt> or <tt>dcomplex</tt> type.
+The matrices are such that <tt>L*U=P*R*A*Q</tt>, where <tt>L</tt> is a lower triangular
+matrix, <tt>U</tt> is upper triangular, <tt>P</tt> and <tt>Q</tt> are permutation vectors
+and <tt>R</tt> is a diagonal matrix of row scaling factors.  The decomposition
+ is computed using UMFPACK for sparse matrices, and LAPACK for dense
+ matrices.
+\section Example
+First, we compute the LU decomposition of a dense matrix.
+
+\if FRAGMENT
+frag_transforms_lu_000.m
+0
+a = float([1,2,3;4,5,8;10,12,3])
+[l,u,p] = lu(a)
+l*u
+p*a
+\endif
+
+
+\verbinclude frag_transforms_lu_000.m.out 
+
+Now we repeat the exercise with a sparse matrix, and demonstrate
+the use of the permutation vectors.
+
+\if FRAGMENT
+frag_transforms_lu_001.m
+0
+a = sparse([1,0,0,4;3,2,0,0;0,0,0,1;4,3,2,4])
+[l,u,p,q,r] = lu(a)
+full(l*a)
+b = r*a
+full(b(p,q))
+\endif
+
+
+\verbinclude frag_transforms_lu_001.m.out 
+
+*/

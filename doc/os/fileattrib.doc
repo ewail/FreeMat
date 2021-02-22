@@ -1,0 +1,85 @@
+/*!
+\page os_fileattrib FILEATTRIB Get and Set File or Directory Attributes
+
+<p>
+Section: \ref sec_os "Operating System Functions"
+\section Usage
+Retrieves information about a file or directory. The first version
+uses the syntax
+\verbatim
+   y = fileattrib(filename)
+\endverbatim
+where <tt>filename</tt> is the name of a file or directory.  The returned
+structure contains several entries, corresponding to the attributes
+of the file.  Here is a list of the entries, and their meaning:
+<UL>
+<LI>  <tt>Name</tt> - the full pathname for the file
+ </LI>
+<LI>  <tt>archive</tt> - not used, set to <tt>0</tt>
+ </LI>
+<LI>  <tt>system</tt> - not used, set to <tt>0</tt>
+ </LI>
+<LI>  <tt>hidden</tt> - set to <tt>1</tt> for a hidden file, and <tt>0</tt> else.
+ </LI>
+<LI>  <tt>directory</tt> - set to <tt>1</tt> for a directory, and <tt>0</tt> for a file.
+ </LI>
+<LI>  <tt>UserRead</tt> - set to <tt>1</tt> if the user has read permission, <tt>0</tt> otherwise.
+ </LI>
+<LI>  <tt>UserWrite</tt> - set to <tt>1</tt> if the user has write permission, <tt>0</tt> otherwise.
+ </LI>
+<LI>  <tt>UserExecute</tt> - set to <tt>1</tt> if the user has execute permission, <tt>0</tt> otherwise.
+ </LI>
+<LI>  <tt>GroupRead</tt> - set to <tt>1</tt> if the group has read permission, <tt>0</tt> otherwise.
+ </LI>
+<LI>  <tt>GroupWrite</tt> - set to <tt>1</tt> if the group has write permission, <tt>0</tt> otherwise.
+ </LI>
+<LI>  <tt>GroupExecute</tt> - set to <tt>1</tt> if the group has execute permission, <tt>0</tt> otherwise.
+ </LI>
+<LI>  <tt>OtherRead</tt> - set to <tt>1</tt> if the world has read permission, <tt>0</tt> otherwise.
+ </LI>
+<LI>  <tt>OtherWrite</tt> - set to <tt>1</tt> if the world has write permission, <tt>0</tt> otherwise.
+ </LI>
+<LI>  <tt>OtherExecute</tt> - set to <tt>1</tt> if the world has execute permission, <tt>0</tt> otherwise.
+ </LI>
+</UL>
+You can also provide a wildcard filename to get the attributes for a set of files
+e.g.,
+\verbatim
+   y = fileattrib('foo*')
+\endverbatim
+
+You can also use <tt>fileattrib</tt> to change the attributes of a file and/or directories.
+To change attributes, use one of the following syntaxes
+\verbatim
+   y = fileattrib(filename,attributelist)
+   y = fileattrib(filename,attributelist,userlist)
+   y = fileattrib(filename,attributelist,userlist,'s')
+\endverbatim
+where <tt>attributelist</tt> is a string that consists of a list of attributes, each preceeded by 
+a <tt>+</tt> to enable the attribute, and <tt>-</tt> to disable the attribute. The valid list of
+attributes that can be changed are
+<UL>
+<LI>  <tt>'w'</tt> - change write permissions
+ </LI>
+<LI>  <tt>'r'</tt> - change read permissions
+ </LI>
+<LI>  <tt>'x'</tt> - change execute permissions
+ </LI>
+</UL>
+for example, <tt>'-w +r'</tt> would indicate removal of write permissions and addition of read
+permissions.  The <tt>userlist</tt> is a string that lists the realm of the permission changes.
+If it is not specified, it defaults to <tt>'u'</tt>.
+<UL>
+<LI>  <tt>'u'</tt> - user or owner permissions
+ </LI>
+<LI>  <tt>'g'</tt> - group permissions
+ </LI>
+<LI>  <tt>'o'</tt> - other permissions ("world" in normal Unix terminology)
+ </LI>
+<LI>  <tt>'a'</tt> - equivalent to 'ugo'.
+ </LI>
+</UL>
+Finally, if you specify a <tt>'s'</tt> for the last argument, the attribute change is applied
+recursively, so that setting the attributes for a directory will apply to all the entries
+within the directory.
+*/

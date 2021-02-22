@@ -1,0 +1,63 @@
+/*!
+\page vtkcommon_vtkobjectbase vtkObjectBase
+
+<p>
+Section: \ref sec_vtkcommon "Visualization Toolkit Common Classes"
+\section Usage
+ vtkObjectBase is the base class for all reference counted classes
+ in the VTK. These classes include vtkCommand classes, vtkInformationKey
+ classes, and vtkObject classes.
+
+ vtkObjectBase performs reference counting: objects that are
+ reference counted exist as long as another object uses them. Once
+ the last reference to a reference counted object is removed, the
+ object will spontaneously destruct.
+
+ Constructor and destructor of the subclasses of vtkObjectBase
+ should be protected, so that only New() and UnRegister() actually
+ call them. Debug leaks can be used to see if there are any objects
+ left with nonzero reference count.
+
+
+To create an instance of class vtkObjectBase, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkObjectBase
+\endverbatim
+\section Methods
+The class vtkObjectBase has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkObjectBase class.
+<UL>
+<LI>  <tt>string = obj.GetClassName () const</tt> -  Return the class name as a string. This method is defined
+ in all subclasses of vtkObjectBase with the vtkTypeRevisionMacro found
+ in vtkSetGet.h.
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt> -  Return 1 if this class is the same type of (or a subclass of)
+ the named class. Returns 0 otherwise. This method works in
+ combination with vtkTypeRevisionMacro found in vtkSetGet.h.
+ </LI>
+<LI>  <tt>obj.Delete ()</tt> -  Delete a VTK object.  This method should always be used to delete
+ an object when the New() method was used to create it. Using the
+ C++ delete method will not work with reference counting.
+ </LI>
+<LI>  <tt>obj.FastDelete ()</tt> -  Delete a reference to this object.  This version will not invoke
+ garbage collection and can potentially leak the object if it is
+ part of a reference loop.  Use this method only when it is known
+ that the object has another reference and would not be collected
+ if a full garbage collection check were done.
+ </LI>
+<LI>  <tt>obj.Register (vtkObjectBase o)</tt> -  Increase the reference count (mark as used by another object).
+ </LI>
+<LI>  <tt>obj.UnRegister (vtkObjectBase o)</tt> -  Decrease the reference count (release by another object). This
+ has the same effect as invoking Delete() (i.e., it reduces the
+ reference count by 1).
+ </LI>
+<LI>  <tt>int = obj.GetReferenceCount ()</tt> -  Sets the reference count. (This is very dangerous, use with care.)
+ </LI>
+<LI>  <tt>obj.SetReferenceCount (int )</tt> -  Sets the reference count. (This is very dangerous, use with care.)
+ </LI>
+</UL>
+*/

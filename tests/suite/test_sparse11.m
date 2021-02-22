@@ -1,0 +1,10 @@
+function x = test_sparse11
+a = float(10*rand(8));
+a(a<7) = 0;
+A = sparse(a);
+b = [5;2;3;3;1];
+c = [1,4,6,8];
+A = sparse(a);
+C = A(b,c);
+c = a(b,c);
+x = testeq(c,C);

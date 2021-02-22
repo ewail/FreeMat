@@ -1,0 +1,58 @@
+/*!
+\page array_det DET Determinant of a Matrix
+
+<p>
+Section: \ref sec_array "Array Generation and Manipulations"
+\section Usage
+Calculates the determinant of a matrix.  Note that for all but
+very small problems, the determinant is not particularly useful.
+The condition number <tt>cond</tt> gives a more reasonable estimate as
+to the suitability of a matrix for inversion than comparing <tt>det(A)</tt>
+to zero.  In any case, the syntax for its use is
+\verbatim
+  y = det(A)
+\endverbatim
+where A is a square matrix.
+\section Function Internals
+The determinant is calculated via the <tt>LU</tt> decomposition.  Note that
+the determinant of a product of matrices is the product of the 
+determinants.  Then, we have that 
+\f[
+  L U = P A
+\f]
+where <tt>L</tt> is lower triangular with 1s on the main diagonal, <tt>U</tt> is
+upper triangular, and <tt>P</tt> is a row-permutation matrix.  Taking the
+determinant of both sides yields
+\f[
+ |L U| = |L| |U| = |U| = |P A| = |P| |A|
+\f]
+where we have used the fact that the determinant of <tt>L</tt> is 1.  The
+determinant of <tt>P</tt> (which is a row exchange matrix) is either 1 or 
+-1.
+\section Example
+Here we assemble a random matrix and compute its determinant
+
+\if FRAGMENT
+frag_array_det_000.m
+0
+A = rand(5);
+det(A)
+\endif
+
+
+\verbinclude frag_array_det_000.m.out 
+
+Then, we exchange two rows of <tt>A</tt> to demonstrate how the determinant
+changes sign (but the magnitude is the same)
+
+\if FRAGMENT
+frag_array_det_001.m
+0
+B = A([2,1,3,4,5],:);
+det(B)
+\endif
+
+
+\verbinclude frag_array_det_001.m.out 
+
+*/

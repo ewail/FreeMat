@@ -1,0 +1,166 @@
+/*!
+\page vtkio_vtkxmlwriter vtkXMLWriter
+
+<p>
+Section: \ref sec_vtkio "Visualization Toolkit IO Classes"
+\section Usage
+ vtkXMLWriter provides methods implementing most of the
+ functionality needed to write VTK XML file formats.  Concrete
+ subclasses provide actual writer implementations calling upon this
+ functionality.
+
+To create an instance of class vtkXMLWriter, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkXMLWriter
+\endverbatim
+\section Methods
+The class vtkXMLWriter has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkXMLWriter class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkXMLWriter = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkXMLWriter = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetByteOrder (int )</tt> -  Get/Set the byte order of data written to the file.  The default
+ is the machine's hardware byte order.
+ </LI>
+<LI>  <tt>int = obj.GetByteOrder ()</tt> -  Get/Set the byte order of data written to the file.  The default
+ is the machine's hardware byte order.
+ </LI>
+<LI>  <tt>obj.SetByteOrderToBigEndian ()</tt> -  Get/Set the byte order of data written to the file.  The default
+ is the machine's hardware byte order.
+ </LI>
+<LI>  <tt>obj.SetByteOrderToLittleEndian ()</tt> -  Get/Set the byte order of data written to the file.  The default
+ is the machine's hardware byte order.
+ </LI>
+<LI>  <tt>obj.SetIdType (int )</tt> -  Get/Set the size of the vtkIdType values stored in the file.  The
+ default is the real size of vtkIdType.
+ </LI>
+<LI>  <tt>int = obj.GetIdType ()</tt> -  Get/Set the size of the vtkIdType values stored in the file.  The
+ default is the real size of vtkIdType.
+ </LI>
+<LI>  <tt>obj.SetIdTypeToInt32 ()</tt> -  Get/Set the size of the vtkIdType values stored in the file.  The
+ default is the real size of vtkIdType.
+ </LI>
+<LI>  <tt>obj.SetIdTypeToInt64 ()</tt> -  Get/Set the size of the vtkIdType values stored in the file.  The
+ default is the real size of vtkIdType.
+ </LI>
+<LI>  <tt>obj.SetFileName (string )</tt> -  Get/Set the name of the output file.
+ </LI>
+<LI>  <tt>string = obj.GetFileName ()</tt> -  Get/Set the name of the output file.
+ </LI>
+<LI>  <tt>obj.SetCompressor (vtkDataCompressor )</tt> -  Get/Set the compressor used to compress binary and appended data
+ before writing to the file.  Default is a vtkZLibDataCompressor.
+ </LI>
+<LI>  <tt>vtkDataCompressor = obj.GetCompressor ()</tt> -  Get/Set the compressor used to compress binary and appended data
+ before writing to the file.  Default is a vtkZLibDataCompressor.
+ </LI>
+<LI>  <tt>obj.SetCompressorType (int compressorType)</tt> -  Convenience functions to set the compressor to certain known types.
+ </LI>
+<LI>  <tt>obj.SetCompressorTypeToNone ()</tt> -  Convenience functions to set the compressor to certain known types.
+ </LI>
+<LI>  <tt>obj.SetCompressorTypeToZLib ()</tt> -  Get/Set the block size used in compression.  When reading, this
+ controls the granularity of how much extra information must be
+ read when only part of the data are requested.  The value should
+ be a multiple of the largest scalar data type.
+ </LI>
+<LI>  <tt>obj.SetBlockSize (int blockSize)</tt> -  Get/Set the block size used in compression.  When reading, this
+ controls the granularity of how much extra information must be
+ read when only part of the data are requested.  The value should
+ be a multiple of the largest scalar data type.
+ </LI>
+<LI>  <tt>int = obj.GetBlockSize ()</tt> -  Get/Set the block size used in compression.  When reading, this
+ controls the granularity of how much extra information must be
+ read when only part of the data are requested.  The value should
+ be a multiple of the largest scalar data type.
+ </LI>
+<LI>  <tt>obj.SetDataMode (int )</tt> -  Get/Set the data mode used for the file's data.  The options are
+ vtkXMLWriter::Ascii, vtkXMLWriter::Binary, and
+ vtkXMLWriter::Appended.
+ </LI>
+<LI>  <tt>int = obj.GetDataMode ()</tt> -  Get/Set the data mode used for the file's data.  The options are
+ vtkXMLWriter::Ascii, vtkXMLWriter::Binary, and
+ vtkXMLWriter::Appended.
+ </LI>
+<LI>  <tt>obj.SetDataModeToAscii ()</tt> -  Get/Set the data mode used for the file's data.  The options are
+ vtkXMLWriter::Ascii, vtkXMLWriter::Binary, and
+ vtkXMLWriter::Appended.
+ </LI>
+<LI>  <tt>obj.SetDataModeToBinary ()</tt> -  Get/Set the data mode used for the file's data.  The options are
+ vtkXMLWriter::Ascii, vtkXMLWriter::Binary, and
+ vtkXMLWriter::Appended.
+ </LI>
+<LI>  <tt>obj.SetDataModeToAppended ()</tt> -  Get/Set the data mode used for the file's data.  The options are
+ vtkXMLWriter::Ascii, vtkXMLWriter::Binary, and
+ vtkXMLWriter::Appended.
+ </LI>
+<LI>  <tt>obj.SetEncodeAppendedData (int )</tt> -  Get/Set whether the appended data section is base64 encoded.  If
+ encoded, reading and writing will be slower, but the file will be
+ fully valid XML and text-only.  If not encoded, the XML
+ specification will be violated, but reading and writing will be
+ fast.  The default is to do the encoding.
+ </LI>
+<LI>  <tt>int = obj.GetEncodeAppendedData ()</tt> -  Get/Set whether the appended data section is base64 encoded.  If
+ encoded, reading and writing will be slower, but the file will be
+ fully valid XML and text-only.  If not encoded, the XML
+ specification will be violated, but reading and writing will be
+ fast.  The default is to do the encoding.
+ </LI>
+<LI>  <tt>obj.EncodeAppendedDataOn ()</tt> -  Get/Set whether the appended data section is base64 encoded.  If
+ encoded, reading and writing will be slower, but the file will be
+ fully valid XML and text-only.  If not encoded, the XML
+ specification will be violated, but reading and writing will be
+ fast.  The default is to do the encoding.
+ </LI>
+<LI>  <tt>obj.EncodeAppendedDataOff ()</tt> -  Get/Set whether the appended data section is base64 encoded.  If
+ encoded, reading and writing will be slower, but the file will be
+ fully valid XML and text-only.  If not encoded, the XML
+ specification will be violated, but reading and writing will be
+ fast.  The default is to do the encoding.
+ </LI>
+<LI>  <tt>obj.SetInput (vtkDataObject )</tt> -  Set/Get an input of this algorithm. You should not override these
+ methods because they are not the only way to connect a pipeline
+ </LI>
+<LI>  <tt>obj.SetInput (int , vtkDataObject )</tt> -  Set/Get an input of this algorithm. You should not override these
+ methods because they are not the only way to connect a pipeline
+ </LI>
+<LI>  <tt>vtkDataObject = obj.GetInput (int port)</tt> -  Set/Get an input of this algorithm. You should not override these
+ methods because they are not the only way to connect a pipeline
+ </LI>
+<LI>  <tt>vtkDataObject = obj.GetInput ()</tt> -  Set/Get an input of this algorithm. You should not override these
+ methods because they are not the only way to connect a pipeline
+ </LI>
+<LI>  <tt>string = obj.GetDefaultFileExtension ()</tt> -  Get the default file extension for files written by this writer.
+ </LI>
+<LI>  <tt>int = obj.Write ()</tt> -  Invoke the writer.  Returns 1 for success, 0 for failure.
+ </LI>
+<LI>  <tt>obj.SetTimeStep (int )</tt> -  Which TimeStep to write.
+ </LI>
+<LI>  <tt>int = obj.GetTimeStep ()</tt> -  Which TimeStep to write.
+ </LI>
+<LI>  <tt>int = obj. GetTimeStepRange ()</tt> -  Which TimeStepRange to write.
+ </LI>
+<LI>  <tt>obj.SetTimeStepRange (int , int )</tt> -  Which TimeStepRange to write.
+ </LI>
+<LI>  <tt>obj.SetTimeStepRange (int  a[2])</tt> -  Which TimeStepRange to write.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfTimeSteps ()</tt> -  Set the number of time steps
+ </LI>
+<LI>  <tt>obj.SetNumberOfTimeSteps (int )</tt> -  Set the number of time steps
+ </LI>
+<LI>  <tt>obj.Start ()</tt> -  API to interface an outside the VTK pipeline control
+ </LI>
+<LI>  <tt>obj.Stop ()</tt> -  API to interface an outside the VTK pipeline control
+ </LI>
+<LI>  <tt>obj.WriteNextTime (double time)</tt> -  API to interface an outside the VTK pipeline control
+ </LI>
+</UL>
+*/

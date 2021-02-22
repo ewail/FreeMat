@@ -1,0 +1,80 @@
+
+ Usage
+
+The threadvalue function retrieves the values returned by
+the function specified in the threadnew call. The syntax for
+its use is
+
+     [arg1,arg2,...,argN] = threadvalue(handle)
+
+where handle is the value returned by a threadnew call. Note
+that there are issues with nargout. See the examples section
+of threadnew for details on how to work around this
+limitation. Because the function you have spawned with
+threadnew may still be executing, threadvalue must first
+threadwait for the function to complete before retrieving
+the output values. This wait may take an arbitrarily long
+time if the thread function is caught in an infinite loop.
+Hence, you can also specify a timeout parameter to
+threadvalue as
+
+     [arg1,arg2,...,argN] = threadvalue(handle,timeout)
+
+where the timeout is specified in milliseconds. If the wait
+times out, an error is raised (that can be caught with a try
+and catch block.
+In either case, if the thread function itself caused an
+error and ceased execution abruptly, then calling
+threadvalue will cause that function to raise an error,
+allowing you to retrieve the error that was caused and
+correct it. See the examples section for more information.
+
+
+ Example
+
+Here we do something very simple. We want to obtain a
+listing of all files on the system, but do not want the
+results to stop our computation. So we run the system call
+in a thread.
+
+  --> a = threadnew;                         % Create the
+  thread
+  --> threadstart(a,'system',1,'ls -lrt /'); % Start the
+  thread
+  --> b = rand(100)\rand(100,1);             % Solve some
+  equations simultaneously
+  --> c = threadvalue(a);                    % Retrieve the
+  file list
+  --> size(c)                                % It is large!
+
+  ans =
+    1 28
+
+  --> threadfree(a);
+
+In this example, we force the threaded function to cause an
+exception (by calling the error function as the thread
+function). When we call threadvalue, we get an error,
+instead of the return value of the function
+
+  --> a = threadnew
+
+  a =
+   3
+
+  --> threadstart(a,'error',0,'Hello world!'); % Will
+  immediately stop due to error
+  --> c = threadvalue(a)                     % The error
+  comes to us
+  Error: Thread: Hello world!
+  --> threadfree(a)
+
+Note that the error has the text Thread: prepended to the
+message to help you identify that this was an error in a
+different thread.
+
+* FreeMat_Documentation
+* FreeMat_Threads
+* Generated on Thu Jul 25 2013 17:18:29 for FreeMat by
+  doxygen_ 1.8.1.1
+

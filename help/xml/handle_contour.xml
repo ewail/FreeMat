@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="handle_contour" kind="page">
+    <compoundname>handle_contour</compoundname>
+    <title>CONTOUR Contour Plot Function</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_handle_1sec_handle" kindref="member">Handle-Based Graphics</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>This command generates contour plots. There are several syntaxes for the command. The simplest is <verbatim>  contour(Z)
+</verbatim> which generates a contour plot of the data in matrix <computeroutput>Z</computeroutput>, and will automatically select the contour levels. The <computeroutput>x,y</computeroutput> coordinates of the contour default to <computeroutput>1:n</computeroutput> and <computeroutput>1:m</computeroutput>, where <computeroutput>n</computeroutput> is the number of columns and <computeroutput>m</computeroutput> is the number of rows in the <computeroutput>Z</computeroutput> matrix. Alternately, you can specify a scalar <computeroutput>n</computeroutput> <verbatim>  contour(Z,n)
+</verbatim> which indicates that you want <computeroutput>n</computeroutput> contour levels. For more control, you can provide a vector <computeroutput>v</computeroutput> containing the levels to contour. If you want to generate a contour for a particular level, you must pass a vector <computeroutput>[t,t]</computeroutput> where <computeroutput>t</computeroutput> is the level you want to contour. If you have data that lies on a particular <computeroutput>X,Y</computeroutput> grid, you can pass either vectors <computeroutput>x,y</computeroutput> or matrices <computeroutput>X,Y</computeroutput> to the contour function via <verbatim>  contour(X,Y,Z)
+  contour(X,Y,Z,n)
+  contour(X,Y,Z,v)
+</verbatim> Each form of <computeroutput>contour</computeroutput> can optionally take a line spec to indicate the color and linestyle of the contours to draw: <verbatim>  contour(...,linespec)
+</verbatim> or any of the other forms of <computeroutput>contour</computeroutput>. Furthermore, you can supply an axis to target the <computeroutput>contour</computeroutput> plot to (so that it does not get added to the current axis, which is the default): <verbatim>  contour(axis_handle,...)
+</verbatim> Finally, the <computeroutput>contour</computeroutput> command returns a handle to the newly returned contour plot. <verbatim>  handle = contour(...)
+</verbatim> To place labels on the contour plot, use the <computeroutput>clabel</computeroutput> function. </para></sect1>
+<sect1 id="variables_struct_1Example">
+<title>Example</title>
+<para>Here is a simple example of a contour plot with the default <computeroutput>x,y</computeroutput> coordinates:</para><para><verbatim>--&gt; [x,y] = meshgrid(linspace(-1,1,25),linspace(-2,2,30));
+--&gt; z = x.*exp(-x.^2-y.^2);
+--&gt; contour(z)
+</verbatim></para><para>which results in the following plot <image type="html" name="contour1.png"></image>
+ <image type="latex" name="contour1" width="12cm">contour1</image>
+ Here, we specify the <computeroutput>x</computeroutput> and <computeroutput>y</computeroutput> coordinates explictly</para><para><verbatim>--&gt; contour(x,y,z)
+</verbatim></para><para>note that the axis limits have changed appropriately <image type="html" name="contour2.png"></image>
+ <image type="latex" name="contour2" width="12cm">contour2</image>
+ By default, contours are created at values selected by FreeMat. To provide our own set of contour values (asymmetrically about zero in this case), we supply them as</para><para><verbatim>--&gt; contour(x,y,z,[-.4,0.,3])
+</verbatim></para><para>which is here <image type="html" name="contour3.png"></image>
+ <image type="latex" name="contour3" width="12cm">contour3</image>
+ Also be default, <computeroutput>contour</computeroutput> uses the current color map and <computeroutput>clim</computeroutput> limits to determine the coloring of the contours. Here, we override the color spec so that we have all black contour</para><para><verbatim>--&gt; contour(x,y,z,&apos;b-&apos;)
+</verbatim></para><para>which is here <image type="html" name="contour4.png"></image>
+ <image type="latex" name="contour4" width="12cm">contour4</image>
+ </para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

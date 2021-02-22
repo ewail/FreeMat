@@ -1,0 +1,114 @@
+/*!
+\page vtkrendering_vtkframebufferobject vtkFrameBufferObject
+
+<p>
+Section: \ref sec_vtkrendering "Visualization Toolkit Rendering Classes"
+\section Usage
+ Encapsulates an OpenGL Frame Buffer Object.
+ For use by vtkOpenGLFBORenderWindow, not to be used directly.
+
+To create an instance of class vtkFrameBufferObject, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkFrameBufferObject
+\endverbatim
+\section Methods
+The class vtkFrameBufferObject has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkFrameBufferObject class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkFrameBufferObject = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkFrameBufferObject = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetContext (vtkRenderWindow context)</tt> -  Get/Set the context. Context must be a vtkOpenGLRenderWindow. 
+ This does not increase the reference count of the 
+ context to avoid reference loops.
+ SetContext() may raise an error is the OpenGL context does not support the
+ required OpenGL extensions.
+ </LI>
+<LI>  <tt>vtkRenderWindow = obj.GetContext ()</tt> -  Get/Set the context. Context must be a vtkOpenGLRenderWindow. 
+ This does not increase the reference count of the 
+ context to avoid reference loops.
+ SetContext() may raise an error is the OpenGL context does not support the
+ required OpenGL extensions.
+ </LI>
+<LI>  <tt>bool = obj.Start (int width, int height, bool shaderSupportsTextureInt)</tt> -  User must take care that width/height match the dimensions of 
+ the user defined texture attachments.
+ This method makes the "active buffers" the buffers that will get drawn
+ into by subsequent drawing calls.
+ Note that this does not clear the render buffers i.e. no glClear() calls
+ are made by either of these methods. It's up to the caller to clear the
+ buffers if needed.
+ </LI>
+<LI>  <tt>bool = obj.StartNonOrtho (int width, int height, bool shaderSupportsTextureInt)</tt> -  User must take care that width/height match the dimensions of 
+ the user defined texture attachments.
+ This method makes the "active buffers" the buffers that will get drawn
+ into by subsequent drawing calls.
+ Note that this does not clear the render buffers i.e. no glClear() calls
+ are made by either of these methods. It's up to the caller to clear the
+ buffers if needed.
+ </LI>
+<LI>  <tt>obj.RenderQuad (int minX, int maxX, int minY, int maxY)</tt> -  Renders a quad at the given location with pixel coordinates. This method
+ is provided as a convenience, since we often render quads in a FBO.
+ \pre positive_minX: minX>=0
+ \pre increasing_x: minX<=maxX
+ \pre valid_maxX: maxX<LastSize[0]
+ \pre positive_minY: minY>=0
+ \pre increasing_y: minY<=maxY
+ \pre valid_maxY: maxY<LastSize[1]
+ </LI>
+<LI>  <tt>obj.Bind ()</tt> -  Save the current framebuffer and make the frame buffer active.
+ Multiple calls to Bind has no effect.
+ </LI>
+<LI>  <tt>obj.UnBind ()</tt> -  Restore the framebuffer saved with the call to Bind().
+ Multiple calls to UnBind has no effect.
+ </LI>
+<LI>  <tt>obj.SetActiveBuffer (int index)</tt> -  Choose the buffer to render into.
+ This is available only if the GL_ARB_draw_buffers extension is supported
+ by the card.
+ </LI>
+<LI>  <tt>obj.SetActiveBuffers (int numbuffers, int indices[])</tt> -  Choose the buffer to render into.
+ This is available only if the GL_ARB_draw_buffers extension is supported
+ by the card.
+ </LI>
+<LI>  <tt>obj.SetColorBuffer (int index, vtkTextureObject texture, int zslice)</tt>
+ </LI>
+<LI>  <tt>vtkTextureObject = obj.GetColorBuffer (int index)</tt>
+ </LI>
+<LI>  <tt>obj.RemoveColorBuffer (int index)</tt>
+ </LI>
+<LI>  <tt>obj.RemoveAllColorBuffers ()</tt>
+ </LI>
+<LI>  <tt>obj.SetDepthBuffer (vtkTextureObject depthTexture)</tt> -  Set the texture to use as depth buffer.
+ </LI>
+<LI>  <tt>obj.RemoveDepthBuffer ()</tt> -  Set the texture to use as depth buffer.
+ </LI>
+<LI>  <tt>obj.SetDepthBufferNeeded (bool )</tt> -  If true, the frame buffer object will be initialized with a depth buffer.
+ Initial value is true.
+ </LI>
+<LI>  <tt>bool = obj.GetDepthBufferNeeded ()</tt> -  If true, the frame buffer object will be initialized with a depth buffer.
+ Initial value is true.
+ </LI>
+<LI>  <tt>obj.SetNumberOfRenderTargets (int )</tt> -  Set/Get the number of render targets to render into at once.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfRenderTargets ()</tt> -  Set/Get the number of render targets to render into at once.
+ </LI>
+<LI>  <tt>int = obj.GetMaximumNumberOfActiveTargets ()</tt> -  Returns the maximum number of targets that can be rendered to at one time.
+ This limits the active targets set by SetActiveTargets().
+ The return value is valid only if GetContext is non-null.
+ </LI>
+<LI>  <tt>int = obj.GetMaximumNumberOfRenderTargets ()</tt> -  Returns the maximum number of render targets available. This limits the
+ available attachement points for SetColorAttachment().
+ The return value is valid only if GetContext is non-null.
+ </LI>
+<LI>  <tt>int = obj. GetLastSize ()</tt> -  Dimensions in pixels of the framebuffer.
+ </LI>
+</UL>
+*/

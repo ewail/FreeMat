@@ -1,0 +1,76 @@
+
+ Usage
+
+vtkSpatialRepresentationFilter generates an polygonal
+representation of a spatial search (vtkLocator) object. The
+representation varies depending upon the nature of the
+spatial search object. For example, the representation for
+vtkOBBTree is a collection of oriented bounding boxes. Ths
+input to this filter is a dataset of any type, and the
+output is polygonal data. You must also specify the spatial
+search object to use.
+Generally spatial search objects are used for collision
+detection and other geometric operations, but in this filter
+one or more levels of spatial searchers can be generated to
+form a geometric approximation to the input data. This is a
+form of data simplification, generally used to accelerate
+the rendering process. Or, this filter can be used as a
+debugging/ visualization aid for spatial search objects.
+This filter can generate one or more output vtkPolyData
+corresponding to different levels in the spatial search
+tree. The output data is retrieved using the GetOutput(id)
+method, where id ranges from 0 (root level) to Level. Note
+that the output for level "id" is not computed unless a
+GetOutput(id) method is issued. Thus, if you desire three
+levels of output (say 2,4,7), you would have to invoke
+GetOutput(2), GetOutput(4), and GetOutput(7). (Also note
+that the Level ivar is computed automatically depending on
+the size and nature of the input data.) There is also
+another GetOutput() method that takes no parameters. This
+method returns the leafs of the spatial search tree, which
+may be at different levels.
+To create an instance of class
+vtkSpatialRepresentationFilter, simply invoke its
+constructor as follows
+
+    obj = vtkSpatialRepresentationFilter
+
+
+
+ Methods
+
+The class vtkSpatialRepresentationFilter has several methods
+that can be used. They are listed below. Note that the
+documentation is translated automatically from the VTK
+sources, and may not be completely intelligible. When in
+doubt, consult the VTK website. In the methods listed below,
+obj is an instance of the vtkSpatialRepresentationFilter
+class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkSpatialRepresentationFilter = obj.NewInstance ()
+* vtkSpatialRepresentationFilter = obj.SafeDownCast
+  (vtkObject o)
+* obj.SetSpatialRepresentation (vtkLocator ) - Set/Get the
+  locator that will be used to generate the representation.
+* vtkLocator = obj.GetSpatialRepresentation () - Set/Get the
+  locator that will be used to generate the representation.
+* int = obj.GetLevel () - Get the maximum number of outputs
+  actually available.
+* vtkPolyData = obj.GetOutput (int level) - A special form
+  of the GetOutput() method that returns multiple outputs.
+* vtkPolyData = obj.GetOutput () - Output of terminal nodes/
+  leaves.
+* obj.ResetOutput () - Reset requested output levels
+* obj.SetInput (vtkDataSet input) - Set / get the input data
+  or filter.
+* vtkDataSet = obj.GetInput () - Set / get the input data or
+  filter.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Graphics_Classes
+* Generated on Thu Jul 25 2013 17:18:32 for FreeMat by
+  doxygen_ 1.8.1.1
+

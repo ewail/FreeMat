@@ -1,0 +1,186 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkparallel_vtkparallelrendermanager" kind="page">
+    <compoundname>vtkparallel_vtkparallelrendermanager</compoundname>
+    <title>vtkParallelRenderManager</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkparallel_1sec_vtkparallel" kindref="member">Visualization Toolkit Parallel Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>vtkParallelRenderManager operates in multiple processes. It provides proper renderers and render windows for performing the parallel rendering correctly. It can also attach itself to render windows and propagate rendering events and camera views.</para><para>.SECTION Note: Many parallel rendering schemes do not correctly handle transparency. Unless otherwise documented, assume a sub class does not.</para><para>.SECTION ToDo: Synchronization/barrier primitives.</para><para>Query ranges of scalar values of objects in addition to the boundry in three-space</para><para>To create an instance of class vtkParallelRenderManager, simply invoke its constructor as follows <verbatim>  obj = vtkParallelRenderManager
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkParallelRenderManager has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkParallelRenderManager class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkParallelRenderManager = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkParallelRenderManager = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkRenderWindow = obj.MakeRenderWindow ()</computeroutput> - Builds a vtkRenderWindow compatible with this render manager. The user program is responsible for registering the render window with the SetRenderWindow method and calling Delete. It is not advisable to use a parallel render manager with a render window that was not built with this method.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkRenderer = obj.MakeRenderer ()</computeroutput> - Builds a vtkRenderer compatible with this render manager. (Should we also register it?) The user program is responsible for calling Delete. It is not advisable to use a parallel render manager with a renderer that was not built with this method.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkRenderWindow = obj.GetRenderWindow ()</computeroutput> - Set/Get the RenderWindow to use for compositing. We add a start and end observer to the window.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetRenderWindow (vtkRenderWindow renWin)</computeroutput> - Set/Get the RenderWindow to use for compositing. We add a start and end observer to the window.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkMultiProcessController = obj.GetController ()</computeroutput> - Set/Get the vtkMultiProcessController which will handle communications for the parallel rendering.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetController (vtkMultiProcessController controller)</computeroutput> - Set/Get the vtkMultiProcessController which will handle communications for the parallel rendering.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.InitializePieces ()</computeroutput> - This method sets the piece and number of pieces for each actor with a polydata mapper.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.InitializeOffScreen ()</computeroutput> - Make all rendering windows not viewable set as off screen rendering. To make all renderwindows on screen rendering again, call OffScreenRenderingOff on all the render windows. This class assumes the window on root node is the only one viewable. Subclasses should change this as necessary.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.StartInteractor ()</computeroutput> - Initializes the RMIs and then, if on root node, starts the interactor on the attached render window. Otherwise, starts processing RMIs. When the interactor returns, it breaks the RMI listening on all other processors.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.StartServices ()</computeroutput> - If on node other than root, starts serving RMI requests for parallel renders.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.StopServices ()</computeroutput> - If on root node, stops the RMI processing on all service nodes.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.StartRender ()</computeroutput> - Callbacks that initialize and finish rendering and other tasks.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.EndRender ()</computeroutput> - Callbacks that initialize and finish rendering and other tasks.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SatelliteStartRender ()</computeroutput> - Callbacks that initialize and finish rendering and other tasks.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SatelliteEndRender ()</computeroutput> - Callbacks that initialize and finish rendering and other tasks.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.RenderRMI ()</computeroutput> - Callbacks that initialize and finish rendering and other tasks.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ResetCamera (vtkRenderer ren)</computeroutput> - Callbacks that initialize and finish rendering and other tasks.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ResetCameraClippingRange (vtkRenderer ren)</computeroutput> - Callbacks that initialize and finish rendering and other tasks.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ComputeVisiblePropBoundsRMI (int renderId)</computeroutput> - Callbacks that initialize and finish rendering and other tasks.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.InitializeRMIs ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ResetAllCameras ()</computeroutput> - Resets the camera of each renderer contained in the RenderWindow. Should only be called in the &quot;root&quot; process, and all remote processes must be processing RMIs for this method to complete.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ComputeVisiblePropBounds (vtkRenderer ren, double bounds[6])</computeroutput> - Calculates the bounds by gathering information from all processes.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetParallelRendering (int )</computeroutput> - Turns on/off parallel rendering. When on (the default) the object responds to render events of the attached window, propagates the render event to other processors, and otherwise enables the parallel rendering process.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetParallelRendering ()</computeroutput> - Turns on/off parallel rendering. When on (the default) the object responds to render events of the attached window, propagates the render event to other processors, and otherwise enables the parallel rendering process.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ParallelRenderingOn ()</computeroutput> - Turns on/off parallel rendering. When on (the default) the object responds to render events of the attached window, propagates the render event to other processors, and otherwise enables the parallel rendering process.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ParallelRenderingOff ()</computeroutput> - Turns on/off parallel rendering. When on (the default) the object responds to render events of the attached window, propagates the render event to other processors, and otherwise enables the parallel rendering process.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetRenderEventPropagation (int )</computeroutput> - Turns on/off render event propagation. When on (the default) and ParallelRendering is on, process 0 will send an RMI call to all remote processes to perform a synchronized render. When off, render must be manually called on each process.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetRenderEventPropagation ()</computeroutput> - Turns on/off render event propagation. When on (the default) and ParallelRendering is on, process 0 will send an RMI call to all remote processes to perform a synchronized render. When off, render must be manually called on each process.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.RenderEventPropagationOn ()</computeroutput> - Turns on/off render event propagation. When on (the default) and ParallelRendering is on, process 0 will send an RMI call to all remote processes to perform a synchronized render. When off, render must be manually called on each process.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.RenderEventPropagationOff ()</computeroutput> - Turns on/off render event propagation. When on (the default) and ParallelRendering is on, process 0 will send an RMI call to all remote processes to perform a synchronized render. When off, render must be manually called on each process.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetUseCompositing (int )</computeroutput> - This is used for tiled display rendering. When data has been duplicated on all processes, then we do not need to compositing. Cameras and renders are still propagated though.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetUseCompositing ()</computeroutput> - This is used for tiled display rendering. When data has been duplicated on all processes, then we do not need to compositing. Cameras and renders are still propagated though.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.UseCompositingOn ()</computeroutput> - This is used for tiled display rendering. When data has been duplicated on all processes, then we do not need to compositing. Cameras and renders are still propagated though.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.UseCompositingOff ()</computeroutput> - This is used for tiled display rendering. When data has been duplicated on all processes, then we do not need to compositing. Cameras and renders are still propagated though.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetImageReductionFactor (double factor)</computeroutput> - Set/Get the reduction factor (for sort-last based parallel renderers). The size of rendered image is divided by the reduction factor and then is blown up to the size of the current vtkRenderWindow. Setting higher reduction factors enables shorter image transfer times (which is often the bottleneck) but will greatly reduce image quality. A reduction factor of 2 or greater should only be used for intermediate images in interactive applications. A reduction factor of 1 (or less) will result in no change in image quality. A parallel render manager may ignore the image reduction factor if it will result in little or no performance enhancements (eg. it does not do image space manipulations).  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetImageReductionFactor ()</computeroutput> - Set/Get the reduction factor (for sort-last based parallel renderers). The size of rendered image is divided by the reduction factor and then is blown up to the size of the current vtkRenderWindow. Setting higher reduction factors enables shorter image transfer times (which is often the bottleneck) but will greatly reduce image quality. A reduction factor of 2 or greater should only be used for intermediate images in interactive applications. A reduction factor of 1 (or less) will result in no change in image quality. A parallel render manager may ignore the image reduction factor if it will result in little or no performance enhancements (eg. it does not do image space manipulations).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetMaxImageReductionFactor (double )</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetMaxImageReductionFactor ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetImageReductionFactorForUpdateRate (double DesiredUpdateRate)</computeroutput> - Sets the ReductionFactor based on the given desired update rate and the rendering metrics taken from the last time UpdateServerInfo was called. Note that if AutoReductionFactor is on, this function is called with the desired update rate of the render window automatically.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetAutoImageReductionFactor (int )</computeroutput> - If on, the ReductionFactor is automatically adjusted to best meet the the DesiredUpdateRate in the current RenderWindow based on metrics from the last render.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetAutoImageReductionFactor ()</computeroutput> - If on, the ReductionFactor is automatically adjusted to best meet the the DesiredUpdateRate in the current RenderWindow based on metrics from the last render.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.AutoImageReductionFactorOn ()</computeroutput> - If on, the ReductionFactor is automatically adjusted to best meet the the DesiredUpdateRate in the current RenderWindow based on metrics from the last render.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.AutoImageReductionFactorOff ()</computeroutput> - If on, the ReductionFactor is automatically adjusted to best meet the the DesiredUpdateRate in the current RenderWindow based on metrics from the last render.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetRenderTime ()</computeroutput> - Get rendering metrics.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetImageProcessingTime ()</computeroutput> - Get rendering metrics.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetSyncRenderWindowRenderers ()</computeroutput> - By default, the state of all renderers in the root&apos;s render window is propagated to the rest of the processes. In order for this to work, all render windows must have the same renderers in the same order. If this is not the case, you can turn off the SyncRenderWindowRenderers. When this flag is off, the list of renderers held by this parallel render manager (initially empty) is synced. You can modify the list of renderers with the AddRenderer, RemoveRenderer, and RemoveAllRenderers methods.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetSyncRenderWindowRenderers (int )</computeroutput> - By default, the state of all renderers in the root&apos;s render window is propagated to the rest of the processes. In order for this to work, all render windows must have the same renderers in the same order. If this is not the case, you can turn off the SyncRenderWindowRenderers. When this flag is off, the list of renderers held by this parallel render manager (initially empty) is synced. You can modify the list of renderers with the AddRenderer, RemoveRenderer, and RemoveAllRenderers methods.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SyncRenderWindowRenderersOn ()</computeroutput> - By default, the state of all renderers in the root&apos;s render window is propagated to the rest of the processes. In order for this to work, all render windows must have the same renderers in the same order. If this is not the case, you can turn off the SyncRenderWindowRenderers. When this flag is off, the list of renderers held by this parallel render manager (initially empty) is synced. You can modify the list of renderers with the AddRenderer, RemoveRenderer, and RemoveAllRenderers methods.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SyncRenderWindowRenderersOff ()</computeroutput> - By default, the state of all renderers in the root&apos;s render window is propagated to the rest of the processes. In order for this to work, all render windows must have the same renderers in the same order. If this is not the case, you can turn off the SyncRenderWindowRenderers. When this flag is off, the list of renderers held by this parallel render manager (initially empty) is synced. You can modify the list of renderers with the AddRenderer, RemoveRenderer, and RemoveAllRenderers methods.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.AddRenderer (vtkRenderer )</computeroutput> - By default, the state of all renderers in the root&apos;s render window is propagated to the rest of the processes. In order for this to work, all render windows must have the same renderers in the same order. If this is not the case, you can turn off the SyncRenderWindowRenderers. When this flag is off, the list of renderers held by this parallel render manager (initially empty) is synced. You can modify the list of renderers with the AddRenderer, RemoveRenderer, and RemoveAllRenderers methods.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.RemoveRenderer (vtkRenderer )</computeroutput> - By default, the state of all renderers in the root&apos;s render window is propagated to the rest of the processes. In order for this to work, all render windows must have the same renderers in the same order. If this is not the case, you can turn off the SyncRenderWindowRenderers. When this flag is off, the list of renderers held by this parallel render manager (initially empty) is synced. You can modify the list of renderers with the AddRenderer, RemoveRenderer, and RemoveAllRenderers methods.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.RemoveAllRenderers ()</computeroutput> - By default, the state of all renderers in the root&apos;s render window is propagated to the rest of the processes. In order for this to work, all render windows must have the same renderers in the same order. If this is not the case, you can turn off the SyncRenderWindowRenderers. When this flag is off, the list of renderers held by this parallel render manager (initially empty) is synced. You can modify the list of renderers with the AddRenderer, RemoveRenderer, and RemoveAllRenderers methods.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetWriteBackImages (int )</computeroutput> - If on (the default), the result of any image space manipulations are written back to the render window frame buffer. If off, the image stored in the frame buffer may not be correct. Either way, the correct frame buffer images may be read with vtkParallelRenderManager::GetPixelData. Turning WriteBackImages off may result in a speedup if the render window is not visible to the user and images are read back for further processing or transit.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetWriteBackImages ()</computeroutput> - If on (the default), the result of any image space manipulations are written back to the render window frame buffer. If off, the image stored in the frame buffer may not be correct. Either way, the correct frame buffer images may be read with vtkParallelRenderManager::GetPixelData. Turning WriteBackImages off may result in a speedup if the render window is not visible to the user and images are read back for further processing or transit.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.WriteBackImagesOn ()</computeroutput> - If on (the default), the result of any image space manipulations are written back to the render window frame buffer. If off, the image stored in the frame buffer may not be correct. Either way, the correct frame buffer images may be read with vtkParallelRenderManager::GetPixelData. Turning WriteBackImages off may result in a speedup if the render window is not visible to the user and images are read back for further processing or transit.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.WriteBackImagesOff ()</computeroutput> - If on (the default), the result of any image space manipulations are written back to the render window frame buffer. If off, the image stored in the frame buffer may not be correct. Either way, the correct frame buffer images may be read with vtkParallelRenderManager::GetPixelData. Turning WriteBackImages off may result in a speedup if the render window is not visible to the user and images are read back for further processing or transit.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetMagnifyImages (int )</computeroutput> - If on (the default), when the ImageReductionFactor is greater than 1 and WriteBackImages is on, the image will be magnified to fill the entire render window.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetMagnifyImages ()</computeroutput> - If on (the default), when the ImageReductionFactor is greater than 1 and WriteBackImages is on, the image will be magnified to fill the entire render window.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.MagnifyImagesOn ()</computeroutput> - If on (the default), when the ImageReductionFactor is greater than 1 and WriteBackImages is on, the image will be magnified to fill the entire render window.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.MagnifyImagesOff ()</computeroutput> - If on (the default), when the ImageReductionFactor is greater than 1 and WriteBackImages is on, the image will be magnified to fill the entire render window.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetMagnifyImageMethod (int method)</computeroutput> - Sets the method used to magnify images. Nearest simply replicates each pixel enough times to fill the image. Linear performs linear interpolation between the pixels.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetMagnifyImageMethod ()</computeroutput> - Sets the method used to magnify images. Nearest simply replicates each pixel enough times to fill the image. Linear performs linear interpolation between the pixels.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetMagnifyImageMethodToNearest ()</computeroutput> - Sets the method used to magnify images. Nearest simply replicates each pixel enough times to fill the image. Linear performs linear interpolation between the pixels.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetMagnifyImageMethodToLinear ()</computeroutput> - Convenience functions for magnifying images.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.MagnifyImage (vtkUnsignedCharArray fullImage, int fullImageSize[2], vtkUnsignedCharArray reducedImage, int reducedImageSize[2], int fullImageViewport[4]NULL, int reducedImageViewport[4]NULL)</computeroutput> - Convenience functions for magnifying images.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GetPixelData (vtkUnsignedCharArray data)</computeroutput> - The most appropriate way to retrieve full size image data after a render. Will work regardless of whether WriteBackImages or MagnifyImage is on or off. The data returned may be a shallow copy of an internal array. Therefore, the data may be invalid after the next render or if the ParallelRenderManager is destroyed.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GetPixelData (int x1, int y1, int x2, int y2, vtkUnsignedCharArray data)</computeroutput> - The most appropriate way to retrieve full size image data after a render. Will work regardless of whether WriteBackImages or MagnifyImage is on or off. The data returned may be a shallow copy of an internal array. Therefore, the data may be invalid after the next render or if the ParallelRenderManager is destroyed.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GetReducedPixelData (vtkUnsignedCharArray data)</computeroutput> - The most appropriate way to retrieve reduced size image data after a render. Will work regardless of whether WriteBackImages or MagnifyImage is on or off. The data returned may be a shallow copy of an internal array. Therefore, the data may be invalid after the next render or if the ParallelRenderManager is destroyed.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GetReducedPixelData (int x1, int y1, int x2, int y2, vtkUnsignedCharArray data)</computeroutput> - The most appropriate way to retrieve reduced size image data after a render. Will work regardless of whether WriteBackImages or MagnifyImage is on or off. The data returned may be a shallow copy of an internal array. Therefore, the data may be invalid after the next render or if the ParallelRenderManager is destroyed.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj. GetFullImageSize ()</computeroutput> - Returns the full image size calculated at the last render.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj. GetReducedImageSize ()</computeroutput> - Returns the reduced image size calculated at the last render.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.TileWindows (int xsize, int ysize, int nColumns)</computeroutput> - Given the x and y size of the render windows, reposition them in a tile of n columns.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetUseRGBA (int )</computeroutput> - Get/Set if all Images must use RGBA instead of RGB. By default, this flag is on.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetUseRGBA ()</computeroutput> - Get/Set if all Images must use RGBA instead of RGB. By default, this flag is on.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetForceRenderWindowSize (int )</computeroutput> - If ForceRenderWindowSize is set to true, the render manager will use the RenderWindowSize ivar instead of getting the size from the render window.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetForceRenderWindowSize ()</computeroutput> - If ForceRenderWindowSize is set to true, the render manager will use the RenderWindowSize ivar instead of getting the size from the render window.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetForcedRenderWindowSize (int , int )</computeroutput> - If ForceRenderWindowSize is set to true, the render manager will use the Size ivar instead of getting the size from the render window.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetForcedRenderWindowSize (int a[2])</computeroutput> - If ForceRenderWindowSize is set to true, the render manager will use the Size ivar instead of getting the size from the render window.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj. GetForcedRenderWindowSize ()</computeroutput> - If ForceRenderWindowSize is set to true, the render manager will use the Size ivar instead of getting the size from the render window.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.StartService ()</computeroutput> -  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,175 @@
+
+ Usage
+
+This class is a concrete representation for the
+vtkBoxWidget2. It represents a box with seven handles: one
+on each of the six faces, plus a center handle. Through
+interaction with the widget, the box representation can be
+arbitrarily positioned in the 3D space.
+To use this representation, you normally use the PlaceWidget
+() method to position the widget at a specified region in
+space.
+To create an instance of class vtkBoxRepresentation, simply
+invoke its constructor as follows
+
+    obj = vtkBoxRepresentation
+
+
+
+ Methods
+
+The class vtkBoxRepresentation has several methods that can
+be used. They are listed below. Note that the documentation
+is translated automatically from the VTK sources, and may
+not be completely intelligible. When in doubt, consult the
+VTK website. In the methods listed below, obj is an instance
+of the vtkBoxRepresentation class.
+
+* string = obj.GetClassName () - Standard methods for the
+  class.
+* int = obj.IsA (string name) - Standard methods for the
+  class.
+* vtkBoxRepresentation = obj.NewInstance () - Standard
+  methods for the class.
+* vtkBoxRepresentation = obj.SafeDownCast (vtkObject o) -
+  Standard methods for the class.
+* obj.GetPlanes (vtkPlanes planes) - Get the planes
+  describing the implicit function defined by the box
+  widget. The user must provide the instance of the class
+  vtkPlanes. Note that vtkPlanes is a subclass of
+  vtkImplicitFunction, meaning that it can be used by a
+  variety of filters to perform clipping, cutting, and
+  selection of data. (The direction of the normals of the
+  planes can be reversed enabling the InsideOut flag.)
+* obj.SetInsideOut (int ) - Set/Get the InsideOut flag. This
+  data memeber is used in conjunction with the GetPlanes()
+  method. When off, the normals point out of the box. When
+  on, the normals point into the hexahedron. InsideOut is
+  off by default.
+* int = obj.GetInsideOut () - Set/Get the InsideOut flag.
+  This data memeber is used in conjunction with the
+  GetPlanes() method. When off, the normals point out of the
+  box. When on, the normals point into the hexahedron.
+  InsideOut is off by default.
+* obj.InsideOutOn () - Set/Get the InsideOut flag. This data
+  memeber is used in conjunction with the GetPlanes()
+  method. When off, the normals point out of the box. When
+  on, the normals point into the hexahedron. InsideOut is
+  off by default.
+* obj.InsideOutOff () - Set/Get the InsideOut flag. This
+  data memeber is used in conjunction with the GetPlanes()
+  method. When off, the normals point out of the box. When
+  on, the normals point into the hexahedron. InsideOut is
+  off by default.
+* obj.GetTransform (vtkTransform t) - Retrieve a linear
+  transform characterizing the transformation of the box.
+  Note that the transformation is relative to where
+  PlaceWidget() was initially called. This method modifies
+  the transform provided. The transform can be used to
+  control the position of vtkProp3D's, as well as other
+  transformation operations (e.g., vtkTranformPolyData).
+* obj.SetTransform (vtkTransform t) - Set the position,
+  scale and orientation of the box widget using the
+  transform specified. Note that the transformation is
+  relative to where PlaceWidget() was initially called
+  (i.e., the original bounding box).
+* obj.GetPolyData (vtkPolyData pd) - Grab the polydata
+  (including points) that define the box widget. The
+  polydata consists of 6 quadrilateral faces and 15 points.
+  The first eight points define the eight corner vertices;
+  the next six define the -x,+x, -y,+y, -z,+z face points;
+  and the final point (the 15th out of 15 points) defines
+  the center of the box. These point values are guaranteed
+  to be up-to-date when either the widget's corresponding
+  InteractionEvent or EndInteractionEvent events are
+  invoked. The user provides the vtkPolyData and the points
+  and cells are added to it.
+* vtkProperty = obj.GetHandleProperty () - Get the handle
+  properties (the little balls are the handles). The
+  properties of the handles, when selected or normal, can be
+  specified.
+* vtkProperty = obj.GetSelectedHandleProperty () - Get the
+  handle properties (the little balls are the handles). The
+  properties of the handles, when selected or normal, can be
+  specified.
+* vtkProperty = obj.GetFaceProperty () - Get the face
+  properties (the faces of the box). The properties of the
+  face when selected and normal can be set.
+* vtkProperty = obj.GetSelectedFaceProperty () - Get the
+  face properties (the faces of the box). The properties of
+  the face when selected and normal can be set.
+* vtkProperty = obj.GetOutlineProperty () - Get the outline
+  properties (the outline of the box). The properties of the
+  outline when selected and normal can be set.
+* vtkProperty = obj.GetSelectedOutlineProperty () - Get the
+  outline properties (the outline of the box). The
+  properties of the outline when selected and normal can be
+  set.
+* obj.SetOutlineFaceWires (int ) - Control the
+  representation of the outline. This flag enables face
+  wires. By default face wires are off.
+* int = obj.GetOutlineFaceWires () - Control the
+  representation of the outline. This flag enables face
+  wires. By default face wires are off.
+* obj.OutlineFaceWiresOn () - Control the representation of
+  the outline. This flag enables face wires. By default face
+  wires are off.
+* obj.OutlineFaceWiresOff () - Control the representation of
+  the outline. This flag enables the cursor lines running
+  between the handles. By default cursor wires are on.
+* obj.SetOutlineCursorWires (int ) - Control the
+  representation of the outline. This flag enables the
+  cursor lines running between the handles. By default
+  cursor wires are on.
+* int = obj.GetOutlineCursorWires () - Control the
+  representation of the outline. This flag enables the
+  cursor lines running between the handles. By default
+  cursor wires are on.
+* obj.OutlineCursorWiresOn () - Control the representation
+  of the outline. This flag enables the cursor lines running
+  between the handles. By default cursor wires are on.
+* obj.OutlineCursorWiresOff () - Switches handles (the
+  spheres) on or off by manipulating the underlying actor
+  visibility.
+* obj.HandlesOn () - Switches handles (the spheres) on or
+  off by manipulating the underlying actor visibility.
+* obj.HandlesOff () - Switches handles (the spheres) on or
+  off by manipulating the underlying actor visibility.
+* obj.PlaceWidget (double bounds[6]) - These are methods
+  that satisfy vtkWidgetRepresentation's API.
+* obj.BuildRepresentation () - These are methods that
+  satisfy vtkWidgetRepresentation's API.
+* int = obj.ComputeInteractionState (int X, int Y, int
+  modify) - These are methods that satisfy
+  vtkWidgetRepresentation's API.
+* obj.StartWidgetInteraction (double e[2]) - These are
+  methods that satisfy vtkWidgetRepresentation's API.
+* obj.WidgetInteraction (double e[2]) - These are methods
+  that satisfy vtkWidgetRepresentation's API.
+* double = obj.GetBounds () - These are methods that satisfy
+  vtkWidgetRepresentation's API.
+* obj.ReleaseGraphicsResources (vtkWindow ) - Methods
+  supporting, and required by, the rendering process.
+* int = obj.RenderOpaqueGeometry (vtkViewport ) - Methods
+  supporting, and required by, the rendering process.
+* int = obj.RenderTranslucentPolygonalGeometry (vtkViewport
+  ) - Methods supporting, and required by, the rendering
+  process.
+* int = obj.HasTranslucentPolygonalGeometry () - Methods
+  supporting, and required by, the rendering process.
+* obj.SetInteractionState (int state) - The interaction
+  state may be set from a widget (e.g., vtkBoxWidget2) or
+  other object. This controls how the interaction with the
+  widget proceeds. Normally this method is used as part of a
+  handshaking process with the widget: First
+  ComputeInteractionState() is invoked that returns a state
+  based on geometric considerations (i.e., cursor near a
+  widget feature), then based on events, the widget may
+  modify this further.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Widget_Classes
+* Generated on Thu Jul 25 2013 17:18:36 for FreeMat by
+  doxygen_ 1.8.1.1
+

@@ -1,0 +1,178 @@
+/*!
+\page vtkgraphics_vtksplinefilter vtkSplineFilter
+
+<p>
+Section: \ref sec_vtkgraphics "Visualization Toolkit Graphics Classes"
+\section Usage
+ vtkSplineFilter is a filter that generates an output polylines from an
+ input set of polylines. The polylines are uniformly subdivided and produced
+ with the help of a vtkSpline class that the user can specify (by default a
+ vtkCardinalSpline is used). The number of subdivisions of the line can be
+ controlled in several ways. The user can either specify the number of
+ subdivisions or a length of each subdivision can be provided (and the
+ class will figure out how many subdivisions is required over the whole
+ polyline). The maximum number of subdivisions can also be set.
+
+ The output of this filter is a polyline per input polyline (or line). New
+ points and texture coordinates are created. Point data is interpolated and
+ cell data passed on. Any polylines with less than two points, or who have
+ coincident points, are ignored.
+
+To create an instance of class vtkSplineFilter, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkSplineFilter
+\endverbatim
+\section Methods
+The class vtkSplineFilter has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkSplineFilter class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkSplineFilter = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkSplineFilter = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetMaximumNumberOfSubdivisions (int )</tt> -  Set the maximum number of subdivisions that are created for each
+ polyline.
+ </LI>
+<LI>  <tt>int = obj.GetMaximumNumberOfSubdivisionsMinValue ()</tt> -  Set the maximum number of subdivisions that are created for each
+ polyline.
+ </LI>
+<LI>  <tt>int = obj.GetMaximumNumberOfSubdivisionsMaxValue ()</tt> -  Set the maximum number of subdivisions that are created for each
+ polyline.
+ </LI>
+<LI>  <tt>int = obj.GetMaximumNumberOfSubdivisions ()</tt> -  Set the maximum number of subdivisions that are created for each
+ polyline.
+ </LI>
+<LI>  <tt>obj.SetSubdivide (int )</tt> -  Specify how the number of subdivisions is determined.
+ </LI>
+<LI>  <tt>int = obj.GetSubdivideMinValue ()</tt> -  Specify how the number of subdivisions is determined.
+ </LI>
+<LI>  <tt>int = obj.GetSubdivideMaxValue ()</tt> -  Specify how the number of subdivisions is determined.
+ </LI>
+<LI>  <tt>int = obj.GetSubdivide ()</tt> -  Specify how the number of subdivisions is determined.
+ </LI>
+<LI>  <tt>obj.SetSubdivideToSpecified ()</tt> -  Specify how the number of subdivisions is determined.
+ </LI>
+<LI>  <tt>obj.SetSubdivideToLength ()</tt> -  Specify how the number of subdivisions is determined.
+ </LI>
+<LI>  <tt>string = obj.GetSubdivideAsString ()</tt> -  Specify how the number of subdivisions is determined.
+ </LI>
+<LI>  <tt>obj.SetNumberOfSubdivisions (int )</tt> -  Set the number of subdivisions that are created for the
+ polyline. This method only has effect if Subdivisions is set
+ to SetSubdivisionsToSpecify().
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfSubdivisionsMinValue ()</tt> -  Set the number of subdivisions that are created for the
+ polyline. This method only has effect if Subdivisions is set
+ to SetSubdivisionsToSpecify().
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfSubdivisionsMaxValue ()</tt> -  Set the number of subdivisions that are created for the
+ polyline. This method only has effect if Subdivisions is set
+ to SetSubdivisionsToSpecify().
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfSubdivisions ()</tt> -  Set the number of subdivisions that are created for the
+ polyline. This method only has effect if Subdivisions is set
+ to SetSubdivisionsToSpecify().
+ </LI>
+<LI>  <tt>obj.SetLength (double )</tt> -  Control the number of subdivisions that are created for the
+ polyline based on an absolute length. The length of the spline
+ is divided by this length to determine the number of subdivisions.
+ </LI>
+<LI>  <tt>double = obj.GetLengthMinValue ()</tt> -  Control the number of subdivisions that are created for the
+ polyline based on an absolute length. The length of the spline
+ is divided by this length to determine the number of subdivisions.
+ </LI>
+<LI>  <tt>double = obj.GetLengthMaxValue ()</tt> -  Control the number of subdivisions that are created for the
+ polyline based on an absolute length. The length of the spline
+ is divided by this length to determine the number of subdivisions.
+ </LI>
+<LI>  <tt>double = obj.GetLength ()</tt> -  Control the number of subdivisions that are created for the
+ polyline based on an absolute length. The length of the spline
+ is divided by this length to determine the number of subdivisions.
+ </LI>
+<LI>  <tt>obj.SetSpline (vtkSpline )</tt> -  Specify an instance of vtkSpline to use to perform the interpolation.
+ </LI>
+<LI>  <tt>vtkSpline = obj.GetSpline ()</tt> -  Specify an instance of vtkSpline to use to perform the interpolation.
+ </LI>
+<LI>  <tt>obj.SetGenerateTCoords (int )</tt> -  Control whether and how texture coordinates are produced. This is
+ useful for striping the output polyline. The texture coordinates
+ can be generated in three ways: a normalized (0,1) generation;
+ based on the length (divided by the texture length); and by using
+ the input scalar values.
+ </LI>
+<LI>  <tt>int = obj.GetGenerateTCoordsMinValue ()</tt> -  Control whether and how texture coordinates are produced. This is
+ useful for striping the output polyline. The texture coordinates
+ can be generated in three ways: a normalized (0,1) generation;
+ based on the length (divided by the texture length); and by using
+ the input scalar values.
+ </LI>
+<LI>  <tt>int = obj.GetGenerateTCoordsMaxValue ()</tt> -  Control whether and how texture coordinates are produced. This is
+ useful for striping the output polyline. The texture coordinates
+ can be generated in three ways: a normalized (0,1) generation;
+ based on the length (divided by the texture length); and by using
+ the input scalar values.
+ </LI>
+<LI>  <tt>int = obj.GetGenerateTCoords ()</tt> -  Control whether and how texture coordinates are produced. This is
+ useful for striping the output polyline. The texture coordinates
+ can be generated in three ways: a normalized (0,1) generation;
+ based on the length (divided by the texture length); and by using
+ the input scalar values.
+ </LI>
+<LI>  <tt>obj.SetGenerateTCoordsToOff ()</tt> -  Control whether and how texture coordinates are produced. This is
+ useful for striping the output polyline. The texture coordinates
+ can be generated in three ways: a normalized (0,1) generation;
+ based on the length (divided by the texture length); and by using
+ the input scalar values.
+ </LI>
+<LI>  <tt>obj.SetGenerateTCoordsToNormalizedLength ()</tt> -  Control whether and how texture coordinates are produced. This is
+ useful for striping the output polyline. The texture coordinates
+ can be generated in three ways: a normalized (0,1) generation;
+ based on the length (divided by the texture length); and by using
+ the input scalar values.
+ </LI>
+<LI>  <tt>obj.SetGenerateTCoordsToUseLength ()</tt> -  Control whether and how texture coordinates are produced. This is
+ useful for striping the output polyline. The texture coordinates
+ can be generated in three ways: a normalized (0,1) generation;
+ based on the length (divided by the texture length); and by using
+ the input scalar values.
+ </LI>
+<LI>  <tt>obj.SetGenerateTCoordsToUseScalars ()</tt> -  Control whether and how texture coordinates are produced. This is
+ useful for striping the output polyline. The texture coordinates
+ can be generated in three ways: a normalized (0,1) generation;
+ based on the length (divided by the texture length); and by using
+ the input scalar values.
+ </LI>
+<LI>  <tt>string = obj.GetGenerateTCoordsAsString ()</tt> -  Control whether and how texture coordinates are produced. This is
+ useful for striping the output polyline. The texture coordinates
+ can be generated in three ways: a normalized (0,1) generation;
+ based on the length (divided by the texture length); and by using
+ the input scalar values.
+ </LI>
+<LI>  <tt>obj.SetTextureLength (double )</tt> -  Control the conversion of units during the texture coordinates
+ calculation. The TextureLength indicates what length (whether 
+ calculated from scalars or length) is mapped to the [0,1)
+ texture space.
+ </LI>
+<LI>  <tt>double = obj.GetTextureLengthMinValue ()</tt> -  Control the conversion of units during the texture coordinates
+ calculation. The TextureLength indicates what length (whether 
+ calculated from scalars or length) is mapped to the [0,1)
+ texture space.
+ </LI>
+<LI>  <tt>double = obj.GetTextureLengthMaxValue ()</tt> -  Control the conversion of units during the texture coordinates
+ calculation. The TextureLength indicates what length (whether 
+ calculated from scalars or length) is mapped to the [0,1)
+ texture space.
+ </LI>
+<LI>  <tt>double = obj.GetTextureLength ()</tt> -  Control the conversion of units during the texture coordinates
+ calculation. The TextureLength indicates what length (whether 
+ calculated from scalars or length) is mapped to the [0,1)
+ texture space.
+ </LI>
+</UL>
+*/

@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkgraphics_vtkstreamtracer" kind="page">
+    <compoundname>vtkgraphics_vtkstreamtracer</compoundname>
+    <title>vtkStreamTracer</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkgraphics_1sec_vtkgraphics" kindref="member">Visualization Toolkit Graphics Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>vtkStreamTracer is a filter that integrates a vector field to generate streamlines. The integration is performed using a specified integrator, by default Runge-Kutta2.</para><para>vtkStreamTracer produces polylines as the output, with each cell (i.e., polyline) representing a streamline. The attribute values associated with each streamline are stored in the cell data, whereas those associated with streamline-points are stored in the point data.</para><para>vtkStreamTracer supports forward (the default), backward, and combined (i.e., BOTH) integration. The length of a streamline is governed by specifying a maximum value either in physical arc length or in (local) cell length. Otherwise, the integration terminates upon exiting the flow field domain, or if the particle speed is reduced to a value less than a specified terminal speed, or when a maximum number of steps is completed. The specific reason for the termination is stored in a cell array named ReasonForTermination.</para><para>Note that normalized vectors are adopted in streamline integration, which achieves high numerical accuracy/smoothness of flow lines that is particularly guranteed for Runge-Kutta45 with adaptive step size and error control). In support of this feature, the underlying step size is ALWAYS in arc length unit (LENGTH_UNIT) while the &apos;real&apos; time interval (virtual for steady flows) that a particle actually takes to trave in a single step is obtained by dividing the arc length by the LOCAL speed. The overall elapsed time (i.e., the life span) of the particle is the sum of those individual step-wise time intervals.</para><para>The quality of streamline integration can be controlled by setting the initial integration step (InitialIntegrationStep), particularly for Runge-Kutta2 and Runge-Kutta4 (with a fixed step size), and in the case of Runge-Kutta45 (with an adaptive step size and error control) the minimum integration step, the maximum integration step, and the maximum error. These steps are in either LENGTH_UNIT or CELL_LENGTH_UNIT while the error is in physical arc length. For the former two integrators, there is a trade-off between integration speed and streamline quality.</para><para>The integration time, vorticity, rotation and angular velocity are stored in point data arrays named &quot;IntegrationTime&quot;, &quot;Vorticity&quot;, &quot;Rotation&quot; and &quot;AngularVelocity&quot;, respectively (vorticity, rotation and angular velocity are computed only when ComputeVorticity is on). All point data attributes in the source dataset are interpolated on the new streamline points.</para><para>vtkStreamTracer supports integration through any type of dataset. Thus if the dataset contains 2D cells like polygons or triangles, the integration is constrained to lie on the surface defined by 2D cells.</para><para>The starting point, or the so-called &apos;seed&apos;, of a streamline may be set in two different ways. Starting from global x-y-z &quot;position&quot; allows you to start a single trace at a specified x-y-z coordinate. If you specify a source object, traces will be generated from each point in the source that is inside the dataset.</para><para>To create an instance of class vtkStreamTracer, simply invoke its constructor as follows <verbatim>  obj = vtkStreamTracer
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkStreamTracer has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkStreamTracer class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkStreamTracer = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkStreamTracer = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetStartPosition (double , double , double )</computeroutput> - Specify the starting point (seed) of a streamline in the global coordinate system. Search must be performed to find the initial cell from which to start integration.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetStartPosition (double a[3])</computeroutput> - Specify the starting point (seed) of a streamline in the global coordinate system. Search must be performed to find the initial cell from which to start integration.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj. GetStartPosition ()</computeroutput> - Specify the starting point (seed) of a streamline in the global coordinate system. Search must be performed to find the initial cell from which to start integration.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetSource (vtkDataSet source)</computeroutput> - Specify the source object used to generate starting points (seeds). Old style. Do not use.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkDataSet = obj.GetSource ()</computeroutput> - Specify the source object used to generate starting points (seeds). Old style. Do not use.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetSourceConnection (vtkAlgorithmOutput algOutput)</computeroutput> - Specify the source object used to generate starting points (seeds). New style.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetIntegrator (vtkInitialValueProblemSolver )</computeroutput> - Set/get the integrator type to be used for streamline generation. The object passed is not actually used but is cloned with NewInstance in the process of integration (prototype pattern). The default is Runge-Kutta2. The integrator can also be changed using SetIntegratorType. The recognized solvers are: RUNGE_KUTTA2 = 0 RUNGE_KUTTA4 = 1 RUNGE_KUTTA45 = 2  </para></listitem>
+<listitem>
+<para><computeroutput>vtkInitialValueProblemSolver = obj.GetIntegrator ()</computeroutput> - Set/get the integrator type to be used for streamline generation. The object passed is not actually used but is cloned with NewInstance in the process of integration (prototype pattern). The default is Runge-Kutta2. The integrator can also be changed using SetIntegratorType. The recognized solvers are: RUNGE_KUTTA2 = 0 RUNGE_KUTTA4 = 1 RUNGE_KUTTA45 = 2  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetIntegratorType (int type)</computeroutput> - Set/get the integrator type to be used for streamline generation. The object passed is not actually used but is cloned with NewInstance in the process of integration (prototype pattern). The default is Runge-Kutta2. The integrator can also be changed using SetIntegratorType. The recognized solvers are: RUNGE_KUTTA2 = 0 RUNGE_KUTTA4 = 1 RUNGE_KUTTA45 = 2  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetIntegratorType ()</computeroutput> - Set/get the integrator type to be used for streamline generation. The object passed is not actually used but is cloned with NewInstance in the process of integration (prototype pattern). The default is Runge-Kutta2. The integrator can also be changed using SetIntegratorType. The recognized solvers are: RUNGE_KUTTA2 = 0 RUNGE_KUTTA4 = 1 RUNGE_KUTTA45 = 2  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetIntegratorTypeToRungeKutta2 ()</computeroutput> - Set/get the integrator type to be used for streamline generation. The object passed is not actually used but is cloned with NewInstance in the process of integration (prototype pattern). The default is Runge-Kutta2. The integrator can also be changed using SetIntegratorType. The recognized solvers are: RUNGE_KUTTA2 = 0 RUNGE_KUTTA4 = 1 RUNGE_KUTTA45 = 2  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetIntegratorTypeToRungeKutta4 ()</computeroutput> - Set/get the integrator type to be used for streamline generation. The object passed is not actually used but is cloned with NewInstance in the process of integration (prototype pattern). The default is Runge-Kutta2. The integrator can also be changed using SetIntegratorType. The recognized solvers are: RUNGE_KUTTA2 = 0 RUNGE_KUTTA4 = 1 RUNGE_KUTTA45 = 2  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetIntegratorTypeToRungeKutta45 ()</computeroutput> - Set/get the integrator type to be used for streamline generation. The object passed is not actually used but is cloned with NewInstance in the process of integration (prototype pattern). The default is Runge-Kutta2. The integrator can also be changed using SetIntegratorType. The recognized solvers are: RUNGE_KUTTA2 = 0 RUNGE_KUTTA4 = 1 RUNGE_KUTTA45 = 2  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetInterpolatorTypeToDataSetPointLocator ()</computeroutput> - Set the velocity field interpolator type to the one involving a dataset point locator.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetInterpolatorTypeToCellLocator ()</computeroutput> - Set the velocity field interpolator type to the one involving a cell locator.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetMaximumPropagation (double max)</computeroutput> - Specify the maximum length of a streamline expressed in LENGTH_UNIT.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetMaximumPropagation ()</computeroutput> - Specify a uniform integration step unit for MinimumIntegrationStep, InitialIntegrationStep, and MaximumIntegrationStep. NOTE: The valid unit is now limited to only LENGTH_UNIT (1) and CELL_LENGTH_UNIT (2), EXCLUDING the previously-supported TIME_UNIT.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetIntegrationStepUnit (int unit)</computeroutput> - Specify a uniform integration step unit for MinimumIntegrationStep, InitialIntegrationStep, and MaximumIntegrationStep. NOTE: The valid unit is now limited to only LENGTH_UNIT (1) and CELL_LENGTH_UNIT (2), EXCLUDING the previously-supported TIME_UNIT.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetIntegrationStepUnit ()</computeroutput> - Specify the Initial step size used for line integration, expressed in: LENGTH_UNIT = 1 CELL_LENGTH_UNIT = 2 (either the starting size for an adaptive integrator, e.g., RK45, or the constant / fixed size for non-adaptive ones, i.e., RK2 and RK4)  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetInitialIntegrationStep (double step)</computeroutput> - Specify the Initial step size used for line integration, expressed in: LENGTH_UNIT = 1 CELL_LENGTH_UNIT = 2 (either the starting size for an adaptive integrator, e.g., RK45, or the constant / fixed size for non-adaptive ones, i.e., RK2 and RK4)  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetInitialIntegrationStep ()</computeroutput> - Specify the Minimum step size used for line integration, expressed in: LENGTH_UNIT = 1 CELL_LENGTH_UNIT = 2 (Only valid for an adaptive integrator, e.g., RK45)  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetMinimumIntegrationStep (double step)</computeroutput> - Specify the Minimum step size used for line integration, expressed in: LENGTH_UNIT = 1 CELL_LENGTH_UNIT = 2 (Only valid for an adaptive integrator, e.g., RK45)  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetMinimumIntegrationStep ()</computeroutput> - Specify the Maximum step size used for line integration, expressed in: LENGTH_UNIT = 1 CELL_LENGTH_UNIT = 2 (Only valid for an adaptive integrator, e.g., RK45)  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetMaximumIntegrationStep (double step)</computeroutput> - Specify the Maximum step size used for line integration, expressed in: LENGTH_UNIT = 1 CELL_LENGTH_UNIT = 2 (Only valid for an adaptive integrator, e.g., RK45)  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetMaximumIntegrationStep ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetMaximumError (double )</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetMaximumError ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetMaximumNumberOfSteps (vtkIdType )</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkIdType = obj.GetMaximumNumberOfSteps ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetTerminalSpeed (double )</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetTerminalSpeed ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetIntegrationDirection (int )</computeroutput> - Specify whether the streamline is integrated in the upstream or downstream direction.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetIntegrationDirectionMinValue ()</computeroutput> - Specify whether the streamline is integrated in the upstream or downstream direction.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetIntegrationDirectionMaxValue ()</computeroutput> - Specify whether the streamline is integrated in the upstream or downstream direction.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetIntegrationDirection ()</computeroutput> - Specify whether the streamline is integrated in the upstream or downstream direction.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetIntegrationDirectionToForward ()</computeroutput> - Specify whether the streamline is integrated in the upstream or downstream direction.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetIntegrationDirectionToBackward ()</computeroutput> - Specify whether the streamline is integrated in the upstream or downstream direction.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetIntegrationDirectionToBoth ()</computeroutput> - Specify whether the streamline is integrated in the upstream or downstream direction.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetComputeVorticity (bool )</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>bool = obj.GetComputeVorticity ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetRotationScale (double )</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetRotationScale ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetInterpolatorPrototype (vtkAbstractInterpolatedVelocityField ivf)</computeroutput> - The object used to interpolate the velocity field during integration is of the same class as this prototype.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetInterpolatorType (int interpType)</computeroutput> - Set the type of the velocity field interpolator to determine whether vtkInterpolatedVelocityField (INTERPOLATOR_WITH_DATASET_POINT_LOCATOR) or vtkCellLocatorInterpolatedVelocityField (INTERPOLATOR_WITH_CELL_LOCATOR) is employed for locating cells during streamline integration. The latter (adopting vtkAbstractCellLocator sub-classes such as vtkCellLocator and vtkModifiedBSPTree) is more robust then the former (through vtkDataSet / vtkPointSet::FindCell() coupled with vtkPointLocator).  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,35 @@
+
+ Usage
+
+This method is called for expressions of the form
+
+    a(b) = c, a{b} = c, a.b = c
+
+and overloading the subsasgn method can allow you to define
+the meaning of these expressions for objects of class a.
+These expressions are mapped to a call of the form
+
+    a = subsasgn(a,s,b)
+
+where s is a structure array with two fields. The first
+field is
+
+* type is a string containing either '()' or '{}' or '.'
+  depending on the form of the call.
+* subs is a cell array or string containing the the
+  subscript information.
+
+When multiple indexing experssions are combined together
+such as a(5).foo{:} = b, the s array contains the following
+entries
+
+    s(1).type = '()'  s(1).subs = {5}
+    s(2).type = '.'   s(2).subs = 'foo'
+    s(3).type = '{}'  s(3).subs = ':'
+
+
+* FreeMat_Documentation
+* Object_Oriented_Programming
+* Generated on Thu Jul 25 2013 17:17:13 for FreeMat by
+  doxygen_ 1.8.1.1
+

@@ -1,0 +1,9 @@
+INCLUDE_DIRECTORIES( ${QT_INCLUDE_DIR} ${QT_QTCORE_INCLUDE_DIR} ${QT_QTGUI_INCLUDE_DIR})
+
+ADD_DEFINITIONS( -DDYN_BLAS )
+ADD_LIBRARY( dynblas
+ 	blas_wrap.cpp blas_dyn_link.cpp
+	)
+
+
+

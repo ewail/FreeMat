@@ -1,0 +1,36 @@
+/*!
+\page class_subsref SUBSREF Overloaded Class Indexing
+
+<p>
+Section: \ref sec_class "Object Oriented Programming"
+\section Usage
+This method is called for expressions of the form
+\verbatim
+  c = a(b), c = a{b}, c = a.b
+\endverbatim
+and overloading the <tt>subsref</tt> method allows you
+to define the meaning of these expressions for
+objects of class <tt>a</tt>.  These expressions are
+mapped to a call of the form
+\verbatim
+  b = subsref(a,s)
+\endverbatim
+where <tt>s</tt> is a structure array with two fields. The
+first field is
+<UL>
+<LI>  <tt>type</tt>  is a string containing either <tt>'()'</tt> or
+ <tt>'{}'</tt> or <tt>'.'</tt> depending on the form of the call.
+ </LI>
+<LI>  <tt>subs</tt> is a cell array or string containing the
+ the subscript information.
+ </LI>
+</UL>
+When multiple indexing experssions are combined together
+such as <tt>b = a(5).foo{:}</tt>, the <tt>s</tt> array contains
+the following entries
+\verbatim
+  s(1).type = '()'  s(1).subs = {5}
+  s(2).type = '.'   s(2).subs = 'foo'
+  s(3).type = '{}'  s(3).subs = ':'
+\endverbatim
+*/

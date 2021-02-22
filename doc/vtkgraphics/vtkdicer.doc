@@ -1,0 +1,157 @@
+/*!
+\page vtkgraphics_vtkdicer vtkDicer
+
+<p>
+Section: \ref sec_vtkgraphics "Visualization Toolkit Graphics Classes"
+\section Usage
+ Subclasses of vtkDicer divides the input dataset into separate
+ pieces.  These pieces can then be operated on by other filters
+ (e.g., vtkThreshold). One application is to break very large
+ polygonal models into pieces and performing viewing and occlusion
+ culling on the pieces. Multiple pieces can also be streamed through
+ the visualization pipeline.
+
+ To use this filter, you must specify the execution mode of the
+ filter; i.e., set the way that the piece size is controlled (do
+ this by setting the DiceMode ivar). The filter does not change the
+ geometry or topology of the input dataset, rather it generates
+ integer numbers that indicate which piece a particular point
+ belongs to (i.e., it modifies the point and cell attribute
+ data). The integer number can be placed into the output scalar
+ data, or the output field data.
+
+To create an instance of class vtkDicer, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkDicer
+\endverbatim
+\section Methods
+The class vtkDicer has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkDicer class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkDicer = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkDicer = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetFieldData (int )</tt> -  Set/Get the flag which controls whether to generate point scalar
+ data or point field data. If this flag is off, scalar data is
+ generated.  Otherwise, field data is generated. Note that the
+ generated the data are integer numbers indicating which piece a
+ particular point belongs to.
+ </LI>
+<LI>  <tt>int = obj.GetFieldData ()</tt> -  Set/Get the flag which controls whether to generate point scalar
+ data or point field data. If this flag is off, scalar data is
+ generated.  Otherwise, field data is generated. Note that the
+ generated the data are integer numbers indicating which piece a
+ particular point belongs to.
+ </LI>
+<LI>  <tt>obj.FieldDataOn ()</tt> -  Set/Get the flag which controls whether to generate point scalar
+ data or point field data. If this flag is off, scalar data is
+ generated.  Otherwise, field data is generated. Note that the
+ generated the data are integer numbers indicating which piece a
+ particular point belongs to.
+ </LI>
+<LI>  <tt>obj.FieldDataOff ()</tt> -  Set/Get the flag which controls whether to generate point scalar
+ data or point field data. If this flag is off, scalar data is
+ generated.  Otherwise, field data is generated. Note that the
+ generated the data are integer numbers indicating which piece a
+ particular point belongs to.
+ </LI>
+<LI>  <tt>obj.SetDiceMode (int )</tt> -  Specify the method to determine how many pieces the data should be
+ broken into. By default, the number of points per piece is used.
+ </LI>
+<LI>  <tt>int = obj.GetDiceModeMinValue ()</tt> -  Specify the method to determine how many pieces the data should be
+ broken into. By default, the number of points per piece is used.
+ </LI>
+<LI>  <tt>int = obj.GetDiceModeMaxValue ()</tt> -  Specify the method to determine how many pieces the data should be
+ broken into. By default, the number of points per piece is used.
+ </LI>
+<LI>  <tt>int = obj.GetDiceMode ()</tt> -  Specify the method to determine how many pieces the data should be
+ broken into. By default, the number of points per piece is used.
+ </LI>
+<LI>  <tt>obj.SetDiceModeToNumberOfPointsPerPiece ()</tt> -  Specify the method to determine how many pieces the data should be
+ broken into. By default, the number of points per piece is used.
+ </LI>
+<LI>  <tt>obj.SetDiceModeToSpecifiedNumberOfPieces ()</tt> -  Specify the method to determine how many pieces the data should be
+ broken into. By default, the number of points per piece is used.
+ </LI>
+<LI>  <tt>obj.SetDiceModeToMemoryLimitPerPiece ()</tt> -  Specify the method to determine how many pieces the data should be
+ broken into. By default, the number of points per piece is used.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfActualPieces ()</tt> -  Use the following method after the filter has updated to
+ determine the actual number of pieces the data was separated
+ into.
+ </LI>
+<LI>  <tt>obj.SetNumberOfPointsPerPiece (int )</tt> -  Control piece size based on the maximum number of points per piece.
+ (This ivar has effect only when the DiceMode is set to 
+ SetDiceModeToNumberOfPoints().)
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfPointsPerPieceMinValue ()</tt> -  Control piece size based on the maximum number of points per piece.
+ (This ivar has effect only when the DiceMode is set to 
+ SetDiceModeToNumberOfPoints().)
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfPointsPerPieceMaxValue ()</tt> -  Control piece size based on the maximum number of points per piece.
+ (This ivar has effect only when the DiceMode is set to 
+ SetDiceModeToNumberOfPoints().)
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfPointsPerPiece ()</tt> -  Control piece size based on the maximum number of points per piece.
+ (This ivar has effect only when the DiceMode is set to 
+ SetDiceModeToNumberOfPoints().)
+ </LI>
+<LI>  <tt>obj.SetNumberOfPieces (int )</tt> -  Set/Get the number of pieces the object is to be separated into.
+ (This ivar has effect only when the DiceMode is set to
+ SetDiceModeToSpecifiedNumber()). Note that the ivar
+ NumberOfPieces is a target - depending on the particulars of the
+ data, more or less number of pieces than the target value may be
+ created.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfPiecesMinValue ()</tt> -  Set/Get the number of pieces the object is to be separated into.
+ (This ivar has effect only when the DiceMode is set to
+ SetDiceModeToSpecifiedNumber()). Note that the ivar
+ NumberOfPieces is a target - depending on the particulars of the
+ data, more or less number of pieces than the target value may be
+ created.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfPiecesMaxValue ()</tt> -  Set/Get the number of pieces the object is to be separated into.
+ (This ivar has effect only when the DiceMode is set to
+ SetDiceModeToSpecifiedNumber()). Note that the ivar
+ NumberOfPieces is a target - depending on the particulars of the
+ data, more or less number of pieces than the target value may be
+ created.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfPieces ()</tt> -  Set/Get the number of pieces the object is to be separated into.
+ (This ivar has effect only when the DiceMode is set to
+ SetDiceModeToSpecifiedNumber()). Note that the ivar
+ NumberOfPieces is a target - depending on the particulars of the
+ data, more or less number of pieces than the target value may be
+ created.
+ </LI>
+<LI>  <tt>obj.SetMemoryLimit (long )</tt> -  Control piece size based on a memory limit.  (This ivar has
+ effect only when the DiceMode is set to
+ SetDiceModeToMemoryLimit()). The memory limit should be set in
+ kilobytes.
+ </LI>
+<LI>  <tt>GetMemoryLimitMinValue = obj.()</tt> -  Control piece size based on a memory limit.  (This ivar has
+ effect only when the DiceMode is set to
+ SetDiceModeToMemoryLimit()). The memory limit should be set in
+ kilobytes.
+ </LI>
+<LI>  <tt>GetMemoryLimitMaxValue = obj.()</tt> -  Control piece size based on a memory limit.  (This ivar has
+ effect only when the DiceMode is set to
+ SetDiceModeToMemoryLimit()). The memory limit should be set in
+ kilobytes.
+ </LI>
+<LI>  <tt>long = obj.GetMemoryLimit ()</tt> -  Control piece size based on a memory limit.  (This ivar has
+ effect only when the DiceMode is set to
+ SetDiceModeToMemoryLimit()). The memory limit should be set in
+ kilobytes.
+ </LI>
+</UL>
+*/

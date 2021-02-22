@@ -1,0 +1,113 @@
+/*!
+\page vtkgraphics_vtksuperquadricsource vtkSuperquadricSource
+
+<p>
+Section: \ref sec_vtkgraphics "Visualization Toolkit Graphics Classes"
+\section Usage
+ vtkSuperquadricSource creates a superquadric (represented by polygons) 
+ of specified
+ size centered at the origin. The resolution (polygonal discretization)
+ in both the latitude (phi) and longitude (theta) directions can be
+ specified. Roundness parameters (PhiRoundness and ThetaRoundness) control
+ the shape of the superquadric.  The Toroidal boolean controls whether
+ a toroidal superquadric is produced.  If so, the Thickness parameter
+ controls the thickness of the toroid:  0 is the thinnest allowable
+ toroid, and 1 has a minimum sized hole.  The Scale parameters allow 
+ the superquadric to be scaled in x, y, and z (normal vectors are correctly
+ generated in any case).  The Size parameter controls size of the 
+ superquadric.
+
+ This code is based on "Rigid physically based superquadrics", A. H. Barr,
+ in "Graphics Gems III", David Kirk, ed., Academic Press, 1992.
+
+
+To create an instance of class vtkSuperquadricSource, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkSuperquadricSource
+\endverbatim
+\section Methods
+The class vtkSuperquadricSource has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkSuperquadricSource class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkSuperquadricSource = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkSuperquadricSource = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetCenter (double , double , double )</tt> -  Set the center of the superquadric. Default is 0,0,0.
+ </LI>
+<LI>  <tt>obj.SetCenter (double  a[3])</tt> -  Set the center of the superquadric. Default is 0,0,0.
+ </LI>
+<LI>  <tt>double = obj. GetCenter ()</tt> -  Set the center of the superquadric. Default is 0,0,0.
+ </LI>
+<LI>  <tt>obj.SetScale (double , double , double )</tt> -  Set the scale factors of the superquadric. Default is 1,1,1.
+ </LI>
+<LI>  <tt>obj.SetScale (double  a[3])</tt> -  Set the scale factors of the superquadric. Default is 1,1,1.
+ </LI>
+<LI>  <tt>double = obj. GetScale ()</tt> -  Set the scale factors of the superquadric. Default is 1,1,1.
+ </LI>
+<LI>  <tt>int = obj.GetThetaResolution ()</tt> -  Set the number of points in the longitude direction. Initial value is 16.
+ </LI>
+<LI>  <tt>obj.SetThetaResolution (int i)</tt> -  Set the number of points in the longitude direction. Initial value is 16.
+ </LI>
+<LI>  <tt>int = obj.GetPhiResolution ()</tt> -  Set the number of points in the latitude direction. Initial value is 16.
+ </LI>
+<LI>  <tt>obj.SetPhiResolution (int i)</tt> -  Set the number of points in the latitude direction. Initial value is 16.
+ </LI>
+<LI>  <tt>double = obj.GetThickness ()</tt> -  Set/Get Superquadric ring thickness (toroids only).
+ Changing thickness maintains the outside diameter of the toroid.
+ Initial value is 0.3333.
+ </LI>
+<LI>  <tt>obj.SetThickness (double )</tt> -  Set/Get Superquadric ring thickness (toroids only).
+ Changing thickness maintains the outside diameter of the toroid.
+ Initial value is 0.3333.
+ </LI>
+<LI>  <tt>double = obj.GetThicknessMinValue ()</tt> -  Set/Get Superquadric ring thickness (toroids only).
+ Changing thickness maintains the outside diameter of the toroid.
+ Initial value is 0.3333.
+ </LI>
+<LI>  <tt>double = obj.GetThicknessMaxValue ()</tt> -  Set/Get Superquadric ring thickness (toroids only).
+ Changing thickness maintains the outside diameter of the toroid.
+ Initial value is 0.3333.
+ </LI>
+<LI>  <tt>double = obj.GetPhiRoundness ()</tt> -  Set/Get Superquadric north/south roundness. 
+ Values range from 0 (rectangular) to 1 (circular) to higher orders.
+ Initial value is 1.0.
+ </LI>
+<LI>  <tt>obj.SetPhiRoundness (double e)</tt> -  Set/Get Superquadric north/south roundness. 
+ Values range from 0 (rectangular) to 1 (circular) to higher orders.
+ Initial value is 1.0.
+ </LI>
+<LI>  <tt>double = obj.GetThetaRoundness ()</tt> -  Set/Get Superquadric east/west roundness.
+ Values range from 0 (rectangular) to 1 (circular) to higher orders.
+ Initial value is 1.0.
+ </LI>
+<LI>  <tt>obj.SetThetaRoundness (double e)</tt> -  Set/Get Superquadric east/west roundness.
+ Values range from 0 (rectangular) to 1 (circular) to higher orders.
+ Initial value is 1.0.
+ </LI>
+<LI>  <tt>obj.SetSize (double )</tt> -  Set/Get Superquadric isotropic size. Initial value is 0.5;
+ </LI>
+<LI>  <tt>double = obj.GetSize ()</tt> -  Set/Get Superquadric isotropic size. Initial value is 0.5;
+ </LI>
+<LI>  <tt>obj.ToroidalOn ()</tt> -  Set/Get whether or not the superquadric is toroidal (1) or ellipsoidal (0).
+ Initial value is 0.
+ </LI>
+<LI>  <tt>obj.ToroidalOff ()</tt> -  Set/Get whether or not the superquadric is toroidal (1) or ellipsoidal (0).
+ Initial value is 0.
+ </LI>
+<LI>  <tt>int = obj.GetToroidal ()</tt> -  Set/Get whether or not the superquadric is toroidal (1) or ellipsoidal (0).
+ Initial value is 0.
+ </LI>
+<LI>  <tt>obj.SetToroidal (int )</tt> -  Set/Get whether or not the superquadric is toroidal (1) or ellipsoidal (0).
+ Initial value is 0.
+ </LI>
+</UL>
+*/

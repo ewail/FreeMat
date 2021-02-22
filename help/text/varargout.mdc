@@ -1,0 +1,61 @@
+
+ Usage
+
+FreeMat functions can return a variable number of output
+arguments by setting the last argument in the argument list
+to varargout. This special keyword indicates that the number
+of return values is variable. The general syntax for a
+function that returns a variable number of outputs is
+
+    function [out_1,...,out_M,varargout] = fname
+  (in_1,...,in_M)
+
+The function is responsible for ensuring that varargout is a
+cell array that contains the values to assign to the outputs
+beyond out_M. Generally, variable output functions use
+nargout to figure out how many outputs have been requested.
+
+
+ Example
+
+This is a function that returns a varying number of values
+depending on the value of the argument.
+
+       varoutfunc.m
+
+
+  function [varargout] = varoutfunc
+    switch(nargout)
+      case 1
+        varargout = {'one of one'};
+      case 2
+        varargout = {'one of two','two of two'};
+      case 3
+        varargout = {'one of three','two of three','three of
+  three'};
+    end
+
+Here are some examples of exercising varoutfunc:
+
+  --> [c1] = varoutfunc
+  c1 =
+  one of one
+  --> [c1,c2] = varoutfunc
+  c1 =
+  one of two
+  c2 =
+  two of two
+  --> [c1,c2,c3] = varoutfunc
+  c1 =
+  one of three
+  c2 =
+  two of three
+  c3 =
+  three of three
+
+
+* FreeMat_Documentation
+* Functions_and_Scripts
+* Generated on Thu Jul 25 2013 17:17:14 for FreeMat by
+  doxygen_ 1.8.1.1
+

@@ -1,0 +1,118 @@
+
+ Usage
+
+vtkSelectEnclosedPoints is a filter that evaluates all the
+input points to determine whether they are in an enclosed
+surface. The filter produces a (0,1) mask (in the form of a
+vtkDataArray) that indicates whether points are outside
+(mask value=0) or inside (mask value=1) a provided surface.
+(The name of the output vtkDataArray is
+"SelectedPointsArray".)
+After running the filter, it is possible to query it as to
+whether a point is inside/outside by invoking the IsInside
+(ptId) method.
+To create an instance of class vtkSelectEnclosedPoints,
+simply invoke its constructor as follows
+
+    obj = vtkSelectEnclosedPoints
+
+
+
+ Methods
+
+The class vtkSelectEnclosedPoints has several methods that
+can be used. They are listed below. Note that the
+documentation is translated automatically from the VTK
+sources, and may not be completely intelligible. When in
+doubt, consult the VTK website. In the methods listed below,
+obj is an instance of the vtkSelectEnclosedPoints class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkSelectEnclosedPoints = obj.NewInstance ()
+* vtkSelectEnclosedPoints = obj.SafeDownCast (vtkObject o)
+* obj.SetSurface (vtkPolyData pd) - Set the surface to be
+  used to test for containment. Two methods are provided:
+  one directly for vtkPolyData, and one for the output of a
+  filter.
+* obj.SetSurfaceConnection (vtkAlgorithmOutput algOutput) -
+  Set the surface to be used to test for containment. Two
+  methods are provided: one directly for vtkPolyData, and
+  one for the output of a filter.
+* vtkPolyData = obj.GetSurface () - Return a pointer to the
+  enclosing surface.
+* vtkPolyData = obj.GetSurface (vtkInformationVector
+  sourceInfo) - Return a pointer to the enclosing surface.
+* obj.SetInsideOut (int ) - By default, points inside the
+  surface are marked inside or sent to the output. If
+  InsideOut is on, then the points outside the surface are
+  marked inside.
+* obj.InsideOutOn () - By default, points inside the surface
+  are marked inside or sent to the output. If InsideOut is
+  on, then the points outside the surface are marked inside.
+* obj.InsideOutOff () - By default, points inside the
+  surface are marked inside or sent to the output. If
+  InsideOut is on, then the points outside the surface are
+  marked inside.
+* int = obj.GetInsideOut () - By default, points inside the
+  surface are marked inside or sent to the output. If
+  InsideOut is on, then the points outside the surface are
+  marked inside.
+* obj.SetCheckSurface (int ) - Specify whether to check the
+  surface for closure. If on, then the algorithm first
+  checks to see if the surface is closed and manifold.
+* obj.CheckSurfaceOn () - Specify whether to check the
+  surface for closure. If on, then the algorithm first
+  checks to see if the surface is closed and manifold.
+* obj.CheckSurfaceOff () - Specify whether to check the
+  surface for closure. If on, then the algorithm first
+  checks to see if the surface is closed and manifold.
+* int = obj.GetCheckSurface () - Specify whether to check
+  the surface for closure. If on, then the algorithm first
+  checks to see if the surface is closed and manifold.
+* int = obj.IsInside (vtkIdType inputPtId) - Query an input
+  point id as to whether it is inside or outside. Note that
+  the result requires that the filter execute first.
+* obj.SetTolerance (double ) - Specify the tolerance on the
+  intersection. The tolerance is expressed as a fraction of
+  the bounding box of the enclosing surface.
+* double = obj.GetToleranceMinValue () - Specify the
+  tolerance on the intersection. The tolerance is expressed
+  as a fraction of the bounding box of the enclosing
+  surface.
+* double = obj.GetToleranceMaxValue () - Specify the
+  tolerance on the intersection. The tolerance is expressed
+  as a fraction of the bounding box of the enclosing
+  surface.
+* double = obj.GetTolerance () - Specify the tolerance on
+  the intersection. The tolerance is expressed as a fraction
+  of the bounding box of the enclosing surface.
+* obj.Initialize (vtkPolyData surface) - This is a backdoor
+  that can be used to test many points for containment.
+  First initialize the instance, then repeated calls to
+  IsInsideSurface() can be used without rebuilding the
+  search structures. The complete method releases memory.
+* int = obj.IsInsideSurface (double x, double y, double z) -
+  This is a backdoor that can be used to test many points
+  for containment. First initialize the instance, then
+  repeated calls to IsInsideSurface() can be used without
+  rebuilding the search structures. The complete method
+  releases memory.
+* int = obj.IsInsideSurface (double x[3]) - This is a
+  backdoor that can be used to test many points for
+  containment. First initialize the instance, then repeated
+  calls to IsInsideSurface() can be used without rebuilding
+  the search structures. The complete method releases
+  memory.
+* obj.Complete () - This is a backdoor that can be used to
+  test many points for containment. First initialize the
+  instance, then repeated calls to IsInsideSurface() can be
+  used without rebuilding the search structures. The
+  complete method releases memory.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Graphics_Classes
+* Generated on Thu Jul 25 2013 17:18:32 for FreeMat by
+  doxygen_ 1.8.1.1
+

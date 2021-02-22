@@ -1,0 +1,203 @@
+/*!
+\page vtkio_vtkparticlereader vtkParticleReader
+
+<p>
+Section: \ref sec_vtkio "Visualization Toolkit IO Classes"
+\section Usage
+ vtkParticleReader reads either a binary or a text file of 
+  particles. Each particle can have associated with it an optional
+  scalar value. So the format is: x, y, z, scalar 
+  (all floats or doubles). The text file can consist of a comma 
+  delimited set of values. In most cases vtkParticleReader can 
+  automatically determine whether the file is text or binary. 
+  The data can be either float or double. 
+  Progress updates are provided. 
+  With respect to binary files, random access into the file to read 
+  pieces is supported.
+  
+
+To create an instance of class vtkParticleReader, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkParticleReader
+\endverbatim
+\section Methods
+The class vtkParticleReader has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkParticleReader class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkParticleReader = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkParticleReader = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetFileName (string )</tt> -  Specify file name.
+ </LI>
+<LI>  <tt>string = obj.GetFileName ()</tt> -  Specify file name.
+ </LI>
+<LI>  <tt>obj.SetDataByteOrderToBigEndian ()</tt> -  These methods should be used instead of the SwapBytes methods.
+ They indicate the byte ordering of the file you are trying
+ to read in. These methods will then either swap or not swap
+ the bytes depending on the byte ordering of the machine it is
+ being run on. For example, reading in a BigEndian file on a
+ BigEndian machine will result in no swapping. Trying to read
+ the same file on a LittleEndian machine will result in swapping.
+ As a quick note most UNIX machines are BigEndian while PC's
+ and VAX tend to be LittleEndian. So if the file you are reading
+ in was generated on a VAX or PC, SetDataByteOrderToLittleEndian 
+ otherwise SetDataByteOrderToBigEndian. Not used when reading
+ text files. 
+ </LI>
+<LI>  <tt>obj.SetDataByteOrderToLittleEndian ()</tt> -  These methods should be used instead of the SwapBytes methods.
+ They indicate the byte ordering of the file you are trying
+ to read in. These methods will then either swap or not swap
+ the bytes depending on the byte ordering of the machine it is
+ being run on. For example, reading in a BigEndian file on a
+ BigEndian machine will result in no swapping. Trying to read
+ the same file on a LittleEndian machine will result in swapping.
+ As a quick note most UNIX machines are BigEndian while PC's
+ and VAX tend to be LittleEndian. So if the file you are reading
+ in was generated on a VAX or PC, SetDataByteOrderToLittleEndian 
+ otherwise SetDataByteOrderToBigEndian. Not used when reading
+ text files. 
+ </LI>
+<LI>  <tt>int = obj.GetDataByteOrder ()</tt> -  These methods should be used instead of the SwapBytes methods.
+ They indicate the byte ordering of the file you are trying
+ to read in. These methods will then either swap or not swap
+ the bytes depending on the byte ordering of the machine it is
+ being run on. For example, reading in a BigEndian file on a
+ BigEndian machine will result in no swapping. Trying to read
+ the same file on a LittleEndian machine will result in swapping.
+ As a quick note most UNIX machines are BigEndian while PC's
+ and VAX tend to be LittleEndian. So if the file you are reading
+ in was generated on a VAX or PC, SetDataByteOrderToLittleEndian 
+ otherwise SetDataByteOrderToBigEndian. Not used when reading
+ text files. 
+ </LI>
+<LI>  <tt>obj.SetDataByteOrder (int )</tt> -  These methods should be used instead of the SwapBytes methods.
+ They indicate the byte ordering of the file you are trying
+ to read in. These methods will then either swap or not swap
+ the bytes depending on the byte ordering of the machine it is
+ being run on. For example, reading in a BigEndian file on a
+ BigEndian machine will result in no swapping. Trying to read
+ the same file on a LittleEndian machine will result in swapping.
+ As a quick note most UNIX machines are BigEndian while PC's
+ and VAX tend to be LittleEndian. So if the file you are reading
+ in was generated on a VAX or PC, SetDataByteOrderToLittleEndian 
+ otherwise SetDataByteOrderToBigEndian. Not used when reading
+ text files. 
+ </LI>
+<LI>  <tt>string = obj.GetDataByteOrderAsString ()</tt> -  These methods should be used instead of the SwapBytes methods.
+ They indicate the byte ordering of the file you are trying
+ to read in. These methods will then either swap or not swap
+ the bytes depending on the byte ordering of the machine it is
+ being run on. For example, reading in a BigEndian file on a
+ BigEndian machine will result in no swapping. Trying to read
+ the same file on a LittleEndian machine will result in swapping.
+ As a quick note most UNIX machines are BigEndian while PC's
+ and VAX tend to be LittleEndian. So if the file you are reading
+ in was generated on a VAX or PC, SetDataByteOrderToLittleEndian 
+ otherwise SetDataByteOrderToBigEndian. Not used when reading
+ text files. 
+ </LI>
+<LI>  <tt>obj.SetSwapBytes (int )</tt> -  Set/Get the byte swapping to explicitly swap the bytes of a file.
+ Not used when reading text files.
+ </LI>
+<LI>  <tt>int = obj.GetSwapBytes ()</tt> -  Set/Get the byte swapping to explicitly swap the bytes of a file.
+ Not used when reading text files.
+ </LI>
+<LI>  <tt>obj.SwapBytesOn ()</tt> -  Set/Get the byte swapping to explicitly swap the bytes of a file.
+ Not used when reading text files.
+ </LI>
+<LI>  <tt>obj.SwapBytesOff ()</tt> -  Set/Get the byte swapping to explicitly swap the bytes of a file.
+ Not used when reading text files.
+ </LI>
+<LI>  <tt>obj.SetHasScalar (int )</tt> -  Default: 1. If 1 then each particle has a value associated with it.
+ </LI>
+<LI>  <tt>int = obj.GetHasScalar ()</tt> -  Default: 1. If 1 then each particle has a value associated with it.
+ </LI>
+<LI>  <tt>obj.HasScalarOn ()</tt> -  Default: 1. If 1 then each particle has a value associated with it.
+ </LI>
+<LI>  <tt>obj.HasScalarOff ()</tt> -  Default: 1. If 1 then each particle has a value associated with it.
+ </LI>
+<LI>  <tt>obj.SetFileType (int )</tt> -  Get/Set the file type.  The options are:
+ - FILE_TYPE_IS_UNKNOWN (default) the class 
+     will attempt to determine the file type.
+     If this fails then you should set the file type
+     yourself.
+ - FILE_TYPE_IS_TEXT the file type is text.
+ - FILE_TYPE_IS_BINARY the file type is binary.
+ </LI>
+<LI>  <tt>int = obj.GetFileTypeMinValue ()</tt> -  Get/Set the file type.  The options are:
+ - FILE_TYPE_IS_UNKNOWN (default) the class 
+     will attempt to determine the file type.
+     If this fails then you should set the file type
+     yourself.
+ - FILE_TYPE_IS_TEXT the file type is text.
+ - FILE_TYPE_IS_BINARY the file type is binary.
+ </LI>
+<LI>  <tt>int = obj.GetFileTypeMaxValue ()</tt> -  Get/Set the file type.  The options are:
+ - FILE_TYPE_IS_UNKNOWN (default) the class 
+     will attempt to determine the file type.
+     If this fails then you should set the file type
+     yourself.
+ - FILE_TYPE_IS_TEXT the file type is text.
+ - FILE_TYPE_IS_BINARY the file type is binary.
+ </LI>
+<LI>  <tt>int = obj.GetFileType ()</tt> -  Get/Set the file type.  The options are:
+ - FILE_TYPE_IS_UNKNOWN (default) the class 
+     will attempt to determine the file type.
+     If this fails then you should set the file type
+     yourself.
+ - FILE_TYPE_IS_TEXT the file type is text.
+ - FILE_TYPE_IS_BINARY the file type is binary.
+ </LI>
+<LI>  <tt>obj.SetFileTypeToUnknown ()</tt> -  Get/Set the file type.  The options are:
+ - FILE_TYPE_IS_UNKNOWN (default) the class 
+     will attempt to determine the file type.
+     If this fails then you should set the file type
+     yourself.
+ - FILE_TYPE_IS_TEXT the file type is text.
+ - FILE_TYPE_IS_BINARY the file type is binary.
+ </LI>
+<LI>  <tt>obj.SetFileTypeToText ()</tt> -  Get/Set the file type.  The options are:
+ - FILE_TYPE_IS_UNKNOWN (default) the class 
+     will attempt to determine the file type.
+     If this fails then you should set the file type
+     yourself.
+ - FILE_TYPE_IS_TEXT the file type is text.
+ - FILE_TYPE_IS_BINARY the file type is binary.
+ </LI>
+<LI>  <tt>obj.SetFileTypeToBinary ()</tt> -  Get/Set the data type.  The options are:
+ - VTK_FLOAT (default) single precision floating point.
+ - VTK_DOUBLE double precision floating point.
+ </LI>
+<LI>  <tt>obj.SetDataType (int )</tt> -  Get/Set the data type.  The options are:
+ - VTK_FLOAT (default) single precision floating point.
+ - VTK_DOUBLE double precision floating point.
+ </LI>
+<LI>  <tt>int = obj.GetDataTypeMinValue ()</tt> -  Get/Set the data type.  The options are:
+ - VTK_FLOAT (default) single precision floating point.
+ - VTK_DOUBLE double precision floating point.
+ </LI>
+<LI>  <tt>int = obj.GetDataTypeMaxValue ()</tt> -  Get/Set the data type.  The options are:
+ - VTK_FLOAT (default) single precision floating point.
+ - VTK_DOUBLE double precision floating point.
+ </LI>
+<LI>  <tt>int = obj.GetDataType ()</tt> -  Get/Set the data type.  The options are:
+ - VTK_FLOAT (default) single precision floating point.
+ - VTK_DOUBLE double precision floating point.
+ </LI>
+<LI>  <tt>obj.SetDataTypeToFloat ()</tt> -  Get/Set the data type.  The options are:
+ - VTK_FLOAT (default) single precision floating point.
+ - VTK_DOUBLE double precision floating point.
+ </LI>
+<LI>  <tt>obj.SetDataTypeToDouble ()</tt>
+ </LI>
+</UL>
+*/

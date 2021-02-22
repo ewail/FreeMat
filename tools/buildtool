@@ -1,0 +1,1419 @@
+#!/usr/bin/perl -w
+
+#
+# On a new system
+# yum install qt4 qt4-devel portaudio lapack-devel lapack atlas atlas-devel ufsparse ufsparse-devel fftw fftw-devel
+
+#  rpm -ivh http://dl.atrpms.net/all/arpack-2.1-6.fc7.i386.rpm
+#  rpm -ivh http://dl.atrpms.net/all/arpack-devel-2.1-6.fc7.i386.rpm
+#  203  rpm -ivh http://ftp.belnet.be/packages/dries.ulyssis.org/fedora/fc7/i386/RPMS.dries/ffcall-1.10-1.2.fc7.rf.i386.rpm
+#  203  rpm -ivh http://ftp.belnet.be/packages/dries.ulyssis.org/fedora/fc7/i386/RPMS.dries/ffcall-devel-1.10-1.2.fc7.rf.i386.rpm
+
+
+use File::Path;
+use File::Copy;
+use File::Basename;
+use Cwd;
+use warnings;
+use strict;
+
+my $md5program;
+
+# Set up the information on the packages used by FreeMat
+my %sparse_suite_pkg = ('url' => 'http://www.cise.ufl.edu/research/sparse/SuiteSparse/',
+			'file' => 'SuiteSparse-2.3.1.tar.gz',
+			'md5' => '52d5088aaae7231b8c540657ccaf3625',
+			'root' => 'SuiteSparse');
+my %binutils_pkg = ('url' => 'http://downloads.sf.net/mingw/',
+		    'file' => 'binutils-2.17.50-20060824-1-src.tar.gz',
+		    'md5' => '1f460788226614419bc41ab4adde6576',
+		    'root' => 'binutils-2.17.50-20060824-1-src');
+my %gcc_core_pkg = ('url' => 'http://downloads.sf.net/mingw/',
+		    'file' => 'gcc-core-3.4.5-20060117-1-src.tar.gz',
+		    'md5' => 'b72bffc6e7d5c7d1de099ad76ef0d45d',
+		    'root' => 'gcc-3.4.5-20060117-1');
+my %gcc_gpp_pkg =  ('url' => 'http://downloads.sf.net/mingw/',
+		    'file' => 'gcc-g++-3.4.5-20060117-1-src.tar.gz',
+		    'md5' => '42c92b923adfe4c8943f05c326af1736',
+		    'root' => 'gcc-3.4.5-20060117-1');
+my %gcc_g77_pkg = ('url' => 'http://downloads.sf.net/mingw/',
+		   'file' => 'gcc-g77-3.4.5-20060117-1-src.tar.gz',
+		   'md5' => '37e2558839f70ff2dd8c16c359e5e327',
+		   'root' => 'gcc-3.4.5-20060117-1');
+my %mingw_pkg = ('url' => 'http://downloads.sf.net/mingw/',
+		 'file' => 'mingw-runtime-3.12-src.tar.gz',
+		 'md5' => 'a9fdbd5162aa1ae0171c47f929adf938',
+		 'root' => 'mingw-runtime-3.12');
+my %w32api_pkg = ('url' => 'http://downloads.sf.net/mingw/',
+		  'file' => 'w32api-3.9-src.tar.gz',
+		  'md5' => 'be0b0219645a4ee0f3495c2abf90b5ad',
+		  'root' => 'w32api-3.9');
+my %qt_win_pkg = ('url' => 'ftp://ftp.trolltech.com/qt/source/',
+		  'file' => 'qt-win-opensource-4.3.0-mingw.exe',
+		  'md5' => '43e4930c1c97997fe3ecb12c9c384eda',
+		  'root' => '');
+my %qt_x11_pkg = ('url' => 'ftp://ftp.trolltech.com/qt/source/',
+		  'file' => 'qt-x11-opensource-src-4.3.0.tar.gz',
+		  'md5' => '13f12bf58a32ebf15837fcd605cb3c99',
+		  'root' => 'qt-x11-opensource-src-4.3.0');
+my %qt_mac_pkg = ('url' => 'ftp://ftp.trolltech.com/qt/source/',
+		  'file' => 'qt-mac-opensource-src-4.3.0.tar.gz',
+		  'md5' => '97f81a43d75569eb0d2e34a1da0ad68f',
+		  'root' => 'qt-mac-opensource-src-4.3.0');
+my %nsis_pkg = ('url' => 'http://downloads.sourceforge.net/nsis/',
+		'file' => 'nsis-2.22-setup.exe',
+		'md5' => '97c8034ca4bf0fd2751bc4aa9d6c2612',
+		'root' => '');
+my %arpack_pkg = ('url' => 'http://www.caam.rice.edu/software/ARPACK/SRC/',
+		  'file' => 'arpack96.tar.Z',
+		  'md5' => '7525bb511694c6735a45bb40fad88429',
+		  'root' => 'ARPACK');
+my %sparse_pkg = ('url' => 'http://www.cise.ufl.edu/research/sparse/SuiteSparse/',
+		  'file' => 'SuiteSparse-2.3.1.tar.gz',
+		  'md5' => '52d5088aaae7231b8c540657ccaf3625',
+		  'root' => 'SuiteSparse');
+my %pcre_pkg =  ('url' => 'ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/',
+		 'file' => 'pcre-7.2.tar.gz',
+		 'md5' => '5ca11a81b753de24fb87ddc872ccaa67',
+		 'root' => 'pcre-7.2');
+my %portaudio_pkg = ('url' => 'http://www.portaudio.com/archives/',
+		     'file' => 'pa_stable_v19_061121.tar.gz',
+		     'md5' => 'f2ceca92b3bfc206abccfb439c169a3c',
+		     'root' => 'portaudio');
+my %fftw_pkg = ('url' => 'http://www.fftw.org/',
+	       'file' => 'fftw-3.1.2.tar.gz',
+	       'md5' => '08f2e21c9fd02f4be2bd53a62592afa4',
+	       'root' => 'fftw-3.1.2');
+my %ffcall_pkg = ('url' => 'ftp://ftp.santafe.edu/pub/gnu/',
+		  'file' => 'ffcall-1.10.tar.gz',
+		  'md5' => '2db95007e901f3bc2ae7e5a9fe9ebea4',
+		  'root' => 'ffcall-1.10');
+my %atlas_win_pkg = ('url' => 'http://www.scipy.org/Installing_SciPy/Windows?action=AttachFile&do=get&target=',
+		     'file' => 'atlas3.6.0_WinNT_P2.zip',
+		     'md5' => 'be03a518bf5125dbc6cf50931ffa3638',
+		     'root' => 'atlas');
+my %lapack_pkg = ('url' => 'http://www.netlib.org/lapack/',
+		  'file' => 'lapack-3.1.1.tgz',
+		  'md5' => '00b21551a899bcfbaa7b8443e1faeef9',
+		  'root' => 'lapack-3.1.1');
+my %libz_pkg =  ('url' => 'http://downloads.sourceforge.net/libpng/',
+		  'file' => 'zlib-1.2.3.tar.gz',
+		  'md5' => 'debc62758716a169df9f62e6ab2bc634',
+		  'root' => 'zlib-1.2.3');
+my %freemat_pkg = ('url' => 'http://downloads.sourceforge.net/freemat/',
+		   'file' => 'FreeMat-3.6.tar.gz',
+		   'md5' => '',
+		   'root' => 'FreeMat-3.6',
+		   'version' => '3.6');
+
+sub fancy_box {
+    my $msg = shift;
+    print "************************************************************\n";
+    print "  $msg\n";
+    print "************************************************************\n";
+}
+
+# Find a MD5 Sum program
+sub find_program {
+    my $title = shift;
+    my $prog;
+    fancy_box("earching for $title");
+    while ($prog = shift) {
+	print "Looking for program $prog\n";
+	my $retcode = system("$prog < /dev/null > /dev/null 2> /dev/null");
+	if ($retcode <= 256) {
+	    print "    Found program $prog\n";
+	    return $prog;
+	}
+    }
+    die "Unable to resolve $title\n";
+}
+
+# Make a directory
+sub make_directory {
+    my $dir = shift;
+    if (! -d $dir) {
+	print "Making directory $dir...\n";
+	eval {mkpath($dir)};
+	if ($@) {
+	    die "Unable to create directory $dir\n";
+	}
+    }
+}
+
+# Symbolic link
+sub sym_link {
+    my $first = shift;
+    my $second = shift;
+    print "Linking $first and $second\n";
+    if (! -l $second) {
+	symlink($first,$second) or die "symlink failed: $!\n";
+    }
+}
+
+# Copy a file
+sub copy_file {
+    my $source = shift;
+    my $dest = shift;
+    print "Copying $source to $dest\n";
+    copy($source,$dest) or die "copy of $source to $dest failed: $!\n";
+}
+
+# Copy a set of files 
+sub copy_files {
+    my $source_pattern = shift;
+    my $dest = shift;
+    print "Copying $source_pattern to $dest\n";
+    my $retcode = system("cp -R $source_pattern $dest");
+    if ($retcode != 0) {
+	die "Error on copy of $source_pattern and $dest\n";
+    }
+}
+
+# Delete a file
+sub delete_file {
+    my $file = shift;
+    unlink($file);
+}
+
+# Delete a directory
+sub delete_directory {
+    my $dir = shift;
+    rmtree($dir);
+}
+
+sub change_directory {
+    my $destdir = shift;
+    chdir $destdir or die "Unable to change to directory $destdir\n";
+}
+
+# unpack a tar ball
+sub unpack_tar_ball {
+    my $tarball = shift;
+    my $destdir = shift;
+    my $cwd = Cwd::cwd();
+    print "Unpacking $tarball\n";
+    make_directory $destdir;
+    change_directory $destdir;
+    if (system("gunzip < $cwd/$tarball | tar xf -") != 0) {
+	die "Unable to unpack tarball $tarball in directory $destdir\n";
+    }
+    change_directory $cwd;
+}
+
+# unzip a zip file
+sub unzip_file {
+    my $zipfile = shift;
+    my $destdir = shift;
+    my $cwd = Cwd::cwd();
+    print "Unzipping $zipfile\n";
+    make_directory $destdir;
+    change_directory $destdir;
+    if (system("unzip $cwd/$zipfile") != 0) {
+	die "Unable to unzip $zipfile in directory $destdir\n";
+    }
+    change_directory $cwd;
+}
+
+sub md5_check {
+    my $filename = shift;
+    my $md5sum = shift;
+    return (`$md5program < $filename` =~ $md5sum);
+}
+
+# Fetch a url via curl
+sub fetch_curl_url {
+    # Get the URL
+    my $raw_url = shift;
+    # Get the output filename
+    my $filename = shift;
+    # Get the expected md5sum
+    my $md5sum = shift;
+    my @pargs = ("curl","$raw_url","-o$filename","--disable-epsv");
+    if (system(@pargs) != 0) {
+	print  "Attempt to download file $filename using curl failed: $?\n";
+	return 0;
+    } 
+    if (md5_check($filename,$md5sum)) {
+	return 1;
+    }
+    print "Downloaded file failed MD5sum test.\n";
+    return 0;
+}
+
+sub system_check {
+    my $command = shift;
+    if (system($command) != 0) {
+	die "Failed to execute $command: $!\n";
+    }
+}
+
+# Fetch a url via wget
+sub fetch_wget_url {
+    # Get the URL
+    my $raw_url = shift;
+    # Get the output filename
+    my $filename = shift;
+    # Get the expected md5sum
+    my $md5sum = shift;
+    my @pargs = ("wget","$raw_url","-O$filename");
+    if (system(@pargs) != 0) {
+	print  "Attempt to download file $filename using curl failed: $?\n";
+	return 0; 
+    } 
+    if (md5_check($filename,$md5sum)) {
+	return 1;
+    }
+    print "Downloaded file failed MD5sum test.\n";
+    return 0;
+}
+
+sub fetch_url {
+    my $raw_url = shift;
+    my $filename = shift;
+    my $md5sum = shift;
+    if (md5_check($filename,$md5sum)) {
+	return 1;
+    }
+    print "Deleting file $filename\n";
+    delete_file($filename);
+    print "Attempting to download $filename from $raw_url\n";
+    if (-f $filename and md5_check($filename,$md5sum)) {
+	print "...skipped - file already downloaded and passes md5 checksum\n";
+	return 1;
+    }
+    if (fetch_curl_url($raw_url,$filename,$md5sum)) {
+	print "Successfully retrieved file $filename from url $raw_url using curl\n";
+	return 1;
+    }
+    print "\n\nUnable to retrieve file using curl.  Will try using wget.\n";
+    if (fetch_wget_url($raw_url,$filename,$md5sum)) {
+	print "Successfully retrieved file $filename from url $raw_url using wget\n";
+	return 1;
+    }
+    print "\n\nUnable to retrieve file using wget!\n";
+    print "You will have to download the file manually\n";
+    print "From this url          $raw_url\n";
+    print "Save the file as       $filename\n";
+    print "The MD5 sum should be  $md5sum\n";
+    die "stopped";
+    return 0;
+}
+
+sub setup_common {
+    my $base = shift;
+    $ENV{'PATH'} = "$base/bin:" . $ENV{'PATH'};
+    make_directory($base);
+    make_directory($base . "/bin");
+    make_directory($base . "/lib");
+    make_directory($base . "/include");
+    make_directory("files");
+    make_directory("build");
+    $md5program = find_program('MD5 Checksum Program','md5','openssl dgst -md5','md5sum');
+}
+
+sub make_package {
+    my $dir = shift;
+    my $prefix = shift;
+    my $platform_opts = shift;
+    my $target = shift;
+    my $cc = $platform_opts->{'compiler'};
+    my $ar = $platform_opts->{'archiver'};
+    my $ranlib = $platform_opts->{'ranlib'};
+    my $opts = $platform_opts->{'opts'};
+    my $fc = $platform_opts->{'fc'};
+    my $arflags = $platform_opts->{'arflags'};
+    my $mopts = $platform_opts->{'make opts'};
+    print "Configuring package in $dir...\n";
+    my $cwd = Cwd::cwd();
+    change_directory $dir;
+    my $cmdm = "make CC=$cc AR='$ar $arflags' ARCH=$ar RANLIB=$ranlib FFLAGS=$opts OPTS=$opts FC=$fc FORTRAN=$fc LOADER=$fc ARCHFLAGS=$arflags ARFLAGS='' $mopts $target";
+    print "Make command is $cmdm\n";
+    (system($cmdm) == 0) or die "make in $dir failed: $?\n";
+    change_directory $cwd;
+    print "Make complete\n";
+}
+
+sub configure_make_install {
+    my $dir = shift;
+    my $prefix = shift;
+    my $buildsub = shift;
+    my $platform_opts = shift;
+    my $extra_configure_opts = shift;
+    my $copts = $platform_opts->{'configure opts'};
+    my $mopts = $platform_opts->{'make opts'};
+    my $pcopts = $platform_opts->{'preconfigure opts'};
+    print "Configuring package in $dir...\n";
+    my $cwd = Cwd::cwd();
+    change_directory $dir;
+    my $cmdc;
+    if ($buildsub) {
+	delete_directory $buildsub;
+	make_directory $buildsub;
+	change_directory $buildsub;
+	$cmdc = "../configure --prefix=$prefix $copts $extra_configure_opts";
+    } else {
+	$cmdc = "./configure --prefix=$prefix $copts $extra_configure_opts";
+    }
+    $cmdc =  $pcopts . ' ' . $cmdc;
+    print "Configure command is $cmdc\n";
+    (system($cmdc) == 0) or die "configure in $dir failed: $?\n";
+    my $cmdm = "make $mopts";
+    print "Make command is $cmdm\n";
+    (system($cmdm) == 0) or die "make in $dir failed: $?\n";
+    print "Installing...\n";
+    (system("make install") == 0) or die "make install in $dir failed: $?\n";
+    print "Installation complete...\n";
+    change_directory $cwd;
+}
+
+sub test_include_file {
+    my $prefix = shift;
+    my $testname = shift;
+    my $header = shift;
+    my $platform_opts = shift;
+    print "Checking for include file $header...\n";
+    my $cwd = Cwd::cwd();
+    make_directory("tests");
+    change_directory("tests");
+    open(TESTHANDLE, ">$testname" . "_header.c") || die "Unable to create test file $testname.c\n";
+    print TESTHANDLE "#include <$header>\n";
+    close (TESTHANDLE) || die "Unable to close test file..\n";
+    my $cc = $platform_opts->{'compiler'};
+    my $cflags = $platform_opts->{'cflags'};
+    my $ret = (system("$cc -c $testname" . "_header.c $cflags") == 0);
+    if (!$ret) {
+	print "Failed to find $header: $?\n";
+    } else {
+	print "    Found header file $header\n";
+    }
+    change_directory($cwd);
+    return $ret;
+}
+
+# Test for a function named funcname in library named libname
+#includes the current prefix in the search path
+sub test_function {
+    my $prefix = shift;
+    my $testname = shift;
+    my $libname = shift;
+    my $funcname = shift;
+    my $platform_opts = shift;
+    print "Checking for package $testname...\n";
+    my $cwd = Cwd::cwd();
+    make_directory("tests");
+    change_directory("tests");
+    open(TESTHANDLE, ">$testname.c") || die "Unable to create test file $testname.c\n";
+    print TESTHANDLE "#ifdef __cplusplus\n";
+    print TESTHANDLE "extern \"C\"\n";
+    print TESTHANDLE "#endif\n";
+    print TESTHANDLE "char $funcname ();\n";
+    print TESTHANDLE "int main() {\n";
+    print TESTHANDLE "   return $funcname ();\n";
+    print TESTHANDLE "   return 0;\n";
+    print TESTHANDLE "}\n";
+    close (TESTHANDLE) || die "Unable to close test file..\n";
+    my $cc = $platform_opts->{'compiler'};
+    my $ldflags = $platform_opts->{'ldflags'};
+    my $libs = $platform_opts->{'libs'};
+    my $cflags = $platform_opts->{'cflags'};
+    my $ret = (system("$cc -o $testname $testname.c $cflags $ldflags -l$libname $libs") == 0);
+    if (!$ret) {
+	print "Failed to find $testname: $?\n";
+    } else {
+	print "    Found library for $testname\n";
+    }
+    change_directory($cwd);
+    return $ret;
+}
+
+sub autopackage_check {
+    my $prefix = shift;
+    my $packagename = shift;
+    my $libname = shift;
+    my $testfunc = shift;
+    my $include = shift;
+    my $platform_opts = shift;
+    my $url = shift;
+    my $destfile = shift;
+    my $md5sum = shift;
+    my $builddir = shift;
+    my $packagedir = shift;
+    my $configure_extras = shift;
+    my $unpack_dir = shift;
+
+    if (not defined $unpack_dir) {
+	$unpack_dir = "build";
+    }
+
+    print "************************************************************\n";
+    print "    Handling package $packagename\n";
+    print "************************************************************\n";
+    if (!test_function($prefix,$packagename,$libname,$testfunc,$platform_opts) ||
+	!test_include_file($prefix,$packagename,$include,$platform_opts)) {
+	fetch_url($url,$destfile,$md5sum);
+	unpack_tar_ball($destfile,$unpack_dir);
+	configure_make_install("$unpack_dir/$packagedir",$prefix,$builddir,$platform_opts,$configure_extras);
+	test_function($prefix,$packagename,$libname,$testfunc,$platform_opts) &&
+	    test_include_file($prefix,$packagename,$include,$platform_opts) or
+	    die "Installation of package $packagename failed!\n";
+    }
+}
+
+sub autopackage_check_pkg {
+    my $prefix = shift;
+    my $packagename = shift;
+    my $libname = shift;
+    my $testfunc = shift;
+    my $include = shift;
+    my $platform_opts = shift;
+    my $builddir = shift;
+    my $pkgset = shift;
+    my $configure_opts = shift;
+    my $unpack_dir = shift;
+    autopackage_check($prefix,$packagename,$libname,$testfunc,$include,$platform_opts,
+		      $pkgset->{'url'} . $pkgset->{'file'}, 'files/' . $pkgset->{'file'},
+		      $pkgset->{'md5'}, $builddir, $pkgset->{'root'},
+		      $configure_opts, $unpack_dir);
+}
+
+sub fetch_pkg {
+    my $pkgset = shift;
+    fetch_url($pkgset->{'url'} . $pkgset->{'file'},
+	      'files/' . $pkgset->{'file'}, $pkgset->{'md5'});
+}
+
+sub fetch_unpack_pkg {
+    my $pkgset = shift;
+    my $unpack_dir = shift;
+    fetch_pkg($pkgset);
+    unpack_tar_ball('files/' . $pkgset->{'file'},$unpack_dir);
+}
+
+sub fetch_unzip_pkg {
+    my $pkgset = shift;
+    my $unpack_dir = shift;
+    fetch_url($pkgset->{'url'} . $pkgset->{'file'},
+	      'files/' . $pkgset->{'file'}, $pkgset->{'md5'});
+    unzip_file('files/' . $pkgset->{'file'},$unpack_dir);
+}
+
+sub job_setup_mingw_cross {
+    my $prefix = shift;
+    my $platform_opts;
+
+    $platform_opts->{'configure opts'} = '';
+    $platform_opts->{'make opts'} = '';
+    $platform_opts->{'compiler'} = 'gcc';
+    $platform_opts->{'libs'} = "-llapack -lblas";
+    $platform_opts->{'ldflags'} = "-L$prefix/lib";
+    $platform_opts->{'cflags'} = "-I$prefix/include";
+    $platform_opts->{'archiver'} = 'ar';
+    $platform_opts->{'ranlib'} = 'ranlib';
+    $platform_opts->{'opts'} = '-O2';
+    $platform_opts->{'arflags'} = 'crv';
+    $platform_opts->{'fc'} = find_program('FORTRAN Compiler','g77','gfortran','f90','f95');
+    $platform_opts->{'preconfigure opts'} = '';
+
+    setup_common($prefix);
+    my $ming = "i686-mingw32";
+
+    fetch_unpack_pkg(\%binutils_pkg,'cross');
+    configure_make_install("cross/$binutils_pkg{'root'}",$prefix,"",$platform_opts,"--target=$ming");
+    fetch_unpack_pkg(\%gcc_core_pkg,'cross');
+    fetch_unpack_pkg(\%gcc_gpp_pkg,'cross');
+    fetch_unpack_pkg(\%gcc_g77_pkg,'cross');
+    fetch_unpack_pkg(\%mingw_pkg,'cross');
+    fetch_unpack_pkg(\%w32api_pkg,'cross');
+    sym_link("$prefix/include","$prefix/$ming/include");
+    copy_files("cross/mingw-runtime-3.12/include/*","$prefix/include");
+    copy_files("cross/w32api-3.9/include/*","$prefix/include");
+    configure_make_install("cross/$gcc_core_pkg{'root'}",$prefix,"",$platform_opts,"--target=$ming --enable-threads --enable-languages=c");
+    configure_make_install("cross/$w32api_pkg{'root'}",$prefix,"",$platform_opts,"--target=$ming --host=$ming --build=i686-pc-linux-gnu");
+    my $cwd = Cwd::cwd();
+    sym_link("$cwd/cross/$w32api_pkg{'root'}","$cwd/cross/w32api");
+    copy_files("$prefix/$ming/lib/*","$prefix/lib");
+    delete_directory("$prefix/$ming/lib");
+    sym_link("$prefix/lib","$prefix/$ming/lib");
+    copy_files("$prefix/lib/*.a","cross/mingw-runtime-3.12/mingwex/");
+    configure_make_install("cross/$mingw_pkg{'root'}",$prefix,"",$platform_opts,"--target=$ming --host=$ming --build=i686-pc-linux-gnu");
+    configure_make_install("cross/$gcc_core_pkg{'root'}",$prefix,"",$platform_opts,"--target=$ming --enable-threads --enable-languages=c,c++,f77");
+    fetch_pkg(\%qt_win_pkg);
+    system("wine files/qt-win-opensource-4.3.0-mingw.exe");
+    copy_files("~/.wine/drive_c/Qt","$prefix"); 
+    fetch_pkg(\%nsis_pkg);
+    system("wine files/nsis-2.22-setup.exe");
+}
+
+sub job_mac_freemat {
+    my $prefix = shift;
+    my $platform_opts;
+
+    $platform_opts->{'configure opts'} = '';
+    $platform_opts->{'make opts'} = '';
+    $platform_opts->{'compiler'} = 'gcc';
+    $platform_opts->{'libs'} = "-framework vecLib -lgfortran -framework CoreAudio -framework AudioToolbox -framework AudioUnit -framework Carbon";
+    $platform_opts->{'ldflags'} = "-L$prefix/lib";
+    $platform_opts->{'cflags'} = "-I$prefix/include";
+    $platform_opts->{'archiver'} = 'ar';
+    $platform_opts->{'ranlib'} = 'ranlib';
+    $platform_opts->{'opts'} = '-O2';
+    $platform_opts->{'arflags'} = 'crv';
+    $platform_opts->{'fc'} = find_program('FORTRAN Compiler','g77','gfortran','f90','f95');
+    $platform_opts->{'preconfigure opts'} = 'PKG_CONFIG_PATH=$PKG_CONFIG_PATH'. ":$prefix/lib:$prefix/lib/pkgconfig  ";
+
+    setup_common($prefix);
+
+    my $need_qt4 = 0;
+    my $rcc;
+    my $moc;
+    my $uic;
+    eval {
+	$rcc = find_program('RCC','rcc4','rcc-qt4','rcc');
+	$moc = find_program('MOC','moc4','moc-qt4','moc');
+	$uic = find_program('UIC','uic4','uic-qt4','uic');
+    };
+
+    if ($@) {
+	print "One or more of rcc, moc, or uic was not found - will need to build Qt4.\n";
+	print "rcc - $rcc, moc - $moc, uic - $uic\n";
+	$need_qt4 = 1;
+    }
+
+    if (!$need_qt4) {
+	my $version_test = `$moc -v 2>&1`;
+	if ($version_test =~ /\(Qt (.*)\)/) {
+	    my $version_number = $1;
+	    $version_number =~ s|\.||g;
+	    if ($version_number < 423) {
+		print "Qt Version $version_number is not sufficient\n";
+		$need_qt4 = 1;
+	    }
+	} else {
+	    print "Qt Version $version_test is not sufficient\n";
+	    $need_qt4 = 1;
+	}
+    }
+
+    if ($need_qt4) {
+	fetch_unpack_pkg(\%qt_mac_pkg,'build');
+	my $save_config_opts = $platform_opts->{'configure opts'};
+	configure_make_install("build/$qt_mac_pkg{root}",$prefix,"",$platform_opts," -fast -universal -no-qt3support");
+    }
+
+    autopackage_check_pkg($prefix,'pcre','pcre','pcre_compile','pcre.h',
+			  $platform_opts,'build',\%pcre_pkg);
+    if (!test_function($prefix,'portaudio','portaudio','Pa_OpenStream',$platform_opts) ||
+	!test_include_file($prefix,'portaudio','portaudio.h',$platform_opts)) {
+	fetch_unpack_pkg(\%portaudio_pkg,'build');
+	make_package("build/$portaudio_pkg{'root'}",$prefix,$platform_opts,' -f Makefile.darwin AR=/usr/bin/ar');
+	copy_file("build/$portaudio_pkg{'root'}/lib/libportaudio.a","$prefix/lib");
+	system("ranlib $prefix/lib");
+	copy_files("build/$portaudio_pkg{'root'}/include/*.h","$prefix/include");
+	test_function($prefix,'portaudio','portaudio','Pa_OpenStream',$platform_opts) or
+	    die "installation of PortAudio failed!";
+    }
+    autopackage_check_pkg($prefix,'fftw-float','fftw3f','fftwf_malloc','fftw3.h',
+			  $platform_opts,'build_single',\%fftw_pkg,'--enable-single');
+    autopackage_check_pkg($prefix,'fftw-double','fftw3','fftw_malloc','fftw3.h',
+			  $platform_opts,'build_double',\%fftw_pkg);
+    autopackage_check_pkg($prefix,'ffcall','avcall','__structcpy','avcall.h',
+			  $platform_opts,'build',\%ffcall_pkg);
+    
+    print "************************************************************\n";
+    print "    Handling package ARPACK\n";
+    print "************************************************************\n";
+
+    if (!test_function($prefix,'arpack','arpack','znaupd_',$platform_opts)) {
+	fetch_unpack_pkg(\%arpack_pkg,'build');
+	my $cwd = Cwd::cwd();    
+	if (not -f 'build/ARPACK/UTIL/second_orig.f') {
+	    copy_file('build/ARPACK/UTIL/second.f','build/ARPACK/Util/second_orig.f');
+	    delete_file('build/ARPACK/UTIL/second.f');
+	    system('touch build/ARPACK/UTIL/second.f');
+	}
+	make_package('build/ARPACK',$prefix,$platform_opts,'MAKE=make DIRS="SRC UTIL" ' . "ARPACKLIB=$cwd/build/ARPACK/libarpack.a all");
+	copy_file('build/ARPACK/libarpack.a',"$prefix/lib/libarpack.a");
+	test_function($prefix,'arpack','arpack','znaupd_',$platform_opts) or
+	    die "Installation of ARPACK failed";
+    }
+
+    print "************************************************************\n";
+    print "    Handling package SparseSuite\n";
+    print "************************************************************\n";
+
+    my $amd_found = test_function($prefix,'SparseSuiteAMD','amd','amd_postorder',$platform_opts);
+    if ($amd_found) {
+	$platform_opts->{'libs'} = "-lamd $platform_opts->{'libs'}";
+    }
+    my $umfpack_found = test_function($prefix,'SparseSuiteUMFPACK','umfpack',
+				      'umfpack_zl_solve',$platform_opts);
+    if (!$amd_found || !$umfpack_found) {
+	fetch_unpack_pkg(\%sparse_suite_pkg,'build');
+	make_package('build/SuiteSparse/AMD/Source',$prefix,$platform_opts,'');
+	make_package('build/SuiteSparse/UMFPACK/Source',$prefix,$platform_opts,'');
+	copy_file('build/SuiteSparse/AMD/Lib/libamd.a',"$prefix/lib/libamd.a");
+	copy_file('build/SuiteSparse/UMFPACK/Lib/libumfpack.a',"$prefix/lib/libumfpack.a");
+	copy_file('build/SuiteSparse/AMD/Include/amd.h',"$prefix/include/amd.h");
+	copy_files('build/SuiteSparse/UMFPACK/Include/*.h',"$prefix/include");
+	copy_file('build/SuiteSparse/UFconfig/UFconfig.h',"$prefix/include/UFconfig.h");
+	test_function($prefix,'SparseSuiteAMD','amd','amd_postorder',$platform_opts) or
+	    die "Installation of AMD package from sparse suite failed!\n";
+	$platform_opts->{'libs'} = "-lamd $platform_opts->{'libs'}";
+	test_function($prefix,'SparseSuiteUMFPACK','umfpack','umfpack_zl_solve',$platform_opts) or
+	    die "Installation of UMFPACK package from sparse suite package failed!\n";
+    }
+
+    system("rm $prefix/lib/*.dylib");
+
+    print "************************************************************\n";
+    print "    Starting FreeMat Installation\n";
+    print "************************************************************\n";
+    fetch_unpack_pkg(\%freemat_pkg,'build');
+    configure_make_install("build/$freemat_pkg{'root'}",$prefix,'build',$platform_opts,"CPPFLAGS=\"-I$prefix/include -I$prefix/include/QtCore -I$prefix/include/QtGui -I$prefix/include/QtOpenGL -I$prefix/include/QtNetwork -I$prefix/include/QtSvg -I$prefix/include/QtXml\" LDFLAGS=\"-L$prefix/lib -F$prefix/lib\"");
+}
+
+sub job_macppc_freemat {
+    my $prefix = shift;
+    my $crossprefix = shift;
+    my $platform_opts;
+
+    $platform_opts->{'configure opts'} = 'CC=powerpc-apple-darwin8-gcc-4.0.1 CXX=powerpc-apple-darwin8-g++-4.0.1 F77=gfortran-ppc';
+    $platform_opts->{'make opts'} = '';
+    $platform_opts->{'compiler'} = 'powerpc-apple-darwin8-gcc-4.0.1';
+    $platform_opts->{'libs'} = "-framework vecLib -lgfortran -framework CoreAudio -framework AudioToolbox -framework AudioUnit -framework Carbon";
+    $platform_opts->{'ldflags'} = "-L$prefix/lib";
+    $platform_opts->{'cflags'} = "-I$prefix/include";
+    $platform_opts->{'archiver'} = 'ar';
+    $platform_opts->{'ranlib'} = 'ranlib';
+    $platform_opts->{'opts'} = '-O2';
+    $platform_opts->{'arflags'} = 'crv';
+    $platform_opts->{'fc'} = 'gfortran-ppc';
+    $platform_opts->{'preconfigure opts'} = 'PKG_CONFIG_PATH=$PKG_CONFIG_PATH'. ":$prefix/lib:$prefix/lib/pkgconfig  ";
+
+    setup_common($prefix);
+    setup_common($crossprefix);
+    autopackage_check_pkg($prefix,'pcre','pcre','pcre_compile','pcre.h',
+			  $platform_opts,'cross',\%pcre_pkg);
+    if (!test_function($prefix,'portaudio','portaudio','Pa_OpenStream',$platform_opts) ||
+	!test_include_file($prefix,'portaudio','portaudio.h',$platform_opts)) {
+	fetch_unpack_pkg(\%portaudio_pkg,'cross');
+	make_package("cross/$portaudio_pkg{'root'}",$prefix,$platform_opts,' -f Makefile.darwin AR=/usr/bin/ar');
+	copy_file("cross/$portaudio_pkg{'root'}/lib/libportaudio.a","$prefix/lib");
+	system("ranlib $prefix/lib");
+	copy_files("cross/$portaudio_pkg{'root'}/include/*.h","$prefix/include");
+	test_function($prefix,'portaudio','portaudio','Pa_OpenStream',$platform_opts) or
+	    die "installation of PortAudio failed!";
+    }
+    autopackage_check_pkg($prefix,'fftw-float','fftw3f','fftwf_malloc','fftw3.h',
+			  $platform_opts,'cross_single',\%fftw_pkg,'--enable-single');
+    autopackage_check_pkg($prefix,'fftw-double','fftw3','fftw_malloc','fftw3.h',
+			  $platform_opts,'cross_double',\%fftw_pkg);
+    if (!test_function($prefix,'ffcall','avcall','__structcpy',$platform_opts) ||
+	!test_include_file($prefix,'ffcall','avcall.h',$platform_opts)) {
+	fetch_unpack_pkg(\%ffcall_pkg,'cross');
+	my $cwd = Cwd::cwd();
+	change_directory("cross/$ffcall_pkg{root}/avcall");
+	if (system("sed -e 's/#undef __rs6000__/#define __rs6000__ 1/g' < avcall.h.in" .
+		   " | sed -e 's/#undef HAVE_LONGLONG/#define HAVE_LONGLONG/g' > avcall.h") != 0)  {
+	    die "Unable to generate avcall.h: $!\n";
+	}
+	if (system("powerpc-apple-darwin8-gcc-4.0.1 -c avcall-rs6000-macos.s -o avcall.o") != 0) {
+	    die "Unable to compile the avcall-rs6000-macos.s: $!\n";
+	}
+	if (system("powerpc-apple-darwin8-gcc-4.0.1 -g -O2 -c structcpy.c -o structcpy.o") != 0) {
+	    die "Unable to compile the structcpy file: $!\n";
+	}
+	if (system("ar crv libavcall.a avcall.o structcpy.o") != 0) {
+	    die "Unable to archive to libavcall.a: $!\n";
+	}
+	copy_file("libavcall.a","$prefix/lib");
+	copy_file("avcall.h","$prefix/include");
+	if (system("ranlib $prefix/lib/libavcall.a") != 0) {
+	    die "Unable to ranlib libavcall.a: $!\n";
+	}
+	test_function($prefix,'ffcall','avcall','__structcpy',$platform_opts) or
+	    die "Installation of ffcall failed";
+    }
+    
+    print "************************************************************\n";
+    print "    Handling package ARPACK\n";
+    print "************************************************************\n";
+
+    if (!test_function($prefix,'arpack','arpack','znaupd_',$platform_opts)) {
+	fetch_unpack_pkg(\%arpack_pkg,'cross');
+	my $cwd = Cwd::cwd();    
+	if (not -f 'cross/ARPACK/UTIL/second_orig.f') {
+	    copy_file('cross/ARPACK/UTIL/second.f','cross/ARPACK/Util/second_orig.f');
+	    delete_file('cross/ARPACK/UTIL/second.f');
+	    system('touch cross/ARPACK/UTIL/second.f');
+	}
+	make_package('cross/ARPACK',$prefix,$platform_opts,'MAKE=make DIRS="SRC UTIL" ' . "ARPACKLIB=$cwd/cross/ARPACK/libarpack.a all");
+	copy_file('cross/ARPACK/libarpack.a',"$prefix/lib/libarpack.a");
+	test_function($prefix,'arpack','arpack','znaupd_',$platform_opts) or
+	    die "Installation of ARPACK failed";
+    }
+
+    print "************************************************************\n";
+    print "    Handling package SparseSuite\n";
+    print "************************************************************\n";
+
+    my $amd_found = test_function($prefix,'SparseSuiteAMD','amd','amd_postorder',$platform_opts);
+    if ($amd_found) {
+	$platform_opts->{'libs'} = "-lamd $platform_opts->{'libs'}";
+    }
+    my $umfpack_found = test_function($prefix,'SparseSuiteUMFPACK','umfpack',
+				      'umfpack_zl_solve',$platform_opts);
+    if (!$amd_found || !$umfpack_found) {
+	fetch_unpack_pkg(\%sparse_suite_pkg,'cross');
+	make_package('cross/SuiteSparse/AMD/Source',$prefix,$platform_opts,'');
+	make_package('cross/SuiteSparse/UMFPACK/Source',$prefix,$platform_opts,'');
+	copy_file('cross/SuiteSparse/AMD/Lib/libamd.a',"$prefix/lib/libamd.a");
+	copy_file('cross/SuiteSparse/UMFPACK/Lib/libumfpack.a',"$prefix/lib/libumfpack.a");
+	copy_file('cross/SuiteSparse/AMD/Include/amd.h',"$prefix/include/amd.h");
+	copy_files('cross/SuiteSparse/UMFPACK/Include/*.h',"$prefix/include");
+	copy_file('cross/SuiteSparse/UFconfig/UFconfig.h',"$prefix/include/UFconfig.h");
+	test_function($prefix,'SparseSuiteAMD','amd','amd_postorder',$platform_opts) or
+	    die "Installation of AMD package from sparse suite failed!\n";
+	$platform_opts->{'libs'} = "-lamd $platform_opts->{'libs'}";
+	test_function($prefix,'SparseSuiteUMFPACK','umfpack','umfpack_zl_solve',$platform_opts) or
+	    die "Installation of UMFPACK package from sparse suite package failed!\n";
+    }
+
+    system("rm $prefix/lib/*.dylib");
+
+    print "************************************************************\n";
+    print "    Starting FreeMat Installation\n";
+    print "************************************************************\n";
+    fetch_unpack_pkg(\%freemat_pkg,'cross');
+    configure_make_install("cross/$freemat_pkg{'root'}",$prefix,'build',$platform_opts,"CPPFLAGS=\"-I$prefix/include -I$crossprefix/include -I$crossprefix/include/QtCore -I$crossprefix/include/QtGui -I$crossprefix/include/QtOpenGL -I$crossprefix/include/QtNetwork -I$crossprefix/include/QtSvg -I$crossprefix/include/QtXml\" LDFLAGS=\"-L$prefix/lib -F$crossprefix/lib\"");
+
+}
+
+
+sub job_native_freemat {
+    my $prefix = shift;
+    my $platform_opts;
+
+    $platform_opts->{'configure opts'} = '';
+    $platform_opts->{'make opts'} = '';
+    $platform_opts->{'compiler'} = 'gcc';
+    $platform_opts->{'libs'} = "-llapack -lblas -lpthread";
+    $platform_opts->{'ldflags'} = "-L$prefix/lib -L/usr/lib/atlas";
+    $platform_opts->{'cflags'} = "-I$prefix/include";
+    $platform_opts->{'archiver'} = 'ar';
+    $platform_opts->{'ranlib'} = 'ranlib';
+    $platform_opts->{'opts'} = '-O2';
+    $platform_opts->{'arflags'} = 'crv';
+    $platform_opts->{'fc'} = find_program('FORTRAN Compiler','g77','gfortran','f90','f95');
+    $platform_opts->{'preconfigure opts'} = 'PKG_CONFIG_PATH=$PKG_CONFIG_PATH'. ":$prefix/lib:$prefix/lib/pkgconfig  ";
+
+
+# TODO: LAPACK, ZLIB
+
+    setup_common($prefix);
+
+    my $need_qt4 = 0;
+    my $rcc;
+    my $moc;
+    my $uic;
+    eval {
+	$rcc = find_program('RCC','rcc4','rcc-qt4','rcc');
+	$moc = find_program('MOC','moc4','moc-qt4','moc');
+	$uic = find_program('UIC','uic4','uic-qt4','uic');
+    };
+
+    if ($@) {
+	print "One or more of rcc, moc, or uic was not found - will need to build Qt4.\n";
+	print "rcc - $rcc, moc - $moc, uic - $uic\n";
+	$need_qt4 = 1;
+    }
+
+    if (!$need_qt4) {
+	my $version_test = `$moc -v 2>&1`;
+	if ($version_test =~ /\(Qt (.*)\)/) {
+	    my $version_number = $1;
+	    $version_number =~ s|\.||g;
+	    if ($version_number < 423) {
+		print "Qt Version $version_number is not sufficient\n";
+		$need_qt4 = 1;
+	    }
+	} else {
+	    print "Qt Version $version_test is not sufficient\n";
+	    $need_qt4 = 1;
+	}
+    }
+
+    if ($need_qt4) {
+	fetch_unpack_pkg(\%qt_x11_pkg,'build');
+	my $save_config_opts = $platform_opts->{'configure opts'};
+	configure_make_install("build/$qt_x11_pkg{root}",$prefix,"",$platform_opts," -fast -no-qt3support");
+    }
+
+    autopackage_check_pkg($prefix,'pcre','pcre','pcre_compile','pcre.h',
+			  $platform_opts,'build',\%pcre_pkg);
+    autopackage_check_pkg($prefix,'portaudio','portaudio','Pa_OpenStream','portaudio.h',
+			  $platform_opts,'build',\%portaudio_pkg,"--disable-static");
+    autopackage_check_pkg($prefix,'fftw-float','fftw3f','fftwf_malloc','fftw3.h',
+			  $platform_opts,'build_single',\%fftw_pkg,'--enable-single');
+    autopackage_check_pkg($prefix,'fftw-double','fftw3','fftw_malloc','fftw3.h',
+			  $platform_opts,'build_double',\%fftw_pkg);
+    autopackage_check_pkg($prefix,'ffcall','avcall','__structcpy','avcall.h',
+			  $platform_opts,'build',\%ffcall_pkg);
+
+    fancy_box("Handling package ARPACK");
+
+    if (!test_function($prefix,'arpack','arpack','znaupd_',$platform_opts)) {
+	fetch_unpack_pkg(\%arpack_pkg,'build');
+	my $cwd = Cwd::cwd();    
+	make_package('build/ARPACK',$prefix,$platform_opts,'MAKE=make DIRS="SRC UTIL" ' . "ARPACKLIB=$cwd/build/ARPACK/libarpack.a all");
+	copy_file('build/ARPACK/libarpack.a',"$prefix/lib/libarpack.a");
+	test_function($prefix,'arpack','arpack','znaupd_',$platform_opts) or
+	    die "Installation of ARPACK failed";
+    }
+
+    fancy_box("Handling package SparseSuite");
+
+    my $amd_found = test_function($prefix,'SparseSuiteAMD','amd','amd_postorder',$platform_opts);
+    if ($amd_found) {
+	$platform_opts->{'libs'} = "-lamd $platform_opts->{'libs'}";
+    }
+    my $umfpack_found = test_function($prefix,'SparseSuiteUMFPACK','umfpack',
+				      'umfpack_zl_solve',$platform_opts);
+    if (!$amd_found || !$umfpack_found) {
+	fetch_unpack_pkg(\%sparse_suite_pkg,'build');
+	make_package('build/SuiteSparse/AMD/Source',$prefix,$platform_opts,'');
+	make_package('build/SuiteSparse/UMFPACK/Source',$prefix,$platform_opts,'');
+	copy_file('build/SuiteSparse/AMD/Lib/libamd.a',"$prefix/lib/libamd.a");
+	copy_file('build/SuiteSparse/UMFPACK/Lib/libumfpack.a',"$prefix/lib/libumfpack.a");
+	copy_file('build/SuiteSparse/AMD/Include/amd.h',"$prefix/include/amd.h");
+	copy_files('build/SuiteSparse/UMFPACK/Include/*.h',"$prefix/include");
+	copy_file('build/SuiteSparse/UFconfig/UFconfig.h',"$prefix/include/UFconfig.h");
+	test_function($prefix,'SparseSuiteAMD','amd','amd_postorder',$platform_opts) or
+	    die "Installation of AMD package from sparse suite failed!\n";
+	$platform_opts->{'libs'} = "-lamd $platform_opts->{'libs'}";
+	test_function($prefix,'SparseSuiteUMFPACK','umfpack','umfpack_zl_solve',$platform_opts) or
+	    die "Installation of UMFPACK package from sparse suite package failed!\n";
+    }
+
+    fancy_box("Starting FreeMat Installation");
+
+    fetch_unpack_pkg(\%freemat_pkg,'build');
+    configure_make_install("build/$freemat_pkg{'root'}",$prefix,'build',$platform_opts,"CPPFLAGS=\"-I$prefix/include\" LDFLAGS=\"-L$prefix/lib\"");
+}
+
+sub relink {
+    my $prefix = shift;
+    my $baseDir = shift;
+    my $source = shift;
+    my $dest = shift;
+    print "Relinking $source --> $dest\n";
+    system_check("install_name_tool -change $prefix/lib/$source.framework/Versions/4/$source \@executable_path/../Frameworks/$source.framework/Versions/4/$source $dest");
+}
+
+sub relink_plugin {
+    my $prefix = shift;
+    my $baseDir = shift;
+    my $plugin = shift;
+    relink($prefix,$baseDir,"QtCore",$plugin);
+    relink($prefix,$baseDir,"QtGui",$plugin);
+    relink($prefix,$baseDir,"QtOpenGL",$plugin);
+    relink($prefix,$baseDir,"QtNetwork",$plugin);
+    relink($prefix,$baseDir,"QtXML",$plugin);
+    relink($prefix,$baseDir,"QtSvg",$plugin);
+}
+
+
+sub cross_link_framework {
+    my $prefix = shift;
+    my $baseDir = shift;
+    my $src = shift;
+    my $dest = shift;
+    print "Cross linking $dest -> $src";
+    relink($prefix,$baseDir,$dest,"$baseDir/Contents/Frameworks/$src.framework/Versions/4/$src");
+}
+
+sub cross_link_framework_all {
+    my $prefix = shift;
+    my $baseDir = shift;
+    my $target = shift;
+    cross_link_framework($prefix,$baseDir,$target,"QtCore");
+    cross_link_framework($prefix,$baseDir,$target,"QtGui");
+    cross_link_framework($prefix,$baseDir,$target,"QtOpenGL");
+    cross_link_framework($prefix,$baseDir,$target,"QtNetwork");
+    cross_link_framework($prefix,$baseDir,$target,"QtXML");
+    cross_link_framework($prefix,$baseDir,$target,"QtSvg");
+}
+
+sub install_framework {
+    my $prefix = shift;
+    my $baseDir = shift;
+    my $name = shift;
+    copy_files("$prefix/lib/$name.framework","$baseDir/Contents/Frameworks/$name.framework");
+    system_check("install_name_tool -id \@executable_path../Frameworks/$name.framework/Verions/4/$name $baseDir/Contents/Frameworks/$name.framework/Versions/4/$name");
+    relink($prefix,$baseDir,$name,"$baseDir/Contents/MacOS/FreeMat");
+}
+
+sub job_mac_bundle {
+    my $prefix = shift;
+    my $crossprefix = shift;
+    my $baseDir = "build/$freemat_pkg{'root'}.app";
+    delete_directory("$baseDir");
+    make_directory("$baseDir");
+    make_directory("$baseDir/Contents");
+    make_directory("$baseDir/Contents/MacOS");
+    make_directory("$baseDir/Contents/Resources");
+    make_directory("$baseDir/Contents/Resources/help");
+    make_directory("$baseDir/Contents/Resources/help/html");
+    make_directory("$baseDir/Contents/Resources/help/text");
+    make_directory("$baseDir/Contents/Resources/help/pdf");
+    make_directory("$baseDir/Contents/Resources/toolbox");
+    make_directory("$baseDir/Contents/Frameworks");
+    make_directory("$baseDir/Contents/Plugins");
+    system_check("lipo -create $prefix/bin/FreeMat $crossprefix/bin/FreeMat -output $baseDir/Contents/MacOS/FreeMat");
+    system("strip $baseDir/Contents/MacOS/FreeMat");
+    sym_link("$baseDir/Contents/MacOS/FreeMat","$baseDir/FreeMat");
+    copy_file("build/$freemat_pkg{'root'}/src/appIcon.icns","$baseDir/Contents/Resources/appIcon.icns");
+    open(TMP,">$baseDir/Contents/PkgInfo") or die("unable to create pkgInfo file");
+    print TMP "APPL????";
+    close(TMP);
+    open(TMP,">$baseDir/Contents/Info.plist") or die("unable to create info.plist file");
+    my $info = <<EOF;
+ <?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE plist SYSTEM "file://localhost/System/Library/DTDs/PropertyList.dtd">
+ <plist version="0.9">
+ <dict>
+ <key>CFBundleIconFile</key>
+ <string>appIcon.icns</string>
+ <key>CFBundlePackageType</key>
+ <string>APPL</string>
+ <key>CFBundleExecutable</key>
+ <string>FreeMat</string>
+ </dict>
+ </plist>
+EOF
+    print TMP $info;
+    close(TMP);
+    install_framework($prefix,$baseDir,"QtGui");
+    install_framework($prefix,$baseDir,"QtCore");
+    install_framework($prefix,$baseDir,"QtOpenGL");
+    install_framework($prefix,$baseDir,"QtNetwork");
+    install_framework($prefix,$baseDir,"QtXml");
+    install_framework($prefix,$baseDir,"QtSvg");
+    cross_link_framework_all($prefix,$baseDir,"QtGui");
+    cross_link_framework_all($prefix,$baseDir,"QtCore");
+    cross_link_framework_all($prefix,$baseDir,"QtOpenGL");
+    cross_link_framework_all($prefix,$baseDir,"QtNetwork");
+    cross_link_framework_all($prefix,$baseDir,"QtXml");
+    cross_link_framework_all($prefix,$baseDir,"QtSvg");
+    copy_files("$prefix/share/$freemat_pkg{'root'}/help/html","$baseDir/Contents/Resources/help");
+    copy_files("$prefix/share/$freemat_pkg{'root'}/help/text","$baseDir/Contents/Resources/help");
+    copy_files("$prefix/share/$freemat_pkg{'root'}/toolbox","$baseDir/Contents/Resources");
+    copy_file("$prefix/share/$freemat_pkg{'root'}/help/latex/main.pdf",
+	      "$baseDir/Contents/Resources/help/pdf/$freemat_pkg{'root'}.pdf");
+    copy_files("$prefix/plugins/imageformats","$baseDir/Contents/Plugins");
+    relink_plugin($prefix,$baseDir,"$baseDir/Contents/Plugins/imageformats/libqgif.dylib");
+    relink_plugin($prefix,$baseDir,"$baseDir/Contents/Plugins/imageformats/libqjpeg.dylib");
+    relink_plugin($prefix,$baseDir,"$baseDir/Contents/Plugins/imageformats/libqmng.dylib");
+    relink_plugin($prefix,$baseDir,"$baseDir/Contents/Plugins/imageformats/libqsvg.dylib");
+    relink_plugin($prefix,$baseDir,"$baseDir/Contents/Plugins/imageformats/libqtiff.dylib");
+    copy_file("/usr/local/lib/libgfortran.2.dylib","$baseDir/Contents/Frameworks/.");
+    copy_file("/usr/local/lib/libgcc_s.1.dylib","$baseDir/Contents/Frameworks/.");
+    system_check("install_name_tool -id \"\@executable_path/../Frameworks/libgfortran.2.dylib\" $baseDir/Contents/Frameworks/libgfortran.2.dylib");
+    system_check("install_name_tool -id \"\@executable_path/../Frameworks/libgcc_s.1.dylib\" $baseDir/Contents/Frameworks/libgcc_s.1.dylib");
+    system_check("install_name_tool -change \"/usr/local/lib/libgfortran.2.dylib\" \"\@executable_path/../Frameworks/libgfortran.2.dylib\" $baseDir/Contents/MacOS/FreeMat");
+    system_check("install_name_tool -change \"/usr/local/lib/libgcc_s.1.dylib\" \"\@executable_path/../Frameworks/libgcc_s.1.dylib\" $baseDir/Contents/MacOS/FreeMat");
+    system_check("find $baseDir -name '*_debug' -exec rm \\{\\} \\;");
+    system_check("find $baseDir -name '*_debug.dylib' -exec rm \\{\\} \\;");
+}
+
+sub job_win_freemat {
+    my $prefix = shift;
+    my $platform_opts;
+
+    $platform_opts->{'configure opts'} = '';
+    $platform_opts->{'make opts'} = '';
+    $platform_opts->{'compiler'} = 'i686-mingw32-gcc';
+    $platform_opts->{'libs'} = "-lopengl32 -lglu32 -lgdi32 -luser32 -lwsock32 -lwinmm";
+    $platform_opts->{'ldflags'} = "-L$prefix/lib";
+    $platform_opts->{'cflags'} = "-I$prefix/include";
+    $platform_opts->{'archiver'} = 'i686-mingw32-ar';
+    $platform_opts->{'ranlib'} = 'i686-mingw32-ranlib';
+    $platform_opts->{'opts'} = '-O2';
+    $platform_opts->{'arflags'} = 'crv';
+    $platform_opts->{'fc'} = 'i686-mingw32-g77';
+    $platform_opts->{'preconfigure opts'} = 'PKG_CONFIG_PATH=$PKG_CONFIG_PATH'. ":$prefix/lib:$prefix/lib/pkgconfig  ";
+
+
+# TODO: LAPACK, ZLIB
+
+    setup_common($prefix);
+
+    my $need_qt4 = 0;
+    my $rcc;
+    my $moc;
+    my $uic;
+    eval {
+	$rcc = find_program('RCC','rcc4','rcc-qt4','rcc');
+	$moc = find_program('MOC','moc4','moc-qt4','moc');
+	$uic = find_program('UIC','uic4','uic-qt4','uic');
+    };
+
+    if ($@) {
+	print "One or more of rcc, moc, or uic was not found - will need to build Qt4.\n";
+	print "rcc - $rcc, moc - $moc, uic - $uic\n";
+	$need_qt4 = 1;
+    }
+
+    if ($need_qt4) {
+	die "Win version of QT cannot be installed in the win_freemat job - use the setup-mingw-cross job.";
+    }
+    
+
+    if (!test_function($prefix,'pcre','pcre','pcre_compile',$platform_opts) ||
+	!test_include_file($prefix,'pcre','pcre.h',$platform_opts)) {
+	fetch_unpack_pkg(\%pcre_pkg,'cross');
+	open(PATCH,">cross/$pcre_pkg{'root'}/dllexport_patch") or die "Unable to write patch file: $!\n";
+	my $patch =<<END;
+--- pcreposix.h
++++ pcreposix.h
+@@ -112,7 +112,7 @@
+ #ifdef _WIN32
+ #  ifndef PCREPOSIX_STATIC
+ #    define PCREPOSIX_EXP_DECL extern __declspec(dllimport)
+-#    define PCREPOSIX_EXP_DEFN  __declspec(dllimport)
++#    define PCREPOSIX_EXP_DEFN  __declspec(dllexport)
+ #  endif
+ #endif
+END
+        print PATCH $patch;
+	close(PATCH);
+	my $cwd = Cwd::cwd();
+	change_directory("cross/$pcre_pkg{'root'}");
+	(system("patch -p0 <dllexport_patch") == 0) || die "Patch failed!\n";
+	change_directory($cwd);
+	configure_make_install("cross/$pcre_pkg{'root'}",$prefix,"build",$platform_opts,"--host=i686-mingw32 --build=i686-pc-linux-gnu");
+	delete_file("$prefix/lib/libpcrecpp.dll.a");
+	delete_file("$prefix/lib/libpcre.dll.a");
+	delete_file("$prefix/lib/libpcreposix.dll.a");
+	test_function($prefix,'pcre','pcre','pcre_compile',$platform_opts) &&
+	    test_include_file($prefix,'pcre','pcre.h',$platform_opts)     or
+	    die "Installation of PCRE failed!\n";
+    }
+
+    autopackage_check_pkg($prefix,'pcre','pcre','pcre_compile','pcre.h',
+			  $platform_opts,'build',\%pcre_pkg,
+			  '--host=i686-mingw32 --build=i686-pc-linux-gnu --disable-shared','cross');
+    autopackage_check_pkg($prefix,'portaudio','portaudio','Pa_OpenStream','portaudio.h',
+			  $platform_opts,'build',\%portaudio_pkg,
+			  '--host=i686-mingw32 --build=i686-pc-linux-gnu --disable-shared','cross');
+    autopackage_check_pkg($prefix,'fftw-float','fftw3f','fftwf_malloc','fftw3.h',
+			  $platform_opts,'build_single',\%fftw_pkg,
+			  '--host=i686-mingw32 --build=i686-pc-linux-gnu --enable-single','cross');
+    autopackage_check_pkg($prefix,'fftw-double','fftw3','fftw_malloc','fftw3.h',
+			  $platform_opts,'build_double',\%fftw_pkg,
+			  '--host=i686-mingw32 --build=i686-pc-linux-gnu','cross');
+    autopackage_check_pkg($prefix,'ffcall','avcall','__structcpy','avcall.h',
+			  $platform_opts,'build',\%ffcall_pkg,
+			  '--host=i686-mingw32 --build=i686-pc-linux-gnu RANLIB=i686-mingw32-ranlib','cross');
+    
+    fancy_box("Handling package ATLAS");
+
+    if (!test_function($prefix,'atlas','atlas','ATL_sgemm',$platform_opts)) {
+	fetch_unzip_pkg(\%atlas_win_pkg,'cross/atlas');
+	copy_file('cross/atlas/libatlas.a',"$prefix/lib");
+	copy_file('cross/atlas/libcblas.a',"$prefix/lib");
+	copy_file('cross/atlas/libf77blas.a',"$prefix/lib");
+	test_function($prefix,'atlas','atlas','ATL_sgemm',$platform_opts) or
+	    die "Installation of ATLAS failed";
+    }
+
+    $platform_opts->{'libs'} = '-lf77blas -latlas -lg2c '. $platform_opts->{'libs'};
+
+
+    fancy_box("Handling package LAPACK");
+
+    if (!test_function($prefix,'lapack','lapack','cheev_',$platform_opts)) {
+	fetch_unpack_pkg(\%lapack_pkg,'cross');
+	system("touch cross/$lapack_pkg{'root'}/make.inc");
+	open(MAKEINC,">cross/$lapack_pkg{'root'}/make.inc") || die "Unable to open make.inc file:$!\n";
+	print MAKEINC "TIMER=INT_ETIME\n";
+	close(MAKEINC);
+	make_package("cross/$lapack_pkg{'root'}/INSTALL","$prefix",$platform_opts,"all");
+	make_package("cross/$lapack_pkg{'root'}/SRC","$prefix",$platform_opts,
+		     'LAPACKLIB="liblapack.a"');
+	copy_file("cross/$lapack_pkg{'root'}/liblapack.a","$prefix/lib");
+	test_function($prefix,'lapack','lapack','cheev_',$platform_opts) or
+	    die "Installation of LAPACK failed";
+    }
+
+    $platform_opts->{'libs'} = '-llapack '. $platform_opts->{'libs'};
+
+    fancy_box("Handling package ARPACK");
+
+    if (!test_function($prefix,'arpack','arpack','znaupd_',$platform_opts)) {
+	fetch_unpack_pkg(\%arpack_pkg,'cross');
+	my $cwd = Cwd::cwd();    
+	make_package('cross/ARPACK',$prefix,$platform_opts,'MAKE=make DIRS="SRC UTIL" ' . "ARPACKLIB=$cwd/cross/ARPACK/libarpack.a all");
+	copy_file('cross/ARPACK/libarpack.a',"$prefix/lib/libarpack.a");
+	test_function($prefix,'arpack','arpack','znaupd_',$platform_opts) or
+	    die "Installation of ARPACK failed";
+    }
+
+    fancy_box("Handling package libZ");
+
+    if (!test_function($prefix,'z','z','inflate',$platform_opts)) {
+	fetch_unpack_pkg(\%libz_pkg,'cross');
+	my $cwd = Cwd::cwd();
+	make_package('cross/zlib-1.2.3',$prefix,$platform_opts);
+	copy_file('cross/zlib-1.2.3/zlib.h',"$prefix/include");
+	copy_file('cross/zlib-1.2.3/zconf.h',"$prefix/include");
+	copy_file('cross/zlib-1.2.3/libz.a',"$prefix/lib");
+	test_function($prefix,'z','z','inflate',$platform_opts) or
+	    die "Installation of libZ failed";
+    }
+
+    fancy_box("Handling package SparseSuite");
+
+    my $amd_found = test_function($prefix,'SparseSuiteAMD','amd','amd_postorder',$platform_opts);
+    if ($amd_found) {
+	$platform_opts->{'libs'} = "-lamd $platform_opts->{'libs'}";
+    }
+    my $umfpack_found = test_function($prefix,'SparseSuiteUMFPACK','umfpack',
+				      'umfpack_zl_solve',$platform_opts);
+    if (!$amd_found || !$umfpack_found) {
+	fetch_unpack_pkg(\%sparse_suite_pkg,'cross');
+	make_package('cross/SuiteSparse/AMD/Source',$prefix,$platform_opts,'');
+	make_package('cross/SuiteSparse/UMFPACK/Source',$prefix,$platform_opts,'');
+	copy_file('cross/SuiteSparse/AMD/Lib/libamd.a',"$prefix/lib/libamd.a");
+	copy_file('cross/SuiteSparse/UMFPACK/Lib/libumfpack.a',"$prefix/lib/libumfpack.a");
+	copy_file('cross/SuiteSparse/AMD/Include/amd.h',"$prefix/include/amd.h");
+	copy_files('cross/SuiteSparse/UMFPACK/Include/*.h',"$prefix/include");
+	copy_file('cross/SuiteSparse/UFconfig/UFconfig.h',"$prefix/include/UFconfig.h");
+	test_function($prefix,'SparseSuiteAMD','amd','amd_postorder',$platform_opts) or
+	    die "Installation of AMD package from sparse suite failed!\n";
+	$platform_opts->{'libs'} = "-lamd $platform_opts->{'libs'}";
+	test_function($prefix,'SparseSuiteUMFPACK','umfpack','umfpack_zl_solve',$platform_opts) or
+	    die "Installation of UMFPACK package from sparse suite package failed!\n";
+    }
+
+
+    fancy_box("Starting FreeMat Installation");
+
+    fetch_unpack_pkg(\%freemat_pkg,'cross');
+    configure_make_install("cross/$freemat_pkg{'root'}",$prefix,'build',$platform_opts,"--host=i686-mingw32 --build=i686-pc-linux-gnu --with-qt4dir=$prefix/Qt/4.3.0 WINDRES=\"i686-mingw32-windres\" CFLAGS=-I$prefix/include LDFLAGS=-L$prefix/lib");
+    my $baseDir="cross/$freemat_pkg{'root'}-Win32";
+    my $buildDir="cross/$freemat_pkg{'root'}/build";
+    my $srcDir="cross/$freemat_pkg{'root'}";
+    my $buildVer="$freemat_pkg{'version'}";
+    make_directory("$baseDir");
+    make_directory("$baseDir/Contents");
+    make_directory("$baseDir/Contents/bin");
+    make_directory("$baseDir/Contents/Resources");
+    make_directory("$baseDir/Contents/Resources/help");
+    make_directory("$baseDir/Contents/Resources/help/html");
+    make_directory("$baseDir/Contents/Resources/help/text");
+    make_directory("$baseDir/Contents/Resources/help/pdf");
+    make_directory("$baseDir/Contents/Resources/toolbox");
+    make_directory("$baseDir/Contents/Plugins/imageformats");
+    copy_files("$prefix/Qt/4.3.0/plugins/imageformats/*.dll","$baseDir/Contents/Plugins/imageformats/");
+    copy_files("$prefix/bin/FreeMat.exe","$baseDir/Contents/bin/FreeMat.exe");
+    copy_files("$prefix/Qt/4.3.0/bin/QtCore4.dll","$baseDir/Contents/bin/QtCore4.dll");
+    copy_files("$prefix/Qt/4.3.0/bin/QtGui4.dll","$baseDir/Contents/bin/QtGui4.dll");
+    copy_files("$prefix/Qt/4.3.0/bin/QtOpenGL4.dll","$baseDir/Contents/bin/QtOpenGL4.dll");
+    copy_files("$prefix/Qt/4.3.0/bin/QtNetwork4.dll","$baseDir/Contents/bin/QtNetwork4.dll");
+    copy_files("$prefix/Qt/4.3.0/bin/QtXml4.dll","$baseDir/Contents/bin/QtXml4.dll");
+    copy_files("$prefix/Qt/4.3.0/bin/QtSvg4.dll","$baseDir/Contents/bin/QtSvg4.dll");
+    copy_files("$prefix/bin/mingwm10.dll","$baseDir/Contents/bin/mingwm10.dll");
+    copy_files("$prefix/share/$freemat_pkg{'root'}/help/html","$baseDir/Contents/Resources/help");
+    copy_files("$prefix/share/$freemat_pkg{'root'}/help/text","$baseDir/Contents/Resources/help");
+    copy_files("$prefix/share/$freemat_pkg{'root'}/toolbox","$baseDir/Contents/Resources");
+    copy_files("$prefix/share/$freemat_pkg{'root'}/help/latex/main.pdf","$baseDir/Contents/Resources/help/pdf/$freemat_pkg{'root'}.pdf");
+    copy_files("$srcDir/COPYING","$baseDir");
+    print "Generating NSI file...\n";
+    my $cwd = Cwd::cwd();
+    change_directory($baseDir);
+    my $files = `find -type f`;
+    my @file_list = split('\n',$files);
+    my $prev_path = "";
+    my $installation_list = "";
+    foreach my $val (@file_list) {
+	my $name;
+	my $path;
+	my $suffix;
+	($name,$path,$suffix) = fileparse($val);
+	if ($path ne $prev_path) {
+	    my $print_path = $path;
+	    $print_path =~ s!/!\\!g;
+	    $installation_list = $installation_list . "SetOutPath \"\$INSTDIR\\$print_path\"\n";
+	    $prev_path = $path;
+	}
+	$val =~ s!/!\\!g;
+	$installation_list = $installation_list . "FILE \"$val\"\n";
+    };
+    my $delete_list = "";
+    foreach my $val (@file_list) {
+	$val =~ s!/!\\!g;
+	$delete_list = $delete_list . "Delete \"\$INSTDIR\\$val\"\n";
+    };
+    change_directory($cwd);
+    open(FREEMATNSI,"$srcDir/tools/freemat_nsi.in") or die "Unable to open NSI file: $!\n";
+    open(FREEMATNSIOUT,">$baseDir/freemat.nsi") or die "Unable to open output NSI file: $!\n";
+    while (my $line = <FREEMATNSI>) {
+	$line =~ s/<VERSION_NUMBER>/$buildVer/g;
+	$line =~ s/<BUNDLE FILES>/$installation_list/g;
+	$line =~ s/<DELLIST>/$delete_list/g;
+	print FREEMATNSIOUT "$line";
+    }
+    close(FREEMATNSI);
+    close(FREEMATNSIOUT);
+    change_directory($baseDir);
+    if (system("wine ~/.wine/drive_c/Program\\ Files/NSIS/makensis.exe freemat.nsi") != 0) {
+	die "Unable to build installer: $!\n";
+    }
+}
+
+sub job_rpm_freemat  {
+    my $prefix = shift;
+    setup_common($prefix);
+    delete_directory("build/rpm");
+    make_directory("build/rpm");
+    make_directory("build/rpm/BUILD");
+    make_directory("build/rpm/RPMS");
+    make_directory("build/rpm/SOURCES");
+    make_directory("build/rpm/SPECS");
+    make_directory("build/rpm/SRPMS");
+    fetch_unpack_pkg(\%freemat_pkg,'build');
+    copy_file("files/$freemat_pkg{'file'}","build/rpm/SOURCES");
+    open(FREEMATSPECIN,"build/$freemat_pkg{'root'}/tools/freemat_spec.in") or die "Unable to open SPEC file: $!\n";
+    open(FREEMATSPECOUT,">build/rpm/SPECS/freemat.spec") or die "Unable to open output .SPEC file: $!\n";
+    my $buildVer="$freemat_pkg{'version'}";
+    while (my $line = <FREEMATSPECIN>) {
+	$line =~ s/<VERSION_NUMBER>/$buildVer/g;	
+	print FREEMATSPECOUT "$line";
+    }
+    close(FREEMATSPECIN);
+    close(FREEMATSPECOUT);
+    my $cwd = Cwd::cwd();
+    system("rpmbuild -ba --define \"_topdir $cwd/build/rpm\" build/rpm/SPECS/freemat.spec") == 0 or
+	die "RPM build failed.";
+}
+
+sub job_mac_release {
+    my $intel_prefix = shift;
+    my $ppc_prefix = shift;
+    my $buildtool_path = Cwd::cwd();
+    job_mac_freemat($intel_prefix);
+    job_macppc_freemat($ppc_prefix,$intel_prefix);
+    job_mac_bundle($intel_prefix,$ppc_prefix);
+    make_directory("release_files");
+    copy_files("build/FreeMat-$freemat_pkg{'version'}.app","release_files");
+    change_directory("release_files");
+    system_check("hdiutil create -fs HFS+ -srcfolder FreeMat-$freemat_pkg{'version'}.app FreeMat-$freemat_pkg{'version'}.dmg");
+}
+
+sub job_linux_prerelease {
+    my $prefix = shift;
+    my $cross_prefix = shift;
+    my $svn_path = shift;
+    my $buildtool_path = Cwd::cwd();
+    change_directory($svn_path . '/build');
+    system_check('make');
+    system_check('make dist');
+    copy_file("$freemat_pkg{'file'}","$buildtool_path/files");
+    change_directory($buildtool_path);
+    job_native_freemat($prefix);
+    change_directory($buildtool_path);
+    job_win_freemat($cross_prefix);
+    change_directory($buildtool_path);
+}
+
+sub job_linux_release {
+    my $prefix = shift;
+    my $cross_prefix = shift;
+    my $svn_path = shift;
+    my $buildtool_path = Cwd::cwd();
+    change_directory($svn_path);
+    delete_file('manifest.am');
+    system('touch manifest.am');
+    change_directory($svn_path . '/build');
+    system_check('make clean');
+    system_check('make');
+    change_directory($svn_path);
+    system_check('build/src/FreeMat -nogui -f "source tools/svn_path.m; helpgen(pwd);"');
+    change_directory($svn_path . '/build');
+    system_check('make distcheck');
+    copy_file("$freemat_pkg{'file'}","$buildtool_path/files");
+    change_directory($buildtool_path);
+    job_native_freemat($prefix);
+    change_directory($buildtool_path);
+    job_win_freemat($cross_prefix);
+    change_directory($buildtool_path);
+    job_rpm_freemat($prefix);
+    change_directory($buildtool_path);
+    make_directory("release_files");
+    copy_file("build/rpm/RPMS/i386/FreeMat-$freemat_pkg{'version'}-1.i386.rpm","release_files/FreeMat-$freemat_pkg{'version'}.i386.fc7.rpm");
+    copy_file("files/$freemat_pkg{'file'}","release_files/.");
+    copy_file("cross/FreeMat-$freemat_pkg{'version'}_Setup.exe","release_files/.");
+    copy_file("build/FreeMat-$freemat_pkg{'version'}/help/latex/main.pdf","release_files/FreeMat-$freemat_pkg{'version'}.pdf");
+}
+
+my $prefix = shift;
+my $job = shift;
+
+if (not defined $job or not defined $prefix) {
+    die "Usage: buildtool <prefix> <task> <cross_prefix>\n" . " where <task> is one of: \n" . 
+	"    native-freemat    - build freemat for this platform\n" . 
+	"    setup-mingw-cross - setup the win32 cross compiler\n" .
+	"    win-freemat       - build win32 freemat\n" .
+	"    mac-freemat       - build the mac freemat\n" .
+	"    ppc-freemat       - build the mac-ppc freemat (uses cross_prefix --> intel build dir)\n" .
+	"    rpm-freemat       - build an RPM of freemat\n" .
+	"    mac-bundle        - build the bundle (mac) of freemat\n" .
+	"    linux-release     - create a FreeMat release (linux & win) - buildtool\n" .
+	"                        takes a fourth argument (the path to the SVN tree).\n" .
+	"    linux-prerelease  - create a FreeMat prerelease (linux & win) - buildtool\n" .
+	"                        takes a fourth argument (the path to the SVN tree).\n" .
+	"    mac-release       - create a FreeMat release (mac universal).  Assumes\n" .
+	"                        release source is in files directory.\n";
+}
+
+if ($job eq "native-freemat") {
+    job_native_freemat($prefix);
+}
+
+if ($job eq "setup-mingw-cross") {
+    job_setup_mingw_cross($prefix);
+}
+
+if ($job eq "win-freemat") {
+    job_win_freemat($prefix);
+}
+
+if ($job eq "rpm-freemat") {
+    job_rpm_freemat($prefix);
+}
+
+if ($job eq "mac-freemat") {
+    job_mac_freemat($prefix);
+}
+
+if ($job eq "ppc-freemat") {
+    job_macppc_freemat($prefix,shift);
+}
+
+if ($job eq "mac-bundle") {
+    job_mac_bundle($prefix,shift);
+}
+
+if ($job eq "linux-release") {
+    job_linux_release($prefix,shift,shift);
+}
+
+if ($job eq "linux-prerelease") {
+    job_linux_prerelease($prefix,shift,shift);
+}
+
+if ($job eq "mac-release") {
+    job_mac_release($prefix,shift);
+}

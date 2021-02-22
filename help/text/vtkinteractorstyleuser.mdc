@@ -1,0 +1,79 @@
+
+ Usage
+
+The most common way to customize user interaction is to
+write a subclass of vtkInteractorStyle:
+vtkInteractorStyleUser allows you to customize the
+interaction to without subclassing vtkInteractorStyle. This
+is particularly useful for setting up custom interaction
+modes in scripting languages such as Tcl and Python. This
+class allows you to hook into the MouseMove, ButtonPress/
+Release, KeyPress/Release, etc. events. If you want to hook
+into just a single mouse button, but leave the interaction
+modes for the others unchanged, you must use e.g.
+SetMiddleButtonPressMethod() instead of the more general
+SetButtonPressMethod().
+To create an instance of class vtkInteractorStyleUser,
+simply invoke its constructor as follows
+
+    obj = vtkInteractorStyleUser
+
+
+
+ Methods
+
+The class vtkInteractorStyleUser has several methods that
+can be used. They are listed below. Note that the
+documentation is translated automatically from the VTK
+sources, and may not be completely intelligible. When in
+doubt, consult the VTK website. In the methods listed below,
+obj is an instance of the vtkInteractorStyleUser class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkInteractorStyleUser = obj.NewInstance ()
+* vtkInteractorStyleUser = obj.SafeDownCast (vtkObject o)
+* int = obj. GetLastPos () - Get the most recent mouse
+  position during mouse motion. In your user interaction
+  method, you must use this to track the mouse movement. Do
+  not use GetEventPosition(), which records the last
+  position where a mouse button was pressed.
+* int = obj. GetOldPos () - Get the previous mouse position
+  during mouse motion, or after a key press. This can be
+  used to calculate the relative displacement of the mouse.
+* int = obj.GetShiftKey () - Test whether modifiers were
+  held down when mouse button or key was pressed
+* int = obj.GetCtrlKey () - Test whether modifiers were held
+  down when mouse button or key was pressed
+* int = obj.GetChar () - Get the character for a Char event.
+* string = obj.GetKeySym () - Get the KeySym (in the same
+  format as Tk KeySyms) for a KeyPress or KeyRelease method.
+* int = obj.GetButton () - Get the mouse button that was
+  last pressed inside the window (returns zero when the
+  button is released).
+* obj.OnMouseMove () - Generic event bindings
+* obj.OnLeftButtonDown () - Generic event bindings
+* obj.OnLeftButtonUp () - Generic event bindings
+* obj.OnMiddleButtonDown () - Generic event bindings
+* obj.OnMiddleButtonUp () - Generic event bindings
+* obj.OnRightButtonDown () - Generic event bindings
+* obj.OnRightButtonUp () - Generic event bindings
+* obj.OnChar () - Keyboard functions
+* obj.OnKeyPress () - Keyboard functions
+* obj.OnKeyRelease () - Keyboard functions
+* obj.OnExpose () - These are more esoteric events, but are
+  useful in some cases.
+* obj.OnConfigure () - These are more esoteric events, but
+  are useful in some cases.
+* obj.OnEnter () - These are more esoteric events, but are
+  useful in some cases.
+* obj.OnLeave () - These are more esoteric events, but are
+  useful in some cases.
+* obj.OnTimer ()
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Rendering_Classes
+* Generated on Thu Jul 25 2013 17:18:35 for FreeMat by
+  doxygen_ 1.8.1.1
+

@@ -1,0 +1,190 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkgraphics_vtkmultithreshold" kind="page">
+    <compoundname>vtkgraphics_vtkmultithreshold</compoundname>
+    <title>vtkMultiThreshold</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkgraphics_1sec_vtkgraphics" kindref="member">Visualization Toolkit Graphics Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>This filter can be substituted for a chain of several vtkThreshold filters and can also perform more sophisticated subsetting operations. It generates a vtkMultiBlockDataSet as its output. This multiblock dataset contains a vtkUnstructuredGrid for each thresholded subset you request. A thresholded subset can be a set defined by an interval over a point or cell attribute of the mesh; these subsets are called IntervalSets. A thresholded subset can also be a boolean combination of one or more IntervalSets; these subsets are called BooleanSets. BooleanSets allow complex logic since their output can depend on multiple intervals over multiple variables defined on the input mesh. This is useful because it eliminates the need for thresholding several times and then appending the results, as can be required with vtkThreshold when one wants to remove some range of values (e.g., a notch filter). Cells are not repeated when they belong to more than one interval unless those intervals have different output grids.</para><para>Another advantage this filter provides over vtkThreshold is the ability to threshold on non-scalar (i.e., vector, tensor, etc.) attributes without first computing an array containing some norm of the desired attribute. vtkMultiThreshold provides <formula id="179">$L_1$</formula>, <formula id="180">$L_2$</formula>, and <formula id="181">$L_{\infty}$</formula> norms.</para><para>This filter makes a distinction between intermediate subsets and subsets that will be output to a grid. Each intermediate subset you create with AddIntervalSet or AddBooleanSet is given a unique integer identifier (via the return values of these member functions). If you wish for a given set to be output, you must call OutputSet and pass it one of these identifiers. The return of OutputSet is the integer index of the output set in the multiblock dataset created by this filter.</para><para>For example, if an input mesh defined three attributes T, P, and s, one might wish to find cells that satisfy &quot;T &lt; 320 [K] &amp;&amp; ( P &gt; 101 [kPa] || s &lt; 0.1 [kJ/kg/K] )&quot;. To accomplish this with a vtkMultiThreshold filter, <preformatted>
+ vtkMultiThreshold* thr;
+ int intervalSets[3];</preformatted></para><para><preformatted> intervalSets[0] = thr-&gt;AddIntervalSet( vtkMath::NegInf(), 320., vtkMultiThreshold::CLOSED, vtkMultiThreshold::OPEN,
+     vtkDataObject::FIELD_ASSOCIATION_POINTS, &quot;T&quot;, 0, 1 );
+ intervalSets[1] = thr-&gt;AddIntervalSet( 101., vtkMath::Inf(), vtkMultiThreshold::OPEN, vtkMultiThreshold::CLOSED,
+     vtkDataObject::FIELD_ASSOCIATION_CELLS, &quot;P&quot;, 0, 1 );
+ intervalSets[2] = thr-&gt;AddIntervalSet( vtkMath::NegInf(), 0.1, vtkMultiThreshold::CLOSED, vtkMultiThreshold::OPEN,
+     vtkDataObject::FIELD_ASSOCIATION_POINTS, &quot;s&quot;, 0, 1 );</preformatted></para><para><preformatted> int intermediate = thr-&gt;AddBooleanSet( vtkMultiThreshold::OR, 2, &amp;intervalSets[1] );</preformatted></para><para><preformatted> int intersection[2];
+ intersection[0] = intervalSets[0];
+ intersection[1] = intermediate;
+ int outputSet = thr-&gt;AddBooleanSet( vtkMultiThreshold::AND, 2, intersection );</preformatted></para><para><preformatted> int outputGridIndex = thr-&gt;OutputSet( outputSet );
+ thr-&gt;Update();
+ </preformatted> The result of this filter will be a multiblock dataset that contains a single child with the desired cells. If we had also called <computeroutput>thr-&gt;OutputSet( intervalSets[0] );</computeroutput>, there would be two child meshes and one would contain all cells with T &lt; 320 [K]. In that case, the output can be represented by this graph The filled rectangles represent sets that are output.</para><para>To create an instance of class vtkMultiThreshold, simply invoke its constructor as follows <verbatim>  obj = vtkMultiThreshold
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkMultiThreshold has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkMultiThreshold class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkMultiThreshold = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkMultiThreshold = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.AddIntervalSet (double xmin, double xmax, int omin, int omax, int assoc, string arrayName, int component, int allScalars)</computeroutput> - Add a mesh subset to be computed by thresholding an attribute of the input mesh. The subset can then be added to an output mesh with OuputSet() or combined with other sets using AddBooleanSet. If you wish to include all cells with values below some number <emphasis>a</emphasis>, call with xmin set to vtkMath::NegInf() and xmax set to <emphasis>a</emphasis>. Similarly, if you wish to include all cells with values above some number <emphasis>a</emphasis>, call with xmin set to <emphasis>a</emphasis> and xmax set to vtkMath::Inf(). When specifying Inf() or NegInf() for an endpoint, it does not matter whether you specify and open or closed endpoint.</para><para>When creating intervals, any integers can be used for the IDs of output meshes. All that matters is that the same ID be used if intervals should output to the same mesh. The outputs are ordered with ascending IDs in output block 0.</para><para>It is possible to specify an invalid interval, in which case these routines will return -1. Invalid intervals occur when<itemizedlist>
+<listitem><para>an array does not exist,</para></listitem><listitem><para><emphasis>center</emphasis> is invalid,</para></listitem><listitem><para><emphasis>xmin</emphasis> == <emphasis>xmax</emphasis> and <emphasis>omin</emphasis> and/or <emphasis>omax</emphasis> are vtkMultiThreshold::OPEN, or</para></listitem><listitem><para><emphasis>xmin</emphasis> &gt; <emphasis>xmax</emphasis>.</para></listitem><listitem><para><emphasis>xmin</emphasis> or <emphasis>xmax</emphasis> is not a number (i.e., IEEE NaN). Having both <emphasis>xmin</emphasis> and <emphasis>xmax</emphasis> equal NaN is allowed. vtkMath provides a portable way to specify IEEE infinities and Nan. Note that specifying an interval completely out of the bounds of an attribute is considered valid. In fact, it is occasionally useful to create a closed interval with both endpoints set to <formula id="182">$\infty$</formula> or both endpoints set to <formula id="183">$-\infty$</formula> in order to locate cells with problematic values.</para></listitem></itemizedlist>
+</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>xmin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The minimum attribute value </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>xmax</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The maximum attribute value </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>omin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the interval should be open or closed at <emphasis>xmin</emphasis>. Use vtkMultiThreshold::OPEN or vtkMultiThreshold::CLOSED. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>omax</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the interval should be open or closed at <emphasis>xmax</emphasis>. Use vtkMultiThreshold::OPEN or vtkMultiThreshold::CLOSED. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>assoc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>One of vtkDataObject::FIELD_ASSOCIATION_CELLS or vtkDataObject::FIELD_ASSOCIATION_POINTS indicating whether a point or cell array should be used. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>arrayName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the array to use for thresholding </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>attribType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The attribute to use for thresholding. One of vtkDataSetAttributes::SCALARS, VECTORS, TENSORS, NORMALS, TCOORDS, or GLOBALIDS. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>component</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The number of the component to threshold on or one of the following enumerants for norms: LINFINITY_NORM, L2_NORM, L1_NORM. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>allScalars</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>When <emphasis>center</emphasis> is vtkDataObject::FIELD_ASSOCIATION_POINTS, must all scalars be in the interval for the cell to be passed to the output, or just a single point&apos;s scalar? </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>An index used to identify the cells selected by the interval or -1 if the interval specification was invalid. If a valid value is returned, you may pass it to OutputSet().  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>int = obj.AddIntervalSet (double xmin, double xmax, int omin, int omax, int assoc, int attribType, int component, int allScalars)</computeroutput> - Add a mesh subset to be computed by thresholding an attribute of the input mesh. The subset can then be added to an output mesh with OuputSet() or combined with other sets using AddBooleanSet. If you wish to include all cells with values below some number <emphasis>a</emphasis>, call with xmin set to vtkMath::NegInf() and xmax set to <emphasis>a</emphasis>. Similarly, if you wish to include all cells with values above some number <emphasis>a</emphasis>, call with xmin set to <emphasis>a</emphasis> and xmax set to vtkMath::Inf(). When specifying Inf() or NegInf() for an endpoint, it does not matter whether you specify and open or closed endpoint.</para><para>When creating intervals, any integers can be used for the IDs of output meshes. All that matters is that the same ID be used if intervals should output to the same mesh. The outputs are ordered with ascending IDs in output block 0.</para><para>It is possible to specify an invalid interval, in which case these routines will return -1. Invalid intervals occur when<itemizedlist>
+<listitem><para>an array does not exist,</para></listitem><listitem><para><emphasis>center</emphasis> is invalid,</para></listitem><listitem><para><emphasis>xmin</emphasis> == <emphasis>xmax</emphasis> and <emphasis>omin</emphasis> and/or <emphasis>omax</emphasis> are vtkMultiThreshold::OPEN, or</para></listitem><listitem><para><emphasis>xmin</emphasis> &gt; <emphasis>xmax</emphasis>.</para></listitem><listitem><para><emphasis>xmin</emphasis> or <emphasis>xmax</emphasis> is not a number (i.e., IEEE NaN). Having both <emphasis>xmin</emphasis> and <emphasis>xmax</emphasis> equal NaN is allowed. vtkMath provides a portable way to specify IEEE infinities and Nan. Note that specifying an interval completely out of the bounds of an attribute is considered valid. In fact, it is occasionally useful to create a closed interval with both endpoints set to <formula id="182">$\infty$</formula> or both endpoints set to <formula id="183">$-\infty$</formula> in order to locate cells with problematic values.</para></listitem></itemizedlist>
+</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>xmin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The minimum attribute value </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>xmax</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The maximum attribute value </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>omin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the interval should be open or closed at <emphasis>xmin</emphasis>. Use vtkMultiThreshold::OPEN or vtkMultiThreshold::CLOSED. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>omax</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the interval should be open or closed at <emphasis>xmax</emphasis>. Use vtkMultiThreshold::OPEN or vtkMultiThreshold::CLOSED. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>assoc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>One of vtkDataObject::FIELD_ASSOCIATION_CELLS or vtkDataObject::FIELD_ASSOCIATION_POINTS indicating whether a point or cell array should be used. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>arrayName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the array to use for thresholding </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>attribType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The attribute to use for thresholding. One of vtkDataSetAttributes::SCALARS, VECTORS, TENSORS, NORMALS, TCOORDS, or GLOBALIDS. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>component</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The number of the component to threshold on or one of the following enumerants for norms: LINFINITY_NORM, L2_NORM, L1_NORM. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>allScalars</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>When <emphasis>center</emphasis> is vtkDataObject::FIELD_ASSOCIATION_POINTS, must all scalars be in the interval for the cell to be passed to the output, or just a single point&apos;s scalar? </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>An index used to identify the cells selected by the interval or -1 if the interval specification was invalid. If a valid value is returned, you may pass it to OutputSet().  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>int = obj.AddLowpassIntervalSet (double xmax, int assoc, string arrayName, int component, int allScalars)</computeroutput> - These convenience members make it easy to insert closed intervals. The &quot;notch&quot; interval is accomplished by creating a bandpass interval and applying a NAND operation. In this case, the set ID returned in the NAND operation set ID. Note that you can pass xmin == xmax when creating a bandpass threshold to retrieve elements matching exactly one value (since the intervals created by these routines are closed).  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.AddHighpassIntervalSet (double xmin, int assoc, string arrayName, int component, int allScalars)</computeroutput> - These convenience members make it easy to insert closed intervals. The &quot;notch&quot; interval is accomplished by creating a bandpass interval and applying a NAND operation. In this case, the set ID returned in the NAND operation set ID. Note that you can pass xmin == xmax when creating a bandpass threshold to retrieve elements matching exactly one value (since the intervals created by these routines are closed).  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.AddBandpassIntervalSet (double xmin, double xmax, int assoc, string arrayName, int component, int allScalars)</computeroutput> - These convenience members make it easy to insert closed intervals. The &quot;notch&quot; interval is accomplished by creating a bandpass interval and applying a NAND operation. In this case, the set ID returned in the NAND operation set ID. Note that you can pass xmin == xmax when creating a bandpass threshold to retrieve elements matching exactly one value (since the intervals created by these routines are closed).  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.AddNotchIntervalSet (double xlo, double xhi, int assoc, string arrayName, int component, int allScalars)</computeroutput> - These convenience members make it easy to insert closed intervals. The &quot;notch&quot; interval is accomplished by creating a bandpass interval and applying a NAND operation. In this case, the set ID returned in the NAND operation set ID. Note that you can pass xmin == xmax when creating a bandpass threshold to retrieve elements matching exactly one value (since the intervals created by these routines are closed).  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.AddBooleanSet (int operation, int numInputs, int inputs)</computeroutput> - Create a new mesh subset using boolean operations on pre-existing sets.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.OutputSet (int setId)</computeroutput> - Create an output mesh containing a boolean or interval subset of the input mesh.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.Reset ()</computeroutput> - Remove all the intervals currently defined.  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

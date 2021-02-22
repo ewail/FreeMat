@@ -1,0 +1,59 @@
+
+ Usage
+
+The threadwait function waits for the given thread to
+complete execution, and stops execution of the current
+thread (the one calling threadwait) until the given thread
+completes. The syntax for its use is
+
+     success = threadwait(handle)
+
+where handle is the value returned by threadnew and success
+is a logical vaariable that will be 1 if the wait was
+successful or 0 if the wait times out. By default, the wait
+is indefinite. It is better to use the following form of the
+function
+
+     success = threadwait(handle,timeout)
+
+where timeout is the amount of time (in milliseconds) for
+the threadwait function to wait before a timeout occurs. If
+the threadwait function succeeds, then the return value is a
+logical 1, and if it fails, the return value is a logical 0.
+Note that you can call threadwait multiple times on a
+thread, and if the thread is completed, each one will
+succeed.
+
+
+ Example
+
+Here we lauch the sleep function in a thread with a time
+delay of 10 seconds. This means that the thread function
+will not complete until 10 seconds have elapsed. When we
+call threadwait on this thread with a short timeout, it
+fails, but not when the timeout is long enough to capture
+the end of the function call.
+
+  --> a = threadnew;
+  --> threadstart(a,'sleep',0,10);  % start a thread that
+  will sleep for 10
+  --> threadwait(a,2000)            % 2 second wait is not
+  long enough
+
+  ans =
+   0
+
+  --> threadwait(a,10000)           % 10 second wait is long
+  enough
+
+  ans =
+   1
+
+  --> threadfree(a)
+
+
+* FreeMat_Documentation
+* FreeMat_Threads
+* Generated on Thu Jul 25 2013 17:18:29 for FreeMat by
+  doxygen_ 1.8.1.1
+

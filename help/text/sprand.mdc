@@ -1,0 +1,66 @@
+
+ Usage
+
+Creates a sparse matrix with uniformly distributed random
+entries (on [0,1]). The syntax for its use is
+
+    y = sprand(x)
+
+where x is a sparse matrix, where y is a sparse matrix that
+has random entries where x is nonzero. The second form
+specifies the size of the matrix and the density
+
+    y = sprand(m,n,density)
+
+where m is the number of rows in the output, n is the number
+of columns in the output, and density (which is between 0
+and 1) is the density of nonzeros in the resulting matrix.
+Note that for very high densities the actual density of the
+output matrix may differ from the density you specify. This
+difference is a result of the way the random entries into
+the matrix are generated. If you need a very dense random
+matrix, it is better to generate a full matrix and zero out
+the entries you do not need.
+
+
+ Examples
+
+Here we seed sprand with a full matrix (to demonstrate how
+the structure of the output is determined by the input
+matrix when using the first form).
+
+  --> x = [1,0,0;0,0,1;1,0,0]
+
+  x =
+   1 0 0
+   0 0 1
+   1 0 0
+
+  --> y = sprand(x)
+
+  y =
+   1 1 0.171364
+   3 1 0.245464
+   2 3 0.0426635
+  --> full(y)
+
+  ans =
+      0.1714         0         0
+           0         0    0.0427
+      0.2455         0         0
+
+The more generic version with a density of 0.001. On many
+systems the following is impossible using full matrices
+
+  --> y = sprand(10000,10000,.001);
+  --> nnz(y)/10000^2
+
+  ans =
+   9.9946e-04
+
+
+* FreeMat_Documentation
+* Sparse_Matrix_Support
+* Generated on Thu Jul 25 2013 17:18:26 for FreeMat by
+  doxygen_ 1.8.1.1
+

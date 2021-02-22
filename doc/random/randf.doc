@@ -1,0 +1,40 @@
+/*!
+\page random_randf RANDF Generate F-Distributed Random Variable
+
+<p>
+Section: \ref sec_random "Random Number Generation"
+\section Usage
+Generates random variables with an F-distribution.  The general
+syntax for its use is
+\verbatim
+   y = randf(n,m)
+\endverbatim
+where <tt>n</tt> and <tt>m</tt> are vectors of the number of degrees of freedom
+in the numerator and denominator of the chi-square random variables
+whose ratio defines the statistic.
+\section Function Internals
+The statistic <tt>F_{n,m}</tt> is defined as the ratio of two chi-square
+random variables:
+\f[
+  F_{n,m} = \frac{\chi_n^2/n}{\chi_m^2/m}
+\f]
+The PDF is given by
+\f[
+  f_{n,m} = \frac{m^{m/2}n^{n/2}x^{n/2-1}}{(m+nx)^{(n+m)/2}B(n/2,m/2)},
+\f]
+where <tt>B(a,b)</tt> is the beta function.
+\section Example
+Here we use <tt>randf</tt> to generate some F-distributed random variables,
+and then again using the <tt>randchi</tt> function:
+
+\if FRAGMENT
+frag_random_randf_000.m
+0
+randf(5*ones(1,9),7)
+randchi(5*ones(1,9))./randchi(7*ones(1,9))
+\endif
+
+
+\verbinclude frag_random_randf_000.m.out 
+
+*/

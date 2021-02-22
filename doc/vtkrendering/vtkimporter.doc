@@ -1,0 +1,60 @@
+/*!
+\page vtkrendering_vtkimporter vtkImporter
+
+<p>
+Section: \ref sec_vtkrendering "Visualization Toolkit Rendering Classes"
+\section Usage
+ vtkImporter is an abstract class that specifies the protocol for
+ importing actors, cameras, lights and properties into a
+ vtkRenderWindow. The following takes place:
+ 1) Create a RenderWindow and Renderer if none is provided.
+ 2) Call ImportBegin, if ImportBegin returns False, return
+ 3) Call ReadData, which calls:
+  a) Import the Actors
+  b) Import the cameras
+  c) Import the lights
+  d) Import the Properties
+ 7) Call ImportEnd
+
+ Subclasses optionally implement the ImportActors, ImportCameras,
+ ImportLights and ImportProperties or ReadData methods. An ImportBegin and
+ ImportEnd can optionally be provided to perform Importer-specific
+ initialization and termination.  The Read method initiates the import
+ process. If a RenderWindow is provided, its Renderer will contained
+ the imported objects. If the RenderWindow has no Renderer, one is
+ created. If no RenderWindow is provided, both a RenderWindow and
+ Renderer will be created. Both the RenderWindow and Renderer can be
+ accessed using Get methods.
+
+To create an instance of class vtkImporter, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkImporter
+\endverbatim
+\section Methods
+The class vtkImporter has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkImporter class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkImporter = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkImporter = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>vtkRenderer = obj.GetRenderer ()</tt>
+ </LI>
+<LI>  <tt>obj.SetRenderWindow (vtkRenderWindow )</tt>
+ </LI>
+<LI>  <tt>vtkRenderWindow = obj.GetRenderWindow ()</tt>
+ </LI>
+<LI>  <tt>obj.Read ()</tt>
+ </LI>
+<LI>  <tt>obj.Update ()</tt>
+ </LI>
+</UL>
+*/

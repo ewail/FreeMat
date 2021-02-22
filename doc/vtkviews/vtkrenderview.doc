@@ -1,0 +1,172 @@
+/*!
+\page vtkviews_vtkrenderview vtkRenderView
+
+<p>
+Section: \ref sec_vtkviews "Visualization Toolkit View Classes"
+\section Usage
+ vtkRenderView is a view which contains a vtkRenderer.  You may add vtkActors
+ directly to the renderer, or add certain vtkDataRepresentation subclasses
+ to the renderer.  The render view supports drag selection with the mouse to
+ select cells.
+
+ This class is also the parent class for any more specialized view which uses
+ a renderer.
+
+To create an instance of class vtkRenderView, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkRenderView
+\endverbatim
+\section Methods
+The class vtkRenderView has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkRenderView class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkRenderView = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkRenderView = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>vtkRenderer = obj.GetRenderer ()</tt> -  Gets the renderer for this view.
+ </LI>
+<LI>  <tt>vtkRenderWindow = obj.GetRenderWindow ()</tt> -  Get a handle to the render window.
+ </LI>
+<LI>  <tt>vtkRenderWindowInteractor = obj.GetInteractor ()</tt> -  The render window interactor.
+ </LI>
+<LI>  <tt>obj.SetInteractor (vtkRenderWindowInteractor interactor)</tt> -  The render window interactor.
+ </LI>
+<LI>  <tt>obj.SetInteractorStyle (vtkInteractorObserver style)</tt> -  The interactor style associated with the render view.
+ </LI>
+<LI>  <tt>vtkInteractorObserver = obj.GetInteractorStyle ()</tt> -  The interactor style associated with the render view.
+ </LI>
+<LI>  <tt>obj.SetInteractionMode (int mode)</tt> -  Set the interaction mode for the view. Choices are:
+ vtkRenderView::INTERACTION_MODE_2D - 2D interactor
+ vtkRenderView::INTERACTION_MODE_3D - 3D interactor
+ </LI>
+<LI>  <tt>int = obj.GetInteractionMode ()</tt> -  Set the interaction mode for the view. Choices are:
+ vtkRenderView::INTERACTION_MODE_2D - 2D interactor
+ vtkRenderView::INTERACTION_MODE_3D - 3D interactor
+ </LI>
+<LI>  <tt>obj.SetInteractionModeTo2D ()</tt> -  Set the interaction mode for the view. Choices are:
+ vtkRenderView::INTERACTION_MODE_2D - 2D interactor
+ vtkRenderView::INTERACTION_MODE_3D - 3D interactor
+ </LI>
+<LI>  <tt>obj.SetInteractionModeTo3D ()</tt> -  Applies a view theme to this view.
+ </LI>
+<LI>  <tt>obj.ApplyViewTheme (vtkViewTheme theme)</tt> -  Applies a view theme to this view.
+ </LI>
+<LI>  <tt>obj.SetTransform (vtkAbstractTransform transform)</tt> -  Set the view's transform. All vtkRenderedRepresentations
+ added to this view should use this transform.
+ </LI>
+<LI>  <tt>vtkAbstractTransform = obj.GetTransform ()</tt> -  Set the view's transform. All vtkRenderedRepresentations
+ added to this view should use this transform.
+ </LI>
+<LI>  <tt>obj.SetDisplayHoverText (bool b)</tt> -  Whether the view should display hover text.
+ </LI>
+<LI>  <tt>bool = obj.GetDisplayHoverText ()</tt> -  Whether the view should display hover text.
+ </LI>
+<LI>  <tt>obj.DisplayHoverTextOn ()</tt> -  Whether the view should display hover text.
+ </LI>
+<LI>  <tt>obj.DisplayHoverTextOff ()</tt> -  Whether the view should display hover text.
+ </LI>
+<LI>  <tt>obj.SetSelectionMode (int )</tt> -  Sets the selection mode for the render view.
+ SURFACE selection uses vtkHardwareSelector to perform a selection
+ of visible cells.
+ FRUSTUM selection just creates a view frustum selection, which will
+ select everything in the frustum.
+ </LI>
+<LI>  <tt>int = obj.GetSelectionModeMinValue ()</tt> -  Sets the selection mode for the render view.
+ SURFACE selection uses vtkHardwareSelector to perform a selection
+ of visible cells.
+ FRUSTUM selection just creates a view frustum selection, which will
+ select everything in the frustum.
+ </LI>
+<LI>  <tt>int = obj.GetSelectionModeMaxValue ()</tt> -  Sets the selection mode for the render view.
+ SURFACE selection uses vtkHardwareSelector to perform a selection
+ of visible cells.
+ FRUSTUM selection just creates a view frustum selection, which will
+ select everything in the frustum.
+ </LI>
+<LI>  <tt>int = obj.GetSelectionMode ()</tt> -  Sets the selection mode for the render view.
+ SURFACE selection uses vtkHardwareSelector to perform a selection
+ of visible cells.
+ FRUSTUM selection just creates a view frustum selection, which will
+ select everything in the frustum.
+ </LI>
+<LI>  <tt>obj.SetSelectionModeToSurface ()</tt> -  Sets the selection mode for the render view.
+ SURFACE selection uses vtkHardwareSelector to perform a selection
+ of visible cells.
+ FRUSTUM selection just creates a view frustum selection, which will
+ select everything in the frustum.
+ </LI>
+<LI>  <tt>obj.SetSelectionModeToFrustum ()</tt> -  Updates the representations, then calls Render() on the render window
+ associated with this view.
+ </LI>
+<LI>  <tt>obj.Render ()</tt> -  Updates the representations, then calls Render() on the render window
+ associated with this view.
+ </LI>
+<LI>  <tt>obj.ResetCamera ()</tt> -  Updates the representations, then calls ResetCamera() on the renderer
+ associated with this view.
+ </LI>
+<LI>  <tt>obj.ResetCameraClippingRange ()</tt> -  Updates the representations, then calls ResetCameraClippingRange() on the renderer
+ associated with this view.
+ </LI>
+<LI>  <tt>obj.AddLabels (vtkAlgorithmOutput conn)</tt> -  Add labels from an input connection with an associated text
+ property. The output must be a vtkLabelHierarchy (normally the
+ output of vtkPointSetToLabelHierarchy).
+ </LI>
+<LI>  <tt>obj.RemoveLabels (vtkAlgorithmOutput conn)</tt> -  Remove labels from an input connection.
+ </LI>
+<LI>  <tt>obj.SetIconTexture (vtkTexture texture)</tt> -  Set the icon sheet to use for rendering icons.
+ </LI>
+<LI>  <tt>vtkTexture = obj.GetIconTexture ()</tt> -  Set the icon sheet to use for rendering icons.
+ </LI>
+<LI>  <tt>obj.SetIconSize (int , int )</tt> -  Set the size of each icon in the icon texture.
+ </LI>
+<LI>  <tt>obj.SetIconSize (int  a[2])</tt> -  Set the size of each icon in the icon texture.
+ </LI>
+<LI>  <tt>int = obj. GetIconSize ()</tt> -  Set the size of each icon in the icon texture.
+ </LI>
+<LI>  <tt>obj.SetLabelPlacementMode (int mode)</tt> -  Label placement mode.
+ NO_OVERLAP uses vtkLabelPlacementMapper, which has a faster startup time and
+ works with 2D or 3D labels.
+ ALL displays all labels (Warning: This may cause incredibly slow render
+ times on datasets with more than a few hundred labels).
+ </LI>
+<LI>  <tt>int = obj.GetLabelPlacementMode ()</tt> -  Label placement mode.
+ NO_OVERLAP uses vtkLabelPlacementMapper, which has a faster startup time and
+ works with 2D or 3D labels.
+ ALL displays all labels (Warning: This may cause incredibly slow render
+ times on datasets with more than a few hundred labels).
+ </LI>
+<LI>  <tt>obj.SetLabelPlacementModeToNoOverlap ()</tt> -  Label placement mode.
+ NO_OVERLAP uses vtkLabelPlacementMapper, which has a faster startup time and
+ works with 2D or 3D labels.
+ ALL displays all labels (Warning: This may cause incredibly slow render
+ times on datasets with more than a few hundred labels).
+ </LI>
+<LI>  <tt>obj.SetLabelPlacementModeToAll ()</tt> -  Label render mode.
+ FREETYPE uses the freetype label rendering.
+ QT uses more advanced Qt-based label rendering.
+ </LI>
+<LI>  <tt>obj.SetLabelRenderMode (int mode)</tt> -  Label render mode.
+ FREETYPE uses the freetype label rendering.
+ QT uses more advanced Qt-based label rendering.
+ </LI>
+<LI>  <tt>int = obj.GetLabelRenderMode ()</tt> -  Label render mode.
+ FREETYPE uses the freetype label rendering.
+ QT uses more advanced Qt-based label rendering.
+ </LI>
+<LI>  <tt>obj.SetLabelRenderModeToFreetype ()</tt> -  Label render mode.
+ FREETYPE uses the freetype label rendering.
+ QT uses more advanced Qt-based label rendering.
+ </LI>
+<LI>  <tt>obj.SetLabelRenderModeToQt ()</tt>
+ </LI>
+</UL>
+*/

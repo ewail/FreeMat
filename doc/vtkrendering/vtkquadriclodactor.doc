@@ -1,0 +1,318 @@
+/*!
+\page vtkrendering_vtkquadriclodactor vtkQuadricLODActor
+
+<p>
+Section: \ref sec_vtkrendering "Visualization Toolkit Rendering Classes"
+\section Usage
+ vtkQuadricLODActor implements a specific strategy for level-of-detail
+ using the vtkQuadricClustering decimation algorithm. It supports only two
+ levels of detail: full resolution and a decimated version. The decimated
+ LOD is generated using a tuned strategy to produce output consistent with
+ the requested interactive frame rate (i.e., the
+ vtkRenderWindowInteractor's DesiredUpdateRate). It also makes use of
+ display lists for performance, and adjusts the vtkQuadricClustering
+ algorithm to take into account the dimensionality of the data (e.g., 2D,
+ x-y surfaces may be binned into n x n x 1 to reduce extra polygons in the
+ z-direction). Finally, the filter may optionally be set in "Static" mode
+ (this works with the vtkMapper::SetStatic() method). `Enabling Static results
+ in a one time execution of the Mapper's pipeline. After that, the pipeline
+ no longer updated (unless manually forced to do so). 
+
+
+To create an instance of class vtkQuadricLODActor, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkQuadricLODActor
+\endverbatim
+\section Methods
+The class vtkQuadricLODActor has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkQuadricLODActor class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt> -  Standard class methods.
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt> -  Standard class methods.
+ </LI>
+<LI>  <tt>vtkQuadricLODActor = obj.NewInstance ()</tt> -  Standard class methods.
+ </LI>
+<LI>  <tt>vtkQuadricLODActor = obj.SafeDownCast (vtkObject o)</tt> -  Standard class methods.
+ </LI>
+<LI>  <tt>obj.SetDeferLODConstruction (int )</tt> -  Specify whether to build the LOD immediately (i.e., on the first render)
+ or to wait until the LOD is requested in a subsequent render. By default,
+ LOD construction is not deferred (DeferLODConstruction is false).
+ </LI>
+<LI>  <tt>int = obj.GetDeferLODConstruction ()</tt> -  Specify whether to build the LOD immediately (i.e., on the first render)
+ or to wait until the LOD is requested in a subsequent render. By default,
+ LOD construction is not deferred (DeferLODConstruction is false).
+ </LI>
+<LI>  <tt>obj.DeferLODConstructionOn ()</tt> -  Specify whether to build the LOD immediately (i.e., on the first render)
+ or to wait until the LOD is requested in a subsequent render. By default,
+ LOD construction is not deferred (DeferLODConstruction is false).
+ </LI>
+<LI>  <tt>obj.DeferLODConstructionOff ()</tt> -  Specify whether to build the LOD immediately (i.e., on the first render)
+ or to wait until the LOD is requested in a subsequent render. By default,
+ LOD construction is not deferred (DeferLODConstruction is false).
+ </LI>
+<LI>  <tt>obj.SetStatic (int )</tt> -  Turn on/off a flag to control whether the underlying pipeline is static.
+ If static, this means that the data pipeline executes once and then not 
+ again until the user manually modifies this class. By default, Static is
+ off because trying to debug this is tricky, and you should only use it
+ when you know what you are doing.
+ </LI>
+<LI>  <tt>int = obj.GetStatic ()</tt> -  Turn on/off a flag to control whether the underlying pipeline is static.
+ If static, this means that the data pipeline executes once and then not 
+ again until the user manually modifies this class. By default, Static is
+ off because trying to debug this is tricky, and you should only use it
+ when you know what you are doing.
+ </LI>
+<LI>  <tt>obj.StaticOn ()</tt> -  Turn on/off a flag to control whether the underlying pipeline is static.
+ If static, this means that the data pipeline executes once and then not 
+ again until the user manually modifies this class. By default, Static is
+ off because trying to debug this is tricky, and you should only use it
+ when you know what you are doing.
+ </LI>
+<LI>  <tt>obj.StaticOff ()</tt> -  Turn on/off a flag to control whether the underlying pipeline is static.
+ If static, this means that the data pipeline executes once and then not 
+ again until the user manually modifies this class. By default, Static is
+ off because trying to debug this is tricky, and you should only use it
+ when you know what you are doing.
+ </LI>
+<LI>  <tt>obj.SetDataConfiguration (int )</tt> -  Force the binning of the quadric clustering according to application
+ knowledge relative to the dimension of the data. For example, if you
+ know your data lies in a 2D x-y plane, the performance of the quadric
+ clustering algorithm can be greatly improved by indicating this (i.e.,
+ the number of resulting triangles, and the quality of the decimation
+ version is better). Setting this parameter forces the binning to be
+ configured consistent with the dimnesionality of the data, and the
+ collapse dimension ratio is ignored. Specifying the value of
+ DataConfiguration to UNKNOWN (the default value) means that the class
+ will attempt to figure the dimension of the class automatically using
+ the CollapseDimensionRatio ivar.
+ </LI>
+<LI>  <tt>int = obj.GetDataConfigurationMinValue ()</tt> -  Force the binning of the quadric clustering according to application
+ knowledge relative to the dimension of the data. For example, if you
+ know your data lies in a 2D x-y plane, the performance of the quadric
+ clustering algorithm can be greatly improved by indicating this (i.e.,
+ the number of resulting triangles, and the quality of the decimation
+ version is better). Setting this parameter forces the binning to be
+ configured consistent with the dimnesionality of the data, and the
+ collapse dimension ratio is ignored. Specifying the value of
+ DataConfiguration to UNKNOWN (the default value) means that the class
+ will attempt to figure the dimension of the class automatically using
+ the CollapseDimensionRatio ivar.
+ </LI>
+<LI>  <tt>int = obj.GetDataConfigurationMaxValue ()</tt> -  Force the binning of the quadric clustering according to application
+ knowledge relative to the dimension of the data. For example, if you
+ know your data lies in a 2D x-y plane, the performance of the quadric
+ clustering algorithm can be greatly improved by indicating this (i.e.,
+ the number of resulting triangles, and the quality of the decimation
+ version is better). Setting this parameter forces the binning to be
+ configured consistent with the dimnesionality of the data, and the
+ collapse dimension ratio is ignored. Specifying the value of
+ DataConfiguration to UNKNOWN (the default value) means that the class
+ will attempt to figure the dimension of the class automatically using
+ the CollapseDimensionRatio ivar.
+ </LI>
+<LI>  <tt>int = obj.GetDataConfiguration ()</tt> -  Force the binning of the quadric clustering according to application
+ knowledge relative to the dimension of the data. For example, if you
+ know your data lies in a 2D x-y plane, the performance of the quadric
+ clustering algorithm can be greatly improved by indicating this (i.e.,
+ the number of resulting triangles, and the quality of the decimation
+ version is better). Setting this parameter forces the binning to be
+ configured consistent with the dimnesionality of the data, and the
+ collapse dimension ratio is ignored. Specifying the value of
+ DataConfiguration to UNKNOWN (the default value) means that the class
+ will attempt to figure the dimension of the class automatically using
+ the CollapseDimensionRatio ivar.
+ </LI>
+<LI>  <tt>obj.SetDataConfigurationToUnknown ()</tt> -  Force the binning of the quadric clustering according to application
+ knowledge relative to the dimension of the data. For example, if you
+ know your data lies in a 2D x-y plane, the performance of the quadric
+ clustering algorithm can be greatly improved by indicating this (i.e.,
+ the number of resulting triangles, and the quality of the decimation
+ version is better). Setting this parameter forces the binning to be
+ configured consistent with the dimnesionality of the data, and the
+ collapse dimension ratio is ignored. Specifying the value of
+ DataConfiguration to UNKNOWN (the default value) means that the class
+ will attempt to figure the dimension of the class automatically using
+ the CollapseDimensionRatio ivar.
+ </LI>
+<LI>  <tt>obj.SetDataConfigurationToXLine ()</tt> -  Force the binning of the quadric clustering according to application
+ knowledge relative to the dimension of the data. For example, if you
+ know your data lies in a 2D x-y plane, the performance of the quadric
+ clustering algorithm can be greatly improved by indicating this (i.e.,
+ the number of resulting triangles, and the quality of the decimation
+ version is better). Setting this parameter forces the binning to be
+ configured consistent with the dimnesionality of the data, and the
+ collapse dimension ratio is ignored. Specifying the value of
+ DataConfiguration to UNKNOWN (the default value) means that the class
+ will attempt to figure the dimension of the class automatically using
+ the CollapseDimensionRatio ivar.
+ </LI>
+<LI>  <tt>obj.SetDataConfigurationToYLine ()</tt> -  Force the binning of the quadric clustering according to application
+ knowledge relative to the dimension of the data. For example, if you
+ know your data lies in a 2D x-y plane, the performance of the quadric
+ clustering algorithm can be greatly improved by indicating this (i.e.,
+ the number of resulting triangles, and the quality of the decimation
+ version is better). Setting this parameter forces the binning to be
+ configured consistent with the dimnesionality of the data, and the
+ collapse dimension ratio is ignored. Specifying the value of
+ DataConfiguration to UNKNOWN (the default value) means that the class
+ will attempt to figure the dimension of the class automatically using
+ the CollapseDimensionRatio ivar.
+ </LI>
+<LI>  <tt>obj.SetDataConfigurationToZLine ()</tt> -  Force the binning of the quadric clustering according to application
+ knowledge relative to the dimension of the data. For example, if you
+ know your data lies in a 2D x-y plane, the performance of the quadric
+ clustering algorithm can be greatly improved by indicating this (i.e.,
+ the number of resulting triangles, and the quality of the decimation
+ version is better). Setting this parameter forces the binning to be
+ configured consistent with the dimnesionality of the data, and the
+ collapse dimension ratio is ignored. Specifying the value of
+ DataConfiguration to UNKNOWN (the default value) means that the class
+ will attempt to figure the dimension of the class automatically using
+ the CollapseDimensionRatio ivar.
+ </LI>
+<LI>  <tt>obj.SetDataConfigurationToXYPlane ()</tt> -  Force the binning of the quadric clustering according to application
+ knowledge relative to the dimension of the data. For example, if you
+ know your data lies in a 2D x-y plane, the performance of the quadric
+ clustering algorithm can be greatly improved by indicating this (i.e.,
+ the number of resulting triangles, and the quality of the decimation
+ version is better). Setting this parameter forces the binning to be
+ configured consistent with the dimnesionality of the data, and the
+ collapse dimension ratio is ignored. Specifying the value of
+ DataConfiguration to UNKNOWN (the default value) means that the class
+ will attempt to figure the dimension of the class automatically using
+ the CollapseDimensionRatio ivar.
+ </LI>
+<LI>  <tt>obj.SetDataConfigurationToYZPlane ()</tt> -  Force the binning of the quadric clustering according to application
+ knowledge relative to the dimension of the data. For example, if you
+ know your data lies in a 2D x-y plane, the performance of the quadric
+ clustering algorithm can be greatly improved by indicating this (i.e.,
+ the number of resulting triangles, and the quality of the decimation
+ version is better). Setting this parameter forces the binning to be
+ configured consistent with the dimnesionality of the data, and the
+ collapse dimension ratio is ignored. Specifying the value of
+ DataConfiguration to UNKNOWN (the default value) means that the class
+ will attempt to figure the dimension of the class automatically using
+ the CollapseDimensionRatio ivar.
+ </LI>
+<LI>  <tt>obj.SetDataConfigurationToXZPlane ()</tt> -  Force the binning of the quadric clustering according to application
+ knowledge relative to the dimension of the data. For example, if you
+ know your data lies in a 2D x-y plane, the performance of the quadric
+ clustering algorithm can be greatly improved by indicating this (i.e.,
+ the number of resulting triangles, and the quality of the decimation
+ version is better). Setting this parameter forces the binning to be
+ configured consistent with the dimnesionality of the data, and the
+ collapse dimension ratio is ignored. Specifying the value of
+ DataConfiguration to UNKNOWN (the default value) means that the class
+ will attempt to figure the dimension of the class automatically using
+ the CollapseDimensionRatio ivar.
+ </LI>
+<LI>  <tt>obj.SetDataConfigurationToXYZVolume ()</tt> -  If the data configuration is set to UNKNOWN, this class attempts to
+ figure out the dimensionality of the data using CollapseDimensionRatio.
+ This ivar is the ratio of short edge of the input bounding box to its
+ long edge, which is then used to collapse the data dimension (and set the
+ quadric bin size in that direction to one). By default, this value is 0.05.
+ </LI>
+<LI>  <tt>obj.SetCollapseDimensionRatio (double )</tt> -  If the data configuration is set to UNKNOWN, this class attempts to
+ figure out the dimensionality of the data using CollapseDimensionRatio.
+ This ivar is the ratio of short edge of the input bounding box to its
+ long edge, which is then used to collapse the data dimension (and set the
+ quadric bin size in that direction to one). By default, this value is 0.05.
+ </LI>
+<LI>  <tt>double = obj.GetCollapseDimensionRatioMinValue ()</tt> -  If the data configuration is set to UNKNOWN, this class attempts to
+ figure out the dimensionality of the data using CollapseDimensionRatio.
+ This ivar is the ratio of short edge of the input bounding box to its
+ long edge, which is then used to collapse the data dimension (and set the
+ quadric bin size in that direction to one). By default, this value is 0.05.
+ </LI>
+<LI>  <tt>double = obj.GetCollapseDimensionRatioMaxValue ()</tt> -  If the data configuration is set to UNKNOWN, this class attempts to
+ figure out the dimensionality of the data using CollapseDimensionRatio.
+ This ivar is the ratio of short edge of the input bounding box to its
+ long edge, which is then used to collapse the data dimension (and set the
+ quadric bin size in that direction to one). By default, this value is 0.05.
+ </LI>
+<LI>  <tt>double = obj.GetCollapseDimensionRatio ()</tt> -  If the data configuration is set to UNKNOWN, this class attempts to
+ figure out the dimensionality of the data using CollapseDimensionRatio.
+ This ivar is the ratio of short edge of the input bounding box to its
+ long edge, which is then used to collapse the data dimension (and set the
+ quadric bin size in that direction to one). By default, this value is 0.05.
+ </LI>
+<LI>  <tt>obj.SetLODFilter (vtkQuadricClustering lodFilter)</tt> -  This class will create a vtkQuadricClustering algorithm automatically.
+ However, if you would like to specify the filter to use, or to access it
+ and configure it, these method provide access to the filter.
+ </LI>
+<LI>  <tt>vtkQuadricClustering = obj.GetLODFilter ()</tt> -  This class will create a vtkQuadricClustering algorithm automatically.
+ However, if you would like to specify the filter to use, or to access it
+ and configure it, these method provide access to the filter.
+ </LI>
+<LI>  <tt>obj.SetMaximumDisplayListSize (int )</tt> -  Specify the maximum display list size. This variable is used to determine
+ whether to use display lists (ImmediateModeRenderingOff) or not. 
+ Controlling display list size is important to prevent program crashes (i.e.,
+ overly large display lists on some graphics hardware will cause faults).
+ The display list size is the length of the vtkCellArray representing the
+ topology of the input vtkPolyData.
+ </LI>
+<LI>  <tt>int = obj.GetMaximumDisplayListSizeMinValue ()</tt> -  Specify the maximum display list size. This variable is used to determine
+ whether to use display lists (ImmediateModeRenderingOff) or not. 
+ Controlling display list size is important to prevent program crashes (i.e.,
+ overly large display lists on some graphics hardware will cause faults).
+ The display list size is the length of the vtkCellArray representing the
+ topology of the input vtkPolyData.
+ </LI>
+<LI>  <tt>int = obj.GetMaximumDisplayListSizeMaxValue ()</tt> -  Specify the maximum display list size. This variable is used to determine
+ whether to use display lists (ImmediateModeRenderingOff) or not. 
+ Controlling display list size is important to prevent program crashes (i.e.,
+ overly large display lists on some graphics hardware will cause faults).
+ The display list size is the length of the vtkCellArray representing the
+ topology of the input vtkPolyData.
+ </LI>
+<LI>  <tt>int = obj.GetMaximumDisplayListSize ()</tt> -  Specify the maximum display list size. This variable is used to determine
+ whether to use display lists (ImmediateModeRenderingOff) or not. 
+ Controlling display list size is important to prevent program crashes (i.e.,
+ overly large display lists on some graphics hardware will cause faults).
+ The display list size is the length of the vtkCellArray representing the
+ topology of the input vtkPolyData.
+ </LI>
+<LI>  <tt>obj.SetPropType (int )</tt> -  Indicate that this actor is actually a follower. By default, the prop
+ type is a vtkActor.
+ </LI>
+<LI>  <tt>int = obj.GetPropTypeMinValue ()</tt> -  Indicate that this actor is actually a follower. By default, the prop
+ type is a vtkActor.
+ </LI>
+<LI>  <tt>int = obj.GetPropTypeMaxValue ()</tt> -  Indicate that this actor is actually a follower. By default, the prop
+ type is a vtkActor.
+ </LI>
+<LI>  <tt>int = obj.GetPropType ()</tt> -  Indicate that this actor is actually a follower. By default, the prop
+ type is a vtkActor.
+ </LI>
+<LI>  <tt>obj.SetPropTypeToFollower ()</tt> -  Indicate that this actor is actually a follower. By default, the prop
+ type is a vtkActor.
+ </LI>
+<LI>  <tt>obj.SetPropTypeToActor ()</tt> -  Set/Get the camera to follow. This method is only applicable when the 
+ prop type is set to a vtkFollower.
+ </LI>
+<LI>  <tt>obj.SetCamera (vtkCamera )</tt> -  Set/Get the camera to follow. This method is only applicable when the 
+ prop type is set to a vtkFollower.
+ </LI>
+<LI>  <tt>vtkCamera = obj.GetCamera ()</tt> -  Set/Get the camera to follow. This method is only applicable when the 
+ prop type is set to a vtkFollower.
+ </LI>
+<LI>  <tt>obj.Render (vtkRenderer , vtkMapper )</tt> -  This causes the actor to be rendered. Depending on the frame rate request,
+ it will use either a full resolution render or an interactive render (i.e.,
+ it will use the decimated geometry).
+ </LI>
+<LI>  <tt>int = obj.RenderOpaqueGeometry (vtkViewport viewport)</tt> -  This method is used internally by the rendering process. We overide 
+ the superclass method to properly set the estimated render time.
+ </LI>
+<LI>  <tt>obj.ReleaseGraphicsResources (vtkWindow )</tt> -  Release any graphics resources that are being consumed by this actor.
+ The parameter window could be used to determine which graphic
+ resources to release.
+ </LI>
+<LI>  <tt>obj.ShallowCopy (vtkProp prop)</tt> -  Shallow copy of an LOD actor. Overloads the virtual vtkProp method.
+ </LI>
+</UL>
+*/

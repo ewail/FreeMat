@@ -1,0 +1,66 @@
+/*!
+\page thread_threadkill THREADKILL Halt execution of a thread
+
+<p>
+Section: \ref sec_thread "FreeMat Threads"
+\section Usage
+The <tt>threadkill</tt> function stops (or attempts to stop) execution
+of the given thread.  It works only for functions defined in M-files
+(i.e., not for built in or imported functions), and it works by 
+setting a flag that causes the thread to stop execution at the next
+available statement.  The syntax for this function is 
+\verbatim
+  threadkill(handle)
+\endverbatim
+where <tt>handle</tt> is the value returned by a <tt>threadnew</tt> call.  
+Note that the <tt>threadkill</tt> function returns immediately.  It 
+is still your responsibility to call <tt>threadfree</tt> to free
+the thread you have halted.
+
+You cannot kill the main thread (thread id <tt>1</tt>).
+\section Example
+Here is an example of stopping a runaway thread using <tt>threadkill</tt>.
+Note that the thread function in this case is an M-file function.
+We start by setting up a free running counter, where we can access 
+the counter from the global variables.  
+
+\if FILE
+freecount.m
+function freecount
+  global count
+  if (~exist('count')) count = 0; end  % Initialize the counter
+  while (1)
+    count = count + 1;                 % Update the counter
+  end
+\endif
+\verbatim
+     freecount.m
+\endverbatim
+
+\verbinclude freecount.m
+
+We now launch this function in a thread, and use <tt>threadkill</tt> to
+stop it:
+
+\if FRAGMENT
+frag_thread_threadkill_000.m
+0
+a = threadnew;
+global count                   % register the global variable count
+count = 0;
+threadstart(a,'freecount',0)   % start the thread
+count                          % it is counting
+sleep(1)                       % Wait a bit
+count                          % it is still counting
+threadkill(a)                  % kill the counter
+threadwait(a,1000)             % wait for it to finish
+count                          % The count will no longer increase
+sleep(1)
+count
+threadfree(a)
+\endif
+
+
+\verbinclude frag_thread_threadkill_000.m.out 
+
+*/

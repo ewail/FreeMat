@@ -1,0 +1,131 @@
+
+ Usage
+
+This filter redistributes data among processors in a
+parallel application into spatially contiguous
+vtkUnstructuredGrids. The execution model anticipated is
+that all processes read in part of a large vtkDataSet. Each
+process sets the input of filter to be that DataSet. When
+executed, this filter builds in parallel a k-d tree,
+decomposing the space occupied by the distributed DataSet
+into spatial regions. It assigns each spatial region to a
+processor. The data is then redistributed and the output is
+a single vtkUnstructuredGrid containing the cells in the
+process' assigned regions.
+This filter is sometimes called "D3" for "distributed data
+decomposition".
+Enhancement: You can set the k-d tree decomposition, rather
+than have D3 compute it. This allows you to divide a dataset
+using the decomposition computed for another dataset. Obtain
+a description of the k-d tree cuts this way:
+vtkBSPCuts *cuts = D3Object1->GetCuts()
+And set it this way:
+D3Object2->SetCuts(cuts)
+It is desirable to have a field array of global node IDs for
+two reasons:
+
+  1. When merging together sub grids that were distributed
+     across processors, global node IDs can be used to
+     remove duplicate points and significantly reduce the
+     size of the resulting output grid. If no such array is
+     available, D3 will use a tolerance to merge points,
+     which is much slower.
+
+
+  1. If ghost cells have been requested, D3 requires a
+     global node ID array in order to request and transfer
+     ghost cells in parallel among the processors. If there
+     is no global node ID array, D3 will in parallel create
+     a global node ID array, and the time to do this can be
+     significant.
+
+If you know the name of a global node ID array in the input
+dataset, set that name with this method. If you leave it
+unset, D3 will search the input data set for certain common
+names of global node ID arrays. If none is found, and ghost
+cells have been requested, D3 will create a temporary global
+node ID array before aquiring ghost cells. It is also
+desirable to have global element IDs. However, if they don't
+exist D3 can create them relatively quickly. Set the name of
+the global element ID array if you have it. If it is not
+set, D3 will search for it using common names. If still not
+found, D3 will create a temporary array of global element
+IDs.
+To create an instance of class vtkDistributedDataFilter,
+simply invoke its constructor as follows
+
+    obj = vtkDistributedDataFilter
+
+
+
+ Methods
+
+The class vtkDistributedDataFilter has several methods that
+can be used. They are listed below. Note that the
+documentation is translated automatically from the VTK
+sources, and may not be completely intelligible. When in
+doubt, consult the VTK website. In the methods listed below,
+obj is an instance of the vtkDistributedDataFilter class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkDistributedDataFilter = obj.NewInstance ()
+* vtkDistributedDataFilter = obj.SafeDownCast (vtkObject o)
+* obj.SetController (vtkMultiProcessController c) - Set/Get
+  the communicator object
+* vtkMultiProcessController = obj.GetController () - Set/Get
+  the communicator object
+* vtkPKdTree = obj.GetKdtree ()
+* obj.RetainKdtreeOn ()
+* obj.RetainKdtreeOff ()
+* int = obj.GetRetainKdtree ()
+* obj.SetRetainKdtree (int )
+* obj.IncludeAllIntersectingCellsOn ()
+* obj.IncludeAllIntersectingCellsOff ()
+* int = obj.GetIncludeAllIntersectingCells ()
+* obj.SetIncludeAllIntersectingCells (int )
+* obj.ClipCellsOn ()
+* obj.ClipCellsOff ()
+* int = obj.GetClipCells ()
+* obj.SetClipCells (int )
+* obj.SetBoundaryMode (int mode) - Handling of ClipCells and
+  IncludeAllIntersectingCells.
+* obj.SetBoundaryModeToAssignToOneRegion () - Handling of
+  ClipCells and IncludeAllIntersectingCells.
+* obj.SetBoundaryModeToAssignToAllIntersectingRegions () -
+  Handling of ClipCells and IncludeAllIntersectingCells.
+* obj.SetBoundaryModeToSplitBoundaryCells () - Handling of
+  ClipCells and IncludeAllIntersectingCells.
+* int = obj.GetBoundaryMode () - Handling of ClipCells and
+  IncludeAllIntersectingCells.
+* obj.UseMinimalMemoryOn ()
+* obj.UseMinimalMemoryOff ()
+* int = obj.GetUseMinimalMemory ()
+* obj.SetUseMinimalMemory (int )
+* obj.TimingOn ()
+* obj.TimingOff ()
+* obj.SetTiming (int )
+* int = obj.GetTiming ()
+* vtkBSPCuts = obj.GetCuts () - You can set the k-d tree
+  decomposition, rather than have D3 compute it. This allows
+  you to divide a dataset using the decomposition computed
+  for another dataset. Obtain a description of the k-d tree
+  cuts this way:
+  vtkBSPCuts *cuts = D3Object1->GetCuts()
+  And set it this way:
+  D3Object2->SetCuts(cuts)
+* obj.SetCuts (vtkBSPCuts cuts) - You can set the k-d tree
+  decomposition, rather than have D3 compute it. This allows
+  you to divide a dataset using the decomposition computed
+  for another dataset. Obtain a description of the k-d tree
+  cuts this way:
+  vtkBSPCuts *cuts = D3Object1->GetCuts()
+  And set it this way:
+  D3Object2->SetCuts(cuts)
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Parallel_Classes
+* Generated on Thu Jul 25 2013 17:18:34 for FreeMat by
+  doxygen_ 1.8.1.1
+

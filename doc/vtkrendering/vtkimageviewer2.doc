@@ -1,0 +1,171 @@
+/*!
+\page vtkrendering_vtkimageviewer2 vtkImageViewer2
+
+<p>
+Section: \ref sec_vtkrendering "Visualization Toolkit Rendering Classes"
+\section Usage
+ vtkImageViewer2 is a convenience class for displaying a 2D image.  It
+ packages up the functionality found in vtkRenderWindow, vtkRenderer,
+ vtkImageActor and vtkImageMapToWindowLevelColors into a single easy to use
+ class.  This class also creates an image interactor style
+ (vtkInteractorStyleImage) that allows zooming and panning of images, and
+ supports interactive window/level operations on the image. Note that
+ vtkImageViewer2 is simply a wrapper around these classes.
+
+ vtkImageViewer2 uses the 3D rendering and texture mapping engine
+ to draw an image on a plane.  This allows for rapid rendering,
+ zooming, and panning. The image is placed in the 3D scene at a
+ depth based on the z-coordinate of the particular image slice. Each
+ call to SetSlice() changes the image data (slice) displayed AND
+ changes the depth of the displayed slice in the 3D scene. This can
+ be controlled by the AutoAdjustCameraClippingRange ivar of the
+ InteractorStyle member.
+
+ It is possible to mix images and geometry, using the methods:
+
+ viewer->SetInput( myImage );
+ viewer->GetRenderer()->AddActor( myActor );
+
+ This can be used to annotate an image with a PolyData of "edges" or
+ or highlight sections of an image or display a 3D isosurface
+ with a slice from the volume, etc. Any portions of your geometry
+ that are in front of the displayed slice will be visible; any
+ portions of your geometry that are behind the displayed slice will
+ be obscured. A more general framework (with respect to viewing
+ direction) for achieving this effect is provided by the
+ vtkImagePlaneWidget .
+
+ Note that pressing 'r' will reset the window/level and pressing
+ shift+'r' or control+'r' will reset the camera.
+
+
+To create an instance of class vtkImageViewer2, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkImageViewer2
+\endverbatim
+\section Methods
+The class vtkImageViewer2 has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkImageViewer2 class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkImageViewer2 = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkImageViewer2 = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>string = obj.GetWindowName ()</tt> -  Get the name of rendering window.
+ </LI>
+<LI>  <tt>obj.Render (void )</tt> -  Render the resulting image.
+ </LI>
+<LI>  <tt>obj.SetInput (vtkImageData in)</tt> -  Set/Get the input image to the viewer.
+ </LI>
+<LI>  <tt>vtkImageData = obj.GetInput ()</tt> -  Set/Get the input image to the viewer.
+ </LI>
+<LI>  <tt>obj.SetInputConnection (vtkAlgorithmOutput input)</tt> -  Set/Get the input image to the viewer.
+ </LI>
+<LI>  <tt>int = obj.GetSliceOrientation ()</tt> -  Set/get the slice orientation
+ </LI>
+<LI>  <tt>obj.SetSliceOrientation (int orientation)</tt> -  Set/get the slice orientation
+ </LI>
+<LI>  <tt>obj.SetSliceOrientationToXY ()</tt> -  Set/get the slice orientation
+ </LI>
+<LI>  <tt>obj.SetSliceOrientationToYZ ()</tt> -  Set/get the slice orientation
+ </LI>
+<LI>  <tt>obj.SetSliceOrientationToXZ ()</tt> -  Set/get the slice orientation
+ </LI>
+<LI>  <tt>int = obj.GetSlice ()</tt> -  Set/Get the current slice to display (depending on the orientation
+ this can be in X, Y or Z).
+ </LI>
+<LI>  <tt>obj.SetSlice (int s)</tt> -  Set/Get the current slice to display (depending on the orientation
+ this can be in X, Y or Z).
+ </LI>
+<LI>  <tt>obj.UpdateDisplayExtent ()</tt> -  Update the display extent manually so that the proper slice for the
+ given orientation is displayed. It will also try to set a
+ reasonable camera clipping range.
+ This method is called automatically when the Input is changed, but
+ most of the time the input of this class is likely to remain the same,
+ i.e. connected to the output of a filter, or an image reader. When the
+ input of this filter or reader itself is changed, an error message might
+ be displayed since the current display extent is probably outside
+ the new whole extent. Calling this method will ensure that the display
+ extent is reset properly.
+ </LI>
+<LI>  <tt>int = obj.GetSliceMin ()</tt> -  Return the minimum and maximum slice values (depending on the orientation
+ this can be in X, Y or Z).
+ </LI>
+<LI>  <tt>int = obj.GetSliceMax ()</tt> -  Return the minimum and maximum slice values (depending on the orientation
+ this can be in X, Y or Z).
+ </LI>
+<LI>  <tt>obj.GetSliceRange (int range[2])</tt> -  Return the minimum and maximum slice values (depending on the orientation
+ this can be in X, Y or Z).
+ </LI>
+<LI>  <tt>double = obj.GetColorWindow ()</tt> -  Set window and level for mapping pixels to colors.
+ </LI>
+<LI>  <tt>double = obj.GetColorLevel ()</tt> -  Set window and level for mapping pixels to colors.
+ </LI>
+<LI>  <tt>obj.SetColorWindow (double s)</tt> -  Set window and level for mapping pixels to colors.
+ </LI>
+<LI>  <tt>obj.SetColorLevel (double s)</tt> -  Set window and level for mapping pixels to colors.
+ </LI>
+<LI>  <tt>obj.SetPosition (int a, int b)</tt> -  Set/Get the position in screen coordinates of the rendering window.
+ </LI>
+<LI>  <tt>obj.SetPosition (int a[2])</tt> -  Set/Get the size of the window in screen coordinates in pixels.
+ </LI>
+<LI>  <tt>obj.SetSize (int a, int b)</tt> -  Set/Get the size of the window in screen coordinates in pixels.
+ </LI>
+<LI>  <tt>obj.SetSize (int a[2])</tt> -  Get the internal render window, renderer, image actor, and
+ image map instances.
+ </LI>
+<LI>  <tt>vtkRenderWindow = obj.GetRenderWindow ()</tt> -  Get the internal render window, renderer, image actor, and
+ image map instances.
+ </LI>
+<LI>  <tt>vtkRenderer = obj.GetRenderer ()</tt> -  Get the internal render window, renderer, image actor, and
+ image map instances.
+ </LI>
+<LI>  <tt>vtkImageActor = obj.GetImageActor ()</tt> -  Get the internal render window, renderer, image actor, and
+ image map instances.
+ </LI>
+<LI>  <tt>vtkImageMapToWindowLevelColors = obj.GetWindowLevel ()</tt> -  Get the internal render window, renderer, image actor, and
+ image map instances.
+ </LI>
+<LI>  <tt>vtkInteractorStyleImage = obj.GetInteractorStyle ()</tt> -  Get the internal render window, renderer, image actor, and
+ image map instances.
+ </LI>
+<LI>  <tt>obj.SetRenderWindow (vtkRenderWindow arg)</tt> -  Set your own renderwindow and renderer
+ </LI>
+<LI>  <tt>obj.SetRenderer (vtkRenderer arg)</tt> -  Set your own renderwindow and renderer
+ </LI>
+<LI>  <tt>obj.SetupInteractor (vtkRenderWindowInteractor )</tt> -  Attach an interactor for the internal render window.
+ </LI>
+<LI>  <tt>obj.SetOffScreenRendering (int )</tt> -  Create a window in memory instead of on the screen. This may not
+ be supported for every type of window and on some windows you may
+ need to invoke this prior to the first render.
+ </LI>
+<LI>  <tt>int = obj.GetOffScreenRendering ()</tt> -  Create a window in memory instead of on the screen. This may not
+ be supported for every type of window and on some windows you may
+ need to invoke this prior to the first render.
+ </LI>
+<LI>  <tt>obj.OffScreenRenderingOn ()</tt> -  Create a window in memory instead of on the screen. This may not
+ be supported for every type of window and on some windows you may
+ need to invoke this prior to the first render.
+ </LI>
+<LI>  <tt>obj.OffScreenRenderingOff ()</tt> -  Create a window in memory instead of on the screen. This may not
+ be supported for every type of window and on some windows you may
+ need to invoke this prior to the first render.
+ </LI>
+<LI>  <tt>int = obj.GetWholeZMin ()</tt> -  @deprecated Replaced by vtkImageViewer2::GetSliceMin() as of VTK 5.0.
+ </LI>
+<LI>  <tt>int = obj.GetWholeZMax ()</tt> -  @deprecated Replaced by vtkImageViewer2::GetSliceMax() as of VTK 5.0.
+ </LI>
+<LI>  <tt>int = obj.GetZSlice ()</tt> -  @deprecated Replaced by vtkImageViewer2::GetSlice() as of VTK 5.0.
+ </LI>
+<LI>  <tt>obj.SetZSlice (int )</tt> -  @deprecated Replaced by vtkImageViewer2::SetSlice() as of VTK 5.0.
+ </LI>
+</UL>
+*/

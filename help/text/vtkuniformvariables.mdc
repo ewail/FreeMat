@@ -1,0 +1,143 @@
+
+ Usage
+
+vtkUniformVariables is a list of uniform variables attached
+to either a vtkShader2 object or to a vtkShaderProgram2.
+Uniform variables on a vtkShaderProgram2 override values of
+uniform variables on a vtkShader2.
+To create an instance of class vtkUniformVariables, simply
+invoke its constructor as follows
+
+    obj = vtkUniformVariables
+
+
+
+ Methods
+
+The class vtkUniformVariables has several methods that can
+be used. They are listed below. Note that the documentation
+is translated automatically from the VTK sources, and may
+not be completely intelligible. When in doubt, consult the
+VTK website. In the methods listed below, obj is an instance
+of the vtkUniformVariables class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkUniformVariables = obj.NewInstance ()
+* vtkUniformVariables = obj.SafeDownCast (vtkObject o)
+* obj.SetUniformi (string name, int numberOfComponents, int
+  value) - Set an integer uniform variable.
+
+
+    Precondition:
+        name_exists: name!=0
+        value_exists: value!=0
+        valid_numberOfComponents: numberOfComponents>=1
+        &amp;&amp; numberOfComponents<=4
+
+* obj.SetUniformf (string name, int numberOfComponents,
+  float value) - Set an float uniform variable.
+
+
+    Precondition:
+        name_exists: name!=0
+        value_exists: value!=0
+        valid_numberOfComponents: numberOfComponents>=1
+        &amp;&amp; numberOfComponents<=4
+
+* obj.SetUniformiv (string name, int numberOfComponents, int
+  numberOfElements, int value) - Set an array of integer
+  uniform variables. The array `value' is of size
+  `numberOfElements'*`numberOfComponents.'.
+
+
+    Precondition:
+        name_exists: name!=0
+        value_exists: value!=0
+        valid_numberOfComponents: numberOfComponents>=1
+        &amp;&amp; numberOfComponents<=4
+        valid_numberOfElements: numberOfElements>=1
+
+* obj.SetUniformfv (string name, int numberOfComponents, int
+  numberOfElements, float value) - Set an array of float
+  uniform variables. The array `value' is of size
+  `numberOfElements'*`numberOfComponents.'.
+
+
+    Precondition:
+        name_exists: name!=0
+        value_exists: value!=0
+        valid_numberOfComponents: numberOfComponents>=1
+        &amp;&amp; numberOfComponents<=4
+        valid_numberOfElements: numberOfElements>=1
+
+* obj.SetUniformMatrix (string name, int rows, int columns,
+  float value) - Set a matrix uniform variable.
+
+
+    Precondition:
+        name_exists: name!=0
+        value_exists: value!=0
+        valid_rows: rows>=2 &amp;&amp; rows<=4
+        valid_columns: columns>=2 &amp;&amp; columns<=4
+
+* obj.RemoveUniform (string name) - Remove uniform `name'
+  from the list.
+* obj.RemoveAllUniforms () - Remove all uniforms from the
+  list.
+* obj.Send (string name, int uniformIndex) -
+
+
+    Precondition:
+        need a valid OpenGL context and a shader program in
+        use.
+
+* obj.Start () - Place the internal cursor on the first
+  uniform.
+* bool = obj.IsAtEnd () - Is the iteration done?
+* string = obj.GetCurrentName () - Name of the uniform at
+  the current cursor position.
+
+
+    Precondition:
+        not_done: !this->IsAtEnd()
+
+* obj.SendCurrentUniform (int uniformIndex) -
+
+
+    Precondition:
+        need a valid OpenGL context and a shader program in
+        use.
+        not_done: !this->IsAtEnd()
+
+* obj.Next () - Move the cursor to the next uniform.
+
+
+    Precondition:
+        not_done: !this->IsAtEnd()
+
+* obj.DeepCopy (vtkUniformVariables other) - Copy all the
+  variables from `other'. Any existing variable will be
+  deleted first.
+
+
+    Precondition:
+        other_exists: other!=0
+        not_self: other!=this
+
+* obj.Merge (vtkUniformVariables other) - Copy all the
+  variables from `other'. Any existing variable will be
+  overwritten.
+
+
+    Precondition:
+        other_exists: other!=0
+        not_self: other!=this
+
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Rendering_Classes
+* Generated on Thu Jul 25 2013 17:18:35 for FreeMat by
+  doxygen_ 1.8.1.1
+

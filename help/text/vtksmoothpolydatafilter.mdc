@@ -1,0 +1,187 @@
+
+ Usage
+
+vtkSmoothPolyDataFilter is a filter that adjusts point
+coordinates using Laplacian smoothing. The effect is to
+"relax" the mesh, making the cells better shaped and the
+vertices more evenly distributed. Note that this filter
+operates on the lines, polygons, and triangle strips
+composing an instance of vtkPolyData. Vertex or poly-vertex
+cells are never modified.
+The algorithm proceeds as follows. For each vertex v, a
+topological and geometric analysis is performed to determine
+which vertices are connected to v, and which cells are
+connected to v. Then, a connectivity array is constructed
+for each vertex. (The connectivity array is a list of lists
+of vertices that directly attach to each vertex.) Next, an
+iteration phase begins over all vertices. For each vertex v,
+the coordinates of v are modified according to an average of
+the connected vertices. (A relaxation factor is available to
+control the amount of displacement of v). The process
+repeats for each vertex. This pass over the list of vertices
+is a single iteration. Many iterations (generally around 20
+or so) are repeated until the desired result is obtained.
+There are some special instance variables used to control
+the execution of this filter. (These ivars basically control
+what vertices can be smoothed, and the creation of the
+connectivity array.) The BoundarySmoothing ivar enables/
+disables the smoothing operation on vertices that are on the
+"boundary" of the mesh. A boundary vertex is one that is
+surrounded by a semi-cycle of polygons (or used by a single
+line).
+Another important ivar is FeatureEdgeSmoothing. If this ivar
+is enabled, then interior vertices are classified as either
+"simple", "interior edge", or "fixed", and smoothed
+differently. (Interior vertices are manifold vertices
+surrounded by a cycle of polygons; or used by two line
+cells.) The classification is based on the number of feature
+edges attached to v. A feature edge occurs when the angle
+between the two surface normals of a polygon sharing an edge
+is greater than the FeatureAngle ivar. Then, vertices used
+by no feature edges are classified "simple", vertices used
+by exactly two feature edges are classified "interior edge",
+and all others are "fixed" vertices.
+Once the classification is known, the vertices are smoothed
+differently. Corner (i.e., fixed) vertices are not smoothed
+at all. Simple vertices are smoothed as before (i.e.,
+average of connected vertex coordinates). Interior edge
+vertices are smoothed only along their two connected edges,
+and only if the angle between the edges is less than the
+EdgeAngle ivar.
+The total smoothing can be controlled by using two ivars.
+The NumberOfIterations is a cap on the maximum number of
+smoothing passes. The Convergence ivar is a limit on the
+maximum point motion. If the maximum motion during an
+iteration is less than Convergence, then the smoothing
+process terminates. (Convergence is expressed as a fraction
+of the diagonal of the bounding box.)
+There are two instance variables that control the generation
+of error data. If the ivar GenerateErrorScalars is on, then
+a scalar value indicating the distance of each vertex from
+its original position is computed. If the ivar
+GenerateErrorVectors is on, then a vector representing
+change in position is computed.
+Optionally you can further control the smoothing process by
+defining a second input: the Source. If defined, the input
+mesh is constrained to lie on the surface defined by the
+Source ivar.
+To create an instance of class vtkSmoothPolyDataFilter,
+simply invoke its constructor as follows
+
+    obj = vtkSmoothPolyDataFilter
+
+
+
+ Methods
+
+The class vtkSmoothPolyDataFilter has several methods that
+can be used. They are listed below. Note that the
+documentation is translated automatically from the VTK
+sources, and may not be completely intelligible. When in
+doubt, consult the VTK website. In the methods listed below,
+obj is an instance of the vtkSmoothPolyDataFilter class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkSmoothPolyDataFilter = obj.NewInstance ()
+* vtkSmoothPolyDataFilter = obj.SafeDownCast (vtkObject o)
+* obj.SetConvergence (double ) - Specify a convergence
+  criterion for the iteration process. Smaller numbers
+  result in more smoothing iterations.
+* double = obj.GetConvergenceMinValue () - Specify a
+  convergence criterion for the iteration process. Smaller
+  numbers result in more smoothing iterations.
+* double = obj.GetConvergenceMaxValue () - Specify a
+  convergence criterion for the iteration process. Smaller
+  numbers result in more smoothing iterations.
+* double = obj.GetConvergence () - Specify a convergence
+  criterion for the iteration process. Smaller numbers
+  result in more smoothing iterations.
+* obj.SetNumberOfIterations (int ) - Specify the number of
+  iterations for Laplacian smoothing,
+* int = obj.GetNumberOfIterationsMinValue () - Specify the
+  number of iterations for Laplacian smoothing,
+* int = obj.GetNumberOfIterationsMaxValue () - Specify the
+  number of iterations for Laplacian smoothing,
+* int = obj.GetNumberOfIterations () - Specify the number of
+  iterations for Laplacian smoothing,
+* obj.SetRelaxationFactor (double ) - Specify the relaxation
+  factor for Laplacian smoothing. As in all iterative
+  methods, the stability of the process is sensitive to this
+  parameter. In general, small relaxation factors and large
+  numbers of iterations are more stable than larger
+  relaxation factors and smaller numbers of iterations.
+* double = obj.GetRelaxationFactor () - Specify the
+  relaxation factor for Laplacian smoothing. As in all
+  iterative methods, the stability of the process is
+  sensitive to this parameter. In general, small relaxation
+  factors and large numbers of iterations are more stable
+  than larger relaxation factors and smaller numbers of
+  iterations.
+* obj.SetFeatureEdgeSmoothing (int ) - Turn on/off smoothing
+  along sharp interior edges.
+* int = obj.GetFeatureEdgeSmoothing () - Turn on/off
+  smoothing along sharp interior edges.
+* obj.FeatureEdgeSmoothingOn () - Turn on/off smoothing
+  along sharp interior edges.
+* obj.FeatureEdgeSmoothingOff () - Turn on/off smoothing
+  along sharp interior edges.
+* obj.SetFeatureAngle (double ) - Specify the feature angle
+  for sharp edge identification.
+* double = obj.GetFeatureAngleMinValue () - Specify the
+  feature angle for sharp edge identification.
+* double = obj.GetFeatureAngleMaxValue () - Specify the
+  feature angle for sharp edge identification.
+* double = obj.GetFeatureAngle () - Specify the feature
+  angle for sharp edge identification.
+* obj.SetEdgeAngle (double ) - Specify the edge angle to
+  control smoothing along edges (either interior or
+  boundary).
+* double = obj.GetEdgeAngleMinValue () - Specify the edge
+  angle to control smoothing along edges (either interior or
+  boundary).
+* double = obj.GetEdgeAngleMaxValue () - Specify the edge
+  angle to control smoothing along edges (either interior or
+  boundary).
+* double = obj.GetEdgeAngle () - Specify the edge angle to
+  control smoothing along edges (either interior or
+  boundary).
+* obj.SetBoundarySmoothing (int ) - Turn on/off the
+  smoothing of vertices on the boundary of the mesh.
+* int = obj.GetBoundarySmoothing () - Turn on/off the
+  smoothing of vertices on the boundary of the mesh.
+* obj.BoundarySmoothingOn () - Turn on/off the smoothing of
+  vertices on the boundary of the mesh.
+* obj.BoundarySmoothingOff () - Turn on/off the smoothing of
+  vertices on the boundary of the mesh.
+* obj.SetGenerateErrorScalars (int ) - Turn on/off the
+  generation of scalar distance values.
+* int = obj.GetGenerateErrorScalars () - Turn on/off the
+  generation of scalar distance values.
+* obj.GenerateErrorScalarsOn () - Turn on/off the generation
+  of scalar distance values.
+* obj.GenerateErrorScalarsOff () - Turn on/off the
+  generation of scalar distance values.
+* obj.SetGenerateErrorVectors (int ) - Turn on/off the
+  generation of error vectors.
+* int = obj.GetGenerateErrorVectors () - Turn on/off the
+  generation of error vectors.
+* obj.GenerateErrorVectorsOn () - Turn on/off the generation
+  of error vectors.
+* obj.GenerateErrorVectorsOff () - Turn on/off the
+  generation of error vectors.
+* obj.SetSource (vtkPolyData source) - Specify the source
+  object which is used to constrain smoothing. The source
+  defines a surface that the input (as it is smoothed) is
+  constrained to lie upon.
+* vtkPolyData = obj.GetSource () - Specify the source object
+  which is used to constrain smoothing. The source defines a
+  surface that the input (as it is smoothed) is constrained
+  to lie upon.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Graphics_Classes
+* Generated on Thu Jul 25 2013 17:18:32 for FreeMat by
+  doxygen_ 1.8.1.1
+

@@ -1,0 +1,107 @@
+
+ Usage
+
+There are three Boolean operators available in FreeMat. The
+syntax for their use is:
+
+    y = ~x
+    y = a &amp; b
+    y = a | b
+
+where x, a and b are logical arrays. The operators are
+
+* NOT (~) - output y is true if the corresponding element of
+  x is false, and ouput y is false if the corresponding
+  element of x is true.
+* OR (|) - output y is true if corresponding element of a is
+  true or if corresponding element of b is true (or if both
+  are true).
+* AND (&amp;) - output y is true only if both the
+  corresponding elements of a and b are both true.
+
+The binary operators AND and OR can take scalar arguments as
+well as vector arguments, in which case, the scalar is
+operated on with each element of the vector. As of version
+1.10, FreeMat supports shortcut evaluation. This means that
+if we have two expressions
+
+    if (expr1 &amp; expr2)
+
+then if expr1 evaluates to false, then expr2 is not
+evaluated at all. Similarly, for the expression
+
+    if (expr1 | expr2)
+
+then if expr1 evaluates to true, then expr2 is not evaluated
+at all. Shortcut evaluation is useful for doing a sequence
+of tests, each of which is not valid unless the prior test
+is successful. For example,
+
+    if isa(p,'string') &amp; strcmp(p,'fro')
+
+is not valid without shortcut evaluation (if p is an
+integer, for example, the first test returns false, and an
+attempt to evaluate the second expression would lead to an
+error). Note that shortcut evaluation only works with scalar
+expressions.
+
+
+ Examples
+
+Some simple examples of logical operators. Suppose we want
+to calculate the exclusive-or (XOR) of two vectors of
+logical variables. First, we create a pair of vectors to
+perform the XOR operation on:
+
+  --> a = (randn(1,6)>0)
+
+  a =
+   0 0 0 0 1 0
+
+  --> b = (randn(1,6)>0)
+
+  b =
+   1 1 0 1 0 1
+
+Next, we can compute the OR of a and b:
+
+  --> c = a | b
+
+  c =
+   1 1 0 1 1 1
+
+However, the XOR and OR operations differ on the fifth entry
+- the XOR would be false, since it is true if and only if
+exactly one of the two inputs is true. To isolate this case,
+we can AND the two vectors, to find exactly those entries
+that appear as true in both a and b:
+
+  --> d = a &amp; b
+
+  d =
+   0 0 0 0 0 0
+
+At this point, we can modify the contents of c in two ways
+&ndash; the Boolean way is to AND  $\sim d$  with c, like so
+
+  --> xor = c &amp; (~d)
+
+  xor =
+   1 1 0 1 1 1
+
+The other way to do this is simply force c(d) = 0, which
+uses the logical indexing mode of FreeMat (see the chapter
+on indexing for more details). This, however, will cause c
+to become an int32 type, as opposed to a logical type.
+
+  --> c(d) = 0
+
+  c =
+   1 1 0 1 1 1
+
+
+* FreeMat_Documentation
+* Mathematical_Operators
+* Generated on Thu Jul 25 2013 17:17:45 for FreeMat by
+  doxygen_ 1.8.1.1
+

@@ -1,0 +1,11 @@
+function x = test_sparse24
+N = 10;
+M = 70;
+a = double(40*randn(N));
+A = sparse(a);
+rc = int32((N-1)*rand(M,1))+1;
+cc = int32((N-1)*rand(M,1))+1;
+lc = rc+N*(cc-1);
+b = a(lc);
+B = A(lc);
+x = testeq(b,B);

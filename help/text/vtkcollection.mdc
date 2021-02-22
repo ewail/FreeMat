@@ -1,0 +1,74 @@
+
+ Usage
+
+vtkCollection is a general object for creating and
+manipulating lists of objects. The lists are unsorted and
+allow duplicate entries. vtkCollection also serves as a base
+class for lists of specific types of objects.
+To create an instance of class vtkCollection, simply invoke
+its constructor as follows
+
+    obj = vtkCollection
+
+
+
+ Methods
+
+The class vtkCollection has several methods that can be
+used. They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkCollection class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkCollection = obj.NewInstance ()
+* vtkCollection = obj.SafeDownCast (vtkObject o)
+* obj.AddItem (vtkObject ) - Add an object to the list. Does
+  not prevent duplicate entries.
+* obj.InsertItem (int i, vtkObject ) - Insert item into the
+  list after the i'th item. Does not prevent duplicate
+  entries. If i < 0 the item is placed at the top of the
+  list.
+* obj.ReplaceItem (int i, vtkObject ) - Replace the i'th
+  item in the collection with a
+* obj.RemoveItem (int i) - Remove the i'th item in the list.
+  Be careful if using this function during traversal of the
+  list using GetNextItemAsObject (or GetNextItem in derived
+  class). The list WILL be shortened if a valid index is
+  given! If this->Current is equal to the element being
+  removed, have it point to then next element in the list.
+* obj.RemoveItem (vtkObject ) - Remove an object from the
+  list. Removes the first object found, not all occurrences.
+  If no object found, list is unaffected. See warning in
+  description of RemoveItem(int).
+* obj.RemoveAllItems () - Remove all objects from the list.
+* int = obj.IsItemPresent (vtkObject a) - Search for an
+  object and return location in list. If the return value is
+  0, the object was not found. If the object was found, the
+  location is the return value-1.
+* int = obj.GetNumberOfItems () - Return the number of
+  objects in the list.
+* obj.InitTraversal () - Initialize the traversal of the
+  collection. This means the data pointer is set at the
+  beginning of the list.
+* vtkObject = obj.GetNextItemAsObject () - Get the next item
+  in the collection. NULL is returned if the collection is
+  exhausted.
+* vtkObject = obj.GetItemAsObject (int i) - Get the i'th
+  item in the collection. NULL is returned if i is out of
+  range
+* vtkCollectionIterator = obj.NewIterator () - Get an
+  iterator to traverse the objects in this collection.
+* obj.Register (vtkObjectBase o) - Participate in garbage
+  collection.
+* obj.UnRegister (vtkObjectBase o) - Participate in garbage
+  collection.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Common_Classes
+* Generated on Thu Jul 25 2013 17:18:30 for FreeMat by
+  doxygen_ 1.8.1.1
+

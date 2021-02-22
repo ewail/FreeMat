@@ -1,0 +1,169 @@
+/*!
+\page vtkcommon_vtkwindow vtkWindow
+
+<p>
+Section: \ref sec_vtkcommon "Visualization Toolkit Common Classes"
+\section Usage
+ vtkWindow is an abstract object to specify the behavior of a
+ rendering window.  It contains vtkViewports.
+
+To create an instance of class vtkWindow, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkWindow
+\endverbatim
+\section Methods
+The class vtkWindow has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkWindow class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkWindow = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkWindow = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetWindowInfo (string )</tt> -  These are window system independent methods that are used
+ to help interface vtkWindow to native windowing systems.
+ </LI>
+<LI>  <tt>obj.SetParentInfo (string )</tt> -  These are window system independent methods that are used
+ to help interface vtkWindow to native windowing systems.
+ </LI>
+<LI>  <tt>int = obj.GetPosition ()</tt> -  Set/Get the position in screen coordinates of the rendering window.
+ </LI>
+<LI>  <tt>obj.SetPosition (int , int )</tt> -  Set/Get the position in screen coordinates of the rendering window.
+ </LI>
+<LI>  <tt>obj.SetPosition (int a[2])</tt> -  Set/Get the position in screen coordinates of the rendering window.
+ </LI>
+<LI>  <tt>int = obj.GetSize ()</tt> -  Set/Get the size of the window in screen coordinates in pixels.
+ </LI>
+<LI>  <tt>obj.SetSize (int , int )</tt> -  Set/Get the size of the window in screen coordinates in pixels.
+ </LI>
+<LI>  <tt>obj.SetSize (int a[2])</tt> -  Set/Get the size of the window in screen coordinates in pixels.
+ </LI>
+<LI>  <tt>obj.SetMapped (int )</tt> -  Keep track of whether the rendering window has been mapped to screen.
+ </LI>
+<LI>  <tt>int = obj.GetMapped ()</tt> -  Keep track of whether the rendering window has been mapped to screen.
+ </LI>
+<LI>  <tt>obj.MappedOn ()</tt> -  Keep track of whether the rendering window has been mapped to screen.
+ </LI>
+<LI>  <tt>obj.MappedOff ()</tt> -  Keep track of whether the rendering window has been mapped to screen.
+ </LI>
+<LI>  <tt>obj.SetErase (int )</tt> -  Turn on/off erasing the screen between images. This allows multiple 
+ exposure sequences if turned on. You will need to turn double 
+ buffering off or make use of the SwapBuffers methods to prevent
+ you from swapping buffers between exposures.
+ </LI>
+<LI>  <tt>int = obj.GetErase ()</tt> -  Turn on/off erasing the screen between images. This allows multiple 
+ exposure sequences if turned on. You will need to turn double 
+ buffering off or make use of the SwapBuffers methods to prevent
+ you from swapping buffers between exposures.
+ </LI>
+<LI>  <tt>obj.EraseOn ()</tt> -  Turn on/off erasing the screen between images. This allows multiple 
+ exposure sequences if turned on. You will need to turn double 
+ buffering off or make use of the SwapBuffers methods to prevent
+ you from swapping buffers between exposures.
+ </LI>
+<LI>  <tt>obj.EraseOff ()</tt> -  Turn on/off erasing the screen between images. This allows multiple 
+ exposure sequences if turned on. You will need to turn double 
+ buffering off or make use of the SwapBuffers methods to prevent
+ you from swapping buffers between exposures.
+ </LI>
+<LI>  <tt>obj.SetDoubleBuffer (int )</tt> -  Keep track of whether double buffering is on or off
+ </LI>
+<LI>  <tt>int = obj.GetDoubleBuffer ()</tt> -  Keep track of whether double buffering is on or off
+ </LI>
+<LI>  <tt>obj.DoubleBufferOn ()</tt> -  Keep track of whether double buffering is on or off
+ </LI>
+<LI>  <tt>obj.DoubleBufferOff ()</tt> -  Keep track of whether double buffering is on or off
+ </LI>
+<LI>  <tt>string = obj.GetWindowName ()</tt> -  Get name of rendering window
+ </LI>
+<LI>  <tt>obj.SetWindowName (string )</tt> -  Get name of rendering window
+ </LI>
+<LI>  <tt>obj.Render ()</tt> -  Ask each viewport owned by this Window to render its image and 
+ synchronize this process.
+ </LI>
+<LI>  <tt>int = obj.GetPixelData (int x, int y, int x2, int y2, int front, vtkUnsignedCharArray data)</tt> -  Get the pixel data of an image, transmitted as RGBRGBRGB. The
+ front argument indicates if the front buffer should be used or the back 
+ buffer. It is the caller's responsibility to delete the resulting 
+ array. It is very important to realize that the memory in this array
+ is organized from the bottom of the window to the top. The origin
+ of the screen is in the lower left corner. The y axis increases as
+ you go up the screen. So the storage of pixels is from left to right
+ and from bottom to top.
+ (x,y) is any corner of the rectangle. (x2,y2) is its opposite corner on
+ the diagonal.
+ </LI>
+<LI>  <tt>int = obj.GetDPI ()</tt> -  Return a best estimate to the dots per inch of the display
+ device being rendered (or printed).
+ </LI>
+<LI>  <tt>obj.SetDPI (int )</tt> -  Return a best estimate to the dots per inch of the display
+ device being rendered (or printed).
+ </LI>
+<LI>  <tt>int = obj.GetDPIMinValue ()</tt> -  Return a best estimate to the dots per inch of the display
+ device being rendered (or printed).
+ </LI>
+<LI>  <tt>int = obj.GetDPIMaxValue ()</tt> -  Return a best estimate to the dots per inch of the display
+ device being rendered (or printed).
+ </LI>
+<LI>  <tt>obj.SetOffScreenRendering (int )</tt> -  Create a window in memory instead of on the screen. This may not be
+ supported for every type of window and on some windows you may need to
+ invoke this prior to the first render.
+ </LI>
+<LI>  <tt>int = obj.GetOffScreenRendering ()</tt> -  Create a window in memory instead of on the screen. This may not be
+ supported for every type of window and on some windows you may need to
+ invoke this prior to the first render.
+ </LI>
+<LI>  <tt>obj.OffScreenRenderingOn ()</tt> -  Create a window in memory instead of on the screen. This may not be
+ supported for every type of window and on some windows you may need to
+ invoke this prior to the first render.
+ </LI>
+<LI>  <tt>obj.OffScreenRenderingOff ()</tt> -  Create a window in memory instead of on the screen. This may not be
+ supported for every type of window and on some windows you may need to
+ invoke this prior to the first render.
+ </LI>
+<LI>  <tt>obj.MakeCurrent ()</tt> -  Make the window current. May be overridden in subclasses to do
+ for example a glXMakeCurrent or a wglMakeCurrent.
+ </LI>
+<LI>  <tt>obj.SetTileScale (int , int )</tt> -  These methods are used by vtkWindowToImageFilter to tell a VTK window
+ to simulate a larger window by tiling. For 3D geometry these methods
+ have no impact. It is just in handling annotation that this information
+ must be available to the mappers and the coordinate calculations.
+ </LI>
+<LI>  <tt>obj.SetTileScale (int  a[2])</tt> -  These methods are used by vtkWindowToImageFilter to tell a VTK window
+ to simulate a larger window by tiling. For 3D geometry these methods
+ have no impact. It is just in handling annotation that this information
+ must be available to the mappers and the coordinate calculations.
+ </LI>
+<LI>  <tt>int = obj. GetTileScale ()</tt> -  These methods are used by vtkWindowToImageFilter to tell a VTK window
+ to simulate a larger window by tiling. For 3D geometry these methods
+ have no impact. It is just in handling annotation that this information
+ must be available to the mappers and the coordinate calculations.
+ </LI>
+<LI>  <tt>obj.SetTileScale (int s)</tt> -  These methods are used by vtkWindowToImageFilter to tell a VTK window
+ to simulate a larger window by tiling. For 3D geometry these methods
+ have no impact. It is just in handling annotation that this information
+ must be available to the mappers and the coordinate calculations.
+ </LI>
+<LI>  <tt>obj.SetTileViewport (double , double , double , double )</tt> -  These methods are used by vtkWindowToImageFilter to tell a VTK window
+ to simulate a larger window by tiling. For 3D geometry these methods
+ have no impact. It is just in handling annotation that this information
+ must be available to the mappers and the coordinate calculations.
+ </LI>
+<LI>  <tt>obj.SetTileViewport (double  a[4])</tt> -  These methods are used by vtkWindowToImageFilter to tell a VTK window
+ to simulate a larger window by tiling. For 3D geometry these methods
+ have no impact. It is just in handling annotation that this information
+ must be available to the mappers and the coordinate calculations.
+ </LI>
+<LI>  <tt>double = obj. GetTileViewport ()</tt> -  These methods are used by vtkWindowToImageFilter to tell a VTK window
+ to simulate a larger window by tiling. For 3D geometry these methods
+ have no impact. It is just in handling annotation that this information
+ must be available to the mappers and the coordinate calculations.
+ </LI>
+</UL>
+*/

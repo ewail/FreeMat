@@ -1,0 +1,220 @@
+/*!
+\page vtkhybrid_vtkimagetopolydatafilter vtkImageToPolyDataFilter
+
+<p>
+Section: \ref sec_vtkhybrid "Visualization Toolkit Hybrid Classes"
+\section Usage
+ vtkImageToPolyDataFilter converts raster data (i.e., an image) into
+ polygonal data (i.e., quads or n-sided polygons), with each polygon
+ assigned a constant color. This is useful for writers that generate vector
+ formats (i.e., CGM or PostScript). To use this filter, you specify how to
+ quantize the color (or whether to use an image with a lookup table), and
+ what style the output should be. The output is always polygons, but the
+ choice is n x m quads (where n and m define the input image dimensions)
+ "Pixelize" option; arbitrary polygons "Polygonalize" option; or variable
+ number of quads of constant color generated along scan lines "RunLength"
+ option.
+
+ The algorithm quantizes color in order to create coherent regions that the
+ polygons can represent with good compression. By default, the input image
+ is quantized to 256 colors using a 3-3-2 bits for red-green-blue. However,
+ you can also supply a single component image and a lookup table, with the
+ single component assumed to be an index into the table.  (Note: a quantized
+ image can be generated with the filter vtkImageQuantizeRGBToIndex.) The
+ number of colors on output is equal to the number of colors in the input
+ lookup table (or 256 if the built in linear ramp is used).
+
+ The output of the filter is polygons with a single color per polygon cell.
+ If the output style is set to "Polygonalize", the polygons may have an
+ large number of points (bounded by something like 2*(n+m)); and the
+ polygon may not be convex which may cause rendering problems on some
+ systems (use vtkTriangleFilter). Otherwise, each polygon will have four
+ vertices. The output also contains scalar data defining RGB color in
+ unsigned char form.
+
+
+To create an instance of class vtkImageToPolyDataFilter, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkImageToPolyDataFilter
+\endverbatim
+\section Methods
+The class vtkImageToPolyDataFilter has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkImageToPolyDataFilter class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkImageToPolyDataFilter = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkImageToPolyDataFilter = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetOutputStyle (int )</tt> -  Specify how to create the output. Pixelize means converting the image
+ to quad polygons with a constant color per quad. Polygonalize means
+ merging colors together into polygonal regions, and then smoothing
+ the regions (if smoothing is turned on). RunLength means creating
+ quad polygons that may encompass several pixels on a scan line. The
+ default behavior is Polygonalize.
+ </LI>
+<LI>  <tt>int = obj.GetOutputStyleMinValue ()</tt> -  Specify how to create the output. Pixelize means converting the image
+ to quad polygons with a constant color per quad. Polygonalize means
+ merging colors together into polygonal regions, and then smoothing
+ the regions (if smoothing is turned on). RunLength means creating
+ quad polygons that may encompass several pixels on a scan line. The
+ default behavior is Polygonalize.
+ </LI>
+<LI>  <tt>int = obj.GetOutputStyleMaxValue ()</tt> -  Specify how to create the output. Pixelize means converting the image
+ to quad polygons with a constant color per quad. Polygonalize means
+ merging colors together into polygonal regions, and then smoothing
+ the regions (if smoothing is turned on). RunLength means creating
+ quad polygons that may encompass several pixels on a scan line. The
+ default behavior is Polygonalize.
+ </LI>
+<LI>  <tt>int = obj.GetOutputStyle ()</tt> -  Specify how to create the output. Pixelize means converting the image
+ to quad polygons with a constant color per quad. Polygonalize means
+ merging colors together into polygonal regions, and then smoothing
+ the regions (if smoothing is turned on). RunLength means creating
+ quad polygons that may encompass several pixels on a scan line. The
+ default behavior is Polygonalize.
+ </LI>
+<LI>  <tt>obj.SetOutputStyleToPixelize ()</tt> -  Specify how to create the output. Pixelize means converting the image
+ to quad polygons with a constant color per quad. Polygonalize means
+ merging colors together into polygonal regions, and then smoothing
+ the regions (if smoothing is turned on). RunLength means creating
+ quad polygons that may encompass several pixels on a scan line. The
+ default behavior is Polygonalize.
+ </LI>
+<LI>  <tt>obj.SetOutputStyleToPolygonalize ()</tt> -  Specify how to create the output. Pixelize means converting the image
+ to quad polygons with a constant color per quad. Polygonalize means
+ merging colors together into polygonal regions, and then smoothing
+ the regions (if smoothing is turned on). RunLength means creating
+ quad polygons that may encompass several pixels on a scan line. The
+ default behavior is Polygonalize.
+ </LI>
+<LI>  <tt>obj.SetOutputStyleToRunLength ()</tt> -  Specify how to create the output. Pixelize means converting the image
+ to quad polygons with a constant color per quad. Polygonalize means
+ merging colors together into polygonal regions, and then smoothing
+ the regions (if smoothing is turned on). RunLength means creating
+ quad polygons that may encompass several pixels on a scan line. The
+ default behavior is Polygonalize.
+ </LI>
+<LI>  <tt>obj.SetColorMode (int )</tt> -  Specify how to quantize color.
+ </LI>
+<LI>  <tt>int = obj.GetColorModeMinValue ()</tt> -  Specify how to quantize color.
+ </LI>
+<LI>  <tt>int = obj.GetColorModeMaxValue ()</tt> -  Specify how to quantize color.
+ </LI>
+<LI>  <tt>int = obj.GetColorMode ()</tt> -  Specify how to quantize color.
+ </LI>
+<LI>  <tt>obj.SetColorModeToLUT ()</tt> -  Specify how to quantize color.
+ </LI>
+<LI>  <tt>obj.SetColorModeToLinear256 ()</tt> -  Specify how to quantize color.
+ </LI>
+<LI>  <tt>obj.SetLookupTable (vtkScalarsToColors )</tt> -  Set/Get the vtkLookupTable to use. The lookup table is used when the
+ color mode is set to LUT and a single component scalar is input.
+ </LI>
+<LI>  <tt>vtkScalarsToColors = obj.GetLookupTable ()</tt> -  Set/Get the vtkLookupTable to use. The lookup table is used when the
+ color mode is set to LUT and a single component scalar is input.
+ </LI>
+<LI>  <tt>obj.SetSmoothing (int )</tt> -  If the output style is set to polygonalize, then you can control
+ whether to smooth boundaries.
+ </LI>
+<LI>  <tt>int = obj.GetSmoothing ()</tt> -  If the output style is set to polygonalize, then you can control
+ whether to smooth boundaries.
+ </LI>
+<LI>  <tt>obj.SmoothingOn ()</tt> -  If the output style is set to polygonalize, then you can control
+ whether to smooth boundaries.
+ </LI>
+<LI>  <tt>obj.SmoothingOff ()</tt> -  If the output style is set to polygonalize, then you can control
+ whether to smooth boundaries.
+ </LI>
+<LI>  <tt>obj.SetNumberOfSmoothingIterations (int )</tt> -  Specify the number of smoothing iterations to smooth polygons. (Only
+ in effect if output style is Polygonalize and smoothing is on.)
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfSmoothingIterationsMinValue ()</tt> -  Specify the number of smoothing iterations to smooth polygons. (Only
+ in effect if output style is Polygonalize and smoothing is on.)
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfSmoothingIterationsMaxValue ()</tt> -  Specify the number of smoothing iterations to smooth polygons. (Only
+ in effect if output style is Polygonalize and smoothing is on.)
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfSmoothingIterations ()</tt> -  Specify the number of smoothing iterations to smooth polygons. (Only
+ in effect if output style is Polygonalize and smoothing is on.)
+ </LI>
+<LI>  <tt>obj.SetDecimation (int )</tt> -  Turn on/off whether the final polygons should be decimated.
+ whether to smooth boundaries.
+ </LI>
+<LI>  <tt>int = obj.GetDecimation ()</tt> -  Turn on/off whether the final polygons should be decimated.
+ whether to smooth boundaries.
+ </LI>
+<LI>  <tt>obj.DecimationOn ()</tt> -  Turn on/off whether the final polygons should be decimated.
+ whether to smooth boundaries.
+ </LI>
+<LI>  <tt>obj.DecimationOff ()</tt> -  Turn on/off whether the final polygons should be decimated.
+ whether to smooth boundaries.
+ </LI>
+<LI>  <tt>obj.SetDecimationError (double )</tt> -  Specify the error to use for decimation (if decimation is on).
+ The error is an absolute number--the image spacing and
+ dimensions are used to create points so the error should be
+ consistent with the image size.
+ </LI>
+<LI>  <tt>double = obj.GetDecimationErrorMinValue ()</tt> -  Specify the error to use for decimation (if decimation is on).
+ The error is an absolute number--the image spacing and
+ dimensions are used to create points so the error should be
+ consistent with the image size.
+ </LI>
+<LI>  <tt>double = obj.GetDecimationErrorMaxValue ()</tt> -  Specify the error to use for decimation (if decimation is on).
+ The error is an absolute number--the image spacing and
+ dimensions are used to create points so the error should be
+ consistent with the image size.
+ </LI>
+<LI>  <tt>double = obj.GetDecimationError ()</tt> -  Specify the error to use for decimation (if decimation is on).
+ The error is an absolute number--the image spacing and
+ dimensions are used to create points so the error should be
+ consistent with the image size.
+ </LI>
+<LI>  <tt>obj.SetError (int )</tt> -  Specify the error value between two colors where the colors are 
+ considered the same. Only use this if the color mode uses the
+ default 256 table.
+ </LI>
+<LI>  <tt>int = obj.GetErrorMinValue ()</tt> -  Specify the error value between two colors where the colors are 
+ considered the same. Only use this if the color mode uses the
+ default 256 table.
+ </LI>
+<LI>  <tt>int = obj.GetErrorMaxValue ()</tt> -  Specify the error value between two colors where the colors are 
+ considered the same. Only use this if the color mode uses the
+ default 256 table.
+ </LI>
+<LI>  <tt>int = obj.GetError ()</tt> -  Specify the error value between two colors where the colors are 
+ considered the same. Only use this if the color mode uses the
+ default 256 table.
+ </LI>
+<LI>  <tt>obj.SetSubImageSize (int )</tt> -  Specify the size (n by n pixels) of the largest region to 
+ polygonalize. When the OutputStyle is set to VTK_STYLE_POLYGONALIZE,
+ large amounts of memory are used. In order to process large images,
+ the image is broken into pieces that are at most Size pixels in
+ width and height.
+ </LI>
+<LI>  <tt>int = obj.GetSubImageSizeMinValue ()</tt> -  Specify the size (n by n pixels) of the largest region to 
+ polygonalize. When the OutputStyle is set to VTK_STYLE_POLYGONALIZE,
+ large amounts of memory are used. In order to process large images,
+ the image is broken into pieces that are at most Size pixels in
+ width and height.
+ </LI>
+<LI>  <tt>int = obj.GetSubImageSizeMaxValue ()</tt> -  Specify the size (n by n pixels) of the largest region to 
+ polygonalize. When the OutputStyle is set to VTK_STYLE_POLYGONALIZE,
+ large amounts of memory are used. In order to process large images,
+ the image is broken into pieces that are at most Size pixels in
+ width and height.
+ </LI>
+<LI>  <tt>int = obj.GetSubImageSize ()</tt> -  Specify the size (n by n pixels) of the largest region to 
+ polygonalize. When the OutputStyle is set to VTK_STYLE_POLYGONALIZE,
+ large amounts of memory are used. In order to process large images,
+ the image is broken into pieces that are at most Size pixels in
+ width and height.
+ </LI>
+</UL>
+*/

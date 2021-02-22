@@ -1,0 +1,114 @@
+
+ Usage
+
+This is a VTK regression testing framework. Looks like this:
+vtkTesting* t = vtkTesting::New();
+Two options for setting arguments
+Option 1: for ( cc = 1; cc < argc; cc ++ ) { t->AddArgument
+(argv[cc]); }
+Option 2: t->AddArgument("-D"); t->AddArgument(my_data_dir);
+t->AddArgument("-V"); t->AddArgument(my_valid_image);
+...
+Two options of doing testing:
+Option 1: t->SetRenderWindow(renWin); int res = t-
+>RegressionTest(threshold);
+Option 2: int res = t->RegressionTest(test_image,
+threshold);
+...
+if ( res == vtkTesting::PASSED ) { Test passed } else { Test
+failed }
+To create an instance of class vtkTesting, simply invoke its
+constructor as follows
+
+    obj = vtkTesting
+
+
+
+ Methods
+
+The class vtkTesting has several methods that can be used.
+They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkTesting class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkTesting = obj.NewInstance ()
+* vtkTesting = obj.SafeDownCast (vtkObject o)
+* obj.SetFrontBuffer (int ) - Use front buffer for tests. By
+  default use back buffer.
+* int = obj.GetFrontBufferMinValue () - Use front buffer for
+  tests. By default use back buffer.
+* int = obj.GetFrontBufferMaxValue () - Use front buffer for
+  tests. By default use back buffer.
+* obj.FrontBufferOn () - Use front buffer for tests. By
+  default use back buffer.
+* obj.FrontBufferOff () - Use front buffer for tests. By
+  default use back buffer.
+* int = obj.GetFrontBuffer () - Use front buffer for tests.
+  By default use back buffer.
+* int = obj.RegressionTest (double thresh) - Perform the
+  test and return result. At the same time the output will
+  be written cout
+* int = obj.RegressionTest (vtkImageData image, double
+  thresh) - Compare the image with the valid image.
+* int = obj.CompareAverageOfL2Norm (vtkDataSet pdA,
+  vtkDataSet pdB, double tol) - Compute the average L2 norm
+  between all point data data arrays of types float and
+  double present in the data sets "dsA" and "dsB" (this
+  includes instances of vtkPoints) Compare the result of
+  each L2 comutation to "tol".
+* int = obj.CompareAverageOfL2Norm (vtkDataArray daA,
+  vtkDataArray daB, double tol) - Compute the average L2
+  norm between two data arrays "daA" and "daB" and compare
+  against "tol".
+* obj.SetRenderWindow (vtkRenderWindow rw) - Set and get the
+  render window that will be used for regression testing.
+* vtkRenderWindow = obj.GetRenderWindow () - Set and get the
+  render window that will be used for regression testing.
+* obj.SetValidImageFileName (string ) - Set/Get the name of
+  the valid image file
+* string = obj.GetValidImageFileName () - Set/Get the name
+  of the valid image file
+* double = obj.GetImageDifference () - Get the image
+  difference.
+* obj.AddArgument (string argv) - Pass the command line
+  arguments into this class to be processed. Many of the Get
+  methods such as GetValidImage and GetBaselineRoot rely on
+  the arguments to be passed in prior to retrieving these
+  values. Just call AddArgument for each argument that was
+  passed into the command line
+* obj.CleanArguments ()
+* string = obj.GetDataRoot () - Get some paramters from the
+  command line arguments, env, or defaults
+* obj.SetDataRoot (string ) - Get some paramters from the
+  command line arguments, env, or defaults
+* string = obj.GetTempDirectory () - Get some paramters from
+  the command line arguments, env, or defaults
+* obj.SetTempDirectory (string ) - Get some paramters from
+  the command line arguments, env, or defaults
+* int = obj.IsValidImageSpecified () - Is a valid image
+  specified on the command line areguments?
+* int = obj.IsInteractiveModeSpecified () - Is the
+  interactive mode specified?
+* int = obj.IsFlagSpecified (string flag) - Is some
+  arbitrary user flag ("-X", "-Z" etc) specified
+* obj.SetBorderOffset (int ) - Number of pixels added as
+  borders to avoid problems with window decorations added by
+  some window managers.
+* int = obj.GetBorderOffset () - Number of pixels added as
+  borders to avoid problems with window decorations added by
+  some window managers.
+* obj.SetVerbose (int ) - Get/Set verbosity level. A level
+  of 0 is quiet.
+* int = obj.GetVerbose () - Get/Set verbosity level. A level
+  of 0 is quiet.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Rendering_Classes
+* Generated on Thu Jul 25 2013 17:18:35 for FreeMat by
+  doxygen_ 1.8.1.1
+

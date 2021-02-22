@@ -1,0 +1,474 @@
+
+ Usage
+
+vtkExodusIIReader is a unstructured grid source object that
+reads ExodusII files. Most of the meta data associated with
+the file is loaded when UpdateInformation is called. This
+includes information like Title, number of blocks, number
+and names of arrays. This data can be retrieved from methods
+in this reader. Separate arrays that are meant to be a
+single vector, are combined internally for convenience. To
+be combined, the array names have to be identical except for
+a trailing X,Y and Z (or x,y,z). By default cell and point
+arrays are not loaded. However, the user can flag arrays to
+load with the methods "SetPointArrayStatus" and
+"SetCellArrayStatus". The reader DOES NOT respond to piece
+requests
+To create an instance of class vtkExodusIIReader, simply
+invoke its constructor as follows
+
+    obj = vtkExodusIIReader
+
+
+
+ Methods
+
+The class vtkExodusIIReader has several methods that can be
+used. They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkExodusIIReader class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkExodusIIReader = obj.NewInstance ()
+* vtkExodusIIReader = obj.SafeDownCast (vtkObject o)
+* int = obj.CanReadFile (string fname) - Determine if the
+  file can be readed with this reader.
+* long = obj.GetMTime () - Return the object's MTime. This
+  is overridden to include the timestamp of its internal
+  class.
+* long = obj.GetMetadataMTime () - Return the MTime of the
+  internal data structure. This is really only intended for
+  use by vtkPExodusIIReader in order to determine if the
+  filename is newer than the metadata.
+* obj.SetFileName (string fname) - Specify file name of the
+  Exodus file.
+* string = obj.GetFileName () - Specify file name of the
+  Exodus file.
+* obj.SetXMLFileName (string fname) - Specify file name of
+  the xml file.
+* string = obj.GetXMLFileName () - Specify file name of the
+  xml file.
+* obj.SetTimeStep (int ) - Which TimeStep to read.
+* int = obj.GetTimeStep () - Which TimeStep to read.
+* obj.SetModeShape (int val) - Returns the available range
+  of valid integer time steps.
+* int = obj. GetTimeStepRange () - Returns the available
+  range of valid integer time steps.
+* obj.SetTimeStepRange (int , int ) - Returns the available
+  range of valid integer time steps.
+* obj.SetTimeStepRange (int a[2]) - Returns the available
+  range of valid integer time steps.
+* obj.SetGenerateObjectIdCellArray (int g) - Extra cell data
+  array that can be generated. By default, this array is ON.
+  The value of the array is the integer id found in the
+  exodus file. The name of the array is returned by
+  GetBlockIdArrayName(). For cells representing elements
+  from an Exodus element block, this is set to the element
+  block ID. For cells representing edges from an Exodus edge
+  block, this is the edge block ID. Similarly, ths is the
+  face block ID for cells representing faces from an Exodus
+  face block. The same holds for cells representing entries
+  of node, edge, face, side, and element sets.
+* int = obj.GetGenerateObjectIdCellArray () - Extra cell
+  data array that can be generated. By default, this array
+  is ON. The value of the array is the integer id found in
+  the exodus file. The name of the array is returned by
+  GetBlockIdArrayName(). For cells representing elements
+  from an Exodus element block, this is set to the element
+  block ID. For cells representing edges from an Exodus edge
+  block, this is the edge block ID. Similarly, ths is the
+  face block ID for cells representing faces from an Exodus
+  face block. The same holds for cells representing entries
+  of node, edge, face, side, and element sets.
+* obj.GenerateObjectIdCellArrayOn () - Extra cell data array
+  that can be generated. By default, this array is ON. The
+  value of the array is the integer id found in the exodus
+  file. The name of the array is returned by
+  GetBlockIdArrayName(). For cells representing elements
+  from an Exodus element block, this is set to the element
+  block ID. For cells representing edges from an Exodus edge
+  block, this is the edge block ID. Similarly, ths is the
+  face block ID for cells representing faces from an Exodus
+  face block. The same holds for cells representing entries
+  of node, edge, face, side, and element sets.
+* obj.GenerateObjectIdCellArrayOff () - Extra cell data
+  array that can be generated. By default, this array is ON.
+  The value of the array is the integer id found in the
+  exodus file. The name of the array is returned by
+  GetBlockIdArrayName(). For cells representing elements
+  from an Exodus element block, this is set to the element
+  block ID. For cells representing edges from an Exodus edge
+  block, this is the edge block ID. Similarly, ths is the
+  face block ID for cells representing faces from an Exodus
+  face block. The same holds for cells representing entries
+  of node, edge, face, side, and element sets.
+* obj.SetGenerateGlobalElementIdArray (int g)
+* int = obj.GetGenerateGlobalElementIdArray ()
+* obj.GenerateGlobalElementIdArrayOn ()
+* obj.GenerateGlobalElementIdArrayOff ()
+* obj.SetGenerateGlobalNodeIdArray (int g)
+* int = obj.GetGenerateGlobalNodeIdArray ()
+* obj.GenerateGlobalNodeIdArrayOn ()
+* obj.GenerateGlobalNodeIdArrayOff ()
+* obj.SetGenerateImplicitElementIdArray (int g)
+* int = obj.GetGenerateImplicitElementIdArray ()
+* obj.GenerateImplicitElementIdArrayOn ()
+* obj.GenerateImplicitElementIdArrayOff ()
+* obj.SetGenerateImplicitNodeIdArray (int g)
+* int = obj.GetGenerateImplicitNodeIdArray ()
+* obj.GenerateImplicitNodeIdArrayOn ()
+* obj.GenerateImplicitNodeIdArrayOff ()
+* obj.SetGenerateFileIdArray (int f)
+* int = obj.GetGenerateFileIdArray ()
+* obj.GenerateFileIdArrayOn ()
+* obj.GenerateFileIdArrayOff ()
+* obj.SetFileId (int f)
+* int = obj.GetFileId ()
+* obj.SetApplyDisplacements (int d) - Geometric locations
+  can include displacements. By default, this is ON. The
+  nodal positions are 'displaced' by the standard exodus
+  displacment vector. If displacements are turned 'off', the
+  user can explicitly add them by applying a warp filter.
+* int = obj.GetApplyDisplacements () - Geometric locations
+  can include displacements. By default, this is ON. The
+  nodal positions are 'displaced' by the standard exodus
+  displacment vector. If displacements are turned 'off', the
+  user can explicitly add them by applying a warp filter.
+* obj.ApplyDisplacementsOn () - Geometric locations can
+  include displacements. By default, this is ON. The nodal
+  positions are 'displaced' by the standard exodus
+  displacment vector. If displacements are turned 'off', the
+  user can explicitly add them by applying a warp filter.
+* obj.ApplyDisplacementsOff () - Geometric locations can
+  include displacements. By default, this is ON. The nodal
+  positions are 'displaced' by the standard exodus
+  displacment vector. If displacements are turned 'off', the
+  user can explicitly add them by applying a warp filter.
+* obj.SetDisplacementMagnitude (float s) - Geometric
+  locations can include displacements. By default, this is
+  ON. The nodal positions are 'displaced' by the standard
+  exodus displacment vector. If displacements are turned
+  'off', the user can explicitly add them by applying a warp
+  filter.
+* float = obj.GetDisplacementMagnitude () - Geometric
+  locations can include displacements. By default, this is
+  ON. The nodal positions are 'displaced' by the standard
+  exodus displacment vector. If displacements are turned
+  'off', the user can explicitly add them by applying a warp
+  filter.
+* obj.SetHasModeShapes (int ms) - Set/Get whether the Exodus
+  sequence number corresponds to time steps or mode shapes.
+  By default, HasModeShapes is false unless two time values
+  in the Exodus file are identical, in which case it is
+  true.
+* int = obj.GetHasModeShapes () - Set/Get whether the Exodus
+  sequence number corresponds to time steps or mode shapes.
+  By default, HasModeShapes is false unless two time values
+  in the Exodus file are identical, in which case it is
+  true.
+* obj.HasModeShapesOn () - Set/Get whether the Exodus
+  sequence number corresponds to time steps or mode shapes.
+  By default, HasModeShapes is false unless two time values
+  in the Exodus file are identical, in which case it is
+  true.
+* obj.HasModeShapesOff () - Set/Get whether the Exodus
+  sequence number corresponds to time steps or mode shapes.
+  By default, HasModeShapes is false unless two time values
+  in the Exodus file are identical, in which case it is
+  true.
+* obj.SetModeShapeTime (double phase) - Set/Get the time
+  used to animate mode shapes. This is a number between 0
+  and 1 that is used to scale the DisplacementMagnitude in a
+  sinusoidal pattern. Specifically, the displacement vector
+  for each vertex is scaled by  $ \mathrm
+  {DisplacementMagnitude} cos( 2\pi \mathrm{ModeShapeTime} )
+  $  before it is added to the vertex coordinates.
+* double = obj.GetModeShapeTime () - Set/Get the time used
+  to animate mode shapes. This is a number between 0 and 1
+  that is used to scale the DisplacementMagnitude in a
+  sinusoidal pattern. Specifically, the displacement vector
+  for each vertex is scaled by  $ \mathrm
+  {DisplacementMagnitude} cos( 2\pi \mathrm{ModeShapeTime} )
+  $  before it is added to the vertex coordinates.
+* obj.SetAnimateModeShapes (int flag) - If this flag is on
+  (the default) and HasModeShapes is also on, then this
+  reader will report a continuous time range [0,1] and
+  animate the displacements in a periodic sinusoid. If this
+  flag is off and HasModeShapes is on, this reader ignores
+  time. This flag has no effect if HasModeShapes is off.
+* int = obj.GetAnimateModeShapes () - If this flag is on
+  (the default) and HasModeShapes is also on, then this
+  reader will report a continuous time range [0,1] and
+  animate the displacements in a periodic sinusoid. If this
+  flag is off and HasModeShapes is on, this reader ignores
+  time. This flag has no effect if HasModeShapes is off.
+* obj.AnimateModeShapesOn () - If this flag is on (the
+  default) and HasModeShapes is also on, then this reader
+  will report a continuous time range [0,1] and animate the
+  displacements in a periodic sinusoid. If this flag is off
+  and HasModeShapes is on, this reader ignores time. This
+  flag has no effect if HasModeShapes is off.
+* obj.AnimateModeShapesOff () - If this flag is on (the
+  default) and HasModeShapes is also on, then this reader
+  will report a continuous time range [0,1] and animate the
+  displacements in a periodic sinusoid. If this flag is off
+  and HasModeShapes is on, this reader ignores time. This
+  flag has no effect if HasModeShapes is off.
+* obj.SetEdgeFieldDecorations (int d) - FIXME
+* int = obj.GetEdgeFieldDecorations () - FIXME
+* obj.EdgeFieldDecorationsNone () - FIXME
+* obj.EdgeFieldDecorationsGlyphs () - FIXME
+* obj.EdgeFieldDecorationsCornerAveraged () - FIXME
+* obj.SetFaceFieldDecorations (int d) - FIXME
+* int = obj.GetFaceFieldDecorations () - FIXME
+* obj.FaceFieldDecorationsNone () - FIXME
+* obj.FaceFieldDecorationsGlyphs () - FIXME
+* obj.FaceFieldDecorationsCornerAveraged () - Access to meta
+  data generated by UpdateInformation.
+* string = obj.GetTitle () - Access to meta data generated
+  by UpdateInformation.
+* int = obj.GetDimensionality () - Access to meta data
+  generated by UpdateInformation.
+* int = obj.GetNumberOfTimeSteps () - Access to meta data
+  generated by UpdateInformation.
+* int = obj.GetNumberOfNodesInFile ()
+* int = obj.GetNumberOfEdgesInFile ()
+* int = obj.GetNumberOfFacesInFile ()
+* int = obj.GetNumberOfElementsInFile ()
+* int = obj.GetObjectTypeFromName (string name)
+* string = obj.GetObjectTypeName (int )
+* int = obj.GetNumberOfNodes ()
+* int = obj.GetNumberOfObjects (int objectType)
+* int = obj.GetNumberOfEntriesInObject (int objectType, int
+  objectIndex)
+* int = obj.GetObjectId (int objectType, int objectIndex)
+* string = obj.GetObjectName (int objectType, int
+  objectIndex)
+* int = obj.GetObjectIndex (int objectType, string
+  objectName)
+* int = obj.GetObjectIndex (int objectType, int id)
+* int = obj.GetObjectStatus (int objectType, int
+  objectIndex)
+* int = obj.GetObjectStatus (int objectType, string
+  objectName)
+* obj.SetObjectStatus (int objectType, int objectIndex, int
+  status)
+* obj.SetObjectStatus (int objectType, string objectName,
+  int status)
+* int = obj.GetNumberOfObjectArrays (int objectType)
+* string = obj.GetObjectArrayName (int objectType, int
+  arrayIndex)
+* int = obj.GetObjectArrayIndex (int objectType, string
+  arrayName)
+* int = obj.GetNumberOfObjectArrayComponents (int
+  objectType, int arrayIndex)
+* int = obj.GetObjectArrayStatus (int objectType, int
+  arrayIndex)
+* int = obj.GetObjectArrayStatus (int objectType, string
+  arrayName)
+* obj.SetObjectArrayStatus (int objectType, int arrayIndex,
+  int status)
+* obj.SetObjectArrayStatus (int objectType, string
+  arrayName, int status)
+* int = obj.GetNumberOfObjectAttributes (int objectType, int
+  objectIndex)
+* string = obj.GetObjectAttributeName (int objectType, int
+  objectIndex, int attribIndex)
+* int = obj.GetObjectAttributeIndex (int objectType, int
+  objectIndex, string attribName)
+* int = obj.GetObjectAttributeStatus (int objectType, int
+  objectIndex, int attribIndex)
+* int = obj.GetObjectAttributeStatus (int objectType, int
+  objectIndex, string attribName)
+* obj.SetObjectAttributeStatus (int objectType, int
+  objectIndex, int attribIndex, int status)
+* obj.SetObjectAttributeStatus (int objectType, int
+  objectIndex, string attribName, int status)
+* vtkIdType = obj.GetTotalNumberOfNodes ()
+* vtkIdType = obj.GetTotalNumberOfEdges ()
+* vtkIdType = obj.GetTotalNumberOfFaces ()
+* vtkIdType = obj.GetTotalNumberOfElements ()
+* int = obj.GetNumberOfPartArrays ()
+* string = obj.GetPartArrayName (int arrayIdx)
+* int = obj.GetPartArrayID (string name)
+* string = obj.GetPartBlockInfo (int arrayIdx)
+* obj.SetPartArrayStatus (int index, int flag)
+* obj.SetPartArrayStatus (string , int flag)
+* int = obj.GetPartArrayStatus (int index)
+* int = obj.GetPartArrayStatus (string )
+* int = obj.GetNumberOfMaterialArrays ()
+* string = obj.GetMaterialArrayName (int arrayIdx)
+* int = obj.GetMaterialArrayID (string name)
+* obj.SetMaterialArrayStatus (int index, int flag)
+* obj.SetMaterialArrayStatus (string , int flag)
+* int = obj.GetMaterialArrayStatus (int index)
+* int = obj.GetMaterialArrayStatus (string )
+* int = obj.GetNumberOfAssemblyArrays ()
+* string = obj.GetAssemblyArrayName (int arrayIdx)
+* int = obj.GetAssemblyArrayID (string name)
+* obj.SetAssemblyArrayStatus (int index, int flag)
+* obj.SetAssemblyArrayStatus (string , int flag)
+* int = obj.GetAssemblyArrayStatus (int index)
+* int = obj.GetAssemblyArrayStatus (string )
+* int = obj.GetNumberOfHierarchyArrays ()
+* string = obj.GetHierarchyArrayName (int arrayIdx)
+* obj.SetHierarchyArrayStatus (int index, int flag)
+* obj.SetHierarchyArrayStatus (string , int flag)
+* int = obj.GetHierarchyArrayStatus (int index)
+* int = obj.GetHierarchyArrayStatus (string )
+* int = obj.GetDisplayType ()
+* obj.SetDisplayType (int type)
+* obj.ExodusModelMetadataOn ()
+* obj.ExodusModelMetadataOff ()
+* obj.SetExodusModelMetadata (int )
+* int = obj.GetExodusModelMetadata ()
+* vtkExodusModel = obj.GetExodusModel () - Returns the
+  object which encapsulates the model metadata.
+* obj.SetPackExodusModelOntoOutput (int )
+* int = obj.GetPackExodusModelOntoOutput ()
+* obj.PackExodusModelOntoOutputOn ()
+* obj.PackExodusModelOntoOutputOff ()
+* int = obj.IsValidVariable (string type, string name)
+* int = obj.GetVariableID (string type, string name)
+* obj.SetAllArrayStatus (int otype, int status)
+* int = obj.GetTimeSeriesData (int ID, string vName, string
+  vType, vtkFloatArray result)
+* int = obj.GetNumberOfEdgeBlockArrays ()
+* string = obj.GetEdgeBlockArrayName (int index)
+* int = obj.GetEdgeBlockArrayStatus (string name)
+* obj.SetEdgeBlockArrayStatus (string name, int flag)
+* int = obj.GetNumberOfFaceBlockArrays ()
+* string = obj.GetFaceBlockArrayName (int index)
+* int = obj.GetFaceBlockArrayStatus (string name)
+* obj.SetFaceBlockArrayStatus (string name, int flag)
+* int = obj.GetNumberOfElementBlockArrays ()
+* string = obj.GetElementBlockArrayName (int index)
+* int = obj.GetElementBlockArrayStatus (string name)
+* obj.SetElementBlockArrayStatus (string name, int flag)
+* int = obj.GetNumberOfGlobalResultArrays ()
+* string = obj.GetGlobalResultArrayName (int index)
+* int = obj.GetGlobalResultArrayStatus (string name)
+* obj.SetGlobalResultArrayStatus (string name, int flag)
+* int = obj.GetNumberOfPointResultArrays ()
+* string = obj.GetPointResultArrayName (int index)
+* int = obj.GetPointResultArrayStatus (string name)
+* obj.SetPointResultArrayStatus (string name, int flag)
+* int = obj.GetNumberOfEdgeResultArrays ()
+* string = obj.GetEdgeResultArrayName (int index)
+* int = obj.GetEdgeResultArrayStatus (string name)
+* obj.SetEdgeResultArrayStatus (string name, int flag)
+* int = obj.GetNumberOfFaceResultArrays ()
+* string = obj.GetFaceResultArrayName (int index)
+* int = obj.GetFaceResultArrayStatus (string name)
+* obj.SetFaceResultArrayStatus (string name, int flag)
+* int = obj.GetNumberOfElementResultArrays ()
+* string = obj.GetElementResultArrayName (int index)
+* int = obj.GetElementResultArrayStatus (string name)
+* obj.SetElementResultArrayStatus (string name, int flag)
+* int = obj.GetNumberOfNodeMapArrays ()
+* string = obj.GetNodeMapArrayName (int index)
+* int = obj.GetNodeMapArrayStatus (string name)
+* obj.SetNodeMapArrayStatus (string name, int flag)
+* int = obj.GetNumberOfEdgeMapArrays ()
+* string = obj.GetEdgeMapArrayName (int index)
+* int = obj.GetEdgeMapArrayStatus (string name)
+* obj.SetEdgeMapArrayStatus (string name, int flag)
+* int = obj.GetNumberOfFaceMapArrays ()
+* string = obj.GetFaceMapArrayName (int index)
+* int = obj.GetFaceMapArrayStatus (string name)
+* obj.SetFaceMapArrayStatus (string name, int flag)
+* int = obj.GetNumberOfElementMapArrays ()
+* string = obj.GetElementMapArrayName (int index)
+* int = obj.GetElementMapArrayStatus (string name)
+* obj.SetElementMapArrayStatus (string name, int flag)
+* int = obj.GetNumberOfNodeSetArrays ()
+* string = obj.GetNodeSetArrayName (int index)
+* int = obj.GetNodeSetArrayStatus (string name)
+* obj.SetNodeSetArrayStatus (string name, int flag)
+* int = obj.GetNumberOfSideSetArrays ()
+* string = obj.GetSideSetArrayName (int index)
+* int = obj.GetSideSetArrayStatus (string name)
+* obj.SetSideSetArrayStatus (string name, int flag)
+* int = obj.GetNumberOfEdgeSetArrays ()
+* string = obj.GetEdgeSetArrayName (int index)
+* int = obj.GetEdgeSetArrayStatus (string name)
+* obj.SetEdgeSetArrayStatus (string name, int flag)
+* int = obj.GetNumberOfFaceSetArrays ()
+* string = obj.GetFaceSetArrayName (int index)
+* int = obj.GetFaceSetArrayStatus (string name)
+* obj.SetFaceSetArrayStatus (string name, int flag)
+* int = obj.GetNumberOfElementSetArrays ()
+* string = obj.GetElementSetArrayName (int index)
+* int = obj.GetElementSetArrayStatus (string name)
+* obj.SetElementSetArrayStatus (string name, int flag)
+* int = obj.GetNumberOfNodeSetResultArrays ()
+* string = obj.GetNodeSetResultArrayName (int index)
+* int = obj.GetNodeSetResultArrayStatus (string name)
+* obj.SetNodeSetResultArrayStatus (string name, int flag)
+* int = obj.GetNumberOfSideSetResultArrays ()
+* string = obj.GetSideSetResultArrayName (int index)
+* int = obj.GetSideSetResultArrayStatus (string name)
+* obj.SetSideSetResultArrayStatus (string name, int flag)
+* int = obj.GetNumberOfEdgeSetResultArrays ()
+* string = obj.GetEdgeSetResultArrayName (int index)
+* int = obj.GetEdgeSetResultArrayStatus (string name)
+* obj.SetEdgeSetResultArrayStatus (string name, int flag)
+* int = obj.GetNumberOfFaceSetResultArrays ()
+* string = obj.GetFaceSetResultArrayName (int index)
+* int = obj.GetFaceSetResultArrayStatus (string name)
+* obj.SetFaceSetResultArrayStatus (string name, int flag)
+* int = obj.GetNumberOfElementSetResultArrays ()
+* string = obj.GetElementSetResultArrayName (int index)
+* int = obj.GetElementSetResultArrayStatus (string name)
+* obj.SetElementSetResultArrayStatus (string name, int flag)
+  - Set the fast-path keys. All three must be set for the
+  fast-path option to work. Possible argument values:
+  "POINT","CELL","EDGE","FACE"
+* obj.SetFastPathObjectType (string type) - Set the fast-
+  path keys. All three must be set for the fast-path option
+  to work. Possible argument values:
+  "POINT","CELL","EDGE","FACE"
+* obj.SetFastPathIdType (string type) - Possible argument
+  values: "INDEX","GLOBAL" "GLOBAL" means the id refers to a
+  global id "INDEX" means the id refers to an index into the
+  VTK array
+* obj.SetFastPathObjectId (vtkIdType id) - Possible argument
+  values: "INDEX","GLOBAL" "GLOBAL" means the id refers to a
+  global id "INDEX" means the id refers to an index into the
+  VTK array
+* obj.Reset () - Reset the user-specified parameters and
+  flush internal arrays so that the reader state is just as
+  it was after the reader was instantiated.
+  It doesn't make sense to let users reset only the internal
+  state; both the settings and the state are changed by this
+  call.
+* obj.ResetSettings () - Reset the user-specified parameters
+  to their default values. The only settings not affected
+  are the filename and/or pattern because these have no
+  default.
+  Resetting the settings but not the state allows users to
+  keep the active cache but return to initial array
+  selections, etc.
+* obj.ResetCache () - Clears out the cache entries.
+* obj.UpdateTimeInformation () - Re-reads time information
+  from the exodus file and updates TimeStepRange
+  accordingly.
+* obj.Dump ()
+* vtkGraph = obj.GetSIL () - SIL describes organization of/
+  relationships between classifications eg. blocks/
+  materials/hierarchies.
+* int = obj.GetSILUpdateStamp () - Every time the SIL is
+  updated a this will return a different value.
+* bool = obj.GetProducedFastPathOutput () - HACK: Used by
+  vtkPExodusIIReader to tell is the reader produced a valid
+  fast path output.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Hybrid_Classes
+* Generated on Thu Jul 25 2013 17:18:32 for FreeMat by
+  doxygen_ 1.8.1.1
+

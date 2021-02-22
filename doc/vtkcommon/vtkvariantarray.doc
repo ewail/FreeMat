@@ -1,0 +1,124 @@
+/*!
+\page vtkcommon_vtkvariantarray vtkVariantArray
+
+<p>
+Section: \ref sec_vtkcommon "Visualization Toolkit Common Classes"
+\section Usage
+
+ .SECTION Thanks
+ Thanks to Patricia Crossno, Ken Moreland, Andrew Wilson and Brian Wylie from
+ Sandia National Laboratories for their help in developing this class.
+
+To create an instance of class vtkVariantArray, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkVariantArray
+\endverbatim
+\section Methods
+The class vtkVariantArray has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkVariantArray class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkVariantArray = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkVariantArray = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>int = obj.Allocate (vtkIdType sz, vtkIdType ext)</tt> -  Allocate memory for this array. Delete old storage only if necessary.
+ Note that ext is no longer used.
+ </LI>
+<LI>  <tt>obj.Initialize ()</tt> -  Release storage and reset array to initial state.
+ </LI>
+<LI>  <tt>int = obj.GetDataType ()</tt> -  Return the underlying data type. An integer indicating data type is 
+ returned as specified in vtkSetGet.h.
+ </LI>
+<LI>  <tt>int = obj.GetDataTypeSize ()</tt> -  Return the size of the underlying data type.  For a bit, 1 is
+ returned.  For string 0 is returned. Arrays with variable length
+ components return 0.
+ </LI>
+<LI>  <tt>int = obj.GetElementComponentSize ()</tt> -  Return the size, in bytes, of the lowest-level element of an
+ array.  For vtkDataArray and subclasses this is the size of the
+ data type.  For vtkStringArray, this is
+ sizeof(vtkStdString::value_type), which winds up being
+ sizeof(char).  
+ </LI>
+<LI>  <tt>obj.SetNumberOfTuples (vtkIdType number)</tt> -  Set the number of tuples (a component group) in the array. Note that 
+ this may allocate space depending on the number of components.
+ </LI>
+<LI>  <tt>obj.SetTuple (vtkIdType i, vtkIdType j, vtkAbstractArray source)</tt> -  Set the tuple at the ith location using the jth tuple in the source array.
+ This method assumes that the two arrays have the same type
+ and structure. Note that range checking and memory allocation is not 
+ performed; use in conjunction with SetNumberOfTuples() to allocate space.
+ </LI>
+<LI>  <tt>obj.InsertTuple (vtkIdType i, vtkIdType j, vtkAbstractArray source)</tt> -  Insert the jth tuple in the source array, at ith location in this array. 
+ Note that memory allocation is performed as necessary to hold the data.
+ </LI>
+<LI>  <tt>vtkIdType = obj.InsertNextTuple (vtkIdType j, vtkAbstractArray source)</tt> -  Insert the jth tuple in the source array, at the end in this array. 
+ Note that memory allocation is performed as necessary to hold the data.
+ Returns the location at which the data was inserted.
+ </LI>
+<LI>  <tt>obj.DeepCopy (vtkAbstractArray da)</tt> -  Deep copy of data. Implementation left to subclasses, which
+ should support as many type conversions as possible given the
+ data type.
+ </LI>
+<LI>  <tt>obj.InterpolateTuple (vtkIdType i, vtkIdList ptIndices, vtkAbstractArray source, double weights)</tt> -  Set the ith tuple in this array as the interpolated tuple value,
+ given the ptIndices in the source array and associated 
+ interpolation weights.
+ This method assumes that the two arrays are of the same type
+ and strcuture.
+ </LI>
+<LI>  <tt>obj.InterpolateTuple (vtkIdType i, vtkIdType id1, vtkAbstractArray source1, vtkIdType id2, vtkAbstractArray source2, double t)</tt>
+ </LI>
+<LI>  <tt>obj.Squeeze ()</tt> -  Resize object to just fit data requirement. Reclaims extra memory.
+ </LI>
+<LI>  <tt>int = obj.Resize (vtkIdType numTuples)</tt> -  Resize the array while conserving the data.  Returns 1 if
+ resizing succeeded and 0 otherwise.
+ </LI>
+<LI>  <tt>long = obj.GetActualMemorySize ()</tt> -  Return the memory in kilobytes consumed by this data array. Used to
+ support streaming and reading/writing data. The value returned is
+ guaranteed to be greater than or equal to the memory required to
+ actually represent the data represented by this object. The 
+ information returned is valid only after the pipeline has 
+ been updated.
+ </LI>
+<LI>  <tt>int = obj.IsNumeric ()</tt> -  Since each item can be of a different type, we say that a variant array is not numeric.
+ </LI>
+<LI>  <tt>vtkArrayIterator = obj.NewIterator ()</tt> -  Subclasses must override this method and provide the right 
+ kind of templated vtkArrayIteratorTemplate.
+ </LI>
+<LI>  <tt>obj.SetNumberOfValues (vtkIdType number)</tt> -  Specify the number of values for this object to hold. Does an
+ allocation as well as setting the MaxId ivar. Used in conjunction with
+ SetValue() method for fast insertion.
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetNumberOfValues ()</tt> -  Tell the array explicitly that the data has changed.
+ This is only necessary to call when you modify the array contents
+ without using the array's API (i.e. you retrieve a pointer to the
+ data and modify the array contents).  You need to call this so that
+ the fast lookup will know to rebuild itself.  Otherwise, the lookup
+ functions will give incorrect results.
+ </LI>
+<LI>  <tt>obj.DataChanged ()</tt> -  Tell the array explicitly that the data has changed.
+ This is only necessary to call when you modify the array contents
+ without using the array's API (i.e. you retrieve a pointer to the
+ data and modify the array contents).  You need to call this so that
+ the fast lookup will know to rebuild itself.  Otherwise, the lookup
+ functions will give incorrect results.
+ </LI>
+<LI>  <tt>obj.DataElementChanged (vtkIdType id)</tt> -  Tell the array explicitly that a single data element has
+ changed. Like DataChanged(), then is only necessary when you
+ modify the array contents without using the array's API. 
+ </LI>
+<LI>  <tt>obj.ClearLookup ()</tt> -  Delete the associated fast lookup data structure on this array,
+ if it exists.  The lookup will be rebuilt on the next call to a lookup
+ function.
+ </LI>
+<LI>  <tt>~vtkVariantArray = obj.()</tt> -  This destructor is public to work around a bug in version 1.36.0 of
+ the Boost.Serialization library.
+ </LI>
+</UL>
+*/

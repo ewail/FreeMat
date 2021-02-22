@@ -1,0 +1,102 @@
+
+ Usage
+
+The vtkAngleWidget is used to measure the angle between two
+rays (defined by three points). The three points (two end
+points and a center) can be positioned independently, and
+when they are released, a special PlacePointEvent is invoked
+so that special operations may be take to reposition the
+point (snap to grid, etc.) The widget has two different
+modes of interaction: when initially defined (i.e., placing
+the three points) and then a manipulate mode (adjusting the
+position of the three points).
+To use this widget, specify an instance of vtkAngleWidget
+and a representation (a subclass of vtkAngleRepresentation).
+The widget is implemented using three instances of
+vtkHandleWidget which are used to position the three points.
+The representations for these handle widgets are provided by
+the vtkAngleRepresentation.
+.SECTION Event Bindings By default, the widget responds to
+the following VTK events (i.e., it watches the
+vtkRenderWindowInteractor for these events):
+
+     LeftButtonPressEvent - add a point or select a handle
+     MouseMoveEvent - position the second or third point, or
+  move a handle
+     LeftButtonReleaseEvent - release the selected handle
+
+Note that the event bindings described above can be changed
+using this class's vtkWidgetEventTranslator. This class
+translates VTK events into the vtkAngleWidget's widget
+events:
+
+     vtkWidgetEvent::AddPoint &ndash; add one point;
+  depending on the state
+                                 it may the first, second or
+  third point
+                                 added. Or, if near a
+  handle, select the handle.
+     vtkWidgetEvent::Move &ndash; position the second or
+  third point, or move the
+                             handle depending on the state.
+     vtkWidgetEvent::EndSelect &ndash; the handle
+  manipulation process has completed.
+
+This widget invokes the following VTK events on itself
+(which observers can listen for):
+
+     vtkCommand::StartInteractionEvent (beginning to
+  interact)
+     vtkCommand::EndInteractionEvent (completing
+  interaction)
+     vtkCommand::InteractionEvent (moving a handle)
+     vtkCommand::PlacePointEvent (after a point is
+  positioned;
+                                  call data includes handle
+  id (0,1,2))
+
+To create an instance of class vtkAngleWidget, simply invoke
+its constructor as follows
+
+    obj = vtkAngleWidget
+
+
+
+ Methods
+
+The class vtkAngleWidget has several methods that can be
+used. They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkAngleWidget class.
+
+* string = obj.GetClassName () - Standard methods for a VTK
+  class.
+* int = obj.IsA (string name) - Standard methods for a VTK
+  class.
+* vtkAngleWidget = obj.NewInstance () - Standard methods for
+  a VTK class.
+* vtkAngleWidget = obj.SafeDownCast (vtkObject o) - Standard
+  methods for a VTK class.
+* obj.SetEnabled (int ) - The method for activiating and
+  deactiviating this widget. This method must be overridden
+  because it is a composite widget and does more than its
+  superclasses' vtkAbstractWidget::SetEnabled() method.
+* obj.SetRepresentation (vtkAngleRepresentation r) - Create
+  the default widget representation if one is not set.
+* obj.CreateDefaultRepresentation () - Create the default
+  widget representation if one is not set.
+* int = obj.IsAngleValid () - A flag indicates whether the
+  angle is valid. The angle value only becomes valid after
+  two of the three points are placed.
+* obj.SetProcessEvents (int ) - Methods to change the
+  whether the widget responds to interaction. Overridden to
+  pass the state to component widgets.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Widget_Classes
+* Generated on Thu Jul 25 2013 17:18:36 for FreeMat by
+  doxygen_ 1.8.1.1
+

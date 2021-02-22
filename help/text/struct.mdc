@@ -1,0 +1,83 @@
+
+ Usage
+
+Creates an array of structures from a set of field, value
+pairs. The syntax is
+
+     y = struct(n_1,v_1,n_2,v_2,...)
+
+where n_i are the names of the fields in the structure
+array, and v_i are the values. The values v_i must either
+all be scalars, or be cell-arrays of all the same
+dimensions. In the latter case, the output structure array
+will have dimensions dictated by this common size. Scalar
+entries for the v_i are replicated to fill out their
+dimensions. An error is raised if the inputs are not
+properly matched (i.e., are not pairs of field names and
+values), or if the size of any two non-scalar values cell-
+arrays are different.
+Another use of the struct function is to convert a class
+into a structure. This allows you to access the members of
+the class, directly but removes the class information from
+the object.
+
+
+ Example
+
+This example creates a 3-element structure array with three
+fields, foo bar and key, where the contents of foo and bar
+are provided explicitly as cell arrays of the same size, and
+the contents of bar are replicated from a scalar.
+
+  --> y = struct('foo',{1,3,4},'bar',
+  {'cheese','cola','beer'},'key',508)
+
+  y =
+  1x3 struct array with fields:
+      foo
+      bar
+      key
+  --> y(1)
+
+  ans =
+      foo: 1
+      bar: cheese
+      key: 508
+  --> y(2)
+
+  ans =
+      foo: 3
+      bar: cola
+      key: 508
+  --> y(3)
+
+  ans =
+      foo: 4
+      bar: beer
+      key: 508
+
+An alternate way to create a structure array is to
+initialize the last element of each field of the structure
+
+  --> Test(2,3).Type = 'Beer';
+  --> Test(2,3).Ounces = 12;
+  --> Test(2,3).Container = 'Can';
+  --> Test(2,3)
+
+  ans =
+      Type: Beer
+      Ounces: 12
+      Container: Can
+  --> Test(1,1)
+
+  ans =
+      Type: 0
+      Ounces: 0
+      Container: 0
+
+
+* FreeMat_Documentation
+* Variables_and_Arrays
+* Generated on Thu Jul 25 2013 17:18:30 for FreeMat by
+  doxygen_ 1.8.1.1
+

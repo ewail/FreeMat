@@ -1,0 +1,210 @@
+
+ Usage
+
+This class is used to interpolate a series of cameras to
+update a specified camera. Either linear interpolation or
+spline interpolation may be used. The instance variables
+currently interpolated include position, focal point, view
+up, view angle, parallel scale, and clipping range.
+To use this class, specify the type of interpolation to use,
+and add a series of cameras at various times "t" to the list
+of cameras from which to interpolate. Then to interpolate in
+between cameras, simply invoke the function
+InterpolateCamera(t,camera) where "camera" is the camera to
+be updated with interpolated values. Note that "t" should be
+in the range (min,max) times specified with the AddCamera()
+method. If outside this range, the interpolation is clamped.
+This class copies the camera information (as compared to
+referencing the cameras) so you do not need to keep separate
+instances of the camera around for each camera added to the
+list of cameras to interpolate.
+To create an instance of class vtkCameraInterpolator, simply
+invoke its constructor as follows
+
+    obj = vtkCameraInterpolator
+
+
+
+ Methods
+
+The class vtkCameraInterpolator has several methods that can
+be used. They are listed below. Note that the documentation
+is translated automatically from the VTK sources, and may
+not be completely intelligible. When in doubt, consult the
+VTK website. In the methods listed below, obj is an instance
+of the vtkCameraInterpolator class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkCameraInterpolator = obj.NewInstance ()
+* vtkCameraInterpolator = obj.SafeDownCast (vtkObject o)
+* int = obj.GetNumberOfCameras () - Return the number of
+  cameras in the list of cameras.
+* double = obj.GetMinimumT () - Obtain some information
+  about the interpolation range. The numbers returned are
+  undefined if the list of cameras is empty.
+* double = obj.GetMaximumT () - Obtain some information
+  about the interpolation range. The numbers returned are
+  undefined if the list of cameras is empty.
+* obj.Initialize () - Clear the list of cameras.
+* obj.AddCamera (double t, vtkCamera camera) - Add another
+  camera to the list of cameras defining the camera
+  function. Note that using the same time t value more than
+  once replaces the previous camera value at t. At least one
+  camera must be added to define a function.
+* obj.RemoveCamera (double t) - Delete the camera at a
+  particular parameter t. If there is no camera defined at
+  location t, then the method does nothing.
+* obj.InterpolateCamera (double t, vtkCamera camera) -
+  Interpolate the list of cameras and determine a new camera
+  (i.e., fill in the camera provided). If t is outside the
+  range of (min,max) values, then t is clamped to lie within
+  this range.
+* obj.SetInterpolationType (int ) - These are convenience
+  methods to switch between linear and spline interpolation.
+  The methods simply forward the request for linear or
+  spline interpolation to the instance variable
+  interpolators (i.e., position, focal point, clipping
+  range, orientation, etc.) interpolators. Note that if the
+  InterpolationType is set to "Manual", then the
+  interpolators are expected to be directly manipulated and
+  this class does not forward the request for interpolation
+  type to its interpolators.
+* int = obj.GetInterpolationTypeMinValue () - These are
+  convenience methods to switch between linear and spline
+  interpolation. The methods simply forward the request for
+  linear or spline interpolation to the instance variable
+  interpolators (i.e., position, focal point, clipping
+  range, orientation, etc.) interpolators. Note that if the
+  InterpolationType is set to "Manual", then the
+  interpolators are expected to be directly manipulated and
+  this class does not forward the request for interpolation
+  type to its interpolators.
+* int = obj.GetInterpolationTypeMaxValue () - These are
+  convenience methods to switch between linear and spline
+  interpolation. The methods simply forward the request for
+  linear or spline interpolation to the instance variable
+  interpolators (i.e., position, focal point, clipping
+  range, orientation, etc.) interpolators. Note that if the
+  InterpolationType is set to "Manual", then the
+  interpolators are expected to be directly manipulated and
+  this class does not forward the request for interpolation
+  type to its interpolators.
+* int = obj.GetInterpolationType () - These are convenience
+  methods to switch between linear and spline interpolation.
+  The methods simply forward the request for linear or
+  spline interpolation to the instance variable
+  interpolators (i.e., position, focal point, clipping
+  range, orientation, etc.) interpolators. Note that if the
+  InterpolationType is set to "Manual", then the
+  interpolators are expected to be directly manipulated and
+  this class does not forward the request for interpolation
+  type to its interpolators.
+* obj.SetInterpolationTypeToLinear () - These are
+  convenience methods to switch between linear and spline
+  interpolation. The methods simply forward the request for
+  linear or spline interpolation to the instance variable
+  interpolators (i.e., position, focal point, clipping
+  range, orientation, etc.) interpolators. Note that if the
+  InterpolationType is set to "Manual", then the
+  interpolators are expected to be directly manipulated and
+  this class does not forward the request for interpolation
+  type to its interpolators.
+* obj.SetInterpolationTypeToSpline () - These are
+  convenience methods to switch between linear and spline
+  interpolation. The methods simply forward the request for
+  linear or spline interpolation to the instance variable
+  interpolators (i.e., position, focal point, clipping
+  range, orientation, etc.) interpolators. Note that if the
+  InterpolationType is set to "Manual", then the
+  interpolators are expected to be directly manipulated and
+  this class does not forward the request for interpolation
+  type to its interpolators.
+* obj.SetInterpolationTypeToManual () - Set/Get the tuple
+  interpolator used to interpolate the position portion of
+  the camera. Note that you can modify the behavior of the
+  interpolator (linear vs spline interpolation; change
+  spline basis) by manipulating the interpolator instances
+  directly.
+* obj.SetPositionInterpolator (vtkTupleInterpolator ) - Set/
+  Get the tuple interpolator used to interpolate the
+  position portion of the camera. Note that you can modify
+  the behavior of the interpolator (linear vs spline
+  interpolation; change spline basis) by manipulating the
+  interpolator instances directly.
+* vtkTupleInterpolator = obj.GetPositionInterpolator () -
+  Set/Get the tuple interpolator used to interpolate the
+  position portion of the camera. Note that you can modify
+  the behavior of the interpolator (linear vs spline
+  interpolation; change spline basis) by manipulating the
+  interpolator instances directly.
+* obj.SetFocalPointInterpolator (vtkTupleInterpolator ) -
+  Set/Get the tuple interpolator used to interpolate the
+  focal point portion of the camera. Note that you can
+  modify the behavior of the interpolator (linear vs spline
+  interpolation; change spline basis) by manipulating the
+  interpolator instances directly.
+* vtkTupleInterpolator = obj.GetFocalPointInterpolator () -
+  Set/Get the tuple interpolator used to interpolate the
+  focal point portion of the camera. Note that you can
+  modify the behavior of the interpolator (linear vs spline
+  interpolation; change spline basis) by manipulating the
+  interpolator instances directly.
+* obj.SetViewUpInterpolator (vtkTupleInterpolator ) - Set/
+  Get the tuple interpolator used to interpolate the view up
+  portion of the camera. Note that you can modify the
+  behavior of the interpolator (linear vs spline
+  interpolation; change spline basis) by manipulating the
+  interpolator instances directly.
+* vtkTupleInterpolator = obj.GetViewUpInterpolator () - Set/
+  Get the tuple interpolator used to interpolate the view up
+  portion of the camera. Note that you can modify the
+  behavior of the interpolator (linear vs spline
+  interpolation; change spline basis) by manipulating the
+  interpolator instances directly.
+* obj.SetViewAngleInterpolator (vtkTupleInterpolator ) -
+  Set/Get the tuple interpolator used to interpolate the
+  view angle portion of the camera. Note that you can modify
+  the behavior of the interpolator (linear vs spline
+  interpolation; change spline basis) by manipulating the
+  interpolator instances directly.
+* vtkTupleInterpolator = obj.GetViewAngleInterpolator () -
+  Set/Get the tuple interpolator used to interpolate the
+  view angle portion of the camera. Note that you can modify
+  the behavior of the interpolator (linear vs spline
+  interpolation; change spline basis) by manipulating the
+  interpolator instances directly.
+* obj.SetParallelScaleInterpolator (vtkTupleInterpolator ) -
+  Set/Get the tuple interpolator used to interpolate the
+  parallel scale portion of the camera. Note that you can
+  modify the behavior of the interpolator (linear vs spline
+  interpolation; change spline basis) by manipulating the
+  interpolator instances directly.
+* vtkTupleInterpolator = obj.GetParallelScaleInterpolator ()
+  - Set/Get the tuple interpolator used to interpolate the
+  parallel scale portion of the camera. Note that you can
+  modify the behavior of the interpolator (linear vs spline
+  interpolation; change spline basis) by manipulating the
+  interpolator instances directly.
+* obj.SetClippingRangeInterpolator (vtkTupleInterpolator ) -
+  Set/Get the tuple interpolator used to interpolate the
+  clipping range portion of the camera. Note that you can
+  modify the behavior of the interpolator (linear vs spline
+  interpolation; change spline basis) by manipulating the
+  interpolator instances directly.
+* vtkTupleInterpolator = obj.GetClippingRangeInterpolator ()
+  - Set/Get the tuple interpolator used to interpolate the
+  clipping range portion of the camera. Note that you can
+  modify the behavior of the interpolator (linear vs spline
+  interpolation; change spline basis) by manipulating the
+  interpolator instances directly.
+* long = obj.GetMTime () - Override GetMTime() because we
+  depend on the interpolators which may be modified outside
+  of this class.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Rendering_Classes
+* Generated on Thu Jul 25 2013 17:18:35 for FreeMat by
+  doxygen_ 1.8.1.1
+

@@ -1,0 +1,98 @@
+/*!
+\page vtkinfovis_vtkconelayoutstrategy vtkConeLayoutStrategy
+
+<p>
+Section: \ref sec_vtkinfovis "Visualization Toolkit Infovis Classes"
+\section Usage
+ vtkConeLayoutStrategy positions the nodes of a tree(forest) in 3D 
+ space based on the cone-tree approach first described by 
+ Robertson, Mackinlay and Card in Proc. CHI'91.  This
+ implementation incorporates refinements to the layout 
+ developed by Carriere and Kazman, and by Auber.
+
+ The input graph must be a forest (i.e. a set of trees, or a 
+ single tree); in the case of a forest, the input will be
+ converted to a single tree by introducing a new root node, 
+ and connecting each root in the input forest to the meta-root. 
+ The tree is then laid out, after which the meta-root is removed.  
+
+ The cones are positioned so that children lie in planes parallel
+ to the X-Y plane, with the axis of cones parallel to Z, and
+ with Z coordinate increasing with distance of nodes from the root.
+
+ .SECTION Thanks
+ Thanks to David Duke from the University of Leeds for providing this 
+ implementation.
+
+To create an instance of class vtkConeLayoutStrategy, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkConeLayoutStrategy
+\endverbatim
+\section Methods
+The class vtkConeLayoutStrategy has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkConeLayoutStrategy class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkConeLayoutStrategy = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkConeLayoutStrategy = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetCompactness (float )</tt> -  Determine the compactness, the ratio between the
+ average width of a cone in the tree, and the 
+ height of the cone.  The default setting is 0.75
+ which (empirically) seems reasonable, but this
+ will need adapting depending on the data.
+ </LI>
+<LI>  <tt>float = obj.GetCompactness ()</tt> -  Determine the compactness, the ratio between the
+ average width of a cone in the tree, and the 
+ height of the cone.  The default setting is 0.75
+ which (empirically) seems reasonable, but this
+ will need adapting depending on the data.
+ </LI>
+<LI>  <tt>obj.SetCompression (int )</tt> -  Determine if layout should be compressed, i.e. the 
+ layout puts children closer together, possibly allowing
+ sub-trees to overlap.  This is useful if the tree is 
+ actually the spanning tree of a graph.  For "real" trees, 
+ non-compressed layout is best, and is the default.
+ </LI>
+<LI>  <tt>int = obj.GetCompression ()</tt> -  Determine if layout should be compressed, i.e. the 
+ layout puts children closer together, possibly allowing
+ sub-trees to overlap.  This is useful if the tree is 
+ actually the spanning tree of a graph.  For "real" trees, 
+ non-compressed layout is best, and is the default.
+ </LI>
+<LI>  <tt>obj.CompressionOn ()</tt> -  Determine if layout should be compressed, i.e. the 
+ layout puts children closer together, possibly allowing
+ sub-trees to overlap.  This is useful if the tree is 
+ actually the spanning tree of a graph.  For "real" trees, 
+ non-compressed layout is best, and is the default.
+ </LI>
+<LI>  <tt>obj.CompressionOff ()</tt> -  Determine if layout should be compressed, i.e. the 
+ layout puts children closer together, possibly allowing
+ sub-trees to overlap.  This is useful if the tree is 
+ actually the spanning tree of a graph.  For "real" trees, 
+ non-compressed layout is best, and is the default.
+ </LI>
+<LI>  <tt>obj.SetSpacing (float )</tt> -  Set the spacing parameter that affects space between
+ layers of the tree.  If compression is on, Spacing is the
+ actual distance between layers.  If compression is off, 
+ actual distance also includes a factor of the compactness
+ and maximum cone radius.
+ </LI>
+<LI>  <tt>float = obj.GetSpacing ()</tt> -  Set the spacing parameter that affects space between
+ layers of the tree.  If compression is on, Spacing is the
+ actual distance between layers.  If compression is off, 
+ actual distance also includes a factor of the compactness
+ and maximum cone radius.
+ </LI>
+<LI>  <tt>obj.Layout ()</tt> -  Perform the layout.
+ </LI>
+</UL>
+*/

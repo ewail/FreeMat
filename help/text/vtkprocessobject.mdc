@@ -1,0 +1,80 @@
+
+ Usage
+
+vtkProcessObject is an abstract object that specifies
+behavior and interface of visualization network process
+objects (sources, filters, mappers). Source objects are
+creators of visualization data; filters input, process, and
+output visualization data; and mappers transform data into
+another form (like rendering primitives or write data to a
+file).
+vtkProcessObject fires events for Start and End events
+before and after object execution (via Execute()). These
+events can be used for any purpose (e.g., debugging info,
+highlighting/notifying user interface, etc.)
+Another event, Progress, can be observed. Some filters fire
+this event periodically during their execution. The use is
+similar to that of Start and End events. Filters may also
+check their AbortExecute flag to determine whether to
+prematurely end their execution.
+An important feature of subclasses of vtkProcessObject is
+that it is possible to control the memory-management model
+(i.e., retain output versus delete output data). If enabled
+the ReleaseDataFlag enables the deletion of the output data
+once the downstream process object finishes processing the
+data (please see text).
+To create an instance of class vtkProcessObject, simply
+invoke its constructor as follows
+
+    obj = vtkProcessObject
+
+
+
+ Methods
+
+The class vtkProcessObject has several methods that can be
+used. They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkProcessObject class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkProcessObject = obj.NewInstance ()
+* vtkProcessObject = obj.SafeDownCast (vtkObject o)
+* int = obj.GetNumberOfInputs () - Return an array with all
+  the inputs of this process object. This is useful for
+  tracing back in the pipeline to construct graphs etc.
+* obj.SqueezeInputArray () - This method will rearrange the
+  input array so that all NULL entries are removed.
+* obj.RemoveAllInputs () - Remove all the input data.
+* obj.SetInputConnection (vtkAlgorithmOutput input) -
+  Reimplemented from vtkAlgorithm to maintain backward
+  compatibility for vtkProcessObject.
+* obj.SetInputConnection (int port, vtkAlgorithmOutput
+  input) - Reimplemented from vtkAlgorithm to maintain
+  backward compatibility for vtkProcessObject.
+* obj.AddInputConnection (int port, vtkAlgorithmOutput
+  input) - Reimplemented from vtkAlgorithm to maintain
+  backward compatibility for vtkProcessObject.
+* obj.AddInputConnection (vtkAlgorithmOutput input) -
+  Reimplemented from vtkAlgorithm to maintain backward
+  compatibility for vtkProcessObject.
+* obj.RemoveInputConnection (int port, vtkAlgorithmOutput
+  input) - Reimplemented from vtkAlgorithm to maintain
+  backward compatibility for vtkProcessObject.
+* obj.SetNthInputConnection (int port, int index,
+  vtkAlgorithmOutput input) - Reimplemented from
+  vtkAlgorithm to maintain backward compatibility for
+  vtkProcessObject.
+* obj.SetNumberOfInputConnections (int port, int n) -
+  Reimplemented from vtkAlgorithm to maintain backward
+  compatibility for vtkProcessObject.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Filtering_Classes
+* Generated on Thu Jul 25 2013 17:18:31 for FreeMat by
+  doxygen_ 1.8.1.1
+

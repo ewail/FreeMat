@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="functions_varargout" kind="page">
+    <compoundname>functions_varargout</compoundname>
+    <title>VARARGOUT Variable Output Arguments</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_functions_1sec_functions" kindref="member">Functions and Scripts</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>FreeMat functions can return a variable number of output arguments by setting the last argument in the argument list to <computeroutput>varargout</computeroutput>. This special keyword indicates that the number of return values is variable. The general syntax for a function that returns a variable number of outputs is <verbatim>  function [out_1,...,out_M,varargout] = fname(in_1,...,in_M)
+</verbatim> The function is responsible for ensuring that <computeroutput>varargout</computeroutput> is a cell array that contains the values to assign to the outputs beyond <computeroutput>out_M</computeroutput>. Generally, variable output functions use <computeroutput>nargout</computeroutput> to figure out how many outputs have been requested. </para></sect1>
+<sect1 id="variables_struct_1Example">
+<title>Example</title>
+<para>This is a function that returns a varying number of values depending on the value of the argument.</para><para><verbatim>     varoutfunc.m
+</verbatim></para><para><verbatim>function [varargout] = varoutfunc
+  switch(nargout)
+    case 1
+      varargout = {&apos;one of one&apos;};
+    case 2
+      varargout = {&apos;one of two&apos;,&apos;two of two&apos;};
+    case 3
+      varargout = {&apos;one of three&apos;,&apos;two of three&apos;,&apos;three of three&apos;};
+  end
+</verbatim></para><para>Here are some examples of exercising <computeroutput>varoutfunc</computeroutput>:</para><para><verbatim>--&gt; [c1] = varoutfunc
+c1 = 
+one of one
+--&gt; [c1,c2] = varoutfunc
+c1 = 
+one of two
+c2 = 
+two of two
+--&gt; [c1,c2,c3] = varoutfunc
+c1 = 
+one of three
+c2 = 
+two of three
+c3 = 
+three of three
+</verbatim> </para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

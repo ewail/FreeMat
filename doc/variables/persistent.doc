@@ -1,0 +1,46 @@
+/*!
+\page variables_persistent PERSISTENT Persistent Variables
+
+<p>
+Section: \ref sec_variables "Variables and Arrays"
+\section Usage
+Persistent variables are variables whose value persists between
+calls to a function or script.  The general syntax for its
+use is
+\verbatim
+   persistent variable1 variable2 ... variableN
+\endverbatim
+The <tt>persistent</tt> statement must occur before the variable
+is the tagged as persistent.  Per the MATLAB API documentation
+an empty variable is created when the <tt>persistent</tt> statement
+is called.
+\section Example
+Here is an example of a function that counts how many
+times it has been called.
+
+\if FILE
+count_calls.m
+function count_calls
+  persistent ccount
+  if isempty(ccount); ccount = 0; end;
+  ccount = ccount + 1;
+  printf('Function has been called %d times\n',ccount);
+\endif
+\verbatim
+     count_calls.m
+\endverbatim
+
+\verbinclude count_calls.m
+
+We now call the function several times:
+
+\if FRAGMENT
+frag_variables_persistent_000.m
+0
+for i=1:10; count_calls; end
+\endif
+
+
+\verbinclude frag_variables_persistent_000.m.out 
+
+*/

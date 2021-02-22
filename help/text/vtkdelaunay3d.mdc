@@ -1,0 +1,164 @@
+
+ Usage
+
+vtkDelaunay3D is a filter that constructs a 3D Delaunay
+triangulation from a list of input points. These points may
+be represented by any dataset of type vtkPointSet and
+subclasses. The output of the filter is an unstructured grid
+dataset. Usually the output is a tetrahedral mesh, but if a
+non-zero alpha distance value is specified (called the
+"alpha" value), then only tetrahedra, triangles, edges, and
+vertices lying within the alpha radius are output. In other
+words, non-zero alpha values may result in arbitrary
+combinations of tetrahedra, triangles, lines, and vertices.
+(The notion of alpha value is derived from Edelsbrunner's
+work on "alpha shapes".)
+The 3D Delaunay triangulation is defined as the
+triangulation that satisfies the Delaunay criterion for n-
+dimensional simplexes (in this case n=3 and the simplexes
+are tetrahedra). This criterion states that a circumsphere
+of each simplex in a triangulation contains only the n+1
+defining points of the simplex. (See text for more
+information.) While in two dimensions this translates into
+an "optimal" triangulation, this is not true in 3D, since a
+measurement for optimality in 3D is not agreed on.
+Delaunay triangulations are used to build topological
+structures from unorganized (or unstructured) points. The
+input to this filter is a list of points specified in 3D.
+(If you wish to create 2D triangulations see vtkDelaunay2D.)
+The output is an unstructured grid.
+The Delaunay triangulation can be numerically sensitive. To
+prevent problems, try to avoid injecting points that will
+result in triangles with bad aspect ratios (1000:1 or
+greater). In practice this means inserting points that are
+"widely dispersed", and enables smooth transition of
+triangle sizes throughout the mesh. (You may even want to
+add extra points to create a better point distribution.) If
+numerical problems are present, you will see a warning
+message to this effect at the end of the triangulation
+process.
+To create an instance of class vtkDelaunay3D, simply invoke
+its constructor as follows
+
+    obj = vtkDelaunay3D
+
+
+
+ Methods
+
+The class vtkDelaunay3D has several methods that can be
+used. They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkDelaunay3D class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkDelaunay3D = obj.NewInstance ()
+* vtkDelaunay3D = obj.SafeDownCast (vtkObject o)
+* obj.SetAlpha (double ) - Specify alpha (or distance) value
+  to control output of this filter. For a non-zero alpha
+  value, only edges, faces, or tetra contained within the
+  circumsphere (of radius alpha) will be output. Otherwise,
+  only tetrahedra will be output.
+* double = obj.GetAlphaMinValue () - Specify alpha (or
+  distance) value to control output of this filter. For a
+  non-zero alpha value, only edges, faces, or tetra
+  contained within the circumsphere (of radius alpha) will
+  be output. Otherwise, only tetrahedra will be output.
+* double = obj.GetAlphaMaxValue () - Specify alpha (or
+  distance) value to control output of this filter. For a
+  non-zero alpha value, only edges, faces, or tetra
+  contained within the circumsphere (of radius alpha) will
+  be output. Otherwise, only tetrahedra will be output.
+* double = obj.GetAlpha () - Specify alpha (or distance)
+  value to control output of this filter. For a non-zero
+  alpha value, only edges, faces, or tetra contained within
+  the circumsphere (of radius alpha) will be output.
+  Otherwise, only tetrahedra will be output.
+* obj.SetTolerance (double ) - Specify a tolerance to
+  control discarding of closely spaced points. This
+  tolerance is specified as a fraction of the diagonal
+  length of the bounding box of the points.
+* double = obj.GetToleranceMinValue () - Specify a tolerance
+  to control discarding of closely spaced points. This
+  tolerance is specified as a fraction of the diagonal
+  length of the bounding box of the points.
+* double = obj.GetToleranceMaxValue () - Specify a tolerance
+  to control discarding of closely spaced points. This
+  tolerance is specified as a fraction of the diagonal
+  length of the bounding box of the points.
+* double = obj.GetTolerance () - Specify a tolerance to
+  control discarding of closely spaced points. This
+  tolerance is specified as a fraction of the diagonal
+  length of the bounding box of the points.
+* obj.SetOffset (double ) - Specify a multiplier to control
+  the size of the initial, bounding Delaunay triangulation.
+* double = obj.GetOffsetMinValue () - Specify a multiplier
+  to control the size of the initial, bounding Delaunay
+  triangulation.
+* double = obj.GetOffsetMaxValue () - Specify a multiplier
+  to control the size of the initial, bounding Delaunay
+  triangulation.
+* double = obj.GetOffset () - Specify a multiplier to
+  control the size of the initial, bounding Delaunay
+  triangulation.
+* obj.SetBoundingTriangulation (int ) - Boolean controls
+  whether bounding triangulation points (and associated
+  triangles) are included in the output. (These are
+  introduced as an initial triangulation to begin the
+  triangulation process. This feature is nice for debugging
+  output.)
+* int = obj.GetBoundingTriangulation () - Boolean controls
+  whether bounding triangulation points (and associated
+  triangles) are included in the output. (These are
+  introduced as an initial triangulation to begin the
+  triangulation process. This feature is nice for debugging
+  output.)
+* obj.BoundingTriangulationOn () - Boolean controls whether
+  bounding triangulation points (and associated triangles)
+  are included in the output. (These are introduced as an
+  initial triangulation to begin the triangulation process.
+  This feature is nice for debugging output.)
+* obj.BoundingTriangulationOff () - Boolean controls whether
+  bounding triangulation points (and associated triangles)
+  are included in the output. (These are introduced as an
+  initial triangulation to begin the triangulation process.
+  This feature is nice for debugging output.)
+* obj.SetLocator (vtkIncrementalPointLocator locator) - Set
+  / get a spatial locator for merging points. By default, an
+  instance of vtkPointLocator is used.
+* vtkIncrementalPointLocator = obj.GetLocator () - Set / get
+  a spatial locator for merging points. By default, an
+  instance of vtkPointLocator is used.
+* obj.CreateDefaultLocator () - Create default locator. Used
+  to create one when none is specified. The locator is used
+  to eliminate "coincident" points.
+* obj.InsertPoint (vtkUnstructuredGrid Mesh, vtkPoints
+  points, vtkIdType id, double x[3], vtkIdList holeTetras) -
+  This is a helper method used with InitPointInsertion() to
+  create tetrahedronalizations of points. Its purpose is to
+  inject point at coordinates specified into
+  tetrahedronalization. The point id is an index into the
+  list of points in the mesh structure. (See vtkDelaunay3D::
+  InitPointInsertion() for more information.) When you have
+  completed inserting points, traverse the mesh structure to
+  extract desired tetrahedra (or tetra faces and edges).The
+  holeTetras id list lists all the tetrahedra that are
+  deleted (invalid) in the mesh structure.
+* obj.EndPointInsertion () - Invoke this method after all
+  points have been inserted. The purpose of the method is to
+  clean up internal data structures. Note that the
+  (vtkUnstructuredGrid *)Mesh returned from
+  InitPointInsertion() is NOT deleted, you still are
+  responsible for cleaning that up.
+* long = obj.GetMTime () - Return the MTime also considering
+  the locator.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Graphics_Classes
+* Generated on Thu Jul 25 2013 17:18:31 for FreeMat by
+  doxygen_ 1.8.1.1
+

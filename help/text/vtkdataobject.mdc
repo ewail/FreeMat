@@ -1,0 +1,372 @@
+
+ Usage
+
+vtkDataObject is an general representation of visualization
+data. It serves to encapsulate instance variables and
+methods for visualization network execution, as well as
+representing data consisting of a field (i.e., just an
+unstructured pile of data). This is to be compared with a
+vtkDataSet, which is data with geometric and/or topological
+structure.
+vtkDataObjects are used to represent arbitrary repositories
+of data via the vtkFieldData instance variable. These data
+must be eventually mapped into a concrete subclass of
+vtkDataSet before they can actually be displayed.
+To create an instance of class vtkDataObject, simply invoke
+its constructor as follows
+
+    obj = vtkDataObject
+
+
+
+ Methods
+
+The class vtkDataObject has several methods that can be
+used. They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkDataObject class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkDataObject = obj.NewInstance ()
+* vtkDataObject = obj.SafeDownCast (vtkObject o)
+* vtkSource = obj.GetSource () - Set/Get the source object
+  creating this data object.
+* obj.SetSource (vtkSource s) - Set/Get the source object
+  creating this data object.
+* vtkInformation = obj.GetInformation () - Set/Get the
+  information object associated with this data object.
+* obj.SetInformation (vtkInformation ) - Set/Get the
+  information object associated with this data object.
+* vtkInformation = obj.GetPipelineInformation () - Get/Set
+  the pipeline information object that owns this data
+  object.
+* obj.SetPipelineInformation (vtkInformation ) - Get/Set the
+  pipeline information object that owns this data object.
+* vtkAlgorithmOutput = obj.GetProducerPort () - Get the port
+  currently producing this object.
+* long = obj.GetMTime () - Data objects are composite
+  objects and need to check each part for MTime. The
+  information object also needs to be considered.
+* obj.Initialize () - Restore data object to initial state,
+* obj.ReleaseData () - Release data back to system to
+  conserve memory resource. Used during visualization
+  network execution. Releasing this data does not make down-
+  stream data invalid, so it does not modify the MTime of
+  this data object.
+* int = obj.ShouldIReleaseData () - Return flag indicating
+  whether data should be released after use by a filter.
+* int = obj.GetDataReleased () - Get the flag indicating the
+  data has been released.
+* obj.SetReleaseDataFlag (int ) - Turn on/off flag to
+  control whether this object's data is released after being
+  used by a filter.
+* int = obj.GetReleaseDataFlag () - Turn on/off flag to
+  control whether this object's data is released after being
+  used by a filter.
+* obj.ReleaseDataFlagOn () - Turn on/off flag to control
+  whether this object's data is released after being used by
+  a filter.
+* obj.ReleaseDataFlagOff () - Turn on/off flag to control
+  whether this object's data is released after being used by
+  a filter.
+* obj.GlobalReleaseDataFlagOn () - Turn on/off flag to
+  control whether every object releases its data after being
+  used by a filter.
+* obj.GlobalReleaseDataFlagOff () - Turn on/off flag to
+  control whether every object releases its data after being
+  used by a filter.
+* obj.SetFieldData (vtkFieldData ) - Assign or retrieve a
+  general field data to this data object.
+* vtkFieldData = obj.GetFieldData () - Assign or retrieve a
+  general field data to this data object.
+* obj.Register (vtkObjectBase o)
+* obj.UnRegister (vtkObjectBase o)
+* obj.Update () - Provides opportunity for the data object
+  to insure internal consistency before access. Also causes
+  owning source/filter (if any) to update itself. The Update
+  () method is composed of UpdateInformation(),
+  PropagateUpdateExtent(), TriggerAsynchronousUpdate(), and
+  UpdateData().
+* obj.UpdateInformation () - WARNING: INTERNAL METHOD - NOT
+  FOR GENERAL USE. THIS METHOD IS PART OF THE PIPELINE
+  UPDATE FUNCTIONALITY. Update all the "easy to update"
+  information about the object such as the extent which will
+  be used to control the update. This propagates all the way
+  up then back down the pipeline. As a by-product the
+  PipelineMTime is updated.
+* obj.PropagateUpdateExtent () - WARNING: INTERNAL METHOD -
+  NOT FOR GENERAL USE. THIS METHOD IS PART OF THE PIPELINE
+  UPDATE FUNCTIONALITY. The update extent for this object is
+  propagated up the pipeline. This propagation may early
+  terminate based on the PipelineMTime.
+* obj.TriggerAsynchronousUpdate () - WARNING: INTERNAL
+  METHOD - NOT FOR GENERAL USE. THIS METHOD IS PART OF THE
+  PIPELINE UPDATE FUNCTIONALITY. Propagate back up the
+  pipeline for ports and trigger the update on the other
+  side of the port to allow for asynchronous parallel
+  processing in the pipeline. This propagation may early
+  terminate based on the PipelineMTime.
+* obj.UpdateData () - WARNING: INTERNAL METHOD - NOT FOR
+  GENERAL USE. THIS METHOD IS PART OF THE PIPELINE UPDATE
+  FUNCTIONALITY. Propagate the update back up the pipeline,
+  and perform the actual work of updating on the way down.
+  When the propagate arrives at a port, block and wait for
+  the asynchronous update to finish on the other side. This
+  propagation may early terminate based on the
+  PipelineMTime.
+* long = obj.GetEstimatedMemorySize () - Get the estimated
+  size of this data object itself. Should be called after
+  UpdateInformation() and PropagateUpdateExtent() have both
+  been called. Should be overridden in a subclass -
+  otherwise the default is to assume that this data object
+  requires no memory. The size is returned in kilobytes.
+* obj.SetUpdateExtent (int piece, int numPieces, int
+  ghostLevel) - A generic way of specifying an update
+  extent. Subclasses must decide what a piece is. When the
+  NumberOfPieces is zero, then no data is requested, and the
+  source will not execute.
+* obj.SetUpdateExtent (int piece, int numPieces) - Set the
+  update extent for data objects that use 3D extents. Using
+  this method on data objects that set extents as pieces
+  (such as vtkPolyData or vtkUnstructuredGrid) has no real
+  effect. Don't use the set macro to set the update extent
+  since we don't want this object to be modified just due to
+  a change in update extent. When the volume of the extent
+  is zero (0, -1,..), then no data is requested, and the
+  source will not execute.
+* obj.SetUpdateExtent (int x0, int x1, int y0, int y1, int
+  z0, int z1) - Set the update extent for data objects that
+  use 3D extents. Using this method on data objects that set
+  extents as pieces (such as vtkPolyData or
+  vtkUnstructuredGrid) has no real effect. Don't use the set
+  macro to set the update extent since we don't want this
+  object to be modified just due to a change in update
+  extent. When the volume of the extent is zero (0, -1,..),
+  then no data is requested, and the source will not
+  execute.
+* obj.SetUpdateExtent (int extent[6]) - Set the update
+  extent for data objects that use 3D extents. Using this
+  method on data objects that set extents as pieces (such as
+  vtkPolyData or vtkUnstructuredGrid) has no real effect.
+  Don't use the set macro to set the update extent since we
+  don't want this object to be modified just due to a change
+  in update extent. When the volume of the extent is zero
+  (0, -1,..), then no data is requested, and the source will
+  not execute.
+* int = obj.GetUpdateExtent () - Set the update extent for
+  data objects that use 3D extents. Using this method on
+  data objects that set extents as pieces (such as
+  vtkPolyData or vtkUnstructuredGrid) has no real effect.
+  Don't use the set macro to set the update extent since we
+  don't want this object to be modified just due to a change
+  in update extent. When the volume of the extent is zero
+  (0, -1,..), then no data is requested, and the source will
+  not execute.
+* obj.GetUpdateExtent (int extent[6]) - Set the update
+  extent for data objects that use 3D extents. Using this
+  method on data objects that set extents as pieces (such as
+  vtkPolyData or vtkUnstructuredGrid) has no real effect.
+  Don't use the set macro to set the update extent since we
+  don't want this object to be modified just due to a change
+  in update extent. When the volume of the extent is zero
+  (0, -1,..), then no data is requested, and the source will
+  not execute.
+* int = obj.GetDataObjectType () - Used by Threaded ports to
+  determine if they should initiate an asynchronous update
+  (still in development).
+* long = obj.GetUpdateTime () - Used by Threaded ports to
+  determine if they should initiate an asynchronous update
+  (still in development).
+* obj.SetUpdateExtentToWholeExtent () - If the whole input
+  extent is required to generate the requested output
+  extent, this method can be called to set the input update
+  extent to the whole input extent. This method assumes that
+  the whole extent is known (that UpdateInformation has been
+  called)
+* long = obj.GetPipelineMTime () - Get the cumulative
+  modified time of everything upstream. Does not include the
+  MTime of this object.
+* long = obj.GetActualMemorySize () - Return the actual size
+  of the data in kilobytes. This number is valid only after
+  the pipeline has updated. The memory size returned is
+  guaranteed to be greater than or equal to the memory
+  required to represent the data (e.g., extra space in
+  arrays, etc. are not included in the return value).
+* obj.CopyInformation (vtkDataObject data) - Copy the
+  generic information (WholeExtent ...)
+* obj.CopyTypeSpecificInformation (vtkDataObject data) - By
+  default, there is no type specific information
+* obj.SetUpdatePiece (int piece) - Set / Get the update
+  piece and the update number of pieces. Similar to update
+  extent in 3D.
+* obj.SetUpdateNumberOfPieces (int num) - Set / Get the
+  update piece and the update number of pieces. Similar to
+  update extent in 3D.
+* int = obj.GetUpdatePiece () - Set / Get the update piece
+  and the update number of pieces. Similar to update extent
+  in 3D.
+* int = obj.GetUpdateNumberOfPieces () - Set / Get the
+  update piece and the update number of pieces. Similar to
+  update extent in 3D.
+* obj.SetUpdateGhostLevel (int level) - Set / Get the update
+  ghost level and the update number of ghost levels. Similar
+  to update extent in 3D.
+* int = obj.GetUpdateGhostLevel () - Set / Get the update
+  ghost level and the update number of ghost levels. Similar
+  to update extent in 3D.
+* obj.SetRequestExactExtent (int flag) - This request flag
+  indicates whether the requester can handle more data than
+  requested. Right now it is used in vtkImageData. Image
+  filters can return more data than requested. The the
+  consumer cannot handle this (i.e. DataSetToDataSetFitler)
+  the image will crop itself. This functionality used to be
+  in ImageToStructuredPoints.
+* int = obj.GetRequestExactExtent () - This request flag
+  indicates whether the requester can handle more data than
+  requested. Right now it is used in vtkImageData. Image
+  filters can return more data than requested. The the
+  consumer cannot handle this (i.e. DataSetToDataSetFitler)
+  the image will crop itself. This functionality used to be
+  in ImageToStructuredPoints.
+* obj.RequestExactExtentOn () - This request flag indicates
+  whether the requester can handle more data than requested.
+  Right now it is used in vtkImageData. Image filters can
+  return more data than requested. The the consumer cannot
+  handle this (i.e. DataSetToDataSetFitler) the image will
+  crop itself. This functionality used to be in
+  ImageToStructuredPoints.
+* obj.RequestExactExtentOff () - This request flag indicates
+  whether the requester can handle more data than requested.
+  Right now it is used in vtkImageData. Image filters can
+  return more data than requested. The the consumer cannot
+  handle this (i.e. DataSetToDataSetFitler) the image will
+  crop itself. This functionality used to be in
+  ImageToStructuredPoints.
+* obj.SetWholeExtent (int x0, int x1, int y0, int y1, int
+  z0, int z1) - Set/Get the whole extent of this data
+  object. The whole extent is meta data for structured data
+  sets. It gets set by the source during the update
+  information call.
+* obj.SetWholeExtent (int extent[6]) - Set/Get the whole
+  extent of this data object. The whole extent is meta data
+  for structured data sets. It gets set by the source during
+  the update information call.
+* int = obj.GetWholeExtent () - Set/Get the whole extent of
+  this data object. The whole extent is meta data for
+  structured data sets. It gets set by the source during the
+  update information call.
+* obj.GetWholeExtent (int extent[6]) - Set/Get the whole
+  extent of this data object. The whole extent is meta data
+  for structured data sets. It gets set by the source during
+  the update information call.
+* obj.SetWholeBoundingBox (double x0, double x1, double y0,
+  double y1, double z0, double z1) - Set/Get the whole
+  bounding box of this data object. The whole whole bounding
+  box is meta data for data sets It gets set by the source
+  during the update information call.
+* obj.SetWholeBoundingBox (double bb[6]) - Set/Get the whole
+  bounding box of this data object. The whole whole bounding
+  box is meta data for data sets It gets set by the source
+  during the update information call.
+* double = obj.GetWholeBoundingBox () - Set/Get the whole
+  bounding box of this data object. The whole whole bounding
+  box is meta data for data sets It gets set by the source
+  during the update information call.
+* obj.GetWholeBoundingBox (double extent[6]) - Set/Get the
+  whole bounding box of this data object. The whole whole
+  bounding box is meta data for data sets It gets set by the
+  source during the update information call.
+* obj.SetMaximumNumberOfPieces (int ) - Set/Get the maximum
+  number of pieces that can be requested. The maximum number
+  of pieces is meta data for unstructured data sets. It gets
+  set by the source during the update information call. A
+  value of -1 indicates that there is no maximum. A value of
+* int = obj.GetMaximumNumberOfPieces () - Set/Get the
+  maximum number of pieces that can be requested. The
+  maximum number of pieces is meta data for unstructured
+  data sets. It gets set by the source during the update
+  information call. A value of -1 indicates that there is no
+  maximum. A value of
+* obj.CopyInformationToPipeline (vtkInformation request,
+  vtkInformation input, vtkInformation output, int
+  forceCopy) - Copy information about this data object to
+  the output information from its own Information for the
+  given request. If the second argument is not NULL then it
+  is the pipeline information object for the input to this
+  data object's producer. If forceCopy is true, information
+  is copied even if it exists in the output.
+* obj.CopyInformationToPipeline (vtkInformation request,
+  vtkInformation input) - Copy information about this data
+  object from the PipelineInformation to its own Information
+  for the given request.
+* obj.CopyInformationFromPipeline (vtkInformation request) -
+  Copy information about this data object from the
+  PipelineInformation to its own Information for the given
+  request.
+* obj.DataHasBeenGenerated () - This method is called by the
+  source when it executes to generate data. It is sort of
+  the opposite of ReleaseData. It sets the DataReleased flag
+  to 0, and sets a new UpdateTime.
+* obj.PrepareForNewData () - make the output data ready for
+  new data to be inserted. For most objects we just call
+  Initialize. But for vtkImageData we leave the old data in
+  case the memory can be reused.
+* obj.ShallowCopy (vtkDataObject src) - Shallow and Deep
+  copy. These copy the data, but not any of the pipeline
+  connections.
+* obj.DeepCopy (vtkDataObject src) - Shallow and Deep copy.
+  These copy the data, but not any of the pipeline
+  connections.
+* obj.SetExtentTranslator (vtkExtentTranslator translator) -
+  An object that will translate pieces into structured
+  extents.
+* vtkExtentTranslator = obj.GetExtentTranslator () - An
+  object that will translate pieces into structured extents.
+* int = obj.GetExtentType () - The ExtentType will be left
+  as VTK_PIECES_EXTENT for data objects such as vtkPolyData
+  and vtkUnstructuredGrid. The ExtentType will be changed to
+  VTK_3D_EXTENT for data objects with 3D structure such as
+  vtkImageData (and its subclass vtkStructuredPoints),
+  vtkRectilinearGrid, and vtkStructuredGrid. The default is
+  the have an extent in pieces, with only one piece (no
+  streaming possible).
+* obj.Crop () - This method crops the data object (if
+  necesary) so that the extent matches the update extent.
+* vtkDataSetAttributes = obj.GetAttributes (int type) -
+  Returns the attributes of the data object of the specified
+  attribute type. The type may be:
+
+  o POINT - Defined in vtkDataSet subclasses.
+  o CELL - Defined in vtkDataSet subclasses.
+  o VERTEX - Defined in vtkGraph subclasses.
+  o EDGE - Defined in vtkGraph subclasses.
+  o ROW - Defined in vtkTable.
+
+  The other attribute type, FIELD, will return NULL since
+  field data is stored as a vtkFieldData instance, not a
+  vtkDataSetAttributes instance. To retrieve field data, use
+  GetAttributesAsFieldData.
+* vtkFieldData = obj.GetAttributesAsFieldData (int type) -
+  Returns the attributes of the data object as a
+  vtkFieldData. This returns non-null values in all the same
+  cases as GetAttributes, in addition to the case of FIELD,
+  which will return the field data for any vtkDataObject
+  subclass.
+* int = obj.GetAttributeTypeForArray (vtkAbstractArray arr)
+  - Retrieves the attribute type that an array came from.
+  This is useful for obtaining which attribute type a input
+  array to an algorithm came from (retrieved from
+  GetInputAbstractArrayToProcesss).
+* vtkIdType = obj.GetNumberOfElements (int type) - Get the
+  number of elements for a specific attribute type (POINT,
+  CELL, etc.).
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Filtering_Classes
+* Generated on Thu Jul 25 2013 17:18:30 for FreeMat by
+  doxygen_ 1.8.1.1
+

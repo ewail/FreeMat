@@ -1,0 +1,151 @@
+/*!
+\page operators_colon COLON Index Generation Operator
+
+<p>
+Section: \ref sec_operators "Mathematical Operators"
+\section Usage
+There are two distinct syntaxes for the colon <tt>:</tt> operator - the two argument form
+\verbatim
+  y = a : c
+\endverbatim
+and the three argument form
+\verbatim
+  y = a : b : c
+\endverbatim
+The two argument form is exactly equivalent to <tt>a:1:c</tt>.  The output <tt>y</tt> is the vector
+\f[
+  y = [a,a+b,a+2b,\ldots,a+nb]
+\f]
+where <tt>a+nb <= c</tt>.  There is a third form of the colon operator, the
+no-argument form used in indexing (see <tt>indexing</tt> for more details).
+\section Function Internals
+The colon operator turns out to be trickier to implement than one might
+believe at first, primarily because the floating point versions should
+do the right thing, which is not the obvious behavior.  For example,
+suppose the user issues a three point colon command
+\verbatim
+   y = a : b : c
+\endverbatim
+The first question that one might need to answer is: how many points
+in this vector?  If you answered
+\f[
+   n = \frac{c-a}{b}+1
+\f]
+then you would be doing the straighforward, but not correct thing.
+because a, b, and c are all floating point values, there are errors
+associated with each of the quantities that can lead to n not being
+an integer.  A better way (and the way FreeMat currently does the
+calculation) is to compute the bounding values (for b positive)
+\f[
+   n \in \left[\frac{(c-a) \rightarrow 0}{b \rightarrow \infty},
+               \frac{(c-a) \rightarrow \infty}{b \rightarrow 0} \right] + 1
+\f]
+where
+\f[
+  x \rightarrow y
+\f]
+means we replace x by the floating point number that is closest to it
+in the direction of y.  Once we have determined the number of points
+we have to compute the intermediate values
+\f[
+  [a, a+b, a+2*b, \ldots, a+n*b]
+\f]
+but one can readily verify for themselves that this may <strong>not</strong> be
+the same as the vector
+\f[
+  \mathrm{fliplr} [c, c-b, c-2*b, \ldots, c-n*b]
+\f]
+even for the case where
+\f[
+   c = a + n*b
+\f]
+for some n.  The reason is that the roundoff in the calculations may
+be different depending on the nature of the sum.  FreeMat uses the
+following strategy to compute the double-colon vector:
+<OL>
+<LI> The value <tt>n</tt> is computed by taking the floor of the larger
+ value in the interval defined above.
+</LI>
+<LI> If <tt>n</tt> falls inside the interval defined above, then it is
+assumed that the user intended <tt>c = a + n*b</tt>, and the symmetric
+algorithm is used.  Otherwise, the nonsymmetric algorithm is used.
+</LI>
+<LI> The symmetric algorithm computes the vector via
+\f[
+  [a, a+b, a+2b,\ldots,c-2b,c-b,c]
+\f]
+working symmetrically from both ends of the vector
+(hence the nomenclature), while the nonsymmetric algorithm computes
+\f[
+  [a, a+b ,a+2b,\ldots,a+nb]
+\f]
+In practice, the entries are computed by repeated accumulation instead
+of multiplying the step size by an integer.
+</LI>
+<LI> The real interval calculation is modified so that we get the
+exact same result with <tt>a:b:c</tt> and <tt>c:-b:a</tt> (which basically means
+that instead of moving towards infinity, we move towards the signed
+infinity where the sign is inherited from <tt>b</tt>).
+</LI>
+</OL>
+If you think this is all very obscure, it is.  But without it, you will
+be confronted by mysterious vectors where the last entry is dropped,
+or where the values show progressively larger amounts of accumulated
+roundoff error.
+\section Examples
+Some simple examples of index generation.
+
+\if FRAGMENT
+frag_operators_colon_000.m
+0
+y = 1:4
+\endif
+
+
+\verbinclude frag_operators_colon_000.m.out 
+
+Now by half-steps:
+
+\if FRAGMENT
+frag_operators_colon_001.m
+0
+y = 1:.5:4
+\endif
+
+
+\verbinclude frag_operators_colon_001.m.out 
+
+Now going backwards (negative steps)
+
+\if FRAGMENT
+frag_operators_colon_002.m
+0
+y = 4:-.5:1
+\endif
+
+
+\verbinclude frag_operators_colon_002.m.out 
+
+If the endpoints are the same, one point is generated, regardless of the step size (middle argument)
+
+\if FRAGMENT
+frag_operators_colon_003.m
+0
+y = 4:1:4
+\endif
+
+
+\verbinclude frag_operators_colon_003.m.out 
+
+If the endpoints define an empty interval, the output is an empty matrix:
+
+\if FRAGMENT
+frag_operators_colon_004.m
+0
+y = 5:4
+\endif
+
+
+\verbinclude frag_operators_colon_004.m.out 
+
+*/

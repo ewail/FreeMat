@@ -1,0 +1,119 @@
+
+ Usage
+
+vtkTessellatedBoxSource creates a axis-aligned box defined
+by its bounds and a level of subdivision. Connectivity is
+strong: points of the vertices and inside the edges are
+shared between faces. In other words, faces are connected.
+Each face looks like a grid of quads, each quad is composed
+of 2 triangles. Given a level of subdivision `l', each edge
+has `l'+2 points, `l' of them are internal edge points, the
+2 other ones are the vertices. Each face has a total of
+(`l'+2)*(`l'+2) points, 4 of them are vertices, 4*`l' are
+internal edge points, it remains `l'^2 internal face points.
+This source only generate geometry, no DataArrays like
+normals or texture coordinates.
+To create an instance of class vtkTessellatedBoxSource,
+simply invoke its constructor as follows
+
+    obj = vtkTessellatedBoxSource
+
+
+
+ Methods
+
+The class vtkTessellatedBoxSource has several methods that
+can be used. They are listed below. Note that the
+documentation is translated automatically from the VTK
+sources, and may not be completely intelligible. When in
+doubt, consult the VTK website. In the methods listed below,
+obj is an instance of the vtkTessellatedBoxSource class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkTessellatedBoxSource = obj.NewInstance ()
+* vtkTessellatedBoxSource = obj.SafeDownCast (vtkObject o)
+* obj.SetBounds (double , double , double , double , double
+  , double ) - Set the bounds of the box. See GetBounds()
+  for a detail description.
+
+
+    Precondition:
+        xmin<=xmax &amp;&amp; ymin<=ymax &amp;&amp;
+        zmin<zmax
+
+* obj.SetBounds (double a[6]) - Set the bounds of the box.
+  See GetBounds() for a detail description.
+
+
+    Precondition:
+        xmin<=xmax &amp;&amp; ymin<=ymax &amp;&amp;
+        zmin<zmax
+
+* double = obj. GetBounds () - Bounds of the box in world
+  coordinates. This a 6-uple of xmin,xmax,ymin, ymax,zmin
+  and zmax. Initial value is (-0.5,0.5,-0.5,0.5,-0.5,0.5),
+  bounds of a cube of length 1 centered at (0,0,0). Bounds
+  are defined such that xmin<=xmax, ymin<=ymax and
+  zmin<zmax.
+
+
+    Postcondition:
+        xmin<=xmax &amp;&amp; ymin<=ymax &amp;&amp;
+        zmin<zmax
+
+* obj.SetLevel (int ) - Set the level of subdivision of the
+  faces.
+
+
+    Precondition:
+        positive_level: level>=0
+
+* int = obj.GetLevel () - Level of subdivision of the faces.
+  Initial value is 0.
+
+
+    Postcondition:
+        positive_level: level>=0
+
+* obj.SetDuplicateSharedPoints (int ) - Flag to tell the
+  source to duplicate points shared between faces (vertices
+  of the box and internal edge points). Initial value is
+  false. Implementation note: duplicating points is an
+  easier method to implement than a minimal number of
+  points.
+* int = obj.GetDuplicateSharedPoints () - Flag to tell the
+  source to duplicate points shared between faces (vertices
+  of the box and internal edge points). Initial value is
+  false. Implementation note: duplicating points is an
+  easier method to implement than a minimal number of
+  points.
+* obj.DuplicateSharedPointsOn () - Flag to tell the source
+  to duplicate points shared between faces (vertices of the
+  box and internal edge points). Initial value is false.
+  Implementation note: duplicating points is an easier
+  method to implement than a minimal number of points.
+* obj.DuplicateSharedPointsOff () - Flag to tell the source
+  to duplicate points shared between faces (vertices of the
+  box and internal edge points). Initial value is false.
+  Implementation note: duplicating points is an easier
+  method to implement than a minimal number of points.
+* obj.SetQuads (int ) - Flag to tell the source to generate
+  either a quad or two triangle for a set of four points.
+  Initial value is false (generate triangles).
+* int = obj.GetQuads () - Flag to tell the source to
+  generate either a quad or two triangle for a set of four
+  points. Initial value is false (generate triangles).
+* obj.QuadsOn () - Flag to tell the source to generate
+  either a quad or two triangle for a set of four points.
+  Initial value is false (generate triangles).
+* obj.QuadsOff () - Flag to tell the source to generate
+  either a quad or two triangle for a set of four points.
+  Initial value is false (generate triangles).
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Graphics_Classes
+* Generated on Thu Jul 25 2013 17:18:32 for FreeMat by
+  doxygen_ 1.8.1.1
+

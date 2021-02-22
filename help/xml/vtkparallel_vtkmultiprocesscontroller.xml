@@ -1,0 +1,194 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkparallel_vtkmultiprocesscontroller" kind="page">
+    <compoundname>vtkparallel_vtkmultiprocesscontroller</compoundname>
+    <title>vtkMultiProcessController</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkparallel_1sec_vtkparallel" kindref="member">Visualization Toolkit Parallel Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>vtkMultiProcessController is used to control multiple processes in a distributed computing environment. It has methods for executing single/multiple method(s) on multiple processors, triggering registered callbacks (Remote Methods) (AddRMI(), TriggerRMI()) and communication. Please note that the communication is done using the communicator which is accessible to the user. Therefore it is possible to get the communicator with GetCommunicator() and use it to send and receive data. This is the encouraged communication method. The internal (RMI) communications are done using a second internal communicator (called RMICommunicator).</para><para>To create an instance of class vtkMultiProcessController, simply invoke its constructor as follows <verbatim>  obj = vtkMultiProcessController
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkMultiProcessController has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkMultiProcessController class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkMultiProcessController = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkMultiProcessController = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.Finalize ()</computeroutput> - This method is for cleaning up. If a subclass needs to clean up process communication (i.e. MPI) it would over ride this method.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.Finalize (int finalizedExternally)</computeroutput> - This method is for cleaning up. If a subclass needs to clean up process communication (i.e. MPI) it would over ride this method. Provided for finalization outside vtk.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetNumberOfProcesses (int num)</computeroutput> - Set the number of processes you will be using. This defaults to the maximum number available. If you set this to a value higher than the default, you will get an error.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetNumberOfProcesses ()</computeroutput> - Set the number of processes you will be using. This defaults to the maximum number available. If you set this to a value higher than the default, you will get an error.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SingleMethodExecute ()</computeroutput> - Execute the SingleMethod (as define by SetSingleMethod) using this-&gt;NumberOfProcesses processes. This will only return when all the processes finish executing their methods.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.MultipleMethodExecute ()</computeroutput> - Execute the MultipleMethods (as define by calling SetMultipleMethod for each of the required this-&gt;NumberOfProcesses methods) using this-&gt;NumberOfProcesses processes.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetLocalProcessId ()</computeroutput> - Tells you which process [0, NumProcess) you are in.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.CreateOutputWindow ()</computeroutput> - This method can be used to tell the controller to create a special output window in which all messages are preceded by the process id.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkMultiProcessController = obj.CreateSubController (vtkProcessGroup group)</computeroutput> - Creates a new controller with the processes specified by the given group. The new controller will already be initialized for you. You are responsible for deleting the controller once you are done. It is invalid to pass this method a group with a different communicator than is used by this controller. This operation is collective accross all processes defined in the group. It is undefined what will happen if the group is not the same on all processes. This method must be called by all processes in the controller regardless of whether they are in the group. NULL is returned on all process not in the group.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkMultiProcessController = obj.PartitionController (int localColor, int localKey)</computeroutput> - Partitions this controller based on a coloring. That is, each process passes in a color. All processes with the same color are grouped into the same partition. The processes are ordered by their self-assigned key. Lower keys have lower process ids. Ties are broken by the current process ids. (For example, if all the keys are 0, then the resulting processes will be ordered in the same way.) This method returns a new controller to each process that represents the local partition. This is basically the same operation as MPI_Comm_split.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.TriggerBreakRMIs ()</computeroutput> - A conveniance method. Called on process 0 to break &quot;ProcessRMIs&quot; loop on all other processes.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.TriggerRMI (int remoteProcessId, string arg, int tag)</computeroutput> - Convenience method when there is no argument.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.TriggerRMI (int remoteProcessId, int tag)</computeroutput> - This is a convenicence method to trigger an RMI call on all the &quot;children&quot; of the current node. The children of the current node can be determined by drawing a binary tree starting at node 0 and then assigned nodes ids incrementally in a breadth-first fashion from left to right. This is designed to be used when trigger an RMI call on all satellites from the root node.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.TriggerRMIOnAllChildren (string arg, int tag)</computeroutput> - This is a convenicence method to trigger an RMI call on all the &quot;children&quot; of the current node. The children of the current node can be determined by drawing a binary tree starting at node 0 and then assigned nodes ids incrementally in a breadth-first fashion from left to right. This is designed to be used when trigger an RMI call on all satellites from the root node.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.TriggerRMIOnAllChildren (int tag)</computeroutput> - Calling this method gives control to the controller to start processing RMIs. Possible return values are: RMI_NO_ERROR, RMI_TAG_ERROR : rmi tag could not be received, RMI_ARG_ERROR : rmi arg could not be received. If reportErrors is false, no vtkErrorMacro is called. ProcessRMIs() calls ProcessRMIs(int) with reportErrors = 0. If dont_loop is 1, this call just process one RMI message and exits.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.ProcessRMIs (int reportErrors, int dont_loop)</computeroutput> - Calling this method gives control to the controller to start processing RMIs. Possible return values are: RMI_NO_ERROR, RMI_TAG_ERROR : rmi tag could not be received, RMI_ARG_ERROR : rmi arg could not be received. If reportErrors is false, no vtkErrorMacro is called. ProcessRMIs() calls ProcessRMIs(int) with reportErrors = 0. If dont_loop is 1, this call just process one RMI message and exits.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.ProcessRMIs ()</computeroutput> - Calling this method gives control to the controller to start processing RMIs. Possible return values are: RMI_NO_ERROR, RMI_TAG_ERROR : rmi tag could not be received, RMI_ARG_ERROR : rmi arg could not be received. If reportErrors is false, no vtkErrorMacro is called. ProcessRMIs() calls ProcessRMIs(int) with reportErrors = 0. If dont_loop is 1, this call just process one RMI message and exits.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetBreakFlag (int )</computeroutput> - Setting this flag to 1 will cause the ProcessRMIs loop to return. This also causes vtkUpStreamPorts to return from their WaitForUpdate loops.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetBreakFlag ()</computeroutput> - Setting this flag to 1 will cause the ProcessRMIs loop to return. This also causes vtkUpStreamPorts to return from their WaitForUpdate loops.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkCommunicator = obj.GetCommunicator ()</computeroutput> - Returns the communicator associated with this controller. A default communicator is created in constructor.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.Barrier ()</computeroutput> - This method can be used to synchronize processes.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.Send (int data, vtkIdType length, int remoteProcessId, int tag)</computeroutput> - This method sends data to another process. Tag eliminates ambiguity when multiple sends or receives exist in the same process. It is recommended to use custom tag number over 100. vtkMultiProcessController has reserved tags between 1 and 4. vtkCommunicator has reserved tags between 10 and 16.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.Send (int data, vtkIdType length, int remoteProcessId, int tag)</computeroutput> - This method sends data to another process. Tag eliminates ambiguity when multiple sends or receives exist in the same process. It is recommended to use custom tag number over 100. vtkMultiProcessController has reserved tags between 1 and 4. vtkCommunicator has reserved tags between 10 and 16.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.Send (long data, vtkIdType length, int remoteProcessId, int tag)</computeroutput> - This method sends data to another process. Tag eliminates ambiguity when multiple sends or receives exist in the same process. It is recommended to use custom tag number over 100. vtkMultiProcessController has reserved tags between 1 and 4. vtkCommunicator has reserved tags between 10 and 16.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.Send (string data, vtkIdType length, int remoteProcessId, int tag)</computeroutput> - This method sends data to another process. Tag eliminates ambiguity when multiple sends or receives exist in the same process. It is recommended to use custom tag number over 100. vtkMultiProcessController has reserved tags between 1 and 4. vtkCommunicator has reserved tags between 10 and 16.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.Send (string data, vtkIdType length, int remoteProcessId, int tag)</computeroutput> - This method sends data to another process. Tag eliminates ambiguity when multiple sends or receives exist in the same process. It is recommended to use custom tag number over 100. vtkMultiProcessController has reserved tags between 1 and 4. vtkCommunicator has reserved tags between 10 and 16.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.Send (float data, vtkIdType length, int remoteProcessId, int tag)</computeroutput> - This method sends data to another process. Tag eliminates ambiguity when multiple sends or receives exist in the same process. It is recommended to use custom tag number over 100. vtkMultiProcessController has reserved tags between 1 and 4. vtkCommunicator has reserved tags between 10 and 16.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.Send (double data, vtkIdType length, int remoteProcessId, int tag)</computeroutput> - This method sends data to another process. Tag eliminates ambiguity when multiple sends or receives exist in the same process. It is recommended to use custom tag number over 100. vtkMultiProcessController has reserved tags between 1 and 4. vtkCommunicator has reserved tags between 10 and 16.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.Send (vtkDataObject data, int remoteId, int tag)</computeroutput> - This method sends data to another process. Tag eliminates ambiguity when multiple sends or receives exist in the same process. It is recommended to use custom tag number over 100. vtkMultiProcessController has reserved tags between 1 and 4. vtkCommunicator has reserved tags between 10 and 16.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.Send (vtkDataArray data, int remoteId, int tag)</computeroutput> - This method sends data to another process. Tag eliminates ambiguity when multiple sends or receives exist in the same process. It is recommended to use custom tag number over 100. vtkMultiProcessController has reserved tags between 1 and 4. vtkCommunicator has reserved tags between 10 and 16.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.Receive (int data, vtkIdType maxlength, int remoteProcessId, int tag)</computeroutput> - This method receives data from a corresponding send. It blocks until the receive is finished. It calls methods in &quot;data&quot; to communicate the sending data. In the overrloads that take in a <computeroutput>maxlength</computeroutput> argument, this length is the maximum length of the message to receive. If the maxlength is less than the length of the message sent by the sender, an error will be flagged. Once a message is received, use the GetCount() method to determine the actual size of the data received.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.Receive (int data, vtkIdType maxlength, int remoteProcessId, int tag)</computeroutput> - This method receives data from a corresponding send. It blocks until the receive is finished. It calls methods in &quot;data&quot; to communicate the sending data. In the overrloads that take in a <computeroutput>maxlength</computeroutput> argument, this length is the maximum length of the message to receive. If the maxlength is less than the length of the message sent by the sender, an error will be flagged. Once a message is received, use the GetCount() method to determine the actual size of the data received.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.Receive (long data, vtkIdType maxlength, int remoteProcessId, int tag)</computeroutput> - This method receives data from a corresponding send. It blocks until the receive is finished. It calls methods in &quot;data&quot; to communicate the sending data. In the overrloads that take in a <computeroutput>maxlength</computeroutput> argument, this length is the maximum length of the message to receive. If the maxlength is less than the length of the message sent by the sender, an error will be flagged. Once a message is received, use the GetCount() method to determine the actual size of the data received.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.Receive (string data, vtkIdType maxlength, int remoteProcessId, int tag)</computeroutput> - This method receives data from a corresponding send. It blocks until the receive is finished. It calls methods in &quot;data&quot; to communicate the sending data. In the overrloads that take in a <computeroutput>maxlength</computeroutput> argument, this length is the maximum length of the message to receive. If the maxlength is less than the length of the message sent by the sender, an error will be flagged. Once a message is received, use the GetCount() method to determine the actual size of the data received.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.Receive (string data, vtkIdType maxlength, int remoteProcessId, int tag)</computeroutput> - This method receives data from a corresponding send. It blocks until the receive is finished. It calls methods in &quot;data&quot; to communicate the sending data. In the overrloads that take in a <computeroutput>maxlength</computeroutput> argument, this length is the maximum length of the message to receive. If the maxlength is less than the length of the message sent by the sender, an error will be flagged. Once a message is received, use the GetCount() method to determine the actual size of the data received.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.Receive (float data, vtkIdType maxlength, int remoteProcessId, int tag)</computeroutput> - This method receives data from a corresponding send. It blocks until the receive is finished. It calls methods in &quot;data&quot; to communicate the sending data. In the overrloads that take in a <computeroutput>maxlength</computeroutput> argument, this length is the maximum length of the message to receive. If the maxlength is less than the length of the message sent by the sender, an error will be flagged. Once a message is received, use the GetCount() method to determine the actual size of the data received.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.Receive (double data, vtkIdType maxlength, int remoteProcessId, int tag)</computeroutput> - This method receives data from a corresponding send. It blocks until the receive is finished. It calls methods in &quot;data&quot; to communicate the sending data. In the overrloads that take in a <computeroutput>maxlength</computeroutput> argument, this length is the maximum length of the message to receive. If the maxlength is less than the length of the message sent by the sender, an error will be flagged. Once a message is received, use the GetCount() method to determine the actual size of the data received.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.Receive (vtkDataObject data, int remoteId, int tag)</computeroutput> - This method receives data from a corresponding send. It blocks until the receive is finished. It calls methods in &quot;data&quot; to communicate the sending data. In the overrloads that take in a <computeroutput>maxlength</computeroutput> argument, this length is the maximum length of the message to receive. If the maxlength is less than the length of the message sent by the sender, an error will be flagged. Once a message is received, use the GetCount() method to determine the actual size of the data received.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.Receive (vtkDataArray data, int remoteId, int tag)</computeroutput> - This method receives data from a corresponding send. It blocks until the receive is finished. It calls methods in &quot;data&quot; to communicate the sending data. In the overrloads that take in a <computeroutput>maxlength</computeroutput> argument, this length is the maximum length of the message to receive. If the maxlength is less than the length of the message sent by the sender, an error will be flagged. Once a message is received, use the GetCount() method to determine the actual size of the data received.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkDataObject = obj.ReceiveDataObject (int remoteId, int tag)</computeroutput> - This method receives data from a corresponding send. It blocks until the receive is finished. It calls methods in &quot;data&quot; to communicate the sending data. In the overrloads that take in a <computeroutput>maxlength</computeroutput> argument, this length is the maximum length of the message to receive. If the maxlength is less than the length of the message sent by the sender, an error will be flagged. Once a message is received, use the GetCount() method to determine the actual size of the data received.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkIdType = obj.GetCount ()</computeroutput> - Returns the number of words received by the most recent Receive(). Note that this is not the number of bytes received, but the number of items of the data-type received by the most recent Receive() eg. if Receive(int*,..) was used, then this returns the number of ints received; if Receive(double*,..) was used, then this returns the number of doubles received etc. The return value is valid only after a successful Receive().  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.Broadcast (int data, vtkIdType length, int srcProcessId)</computeroutput> - Broadcast sends the array in the process with id <computeroutput>srcProcessId</computeroutput> to all of the other processes. All processes must call these method with the same arguments in order for it to complete.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.Broadcast (long data, vtkIdType length, int srcProcessId)</computeroutput> - Broadcast sends the array in the process with id <computeroutput>srcProcessId</computeroutput> to all of the other processes. All processes must call these method with the same arguments in order for it to complete.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.Broadcast (string data, vtkIdType length, int srcProcessId)</computeroutput> - Broadcast sends the array in the process with id <computeroutput>srcProcessId</computeroutput> to all of the other processes. All processes must call these method with the same arguments in order for it to complete.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.Broadcast (string data, vtkIdType length, int srcProcessId)</computeroutput> - Broadcast sends the array in the process with id <computeroutput>srcProcessId</computeroutput> to all of the other processes. All processes must call these method with the same arguments in order for it to complete.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.Broadcast (float data, vtkIdType length, int srcProcessId)</computeroutput> - Broadcast sends the array in the process with id <computeroutput>srcProcessId</computeroutput> to all of the other processes. All processes must call these method with the same arguments in order for it to complete.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.Broadcast (double data, vtkIdType length, int srcProcessId)</computeroutput> - Broadcast sends the array in the process with id <computeroutput>srcProcessId</computeroutput> to all of the other processes. All processes must call these method with the same arguments in order for it to complete.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.Broadcast (vtkDataObject data, int srcProcessId)</computeroutput> - Broadcast sends the array in the process with id <computeroutput>srcProcessId</computeroutput> to all of the other processes. All processes must call these method with the same arguments in order for it to complete.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.Broadcast (vtkDataArray data, int srcProcessId)</computeroutput> - Gather collects arrays in the process with id <computeroutput>destProcessId</computeroutput>. Each process (including the destination) sends the contents of its send buffer to the destination process. The destination process receives the messages and stores them in rank order. The <computeroutput>length</computeroutput> argument (which must be the same on all processes) is the length of the sendBuffers. The <computeroutput>recvBuffer</computeroutput> (on te destination process) must be of length length*numProcesses. Gather is the inverse operation of Scatter.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.Gather (int sendBuffer, int recvBuffer, vtkIdType length, int destProcessId)</computeroutput> - Gather collects arrays in the process with id <computeroutput>destProcessId</computeroutput>. Each process (including the destination) sends the contents of its send buffer to the destination process. The destination process receives the messages and stores them in rank order. The <computeroutput>length</computeroutput> argument (which must be the same on all processes) is the length of the sendBuffers. The <computeroutput>recvBuffer</computeroutput> (on te destination process) must be of length length*numProcesses. Gather is the inverse operation of Scatter.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.Gather (long sendBuffer, long recvBuffer, vtkIdType length, int destProcessId)</computeroutput> - Gather collects arrays in the process with id <computeroutput>destProcessId</computeroutput>. Each process (including the destination) sends the contents of its send buffer to the destination process. The destination process receives the messages and stores them in rank order. The <computeroutput>length</computeroutput> argument (which must be the same on all processes) is the length of the sendBuffers. The <computeroutput>recvBuffer</computeroutput> (on te destination process) must be of length length*numProcesses. Gather is the inverse operation of Scatter.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.Gather (string sendBuffer, string recvBuffer, vtkIdType length, int destProcessId)</computeroutput> - Gather collects arrays in the process with id <computeroutput>destProcessId</computeroutput>. Each process (including the destination) sends the contents of its send buffer to the destination process. The destination process receives the messages and stores them in rank order. The <computeroutput>length</computeroutput> argument (which must be the same on all processes) is the length of the sendBuffers. The <computeroutput>recvBuffer</computeroutput> (on te destination process) must be of length length*numProcesses. Gather is the inverse operation of Scatter.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.Gather (string sendBuffer, string recvBuffer, vtkIdType length, int destProcessId)</computeroutput> - Gather collects arrays in the process with id <computeroutput>destProcessId</computeroutput>. Each process (including the destination) sends the contents of its send buffer to the destination process. The destination process receives the messages and stores them in rank order. The <computeroutput>length</computeroutput> argument (which must be the same on all processes) is the length of the sendBuffers. The <computeroutput>recvBuffer</computeroutput> (on te destination process) must be of length length*numProcesses. Gather is the inverse operation of Scatter.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.Gather (float sendBuffer, float recvBuffer, vtkIdType length, int destProcessId)</computeroutput> - Gather collects arrays in the process with id <computeroutput>destProcessId</computeroutput>. Each process (including the destination) sends the contents of its send buffer to the destination process. The destination process receives the messages and stores them in rank order. The <computeroutput>length</computeroutput> argument (which must be the same on all processes) is the length of the sendBuffers. The <computeroutput>recvBuffer</computeroutput> (on te destination process) must be of length length*numProcesses. Gather is the inverse operation of Scatter.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.Gather (double sendBuffer, double recvBuffer, vtkIdType length, int destProcessId)</computeroutput> - Gather collects arrays in the process with id <computeroutput>destProcessId</computeroutput>. Each process (including the destination) sends the contents of its send buffer to the destination process. The destination process receives the messages and stores them in rank order. The <computeroutput>length</computeroutput> argument (which must be the same on all processes) is the length of the sendBuffers. The <computeroutput>recvBuffer</computeroutput> (on te destination process) must be of length length*numProcesses. Gather is the inverse operation of Scatter.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.Gather (vtkDataArray sendBuffer, vtkDataArray recvBuffer, int destProcessId)</computeroutput> - GatherV is the vector variant of Gather. It extends the functionality of Gather by allowing a varying count of data from each process. GatherV collects arrays in the process with id <computeroutput>destProcessId</computeroutput>. Each process (including the destination) sends the contents of its send buffer to the destination process. The destination process receives the messages and stores them in rank order. The <computeroutput>sendLength</computeroutput> argument defines how much the local process sends to <computeroutput>destProcessId</computeroutput> and <computeroutput>recvLengths</computeroutput> is an array containing the amount <computeroutput>destProcessId</computeroutput> receives from each process, in rank order.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.Scatter (int sendBuffer, int recvBuffer, vtkIdType length, int srcProcessId)</computeroutput> - Scatter takes an array in the process with id <computeroutput>srcProcessId</computeroutput> and distributes it. Each process (including the source) receives a portion of the send buffer. Process 0 receives the first <computeroutput>length</computeroutput> values, process 1 receives the second <computeroutput>length</computeroutput> values, and so on. Scatter is the inverse operation of Gather.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.Scatter (long sendBuffer, long recvBuffer, vtkIdType length, int srcProcessId)</computeroutput> - Scatter takes an array in the process with id <computeroutput>srcProcessId</computeroutput> and distributes it. Each process (including the source) receives a portion of the send buffer. Process 0 receives the first <computeroutput>length</computeroutput> values, process 1 receives the second <computeroutput>length</computeroutput> values, and so on. Scatter is the inverse operation of Gather.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.Scatter (string sendBuffer, string recvBuffer, vtkIdType length, int srcProcessId)</computeroutput> - Scatter takes an array in the process with id <computeroutput>srcProcessId</computeroutput> and distributes it. Each process (including the source) receives a portion of the send buffer. Process 0 receives the first <computeroutput>length</computeroutput> values, process 1 receives the second <computeroutput>length</computeroutput> values, and so on. Scatter is the inverse operation of Gather.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.Scatter (string sendBuffer, string recvBuffer, vtkIdType length, int srcProcessId)</computeroutput> - Scatter takes an array in the process with id <computeroutput>srcProcessId</computeroutput> and distributes it. Each process (including the source) receives a portion of the send buffer. Process 0 receives the first <computeroutput>length</computeroutput> values, process 1 receives the second <computeroutput>length</computeroutput> values, and so on. Scatter is the inverse operation of Gather.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.Scatter (float sendBuffer, float recvBuffer, vtkIdType length, int srcProcessId)</computeroutput> - Scatter takes an array in the process with id <computeroutput>srcProcessId</computeroutput> and distributes it. Each process (including the source) receives a portion of the send buffer. Process 0 receives the first <computeroutput>length</computeroutput> values, process 1 receives the second <computeroutput>length</computeroutput> values, and so on. Scatter is the inverse operation of Gather.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.Scatter (double sendBuffer, double recvBuffer, vtkIdType length, int srcProcessId)</computeroutput> - Scatter takes an array in the process with id <computeroutput>srcProcessId</computeroutput> and distributes it. Each process (including the source) receives a portion of the send buffer. Process 0 receives the first <computeroutput>length</computeroutput> values, process 1 receives the second <computeroutput>length</computeroutput> values, and so on. Scatter is the inverse operation of Gather.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.Scatter (vtkDataArray sendBuffer, vtkDataArray recvBuffer, int srcProcessId)</computeroutput> - ScatterV is the vector variant of Scatter. It extends the functionality of Scatter by allowing a varying count of data to each process. ScatterV takes an array in the process with id <computeroutput>srcProcessId</computeroutput> and distributes it. Each process (including the source) receives a portion of the send buffer defined by the <computeroutput>sendLengths</computeroutput> and <computeroutput>offsets</computeroutput> arrays.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.AllGather (int sendBuffer, int recvBuffer, vtkIdType length)</computeroutput> - Same as gather except that the result ends up on all processes.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.AllGather (long sendBuffer, long recvBuffer, vtkIdType length)</computeroutput> - Same as gather except that the result ends up on all processes.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.AllGather (string sendBuffer, string recvBuffer, vtkIdType length)</computeroutput> - Same as gather except that the result ends up on all processes.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.AllGather (string sendBuffer, string recvBuffer, vtkIdType length)</computeroutput> - Same as gather except that the result ends up on all processes.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.AllGather (float sendBuffer, float recvBuffer, vtkIdType length)</computeroutput> - Same as gather except that the result ends up on all processes.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.AllGather (double sendBuffer, double recvBuffer, vtkIdType length)</computeroutput> - Same as gather except that the result ends up on all processes.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.AllGather (vtkDataArray sendBuffer, vtkDataArray recvBuffer)</computeroutput> - Same as GatherV except that the result is placed in all processes.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.Reduce (int sendBuffer, int recvBuffer, vtkIdType length, int operation, int destProcessId)</computeroutput> - Reduce an array to the given destination process. This version of Reduce takes an identifier defined in the vtkCommunicator::StandardOperations enum to define the operation.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.Reduce (long sendBuffer, long recvBuffer, vtkIdType length, int operation, int destProcessId)</computeroutput> - Reduce an array to the given destination process. This version of Reduce takes an identifier defined in the vtkCommunicator::StandardOperations enum to define the operation.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.Reduce (string sendBuffer, string recvBuffer, vtkIdType length, int operation, int destProcessId)</computeroutput> - Reduce an array to the given destination process. This version of Reduce takes an identifier defined in the vtkCommunicator::StandardOperations enum to define the operation.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.Reduce (string sendBuffer, string recvBuffer, vtkIdType length, int operation, int destProcessId)</computeroutput> - Reduce an array to the given destination process. This version of Reduce takes an identifier defined in the vtkCommunicator::StandardOperations enum to define the operation.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.Reduce (float sendBuffer, float recvBuffer, vtkIdType length, int operation, int destProcessId)</computeroutput> - Reduce an array to the given destination process. This version of Reduce takes an identifier defined in the vtkCommunicator::StandardOperations enum to define the operation.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.Reduce (double sendBuffer, double recvBuffer, vtkIdType length, int operation, int destProcessId)</computeroutput> - Reduce an array to the given destination process. This version of Reduce takes an identifier defined in the vtkCommunicator::StandardOperations enum to define the operation.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.Reduce (vtkDataArray sendBuffer, vtkDataArray recvBuffer, int operation, int destProcessId)</computeroutput> - Same as Reduce except that the result is placed in all of the processes.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.AllReduce (int sendBuffer, int recvBuffer, vtkIdType length, int operation)</computeroutput> - Same as Reduce except that the result is placed in all of the processes.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.AllReduce (long sendBuffer, long recvBuffer, vtkIdType length, int operation)</computeroutput> - Same as Reduce except that the result is placed in all of the processes.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.AllReduce (string sendBuffer, string recvBuffer, vtkIdType length, int operation)</computeroutput> - Same as Reduce except that the result is placed in all of the processes.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.AllReduce (string sendBuffer, string recvBuffer, vtkIdType length, int operation)</computeroutput> - Same as Reduce except that the result is placed in all of the processes.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.AllReduce (float sendBuffer, float recvBuffer, vtkIdType length, int operation)</computeroutput> - Same as Reduce except that the result is placed in all of the processes.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.AllReduce (double sendBuffer, double recvBuffer, vtkIdType length, int operation)</computeroutput> - Same as Reduce except that the result is placed in all of the processes.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.AllReduce (vtkDataArray sendBuffer, vtkDataArray recvBuffer, int operation)</computeroutput>  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

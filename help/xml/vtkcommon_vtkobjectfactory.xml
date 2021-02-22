@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkcommon_vtkobjectfactory" kind="page">
+    <compoundname>vtkcommon_vtkobjectfactory</compoundname>
+    <title>vtkObjectFactory</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkcommon_1sec_vtkcommon" kindref="member">Visualization Toolkit Common Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>vtkObjectFactory is used to create vtk objects. The base class vtkObjectFactory contains a static method CreateInstance which is used to create vtk objects from the list of registered vtkObjectFactory sub-classes. The first time CreateInstance is called, all dll&apos;s or shared libraries in the environment variable VTK_AUTOLOAD_PATH are loaded into the current process. The C functions vtkLoad, vtkGetFactoryCompilerUsed, and vtkGetFactoryVersion are called on each dll. To implement these functions in a shared library or dll, use the macro: VTK_FACTORY_INTERFACE_IMPLEMENT. VTK_AUTOLOAD_PATH is an environment variable containing a colon separated (semi-colon on win32) list of paths.</para><para>The vtkObjectFactory can be use to override the creation of any object in VTK with a sub-class of that object. The factories can be registered either at run time with the VTK_AUTOLOAD_PATH, or at compile time with the vtkObjectFactory::RegisterFactory method.</para><para>To create an instance of class vtkObjectFactory, simply invoke its constructor as follows <verbatim>  obj = vtkObjectFactory
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkObjectFactory has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkObjectFactory class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkObjectFactory = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkObjectFactory = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>string = obj.GetVTKSourceVersion ()</computeroutput> - All sub-classes of vtkObjectFactory should must return the version of VTK they were built with. This should be implemented with the macro VTK_SOURCE_VERSION and NOT a call to vtkVersion::GetVTKSourceVersion. As the version needs to be compiled into the file as a string constant. This is critical to determine possible incompatible dynamic factory loads.  </para></listitem>
+<listitem>
+<para><computeroutput>string = obj.GetDescription ()</computeroutput> - Return a descriptive string describing the factory.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetNumberOfOverrides ()</computeroutput> - Return number of overrides this factory can create.  </para></listitem>
+<listitem>
+<para><computeroutput>string = obj.GetClassOverrideName (int index)</computeroutput> - Return the name of a class override at the given index.  </para></listitem>
+<listitem>
+<para><computeroutput>string = obj.GetClassOverrideWithName (int index)</computeroutput> - Return the name of the class that will override the class at the given index  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetEnableFlag (int index)</computeroutput> - Return the enable flag for the class at the given index.  </para></listitem>
+<listitem>
+<para><computeroutput>string = obj.GetOverrideDescription (int index)</computeroutput> - Return the description for a the class override at the given index.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetEnableFlag (int flag, string className, string subclassName)</computeroutput> - Set and Get the Enable flag for the specific override of className. if subclassName is null, then it is ignored.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetEnableFlag (string className, string subclassName)</computeroutput> - Set and Get the Enable flag for the specific override of className. if subclassName is null, then it is ignored.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.HasOverride (string className)</computeroutput> - Return 1 if this factory overrides the given class name, 0 otherwise.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.HasOverride (string className, string subclassName)</computeroutput> - Return 1 if this factory overrides the given class name, 0 otherwise.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.Disable (string className)</computeroutput> - Set all enable flags for the given class to 0. This will mean that the factory will stop producing class with the given name.  </para></listitem>
+<listitem>
+<para><computeroutput>string = obj.GetLibraryPath ()</computeroutput> - This returns the path to a dynamically loaded factory.  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

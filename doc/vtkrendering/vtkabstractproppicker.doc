@@ -1,0 +1,78 @@
+/*!
+\page vtkrendering_vtkabstractproppicker vtkAbstractPropPicker
+
+<p>
+Section: \ref sec_vtkrendering "Visualization Toolkit Rendering Classes"
+\section Usage
+ vtkAbstractPropPicker is an abstract superclass for pickers that can pick
+ an instance of vtkProp. Some pickers, like vtkWorldPointPicker (not a
+ subclass of this class), cannot identify the prop that is
+ picked. Subclasses of vtkAbstractPropPicker return a prop in the form of a
+ vtkAssemblyPath when a pick is invoked. Note that an vtkAssemblyPath
+ contain a list of vtkAssemblyNodes, each of which in turn contains a
+ reference to a vtkProp and a 4x4 transformation matrix. The path fully
+ describes the entire pick path, so you can pick assemblies or portions of
+ assemblies, or just grab the tail end of the vtkAssemblyPath (which is the
+ picked prop).
+
+To create an instance of class vtkAbstractPropPicker, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkAbstractPropPicker
+\endverbatim
+\section Methods
+The class vtkAbstractPropPicker has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkAbstractPropPicker class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkAbstractPropPicker = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkAbstractPropPicker = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetPath (vtkAssemblyPath )</tt> -  Return the vtkAssemblyPath that has been picked. The assembly path lists
+ all the vtkProps that form an assembly. If no assembly is present, then
+ the assembly path will have one node (which is the picked prop). The
+ set method is used internally to set the path. (Note: the structure of
+ an assembly path is a collection of vtkAssemblyNode, each node pointing
+ to a vtkProp and (possibly) a transformation matrix.)
+ </LI>
+<LI>  <tt>vtkAssemblyPath = obj.GetPath ()</tt> -  Return the vtkAssemblyPath that has been picked. The assembly path lists
+ all the vtkProps that form an assembly. If no assembly is present, then
+ the assembly path will have one node (which is the picked prop). The
+ set method is used internally to set the path. (Note: the structure of
+ an assembly path is a collection of vtkAssemblyNode, each node pointing
+ to a vtkProp and (possibly) a transformation matrix.)
+ </LI>
+<LI>  <tt>vtkProp = obj.GetViewProp ()</tt> -  Return the vtkProp that has been picked. If NULL, nothing was picked.
+ If anything at all was picked, this method will return something.
+ </LI>
+<LI>  <tt>vtkProp3D = obj.GetProp3D ()</tt> -  Return the vtkProp that has been picked. If NULL, no vtkProp3D was picked.
+ </LI>
+<LI>  <tt>vtkActor = obj.GetActor ()</tt> -  Return the vtkActor that has been picked. If NULL, no actor was picked.
+ </LI>
+<LI>  <tt>vtkActor2D = obj.GetActor2D ()</tt> -  Return the vtkActor2D that has been picked. If NULL, no actor2D was 
+ picked.
+ </LI>
+<LI>  <tt>vtkVolume = obj.GetVolume ()</tt> -  Return the vtkVolume that has been picked. If NULL, no volume was picked.
+ </LI>
+<LI>  <tt>vtkAssembly = obj.GetAssembly ()</tt> -  Return the vtkAssembly that has been picked. If NULL, no assembly 
+ was picked. (Note: the returned assembly is the first node in the
+ assembly path. If the path is one node long, then the assembly and
+ the prop are the same, assuming that the first node is a vtkAssembly.)
+ </LI>
+<LI>  <tt>vtkPropAssembly = obj.GetPropAssembly ()</tt> -  Return the vtkPropAssembly that has been picked. If NULL, no prop
+ assembly was picked. (Note: the returned prop assembly is the first node
+ in the assembly path. If the path is one node long, then the prop
+ assembly and the prop are the same, assuming that the first node is a
+ vtkPropAssembly.)
+ </LI>
+<LI>  <tt>vtkProp = obj.GetProp ()</tt> -  @deprecated Replaced by vtkAbstractPicker::GetViewProp() as of VTK 5.0.
+ </LI>
+</UL>
+*/

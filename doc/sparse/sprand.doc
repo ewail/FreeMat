@@ -1,0 +1,54 @@
+/*!
+\page sparse_sprand SPRAND Sparse Uniform Random Matrix
+
+<p>
+Section: \ref sec_sparse "Sparse Matrix Support"
+\section Usage
+Creates a sparse matrix with uniformly distributed random entries (on [0,1]).  The
+syntax for its use is
+\verbatim
+  y = sprand(x)
+\endverbatim
+where <tt>x</tt> is a sparse matrix, where <tt>y</tt> is a sparse matrix that has
+random entries where <tt>x</tt> is nonzero.  The second form specifies the
+size of the matrix and the density
+\verbatim
+  y = sprand(m,n,density)
+\endverbatim
+where <tt>m</tt> is the number of rows in the output, <tt>n</tt> is the number of 
+columns in the output, and <tt>density</tt> (which is between 0 and 1) is
+the density of nonzeros in the resulting matrix.  Note that for very
+high densities the actual density of the output matrix may differ from
+the density you specify.  This difference is a result of the way the
+random entries into the matrix are generated.  If you need a very dense
+random matrix, it is better to generate a full matrix and zero out the 
+entries you do not need.
+\section Examples
+Here we seed <tt>sprand</tt> with a full matrix (to demonstrate how the structure
+of the output is determined by the input matrix when using the first form).
+
+\if FRAGMENT
+frag_sparse_sprand_000.m
+0
+x = [1,0,0;0,0,1;1,0,0]
+y = sprand(x)
+full(y)
+\endif
+
+
+\verbinclude frag_sparse_sprand_000.m.out 
+
+The more generic version with a density of <tt>0.001</tt>.  On many systems the
+following is impossible using full matrices
+
+\if FRAGMENT
+frag_sparse_sprand_001.m
+0
+y = sprand(10000,10000,.001);
+nnz(y)/10000^2
+\endif
+
+
+\verbinclude frag_sparse_sprand_001.m.out 
+
+*/

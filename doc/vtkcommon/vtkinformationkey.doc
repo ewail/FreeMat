@@ -1,0 +1,71 @@
+/*!
+\page vtkcommon_vtkinformationkey vtkInformationKey
+
+<p>
+Section: \ref sec_vtkcommon "Visualization Toolkit Common Classes"
+\section Usage
+ vtkInformationKey is the superclass for all keys used to access the
+ map represented by vtkInformation.  The vtkInformation::Set and
+ vtkInformation::Get methods of vtkInformation are accessed by
+ information keys.  A key is a pointer to an instance of a subclass
+ of vtkInformationKey.  The type of the subclass determines the
+ overload of Set/Get that is selected.  This ensures that the type
+ of value stored in a vtkInformation instance corresponding to a
+ given key matches the type expected for that key.
+
+To create an instance of class vtkInformationKey, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkInformationKey
+\endverbatim
+\section Methods
+The class vtkInformationKey has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkInformationKey class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkInformationKey = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkInformationKey = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.Register (vtkObjectBase )</tt> -  Prevent normal vtkObject reference counting behavior.
+ </LI>
+<LI>  <tt>obj.UnRegister (vtkObjectBase )</tt> -  Prevent normal vtkObject reference counting behavior.
+ </LI>
+<LI>  <tt>string = obj.GetName ()</tt> -  Get the name of the key.  This is not the type of the key, but
+ the name of the key instance.
+ </LI>
+<LI>  <tt>string = obj.GetLocation ()</tt> -  Get the location of the key.  This is the name of the class in
+ which the key is defined.
+ </LI>
+<LI>  <tt>vtkInformationKey = obj.(string name, string location)</tt> -  Key instances are static data that need to be created and
+ destroyed.  The constructor and destructor must be public.  The
+ name of the static instance and the class in which it is defined
+ should be passed to the constructor.  They must be string
+ literals because the strings are not copied.
+ </LI>
+<LI>  <tt>~vtkInformationKey = obj.()</tt> -  Key instances are static data that need to be created and
+ destroyed.  The constructor and destructor must be public.  The
+ name of the static instance and the class in which it is defined
+ should be passed to the constructor.  They must be string
+ literals because the strings are not copied.
+ </LI>
+<LI>  <tt>obj.ShallowCopy (vtkInformation from, vtkInformation to)</tt> -  Copy the entry associated with this key from one information
+ object to another.  If there is no entry in the first information
+ object for this key, the value is removed from the second.
+ </LI>
+<LI>  <tt>obj.DeepCopy (vtkInformation from, vtkInformation to)</tt> -  Check whether this key appears in the given information object.
+ </LI>
+<LI>  <tt>int = obj.Has (vtkInformation info)</tt> -  Check whether this key appears in the given information object.
+ </LI>
+<LI>  <tt>obj.Remove (vtkInformation info)</tt> -  Remove this key from the given information object.
+ </LI>
+<LI>  <tt>obj.Report (vtkInformation info, vtkGarbageCollector collector)</tt> -  Report a reference this key has in the given information object.
+ </LI>
+</UL>
+*/

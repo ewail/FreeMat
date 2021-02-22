@@ -1,0 +1,82 @@
+
+ Usage
+
+The vtkAffineWidget is used to perform affine
+transformations on objects. (Affine transformations are
+transformations that keep parallel lines parallel. Affine
+transformations include translation, scaling, rotation, and
+shearing.)
+To use this widget, set the widget representation. The
+representation maintains a transformation matrix and other
+instance variables consistent with the transformations
+applied by this widget.
+.SECTION Event Bindings By default, the widget responds to
+the following VTK events (i.e., it watches the
+vtkRenderWindowInteractor for these events):
+
+     LeftButtonPressEvent - select widget: depending on
+  which part is selected
+                            translation, rotation, scaling,
+  or shearing may follow.
+     LeftButtonReleaseEvent - end selection of widget.
+     MouseMoveEvent - interactive movement across widget
+
+Note that the event bindings described above can be changed
+using this class's vtkWidgetEventTranslator. This class
+translates VTK events into the vtkAffineWidget's widget
+events:
+
+     vtkWidgetEvent::Select &ndash; focal point is being
+  selected
+     vtkWidgetEvent::EndSelect &ndash; the selection process
+  has completed
+     vtkWidgetEvent::Move &ndash; a request for widget
+  motion
+
+In turn, when these widget events are processed, the
+vtkAffineWidget invokes the following VTK events on itself
+(which observers can listen for):
+
+     vtkCommand::StartInteractionEvent (on vtkWidgetEvent::
+  Select)
+     vtkCommand::EndInteractionEvent (on vtkWidgetEvent::
+  EndSelect)
+     vtkCommand::InteractionEvent (on vtkWidgetEvent::Move)
+
+To create an instance of class vtkAffineWidget, simply
+invoke its constructor as follows
+
+    obj = vtkAffineWidget
+
+
+
+ Methods
+
+The class vtkAffineWidget has several methods that can be
+used. They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkAffineWidget class.
+
+* string = obj.GetClassName () - Standard VTK class macros.
+* int = obj.IsA (string name) - Standard VTK class macros.
+* vtkAffineWidget = obj.NewInstance () - Standard VTK class
+  macros.
+* vtkAffineWidget = obj.SafeDownCast (vtkObject o) -
+  Standard VTK class macros.
+* obj.SetRepresentation (vtkAffineRepresentation r) - Create
+  the default widget representation if one is not set.
+* obj.CreateDefaultRepresentation () - Create the default
+  widget representation if one is not set.
+* obj.SetEnabled (int ) - Methods for activiating this
+  widget. This implementation extends the superclasses' in
+  order to resize the widget handles due to a render start
+  event.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Widget_Classes
+* Generated on Thu Jul 25 2013 17:18:36 for FreeMat by
+  doxygen_ 1.8.1.1
+

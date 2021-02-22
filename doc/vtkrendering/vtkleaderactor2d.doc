@@ -1,0 +1,251 @@
+/*!
+\page vtkrendering_vtkleaderactor2d vtkLeaderActor2D
+
+<p>
+Section: \ref sec_vtkrendering "Visualization Toolkit Rendering Classes"
+\section Usage
+ vtkLeaderActor2D creates a leader with an optional label and arrows. (A
+ leader is typically used to indicate distance between points.)
+ vtkLeaderActor2D is a type of vtkActor2D; that is, it is drawn on the
+ overlay plane and is not occluded by 3D geometry. To use this class, you
+ typically specify two points defining the start and end points of the line
+ (x-y definition using vtkCoordinate class), whether to place arrows on one
+ or both end points, and whether to label the leader. Also, this class has a
+ special feature that allows curved leaders to be created by specifying a
+ radius.
+
+ Use the vtkLeaderActor2D uses its superclass vtkActor2D instance variables
+ Position and Position2 vtkCoordinates to place an instance of
+ vtkLeaderActor2D (i.e., these two data members represent the start and end
+ points of the leader).  Using these vtkCoordinates you can specify the position
+ of the leader in a variety of coordinate systems. 
+
+ To control the appearance of the actor, use the superclasses
+ vtkActor2D::vtkProperty2D and the vtkTextProperty objects associated with
+ this actor.
+
+
+To create an instance of class vtkLeaderActor2D, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkLeaderActor2D
+\endverbatim
+\section Methods
+The class vtkLeaderActor2D has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkLeaderActor2D class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkLeaderActor2D = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkLeaderActor2D = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetRadius (double )</tt> -  Set/Get a radius which can be used to curve the leader.  If a radius is
+ specified whose absolute value is greater than one half the distance
+ between the two points defined by the superclasses' Position and
+ Position2 ivars, then the leader will be curved. A positive radius will
+ produce a curve such that the center is to the right of the line from
+ Position and Position2; a negative radius will produce a curve in the 
+ opposite sense. By default, the radius is set to zero and thus there
+ is no curvature. Note that the radius is expresses as a multiple of
+ the distance between (Position,Position2); this avoids issues relative
+ to coordinate system transformations.
+ </LI>
+<LI>  <tt>double = obj.GetRadius ()</tt> -  Set/Get a radius which can be used to curve the leader.  If a radius is
+ specified whose absolute value is greater than one half the distance
+ between the two points defined by the superclasses' Position and
+ Position2 ivars, then the leader will be curved. A positive radius will
+ produce a curve such that the center is to the right of the line from
+ Position and Position2; a negative radius will produce a curve in the 
+ opposite sense. By default, the radius is set to zero and thus there
+ is no curvature. Note that the radius is expresses as a multiple of
+ the distance between (Position,Position2); this avoids issues relative
+ to coordinate system transformations.
+ </LI>
+<LI>  <tt>obj.SetLabel (string )</tt> -  Set/Get the label for the leader. If the label is an empty string, then
+ it will not be drawn.
+ </LI>
+<LI>  <tt>string = obj.GetLabel ()</tt> -  Set/Get the label for the leader. If the label is an empty string, then
+ it will not be drawn.
+ </LI>
+<LI>  <tt>obj.SetLabelTextProperty (vtkTextProperty p)</tt> -  Set/Get the text property of the label.
+ </LI>
+<LI>  <tt>vtkTextProperty = obj.GetLabelTextProperty ()</tt> -  Set/Get the text property of the label.
+ </LI>
+<LI>  <tt>obj.SetLabelFactor (double )</tt> -  Set/Get the factor that controls the overall size of the fonts used
+ to label the leader. 
+ </LI>
+<LI>  <tt>double = obj.GetLabelFactorMinValue ()</tt> -  Set/Get the factor that controls the overall size of the fonts used
+ to label the leader. 
+ </LI>
+<LI>  <tt>double = obj.GetLabelFactorMaxValue ()</tt> -  Set/Get the factor that controls the overall size of the fonts used
+ to label the leader. 
+ </LI>
+<LI>  <tt>double = obj.GetLabelFactor ()</tt> -  Set/Get the factor that controls the overall size of the fonts used
+ to label the leader. 
+ </LI>
+<LI>  <tt>obj.SetArrowPlacement (int )</tt> -  Control whether arrow heads are drawn on the leader. Arrows may be
+ drawn on one end, both ends, or not at all.
+ </LI>
+<LI>  <tt>int = obj.GetArrowPlacementMinValue ()</tt> -  Control whether arrow heads are drawn on the leader. Arrows may be
+ drawn on one end, both ends, or not at all.
+ </LI>
+<LI>  <tt>int = obj.GetArrowPlacementMaxValue ()</tt> -  Control whether arrow heads are drawn on the leader. Arrows may be
+ drawn on one end, both ends, or not at all.
+ </LI>
+<LI>  <tt>int = obj.GetArrowPlacement ()</tt> -  Control whether arrow heads are drawn on the leader. Arrows may be
+ drawn on one end, both ends, or not at all.
+ </LI>
+<LI>  <tt>obj.SetArrowPlacementToNone ()</tt> -  Control whether arrow heads are drawn on the leader. Arrows may be
+ drawn on one end, both ends, or not at all.
+ </LI>
+<LI>  <tt>obj.SetArrowPlacementToPoint1 ()</tt> -  Control whether arrow heads are drawn on the leader. Arrows may be
+ drawn on one end, both ends, or not at all.
+ </LI>
+<LI>  <tt>obj.SetArrowPlacementToPoint2 ()</tt> -  Control whether arrow heads are drawn on the leader. Arrows may be
+ drawn on one end, both ends, or not at all.
+ </LI>
+<LI>  <tt>obj.SetArrowPlacementToBoth ()</tt> -  Control the appearance of the arrow heads. A solid arrow head is a filled
+ triangle; a open arrow looks like a "V"; and a hollow arrow looks like a
+ non-filled triangle.
+ </LI>
+<LI>  <tt>obj.SetArrowStyle (int )</tt> -  Control the appearance of the arrow heads. A solid arrow head is a filled
+ triangle; a open arrow looks like a "V"; and a hollow arrow looks like a
+ non-filled triangle.
+ </LI>
+<LI>  <tt>int = obj.GetArrowStyleMinValue ()</tt> -  Control the appearance of the arrow heads. A solid arrow head is a filled
+ triangle; a open arrow looks like a "V"; and a hollow arrow looks like a
+ non-filled triangle.
+ </LI>
+<LI>  <tt>int = obj.GetArrowStyleMaxValue ()</tt> -  Control the appearance of the arrow heads. A solid arrow head is a filled
+ triangle; a open arrow looks like a "V"; and a hollow arrow looks like a
+ non-filled triangle.
+ </LI>
+<LI>  <tt>int = obj.GetArrowStyle ()</tt> -  Control the appearance of the arrow heads. A solid arrow head is a filled
+ triangle; a open arrow looks like a "V"; and a hollow arrow looks like a
+ non-filled triangle.
+ </LI>
+<LI>  <tt>obj.SetArrowStyleToFilled ()</tt> -  Control the appearance of the arrow heads. A solid arrow head is a filled
+ triangle; a open arrow looks like a "V"; and a hollow arrow looks like a
+ non-filled triangle.
+ </LI>
+<LI>  <tt>obj.SetArrowStyleToOpen ()</tt> -  Control the appearance of the arrow heads. A solid arrow head is a filled
+ triangle; a open arrow looks like a "V"; and a hollow arrow looks like a
+ non-filled triangle.
+ </LI>
+<LI>  <tt>obj.SetArrowStyleToHollow ()</tt> -  Specify the arrow length and base width (in normalized viewport
+ coordinates).
+ </LI>
+<LI>  <tt>obj.SetArrowLength (double )</tt> -  Specify the arrow length and base width (in normalized viewport
+ coordinates).
+ </LI>
+<LI>  <tt>double = obj.GetArrowLengthMinValue ()</tt> -  Specify the arrow length and base width (in normalized viewport
+ coordinates).
+ </LI>
+<LI>  <tt>double = obj.GetArrowLengthMaxValue ()</tt> -  Specify the arrow length and base width (in normalized viewport
+ coordinates).
+ </LI>
+<LI>  <tt>double = obj.GetArrowLength ()</tt> -  Specify the arrow length and base width (in normalized viewport
+ coordinates).
+ </LI>
+<LI>  <tt>obj.SetArrowWidth (double )</tt> -  Specify the arrow length and base width (in normalized viewport
+ coordinates).
+ </LI>
+<LI>  <tt>double = obj.GetArrowWidthMinValue ()</tt> -  Specify the arrow length and base width (in normalized viewport
+ coordinates).
+ </LI>
+<LI>  <tt>double = obj.GetArrowWidthMaxValue ()</tt> -  Specify the arrow length and base width (in normalized viewport
+ coordinates).
+ </LI>
+<LI>  <tt>double = obj.GetArrowWidth ()</tt> -  Specify the arrow length and base width (in normalized viewport
+ coordinates).
+ </LI>
+<LI>  <tt>obj.SetMinimumArrowSize (double )</tt> -  Limit the minimum and maximum size of the arrows. These values are
+ expressed in pixels and clamp the minimum/maximum possible size for the
+ width/length of the arrow head. (When clamped, the ratio between length
+ and width is preserved.)
+ </LI>
+<LI>  <tt>double = obj.GetMinimumArrowSizeMinValue ()</tt> -  Limit the minimum and maximum size of the arrows. These values are
+ expressed in pixels and clamp the minimum/maximum possible size for the
+ width/length of the arrow head. (When clamped, the ratio between length
+ and width is preserved.)
+ </LI>
+<LI>  <tt>double = obj.GetMinimumArrowSizeMaxValue ()</tt> -  Limit the minimum and maximum size of the arrows. These values are
+ expressed in pixels and clamp the minimum/maximum possible size for the
+ width/length of the arrow head. (When clamped, the ratio between length
+ and width is preserved.)
+ </LI>
+<LI>  <tt>double = obj.GetMinimumArrowSize ()</tt> -  Limit the minimum and maximum size of the arrows. These values are
+ expressed in pixels and clamp the minimum/maximum possible size for the
+ width/length of the arrow head. (When clamped, the ratio between length
+ and width is preserved.)
+ </LI>
+<LI>  <tt>obj.SetMaximumArrowSize (double )</tt> -  Limit the minimum and maximum size of the arrows. These values are
+ expressed in pixels and clamp the minimum/maximum possible size for the
+ width/length of the arrow head. (When clamped, the ratio between length
+ and width is preserved.)
+ </LI>
+<LI>  <tt>double = obj.GetMaximumArrowSizeMinValue ()</tt> -  Limit the minimum and maximum size of the arrows. These values are
+ expressed in pixels and clamp the minimum/maximum possible size for the
+ width/length of the arrow head. (When clamped, the ratio between length
+ and width is preserved.)
+ </LI>
+<LI>  <tt>double = obj.GetMaximumArrowSizeMaxValue ()</tt> -  Limit the minimum and maximum size of the arrows. These values are
+ expressed in pixels and clamp the minimum/maximum possible size for the
+ width/length of the arrow head. (When clamped, the ratio between length
+ and width is preserved.)
+ </LI>
+<LI>  <tt>double = obj.GetMaximumArrowSize ()</tt> -  Limit the minimum and maximum size of the arrows. These values are
+ expressed in pixels and clamp the minimum/maximum possible size for the
+ width/length of the arrow head. (When clamped, the ratio between length
+ and width is preserved.)
+ </LI>
+<LI>  <tt>obj.SetAutoLabel (int )</tt> -  Enable auto-labelling. In this mode, the label is automatically updated
+ based on distance (in world coordinates) between the two end points; or
+ if a curved leader is being generated, the angle in degrees between the
+ two points.
+ </LI>
+<LI>  <tt>int = obj.GetAutoLabel ()</tt> -  Enable auto-labelling. In this mode, the label is automatically updated
+ based on distance (in world coordinates) between the two end points; or
+ if a curved leader is being generated, the angle in degrees between the
+ two points.
+ </LI>
+<LI>  <tt>obj.AutoLabelOn ()</tt> -  Enable auto-labelling. In this mode, the label is automatically updated
+ based on distance (in world coordinates) between the two end points; or
+ if a curved leader is being generated, the angle in degrees between the
+ two points.
+ </LI>
+<LI>  <tt>obj.AutoLabelOff ()</tt> -  Enable auto-labelling. In this mode, the label is automatically updated
+ based on distance (in world coordinates) between the two end points; or
+ if a curved leader is being generated, the angle in degrees between the
+ two points.
+ </LI>
+<LI>  <tt>obj.SetLabelFormat (string )</tt> -  Specify the format to use for auto-labelling.
+ </LI>
+<LI>  <tt>string = obj.GetLabelFormat ()</tt> -  Specify the format to use for auto-labelling.
+ </LI>
+<LI>  <tt>double = obj.GetLength ()</tt> -  Obtain the length of the leader if the leader is not curved,
+ otherwise obtain the angle that the leader circumscribes.
+ </LI>
+<LI>  <tt>double = obj.GetAngle ()</tt> -  Obtain the length of the leader if the leader is not curved,
+ otherwise obtain the angle that the leader circumscribes.
+ </LI>
+<LI>  <tt>int = obj.RenderOverlay (vtkViewport viewport)</tt> -  Methods required by vtkProp and vtkActor2D superclasses.
+ </LI>
+<LI>  <tt>int = obj.RenderOpaqueGeometry (vtkViewport viewport)</tt> -  Methods required by vtkProp and vtkActor2D superclasses.
+ </LI>
+<LI>  <tt>int = obj.RenderTranslucentPolygonalGeometry (vtkViewport )</tt> -  Does this prop have some translucent polygonal geometry?
+ </LI>
+<LI>  <tt>int = obj.HasTranslucentPolygonalGeometry ()</tt> -  Does this prop have some translucent polygonal geometry?
+ </LI>
+<LI>  <tt>obj.ReleaseGraphicsResources (vtkWindow )</tt>
+ </LI>
+<LI>  <tt>obj.ShallowCopy (vtkProp prop)</tt>
+ </LI>
+</UL>
+*/

@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkcommon_vtkanimationcue" kind="page">
+    <compoundname>vtkcommon_vtkanimationcue</compoundname>
+    <title>vtkAnimationCue</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkcommon_1sec_vtkcommon" kindref="member">Visualization Toolkit Common Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>vtkAnimationCue and vtkAnimationScene provide the framework to support animations in VTK. vtkAnimationCue represents an entity that changes/ animates with time, while vtkAnimationScene represents scene or setup for the animation, which consists on individual cues or other scenes.</para><para>A cue has three states: UNINITIALIZED, ACTIVE and INACTIVE. UNINITIALIZED represents an point in time before the start time of the cue. The cue is in ACTIVE state at a point in time between start time and end time for the cue. While, beyond the end time, it is in INACTIVE state. When the cue enters the ACTIVE state, StartAnimationCueEvent is fired. This event may be handled to initialize the entity to be animated. When the cue leaves the ACTIVE state, EndAnimationCueEvent is fired, which can be handled to cleanup after having run the animation. For every request to render during the ACTIVE state, AnimationCueTickEvent is fired, which must be handled to perform the actual animation.</para><para>To create an instance of class vtkAnimationCue, simply invoke its constructor as follows <verbatim>  obj = vtkAnimationCue
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkAnimationCue has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkAnimationCue class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkAnimationCue = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkAnimationCue = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetTimeMode (int mode)</computeroutput> - Get/Set the time mode. In Normalized mode, the start and end times of the cue are normalized [0,1] with respect to the start and end times of the container scene. In Relative mode the start and end time of the cue are specified in offset seconds relative to the start time of the container scene.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetTimeMode ()</computeroutput> - Get/Set the time mode. In Normalized mode, the start and end times of the cue are normalized [0,1] with respect to the start and end times of the container scene. In Relative mode the start and end time of the cue are specified in offset seconds relative to the start time of the container scene.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetTimeModeToRelative ()</computeroutput> - Get/Set the time mode. In Normalized mode, the start and end times of the cue are normalized [0,1] with respect to the start and end times of the container scene. In Relative mode the start and end time of the cue are specified in offset seconds relative to the start time of the container scene.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetTimeModeToNormalized ()</computeroutput> - Get/Set the Start time for this cue. When the current time is &gt;= StartTime, the Cue is in ACTIVE state. if Current time i &lt; StartTime, the Cue is in UNINITIALIZED state. Whenever the cue enters the ACTIVE state from an INACTIVE state, it triggers the StartEvent. The Start time is in seconds relative to the start of the container Scene (when in Relative time mode) or is normalized over the span of the container Scene (when in Normalized time mode).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetStartTime (double )</computeroutput> - Get/Set the Start time for this cue. When the current time is &gt;= StartTime, the Cue is in ACTIVE state. if Current time i &lt; StartTime, the Cue is in UNINITIALIZED state. Whenever the cue enters the ACTIVE state from an INACTIVE state, it triggers the StartEvent. The Start time is in seconds relative to the start of the container Scene (when in Relative time mode) or is normalized over the span of the container Scene (when in Normalized time mode).  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetStartTime ()</computeroutput> - Get/Set the Start time for this cue. When the current time is &gt;= StartTime, the Cue is in ACTIVE state. if Current time i &lt; StartTime, the Cue is in UNINITIALIZED state. Whenever the cue enters the ACTIVE state from an INACTIVE state, it triggers the StartEvent. The Start time is in seconds relative to the start of the container Scene (when in Relative time mode) or is normalized over the span of the container Scene (when in Normalized time mode).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetEndTime (double )</computeroutput> - Get/Set the End time for this cue. When the current time is &gt; EndTime, the Cue is in INACTIVE state. Whenever the cue leaves an ACTIVE state to enter INACTIVE state, the EndEvent is triggered. The End time is in seconds relative to the start of the container Scene (when in Relative time mode) or is normalized over the span of the container Scene (when in Normalized time mode).  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetEndTime ()</computeroutput> - Get/Set the End time for this cue. When the current time is &gt; EndTime, the Cue is in INACTIVE state. Whenever the cue leaves an ACTIVE state to enter INACTIVE state, the EndEvent is triggered. The End time is in seconds relative to the start of the container Scene (when in Relative time mode) or is normalized over the span of the container Scene (when in Normalized time mode).  </para></listitem>
+<listitem>
+<para><computeroutput>obj.Tick (double currenttime, double deltatime, double clocktime)</computeroutput> - Indicates a tick or point in time in the animation. Triggers a Tick event if currenttime &gt;= StartTime and currenttime &lt;= EndTime. Whenever the state of the cue changes, either StartEvent or EndEvent is triggerred depending upon whether the cue entered Active state or quit active state respectively. The current time is relative to the start of the container Scene (when in Relative time mode) or is normalized over the span of the container Scene (when in Normalized time mode). deltatime is the time since last call to Tick. deltatime also can be in seconds relative to the start of the container Scene or normalized depending upon the cue&apos;s Time mode. clocktime is the time from the scene i.e. it does not depend on the time mode for the cue. For the first call to Tick after a call to Initialize(), the deltatime is 0;  </para></listitem>
+<listitem>
+<para><computeroutput>obj.Initialize ()</computeroutput> - Called when the playing of the scene begins. This will set the Cue to UNINITIALIZED state.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.Finalize ()</computeroutput> - Called when the scene reaches the end. If the cue state is ACTIVE when this method is called, this will trigger a EndAnimationCueEvent.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetAnimationTime ()</computeroutput> - This is valid only in a AnimationCueTickEvent handler. Before firing the event the animation cue sets the AnimationTime to the time of the tick.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetDeltaTime ()</computeroutput> - This is valid only in a AnimationCueTickEvent handler. Before firing the event the animation cue sets the DeltaTime to the difference in time between the current tick and the last tick.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetClockTime ()</computeroutput> - This is valid only in a AnimationCueTickEvent handler. Before firing the event the animation cue sets the ClockTime to the time of the tick. ClockTime is directly the time from the animation scene neither normalized nor offsetted to the start of the scene.  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

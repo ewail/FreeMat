@@ -1,0 +1,22 @@
+% Test sparse to IJV conversion
+function x = test_sparse68
+[yi1,zi1] = sparse_test_mat('int32',300,400);
+[yf1,zf1] = sparse_test_mat('float',300,400);
+[yd1,zd1] = sparse_test_mat('double',300,400);
+[yc1,zc1] = sparse_test_mat('complex',300,400);
+[yz1,zz1] = sparse_test_mat('dcomplex',300,400);
+[iyi1,jyi1,vyi1] = find(yi1);
+[izi1,jzi1,vzi1] = find(zi1);
+[iyf1,jyf1,vyf1] = find(yf1);
+[izf1,jzf1,vzf1] = find(zf1);
+[iyd1,jyd1,vyd1] = find(yd1);
+[izd1,jzd1,vzd1] = find(zd1);
+[iyc1,jyc1,vyc1] = find(yc1);
+[izc1,jzc1,vzc1] = find(zc1);
+[iyz1,jyz1,vyz1] = find(yz1);
+[izz1,jzz1,vzz1] = find(zz1);
+x = testeq(iyi1,izi1) & testeq(jyi1,jzi1) & testeq(vyi1,vzi1);
+x = x & testeq(iyf1,izf1) & testeq(jyf1,jzf1) & testeq(vyf1,vzf1);
+x = x & testeq(iyd1,izd1) & testeq(jyd1,jzd1) & testeq(vyd1,vzd1);
+x = x & testeq(iyc1,izc1) & testeq(jyc1,jzc1) & testeq(vyc1,vzc1);
+x = x & testeq(iyz1,izz1) & testeq(jyz1,jzz1) & testeq(vyz1,vzz1);

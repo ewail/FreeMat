@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="sparse_eigs" kind="page">
+    <compoundname>sparse_eigs</compoundname>
+    <title>EIGS Sparse Matrix Eigendecomposition</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_sparse_1sec_sparse" kindref="member">Sparse Matrix Support</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>Computes the eigendecomsition of a sparse square matrix. The <computeroutput>eigs</computeroutput> function has several forms. The most general form is <verbatim>  [V,D] = eigs(A,k,sigma)
+</verbatim> where <computeroutput>A</computeroutput> is the matrix to analyze, <computeroutput>k</computeroutput> is the number of eigenvalues to compute and <computeroutput>sigma</computeroutput> determines which eigenvallues to solve for. Valid values for <computeroutput>sigma</computeroutput> are &apos;lm&apos; - largest magnitude &apos;sm&apos; - smallest magnitude &apos;la&apos; - largest algebraic (for real symmetric problems) &apos;sa&apos; - smallest algebraic (for real symmetric problems) &apos;be&apos; - both ends (for real symmetric problems) &apos;lr&apos; - largest real part &apos;sr&apos; - smallest real part &apos;li&apos; - largest imaginary part &apos;si&apos; - smallest imaginary part scalar - find the eigenvalues closest to <computeroutput>sigma</computeroutput>. The returned matrix <computeroutput>V</computeroutput> contains the eigenvectors, and <computeroutput>D</computeroutput> stores the eigenvalues. The related form <verbatim>   d = eigs(A,k,sigma)
+</verbatim> computes only the eigenvalues and not the eigenvectors. If <computeroutput>sigma</computeroutput> is omitted, as in the forms <verbatim>  [V,D] = eigs(A,k)
+</verbatim> and <verbatim>  d = eigs(A,k)
+</verbatim> then <computeroutput>eigs</computeroutput> returns the largest magnitude eigenvalues (and optionally the associated eigenvectors). As an even simpler form, the forms <verbatim>  [V,D] = eigs(A)
+</verbatim> and <verbatim>  d = eigs(A)
+</verbatim> then <computeroutput>eigs</computeroutput> returns the six largest magnitude eigenvalues of <computeroutput>A</computeroutput> and optionally the eigenvectors. The <computeroutput>eigs</computeroutput> function uses ARPACK to compute the eigenvectors and/or eigenvalues. Note that due to a limitation in the interface into ARPACK from FreeMat, the number of eigenvalues that are to be computed must be strictly smaller than the number of columns (or rows) in the matrix. </para></sect1>
+<sect1 id="variables_struct_1Example">
+<title>Example</title>
+<para>Here is an example of using <computeroutput>eigs</computeroutput> to calculate eigenvalues of a matrix, and a comparison of the results with <computeroutput>eig</computeroutput></para><para><verbatim>--&gt; a = sparse(rand(9));
+--&gt; eigs(a)
+
+ans = 
+   4.1831 +  0.0000i 
+   0.3249 -  0.5504i 
+   0.3249 +  0.5504i 
+   0.5932 -  0.1774i 
+   0.5932 +  0.1774i 
+  -0.5572 +  0.0000i 
+
+--&gt; eig(full(a))
+
+ans = 
+   4.1831 +  0.0000i 
+   0.5932 +  0.1774i 
+   0.5932 -  0.1774i 
+   0.3249 +  0.5504i 
+   0.3249 -  0.5504i 
+  -0.5572 +  0.0000i 
+  -0.1285 +  0.0901i 
+  -0.1285 -  0.0901i 
+  -0.3219 +  0.0000i 
+</verbatim></para><para>Next, we exercise some of the variants of <computeroutput>eigs</computeroutput>:</para><para><verbatim>--&gt; eigs(a,4,&apos;sm&apos;)
+
+ans = 
+  -0.1285 +  0.0901i 
+  -0.1285 -  0.0901i 
+  -0.3219 +  0.0000i 
+  -0.5572 +  0.0000i 
+
+--&gt; eigs(a,4,&apos;lr&apos;)
+
+ans = 
+   4.1831 +  0.0000i 
+   0.5932 +  0.1774i 
+   0.5932 -  0.1774i 
+   0.3249 +  0.5504i 
+
+--&gt; eigs(a,4,&apos;sr&apos;)
+
+ans = 
+  -0.5572 +  0.0000i 
+  -0.3219 +  0.0000i 
+  -0.1285 +  0.0901i 
+  -0.1285 -  0.0901i 
+</verbatim> </para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

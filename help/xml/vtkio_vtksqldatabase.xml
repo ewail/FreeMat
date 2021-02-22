@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkio_vtksqldatabase" kind="page">
+    <compoundname>vtkio_vtksqldatabase</compoundname>
+    <title>vtkSQLDatabase</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkio_1sec_vtkio" kindref="member">Visualization Toolkit IO Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>Abstract base class for all SQL database connection classes. Manages a connection to the database, and is responsible for creating instances of the associated vtkSQLQuery objects associated with this class in order to perform execute queries on the database. To allow connections to a new type of database, create both a subclass of this class and vtkSQLQuery, and implement the required functions:</para><para>Open() - open the database connection, if possible. Close() - close the connection. GetQueryInstance() - create and return an instance of the vtkSQLQuery subclass associated with the database type.</para><para>The subclass should also provide API to set connection parameters.</para><para>This class also provides the function EffectSchema to transform a database schema into a SQL database.</para><para>.SECTION Thanks Thanks to Andrew Wilson from Sandia National Laboratories for his work on the database classes and for the SQLite example. Thanks to David Thompson and Philippe Pebay from Sandia National Laboratories for implementing this class.</para><para>To create an instance of class vtkSQLDatabase, simply invoke its constructor as follows <verbatim>  obj = vtkSQLDatabase
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkSQLDatabase has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkSQLDatabase class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkSQLDatabase = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkSQLDatabase = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>bool = obj.Open (string password)</computeroutput> - Open a new connection to the database. You need to set up any database parameters before calling this function. For database connections that do not require a password, pass an empty string. Returns true is the database was opened sucessfully, and false otherwise.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.Close ()</computeroutput> - Close the connection to the database.  </para></listitem>
+<listitem>
+<para><computeroutput>bool = obj.IsOpen ()</computeroutput> - Return whether the database has an open connection.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkSQLQuery = obj.GetQueryInstance ()</computeroutput> - Return an empty query on this database.  </para></listitem>
+<listitem>
+<para><computeroutput>bool = obj.HasError ()</computeroutput> - Did the last operation generate an error  </para></listitem>
+<listitem>
+<para><computeroutput>string = obj.GetLastErrorText ()</computeroutput> - Get the last error text from the database I&apos;m using const so that people do NOT use the standard vtkGetStringMacro in their implementation, because 99% of the time that will not be the correct thing to do...  </para></listitem>
+<listitem>
+<para><computeroutput>string = obj.GetDatabaseType ()</computeroutput> - Get the type of the database (e.g. mysql, psql,..).  </para></listitem>
+<listitem>
+<para><computeroutput>vtkStringArray = obj.GetTables ()</computeroutput> - Get the list of tables from the database.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkStringArray = obj.GetRecord (string table)</computeroutput> - Get the list of fields for a particular table.  </para></listitem>
+<listitem>
+<para><computeroutput>bool = obj.IsSupported (int )</computeroutput> - Get the URL of the database.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkStdString = obj.GetURL ()</computeroutput> - Get the URL of the database.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkStdString = obj.GetTablePreamble (bool )</computeroutput> - Return the SQL string with the syntax to create a column inside a &quot;CREATE TABLE&quot; SQL statement. NB: this method implements the following minimally-portable syntax: &lt;column name&gt;=&quot;&quot;&gt; &lt;column type&gt;=&quot;&quot;&gt; &lt;column attributes&gt;=&quot;&quot;&gt; It must be overwritten for those SQL backends which have a different syntax such as, e.g., MySQL.  </para></listitem>
+<listitem>
+<para><computeroutput> vtkStdString = obj.GetColumnSpecification </computeroutput><itemizedlist>
+<listitem><para>Return the SQL string with the syntax to create a column inside a &quot;CREATE TABLE&quot; SQL statement. NB: this method implements the following minimally-portable syntax: &lt;column name&gt;=&quot;&quot;&gt; &lt;column type&gt;=&quot;&quot;&gt; &lt;column attributes&gt;=&quot;&quot;&gt; It must be overwritten for those SQL backends which have a different syntax such as, e.g., MySQL.  </para></listitem></itemizedlist>
+</para></listitem>
+<listitem>
+<para><computeroutput>vtkStdString = obj.GetTriggerSpecification (vtkSQLDatabaseSchema schema, int tblHandle, int trgHandle)</computeroutput> - Return the SQL string with the syntax to create a trigger using a &quot;CREATE TRIGGER&quot; SQL statement.  </para></listitem>
+<listitem>
+<para><computeroutput>bool = obj.EffectSchema (vtkSQLDatabaseSchema , bool dropIfExistsfalse)</computeroutput> - Effect a database schema.  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

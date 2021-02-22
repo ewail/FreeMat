@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkwidgets_vtkcontourlineinterpolator" kind="page">
+    <compoundname>vtkwidgets_vtkcontourlineinterpolator</compoundname>
+    <title>vtkContourLineInterpolator</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkwidgets_1sec_vtkwidgets" kindref="member">Visualization Toolkit Widget Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>vtkContourLineInterpolator is an abstract base class for interpolators that work are used by the contour representation class to interpolate and/or modify nodes in a contour. Subclasses must override the virtual method: <computeroutput>InterpolateLine</computeroutput>. This is used by the contour representation to give the interpolator a chance to define an interpolation scheme between nodes. See vtkBezierContourLineInterpolator for a concrete implementation. Subclasses may also override, <computeroutput>UpdateNode</computeroutput>. This provides a way for the representation to give the interpolator a chance to modify the nodes, as the user constructs the contours. For instance a sticky contour widget may be implemented that moves nodes to nearby regions of high gradient, to be used in contour guided segmentation.</para><para>To create an instance of class vtkContourLineInterpolator, simply invoke its constructor as follows <verbatim>  obj = vtkContourLineInterpolator
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkContourLineInterpolator has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkContourLineInterpolator class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput> - Standard methods for instances of this class.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput> - Standard methods for instances of this class.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkContourLineInterpolator = obj.NewInstance ()</computeroutput> - Standard methods for instances of this class.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkContourLineInterpolator = obj.SafeDownCast (vtkObject o)</computeroutput> - Standard methods for instances of this class.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.InterpolateLine (vtkRenderer ren, vtkContourRepresentation rep, int idx1, int idx2)</computeroutput> - Subclasses that wish to interpolate a line segment must implement this. For instance vtkBezierContourLineInterpolator adds nodes between idx1 and idx2, that allow the contour to adhere to a bezier curve.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.UpdateNode (vtkRenderer , vtkContourRepresentation , double , int )</computeroutput> - The interpolator is given a chance to update the node. For instance, the vtkImageContourLineInterpolator updates the idx&apos;th node in the contour, so it automatically sticks to edges in the vicinity as the user constructs the contour. Returns 0 if the node (world position) is unchanged.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GetSpan (int nodeIndex, vtkIntArray nodeIndices, vtkContourRepresentation rep)</computeroutput> - Span of the interpolator. ie. the number of control points its supposed to interpolate given a node.</para><para>The first argument is the current nodeIndex. ie, you&apos;d be trying to interpolate between nodes &quot;nodeIndex&quot; and &quot;nodeIndex-1&quot;, unless you&apos;re closing the contour in which case, you&apos;re trying to interpolate &quot;nodeIndex&quot; and &quot;Node=0&quot;.</para><para>The node span is returned in a vtkIntArray. The default node span is 1 (ie. nodeIndices is a 2 tuple (nodeIndex, nodeIndex-1)). However, it need not always be 1. For instance, cubic spline interpolators, which have a span of 3 control points, it can be larger. See vtkBezierContourLineInterpolator for instance.  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

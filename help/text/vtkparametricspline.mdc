@@ -1,0 +1,235 @@
+
+ Usage
+
+vtkParametricSpline is a parametric function for 1D
+interpolating splines. vtkParametricSpline maps the single
+parameter u into a 3D point (x,y,z) using three instances of
+interpolating splines. This family of 1D splines is
+quaranteed to be parameterized in the interval [0,1].
+Attempting to evaluate outside this interval will cause the
+parameter u to be clamped in the range [0,1].
+When constructed, this class creates instances of
+vtkCardinalSpline for each of the x-y-z coordinates. The
+user may choose to replace these with their own instances of
+subclasses of vtkSpline.
+To create an instance of class vtkParametricSpline, simply
+invoke its constructor as follows
+
+    obj = vtkParametricSpline
+
+
+
+ Methods
+
+The class vtkParametricSpline has several methods that can
+be used. They are listed below. Note that the documentation
+is translated automatically from the VTK sources, and may
+not be completely intelligible. When in doubt, consult the
+VTK website. In the methods listed below, obj is an instance
+of the vtkParametricSpline class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkParametricSpline = obj.NewInstance ()
+* vtkParametricSpline = obj.SafeDownCast (vtkObject o)
+* int = obj.GetDimension () - Evaluate the spline at
+  parametric coordinate u[0] returning the point coordinate
+  Pt[3].
+* obj.Evaluate (double u[3], double Pt[3], double Du[9]) -
+  Evaluate the spline at parametric coordinate u[0]
+  returning the point coordinate Pt[3].
+* double = obj.EvaluateScalar (double u[3], double Pt[3],
+  double Du[9]) - Evaluate a scalar value at parametric
+  coordinate u[0] and Pt[3]. The scalar value is just the
+  parameter u[0].
+* obj.SetXSpline (vtkSpline ) - By default, this class is
+  constructed with three instances of vtkCardinalSpline (for
+  each of the x-y-z coordinate axes). The user may choose to
+  create and assign their own instances of vtkSpline.
+* obj.SetYSpline (vtkSpline ) - By default, this class is
+  constructed with three instances of vtkCardinalSpline (for
+  each of the x-y-z coordinate axes). The user may choose to
+  create and assign their own instances of vtkSpline.
+* obj.SetZSpline (vtkSpline ) - By default, this class is
+  constructed with three instances of vtkCardinalSpline (for
+  each of the x-y-z coordinate axes). The user may choose to
+  create and assign their own instances of vtkSpline.
+* vtkSpline = obj.GetXSpline () - By default, this class is
+  constructed with three instances of vtkCardinalSpline (for
+  each of the x-y-z coordinate axes). The user may choose to
+  create and assign their own instances of vtkSpline.
+* vtkSpline = obj.GetYSpline () - By default, this class is
+  constructed with three instances of vtkCardinalSpline (for
+  each of the x-y-z coordinate axes). The user may choose to
+  create and assign their own instances of vtkSpline.
+* vtkSpline = obj.GetZSpline () - By default, this class is
+  constructed with three instances of vtkCardinalSpline (for
+  each of the x-y-z coordinate axes). The user may choose to
+  create and assign their own instances of vtkSpline.
+* obj.SetPoints (vtkPoints ) - Specify the list of points
+  defining the spline. Do this by specifying a vtkPoints
+  array containing the points. Note that the order of the
+  points in vtkPoints is the order that the splines will be
+  fit.
+* vtkPoints = obj.GetPoints () - Specify the list of points
+  defining the spline. Do this by specifying a vtkPoints
+  array containing the points. Note that the order of the
+  points in vtkPoints is the order that the splines will be
+  fit.
+* obj.SetNumberOfPoints (vtkIdType numPts) - Another API to
+  set the points. Set the number of points and then set the
+  individual point coordinates.
+* obj.SetPoint (vtkIdType index, double x, double y, double
+  z) - Another API to set the points. Set the number of
+  points and then set the individual point coordinates.
+* obj.SetClosed (int ) - Control whether the spline is open
+  or closed. A closed spline forms a continuous loop: the
+  first and last points are the same, and derivatives are
+  continuous.
+* int = obj.GetClosed () - Control whether the spline is
+  open or closed. A closed spline forms a continuous loop:
+  the first and last points are the same, and derivatives
+  are continuous.
+* obj.ClosedOn () - Control whether the spline is open or
+  closed. A closed spline forms a continuous loop: the first
+  and last points are the same, and derivatives are
+  continuous.
+* obj.ClosedOff () - Control whether the spline is open or
+  closed. A closed spline forms a continuous loop: the first
+  and last points are the same, and derivatives are
+  continuous.
+* obj.SetParameterizeByLength (int ) - Control whether the
+  spline is parameterized by length or by point index.
+  Default is by length.
+* int = obj.GetParameterizeByLength () - Control whether the
+  spline is parameterized by length or by point index.
+  Default is by length.
+* obj.ParameterizeByLengthOn () - Control whether the spline
+  is parameterized by length or by point index. Default is
+  by length.
+* obj.ParameterizeByLengthOff () - Control whether the
+  spline is parameterized by length or by point index.
+  Default is by length.
+* obj.SetLeftConstraint (int ) - Set the type of constraint
+  of the left(right) end points. Four constraints are
+  available:
+  0: the first derivative at left(right) most point is
+  determined from the line defined from the first(last) two
+  points.
+  1: the first derivative at left(right) most point is set
+  to Left(Right)Value.
+  2: the second derivative at left(right) most point is set
+  to Left(Right)Value.
+  3: the second derivative at left(right)most points is Left
+  (Right)Value times second derivative at first interior
+  point.
+* int = obj.GetLeftConstraintMinValue () - Set the type of
+  constraint of the left(right) end points. Four constraints
+  are available:
+  0: the first derivative at left(right) most point is
+  determined from the line defined from the first(last) two
+  points.
+  1: the first derivative at left(right) most point is set
+  to Left(Right)Value.
+  2: the second derivative at left(right) most point is set
+  to Left(Right)Value.
+  3: the second derivative at left(right)most points is Left
+  (Right)Value times second derivative at first interior
+  point.
+* int = obj.GetLeftConstraintMaxValue () - Set the type of
+  constraint of the left(right) end points. Four constraints
+  are available:
+  0: the first derivative at left(right) most point is
+  determined from the line defined from the first(last) two
+  points.
+  1: the first derivative at left(right) most point is set
+  to Left(Right)Value.
+  2: the second derivative at left(right) most point is set
+  to Left(Right)Value.
+  3: the second derivative at left(right)most points is Left
+  (Right)Value times second derivative at first interior
+  point.
+* int = obj.GetLeftConstraint () - Set the type of
+  constraint of the left(right) end points. Four constraints
+  are available:
+  0: the first derivative at left(right) most point is
+  determined from the line defined from the first(last) two
+  points.
+  1: the first derivative at left(right) most point is set
+  to Left(Right)Value.
+  2: the second derivative at left(right) most point is set
+  to Left(Right)Value.
+  3: the second derivative at left(right)most points is Left
+  (Right)Value times second derivative at first interior
+  point.
+* obj.SetRightConstraint (int ) - Set the type of constraint
+  of the left(right) end points. Four constraints are
+  available:
+  0: the first derivative at left(right) most point is
+  determined from the line defined from the first(last) two
+  points.
+  1: the first derivative at left(right) most point is set
+  to Left(Right)Value.
+  2: the second derivative at left(right) most point is set
+  to Left(Right)Value.
+  3: the second derivative at left(right)most points is Left
+  (Right)Value times second derivative at first interior
+  point.
+* int = obj.GetRightConstraintMinValue () - Set the type of
+  constraint of the left(right) end points. Four constraints
+  are available:
+  0: the first derivative at left(right) most point is
+  determined from the line defined from the first(last) two
+  points.
+  1: the first derivative at left(right) most point is set
+  to Left(Right)Value.
+  2: the second derivative at left(right) most point is set
+  to Left(Right)Value.
+  3: the second derivative at left(right)most points is Left
+  (Right)Value times second derivative at first interior
+  point.
+* int = obj.GetRightConstraintMaxValue () - Set the type of
+  constraint of the left(right) end points. Four constraints
+  are available:
+  0: the first derivative at left(right) most point is
+  determined from the line defined from the first(last) two
+  points.
+  1: the first derivative at left(right) most point is set
+  to Left(Right)Value.
+  2: the second derivative at left(right) most point is set
+  to Left(Right)Value.
+  3: the second derivative at left(right)most points is Left
+  (Right)Value times second derivative at first interior
+  point.
+* int = obj.GetRightConstraint () - Set the type of
+  constraint of the left(right) end points. Four constraints
+  are available:
+  0: the first derivative at left(right) most point is
+  determined from the line defined from the first(last) two
+  points.
+  1: the first derivative at left(right) most point is set
+  to Left(Right)Value.
+  2: the second derivative at left(right) most point is set
+  to Left(Right)Value.
+  3: the second derivative at left(right)most points is Left
+  (Right)Value times second derivative at first interior
+  point.
+* obj.SetLeftValue (double ) - The values of the derivative
+  on the left and right sides. The value is used only if the
+  left(right) constraint is type 1-3.
+* double = obj.GetLeftValue () - The values of the
+  derivative on the left and right sides. The value is used
+  only if the left(right) constraint is type 1-3.
+* obj.SetRightValue (double ) - The values of the derivative
+  on the left and right sides. The value is used only if the
+  left(right) constraint is type 1-3.
+* double = obj.GetRightValue () - The values of the
+  derivative on the left and right sides. The value is used
+  only if the left(right) constraint is type 1-3.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Filtering_Classes
+* Generated on Thu Jul 25 2013 17:18:31 for FreeMat by
+  doxygen_ 1.8.1.1
+

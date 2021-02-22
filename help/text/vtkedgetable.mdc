@@ -1,0 +1,94 @@
+
+ Usage
+
+vtkEdgeTable is a general object for keeping track of lists
+of edges. An edge is defined by the pair of point id's
+(p1,p2). Methods are available to insert edges, check if
+edges exist, and traverse the list of edges. Also, it's
+possible to associate attribute information with each edge.
+The attribute information may take the form of vtkIdType
+id's, void* pointers, or points. To store attributes, make
+sure that InitEdgeInsertion() is invoked with the
+storeAttributes flag set properly. If points are inserted,
+use the methods InitPointInsertion() and InsertUniquePoint
+().
+To create an instance of class vtkEdgeTable, simply invoke
+its constructor as follows
+
+    obj = vtkEdgeTable
+
+
+
+ Methods
+
+The class vtkEdgeTable has several methods that can be used.
+They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkEdgeTable class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkEdgeTable = obj.NewInstance ()
+* vtkEdgeTable = obj.SafeDownCast (vtkObject o)
+* obj.Initialize () - Free memory and return to the
+  initially instantiated state.
+* int = obj.InitEdgeInsertion (vtkIdType numPoints, int
+  storeAttributes) - Initialize the edge insertion process.
+  Provide an estimate of the number of points in a dataset
+  (the maximum range value of p1 or p2). The storeAttributes
+  variable controls whether attributes are to be stored with
+  the edge, and what type of attributes. If
+  storeAttributes==1, then attributes of vtkIdType can be
+  stored. If storeAttributes==2, then attributes of type
+  void* can be stored. In either case, additional memory
+  will be required by the data structure to store attribute
+  data per each edge. This method is used in conjunction
+  with one of the three InsertEdge() methods described below
+  (don't mix the InsertEdge() methods&mdash;make sure that
+  the one used is consistent with the storeAttributes flag
+  set in InitEdgeInsertion()).
+* vtkIdType = obj.InsertEdge (vtkIdType p1, vtkIdType p2) -
+  Insert the edge (p1,p2) into the table. It is the user's
+  responsibility to check if the edge has already been
+  inserted (use IsEdge()). If the storeAttributes flag in
+  InitEdgeInsertion() has been set, then the method returns
+  a unique integer id (i.e., the edge id) that can be used
+  to set and get edge attributes. Otherwise, the method will
+  return 1. Do not mix this method with the InsertEdge()
+  method that follows.
+* obj.InsertEdge (vtkIdType p1, vtkIdType p2, vtkIdType
+  attributeId) - Insert the edge (p1,p2) into the table with
+  the attribute id specified (make sure the attributeId >=
+  0). Note that the attributeId is ignored if the
+  storeAttributes variable was set to 0 in the
+  InitEdgeInsertion() method. It is the user's
+  responsibility to check if the edge has already been
+  inserted (use IsEdge()). Do not mix this method with the
+  other two InsertEdge() methods.
+* vtkIdType = obj.IsEdge (vtkIdType p1, vtkIdType p2) -
+  Return an integer id for the edge, or an attribute id of
+  the edge (p1,p2) if the edge has been previously defined
+  (it depends upon which version of InsertEdge() is being
+  used); otherwise -1. The unique integer id can be used to
+  set and retrieve attributes to the edge.
+* int = obj.InitPointInsertion (vtkPoints newPts, vtkIdType
+  estSize) - Initialize the point insertion process. The
+  newPts is an object representing point coordinates into
+  which incremental insertion methods place their data. The
+  points are associated with the edge.
+* vtkIdType = obj.GetNumberOfEdges () - Return the number of
+  edges that have been inserted thus far.
+* obj.InitTraversal () - Intialize traversal of edges in
+  table.
+* obj.Reset () - Reset the object and prepare for
+  reinsertion of edges. Does not delete memory like the
+  Initialize() method.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Common_Classes
+* Generated on Thu Jul 25 2013 17:18:30 for FreeMat by
+  doxygen_ 1.8.1.1
+

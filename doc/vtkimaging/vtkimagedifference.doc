@@ -1,0 +1,109 @@
+/*!
+\page vtkimaging_vtkimagedifference vtkImageDifference
+
+<p>
+Section: \ref sec_vtkimaging "Visualization Toolkit Imaging Classes"
+\section Usage
+ vtkImageDifference takes two rgb unsigned char images and compares them.
+ It allows the images to be slightly different.  If AllowShift is on,
+ then each pixel can be shifted by one pixel. Threshold is the allowable
+ error for each pixel.
+
+ This is not a symetric filter and the difference computed is not symetric
+ when AllowShift is on. Specifically in that case a pixel in SetImage input
+ will be compared to the matching pixel in the input as well as to the
+ input's eight connected neighbors. BUT... the opposite is not true. So for
+ example if a valid image (SetImage) has a single white pixel in it, it
+ will not find a match in the input image if the input image is black
+ (because none of the nine suspect pixels are white). In contrast, if there
+ is a single white pixel in the input image and the valid image (SetImage)
+ is all black it will match with no error because all it has to do is find
+ black pixels and even though the input image has a white pixel, its
+ neighbors are not white.
+
+To create an instance of class vtkImageDifference, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkImageDifference
+\endverbatim
+\section Methods
+The class vtkImageDifference has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkImageDifference class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkImageDifference = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkImageDifference = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetImage (vtkDataObject image)</tt> -  Specify the Image to compare the input to.
+ </LI>
+<LI>  <tt>vtkImageData = obj.GetImage ()</tt> -  Specify the Image to compare the input to.
+ </LI>
+<LI>  <tt>double = obj.GetError (void )</tt> -  Return the total error in comparing the two images.
+ </LI>
+<LI>  <tt>obj.GetError (double e)</tt> -  Return the total error in comparing the two images.
+ </LI>
+<LI>  <tt>double = obj.GetThresholdedError (void )</tt> -  Return the total thresholded error in comparing the two images.
+ The thresholded error is the error for a given pixel minus the
+ threshold and clamped at a minimum of zero. 
+ </LI>
+<LI>  <tt>obj.GetThresholdedError (double e)</tt> -  Return the total thresholded error in comparing the two images.
+ The thresholded error is the error for a given pixel minus the
+ threshold and clamped at a minimum of zero. 
+ </LI>
+<LI>  <tt>obj.SetThreshold (int )</tt> -  Specify a threshold tolerance for pixel differences.
+ </LI>
+<LI>  <tt>int = obj.GetThreshold ()</tt> -  Specify a threshold tolerance for pixel differences.
+ </LI>
+<LI>  <tt>obj.SetAllowShift (int )</tt> -  Specify whether the comparison will allow a shift of one
+ pixel between the images.  If set, then the minimum difference
+ between input images will be used to determine the difference.
+ Otherwise, the difference is computed directly between pixels
+ of identical row/column values.
+ </LI>
+<LI>  <tt>int = obj.GetAllowShift ()</tt> -  Specify whether the comparison will allow a shift of one
+ pixel between the images.  If set, then the minimum difference
+ between input images will be used to determine the difference.
+ Otherwise, the difference is computed directly between pixels
+ of identical row/column values.
+ </LI>
+<LI>  <tt>obj.AllowShiftOn ()</tt> -  Specify whether the comparison will allow a shift of one
+ pixel between the images.  If set, then the minimum difference
+ between input images will be used to determine the difference.
+ Otherwise, the difference is computed directly between pixels
+ of identical row/column values.
+ </LI>
+<LI>  <tt>obj.AllowShiftOff ()</tt> -  Specify whether the comparison will allow a shift of one
+ pixel between the images.  If set, then the minimum difference
+ between input images will be used to determine the difference.
+ Otherwise, the difference is computed directly between pixels
+ of identical row/column values.
+ </LI>
+<LI>  <tt>obj.SetAveraging (int )</tt> -  Specify whether the comparison will include comparison of
+ averaged 3x3 data between the images. For graphics renderings
+ you normally would leave this on. For imaging operations it
+ should be off.
+ </LI>
+<LI>  <tt>int = obj.GetAveraging ()</tt> -  Specify whether the comparison will include comparison of
+ averaged 3x3 data between the images. For graphics renderings
+ you normally would leave this on. For imaging operations it
+ should be off.
+ </LI>
+<LI>  <tt>obj.AveragingOn ()</tt> -  Specify whether the comparison will include comparison of
+ averaged 3x3 data between the images. For graphics renderings
+ you normally would leave this on. For imaging operations it
+ should be off.
+ </LI>
+<LI>  <tt>obj.AveragingOff ()</tt> -  Specify whether the comparison will include comparison of
+ averaged 3x3 data between the images. For graphics renderings
+ you normally would leave this on. For imaging operations it
+ should be off.
+ </LI>
+</UL>
+*/

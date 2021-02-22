@@ -1,0 +1,31 @@
+/*!
+\page curvefit_fitfun FITFUN Fit a Function
+
+<p>
+Section: \ref sec_curvefit "Optimization and Curve Fitting"
+\section Usage
+Fits <tt>n</tt> (non-linear) functions of <tt>m</tt> variables using least squares
+and the Levenberg-Marquardt algorithm.  The general syntax for its usage
+is
+\verbatim
+  [xopt,yopt] = fitfun(fcn,xinit,y,weights,tol,params...)
+\endverbatim
+Where <tt>fcn</tt> is the name of the function to be fit, <tt>xinit</tt> is the
+initial guess for the solution (required), <tt>y</tt> is the right hand side,
+i.e., the vector <tt>y</tt> such that:
+\f[
+   xopt = \arg \min_{x} \|\mathrm{diag}(weights)*(f(x) - y)\|_2^2,
+\f]
+the output <tt>yopt</tt> is the function <tt>fcn</tt> evaluated at <tt>xopt</tt>.  
+The vector <tt>weights</tt> must be the same size as <tt>y</tt>, and contains the
+relative weight to assign to an error in each output value.  Generally,
+the ith weight should reflect your confidence in the ith measurement.
+The parameter <tt>tol</tt> is the tolerance used for convergence.
+The function <tt>fcn</tt> must return a vector of the same size as <tt>y</tt>,
+and <tt>params</tt> are passed to <tt>fcn</tt> after the argument <tt>x</tt>, i.e.,
+\f[
+  y = fcn(x,param1,param2,...).
+\f]
+Note that both <tt>x</tt> and <tt>y</tt> (and the output of the function) must all
+be real variables.  Complex variables are not handled yet.
+*/

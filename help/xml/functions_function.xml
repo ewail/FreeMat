@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="functions_function" kind="page">
+    <compoundname>functions_function</compoundname>
+    <title>FUNCTION Function Declarations</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_functions_1sec_functions" kindref="member">Functions and Scripts</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>There are several forms for function declarations in FreeMat. The most general syntax for a function declaration is the following: <verbatim>  function [out_1,...,out_M,varargout] = fname(in_1,...,in_N,varargin)
+</verbatim> where <computeroutput>out_i</computeroutput> are the output parameters, <computeroutput>in_i</computeroutput> are the input parameters, and <computeroutput>varargout</computeroutput> and <computeroutput>varargin</computeroutput> are special keywords used for functions that have variable inputs or outputs. For functions with a fixed number of input or output parameters, the syntax is somewhat simpler: <verbatim>  function [out_1,...,out_M] = fname(in_1,...,in_N)
+</verbatim> Note that functions that have no return arguments can omit the return argument list (of <computeroutput>out_i</computeroutput>) and the equals sign: <verbatim>  function fname(in_1,...,in_N)
+</verbatim> Likewise, a function with no arguments can eliminate the list of parameters in the declaration: <verbatim>  function [out_1,...,out_M] = fname
+</verbatim> Functions that return only a single value can omit the brackets <verbatim>  function out_1 = fname(in_1,...,in_N)
+</verbatim></para><para>In the body of the function <computeroutput>in_i</computeroutput> are initialized with the values passed when the function is called. Also, the function must assign values for <computeroutput>out_i</computeroutput> to pass values to the caller. Note that by default, FreeMat passes arguments by value, meaning that if we modify the contents of <computeroutput>in_i</computeroutput> inside the function, it has no effect on any variables used by the caller. Arguments can be passed by reference by prepending an ampersand <computeroutput>&amp;</computeroutput> before the name of the input, e.g. <verbatim>  function [out1,...,out_M] = fname(in_1,&amp;in_2,in_3,...,in_N)
+</verbatim> in which case <computeroutput>in_2</computeroutput> is passed by reference and not by value. Also, FreeMat works like <computeroutput>C</computeroutput> in that the caller does not have to supply the full list of arguments. Also, when <computeroutput>keywords</computeroutput> (see help <computeroutput>keywords</computeroutput>) are used, an arbitrary subset of the parameters may be unspecified. To assist in deciphering the exact parameters that were passed, FreeMat also defines two variables inside the function context: <computeroutput>nargin</computeroutput> and <computeroutput>nargout</computeroutput>, which provide the number of input and output parameters of the caller, respectively. See help for <computeroutput>nargin</computeroutput> and <computeroutput>nargout</computeroutput> for more details. In some circumstances, it is necessary to have functions that take a variable number of arguments, or that return a variable number of results. In these cases, the last argument to the parameter list is the special argument <computeroutput>varargin</computeroutput>. Inside the function, <computeroutput>varargin</computeroutput> is a cell-array that contains all arguments passed to the function that have not already been accounted for. Similarly, the function can create a cell array named <computeroutput>varargout</computeroutput> for variable length output lists. See help <computeroutput>varargin</computeroutput> and <computeroutput>varargout</computeroutput> for more details.</para><para>The function name <computeroutput>fname</computeroutput> can be any legal FreeMat identifier. Functions are stored in files with the <computeroutput>.m</computeroutput> extension. Note that the name of the file (and not the function name <computeroutput>fname</computeroutput> used in the declaration) is how the function appears in FreeMat. So, for example, if the file is named <computeroutput>foo.m</computeroutput>, but the declaration uses <computeroutput>bar</computeroutput> for the name of the function, in FreeMat, it will still appear as function <computeroutput>foo</computeroutput>. Note that this is only true for the first function that appears in a <computeroutput>.m</computeroutput> file. Additional functions that appear after the first function are known as <computeroutput>helper functions</computeroutput> or <computeroutput>local</computeroutput> functions. These are functions that can only be called by other functions in the same <computeroutput>.m</computeroutput> file. Furthermore the names of these helper functions are determined by their declaration and not by the name of the <computeroutput>.m</computeroutput> file. An example of using helper functions is included in the examples.</para><para>Another important feature of functions, as opposed to, say <computeroutput>scripts</computeroutput>, is that they have their own <computeroutput>scope</computeroutput>. That means that variables defined or modified inside a function do not affect the scope of the caller. That means that a function can freely define and use variables without unintentionally using a variable name reserved elsewhere. The flip side of this fact is that functions are harder to debug than scripts without using the <computeroutput>keyboard</computeroutput> function, because the intermediate calculations used in the function are not available once the function exits. </para></sect1>
+<sect1 id="variables_matrix_1Examples">
+<title>Examples</title>
+<para>Here is an example of a trivial function that adds its first argument to twice its second argument:</para><para><verbatim>     addtest.m
+</verbatim></para><para><verbatim>function c = addtest(a,b)
+  c = a + 2*b;
+</verbatim></para><para><verbatim>--&gt; addtest(1,3)
+
+ans = 
+ 7 
+
+--&gt; addtest(3,0)
+
+ans = 
+ 3 
+</verbatim></para><para>Suppose, however, we want to replace the value of the first argument by the computed sum. A first attempt at doing so has no effect:</para><para><verbatim>     addtest2.m
+</verbatim></para><para><verbatim>function addtest2(a,b)
+  a = a + 2*b;
+</verbatim></para><para><verbatim>--&gt; arg1 = 1
+
+arg1 = 
+ 1 
+
+--&gt; arg2 = 3
+
+arg2 = 
+ 3 
+
+--&gt; addtest2(arg1,arg2)
+--&gt; arg1
+
+ans = 
+ 1 
+
+--&gt; arg2
+
+ans = 
+ 3 
+</verbatim></para><para>The values of <computeroutput>arg1</computeroutput> and <computeroutput>arg2</computeroutput> are unchanged, because they are passed by value, so that any changes to <computeroutput>a</computeroutput> and <computeroutput>b</computeroutput> inside the function do not affect <computeroutput>arg1</computeroutput> and <computeroutput>arg2</computeroutput>. We can change that by passing the first argument by reference:</para><para><verbatim>     addtest3.m
+</verbatim></para><para><verbatim>function addtest3(&amp;a,b)
+  a = a + 2*b
+</verbatim></para><para>Note that it is now illegal to pass a literal value for <computeroutput>a</computeroutput> when calling <computeroutput>addtest3</computeroutput>:</para><para><verbatim>--&gt; addtest3(3,4)
+
+a = 
+ 11 
+
+Error: Must have lvalue in argument passed by reference
+--&gt; addtest3(arg1,arg2)
+
+a = 
+ 7 
+
+--&gt; arg1
+
+ans = 
+ 7 
+
+--&gt; arg2
+
+ans = 
+ 3 
+</verbatim></para><para>The first example fails because we cannot pass a literal like the number <computeroutput>3</computeroutput> by reference. However, the second call succeeds, and note that <computeroutput>arg1</computeroutput> has now changed. Note: please be careful when passing by reference - this feature is not available in MATLAB and you must be clear that you are using it.</para><para>As variable argument and return functions are covered elsewhere, as are keywords, we include one final example that demonstrates the use of helper functions, or local functions, where multiple function declarations occur in the same file.</para><para><verbatim>     euclidlength.m
+</verbatim></para><para><verbatim>function y = foo(x,y)
+  square_me(x);
+  square_me(y);
+  y = sqrt(x+y);
+
+function square_me(&amp;t)
+  t = t^2;
+</verbatim></para><para><verbatim>--&gt; euclidlength(3,4)
+
+ans = 
+ 5 
+
+--&gt; euclidlength(2,0)
+
+ans = 
+ 2 
+</verbatim> </para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

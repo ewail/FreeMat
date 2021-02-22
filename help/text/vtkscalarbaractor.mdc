@@ -1,0 +1,226 @@
+
+ Usage
+
+vtkScalarBarActor creates a scalar bar with annotation text.
+A scalar bar is a legend that indicates to the viewer the
+correspondence between color value and data value. The
+legend consists of a rectangular bar made of rectangular
+pieces each colored a constant value. Since
+vtkScalarBarActor is a subclass of vtkActor2D, it is drawn
+in the image plane (i.e., in the renderer's viewport) on top
+of the 3D graphics window.
+To use vtkScalarBarActor you must associate a
+vtkScalarsToColors (or subclass) with it. The lookup table
+defines the colors and the range of scalar values used to
+map scalar data. Typically, the number of colors shown in
+the scalar bar is not equal to the number of colors in the
+lookup table, in which case sampling of the lookup table is
+performed.
+Other optional capabilities include specifying the fraction
+of the viewport size (both x and y directions) which will
+control the size of the scalar bar and the number of
+annotation labels. The actual position of the scalar bar on
+the screen is controlled by using the vtkActor2D::
+SetPosition() method (by default the scalar bar is centered
+in the viewport). Other features include the ability to
+orient the scalar bar horizontally of vertically and
+controlling the format (printf style) with which to print
+the labels on the scalar bar. Also, the vtkScalarBarActor's
+property is applied to the scalar bar and annotation
+(including layer, and compositing operator).
+Set the text property/attributes of the title and the labels
+through the vtkTextProperty objects associated to this
+actor.
+To create an instance of class vtkScalarBarActor, simply
+invoke its constructor as follows
+
+    obj = vtkScalarBarActor
+
+
+
+ Methods
+
+The class vtkScalarBarActor has several methods that can be
+used. They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkScalarBarActor class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkScalarBarActor = obj.NewInstance ()
+* vtkScalarBarActor = obj.SafeDownCast (vtkObject o)
+* int = obj.RenderOpaqueGeometry (vtkViewport viewport) -
+  Draw the scalar bar and annotation text to the screen.
+* int = obj.RenderTranslucentPolygonalGeometry (vtkViewport
+  ) - Draw the scalar bar and annotation text to the screen.
+* int = obj.RenderOverlay (vtkViewport viewport) - Draw the
+  scalar bar and annotation text to the screen.
+* int = obj.HasTranslucentPolygonalGeometry () - Does this
+  prop have some translucent polygonal geometry?
+* obj.ReleaseGraphicsResources (vtkWindow ) - Release any
+  graphics resources that are being consumed by this actor.
+  The parameter window could be used to determine which
+  graphic resources to release.
+* obj.SetLookupTable (vtkScalarsToColors ) - Set/Get the
+  vtkLookupTable to use. The lookup table specifies the
+  number of colors to use in the table (if not overridden),
+  as well as the scalar range.
+* vtkScalarsToColors = obj.GetLookupTable () - Set/Get the
+  vtkLookupTable to use. The lookup table specifies the
+  number of colors to use in the table (if not overridden),
+  as well as the scalar range.
+* obj.SetUseOpacity (int ) - Should be display the opacity
+  as well. This is displayed by changing the opacity of the
+  scalar bar in accordance with the opacity of the given
+  color. For clarity, a texture grid is placed in the
+  background if Opacity is ON. You might also want to play
+  with SetTextureGridWith in that case. [Default: off]
+* int = obj.GetUseOpacity () - Should be display the opacity
+  as well. This is displayed by changing the opacity of the
+  scalar bar in accordance with the opacity of the given
+  color. For clarity, a texture grid is placed in the
+  background if Opacity is ON. You might also want to play
+  with SetTextureGridWith in that case. [Default: off]
+* obj.UseOpacityOn () - Should be display the opacity as
+  well. This is displayed by changing the opacity of the
+  scalar bar in accordance with the opacity of the given
+  color. For clarity, a texture grid is placed in the
+  background if Opacity is ON. You might also want to play
+  with SetTextureGridWith in that case. [Default: off]
+* obj.UseOpacityOff () - Should be display the opacity as
+  well. This is displayed by changing the opacity of the
+  scalar bar in accordance with the opacity of the given
+  color. For clarity, a texture grid is placed in the
+  background if Opacity is ON. You might also want to play
+  with SetTextureGridWith in that case. [Default: off]
+* obj.SetMaximumNumberOfColors (int ) - Set/Get the maximum
+  number of scalar bar segments to show. This may differ
+  from the number of colors in the lookup table, in which
+  case the colors are samples from the lookup table.
+* int = obj.GetMaximumNumberOfColorsMinValue () - Set/Get
+  the maximum number of scalar bar segments to show. This
+  may differ from the number of colors in the lookup table,
+  in which case the colors are samples from the lookup
+  table.
+* int = obj.GetMaximumNumberOfColorsMaxValue () - Set/Get
+  the maximum number of scalar bar segments to show. This
+  may differ from the number of colors in the lookup table,
+  in which case the colors are samples from the lookup
+  table.
+* int = obj.GetMaximumNumberOfColors () - Set/Get the
+  maximum number of scalar bar segments to show. This may
+  differ from the number of colors in the lookup table, in
+  which case the colors are samples from the lookup table.
+* obj.SetNumberOfLabels (int ) - Set/Get the number of
+  annotation labels to show.
+* int = obj.GetNumberOfLabelsMinValue () - Set/Get the
+  number of annotation labels to show.
+* int = obj.GetNumberOfLabelsMaxValue () - Set/Get the
+  number of annotation labels to show.
+* int = obj.GetNumberOfLabels () - Set/Get the number of
+  annotation labels to show.
+* obj.SetOrientation (int ) - Control the orientation of the
+  scalar bar.
+* int = obj.GetOrientationMinValue () - Control the
+  orientation of the scalar bar.
+* int = obj.GetOrientationMaxValue () - Control the
+  orientation of the scalar bar.
+* int = obj.GetOrientation () - Control the orientation of
+  the scalar bar.
+* obj.SetOrientationToHorizontal () - Control the
+  orientation of the scalar bar.
+* obj.SetOrientationToVertical () - Control the orientation
+  of the scalar bar.
+* obj.SetTitleTextProperty (vtkTextProperty p) - Set/Get the
+  title text property.
+* vtkTextProperty = obj.GetTitleTextProperty () - Set/Get
+  the title text property.
+* obj.SetLabelTextProperty (vtkTextProperty p) - Set/Get the
+  labels text property.
+* vtkTextProperty = obj.GetLabelTextProperty () - Set/Get
+  the labels text property.
+* obj.SetLabelFormat (string ) - Set/Get the format with
+  which to print the labels on the scalar bar.
+* string = obj.GetLabelFormat () - Set/Get the format with
+  which to print the labels on the scalar bar.
+* obj.SetTitle (string ) - Set/Get the title of the scalar
+  bar actor,
+* string = obj.GetTitle () - Set/Get the title of the scalar
+  bar actor,
+* obj.ShallowCopy (vtkProp prop) - Shallow copy of a scalar
+  bar actor. Overloads the virtual vtkProp method.
+* obj.SetTextureGridWidth (double ) - Set the width of the
+  texture grid. Used only if UseOpacity is ON.
+* double = obj.GetTextureGridWidth () - Set the width of the
+  texture grid. Used only if UseOpacity is ON.
+* vtkActor2D = obj.GetTextureActor () - Get the texture
+  actor.. you may want to change some properties on it
+* obj.SetTextPosition (int ) - Have the text preceding the
+  scalar bar or suceeding it ? Succeed implies the that the
+  text is Above scalar bar if orientation is horizontal or
+  Right of scalar bar if orientation is vertical. Precede is
+  the opposite
+* int = obj.GetTextPositionMinValue () - Have the text
+  preceding the scalar bar or suceeding it ? Succeed implies
+  the that the text is Above scalar bar if orientation is
+  horizontal or Right of scalar bar if orientation is
+  vertical. Precede is the opposite
+* int = obj.GetTextPositionMaxValue () - Have the text
+  preceding the scalar bar or suceeding it ? Succeed implies
+  the that the text is Above scalar bar if orientation is
+  horizontal or Right of scalar bar if orientation is
+  vertical. Precede is the opposite
+* int = obj.GetTextPosition () - Have the text preceding the
+  scalar bar or suceeding it ? Succeed implies the that the
+  text is Above scalar bar if orientation is horizontal or
+  Right of scalar bar if orientation is vertical. Precede is
+  the opposite
+* obj.SetTextPositionToPrecedeScalarBar () - Have the text
+  preceding the scalar bar or suceeding it ? Succeed implies
+  the that the text is Above scalar bar if orientation is
+  horizontal or Right of scalar bar if orientation is
+  vertical. Precede is the opposite
+* obj.SetTextPositionToSucceedScalarBar () - Set/Get the
+  maximum width and height in pixels. Specifying the size as
+  a relative fraction of the viewport can sometimes
+  undersirably strech the size of the actor too much. These
+  methods allow the user to set bounds on the maximum size
+  of the scalar bar in pixels along any direction. Defaults
+  to unbounded.
+* obj.SetMaximumWidthInPixels (int ) - Set/Get the maximum
+  width and height in pixels. Specifying the size as a
+  relative fraction of the viewport can sometimes
+  undersirably strech the size of the actor too much. These
+  methods allow the user to set bounds on the maximum size
+  of the scalar bar in pixels along any direction. Defaults
+  to unbounded.
+* int = obj.GetMaximumWidthInPixels () - Set/Get the maximum
+  width and height in pixels. Specifying the size as a
+  relative fraction of the viewport can sometimes
+  undersirably strech the size of the actor too much. These
+  methods allow the user to set bounds on the maximum size
+  of the scalar bar in pixels along any direction. Defaults
+  to unbounded.
+* obj.SetMaximumHeightInPixels (int ) - Set/Get the maximum
+  width and height in pixels. Specifying the size as a
+  relative fraction of the viewport can sometimes
+  undersirably strech the size of the actor too much. These
+  methods allow the user to set bounds on the maximum size
+  of the scalar bar in pixels along any direction. Defaults
+  to unbounded.
+* int = obj.GetMaximumHeightInPixels () - Set/Get the
+  maximum width and height in pixels. Specifying the size as
+  a relative fraction of the viewport can sometimes
+  undersirably strech the size of the actor too much. These
+  methods allow the user to set bounds on the maximum size
+  of the scalar bar in pixels along any direction. Defaults
+  to unbounded.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Rendering_Classes
+* Generated on Thu Jul 25 2013 17:18:35 for FreeMat by
+  doxygen_ 1.8.1.1
+

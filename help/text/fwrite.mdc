@@ -1,0 +1,54 @@
+
+ Usage
+
+Writes an array to a given file handle as a block of binary
+(raw) data. The general use of the function is
+
+    n = fwrite(handle,A)
+
+The handle argument must be a valid value returned by the
+fopen function, and accessable for writing. The array A is
+written to the file a column at a time. The form of the
+output data depends on (and is inferred from) the precision
+of the array A. If the write fails (because we ran out of
+disk space, etc.) then an error is returned. The output n
+indicates the number of elements successfully written.
+Note that unlike MATLAB, FreeMat 4 does not default to uint8
+for writing arrays to files. Alternately, the type of the
+data to be written to the file can be specified with the
+syntax
+
+    n = fwrite(handle,A,type)
+
+where type is one of the following legal values:
+
+* 'uint8','uchar','unsigned char' for an unsigned, 8-bit
+  integer.
+* 'int8','char','integer*1' for a signed, 8-bit integer.
+* 'uint16','unsigned short' for an unsigned, 16-bit integer.
+* 'int16','short','integer*2' for a signed, 16-bit integer.
+* 'uint32','unsigned int' for an unsigned, 32-bit integer.
+* 'int32','int','integer*4' for a signed, 32-bit integer.
+* 'single','float32','float','real*4' for a 32-bit floating
+  point.
+* 'double','float64','real*8' for a 64-bit floating point.
+
+
+
+ Example
+
+Heres an example of writing an array of 512 x 512 Gaussian-
+distributed float random variables, and then writing them to
+a file called test.dat.
+
+  --> A = float(randn(512));
+  --> fp = fopen('test.dat','w');
+  --> fwrite(fp,A,'single');
+  --> fclose(fp);
+
+
+* FreeMat_Documentation
+* Input/Ouput_Functions
+* Generated on Thu Jul 25 2013 17:17:38 for FreeMat by
+  doxygen_ 1.8.1.1
+

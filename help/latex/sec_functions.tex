@@ -1,0 +1,626 @@
+
+\begin{DoxyItemize}
+\item \hyperlink{functions_anonymous}{A\-N\-O\-N\-Y\-M\-O\-U\-S Anonymous Functions}  
+\item \hyperlink{functions_func2str}{F\-U\-N\-C2\-S\-T\-R Function to String conversion}  
+\item \hyperlink{functions_function}{F\-U\-N\-C\-T\-I\-O\-N Function Declarations}  
+\item \hyperlink{functions_keywords}{K\-E\-Y\-W\-O\-R\-D\-S Function Keywords}  
+\item \hyperlink{functions_nargin}{N\-A\-R\-G\-I\-N Number of Input Arguments}  
+\item \hyperlink{functions_nargout}{N\-A\-R\-G\-O\-U\-T Number of Output Arguments}  
+\item \hyperlink{functions_script}{S\-C\-R\-I\-P\-T Script Files}  
+\item \hyperlink{functions_special}{S\-P\-E\-C\-I\-A\-L Special Calling Syntax}  
+\item \hyperlink{functions_str2func}{S\-T\-R2\-F\-U\-N\-C String to Function conversion}  
+\item \hyperlink{functions_varargin}{V\-A\-R\-A\-R\-G\-I\-N Variable Input Arguments}  
+\item \hyperlink{functions_varargout}{V\-A\-R\-A\-R\-G\-O\-U\-T Variable Output Arguments}  
+\end{DoxyItemize}\hypertarget{functions_anonymous}{}\section{A\-N\-O\-N\-Y\-M\-O\-U\-S Anonymous Functions}\label{functions_anonymous}
+Section\-: \hyperlink{sec_functions}{Functions and Scripts} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Anonymous functions are simple, nameless functions that can be defined anywhere (in a script, function, or at the prompt). They are intended to supplant {\ttfamily inline} functions. The syntax for an anonymous function is simple\-: \begin{DoxyVerb}   y = @(arg1,arg2,...,argn) expression
+\end{DoxyVerb}
+ where {\ttfamily arg1,arg2,...,argn} is a list of valid identifiers that define the arguments to the function, and {\ttfamily expression} is the expression to compute in the function. The returned value {\ttfamily y} is a function handle for the anonymous function that can then be used to evaluate the expression. Note that {\ttfamily y} will capture the value of variables that are not indicated in the argument list from the current scope or workspace at the time it is defined. So, for example, consider the simple anonymous function definition \begin{DoxyVerb}   y = @(x) a*(x+b)
+\end{DoxyVerb}
+ In order for this definition to work, the variables {\ttfamily a} and {\ttfamily b} need to be defined in the current workspace. Whatever value they have is captured in the function handle {\ttfamily y}. To change the values of {\ttfamily a} and {\ttfamily b} in the anonymous function, you must recreate the handle using another call. See the examples section for more information. In order to use the anonymous function, you can use it just like any other function handle. For example, \begin{DoxyVerb}   p = y(3)
+   p = y()
+   p = feval(y,3)
+\end{DoxyVerb}
+ are all examples of using the {\ttfamily y} anonymous function to perform a calculation. \hypertarget{variables_matrix_Examples}{}\subsection{Examples}\label{variables_matrix_Examples}
+Here are some examples of using an anonymous function
+
+
+\begin{DoxyVerbInclude}
+--> a = 2; b = 4;    % define a and b (slope and intercept)
+--> y = @(x) a*x+b   % create the anonymous function
+
+y = 
+ @(x)   a*x+b   % create the anonymous function
+--> y(2)             % evaluate it for x = 2
+
+ans = 
+ 8 
+
+--> a = 5; b = 7;    % change a and b
+--> y(2)             % the value did not change!  because a=2,b=4 are captured in y
+
+ans = 
+ 8 
+
+--> y = @(x) a*x+b   % recreate the function
+
+y = 
+ @(x)   a*x+b   % recreate the function
+--> y(2)             % now the new values are used
+
+ans = 
+ 17 
+\end{DoxyVerbInclude}
+ \hypertarget{functions_func2str}{}\section{F\-U\-N\-C2\-S\-T\-R Function to String conversion}\label{functions_func2str}
+Section\-: \hyperlink{sec_functions}{Functions and Scripts} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+The {\ttfamily func2str} function converts a function pointer into a string. The syntax is \begin{DoxyVerb}    y = func2str(funcptr)
+\end{DoxyVerb}
+ where {\ttfamily funcptr} is a function pointer. If {\ttfamily funcptr} is a pointer to a function, then {\ttfamily y} is the name of the function. On the other hand, if {\ttfamily funcptr} is an anonymous function then {\ttfamily func2str} returns the definition of the anonymous function. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+Here is a simple example of using {\ttfamily func2str}
+
+
+\begin{DoxyVerbInclude}
+--> y = @sin
+
+y = 
+ @sin
+--> x = func2str(y)
+
+x = 
+sin
+\end{DoxyVerbInclude}
+
+
+If we use an anonymous function, then {\ttfamily func2str} returns the definition of the anonymous function
+
+
+\begin{DoxyVerbInclude}
+--> y = @(x) x.^2
+
+y = 
+ @(x)   x.^2
+--> x = func2str(y)
+
+x = 
+ @(x)   x.^2
+\end{DoxyVerbInclude}
+ \hypertarget{functions_function}{}\section{F\-U\-N\-C\-T\-I\-O\-N Function Declarations}\label{functions_function}
+Section\-: \hyperlink{sec_functions}{Functions and Scripts} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+There are several forms for function declarations in Free\-Mat. The most general syntax for a function declaration is the following\-: \begin{DoxyVerb}  function [out_1,...,out_M,varargout] = fname(in_1,...,in_N,varargin)
+\end{DoxyVerb}
+ where {\ttfamily out\-\_\-i} are the output parameters, {\ttfamily in\-\_\-i} are the input parameters, and {\ttfamily varargout} and {\ttfamily varargin} are special keywords used for functions that have variable inputs or outputs. For functions with a fixed number of input or output parameters, the syntax is somewhat simpler\-: \begin{DoxyVerb}  function [out_1,...,out_M] = fname(in_1,...,in_N)
+\end{DoxyVerb}
+ Note that functions that have no return arguments can omit the return argument list (of {\ttfamily out\-\_\-i}) and the equals sign\-: \begin{DoxyVerb}  function fname(in_1,...,in_N)
+\end{DoxyVerb}
+ Likewise, a function with no arguments can eliminate the list of parameters in the declaration\-: \begin{DoxyVerb}  function [out_1,...,out_M] = fname
+\end{DoxyVerb}
+ Functions that return only a single value can omit the brackets \begin{DoxyVerb}  function out_1 = fname(in_1,...,in_N)
+\end{DoxyVerb}
+
+
+In the body of the function {\ttfamily in\-\_\-i} are initialized with the values passed when the function is called. Also, the function must assign values for {\ttfamily out\-\_\-i} to pass values to the caller. Note that by default, Free\-Mat passes arguments by value, meaning that if we modify the contents of {\ttfamily in\-\_\-i} inside the function, it has no effect on any variables used by the caller. Arguments can be passed by reference by prepending an ampersand {\ttfamily \&} before the name of the input, e.\-g. \begin{DoxyVerb}  function [out1,...,out_M] = fname(in_1,&in_2,in_3,...,in_N)
+\end{DoxyVerb}
+ in which case {\ttfamily in\-\_\-2} is passed by reference and not by value. Also, Free\-Mat works like {\ttfamily C} in that the caller does not have to supply the full list of arguments. Also, when {\ttfamily keywords} (see help {\ttfamily keywords}) are used, an arbitrary subset of the parameters may be unspecified. To assist in deciphering the exact parameters that were passed, Free\-Mat also defines two variables inside the function context\-: {\ttfamily nargin} and {\ttfamily nargout}, which provide the number of input and output parameters of the caller, respectively. See help for {\ttfamily nargin} and {\ttfamily nargout} for more details. In some circumstances, it is necessary to have functions that take a variable number of arguments, or that return a variable number of results. In these cases, the last argument to the parameter list is the special argument {\ttfamily varargin}. Inside the function, {\ttfamily varargin} is a cell-\/array that contains all arguments passed to the function that have not already been accounted for. Similarly, the function can create a cell array named {\ttfamily varargout} for variable length output lists. See help {\ttfamily varargin} and {\ttfamily varargout} for more details.
+
+The function name {\ttfamily fname} can be any legal Free\-Mat identifier. Functions are stored in files with the {\ttfamily .m} extension. Note that the name of the file (and not the function name {\ttfamily fname} used in the declaration) is how the function appears in Free\-Mat. So, for example, if the file is named {\ttfamily foo.\-m}, but the declaration uses {\ttfamily bar} for the name of the function, in Free\-Mat, it will still appear as function {\ttfamily foo}. Note that this is only true for the first function that appears in a {\ttfamily .m} file. Additional functions that appear after the first function are known as {\ttfamily helper functions} or {\ttfamily local} functions. These are functions that can only be called by other functions in the same {\ttfamily .m} file. Furthermore the names of these helper functions are determined by their declaration and not by the name of the {\ttfamily .m} file. An example of using helper functions is included in the examples.
+
+Another important feature of functions, as opposed to, say {\ttfamily scripts}, is that they have their own {\ttfamily scope}. That means that variables defined or modified inside a function do not affect the scope of the caller. That means that a function can freely define and use variables without unintentionally using a variable name reserved elsewhere. The flip side of this fact is that functions are harder to debug than scripts without using the {\ttfamily keyboard} function, because the intermediate calculations used in the function are not available once the function exits. \hypertarget{variables_matrix_Examples}{}\subsection{Examples}\label{variables_matrix_Examples}
+Here is an example of a trivial function that adds its first argument to twice its second argument\-:
+
+\begin{DoxyVerb}     addtest.m
+\end{DoxyVerb}
+
+
+
+\begin{DoxyVerbInclude}
+function c = addtest(a,b)
+  c = a + 2*b;
+\end{DoxyVerbInclude}
+
+
+
+\begin{DoxyVerbInclude}
+--> addtest(1,3)
+
+ans = 
+ 7 
+
+--> addtest(3,0)
+
+ans = 
+ 3 
+\end{DoxyVerbInclude}
+
+
+Suppose, however, we want to replace the value of the first argument by the computed sum. A first attempt at doing so has no effect\-:
+
+\begin{DoxyVerb}     addtest2.m
+\end{DoxyVerb}
+
+
+
+\begin{DoxyVerbInclude}
+function addtest2(a,b)
+  a = a + 2*b;
+\end{DoxyVerbInclude}
+
+
+
+\begin{DoxyVerbInclude}
+--> arg1 = 1
+
+arg1 = 
+ 1 
+
+--> arg2 = 3
+
+arg2 = 
+ 3 
+
+--> addtest2(arg1,arg2)
+--> arg1
+
+ans = 
+ 1 
+
+--> arg2
+
+ans = 
+ 3 
+\end{DoxyVerbInclude}
+
+
+The values of {\ttfamily arg1} and {\ttfamily arg2} are unchanged, because they are passed by value, so that any changes to {\ttfamily a} and {\ttfamily b} inside the function do not affect {\ttfamily arg1} and {\ttfamily arg2}. We can change that by passing the first argument by reference\-:
+
+\begin{DoxyVerb}     addtest3.m
+\end{DoxyVerb}
+
+
+
+\begin{DoxyVerbInclude}
+function addtest3(&a,b)
+  a = a + 2*b
+\end{DoxyVerbInclude}
+
+
+Note that it is now illegal to pass a literal value for {\ttfamily a} when calling {\ttfamily addtest3}\-:
+
+
+\begin{DoxyVerbInclude}
+--> addtest3(3,4)
+
+a = 
+ 11 
+
+Error: Must have lvalue in argument passed by reference
+--> addtest3(arg1,arg2)
+
+a = 
+ 7 
+
+--> arg1
+
+ans = 
+ 7 
+
+--> arg2
+
+ans = 
+ 3 
+\end{DoxyVerbInclude}
+
+
+The first example fails because we cannot pass a literal like the number {\ttfamily 3} by reference. However, the second call succeeds, and note that {\ttfamily arg1} has now changed. Note\-: please be careful when passing by reference -\/ this feature is not available in M\-A\-T\-L\-A\-B and you must be clear that you are using it.
+
+As variable argument and return functions are covered elsewhere, as are keywords, we include one final example that demonstrates the use of helper functions, or local functions, where multiple function declarations occur in the same file.
+
+\begin{DoxyVerb}     euclidlength.m
+\end{DoxyVerb}
+
+
+
+\begin{DoxyVerbInclude}
+function y = foo(x,y)
+  square_me(x);
+  square_me(y);
+  y = sqrt(x+y);
+
+function square_me(&t)
+  t = t^2;
+\end{DoxyVerbInclude}
+
+
+
+\begin{DoxyVerbInclude}
+--> euclidlength(3,4)
+
+ans = 
+ 5 
+
+--> euclidlength(2,0)
+
+ans = 
+ 2 
+\end{DoxyVerbInclude}
+ \hypertarget{functions_keywords}{}\section{K\-E\-Y\-W\-O\-R\-D\-S Function Keywords}\label{functions_keywords}
+Section\-: \hyperlink{sec_functions}{Functions and Scripts} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+A feature of I\-D\-L that Free\-Mat has adopted is a modified form of {\ttfamily keywords}. The purpose of {\ttfamily keywords} is to allow you to call a function with the arguments to the function specified in an arbitrary order. To specify the syntax of {\ttfamily keywords}, suppose there is a function with prototype \begin{DoxyVerb}  function [out_1,...,out_M] = foo(in_1,...,in_N)
+\end{DoxyVerb}
+ Then the general syntax for calling function {\ttfamily foo} using keywords is \begin{DoxyVerb}  foo(val_1, val_2, /in_k=3)
+\end{DoxyVerb}
+ which is exactly equivalent to \begin{DoxyVerb}  foo(val_1, val_2, [], [], ..., [], 3),
+\end{DoxyVerb}
+ where the 3 is passed as the k-\/th argument, or alternately, \begin{DoxyVerb}  foo(val_1, val_2, /in_k)
+\end{DoxyVerb}
+ which is exactly equivalent to \begin{DoxyVerb}  foo(val_1, val_2, [], [], ..., [], logical(1)),
+\end{DoxyVerb}
+ Note that you can even pass reference arguments using keywords. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+The most common use of keywords is in controlling options for functions. For example, the following function takes a number of binary options that control its behavior. For example, consider the following function with two arguments and two options. The function has been written to properly use and handle keywords. The result is much cleaner than the M\-A\-T\-L\-A\-B approach involving testing all possible values of {\ttfamily nargin}, and forcing explicit empty brackets for don't care parameters.
+
+\begin{DoxyVerb}     keyfunc.m
+\end{DoxyVerb}
+
+
+
+\begin{DoxyVerbInclude}
+function c = keyfunc(a,b,operation,printit)
+  if (~isset('a') | ~isset('b'))
+    error('keyfunc requires at least the first two 2 arguments');
+  end;
+  if (~isset('operation'))
+    % user did not define the operation, default to '+'
+    operation = '+';
+  end
+  if (~isset('printit'))
+    % user did not specify the printit flag, default is false
+    printit = 0;
+  end
+  % simple operation...
+  eval(['c = a ' operation ' b;']);
+  if (printit)
+    printf('%f %s %f = %f\n',a,operation,b,c);
+  end
+\end{DoxyVerbInclude}
+
+
+Now some examples of how this function can be called using {\ttfamily keywords}.
+
+
+\begin{DoxyVerbInclude}
+--> keyfunc(1,3)                % specify a and b, defaults for the others
+
+ans = 
+ 4 
+
+--> keyfunc(1,3,/printit)       % specify printit is true
+1.000000 + 3.000000 = 4.000000
+
+ans = 
+ 4 
+
+--> keyfunc(/operation='-',2,3) % assigns a=2, b=3
+
+ans = 
+ -1 
+
+--> keyfunc(4,/operation='*',/printit) % error as b is unspecified
+In /home/sbasu/Devel/FreeMat4/doc/fragments/keyfunc.m(keyfunc) at line 3
+    In scratch() at line 1
+    In base(base)
+    In base()
+    In global()
+Error: keyfunc requires at least the first two 2 arguments
+\end{DoxyVerbInclude}
+ \hypertarget{functions_nargin}{}\section{N\-A\-R\-G\-I\-N Number of Input Arguments}\label{functions_nargin}
+Section\-: \hyperlink{sec_functions}{Functions and Scripts} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+The {\ttfamily nargin} function returns the number of arguments passed to a function when it was called. The general syntax for its use is \begin{DoxyVerb}  y = nargin
+\end{DoxyVerb}
+ Free\-Mat allows for fewer arguments to be passed to a function than were declared, and {\ttfamily nargin}, along with {\ttfamily isset} can be used to determine exactly what subset of the arguments were defined.
+
+You can also use {\ttfamily nargin} on a function handle to return the number of input arguments expected by the function \begin{DoxyVerb}  y = nargin(fun)
+\end{DoxyVerb}
+ where {\ttfamily fun} is the name of the function (e.\-g. {\ttfamily 'sin'}) or a function handle. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+Here is a function that is declared to take five arguments, and that simply prints the value of {\ttfamily nargin} each time it is called.
+
+\begin{DoxyVerb}     nargintest.m
+\end{DoxyVerb}
+
+
+
+\begin{DoxyVerbInclude}
+function nargintest(a1,a2,a3,a4,a5)
+  printf('nargin = %d\n',nargin);
+\end{DoxyVerbInclude}
+
+
+
+\begin{DoxyVerbInclude}
+--> nargintest(3);
+nargin = 1
+--> nargintest(3,'h');
+nargin = 2
+--> nargintest(3,'h',1.34);
+nargin = 3
+--> nargintest(3,'h',1.34,pi,e);
+nargin = 5
+--> nargin('sin')
+
+ans = 
+ 1 
+
+--> y = @sin
+
+y = 
+ @sin
+--> nargin(y)
+
+ans = 
+ 1 
+\end{DoxyVerbInclude}
+ \hypertarget{functions_nargout}{}\section{N\-A\-R\-G\-O\-U\-T Number of Output Arguments}\label{functions_nargout}
+Section\-: \hyperlink{sec_functions}{Functions and Scripts} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+The {\ttfamily nargout} function computes the number of return values requested from a function when it was called. The general syntax for its use \begin{DoxyVerb}   y = nargout
+\end{DoxyVerb}
+ Free\-Mat allows for fewer return values to be requested from a function than were declared, and {\ttfamily nargout} can be used to determine exactly what subset of the functions outputs are required.
+
+You can also use {\ttfamily nargout} on a function handle to return the number of input arguments expected by the function \begin{DoxyVerb}  y = nargout(fun)
+\end{DoxyVerb}
+ where {\ttfamily fun} is the name of the function (e.\-g. {\ttfamily 'sin'}) or a function handle. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+Here is a function that is declared to return five values, and that simply prints the value of {\ttfamily nargout} each time it is called.
+
+\begin{DoxyVerb}     nargouttest.m
+\end{DoxyVerb}
+
+
+
+\begin{DoxyVerbInclude}
+function [a1,a2,a3,a4,a5] = nargouttest
+  printf('nargout = %d\n',nargout);
+  a1 = 1; a2 = 2; a3 = 3; a4 = 4; a5 = 5;
+\end{DoxyVerbInclude}
+
+
+
+\begin{DoxyVerbInclude}
+--> a1 = nargouttest
+nargout = 1
+
+a1 = 
+ 1 
+
+--> [a1,a2] = nargouttest
+nargout = 2
+a1 = 
+ 1 
+
+a2 = 
+ 2 
+
+--> [a1,a2,a3] = nargouttest
+nargout = 3
+a1 = 
+ 1 
+
+a2 = 
+ 2 
+
+a3 = 
+ 3 
+
+--> [a1,a2,a3,a4,a5] = nargouttest
+nargout = 5
+a1 = 
+ 1 
+
+a2 = 
+ 2 
+
+a3 = 
+ 3 
+
+a4 = 
+ 4 
+
+a5 = 
+ 5 
+
+--> nargout('sin')
+
+ans = 
+ 1 
+
+--> y = @sin
+
+y = 
+ @sin
+--> nargout(y)
+
+ans = 
+ 1 
+\end{DoxyVerbInclude}
+ \hypertarget{functions_script}{}\section{S\-C\-R\-I\-P\-T Script Files}\label{functions_script}
+Section\-: \hyperlink{sec_functions}{Functions and Scripts} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+A script is a sequence of Free\-Mat commands contained in a {\ttfamily .m} file. When the script is called (via the name of the file), the effect is the same as if the commands inside the script file were issued one at a time from the keyboard. Unlike {\ttfamily function} files (which have the same extension, but have a {\ttfamily function} declaration), script files share the same environment as their callers. Hence, assignments, etc, made inside a script are visible to the caller (which is not the case for functions. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+Here is an example of a script that makes some simple assignments and {\ttfamily printf} statements.
+
+\begin{DoxyVerb}     tscript.m
+\end{DoxyVerb}
+
+
+
+\begin{DoxyVerbInclude}
+a = 13;
+printf('a is %d\n',a);
+b = a + 32
+\end{DoxyVerbInclude}
+
+
+If we execute the script and then look at the defined variables
+
+
+\begin{DoxyVerbInclude}
+--> tscript
+a is 13
+
+b = 
+ 45 
+
+--> who
+  Variable Name       Type   Flags             Size
+              a    double                    [1x1]
+            ans    double                    [0x0]
+              b    double                    [1x1]
+\end{DoxyVerbInclude}
+
+
+we see that {\ttfamily a} and {\ttfamily b} are defined appropriately. \hypertarget{functions_special}{}\section{S\-P\-E\-C\-I\-A\-L Special Calling Syntax}\label{functions_special}
+Section\-: \hyperlink{sec_functions}{Functions and Scripts} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+To reduce the effort to call certain functions, Free\-Mat supports a special calling syntax for functions that take string arguments. In particular, the three following syntaxes are equivalent, with one caveat\-: \begin{DoxyVerb}   functionname('arg1','arg2',...,'argn')
+\end{DoxyVerb}
+ or the parenthesis and commas can be removed \begin{DoxyVerb}   functionname 'arg1' 'arg2' ... 'argn'
+\end{DoxyVerb}
+ The quotes are also optional (providing, of course, that the argument strings have no spaces in them) \begin{DoxyVerb}   functionname arg1 arg2 ... argn
+\end{DoxyVerb}
+ This special syntax enables you to type {\ttfamily hold on} instead of the more cumbersome {\ttfamily hold('on')}. The caveat is that Free\-Mat currently only recognizes the special calling syntax as the first statement on a line of input. Thus, the following construction \begin{DoxyVerb}  for i=1:10; plot(vec(i)); hold on; end
+\end{DoxyVerb}
+ would not work. This limitation may be removed in a future version. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+Here is a function that takes two string arguments and returns the concatenation of them.
+
+\begin{DoxyVerb}     strcattest.m
+\end{DoxyVerb}
+
+
+
+\begin{DoxyVerbInclude}
+function strcattest(str1,str2)
+  str3 = [str1,str2];
+  printf('str1 = %s, str2 = %s, str3 = %s\n',str1,str2,str3);
+\end{DoxyVerbInclude}
+
+
+We call {\ttfamily strcattest} using all three syntaxes.
+
+
+\begin{DoxyVerbInclude}
+--> strcattest('hi','ho')
+str1 = hi, str2 = ho, str3 = hiho
+--> strcattest 'hi' 'ho'
+str1 = hi, str2 = ho, str3 = hiho
+--> strcattest hi ho
+str1 = hi, str2 = ho, str3 = hiho
+\end{DoxyVerbInclude}
+ \hypertarget{functions_str2func}{}\section{S\-T\-R2\-F\-U\-N\-C String to Function conversion}\label{functions_str2func}
+Section\-: \hyperlink{sec_functions}{Functions and Scripts} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+The {\ttfamily str2func} function converts a function name into a function pointer. The syntax is \begin{DoxyVerb}    y = str2func('funcname')
+\end{DoxyVerb}
+ where {\ttfamily funcname} is the name of the function. The return variable {\ttfamily y} is a function handle that points to the given function.
+
+An alternate syntax is used to construct an anonymous function given an expression. They syntax is \begin{DoxyVerb}    y = str2func('anonymous def')
+\end{DoxyVerb}
+ where {\ttfamily anonymous def} is an expression that defines an anonymous function, for example {\ttfamily '@(x) x.$^\wedge$2'}. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+Here is a simple example of using {\ttfamily str2func}.
+
+
+\begin{DoxyVerbInclude}
+--> sin(.5)              % Calling the function directly
+
+ans = 
+    0.4794 
+
+--> y = str2func('sin')  % Convert it into a function handle
+
+y = 
+ @sin
+--> y(.5)                % Calling 'sin' via the function handle
+
+ans = 
+    0.4794 
+\end{DoxyVerbInclude}
+
+
+Here we use {\ttfamily str2func} to define an anonymous function
+
+
+\begin{DoxyVerbInclude}
+--> y = str2func('@(x) x.^2')
+
+y = 
+ @(x)   x.^2
+--> y(2)
+
+ans = 
+ 4 
+\end{DoxyVerbInclude}
+ \hypertarget{functions_varargin}{}\section{V\-A\-R\-A\-R\-G\-I\-N Variable Input Arguments}\label{functions_varargin}
+Section\-: \hyperlink{sec_functions}{Functions and Scripts} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Free\-Mat functions can take a variable number of input arguments by setting the last argument in the argument list to {\ttfamily varargin}. This special keyword indicates that all arguments to the function (beyond the last non-\/{\ttfamily varargin} keyword) are assigned to a cell array named {\ttfamily varargin} available to the function. Variable argument functions are usually used when writing driver functions, i.\-e., functions that need to pass arguments to another function. The general syntax for a function that takes a variable number of arguments is \begin{DoxyVerb}  function [out_1,...,out_M] = fname(in_1,..,in_M,varargin)
+\end{DoxyVerb}
+ Inside the function body, {\ttfamily varargin} collects the arguments to {\ttfamily fname} that are not assigned to the {\ttfamily in\-\_\-k}. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+Here is a simple wrapper to {\ttfamily feval} that demonstrates the use of variable arguments functions.
+
+\begin{DoxyVerb}     wrapcall.m
+\end{DoxyVerb}
+
+
+
+\begin{DoxyVerbInclude}
+function wrapcall(fname,varargin)
+  feval(fname,varargin{:});
+\end{DoxyVerbInclude}
+
+
+Now we show a call of the {\ttfamily wrapcall} function with a number of arguments
+
+
+\begin{DoxyVerbInclude}
+--> wrapcall('printf','%f...%f\n',pi,e)
+3.141593...2.718282
+\end{DoxyVerbInclude}
+
+
+A more serious driver routine could, for example, optimize a one dimensional function that takes a number of auxilliary parameters that are passed through {\ttfamily varargin}. \hypertarget{functions_varargout}{}\section{V\-A\-R\-A\-R\-G\-O\-U\-T Variable Output Arguments}\label{functions_varargout}
+Section\-: \hyperlink{sec_functions}{Functions and Scripts} \hypertarget{vtkwidgets_vtkxyplotwidget_Usage}{}\subsection{Usage}\label{vtkwidgets_vtkxyplotwidget_Usage}
+Free\-Mat functions can return a variable number of output arguments by setting the last argument in the argument list to {\ttfamily varargout}. This special keyword indicates that the number of return values is variable. The general syntax for a function that returns a variable number of outputs is \begin{DoxyVerb}  function [out_1,...,out_M,varargout] = fname(in_1,...,in_M)
+\end{DoxyVerb}
+ The function is responsible for ensuring that {\ttfamily varargout} is a cell array that contains the values to assign to the outputs beyond {\ttfamily out\-\_\-\-M}. Generally, variable output functions use {\ttfamily nargout} to figure out how many outputs have been requested. \hypertarget{variables_struct_Example}{}\subsection{Example}\label{variables_struct_Example}
+This is a function that returns a varying number of values depending on the value of the argument.
+
+\begin{DoxyVerb}     varoutfunc.m
+\end{DoxyVerb}
+
+
+
+\begin{DoxyVerbInclude}
+function [varargout] = varoutfunc
+  switch(nargout)
+    case 1
+      varargout = {'one of one'};
+    case 2
+      varargout = {'one of two','two of two'};
+    case 3
+      varargout = {'one of three','two of three','three of three'};
+  end
+\end{DoxyVerbInclude}
+
+
+Here are some examples of exercising {\ttfamily varoutfunc}\-:
+
+
+\begin{DoxyVerbInclude}
+--> [c1] = varoutfunc
+c1 = 
+one of one
+--> [c1,c2] = varoutfunc
+c1 = 
+one of two
+c2 = 
+two of two
+--> [c1,c2,c3] = varoutfunc
+c1 = 
+one of three
+c2 = 
+two of three
+c3 = 
+three of three
+\end{DoxyVerbInclude}
+ 

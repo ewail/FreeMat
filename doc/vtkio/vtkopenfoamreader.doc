@@ -1,0 +1,165 @@
+/*!
+\page vtkio_vtkopenfoamreader vtkOpenFOAMReader
+
+<p>
+Section: \ref sec_vtkio "Visualization Toolkit IO Classes"
+\section Usage
+ vtkOpenFOAMReader creates a multiblock dataset. It reads mesh
+ information and time dependent data.  The polyMesh folders contain
+ mesh information. The time folders contain transient data for the
+ cells. Each folder can contain any number of data files.
+
+To create an instance of class vtkOpenFOAMReader, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkOpenFOAMReader
+\endverbatim
+\section Methods
+The class vtkOpenFOAMReader has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkOpenFOAMReader class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkOpenFOAMReader = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkOpenFOAMReader = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>int = obj.CanReadFile (string )</tt> -  Determine if the file can be readed with this reader.
+ </LI>
+<LI>  <tt>obj.SetFileName (string )</tt> -  Set/Get the filename.
+ </LI>
+<LI>  <tt>string = obj.GetFileName ()</tt> -  Set/Get the filename.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfCellArrays (void )</tt> -  Get/Set whether the cell array with the given name is to
+ be read.
+ </LI>
+<LI>  <tt>int = obj.GetCellArrayStatus (string name)</tt> -  Get/Set whether the cell array with the given name is to
+ be read.
+ </LI>
+<LI>  <tt>obj.SetCellArrayStatus (string name, int status)</tt> -  Get the name of the  cell array with the given index in
+ the input.
+ </LI>
+<LI>  <tt>string = obj.GetCellArrayName (int index)</tt> -  Turn on/off all cell arrays.
+ </LI>
+<LI>  <tt>obj.DisableAllCellArrays ()</tt> -  Turn on/off all cell arrays.
+ </LI>
+<LI>  <tt>obj.EnableAllCellArrays ()</tt> -  Get the number of point arrays available in the input.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfPointArrays (void )</tt> -  Get/Set whether the point array with the given name is to
+ be read.
+ </LI>
+<LI>  <tt>int = obj.GetPointArrayStatus (string name)</tt> -  Get/Set whether the point array with the given name is to
+ be read.
+ </LI>
+<LI>  <tt>obj.SetPointArrayStatus (string name, int status)</tt> -  Get the name of the  point array with the given index in
+ the input.
+ </LI>
+<LI>  <tt>string = obj.GetPointArrayName (int index)</tt> -  Turn on/off all point arrays.
+ </LI>
+<LI>  <tt>obj.DisableAllPointArrays ()</tt> -  Turn on/off all point arrays.
+ </LI>
+<LI>  <tt>obj.EnableAllPointArrays ()</tt> -  Get the number of Lagrangian arrays available in the input.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfLagrangianArrays (void )</tt> -  Get/Set whether the Lagrangian array with the given name is to
+ be read.
+ </LI>
+<LI>  <tt>int = obj.GetLagrangianArrayStatus (string name)</tt> -  Get/Set whether the Lagrangian array with the given name is to
+ be read.
+ </LI>
+<LI>  <tt>obj.SetLagrangianArrayStatus (string name, int status)</tt> -  Get the name of the  Lagrangian array with the given index in
+ the input.
+ </LI>
+<LI>  <tt>string = obj.GetLagrangianArrayName (int index)</tt> -  Turn on/off all Lagrangian arrays.
+ </LI>
+<LI>  <tt>obj.DisableAllLagrangianArrays ()</tt> -  Turn on/off all Lagrangian arrays.
+ </LI>
+<LI>  <tt>obj.EnableAllLagrangianArrays ()</tt> -  Get the number of Patches (inlcuding Internal Mesh) available in the input.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfPatchArrays (void )</tt> -  Get/Set whether the Patch with the given name is to
+ be read.
+ </LI>
+<LI>  <tt>int = obj.GetPatchArrayStatus (string name)</tt> -  Get/Set whether the Patch with the given name is to
+ be read.
+ </LI>
+<LI>  <tt>obj.SetPatchArrayStatus (string name, int status)</tt> -  Get the name of the Patch with the given index in
+ the input.
+ </LI>
+<LI>  <tt>string = obj.GetPatchArrayName (int index)</tt> -  Turn on/off all Patches including the Internal Mesh.
+ </LI>
+<LI>  <tt>obj.DisableAllPatchArrays ()</tt> -  Turn on/off all Patches including the Internal Mesh.
+ </LI>
+<LI>  <tt>obj.EnableAllPatchArrays ()</tt> -  Set/Get whether to create cell-to-point translated data for cell-type data
+ </LI>
+<LI>  <tt>obj.SetCreateCellToPoint (int )</tt> -  Set/Get whether to create cell-to-point translated data for cell-type data
+ </LI>
+<LI>  <tt>int = obj.GetCreateCellToPoint ()</tt> -  Set/Get whether to create cell-to-point translated data for cell-type data
+ </LI>
+<LI>  <tt>obj.CreateCellToPointOn ()</tt> -  Set/Get whether to create cell-to-point translated data for cell-type data
+ </LI>
+<LI>  <tt>obj.CreateCellToPointOff ()</tt> -  Set/Get whether to create cell-to-point translated data for cell-type data
+ </LI>
+<LI>  <tt>obj.SetCacheMesh (int )</tt> -  Set/Get whether mesh is to be cached.
+ </LI>
+<LI>  <tt>int = obj.GetCacheMesh ()</tt> -  Set/Get whether mesh is to be cached.
+ </LI>
+<LI>  <tt>obj.CacheMeshOn ()</tt> -  Set/Get whether mesh is to be cached.
+ </LI>
+<LI>  <tt>obj.CacheMeshOff ()</tt> -  Set/Get whether mesh is to be cached.
+ </LI>
+<LI>  <tt>obj.SetDecomposePolyhedra (int )</tt> -  Set/Get whether polyhedra are to be decomposed.
+ </LI>
+<LI>  <tt>int = obj.GetDecomposePolyhedra ()</tt> -  Set/Get whether polyhedra are to be decomposed.
+ </LI>
+<LI>  <tt>obj.DecomposePolyhedraOn ()</tt> -  Set/Get whether polyhedra are to be decomposed.
+ </LI>
+<LI>  <tt>obj.DecomposePolyhedraOff ()</tt> -  Set/Get whether polyhedra are to be decomposed.
+ </LI>
+<LI>  <tt>obj.SetPositionsIsIn13Format (int )</tt> -  Set/Get whether the lagrangian/positions is in OF 1.3 format
+ </LI>
+<LI>  <tt>int = obj.GetPositionsIsIn13Format ()</tt> -  Set/Get whether the lagrangian/positions is in OF 1.3 format
+ </LI>
+<LI>  <tt>obj.PositionsIsIn13FormatOn ()</tt> -  Set/Get whether the lagrangian/positions is in OF 1.3 format
+ </LI>
+<LI>  <tt>obj.PositionsIsIn13FormatOff ()</tt> -  Set/Get whether the lagrangian/positions is in OF 1.3 format
+ </LI>
+<LI>  <tt>obj.SetListTimeStepsByControlDict (int )</tt> -  Determine if time directories are to be listed according to controlDict
+ </LI>
+<LI>  <tt>int = obj.GetListTimeStepsByControlDict ()</tt> -  Determine if time directories are to be listed according to controlDict
+ </LI>
+<LI>  <tt>obj.ListTimeStepsByControlDictOn ()</tt> -  Determine if time directories are to be listed according to controlDict
+ </LI>
+<LI>  <tt>obj.ListTimeStepsByControlDictOff ()</tt> -  Determine if time directories are to be listed according to controlDict
+ </LI>
+<LI>  <tt>obj.SetAddDimensionsToArrayNames (int )</tt> -  Add dimensions to array names
+ </LI>
+<LI>  <tt>int = obj.GetAddDimensionsToArrayNames ()</tt> -  Add dimensions to array names
+ </LI>
+<LI>  <tt>obj.AddDimensionsToArrayNamesOn ()</tt> -  Add dimensions to array names
+ </LI>
+<LI>  <tt>obj.AddDimensionsToArrayNamesOff ()</tt> -  Add dimensions to array names
+ </LI>
+<LI>  <tt>obj.SetReadZones (int )</tt> -  Set/Get whether zones will be read.
+ </LI>
+<LI>  <tt>int = obj.GetReadZones ()</tt> -  Set/Get whether zones will be read.
+ </LI>
+<LI>  <tt>obj.ReadZonesOn ()</tt> -  Set/Get whether zones will be read.
+ </LI>
+<LI>  <tt>obj.ReadZonesOff ()</tt> -  Set/Get whether zones will be read.
+ </LI>
+<LI>  <tt>obj.SetRefresh ()</tt>
+ </LI>
+<LI>  <tt>obj.SetParent (vtkOpenFOAMReader parent)</tt>
+ </LI>
+<LI>  <tt>bool = obj.SetTimeValue (double )</tt>
+ </LI>
+<LI>  <tt>vtkDoubleArray = obj.GetTimeValues ()</tt>
+ </LI>
+<LI>  <tt>int = obj.MakeMetaDataAtTimeStep (bool )</tt>
+ </LI>
+</UL>
+*/

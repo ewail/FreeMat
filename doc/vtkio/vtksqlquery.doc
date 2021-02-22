@@ -1,0 +1,103 @@
+/*!
+\page vtkio_vtksqlquery vtkSQLQuery
+
+<p>
+Section: \ref sec_vtkio "Visualization Toolkit IO Classes"
+\section Usage
+ The abstract superclass of SQL query classes.  Instances of subclasses
+ of vtkSQLQuery are created using the GetQueryInstance() function in
+ vtkSQLDatabase.  To implement a query connection for a new database
+ type, subclass both vtkSQLDatabase and vtkSQLQuery, and implement the
+ required functions.  For the query class, this involves the following:
+
+ Execute() - Execute the query on the database.  No results need to be
+             retrieved at this point, unless you are performing caching.
+
+ GetNumberOfFields() - After Execute() is performed, returns the number
+                       of fields in the query results.
+
+ GetFieldName() - The name of the field at an index.
+
+ GetFieldType() - The data type of the field at an index.
+
+ NextRow() - Advances the query results by one row, and returns whether
+             there are more rows left in the query.
+
+ DataValue() - Extract a single data value from the current row.
+
+ Begin/Rollback/CommitTransaction() - These methods are optional but
+ recommended if the database supports transactions.
+
+ .SECTION Thanks
+ Thanks to Andrew Wilson from Sandia National Laboratories for his work
+ on the database classes.
+
+
+To create an instance of class vtkSQLQuery, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkSQLQuery
+\endverbatim
+\section Methods
+The class vtkSQLQuery has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkSQLQuery class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkSQLQuery = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkSQLQuery = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>bool = obj.SetQuery (string query)</tt> -  The query string to be executed.  Since some databases will
+ process the query string as soon as it's set, this method returns
+ a boolean to indicate success or failure.
+ </LI>
+<LI>  <tt>string = obj.GetQuery ()</tt> -  The query string to be executed.  Since some databases will
+ process the query string as soon as it's set, this method returns
+ a boolean to indicate success or failure.
+ </LI>
+<LI>  <tt>bool = obj.IsActive ()</tt> -  Execute the query.  This must be performed
+ before any field name or data access functions
+ are used.
+ </LI>
+<LI>  <tt>bool = obj.Execute ()</tt> -  Execute the query.  This must be performed
+ before any field name or data access functions
+ are used.
+ </LI>
+<LI>  <tt>bool = obj.BeginTransaction ()</tt> -  Begin, commit, or roll back a transaction.  If the underlying
+ database does not support transactions these calls will do
+ nothing.
+ </LI>
+<LI>  <tt>bool = obj.CommitTransaction ()</tt> -  Begin, commit, or roll back a transaction.  If the underlying
+ database does not support transactions these calls will do
+ nothing.
+ </LI>
+<LI>  <tt>bool = obj.RollbackTransaction ()</tt> -  Return the database associated with the query.
+ </LI>
+<LI>  <tt>vtkSQLDatabase = obj.GetDatabase ()</tt> -  Return the database associated with the query.
+ </LI>
+<LI>  <tt>bool = obj.BindParameter (int index, int value)</tt>
+ </LI>
+<LI>  <tt>bool = obj.BindParameter (int index, float value)</tt>
+ </LI>
+<LI>  <tt>bool = obj.BindParameter (int index, double value)</tt>
+ </LI>
+<LI>  <tt>bool = obj.BindParameter (int index, string stringValue)</tt> -  Bind a string value -- string must be null-terminated
+ </LI>
+<LI>  <tt>bool = obj.ClearParameterBindings ()</tt> -  Reset all parameter bindings to NULL.
+ </LI>
+<LI>  <tt>string = obj.EscapeString (string src, bool addSurroundingQuotes)</tt> -  Escape a string for inclusion into an SQL query.
+ This method exists to provide a wrappable version of
+ the method that takes and returns vtkStdString objects.
+ You are responsible for calling delete [] on the
+ character array returned by this method.
+ This method simply calls the vtkStdString variant and thus
+ need not be re-implemented by subclasses.
+ </LI>
+</UL>
+*/

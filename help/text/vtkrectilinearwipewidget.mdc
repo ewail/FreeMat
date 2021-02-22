@@ -1,0 +1,89 @@
+
+ Usage
+
+The vtkRectilinearWipeWidget is used to interactively
+control an instance of vtkImageRectilinearWipe (and an
+associated vtkImageActor used to display the rectilinear
+wipe). A rectilinear wipe is a 2x2 checkerboard pattern
+created by combining two separate images, where various
+combinations of the checker squares are possible. Using this
+widget, the user can adjust the layout of the checker
+pattern, such as moving the center point, moving the
+horizontal separator, or moving the vertical separator.
+These capabilities are particularly useful for comparing two
+images.
+To use this widget, specify its representation (by default
+the representation is an instance of
+vtkRectilinearWipeProp). The representation generally
+requires that you specify an instance of
+vtkImageRectilinearWipe and an instance of vtkImageActor.
+Other instance variables may also be required to be set
+&ndash; see the documentation for vtkRectilinearWipeProp (or
+appropriate subclass).
+By default, the widget responds to the following events:
+
+   Selecting the center point, horizontal separator, and
+  verticel separator:
+     LeftButtonPressEvent - move the separators
+     LeftButtonReleaseEvent - release the separators
+     MouseMoveEvent - move the separators
+
+Selecting the center point allows you to move the horizontal
+and vertical separators simultaneously. Otherwise only
+horizontal or vertical motion is possible/
+Note that the event bindings described above can be changed
+using this class's vtkWidgetEventTranslator. This class
+translates VTK events into the vtkRectilinearWipeWidget's
+widget events:
+
+     vtkWidgetEvent::Select &ndash; some part of the widget
+  has been selected
+     vtkWidgetEvent::EndSelect &ndash; the selection process
+  has completed
+     vtkWidgetEvent::Move &ndash; a request for motion has
+  been invoked
+
+In turn, when these widget events are processed, the
+vtkRectilinearWipeWidget invokes the following VTK events
+(which observers can listen for):
+
+     vtkCommand::StartInteractionEvent (on vtkWidgetEvent::
+  Select)
+     vtkCommand::EndInteractionEvent (on vtkWidgetEvent::
+  EndSelect)
+     vtkCommand::InteractionEvent (on vtkWidgetEvent::Move)
+
+To create an instance of class vtkRectilinearWipeWidget,
+simply invoke its constructor as follows
+
+    obj = vtkRectilinearWipeWidget
+
+
+
+ Methods
+
+The class vtkRectilinearWipeWidget has several methods that
+can be used. They are listed below. Note that the
+documentation is translated automatically from the VTK
+sources, and may not be completely intelligible. When in
+doubt, consult the VTK website. In the methods listed below,
+obj is an instance of the vtkRectilinearWipeWidget class.
+
+* string = obj.GetClassName () - Standard macros.
+* int = obj.IsA (string name) - Standard macros.
+* vtkRectilinearWipeWidget = obj.NewInstance () - Standard
+  macros.
+* vtkRectilinearWipeWidget = obj.SafeDownCast (vtkObject o)
+  - Standard macros.
+* obj.SetRepresentation (vtkRectilinearWipeRepresentation r)
+  - Create the default widget representation if one is not
+  set.
+* obj.CreateDefaultRepresentation () - Create the default
+  widget representation if one is not set.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Widget_Classes
+* Generated on Thu Jul 25 2013 17:18:36 for FreeMat by
+  doxygen_ 1.8.1.1
+

@@ -1,0 +1,61 @@
+/*!
+\page io_fwrite FWRITE File Write Function
+
+<p>
+Section: \ref sec_io "Input/Ouput Functions"
+\section Usage
+Writes an array to a given file handle as a block of binary (raw) data.
+The general use of the function is
+\verbatim
+  n = fwrite(handle,A)
+\endverbatim
+The <tt>handle</tt> argument must be a valid value returned by the fopen 
+function, and accessable for writing. The array <tt>A</tt> is written to
+the file a column at a time.  The form of the output data depends
+on (and is inferred from) the precision of the array <tt>A</tt>.  If the 
+write fails (because we ran out of disk space, etc.) then an error
+is returned.  The output <tt>n</tt> indicates the number of elements
+successfully written.
+
+Note that unlike MATLAB, FreeMat 4 does not default to <tt>uint8</tt> for
+writing arrays to files.  Alternately, the type of the data to be
+written to the file can be specified with the syntax
+\verbatim
+  n = fwrite(handle,A,type)
+\endverbatim
+where <tt>type</tt> is one of the following legal values:
+<UL>
+<LI>  'uint8','uchar','unsigned char' for an unsigned, 8-bit integer.
+ </LI>
+<LI>  'int8','char','integer*1' for a signed, 8-bit integer.
+ </LI>
+<LI>  'uint16','unsigned short' for an unsigned, 16-bit  integer.
+ </LI>
+<LI>  'int16','short','integer*2' for a signed, 16-bit integer.
+ </LI>
+<LI>  'uint32','unsigned int' for an unsigned, 32-bit integer.
+ </LI>
+<LI>  'int32','int','integer*4' for a signed, 32-bit integer.
+ </LI>
+<LI>  'single','float32','float','real*4' for a 32-bit floating point.
+ </LI>
+<LI>  'double','float64','real*8' for a 64-bit floating point.
+ </LI>
+</UL>
+
+\section Example
+Heres an example of writing an array of <tt>512 x 512</tt> Gaussian-distributed <tt>float</tt> random variables, and then writing them to a file called <tt>test.dat</tt>.
+
+\if FRAGMENT
+frag_io_fwrite_000.m
+0
+A = float(randn(512));
+fp = fopen('test.dat','w');
+fwrite(fp,A,'single');
+fclose(fp);
+\endif
+
+
+\verbinclude frag_io_fwrite_000.m.out 
+
+*/

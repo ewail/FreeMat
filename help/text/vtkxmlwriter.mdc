@@ -1,0 +1,162 @@
+
+ Usage
+
+vtkXMLWriter provides methods implementing most of the
+functionality needed to write VTK XML file formats. Concrete
+subclasses provide actual writer implementations calling
+upon this functionality.
+To create an instance of class vtkXMLWriter, simply invoke
+its constructor as follows
+
+    obj = vtkXMLWriter
+
+
+
+ Methods
+
+The class vtkXMLWriter has several methods that can be used.
+They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkXMLWriter class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkXMLWriter = obj.NewInstance ()
+* vtkXMLWriter = obj.SafeDownCast (vtkObject o)
+* obj.SetByteOrder (int ) - Get/Set the byte order of data
+  written to the file. The default is the machine's hardware
+  byte order.
+* int = obj.GetByteOrder () - Get/Set the byte order of data
+  written to the file. The default is the machine's hardware
+  byte order.
+* obj.SetByteOrderToBigEndian () - Get/Set the byte order of
+  data written to the file. The default is the machine's
+  hardware byte order.
+* obj.SetByteOrderToLittleEndian () - Get/Set the byte order
+  of data written to the file. The default is the machine's
+  hardware byte order.
+* obj.SetIdType (int ) - Get/Set the size of the vtkIdType
+  values stored in the file. The default is the real size of
+  vtkIdType.
+* int = obj.GetIdType () - Get/Set the size of the vtkIdType
+  values stored in the file. The default is the real size of
+  vtkIdType.
+* obj.SetIdTypeToInt32 () - Get/Set the size of the
+  vtkIdType values stored in the file. The default is the
+  real size of vtkIdType.
+* obj.SetIdTypeToInt64 () - Get/Set the size of the
+  vtkIdType values stored in the file. The default is the
+  real size of vtkIdType.
+* obj.SetFileName (string ) - Get/Set the name of the output
+  file.
+* string = obj.GetFileName () - Get/Set the name of the
+  output file.
+* obj.SetCompressor (vtkDataCompressor ) - Get/Set the
+  compressor used to compress binary and appended data
+  before writing to the file. Default is a
+  vtkZLibDataCompressor.
+* vtkDataCompressor = obj.GetCompressor () - Get/Set the
+  compressor used to compress binary and appended data
+  before writing to the file. Default is a
+  vtkZLibDataCompressor.
+* obj.SetCompressorType (int compressorType) - Convenience
+  functions to set the compressor to certain known types.
+* obj.SetCompressorTypeToNone () - Convenience functions to
+  set the compressor to certain known types.
+* obj.SetCompressorTypeToZLib () - Get/Set the block size
+  used in compression. When reading, this controls the
+  granularity of how much extra information must be read
+  when only part of the data are requested. The value should
+  be a multiple of the largest scalar data type.
+* obj.SetBlockSize (int blockSize) - Get/Set the block size
+  used in compression. When reading, this controls the
+  granularity of how much extra information must be read
+  when only part of the data are requested. The value should
+  be a multiple of the largest scalar data type.
+* int = obj.GetBlockSize () - Get/Set the block size used in
+  compression. When reading, this controls the granularity
+  of how much extra information must be read when only part
+  of the data are requested. The value should be a multiple
+  of the largest scalar data type.
+* obj.SetDataMode (int ) - Get/Set the data mode used for
+  the file's data. The options are vtkXMLWriter::Ascii,
+  vtkXMLWriter::Binary, and vtkXMLWriter::Appended.
+* int = obj.GetDataMode () - Get/Set the data mode used for
+  the file's data. The options are vtkXMLWriter::Ascii,
+  vtkXMLWriter::Binary, and vtkXMLWriter::Appended.
+* obj.SetDataModeToAscii () - Get/Set the data mode used for
+  the file's data. The options are vtkXMLWriter::Ascii,
+  vtkXMLWriter::Binary, and vtkXMLWriter::Appended.
+* obj.SetDataModeToBinary () - Get/Set the data mode used
+  for the file's data. The options are vtkXMLWriter::Ascii,
+  vtkXMLWriter::Binary, and vtkXMLWriter::Appended.
+* obj.SetDataModeToAppended () - Get/Set the data mode used
+  for the file's data. The options are vtkXMLWriter::Ascii,
+  vtkXMLWriter::Binary, and vtkXMLWriter::Appended.
+* obj.SetEncodeAppendedData (int ) - Get/Set whether the
+  appended data section is base64 encoded. If encoded,
+  reading and writing will be slower, but the file will be
+  fully valid XML and text-only. If not encoded, the XML
+  specification will be violated, but reading and writing
+  will be fast. The default is to do the encoding.
+* int = obj.GetEncodeAppendedData () - Get/Set whether the
+  appended data section is base64 encoded. If encoded,
+  reading and writing will be slower, but the file will be
+  fully valid XML and text-only. If not encoded, the XML
+  specification will be violated, but reading and writing
+  will be fast. The default is to do the encoding.
+* obj.EncodeAppendedDataOn () - Get/Set whether the appended
+  data section is base64 encoded. If encoded, reading and
+  writing will be slower, but the file will be fully valid
+  XML and text-only. If not encoded, the XML specification
+  will be violated, but reading and writing will be fast.
+  The default is to do the encoding.
+* obj.EncodeAppendedDataOff () - Get/Set whether the
+  appended data section is base64 encoded. If encoded,
+  reading and writing will be slower, but the file will be
+  fully valid XML and text-only. If not encoded, the XML
+  specification will be violated, but reading and writing
+  will be fast. The default is to do the encoding.
+* obj.SetInput (vtkDataObject ) - Set/Get an input of this
+  algorithm. You should not override these methods because
+  they are not the only way to connect a pipeline
+* obj.SetInput (int , vtkDataObject ) - Set/Get an input of
+  this algorithm. You should not override these methods
+  because they are not the only way to connect a pipeline
+* vtkDataObject = obj.GetInput (int port) - Set/Get an input
+  of this algorithm. You should not override these methods
+  because they are not the only way to connect a pipeline
+* vtkDataObject = obj.GetInput () - Set/Get an input of this
+  algorithm. You should not override these methods because
+  they are not the only way to connect a pipeline
+* string = obj.GetDefaultFileExtension () - Get the default
+  file extension for files written by this writer.
+* int = obj.Write () - Invoke the writer. Returns 1 for
+  success, 0 for failure.
+* obj.SetTimeStep (int ) - Which TimeStep to write.
+* int = obj.GetTimeStep () - Which TimeStep to write.
+* int = obj. GetTimeStepRange () - Which TimeStepRange to
+  write.
+* obj.SetTimeStepRange (int , int ) - Which TimeStepRange to
+  write.
+* obj.SetTimeStepRange (int a[2]) - Which TimeStepRange to
+  write.
+* int = obj.GetNumberOfTimeSteps () - Set the number of time
+  steps
+* obj.SetNumberOfTimeSteps (int ) - Set the number of time
+  steps
+* obj.Start () - API to interface an outside the VTK
+  pipeline control
+* obj.Stop () - API to interface an outside the VTK pipeline
+  control
+* obj.WriteNextTime (double time) - API to interface an
+  outside the VTK pipeline control
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_IO_Classes
+* Generated on Thu Jul 25 2013 17:18:34 for FreeMat by
+  doxygen_ 1.8.1.1
+

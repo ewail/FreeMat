@@ -1,0 +1,104 @@
+
+ Usage
+
+Reads a block of binary data from the given file handle into
+a variable of a given shape and precision. The general use
+of the function is
+
+    A = fread(handle,size,precision)
+
+The handle argument must be a valid value returned by the
+fopen function, and accessable for reading. The size
+argument determines the number of values read from the file.
+The size argument is simply a vector indicating the size of
+the array A. The size argument can also contain a single inf
+dimension, indicating that FreeMat should calculate the size
+of the array along that dimension so as to read as much data
+as possible from the file (see the examples listed below for
+more details). The data is stored as columns in the file,
+not rows.
+Alternately, you can specify two return values to the fread
+function, in which case the second value contains the number
+of elements read
+
+     [A,count] = fread(...)
+
+where count is the number of elements in A.
+The third argument determines the type of the data. Legal
+values for this argument are listed below:
+
+* 'uint8','uchar','unsigned char' for an unsigned, 8-bit
+  integer.
+* 'int8','char','integer*1' for a signed, 8-bit integer.
+* 'uint16','unsigned short' for an unsigned, 16-bit integer.
+* 'int16','short','integer*2' for a signed, 16-bit integer.
+* 'uint32','unsigned int' for an unsigned, 32-bit integer.
+* 'int32','int','integer*4' for a signed, 32-bit integer.
+* 'single','float32','float','real*4' for a 32-bit floating
+  point.
+* 'double','float64','real*8' for a 64-bit floating point.
+
+Starting with FreeMat 4, the format for the third argument
+has changed. If you specify only a type, such as 'float',
+the data is read in as single precision, but the output type
+is always 'double'. This behavior is consistent with Matlab.
+If you want the output type to match the input type (as was
+previous behavior in FreeMat), you must preface the
+precision string with a '*'. Thus, the precision string
+'*float' implies that data is read in as single precision,
+and the output is also single precision.
+The third option is to specify the input and output types
+explicitly. You can do this by specifiying a precision
+string of the form 'type1 => type2', where 'type1' is the
+input type and 'type2' is the output type. For example, if
+the input type is 'double' and the output type is to be a
+'float', then a type spec of 'double => float' should be
+used.
+
+
+ Example
+
+First, we create an array of 512 x 512 Gaussian-distributed
+float random variables, and then writing them to a file
+called test.dat.
+
+  --> A = float(randn(512));
+  --> fp = fopen('test.dat','w');
+  --> fwrite(fp,A);
+  --> fclose(fp);
+
+Read as many floats as possible into a row vector
+
+  --> fp = fopen('test.dat','r');
+  --> x = fread(fp,[1,inf],'float');
+  --> fclose(fp);
+  --> who x
+    Variable Name       Type   Flags             Size
+                x    double                    [1x262144]
+
+Note that x is a double array. This behavior is new to
+FreeMat 4. Read the same floats into a 2-D float array.
+
+  --> fp = fopen('test.dat','r');
+  --> x = fread(fp,[512,inf],'float');
+  --> fclose(fp);
+  --> who x
+    Variable Name       Type   Flags             Size
+                x    double                    [512x512]
+
+To read them as a single precision float array, we can use
+the following form:
+
+  --> fp = fopen('test.dat','r');
+  --> x = fread(fp,[512,inf],'*float');
+  --> fclose(fp);
+  --> who x
+    Variable Name       Type   Flags             Size
+                x    single                    [512x512]
+
+
+* FreeMat_Documentation
+* Input/Ouput_Functions
+* Generated on Thu Jul 25 2013 17:17:38 for FreeMat by
+  doxygen_ 1.8.1.1
+

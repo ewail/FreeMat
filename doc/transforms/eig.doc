@@ -1,0 +1,158 @@
+/*!
+\page transforms_eig EIG Eigendecomposition of a Matrix
+
+<p>
+Section: \ref sec_transforms "Transforms/Decompositions"
+\section Usage
+Computes the eigendecomposition of a square matrix.  The <tt>eig</tt> function
+has several forms.  The first returns only the eigenvalues of the matrix:
+\verbatim
+  s = eig(A)
+\endverbatim
+The second form returns both the eigenvectors and eigenvalues as two 
+matrices (the eigenvalues are stored in a diagonal matrix):
+\verbatim
+  [V,D] = eig(A)
+\endverbatim
+where <tt>D</tt> is the diagonal matrix of eigenvalues, and <tt>V</tt> is the
+matrix of eigenvectors.
+
+Eigenvalues and eigenvectors for asymmetric matrices <tt>A</tt> normally
+are computed with balancing applied.  Balancing is a scaling step
+that normaly improves the quality of the eigenvalues and eigenvectors.
+In some instances (see the Function Internals section for more details)
+it is necessary to disable balancing.  For these cases, two additional
+forms of <tt>eig</tt> are available:
+\verbatim
+  s = eig(A,'nobalance'),
+\endverbatim
+which computes the eigenvalues of <tt>A</tt> only, and does not balance
+the matrix prior to computation.  Similarly,
+\verbatim
+  [V,D] = eig(A,'nobalance')
+\endverbatim
+recovers both the eigenvectors and eigenvalues of <tt>A</tt> without balancing.
+Note that the 'nobalance' option has no affect on symmetric matrices.
+
+FreeMat also provides the ability to calculate generalized eigenvalues
+and eigenvectors.  Similarly to the regular case, there are two forms
+for <tt>eig</tt> when computing generalized eigenvector (see the Function
+Internals section for a description of what a generalized eigenvector is).
+The first returns only the generalized eigenvalues of the matrix
+pair <tt>A,B</tt>
+\verbatim
+  s = eig(A,B)
+\endverbatim
+The second form also computes the generalized eigenvectors, and is
+accessible via
+\verbatim
+  [V,D] = eig(A,B)
+\endverbatim
+\section Function Internals
+Recall that <tt>v</tt> is an eigenvector of <tt>A</tt> with associated eigenvalue
+<tt>d</tt> if
+\f[
+  A v = d v.
+\f]
+This decomposition can be written in matrix form as
+\f[
+  A V = V D
+\f]
+where
+\f[
+  V = [v_1,v_2,\ldots,v_n], D = \mathrm{diag}(d_1,d_2,\ldots,d_n).
+\f]
+The <tt>eig</tt> function uses the <tt>LAPACK</tt> class of functions <tt>GEEVX</tt>
+to compute the eigenvalue decomposition for non-symmetric 
+(or non-Hermitian) matrices <tt>A</tt>.  For symmetric matrices, <tt>SSYEV</tt>
+ and <tt>DSYEV</tt> are used for <tt>float</tt> and <tt>double</tt> matrices (respectively).
+For Hermitian matrices, <tt>CHEEV</tt> and <tt>ZHEEV</tt> are used for <tt>complex</tt>
+and <tt>dcomplex</tt> matrices.
+
+For some matrices, the process of balancing (in which the rows and
+columns of the matrix are pre-scaled to facilitate the search for
+eigenvalues) is detrimental to the quality of the final solution.
+This is particularly true if the matrix contains some elements on
+the order of round off error.  See the Example section for an example.
+
+A generalized eigenvector of the matrix pair <tt>A,B</tt> is simply a 
+vector <tt>v</tt> with associated eigenvalue <tt>d</tt> such that
+\f[
+  A v = d B v,
+\f]
+where <tt>B</tt> is a square matrix of the same size as <tt>A</tt>.  This
+decomposition can be written in matrix form as 
+\f[
+  A V = B V D
+\f]
+where
+\f[
+  V = [v_1,v_2,\ldots,v_n], D = \mathrm{diag}(d_1,d_2,\ldots,d_n).
+\f]
+For general matrices <tt>A</tt> and <tt>B</tt>, the <tt>GGEV</tt> class of routines are
+used to compute the generalized eigendecomposition.  If howevever,
+<tt>A</tt> and <tt>B</tt> are both symmetric (or Hermitian, as appropriate),
+Then FreeMat first attempts to use <tt>SSYGV</tt> and <tt>DSYGV</tt> for <tt>float</tt>
+and <tt>double</tt> arguments and <tt>CHEGV</tt> and <tt>ZHEGV</tt> for <tt>complex</tt>
+and <tt>dcomplex</tt> arguments (respectively).  These routines requires
+that <tt>B</tt> also be positive definite, and if it fails to be, FreeMat
+will revert to the routines used for general arguments.
+\section Example
+Some examples of eigenvalue decompositions.  First, for a diagonal
+matrix, the eigenvalues are the diagonal elements of the matrix.
+
+\if FRAGMENT
+frag_transforms_eig_000.m
+0
+A = diag([1.02f,3.04f,1.53f])
+eig(A)
+\endif
+
+
+\verbinclude frag_transforms_eig_000.m.out 
+
+Next, we compute the eigenvalues of an upper triangular matrix, 
+where the eigenvalues are again the diagonal elements.
+
+\if FRAGMENT
+frag_transforms_eig_001.m
+0
+A = [1.0f,3.0f,4.0f;0,2.0f,6.7f;0.0f,0.0f,1.0f]
+eig(A)
+\endif
+
+
+\verbinclude frag_transforms_eig_001.m.out 
+
+Next, we compute the complete eigenvalue decomposition of
+a random matrix, and then demonstrate the accuracy of the solution
+
+\if FRAGMENT
+frag_transforms_eig_002.m
+0
+A = float(randn(2))
+[V,D] = eig(A)
+A*V - V*D
+\endif
+
+
+\verbinclude frag_transforms_eig_002.m.out 
+
+Now, we consider a matrix that requires the nobalance option
+to compute the eigenvalues and eigenvectors properly.  Here is
+an example from MATLAB's manual.
+
+\if FRAGMENT
+frag_transforms_eig_003.m
+0
+B = [3,-2,-.9,2*eps;-2,4,1,-eps;-eps/4,eps/2,-1,0;-.5,-.5,.1,1]
+[VB,DB] = eig(B)
+B*VB - VB*DB
+[VN,DN] = eig(B,'nobalance')
+B*VN - VN*DN
+\endif
+
+
+\verbinclude frag_transforms_eig_003.m.out 
+
+*/

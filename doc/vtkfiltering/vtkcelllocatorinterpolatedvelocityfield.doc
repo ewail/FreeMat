@@ -1,0 +1,68 @@
+/*!
+\page vtkfiltering_vtkcelllocatorinterpolatedvelocityfield vtkCellLocatorInterpolatedVelocityField
+
+<p>
+Section: \ref sec_vtkfiltering "Visualization Toolkit Filtering Classes"
+\section Usage
+  vtkCellLocatorInterpolatedVelocityField acts as a continuous velocity 
+  field via cell interpolation on a vtkDataSet, NumberOfIndependentVariables
+  = 4 (x,y,z,t) and NumberOfFunctions = 3 (u,v,w). As a concrete sub-class
+  of vtkAbstractInterpolatedVelocityField, it adopts vtkAbstractCellLocator's 
+  sub-classes, e.g., vtkCellLocator and vtkModifiedBSPTree, without the use
+  of vtkPointLocator ( employed by vtkDataSet/vtkPointSet::FindCell() in 
+  vtkInterpolatedVelocityField ). vtkCellLocatorInterpolatedVelocityField 
+  adopts one level of cell caching. Specifically, if the next point is still 
+  within the previous cell, cell location is then simply skipped and vtkCell::
+  EvaluatePosition() is called to obtain the new parametric coordinates and 
+  weights that are used to interpolate the velocity function values across the
+  vertices of this cell. Otherwise a global cell (the target containing the next
+  point) location is instead directly invoked, without exploiting the clue that
+  vtkInterpolatedVelocityField makes use of from the previous cell (an immediate
+  neighbor). Although ignoring the neighbor cell may incur a relatively high 
+  computational cost, vtkCellLocatorInterpolatedVelocityField is more robust in
+  locating the target cell than its sibling class vtkInterpolatedVelocityField.
+
+To create an instance of class vtkCellLocatorInterpolatedVelocityField, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkCellLocatorInterpolatedVelocityField
+\endverbatim
+\section Methods
+The class vtkCellLocatorInterpolatedVelocityField has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkCellLocatorInterpolatedVelocityField class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkCellLocatorInterpolatedVelocityField = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkCellLocatorInterpolatedVelocityField = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>vtkAbstractCellLocator = obj.GetLastCellLocator ()</tt> -  Get the cell locator attached to the most recently visited dataset.
+ </LI>
+<LI>  <tt>vtkAbstractCellLocator = obj.GetCellLocatorPrototype ()</tt> -  Get the prototype of the cell locator that is used for interpolating the
+ velocity field during integration.
+ </LI>
+<LI>  <tt>obj.SetCellLocatorPrototype (vtkAbstractCellLocator prototype)</tt> -  Set a prototype of the cell locator that is used for interpolating the 
+ velocity field during integration.
+ </LI>
+<LI>  <tt>obj.CopyParameters (vtkAbstractInterpolatedVelocityField from)</tt> -  Import parameters. Sub-classes can add more after chaining.
+ </LI>
+<LI>  <tt>obj.AddDataSet (vtkDataSet dataset)</tt> -  Add a dataset coupled with a cell locator (of type vtkAbstractCellLocator)
+ for vector function evaluation. Note the use of a vtkAbstractCellLocator 
+ enables robust cell location. If more than one dataset is added, the 
+ evaluation point is searched in all until a match is found. THIS FUNCTION
+ DOES NOT CHANGE THE REFERENCE COUNT OF dataset FOR THREAD SAFETY REASONS.
+ </LI>
+<LI>  <tt>int = obj.FunctionValues (double x, double f)</tt> -  Evaluate the velocity field f at point (x, y, z).
+ </LI>
+<LI>  <tt>obj.SetLastCellId (vtkIdType c, int dataindex)</tt> -  Set the cell id cached by the last evaluation within a specified dataset.
+ </LI>
+<LI>  <tt>obj.SetLastCellId (vtkIdType c)</tt>
+ </LI>
+</UL>
+*/

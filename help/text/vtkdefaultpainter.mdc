@@ -1,0 +1,99 @@
+
+ Usage
+
+This painter does not do any actual rendering. Sets up a
+default pipeline of painters to mimick the behaiour of old
+vtkPolyDataMapper. The chain is as follows: input&ndash;>
+vtkScalarsToColorsPainter &ndash;> vtkClipPlanesPainter
+&ndash;> vtkDisplayListPainter &ndash;> vtkCompositePainter
+&ndash;> vtkCoincidentTopologyResolutionPainter &ndash;>
+vtkLightingPainter &ndash;> vtkRepresentationPainter
+&ndash;> <Delegate of vtkDefaultPainter>. Typically, the
+delegate of the default painter be one that is capable of r
+rendering graphics primitives or a vtkChooserPainter which
+can select appropriate painters to do the rendering.
+To create an instance of class vtkDefaultPainter, simply
+invoke its constructor as follows
+
+    obj = vtkDefaultPainter
+
+
+
+ Methods
+
+The class vtkDefaultPainter has several methods that can be
+used. They are listed below. Note that the documentation is
+translated automatically from the VTK sources, and may not
+be completely intelligible. When in doubt, consult the VTK
+website. In the methods listed below, obj is an instance of
+the vtkDefaultPainter class.
+
+* string = obj.GetClassName ()
+* int = obj.IsA (string name)
+* vtkDefaultPainter = obj.NewInstance ()
+* vtkDefaultPainter = obj.SafeDownCast (vtkObject o)
+* obj.SetScalarsToColorsPainter (vtkScalarsToColorsPainter )
+  - Get/Set the painter that maps scalars to colors.
+* vtkScalarsToColorsPainter = obj.GetScalarsToColorsPainter
+  () - Get/Set the painter that maps scalars to colors.
+* obj.SetClipPlanesPainter (vtkClipPlanesPainter ) - Get/Set
+  the painter that handles clipping.
+* vtkClipPlanesPainter = obj.GetClipPlanesPainter () - Get/
+  Set the painter that handles clipping.
+* obj.SetDisplayListPainter (vtkDisplayListPainter ) - Get/
+  Set the painter that builds display lists.
+* vtkDisplayListPainter = obj.GetDisplayListPainter () -
+  Get/Set the painter that builds display lists.
+* obj.SetCompositePainter (vtkCompositePainter ) - Get/Set
+  the painter used to handle composite datasets.
+* vtkCompositePainter = obj.GetCompositePainter () - Get/Set
+  the painter used to handle composite datasets.
+* obj.SetCoincidentTopologyResolutionPainter
+  (vtkCoincidentTopologyResolutionPainter ) - Painter used
+  to resolve coincident topology.
+* vtkCoincidentTopologyResolutionPainter =
+  obj.GetCoincidentTopologyResolutionPainter () - Painter
+  used to resolve coincident topology.
+* obj.SetLightingPainter (vtkLightingPainter ) - Get/Set the
+  painter that controls lighting.
+* vtkLightingPainter = obj.GetLightingPainter () - Get/Set
+  the painter that controls lighting.
+* obj.SetRepresentationPainter (vtkRepresentationPainter ) -
+  Painter used to convert polydata to Wireframe/Points
+  representation.
+* vtkRepresentationPainter = obj.GetRepresentationPainter ()
+  - Painter used to convert polydata to Wireframe/Points
+  representation.
+* obj.SetDelegatePainter (vtkPainter ) - Set/Get the painter
+  to which this painter should propagare its draw calls.
+  These methods are overridden so that the delegate is set
+  to the end of the Painter Chain.
+* vtkPainter = obj.GetDelegatePainter () - Overridden to
+  setup the chain of painter depending on the actor
+  representation. The chain is rebuilt if this->MTime has
+  changed since last BuildPainterChain(); Building of the
+  chain does not depend on input polydata, hence it does not
+  check if the input has changed at all.
+* obj.Render (vtkRenderer renderer, vtkActor actor, long
+  typeflags, bool forceCompileOnly) - Overridden to setup
+  the chain of painter depending on the actor
+  representation. The chain is rebuilt if this->MTime has
+  changed since last BuildPainterChain(); Building of the
+  chain does not depend on input polydata, hence it does not
+  check if the input has changed at all.
+* obj.ReleaseGraphicsResources (vtkWindow ) - Release any
+  graphics resources that are being consumed by this
+  painter. The parameter window could be used to determine
+  which graphic resources to release. The call is propagated
+  to the delegate painter, if any.
+* obj.UpdateBounds (double bounds[6]) - Expand or shrink the
+  estimated bounds based on the geometric transformations
+  applied in the painter. The bounds are left unchanged if
+  the painter does not change the geometry.
+
+
+* FreeMat_Documentation
+* Visualization_Toolkit_Rendering_Classes
+* Generated on Thu Jul 25 2013 17:18:35 for FreeMat by
+  doxygen_ 1.8.1.1
+

@@ -1,0 +1,43 @@
+/*!
+\page freemat_diary DIARY Create a Log File of Console
+
+<p>
+Section: \ref sec_freemat "FreeMat Functions"
+\section Usage
+The <tt>diary</tt> function controls the creation of a log file that duplicates
+the text that would normally appear on the console.
+The simplest syntax for the command is simply:
+\verbatim
+   diary
+\endverbatim
+which toggles the current state of the diary command.  You can also explicitly
+set the state of the diary command via the syntax
+\verbatim
+   diary off
+\endverbatim
+or
+\verbatim
+   diary on
+\endverbatim
+To specify a filename for the log (other than the default of <tt>diary</tt>), you 
+can use the form:
+\verbatim
+   diary filename
+\endverbatim
+or
+\verbatim
+   diary('filename')
+\endverbatim
+which activates the diary with an output filename of <tt>filename</tt>.  Note that the
+<tt>diary</tt> command is thread specific, but that the output is appended to a given
+file.  That means that if you call <tt>diary</tt> with the same filename on multiple 
+threads, their outputs will be intermingled in the log file (just as on the console).
+Because the <tt>diary</tt> state is tied to individual threads, you cannot retrieve the
+current diary state using the <tt>get(0,'Diary')</tt> syntax from MATLAB.  Instead, you
+must call the <tt>diary</tt> function with no inputs and one output:
+\verbatim
+   state = diary
+\endverbatim
+which returns a logical <tt>1</tt> if the output of the current thread is currently going to
+a diary, and a logical <tt>0</tt> if not.
+*/

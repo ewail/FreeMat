@@ -1,0 +1,163 @@
+/*!
+\page vtkgraphics_vtkpolydatanormals vtkPolyDataNormals
+
+<p>
+Section: \ref sec_vtkgraphics "Visualization Toolkit Graphics Classes"
+\section Usage
+ vtkPolyDataNormals is a filter that computes point normals for a polygonal 
+ mesh. The filter can reorder polygons to insure consistent orientation
+ across polygon neighbors. Sharp edges can be split and points duplicated
+ with separate normals to give crisp (rendered) surface definition. It is
+ also possible to globally flip the normal orientation.
+
+ The algorithm works by determining normals for each polygon and then
+ averaging them at shared points. When sharp edges are present, the edges
+ are split and new points generated to prevent blurry edges (due to 
+ Gouraud shading).
+
+To create an instance of class vtkPolyDataNormals, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkPolyDataNormals
+\endverbatim
+\section Methods
+The class vtkPolyDataNormals has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkPolyDataNormals class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkPolyDataNormals = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkPolyDataNormals = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetFeatureAngle (double )</tt> -  Specify the angle that defines a sharp edge. If the difference in
+ angle across neighboring polygons is greater than this value, the
+ shared edge is considered "sharp".
+ </LI>
+<LI>  <tt>double = obj.GetFeatureAngleMinValue ()</tt> -  Specify the angle that defines a sharp edge. If the difference in
+ angle across neighboring polygons is greater than this value, the
+ shared edge is considered "sharp".
+ </LI>
+<LI>  <tt>double = obj.GetFeatureAngleMaxValue ()</tt> -  Specify the angle that defines a sharp edge. If the difference in
+ angle across neighboring polygons is greater than this value, the
+ shared edge is considered "sharp".
+ </LI>
+<LI>  <tt>double = obj.GetFeatureAngle ()</tt> -  Specify the angle that defines a sharp edge. If the difference in
+ angle across neighboring polygons is greater than this value, the
+ shared edge is considered "sharp".
+ </LI>
+<LI>  <tt>obj.SetSplitting (int )</tt> -  Turn on/off the splitting of sharp edges.
+ </LI>
+<LI>  <tt>int = obj.GetSplitting ()</tt> -  Turn on/off the splitting of sharp edges.
+ </LI>
+<LI>  <tt>obj.SplittingOn ()</tt> -  Turn on/off the splitting of sharp edges.
+ </LI>
+<LI>  <tt>obj.SplittingOff ()</tt> -  Turn on/off the splitting of sharp edges.
+ </LI>
+<LI>  <tt>obj.SetConsistency (int )</tt> -  Turn on/off the enforcement of consistent polygon ordering.
+ </LI>
+<LI>  <tt>int = obj.GetConsistency ()</tt> -  Turn on/off the enforcement of consistent polygon ordering.
+ </LI>
+<LI>  <tt>obj.ConsistencyOn ()</tt> -  Turn on/off the enforcement of consistent polygon ordering.
+ </LI>
+<LI>  <tt>obj.ConsistencyOff ()</tt> -  Turn on/off the enforcement of consistent polygon ordering.
+ </LI>
+<LI>  <tt>obj.SetAutoOrientNormals (int )</tt> -  Turn on/off the automatic determination of correct normal
+ orientation. NOTE: This assumes a completely closed surface
+ (i.e. no boundary edges) and no non-manifold edges. If these
+ constraints do not hold, all bets are off. This option adds some
+ computational complexity, and is useful if you don't want to have
+ to inspect the rendered image to determine whether to turn on the 
+ FlipNormals flag. However, this flag can work with the FlipNormals 
+ flag, and if both are set, all the normals in the output will 
+ point "inward".
+ </LI>
+<LI>  <tt>int = obj.GetAutoOrientNormals ()</tt> -  Turn on/off the automatic determination of correct normal
+ orientation. NOTE: This assumes a completely closed surface
+ (i.e. no boundary edges) and no non-manifold edges. If these
+ constraints do not hold, all bets are off. This option adds some
+ computational complexity, and is useful if you don't want to have
+ to inspect the rendered image to determine whether to turn on the 
+ FlipNormals flag. However, this flag can work with the FlipNormals 
+ flag, and if both are set, all the normals in the output will 
+ point "inward".
+ </LI>
+<LI>  <tt>obj.AutoOrientNormalsOn ()</tt> -  Turn on/off the automatic determination of correct normal
+ orientation. NOTE: This assumes a completely closed surface
+ (i.e. no boundary edges) and no non-manifold edges. If these
+ constraints do not hold, all bets are off. This option adds some
+ computational complexity, and is useful if you don't want to have
+ to inspect the rendered image to determine whether to turn on the 
+ FlipNormals flag. However, this flag can work with the FlipNormals 
+ flag, and if both are set, all the normals in the output will 
+ point "inward".
+ </LI>
+<LI>  <tt>obj.AutoOrientNormalsOff ()</tt> -  Turn on/off the automatic determination of correct normal
+ orientation. NOTE: This assumes a completely closed surface
+ (i.e. no boundary edges) and no non-manifold edges. If these
+ constraints do not hold, all bets are off. This option adds some
+ computational complexity, and is useful if you don't want to have
+ to inspect the rendered image to determine whether to turn on the 
+ FlipNormals flag. However, this flag can work with the FlipNormals 
+ flag, and if both are set, all the normals in the output will 
+ point "inward".
+ </LI>
+<LI>  <tt>obj.SetComputePointNormals (int )</tt> -  Turn on/off the computation of point normals.
+ </LI>
+<LI>  <tt>int = obj.GetComputePointNormals ()</tt> -  Turn on/off the computation of point normals.
+ </LI>
+<LI>  <tt>obj.ComputePointNormalsOn ()</tt> -  Turn on/off the computation of point normals.
+ </LI>
+<LI>  <tt>obj.ComputePointNormalsOff ()</tt> -  Turn on/off the computation of point normals.
+ </LI>
+<LI>  <tt>obj.SetComputeCellNormals (int )</tt> -  Turn on/off the computation of cell normals.
+ </LI>
+<LI>  <tt>int = obj.GetComputeCellNormals ()</tt> -  Turn on/off the computation of cell normals.
+ </LI>
+<LI>  <tt>obj.ComputeCellNormalsOn ()</tt> -  Turn on/off the computation of cell normals.
+ </LI>
+<LI>  <tt>obj.ComputeCellNormalsOff ()</tt> -  Turn on/off the computation of cell normals.
+ </LI>
+<LI>  <tt>obj.SetFlipNormals (int )</tt> -  Turn on/off the global flipping of normal orientation. Flipping
+ reverves the meaning of front and back for Frontface and Backface
+ culling in vtkProperty.  Flipping modifies both the normal
+ direction and the order of a cell's points.
+ </LI>
+<LI>  <tt>int = obj.GetFlipNormals ()</tt> -  Turn on/off the global flipping of normal orientation. Flipping
+ reverves the meaning of front and back for Frontface and Backface
+ culling in vtkProperty.  Flipping modifies both the normal
+ direction and the order of a cell's points.
+ </LI>
+<LI>  <tt>obj.FlipNormalsOn ()</tt> -  Turn on/off the global flipping of normal orientation. Flipping
+ reverves the meaning of front and back for Frontface and Backface
+ culling in vtkProperty.  Flipping modifies both the normal
+ direction and the order of a cell's points.
+ </LI>
+<LI>  <tt>obj.FlipNormalsOff ()</tt> -  Turn on/off the global flipping of normal orientation. Flipping
+ reverves the meaning of front and back for Frontface and Backface
+ culling in vtkProperty.  Flipping modifies both the normal
+ direction and the order of a cell's points.
+ </LI>
+<LI>  <tt>obj.SetNonManifoldTraversal (int )</tt> -  Turn on/off traversal across non-manifold edges. This will prevent
+ problems where the consistency of polygonal ordering is corrupted due
+ to topological loops.
+ </LI>
+<LI>  <tt>int = obj.GetNonManifoldTraversal ()</tt> -  Turn on/off traversal across non-manifold edges. This will prevent
+ problems where the consistency of polygonal ordering is corrupted due
+ to topological loops.
+ </LI>
+<LI>  <tt>obj.NonManifoldTraversalOn ()</tt> -  Turn on/off traversal across non-manifold edges. This will prevent
+ problems where the consistency of polygonal ordering is corrupted due
+ to topological loops.
+ </LI>
+<LI>  <tt>obj.NonManifoldTraversalOff ()</tt> -  Turn on/off traversal across non-manifold edges. This will prevent
+ problems where the consistency of polygonal ordering is corrupted due
+ to topological loops.
+ </LI>
+</UL>
+*/

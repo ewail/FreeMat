@@ -1,0 +1,152 @@
+
+ Usage
+
+Returns a vector that contains the indicies of all non-zero
+elements in an array. The usage is
+
+     y = find(x)
+
+The indices returned are generalized column indices, meaning
+that if the array x is of size [d1,d2,...,dn], and the
+element x(i1,i2,...,in) is nonzero, then y will contain the
+integer
+ \[ i_1 + (i_2-1) d_1 + (i_3-1) d_1 d_2 + \dots \]
+The second syntax for the find command is
+
+     [r,c] = find(x)
+
+which returns the row and column index of the nonzero
+entries of x. The third syntax for the find command also
+returns the values
+
+     [r,c,v] = find(x).
+
+Note that if the argument is a row vector, then the returned
+vectors are also row vectors. This form is particularly
+useful for converting sparse matrices into IJV form.
+The find command also supports some additional arguments.
+Each of the above forms can be combined with an integer
+indicating how many results to return:
+
+     y = find(x,k)
+
+where k is the maximum number of results to return. This
+form will return the first k results. You can also specify
+an optional flag indicating whether to take the first or
+last k values:
+
+     y = find(x,k,'first')
+     y = find(x,k,'last')
+
+in the case of the 'last' argument, the last k values are
+returned.
+
+
+ Example
+
+Some simple examples of its usage, and some common uses of
+find in FreeMat programs.
+
+  --> a = [1,2,5,2,4];
+  --> find(a==2)
+
+  ans =
+   2 4
+
+Here is an example of using find to replace elements of A
+that are 0 with the number 5.
+
+  --> A = [1,0,3;0,2,1;3,0,0]
+
+  A =
+   1 0 3
+   0 2 1
+   3 0 0
+
+  --> n = find(A==0)
+
+  n =
+   2
+   4
+   6
+   9
+
+  --> A(n) = 5
+
+  A =
+   1 5 3
+   5 2 1
+   3 5 5
+
+Incidentally, a better way to achieve the same concept is:
+
+  --> A = [1,0,3;0,2,1;3,0,0]
+
+  A =
+   1 0 3
+   0 2 1
+   3 0 0
+
+  --> A(A==0) = 5
+
+  A =
+   1 5 3
+   5 2 1
+   3 5 5
+
+Now, we can also return the indices as row and column
+indices using the two argument form of find:
+
+  --> A = [1,0,3;0,2,1;3,0,0]
+
+  A =
+   1 0 3
+   0 2 1
+   3 0 0
+
+  --> [r,c] = find(A)
+  r =
+   1
+   3
+   2
+   1
+   2
+
+  c =
+   1
+   1
+   2
+   3
+   3
+
+Or the three argument form of find, which returns the value
+also:
+
+  --> [r,c,v] = find(A)
+  r =
+   1
+   3
+   2
+   1
+   2
+
+  c =
+   1
+   1
+   2
+   3
+   3
+
+  v =
+   1
+   3
+   2
+   3
+   1
+
+
+* FreeMat_Documentation
+* Array_Generation_and_Manipulations
+* Generated on Thu Jul 25 2013 17:17:13 for FreeMat by
+  doxygen_ 1.8.1.1
+

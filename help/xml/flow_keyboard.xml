@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="flow_keyboard" kind="page">
+    <compoundname>flow_keyboard</compoundname>
+    <title>KEYBOARD Initiate Interactive Debug Session</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_flow_1sec_flow" kindref="member">Flow Control</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>The <computeroutput>keyboard</computeroutput> statement is used to initiate an interactive session at a specific point in a function. The general syntax for the <computeroutput>keyboard</computeroutput> statement is <verbatim>   keyboard
+</verbatim> A <computeroutput>keyboard</computeroutput> statement can be issued in a <computeroutput>script</computeroutput>, in a <computeroutput>function</computeroutput>, or from within another <computeroutput>keyboard</computeroutput> session. The result of a <computeroutput>keyboard</computeroutput> statement is that execution of the program is halted, and you are given a prompt of the form: <verbatim> [scope,n] --&gt;
+</verbatim> where <computeroutput>scope</computeroutput> is the current scope of execution (either the name of the function we are executing, or <computeroutput>base</computeroutput> otherwise). And <computeroutput>n</computeroutput> is the depth of the <computeroutput>keyboard</computeroutput> session. If, for example, we are in a <computeroutput>keyboard</computeroutput> session, and we call a function that issues another <computeroutput>keyboard</computeroutput> session, the depth of that second session will be one higher. Put another way, <computeroutput>n</computeroutput> is the number of <computeroutput>return</computeroutput> statements you have to issue to get back to the base workspace. Incidentally, a <computeroutput>return</computeroutput> is how you exit the <computeroutput>keyboard</computeroutput> session and resume execution of the program from where it left off. A <computeroutput>retall</computeroutput> can be used to shortcut execution and return to the base workspace.</para><para>The <computeroutput>keyboard</computeroutput> statement is an excellent tool for debugging FreeMat code, and along with <computeroutput>eval</computeroutput> provide a unique set of capabilities not usually found in compiled environments. Indeed, the <computeroutput>keyboard</computeroutput> statement is equivalent to a debugger breakpoint in more traditional environments, but with significantly more inspection power. </para></sect1>
+<sect1 id="variables_struct_1Example">
+<title>Example</title>
+<para>Here we demonstrate a two-level <computeroutput>keyboard</computeroutput> situation. We have a simple function that calls <computeroutput>keyboard</computeroutput> internally:</para><para><verbatim>     key_one.m
+</verbatim></para><para><verbatim>function c = key_one(a,b)
+c = a + b;
+keyboard
+</verbatim></para><para>Now, we execute the function from the base workspace, and at the <computeroutput>keyboard</computeroutput> prompt, we call it again. This action puts us at depth 2. We can confirm that we are in the second invocation of the function by examining the arguments. We then issue two <computeroutput>return</computeroutput> statements to return to the base workspace.</para><para><verbatim>--&gt; key_one(1,2)
+[key_one,3]--&gt; key_one(5,7)
+[key_one,3]--&gt; a
+
+ans = 
+ 5 
+
+[key_one,3]--&gt; b
+
+ans = 
+ 7 
+
+[key_one,3]--&gt; c
+
+ans = 
+ 12 
+
+[key_one,3]--&gt; return
+
+ans = 
+ 12 
+
+[key_one,3]--&gt; a
+
+ans = 
+ 1 
+
+[key_one,3]--&gt; b
+
+ans = 
+ 2 
+
+[key_one,3]--&gt; c
+
+ans = 
+ 3 
+
+[key_one,3]--&gt; return
+
+ans = 
+ 3 
+</verbatim> </para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

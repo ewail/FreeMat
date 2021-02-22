@@ -1,0 +1,102 @@
+/*!
+\page vtkio_vtksqldatabase vtkSQLDatabase
+
+<p>
+Section: \ref sec_vtkio "Visualization Toolkit IO Classes"
+\section Usage
+ Abstract base class for all SQL database connection classes.
+ Manages a connection to the database, and is responsible for creating
+ instances of the associated vtkSQLQuery objects associated with this
+ class in order to perform execute queries on the database.
+ To allow connections to a new type of database, create both a subclass
+ of this class and vtkSQLQuery, and implement the required functions:
+
+ Open() - open the database connection, if possible.
+ Close() - close the connection.
+ GetQueryInstance() - create and return an instance of the vtkSQLQuery
+                      subclass associated with the database type.
+
+ The subclass should also provide API to set connection parameters.
+
+ This class also provides the function EffectSchema to transform a 
+ database schema into a SQL database.
+
+ .SECTION Thanks
+ Thanks to Andrew Wilson from Sandia National Laboratories for his work
+ on the database classes and for the SQLite example. Thanks to David Thompson 
+ and Philippe Pebay from Sandia National Laboratories for implementing
+ this class.
+
+
+To create an instance of class vtkSQLDatabase, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkSQLDatabase
+\endverbatim
+\section Methods
+The class vtkSQLDatabase has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkSQLDatabase class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkSQLDatabase = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkSQLDatabase = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>bool = obj.Open (string password)</tt> -  Open a new connection to the database.
+ You need to set up any database parameters before calling this function.
+ For database connections that do not require a password, pass an empty string.
+ Returns true is the database was opened sucessfully, and false otherwise.
+ </LI>
+<LI>  <tt>obj.Close ()</tt> -  Close the connection to the database.
+ </LI>
+<LI>  <tt>bool = obj.IsOpen ()</tt> -  Return whether the database has an open connection.
+ </LI>
+<LI>  <tt>vtkSQLQuery = obj.GetQueryInstance ()</tt> -  Return an empty query on this database.
+ </LI>
+<LI>  <tt>bool = obj.HasError ()</tt> -  Did the last operation generate an error
+ </LI>
+<LI>  <tt>string = obj.GetLastErrorText ()</tt> -  Get the last error text from the database
+ I'm using const so that people do NOT
+ use the standard vtkGetStringMacro in their
+ implementation, because 99% of the time that
+ will not be the correct thing to do...
+ </LI>
+<LI>  <tt>string = obj.GetDatabaseType ()</tt> -  Get the type of the database (e.g. mysql, psql,..).
+ </LI>
+<LI>  <tt>vtkStringArray = obj.GetTables ()</tt> -  Get the list of tables from the database.
+ </LI>
+<LI>  <tt>vtkStringArray = obj.GetRecord (string table)</tt> -  Get the list of fields for a particular table.
+ </LI>
+<LI>  <tt>bool = obj.IsSupported (int )</tt> -  Get the URL of the database.
+ </LI>
+<LI>  <tt>vtkStdString = obj.GetURL ()</tt> -  Get the URL of the database.
+ </LI>
+<LI>  <tt>vtkStdString = obj.GetTablePreamble (bool )</tt> -  Return the SQL string with the syntax to create a column inside a
+ "CREATE TABLE" SQL statement.
+ NB: this method implements the following minimally-portable syntax:
+ <column name> <column type> <column attributes>
+ It must be overwritten for those SQL backends which have a different 
+ syntax such as, e.g., MySQL.
+ </LI>
+<LI>  
+<tt> vtkStdString = obj.GetColumnSpecification </tt>
+ -  Return the SQL string with the syntax to create a column inside a
+ "CREATE TABLE" SQL statement.
+ NB: this method implements the following minimally-portable syntax:
+ <column name> <column type> <column attributes>
+ It must be overwritten for those SQL backends which have a different 
+ syntax such as, e.g., MySQL.
+ </LI>
+<LI>  <tt>vtkStdString = obj.GetTriggerSpecification (vtkSQLDatabaseSchema schema, int tblHandle, int trgHandle)</tt> -  Return the SQL string with the syntax to create a trigger using a
+ "CREATE TRIGGER" SQL statement.
+ </LI>
+<LI>  <tt>bool = obj.EffectSchema (vtkSQLDatabaseSchema , bool dropIfExistsfalse)</tt> -  Effect a database schema.
+ </LI>
+</UL>
+*/

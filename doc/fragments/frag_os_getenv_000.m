@@ -1,0 +1,2 @@
+0
+getenv('HOME')

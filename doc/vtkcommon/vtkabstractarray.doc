@@ -1,0 +1,192 @@
+/*!
+\page vtkcommon_vtkabstractarray vtkAbstractArray
+
+<p>
+Section: \ref sec_vtkcommon "Visualization Toolkit Common Classes"
+\section Usage
+
+ vtkAbstractArray is an abstract superclass for data array objects.
+ This class defines an API that all subclasses must support.  The
+ data type must be assignable and copy-constructible, but no other
+ assumptions about its type are made.  Most of the subclasses of
+ this array deal with numeric data either as scalars or tuples of
+ scalars.  A program can use the IsNumeric() method to check whether
+ an instance of vtkAbstractArray contains numbers.  It is also
+ possible to test for this by attempting to SafeDownCast an array to
+ an instance of vtkDataArray, although this assumes that all numeric
+ arrays will always be descended from vtkDataArray.
+
+ <p>
+
+ Every array has a character-string name. The naming of the array
+ occurs automatically when it is instantiated, but you are free to
+ change this name using the SetName() method.  (The array name is
+ used for data manipulation.)
+
+
+To create an instance of class vtkAbstractArray, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkAbstractArray
+\endverbatim
+\section Methods
+The class vtkAbstractArray has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkAbstractArray class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkAbstractArray = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkAbstractArray = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>int = obj.Allocate (vtkIdType sz, vtkIdType ext)</tt> -  Allocate memory for this array. Delete old storage only if necessary.
+ Note that ext is no longer used.
+ </LI>
+<LI>  <tt>obj.Initialize ()</tt> -  Release storage and reset array to initial state.
+ </LI>
+<LI>  <tt>int = obj.GetDataType ()</tt> -  Return the underlying data type. An integer indicating data type is 
+ returned as specified in vtkSetGet.h.
+ </LI>
+<LI>  <tt>int = obj.GetDataTypeSize ()</tt> -  Return the size of the underlying data type.  For a bit, 0 is
+ returned.  For string 0 is returned. Arrays with variable length
+ components return 0.
+ </LI>
+<LI>  <tt>int = obj.GetElementComponentSize ()</tt> -  Return the size, in bytes, of the lowest-level element of an
+ array.  For vtkDataArray and subclasses this is the size of the
+ data type.  For vtkStringArray, this is
+ sizeof(vtkStdString::value_type), which winds up being
+ sizeof(char).  
+ </LI>
+<LI>  <tt>obj.SetNumberOfComponents (int )</tt> -  Set/Get the dimention (n) of the components. Must be >= 1. Make sure that
+ this is set before allocation.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfComponentsMinValue ()</tt> -  Set/Get the dimention (n) of the components. Must be >= 1. Make sure that
+ this is set before allocation.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfComponentsMaxValue ()</tt> -  Set/Get the dimention (n) of the components. Must be >= 1. Make sure that
+ this is set before allocation.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfComponents ()</tt> -  Set the number of tuples (a component group) in the array. Note that 
+ this may allocate space depending on the number of components.
+ Also note that if allocation is performed no copy is performed so
+ existing data will be lost (if data conservation is sought, one may
+ use the Resize method instead).
+ </LI>
+<LI>  <tt>obj.SetNumberOfTuples (vtkIdType number)</tt> -  Set the number of tuples (a component group) in the array. Note that 
+ this may allocate space depending on the number of components.
+ Also note that if allocation is performed no copy is performed so
+ existing data will be lost (if data conservation is sought, one may
+ use the Resize method instead).
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetNumberOfTuples ()</tt> -  Set the tuple at the ith location using the jth tuple in the source array.
+ This method assumes that the two arrays have the same type
+ and structure. Note that range checking and memory allocation is not 
+ performed; use in conjunction with SetNumberOfTuples() to allocate space.
+ </LI>
+<LI>  <tt>obj.SetTuple (vtkIdType i, vtkIdType j, vtkAbstractArray source)</tt> -  Set the tuple at the ith location using the jth tuple in the source array.
+ This method assumes that the two arrays have the same type
+ and structure. Note that range checking and memory allocation is not 
+ performed; use in conjunction with SetNumberOfTuples() to allocate space.
+ </LI>
+<LI>  <tt>obj.InsertTuple (vtkIdType i, vtkIdType j, vtkAbstractArray source)</tt> -  Insert the jth tuple in the source array, at ith location in this array. 
+ Note that memory allocation is performed as necessary to hold the data.
+ </LI>
+<LI>  <tt>vtkIdType = obj.InsertNextTuple (vtkIdType j, vtkAbstractArray source)</tt> -  Insert the jth tuple in the source array, at the end in this array. 
+ Note that memory allocation is performed as necessary to hold the data.
+ Returns the location at which the data was inserted.
+ </LI>
+<LI>  <tt>obj.GetTuples (vtkIdList ptIds, vtkAbstractArray output)</tt> -  Given a list of point ids, return an array of tuples.
+ You must insure that the output array has been previously 
+ allocated with enough space to hold the data.
+ </LI>
+<LI>  <tt>obj.GetTuples (vtkIdType p1, vtkIdType p2, vtkAbstractArray output)</tt> -  Get the tuples for the range of points ids specified 
+ (i.e., p1->p2 inclusive). You must insure that the output array has 
+ been previously allocated with enough space to hold the data.
+ </LI>
+<LI>  <tt>obj.DeepCopy (vtkAbstractArray da)</tt> -  Deep copy of data. Implementation left to subclasses, which
+ should support as many type conversions as possible given the
+ data type.
+
+ Subclasses should call vtkAbstractArray::DeepCopy() so that the
+ information object (if one exists) is copied from \a da.
+ </LI>
+<LI>  <tt>obj.InterpolateTuple (vtkIdType i, vtkIdList ptIndices, vtkAbstractArray source, double weights)</tt> -  Set the ith tuple in this array as the interpolated tuple value,
+ given the ptIndices in the source array and associated 
+ interpolation weights.
+ This method assumes that the two arrays are of the same type
+ and strcuture.
+ </LI>
+<LI>  <tt>obj.InterpolateTuple (vtkIdType i, vtkIdType id1, vtkAbstractArray source1, vtkIdType id2, vtkAbstractArray source2, double t)</tt>
+ </LI>
+<LI>  <tt>obj.Squeeze ()</tt> -  Resize object to just fit data requirement. Reclaims extra memory.
+ </LI>
+<LI>  <tt>int = obj.Resize (vtkIdType numTuples)</tt> -  Resize the array while conserving the data.  Returns 1 if
+ resizing succeeded and 0 otherwise.
+ </LI>
+<LI>  <tt>obj.Reset ()</tt> -  Return the size of the data.
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetSize ()</tt> -  What is the maximum id currently in the array.
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetMaxId ()</tt> -  This method lets the user specify data to be held by the array.  The 
+ array argument is a pointer to the data.  size is the size of 
+ the array supplied by the user.  Set save to 1 to keep the class
+ from deleting the array when it cleans up or reallocates memory.
+ The class uses the actual array provided; it does not copy the data 
+ from the supplied array.
+ </LI>
+<LI>  <tt>long = obj.GetActualMemorySize ()</tt> -  Return the memory in kilobytes consumed by this data array. Used to
+ support streaming and reading/writing data. The value returned is
+ guaranteed to be greater than or equal to the memory required to
+ actually represent the data represented by this object. The 
+ information returned is valid only after the pipeline has 
+ been updated.
+ </LI>
+<LI>  <tt>obj.SetName (string )</tt> -  Set/get array's name
+ </LI>
+<LI>  <tt>string = obj.GetName ()</tt> -  Set/get array's name
+ </LI>
+<LI>  <tt>string = obj.GetDataTypeAsString (void )</tt> -  Creates an array for dataType where dataType is one of
+ VTK_BIT, VTK_CHAR, VTK_UNSIGNED_CHAR, VTK_SHORT,
+ VTK_UNSIGNED_SHORT, VTK_INT, VTK_UNSIGNED_INT, VTK_LONG,
+ VTK_UNSIGNED_LONG, VTK_DOUBLE, VTK_DOUBLE, VTK_ID_TYPE,
+ VTK_STRING.
+ Note that the data array returned has be deleted by the
+ user.
+ </LI>
+<LI>  <tt>int = obj.IsNumeric ()</tt> -  This method is here to make backward compatibility easier.  It
+ must return true if and only if an array contains numeric data.
+ </LI>
+<LI>  <tt>vtkArrayIterator = obj.NewIterator ()</tt> -  Subclasses must override this method and provide the right 
+ kind of templated vtkArrayIteratorTemplate.
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetDataSize ()</tt> -  Tell the array explicitly that the data has changed.
+ This is only necessary to call when you modify the array contents
+ without using the array's API (i.e. you retrieve a pointer to the
+ data and modify the array contents).  You need to call this so that
+ the fast lookup will know to rebuild itself.  Otherwise, the lookup
+ functions will give incorrect results.
+ </LI>
+<LI>  <tt>obj.DataChanged ()</tt> -  Tell the array explicitly that the data has changed.
+ This is only necessary to call when you modify the array contents
+ without using the array's API (i.e. you retrieve a pointer to the
+ data and modify the array contents).  You need to call this so that
+ the fast lookup will know to rebuild itself.  Otherwise, the lookup
+ functions will give incorrect results.
+ </LI>
+<LI>  <tt>obj.ClearLookup ()</tt> -  Delete the associated fast lookup data structure on this array,
+ if it exists.  The lookup will be rebuilt on the next call to a lookup
+ function.
+ </LI>
+<LI>  <tt>vtkInformation = obj.GetInformation ()</tt> -  Get an information object that can be used to annotate the array.
+ This will always return an instance of vtkInformation, if one is
+ not currently associated with the array it will be created.
+ </LI>
+<LI>  <tt>bool = obj.HasInformation ()</tt>
+ </LI>
+</UL>
+*/

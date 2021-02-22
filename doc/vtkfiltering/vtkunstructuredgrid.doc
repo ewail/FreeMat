@@ -1,0 +1,128 @@
+/*!
+\page vtkfiltering_vtkunstructuredgrid vtkUnstructuredGrid
+
+<p>
+Section: \ref sec_vtkfiltering "Visualization Toolkit Filtering Classes"
+\section Usage
+ vtkUnstructuredGrid is a data object that is a concrete implementation 
+ of vtkDataSet. vtkUnstructuredGrid represents any combinations of any cell
+ types. This includes 0D (e.g., points), 1D (e.g., lines, polylines), 2D 
+ (e.g., triangles, polygons), and 3D (e.g., hexahedron, tetrahedron).
+
+To create an instance of class vtkUnstructuredGrid, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkUnstructuredGrid
+\endverbatim
+\section Methods
+The class vtkUnstructuredGrid has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkUnstructuredGrid class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkUnstructuredGrid = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkUnstructuredGrid = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetDataObjectType ()</tt> -  Standard vtkDataSet API methods. See vtkDataSet for more information.
+ </LI>
+<LI>  <tt>obj.Allocate (vtkIdType numCells, int extSize)</tt> -  Standard vtkDataSet API methods. See vtkDataSet for more information.
+ </LI>
+<LI>  <tt>vtkIdType = obj.InsertNextCell (int type, vtkIdList ptIds)</tt> -  Insert/create cell in object by type and list of point ids defining
+ cell topology.
+ </LI>
+<LI>  <tt>obj.Reset ()</tt>
+ </LI>
+<LI>  <tt>obj.CopyStructure (vtkDataSet ds)</tt>
+ </LI>
+<LI>  <tt>vtkIdType = obj.GetNumberOfCells ()</tt>
+ </LI>
+<LI>  <tt>vtkCell = obj.GetCell (vtkIdType cellId)</tt>
+ </LI>
+<LI>  <tt>obj.GetCell (vtkIdType cellId, vtkGenericCell cell)</tt>
+ </LI>
+<LI>  <tt>obj.GetCellBounds (vtkIdType cellId, double bounds[6])</tt>
+ </LI>
+<LI>  <tt>obj.GetCellPoints (vtkIdType cellId, vtkIdList ptIds)</tt>
+ </LI>
+<LI>  <tt>obj.GetPointCells (vtkIdType ptId, vtkIdList cellIds)</tt>
+ </LI>
+<LI>  <tt>int = obj.GetCellType (vtkIdType cellId)</tt>
+ </LI>
+<LI>  <tt>vtkUnsignedCharArray = obj.GetCellTypesArray ()</tt>
+ </LI>
+<LI>  <tt>vtkIdTypeArray = obj.GetCellLocationsArray ()</tt>
+ </LI>
+<LI>  <tt>obj.Squeeze ()</tt>
+ </LI>
+<LI>  <tt>obj.Initialize ()</tt>
+ </LI>
+<LI>  <tt>int = obj.GetMaxCellSize ()</tt>
+ </LI>
+<LI>  <tt>obj.BuildLinks ()</tt>
+ </LI>
+<LI>  <tt>vtkCellLinks = obj.GetCellLinks ()</tt>
+ </LI>
+<LI>  <tt>obj.SetCells (int type, vtkCellArray cells)</tt> -  Special methods specific to vtkUnstructuredGrid for defining the cells
+ composing the dataset.
+ </LI>
+<LI>  <tt>obj.SetCells (int types, vtkCellArray cells)</tt> -  Special methods specific to vtkUnstructuredGrid for defining the cells
+ composing the dataset.
+ </LI>
+<LI>  <tt>obj.SetCells (vtkUnsignedCharArray cellTypes, vtkIdTypeArray cellLocations, vtkCellArray cells)</tt> -  Special methods specific to vtkUnstructuredGrid for defining the cells
+ composing the dataset.
+ </LI>
+<LI>  <tt>vtkCellArray = obj.GetCells ()</tt> -  Special methods specific to vtkUnstructuredGrid for defining the cells
+ composing the dataset.
+ </LI>
+<LI>  <tt>obj.RemoveReferenceToCell (vtkIdType ptId, vtkIdType cellId)</tt> -  Special methods specific to vtkUnstructuredGrid for defining the cells
+ composing the dataset.
+ </LI>
+<LI>  <tt>obj.AddReferenceToCell (vtkIdType ptId, vtkIdType cellId)</tt> -  Special methods specific to vtkUnstructuredGrid for defining the cells
+ composing the dataset.
+ </LI>
+<LI>  <tt>obj.ResizeCellList (vtkIdType ptId, int size)</tt> -  Special methods specific to vtkUnstructuredGrid for defining the cells
+ composing the dataset.
+ </LI>
+<LI>  <tt>obj.GetCellNeighbors (vtkIdType cellId, vtkIdList ptIds, vtkIdList cellIds)</tt> -  Topological inquiry to get all cells using list of points exclusive of
+ cell specified (e.g., cellId).
+ THIS METHOD IS THREAD SAFE IF FIRST CALLED FROM A SINGLE THREAD AND
+ THE DATASET IS NOT MODIFIED
+ </LI>
+<LI>  <tt>int = obj.GetUpdateExtent ()</tt> -  We need this here to avoid hiding superclass method
+ </LI>
+<LI>  <tt>obj.GetUpdateExtent (int extent[6])</tt> -  We need this here to avoid hiding superclass method
+ </LI>
+<LI>  <tt>int = obj.GetPiece ()</tt> -  Set / Get the piece and the number of pieces. Similar to extent in 3D.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfPieces ()</tt> -  Set / Get the piece and the number of pieces. Similar to extent in 3D.
+ </LI>
+<LI>  <tt>int = obj.GetGhostLevel ()</tt> -  Get the ghost level.
+ </LI>
+<LI>  <tt>long = obj.GetActualMemorySize ()</tt> -  Return the actual size of the data in kilobytes. This number
+ is valid only after the pipeline has updated. The memory size
+ returned is guaranteed to be greater than or equal to the
+ memory required to represent the data (e.g., extra space in
+ arrays, etc. are not included in the return value). THIS METHOD
+ IS THREAD SAFE.
+ </LI>
+<LI>  <tt>obj.ShallowCopy (vtkDataObject src)</tt> -  Shallow and Deep copy.
+ </LI>
+<LI>  <tt>obj.DeepCopy (vtkDataObject src)</tt> -  Shallow and Deep copy.
+ </LI>
+<LI>  <tt>obj.GetIdsOfCellsOfType (int type, vtkIdTypeArray array)</tt> -  Fill vtkIdTypeArray container with list of cell Ids.  This
+ method traverses all cells and, for a particular cell type,
+ inserts the cell Id into the container.
+ </LI>
+<LI>  <tt>int = obj.IsHomogeneous ()</tt> -  Traverse cells and determine if cells are all of the same type.
+ </LI>
+<LI>  <tt>obj.RemoveGhostCells (int level)</tt> -  This method will remove any cell that has a ghost level array value
+ greater or equal to level.
+ </LI>
+</UL>
+*/

@@ -1,0 +1,147 @@
+/*!
+\page vtkrendering_vtklabelplacer vtkLabelPlacer
+
+<p>
+Section: \ref sec_vtkrendering "Visualization Toolkit Rendering Classes"
+\section Usage
+ <b>This class is deprecated and will be removed from VTK in a future
+ release. Use vtkLabelPlacementMapper instead.</b>
+
+ This should probably be a mapper unto itself (given that
+ the polydata output could be large and will realistically
+ always be iterated over exactly once before being tossed
+ for the next frame of the render).
+
+ In any event, it takes as input one (or more, eventually)
+ vtkLabelHierarchies that represent prioritized lists of
+ labels sorted by their placement in space. As output, it
+ provides vtkPolyData containing only VTK_QUAD cells, each
+ representing a single label from the input. Each quadrilateral
+ has cell data indicating what label in the input it
+ corresponds to (via an array named "LabelId").
+
+To create an instance of class vtkLabelPlacer, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkLabelPlacer
+\endverbatim
+\section Methods
+The class vtkLabelPlacer has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkLabelPlacer class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkLabelPlacer = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkLabelPlacer = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>vtkRenderer = obj.GetRenderer ()</tt>
+ </LI>
+<LI>  <tt>obj.SetRenderer (vtkRenderer )</tt>
+ </LI>
+<LI>  <tt>vtkCoordinate = obj.GetAnchorTransform ()</tt>
+ </LI>
+<LI>  <tt>obj.SetGravity (int gravity)</tt> -  The placement of the label relative to the anchor point.
+ </LI>
+<LI>  <tt>int = obj.GetGravity ()</tt> -  The placement of the label relative to the anchor point.
+ </LI>
+<LI>  <tt>obj.SetMaximumLabelFraction (double )</tt> -  The maximum amount of screen space labels can take up before placement
+ terminates.
+ </LI>
+<LI>  <tt>double = obj.GetMaximumLabelFractionMinValue ()</tt> -  The maximum amount of screen space labels can take up before placement
+ terminates.
+ </LI>
+<LI>  <tt>double = obj.GetMaximumLabelFractionMaxValue ()</tt> -  The maximum amount of screen space labels can take up before placement
+ terminates.
+ </LI>
+<LI>  <tt>double = obj.GetMaximumLabelFraction ()</tt> -  The maximum amount of screen space labels can take up before placement
+ terminates.
+ </LI>
+<LI>  <tt>obj.SetIteratorType (int )</tt> -  The type of iterator used when traversing the labels.
+ May be vtkLabelHierarchy::FRUSTUM or vtkLabelHierarchy::FULL_SORT.
+ </LI>
+<LI>  <tt>int = obj.GetIteratorType ()</tt> -  The type of iterator used when traversing the labels.
+ May be vtkLabelHierarchy::FRUSTUM or vtkLabelHierarchy::FULL_SORT.
+ </LI>
+<LI>  <tt>obj.SetUseUnicodeStrings (bool )</tt> -  Set whether, or not, to use unicode strings.
+ </LI>
+<LI>  <tt>bool = obj.GetUseUnicodeStrings ()</tt> -  Set whether, or not, to use unicode strings.
+ </LI>
+<LI>  <tt>obj.UseUnicodeStringsOn ()</tt> -  Set whether, or not, to use unicode strings.
+ </LI>
+<LI>  <tt>obj.UseUnicodeStringsOff ()</tt> -  Set whether, or not, to use unicode strings.
+ </LI>
+<LI>  <tt>long = obj.GetMTime ()</tt>
+ </LI>
+<LI>  <tt>bool = obj.GetPositionsAsNormals ()</tt> -  Use label anchor point coordinates as normal vectors and eliminate those
+ pointing away from the camera. Valid only when points are on a sphere
+ centered at the origin (such as a 3D geographic view). Off by default.
+ </LI>
+<LI>  <tt>obj.SetPositionsAsNormals (bool )</tt> -  Use label anchor point coordinates as normal vectors and eliminate those
+ pointing away from the camera. Valid only when points are on a sphere
+ centered at the origin (such as a 3D geographic view). Off by default.
+ </LI>
+<LI>  <tt>obj.PositionsAsNormalsOn ()</tt> -  Use label anchor point coordinates as normal vectors and eliminate those
+ pointing away from the camera. Valid only when points are on a sphere
+ centered at the origin (such as a 3D geographic view). Off by default.
+ </LI>
+<LI>  <tt>obj.PositionsAsNormalsOff ()</tt> -  Use label anchor point coordinates as normal vectors and eliminate those
+ pointing away from the camera. Valid only when points are on a sphere
+ centered at the origin (such as a 3D geographic view). Off by default.
+ </LI>
+<LI>  <tt>bool = obj.GetGeneratePerturbedLabelSpokes ()</tt> -  Enable drawing spokes (lines) to anchor point coordinates that were perturbed
+ for being coincident with other anchor point coordinates.
+ </LI>
+<LI>  <tt>obj.SetGeneratePerturbedLabelSpokes (bool )</tt> -  Enable drawing spokes (lines) to anchor point coordinates that were perturbed
+ for being coincident with other anchor point coordinates.
+ </LI>
+<LI>  <tt>obj.GeneratePerturbedLabelSpokesOn ()</tt> -  Enable drawing spokes (lines) to anchor point coordinates that were perturbed
+ for being coincident with other anchor point coordinates.
+ </LI>
+<LI>  <tt>obj.GeneratePerturbedLabelSpokesOff ()</tt> -  Enable drawing spokes (lines) to anchor point coordinates that were perturbed
+ for being coincident with other anchor point coordinates.
+ </LI>
+<LI>  <tt>bool = obj.GetUseDepthBuffer ()</tt> -  Use the depth buffer to test each label to see if it should not be displayed if
+ it would be occluded by other objects in the scene. Off by default.
+ </LI>
+<LI>  <tt>obj.SetUseDepthBuffer (bool )</tt> -  Use the depth buffer to test each label to see if it should not be displayed if
+ it would be occluded by other objects in the scene. Off by default.
+ </LI>
+<LI>  <tt>obj.UseDepthBufferOn ()</tt> -  Use the depth buffer to test each label to see if it should not be displayed if
+ it would be occluded by other objects in the scene. Off by default.
+ </LI>
+<LI>  <tt>obj.UseDepthBufferOff ()</tt> -  Use the depth buffer to test each label to see if it should not be displayed if
+ it would be occluded by other objects in the scene. Off by default.
+ </LI>
+<LI>  <tt>bool = obj.GetOutputTraversedBounds ()</tt> -  In the second output, output the geometry of the traversed octree nodes.
+ </LI>
+<LI>  <tt>obj.SetOutputTraversedBounds (bool )</tt> -  In the second output, output the geometry of the traversed octree nodes.
+ </LI>
+<LI>  <tt>obj.OutputTraversedBoundsOn ()</tt> -  In the second output, output the geometry of the traversed octree nodes.
+ </LI>
+<LI>  <tt>obj.OutputTraversedBoundsOff ()</tt> -  In the second output, output the geometry of the traversed octree nodes.
+ </LI>
+<LI>  <tt>int = obj.GetOutputCoordinateSystem ()</tt> -  Set/get the coordinate system used for output labels.
+ The output datasets may have point coordinates reported in the world space or display space.
+ </LI>
+<LI>  <tt>obj.SetOutputCoordinateSystem (int )</tt> -  Set/get the coordinate system used for output labels.
+ The output datasets may have point coordinates reported in the world space or display space.
+ </LI>
+<LI>  <tt>int = obj.GetOutputCoordinateSystemMinValue ()</tt> -  Set/get the coordinate system used for output labels.
+ The output datasets may have point coordinates reported in the world space or display space.
+ </LI>
+<LI>  <tt>int = obj.GetOutputCoordinateSystemMaxValue ()</tt> -  Set/get the coordinate system used for output labels.
+ The output datasets may have point coordinates reported in the world space or display space.
+ </LI>
+<LI>  <tt>obj.OutputCoordinateSystemWorld ()</tt> -  Set/get the coordinate system used for output labels.
+ The output datasets may have point coordinates reported in the world space or display space.
+ </LI>
+<LI>  <tt>obj.OutputCoordinateSystemDisplay ()</tt>
+ </LI>
+</UL>
+*/

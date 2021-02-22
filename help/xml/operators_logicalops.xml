@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="operators_logicalops" kind="page">
+    <compoundname>operators_logicalops</compoundname>
+    <title>LOGICALOPS Logical Array Operators</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_operators_1sec_operators" kindref="member">Mathematical Operators</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>There are three Boolean operators available in FreeMat. The syntax for their use is: <verbatim>  y = ~x
+  y = a &amp; b
+  y = a | b
+</verbatim> where <computeroutput>x</computeroutput>, <computeroutput>a</computeroutput> and <computeroutput>b</computeroutput> are <computeroutput>logical</computeroutput> arrays. The operators are <itemizedlist>
+<listitem>
+<para>NOT (<computeroutput>~</computeroutput>) - output <computeroutput>y</computeroutput> is true if the corresponding element of <computeroutput>x</computeroutput> is false, and ouput <computeroutput>y</computeroutput> is false if the corresponding element of <computeroutput>x</computeroutput> is true.  </para></listitem>
+<listitem>
+<para>OR (<computeroutput></computeroutput>|) - output <computeroutput>y</computeroutput> is true if corresponding element of <computeroutput>a</computeroutput> is true or if corresponding element of <computeroutput>b</computeroutput> is true (or if both are true).  </para></listitem>
+<listitem>
+<para>AND (<computeroutput>&amp;</computeroutput>) - output <computeroutput>y</computeroutput> is true only if both the corresponding elements of <computeroutput>a</computeroutput> and <computeroutput>b</computeroutput> are both true.  </para></listitem>
+</itemizedlist>
+The binary operators AND and OR can take scalar arguments as well as vector arguments, in which case, the scalar is operated on with each element of the vector. As of version 1.10, FreeMat supports <computeroutput>shortcut</computeroutput> evaluation. This means that if we have two expressions <verbatim>  if (expr1 &amp; expr2)
+</verbatim> then if <computeroutput>expr1</computeroutput> evaluates to <computeroutput>false</computeroutput>, then <computeroutput>expr2</computeroutput> is not evaluated at all. Similarly, for the expression <verbatim>  if (expr1 | expr2)
+</verbatim> then if <computeroutput>expr1</computeroutput> evaluates to <computeroutput>true</computeroutput>, then <computeroutput>expr2</computeroutput> is not evaluated at all. Shortcut evaluation is useful for doing a sequence of tests, each of which is not valid unless the prior test is successful. For example, <verbatim>  if isa(p,&apos;string&apos;) &amp; strcmp(p,&apos;fro&apos;)
+</verbatim> is not valid without shortcut evaluation (if <computeroutput>p</computeroutput> is an integer, for example, the first test returns false, and an attempt to evaluate the second expression would lead to an error). Note that shortcut evaluation only works with scalar expressions. </para></sect1>
+<sect1 id="variables_matrix_1Examples">
+<title>Examples</title>
+<para>Some simple examples of logical operators. Suppose we want to calculate the exclusive-or (XOR) of two vectors of logical variables. First, we create a pair of vectors to perform the XOR operation on:</para><para><verbatim>--&gt; a = (randn(1,6)&gt;0)
+
+a = 
+ 0 0 0 0 1 0 
+
+--&gt; b = (randn(1,6)&gt;0)
+
+b = 
+ 1 1 0 1 0 1 
+</verbatim></para><para>Next, we can compute the OR of <computeroutput>a</computeroutput> and <computeroutput>b</computeroutput>:</para><para><verbatim>--&gt; c = a | b
+
+c = 
+ 1 1 0 1 1 1 
+</verbatim></para><para>However, the XOR and OR operations differ on the fifth entry - the XOR would be false, since it is true if and only if exactly one of the two inputs is true. To isolate this case, we can AND the two vectors, to find exactly those entries that appear as true in both <computeroutput>a</computeroutput> and <computeroutput>b</computeroutput>:</para><para><verbatim>--&gt; d = a &amp; b
+
+d = 
+ 0 0 0 0 0 0 
+</verbatim></para><para>At this point, we can modify the contents of <computeroutput>c</computeroutput> in two ways <ndash/> the Boolean way is to AND <formula id="121">$\sim d$</formula> with <computeroutput>c</computeroutput>, like so</para><para><verbatim>--&gt; xor = c &amp; (~d)
+
+xor = 
+ 1 1 0 1 1 1 
+</verbatim></para><para>The other way to do this is simply force <computeroutput>c(d) = 0</computeroutput>, which uses the logical indexing mode of FreeMat (see the chapter on indexing for more details). This, however, will cause <computeroutput>c</computeroutput> to become an <computeroutput>int32</computeroutput> type, as opposed to a logical type.</para><para><verbatim>--&gt; c(d) = 0
+
+c = 
+ 1 1 0 1 1 1 
+</verbatim> </para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

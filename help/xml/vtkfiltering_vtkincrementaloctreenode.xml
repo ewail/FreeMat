@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkfiltering_vtkincrementaloctreenode" kind="page">
+    <compoundname>vtkfiltering_vtkincrementaloctreenode</compoundname>
+    <title>vtkIncrementalOctreeNode</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkfiltering_1sec_vtkfiltering" kindref="member">Visualization Toolkit Filtering Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>Octree nodes serve as spatial sub-division primitives to build the search structure of an incremental octree in a recursive top-down manner. The hierarchy takes the form of a tree-like representation by which a parent node contains eight mutually non-overlapping child nodes. Each child is assigned with an axis-aligned rectangular volume (Spatial Bounding Box) and the eight children together cover exactly the same region as governed by their parent. The eight child nodes / octants are ordered as</para><para>{ (xBBoxMin, xBBoxMid] &amp; (yBBoxMin, yBBoxMid] &amp; (zBBoxMin, zBBoxMid] }, { (xBBoxMid, xBBoxMax] &amp; (yBBoxMin, yBBoxMid] &amp; (zBBoxMin, zBBoxMid] }, { (xBBoxMin, xBBoxMid] &amp; (yBBoxMid, yBBoxMax] &amp; (zBBoxMin, zBBoxMid] }, { (xBBoxMid, xBBoxMax] &amp; (yBBoxMid, yBBoxMax] &amp; (zBBoxMin, zBBoxMid] }, { (xBBoxMin, xBBoxMid] &amp; (yBBoxMin, yBBoxMid] &amp; (zBBoxMid, zBBoxMax] }, { (xBBoxMid, xBBoxMax] &amp; (yBBoxMin, yBBoxMid] &amp; (zBBoxMid, zBBoxMax] }, { (xBBoxMin, xBBoxMid] &amp; (yBBoxMid, yBBoxMax] &amp; (zBBoxMid, zBBoxMax] }, { (xBBoxMid, xBBoxMax] &amp; (yBBoxMid, yBBoxMax] &amp; (zBBoxMid, zBBoxMax] },</para><para>where { xrange &amp; yRange &amp; zRange } defines the region of each 3D octant. In addition, the points falling within and registered, by means of point indices, in the parent node are distributed to the child nodes for delegated maintenance. In fact, only leaf nodes, i.e., those without any descendants, actually store point indices while each node, regardless of a leaf or non- leaf node, keeps a dynamically updated Data Bounding Box of the inhabitant points, if any. Given a maximum number of points per leaf node, an octree is initialized with an empty leaf node that is then recursively sub-divided, but only on demand as points are incrementally inserted, to construct a populated tree.</para><para>Please note that this octree node class is able to handle a large number of EXACTLY duplicate points that is greater than the specified maximum number of points per leaf node. In other words, as an exception, a leaf node may maintain an arbitrary number of exactly duplicate points to deal with possible extreme cases.</para><para>To create an instance of class vtkIncrementalOctreeNode, simply invoke its constructor as follows <verbatim>  obj = vtkIncrementalOctreeNode
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkIncrementalOctreeNode has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkIncrementalOctreeNode class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkIncrementalOctreeNode = obj.NewInstance ()</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>vtkIncrementalOctreeNode = obj.SafeDownCast (vtkObject o)</computeroutput>  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetNumberOfPoints ()</computeroutput> - Get the number of points inside or under this node.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkIdList = obj.GetPointIdSet ()</computeroutput> - Get the list of point indices, NULL for a non-leaf node.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.DeleteChildNodes ()</computeroutput> - Delete the eight child nodes.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetBounds (double x1, double x2, double y1, double y2, double z1, double z2)</computeroutput> - Set the spatial bounding box of the node. This function sets a default data bounding box.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.GetBounds (double bounds[6]) const</computeroutput> - Get the spatial bounding box of the node. The values are returned via an array in order of: x_min, x_max, y_min, y_max, z_min, z_max.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj. GetMinBounds ()</computeroutput> - Get access to MinBounds. Do not free this pointer.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj. GetMaxBounds ()</computeroutput> - Get access to MaxBounds. Do not free this pointer.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsLeaf ()</computeroutput> - Determine which specific child / octant contains a given point. Note that the point is assumed to be inside this node and no checking is performed on the inside issue.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.GetChildIndex (double point[3])</computeroutput> - Determine which specific child / octant contains a given point. Note that the point is assumed to be inside this node and no checking is performed on the inside issue.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkIncrementalOctreeNode = obj.GetChild (int i)</computeroutput> - A point is in a node if and only if MinBounds[i] &lt; p[i] &lt;= MaxBounds[i], which allows a node to be divided into eight non-overlapping children.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.ContainsPoint (double pnt[3])</computeroutput> - A point is in a node if and only if MinBounds[i] &lt; p[i] &lt;= MaxBounds[i], which allows a node to be divided into eight non-overlapping children.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.ContainsPointByData (double pnt[3])</computeroutput> - A point is in a node, in terms of data, if and only if MinDataBounds[i] &lt;= p[i] &lt;= MaxDataBounds[i].  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetDistance2ToInnerBoundary (double point[3], vtkIncrementalOctreeNode rootNode)</computeroutput> - Given a point inside this node, get the minimum squared distance to all inner boundaries. An inner boundary is a node&apos;s face that is shared by another non-root node.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetDistance2ToBoundary (double point[3], vtkIncrementalOctreeNode rootNode, int checkData)</computeroutput> - Compute the minimum squared distance from a point to this node, with all six boundaries considered. The data bounding box is checked if checkData is non-zero.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetDistance2ToBoundary (double point[3], double closest[3], vtkIncrementalOctreeNode rootNode, int checkData)</computeroutput> - Compute the minimum squared distance from a point to this node, with all six boundaries considered. The data bounding box is checked if checkData is non-zero. The closest on-boundary point is returned via closest.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.ExportAllPointIdsByInsertion (vtkIdList idList)</computeroutput> - Export all the indices of the points (contained in or under this node) by inserting them to an allocated vtkIdList via vtkIdList::InsertNextId().  </para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

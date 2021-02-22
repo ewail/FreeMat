@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.1.1">
+  <compounddef id="vtkfiltering_vtkviewdependenterrormetric" kind="page">
+    <compoundname>vtkfiltering_vtkviewdependenterrormetric</compoundname>
+    <title>vtkViewDependentErrorMetric</title>
+    <detaileddescription>
+<para>Section: <ref refid="sec_vtkfiltering_1sec_vtkfiltering" kindref="member">Visualization Toolkit Filtering Classes</ref> </para><sect1 id="vtkwidgets_vtkxyplotwidget_1Usage">
+<title>Usage</title>
+<para>It is a concrete error metric, based on a geometric criterium in the screen space: the variation of the projected edge from a projected straight line</para><para>To create an instance of class vtkViewDependentErrorMetric, simply invoke its constructor as follows <verbatim>  obj = vtkViewDependentErrorMetric
+</verbatim> </para></sect1>
+<sect1 id="vtkwidgets_vtkxyplotwidget_1Methods">
+<title>Methods</title>
+<para>The class vtkViewDependentErrorMetric has several methods that can be used. They are listed below. Note that the documentation is translated automatically from the VTK sources, and may not be completely intelligible. When in doubt, consult the VTK website. In the methods listed below, <computeroutput>obj</computeroutput> is an instance of the vtkViewDependentErrorMetric class. <itemizedlist>
+<listitem>
+<para><computeroutput>string = obj.GetClassName ()</computeroutput> - Standard VTK type and error macros.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.IsA (string name)</computeroutput> - Standard VTK type and error macros.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkViewDependentErrorMetric = obj.NewInstance ()</computeroutput> - Standard VTK type and error macros.  </para></listitem>
+<listitem>
+<para><computeroutput>vtkViewDependentErrorMetric = obj.SafeDownCast (vtkObject o)</computeroutput> - Standard VTK type and error macros.  </para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetPixelTolerance ()</computeroutput> - Return the squared screen-based geometric accurary measured in pixels. An accuracy less or equal to 0.25 (0.5^2) ensures that the screen-space interpolation of a mid-point matchs exactly with the projection of the mid-point (a value less than 1 but greater than 0.25 is not enough, because of 8-neighbors). Maybe it is useful for lower accuracy in case of anti-aliasing? <simplesect kind="post"><para>positive_result: result&gt;0  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>obj.SetPixelTolerance (double value)</computeroutput> - Set the squared screen-based geometric accuracy measured in pixels. Subdivision will be required if the square distance between the projection of the real point and the straight line passing through the projection of the vertices of the edge is greater than `value&apos;. For instance, 0.25 will give better result than 1. <simplesect kind="pre"><para>positive_value: value&gt;0  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>vtkViewport = obj.GetViewport ()</computeroutput> - Set/Get the renderer with `renderer&apos; on which the error metric is based. The error metric use the active camera of the renderer.  </para></listitem>
+<listitem>
+<para><computeroutput>obj.SetViewport (vtkViewport viewport)</computeroutput> - Set/Get the renderer with `renderer&apos; on which the error metric is based. The error metric use the active camera of the renderer.  </para></listitem>
+<listitem>
+<para><computeroutput>int = obj.RequiresEdgeSubdivision (double leftPoint, double midPoint, double rightPoint, double alpha)</computeroutput> - Does the edge need to be subdivided according to the distance between the line passing through its endpoints in screen space and the projection of its mid point? The edge is defined by its `leftPoint&apos; and its `rightPoint&apos;. `leftPoint&apos;, `midPoint&apos; and `rightPoint&apos; have to be initialized before calling RequiresEdgeSubdivision(). Their format is global coordinates, parametric coordinates and point centered attributes: xyx rst abc de... `alpha&apos; is the normalized abscissa of the midpoint along the edge. (close to 0 means close to the left point, close to 1 means close to the right point) <simplesect kind="pre"><para>leftPoint_exists: leftPoint!=0 </para><simplesectsep/><para>midPoint_exists: midPoint!=0 </para><simplesectsep/><para>rightPoint_exists: rightPoint!=0 </para><simplesectsep/><para>clamped_alpha: alpha&gt;0 &amp;&amp; alpha&lt;1 </para><simplesectsep/><para>valid_size: sizeof(leftPoint)=sizeof(midPoint)=sizeof(rightPoint) =GetAttributeCollection()-&gt;GetNumberOfPointCenteredComponents()+6  </para></simplesect>
+</para></listitem>
+<listitem>
+<para><computeroutput>double = obj.GetError (double leftPoint, double midPoint, double rightPoint, double alpha)</computeroutput> - Return the error at the mid-point. The type of error depends on the state of the concrete error metric. For instance, it can return an absolute or relative error metric. See RequiresEdgeSubdivision() for a description of the arguments. <simplesect kind="pre"><para>leftPoint_exists: leftPoint!=0 </para><simplesectsep/><para>midPoint_exists: midPoint!=0 </para><simplesectsep/><para>rightPoint_exists: rightPoint!=0 </para><simplesectsep/><para>clamped_alpha: alpha&gt;0 &amp;&amp; alpha&lt;1 </para><simplesectsep/><para>valid_size: sizeof(leftPoint)=sizeof(midPoint)=sizeof(rightPoint) =GetAttributeCollection()-&gt;GetNumberOfPointCenteredComponents()+6 </para></simplesect>
+<simplesect kind="post"><para>positive_result: result&gt;=0  </para></simplesect>
+</para></listitem>
+</itemizedlist>
+</para></sect1>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

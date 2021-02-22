@@ -1,0 +1,86 @@
+
+ Usage
+
+The power operator for scalars and square matrices. This
+operator is really a combination of two operators, both of
+which have the same general syntax:
+
+    y = a ^ b
+
+The exact action taken by this operator, and the size and
+type of the output, depends on which of the two
+configurations of a and b is present:
+
+  1. a is a scalar, b is a square matrix
+  2. a is a square matrix, b is a scalar
+
+
+
+ Internals
+
+In the first case that a is a scalar, and b is a square
+matrix, the matrix power is defined in terms of the
+eigenvalue decomposition of b. Let b have the following
+eigen-decomposition (problems arise with non-symmetric
+matrices b, so let us assume that b is symmetric):
+ \[ b = E \begin{bmatrix} \lambda_1 &amp; 0 &amp; \cdots
+&amp; 0 \\ 0 &amp; \lambda_2 &amp; \ddots &amp; \vdots \\
+\vdots &amp; \ddots &amp; \ddots &amp; 0 \\ 0 &amp; \hdots
+&amp; 0 &amp; \lambda_n \end{bmatrix} E^{-1} \]
+Then a raised to the power b is defined as
+ \[ a^{b} = E \begin{bmatrix} a^{\lambda_1} &amp; 0 &amp;
+\cdots &amp; 0 \\ 0 &amp; a^{\lambda_2} &amp; \ddots &amp;
+\vdots \\ \vdots &amp; \ddots &amp; \ddots &amp; 0 \\ 0
+&amp; \hdots &amp; 0 &amp; a^{\lambda_n} \end{bmatrix} E^{-
+1} \]
+Similarly, if a is a square matrix, then a has the following
+eigen-decomposition (again, suppose a is symmetric):
+ \[ a = E \begin{bmatrix} \lambda_1 &amp; 0 &amp; \cdots
+&amp; 0 \\ 0 &amp; \lambda_2 &amp; \ddots &amp; \vdots \\
+\vdots &amp; \ddots &amp; \ddots &amp; 0 \\ 0 &amp; \hdots
+&amp; 0 &amp; \lambda_n \end{bmatrix} E^{-1} \]
+Then a raised to the power b is defined as
+ \[ a^{b} = E \begin{bmatrix} \lambda_1^b &amp; 0 &amp;
+\cdots &amp; 0 \\ 0 &amp; \lambda_2^b &amp; \ddots &amp;
+\vdots \\ \vdots &amp; \ddots &amp; \ddots &amp; 0 \\ 0
+&amp; \hdots &amp; 0 &amp; \lambda_n^b \end{bmatrix} E^{-1}
+\]
+
+
+ Examples
+
+We first define a simple 2 x 2 symmetric matrix
+
+  --> A = 1.5
+
+  A =
+      1.5000
+
+  --> B = [1,.2;.2,1]
+
+  B =
+      1.0000    0.2000
+      0.2000    1.0000
+
+First, we raise B to the (scalar power) A:
+
+  --> C = B^A
+
+  C =
+      1.0150    0.2995
+      0.2995    1.0150
+
+Next, we raise A to the matrix power B:
+
+  --> C = A^B
+
+  C =
+      1.5049    0.1218
+      0.1218    1.5049
+
+
+* FreeMat_Documentation
+* Mathematical_Operators
+* Generated on Thu Jul 25 2013 17:17:45 for FreeMat by
+  doxygen_ 1.8.1.1
+

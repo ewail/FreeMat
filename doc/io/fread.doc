@@ -1,0 +1,126 @@
+/*!
+\page io_fread FREAD File Read Function
+
+<p>
+Section: \ref sec_io "Input/Ouput Functions"
+\section Usage
+Reads a block of binary data from the given file handle into a variable
+of a given shape and precision.  The general use of the function is
+\verbatim
+  A = fread(handle,size,precision)
+\endverbatim
+The <tt>handle</tt> argument must be a valid value returned by the fopen 
+function, and accessable for reading.  The <tt>size</tt> argument determines
+the number of values read from the file.  The <tt>size</tt> argument is simply
+a vector indicating the size of the array <tt>A</tt>.  The <tt>size</tt> argument
+can also contain a single <tt>inf</tt> dimension, indicating that FreeMat should
+calculate the size of the array along that dimension so as to read as
+much data as possible from the file (see the examples listed below for
+more details).  The data is stored as columns in the file, not 
+rows.
+    
+Alternately, you can specify two return values to the <tt>fread</tt> function,
+in which case the second value contains the number of elements read
+\verbatim
+   [A,count] = fread(...)
+\endverbatim
+where <tt>count</tt> is the number of elements in <tt>A</tt>.
+
+The third argument determines the type of the data.  Legal values for this
+argument are listed below:
+<UL>
+<LI>  'uint8','uchar','unsigned char' for an unsigned, 8-bit integer.
+ </LI>
+<LI>  'int8','char','integer*1' for a signed, 8-bit integer.
+ </LI>
+<LI>  'uint16','unsigned short' for an unsigned, 16-bit  integer.
+ </LI>
+<LI>  'int16','short','integer*2' for a signed, 16-bit integer.
+ </LI>
+<LI>  'uint32','unsigned int' for an unsigned, 32-bit integer.
+ </LI>
+<LI>  'int32','int','integer*4' for a signed, 32-bit integer.
+ </LI>
+<LI>  'single','float32','float','real*4' for a 32-bit floating point.
+ </LI>
+<LI>  'double','float64','real*8' for a 64-bit floating point.
+ </LI>
+</UL>
+
+Starting with FreeMat 4, the format for the third argument has changed.
+If you specify only a type, such as <tt>'float'</tt>, the data is read in as
+single precision, but the output type is always <tt>'double'</tt>.  This behavior
+is consistent with Matlab.  If you want the output type to match the input
+type (as was previous behavior in FreeMat), you must preface the precision
+string with a <tt>'*'</tt>.  Thus, the precision string <tt>'*float'</tt> implies
+that data is read in as single precision, and the output is also single
+precision.
+
+The third option is to specify the input and output types explicitly.
+You can do this by specifiying a precision string of the form 
+<tt>'type1 => type2'</tt>, where <tt>'type1'</tt> is the input type and 
+<tt>'type2'</tt> is the output type.  For example, if the input type is
+<tt>'double'</tt> and the output type is to be a <tt>'float'</tt>, then a type spec
+of <tt>'double => float'</tt> should be used.
+
+\section Example
+First, we create an array of <tt>512 x 512</tt> Gaussian-distributed <tt>float</tt> random variables, and then writing them to a file called <tt>test.dat</tt>.
+
+\if FRAGMENT
+frag_io_fread_000.m
+0
+A = float(randn(512));
+fp = fopen('test.dat','w');
+fwrite(fp,A);
+fclose(fp);
+\endif
+
+
+\verbinclude frag_io_fread_000.m.out 
+
+Read as many floats as possible into a row vector
+
+\if FRAGMENT
+frag_io_fread_001.m
+0
+fp = fopen('test.dat','r');
+x = fread(fp,[1,inf],'float');
+fclose(fp);
+who x
+\endif
+
+
+\verbinclude frag_io_fread_001.m.out 
+
+Note that <tt>x</tt> is a <tt>double</tt> array.  This behavior is new to FreeMat 4.
+Read the same floats into a 2-D float array.
+
+\if FRAGMENT
+frag_io_fread_002.m
+0
+fp = fopen('test.dat','r');
+x = fread(fp,[512,inf],'float');
+fclose(fp);
+who x
+\endif
+
+
+\verbinclude frag_io_fread_002.m.out 
+
+To read them as a single precision float array, we can use the
+following form:
+
+\if FRAGMENT
+frag_io_fread_003.m
+0
+fp = fopen('test.dat','r');
+x = fread(fp,[512,inf],'*float');
+fclose(fp);
+who x
+\endif
+
+
+\verbinclude frag_io_fread_003.m.out 
+
+
+*/

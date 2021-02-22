@@ -1,0 +1,63 @@
+
+ Usage
+
+The try and catch statements are used for error handling and
+control. A concept present in C++, the try and catch
+statements are used with two statement blocks as follows
+
+     try
+       statements_1
+     catch
+       statements_2
+     end
+
+The meaning of this construction is: try to execute
+statements_1, and if any errors occur during the execution,
+then execute the code in statements_2. An error can either
+be a FreeMat generated error (such as a syntax error in the
+use of a built in function), or an error raised with the
+error command.
+
+
+ Examples
+
+Here is an example of a function that uses error control via
+try and catch to check for failures in fopen.
+
+       read_file.m
+
+
+  function c = read_file(filename)
+  try
+     fp = fopen(filename,'r');
+     c = fgetline(fp);
+     fclose(fp);
+  catch
+     c = ['could not open file because of error :' lasterr]
+  end
+
+Now we try it on an example file - first one that does not
+exist, and then on one that we create (so that we know it
+exists).
+
+  --> read_file('this_filename_is_invalid')
+
+  c =
+  could not open file because of error :Invalid handle!
+
+  ans =
+  could not open file because of error :Invalid handle!
+  --> fp = fopen('test_text.txt','w');
+  --> fprintf(fp,'a line of text\n');
+  --> fclose(fp);
+  --> read_file('test_text.txt')
+
+  ans =
+  a line of text
+
+
+* FreeMat_Documentation
+* Flow_Control
+* Generated on Thu Jul 25 2013 17:17:14 for FreeMat by
+  doxygen_ 1.8.1.1
+

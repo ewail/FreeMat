@@ -1,0 +1,72 @@
+/*!
+\page vtkgraphics_vtkannotationlink vtkAnnotationLink
+
+<p>
+Section: \ref sec_vtkgraphics "Visualization Toolkit Graphics Classes"
+\section Usage
+ vtkAnnotationLink is a simple source filter which outputs the
+ vtkAnnotationLayers object stored internally.  Multiple objects may share
+ the same annotation link filter and connect it to an internal pipeline so
+ that if one object changes the annotation set, it will be pulled into all
+ the other objects when their pipelines update.
+
+ The shared vtkAnnotationLayers object (a collection of annotations) is
+ shallow copied to output port 0.
+
+ vtkAnnotationLink can also store a set of domain maps. A domain map is
+ simply a table associating values between domains. The domain of each
+ column is defined by the array name of the column. The domain maps are
+ sent to a multi-block dataset in output port 1.
+
+ Output ports 0 and 1 can be set as input ports 0 and 1 to
+ vtkConvertSelectionDomain, which can use the domain maps to convert the
+ domains of selections in the vtkAnnotationLayers to match a particular
+ data object (set as port 2 on vtkConvertSelectionDomain).
+
+ The shared vtkAnnotationLayers object also stores a "current selection"
+ normally interpreted as the interactive selection of an application.
+ As a convenience, this selection is sent to output port 2 so that it
+ can be connected to pipelines requiring a vtkSelection.
+
+To create an instance of class vtkAnnotationLink, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkAnnotationLink
+\endverbatim
+\section Methods
+The class vtkAnnotationLink has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkAnnotationLink class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkAnnotationLink = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkAnnotationLink = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>vtkAnnotationLayers = obj.GetAnnotationLayers ()</tt> -  The annotations to be shared.
+ </LI>
+<LI>  <tt>obj.SetAnnotationLayers (vtkAnnotationLayers layers)</tt> -  The annotations to be shared.
+ </LI>
+<LI>  <tt>obj.SetCurrentSelection (vtkSelection sel)</tt> -  Set or get the current selection in the annotation layers.
+ </LI>
+<LI>  <tt>vtkSelection = obj.GetCurrentSelection ()</tt> -  Set or get the current selection in the annotation layers.
+ </LI>
+<LI>  <tt>obj.AddDomainMap (vtkTable map)</tt> -  The domain mappings.
+ </LI>
+<LI>  <tt>obj.RemoveDomainMap (vtkTable map)</tt> -  The domain mappings.
+ </LI>
+<LI>  <tt>obj.RemoveAllDomainMaps ()</tt> -  The domain mappings.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfDomainMaps ()</tt> -  The domain mappings.
+ </LI>
+<LI>  <tt>vtkTable = obj.GetDomainMap (int i)</tt> -  The domain mappings.
+ </LI>
+<LI>  <tt>long = obj.GetMTime ()</tt> -  Get the mtime of this object.
+ </LI>
+</UL>
+*/

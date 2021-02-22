@@ -1,0 +1,64 @@
+/*!
+\page vtkgraphics_vtkedgesubdivisioncriterion vtkEdgeSubdivisionCriterion
+
+<p>
+Section: \ref sec_vtkgraphics "Visualization Toolkit Graphics Classes"
+\section Usage
+ Descendants of this abstract class are used to decide whether a
+ piecewise linear approximation (triangles, lines, ... ) to some
+ nonlinear geometry should be subdivided. This decision may be
+ based on an absolute error metric (chord error) or on some
+ view-dependent metric (chord error compared to device resolution)
+ or on some abstract metric (color error). Or anything else, really.
+ Just so long as you implement the EvaluateEdge member, all will
+ be well.
+
+
+To create an instance of class vtkEdgeSubdivisionCriterion, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkEdgeSubdivisionCriterion
+\endverbatim
+\section Methods
+The class vtkEdgeSubdivisionCriterion has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkEdgeSubdivisionCriterion class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkEdgeSubdivisionCriterion = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkEdgeSubdivisionCriterion = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>bool = obj.EvaluateEdge (double p0, double p1, double p2, int field_start)</tt> -  You must implement this member function in a subclass.
+ It will be called by \p vtkStreamingTessellator for each
+ edge in each primitive that vtkStreamingTessellator generates.
+ </LI>
+<LI>  <tt>int = obj.PassField (int sourceId, int sourceSize, vtkStreamingTessellator t)</tt> -  This is a helper routine called by \p PassFields() which
+ you may also call directly; it adds \a sourceSize to the size of
+ the output vertex field values. The offset of the \a sourceId
+ field in the output vertex array is returned.
+ -1 is returned if \a sourceSize would force the output to have more
+ than \a vtkStreamingTessellator::MaxFieldSize field values per vertex.
+ </LI>
+<LI>  <tt>obj.ResetFieldList ()</tt> -  Don't pass any field values in the vertex pointer.
+ This is used to reset the list of fields to pass after a
+ successful run of vtkStreamingTessellator.
+ </LI>
+<LI>  <tt>bool = obj.DontPassField (int sourceId, vtkStreamingTessellator t)</tt> -  This does the opposite of \p PassField(); it removes a field from
+ the output (assuming the field was set to be passed).
+ Returns true if any action was taken, false otherwise.
+ </LI>
+<LI>  <tt>int = obj.GetOutputField (int fieldId) const</tt> -  Return the output ID of an input field.
+ Returns -1 if \a fieldId is not set to be passed to the output.
+ </LI>
+<LI>  <tt>int = obj.GetNumberOfFields () const</tt> -  Return the number of fields being evaluated at each output vertex.
+ This is the length of the arrays returned by \p GetFieldIds() and
+ \p GetFieldOffsets().
+ </LI>
+</UL>
+*/

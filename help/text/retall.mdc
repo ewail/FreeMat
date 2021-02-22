@@ -1,0 +1,57 @@
+
+ Usage
+
+The retall statement is used to return to the base workspace
+from a nested keyboard session. It is equivalent to forcing
+execution to return to the main prompt, regardless of the
+level of nesting of keyboard sessions, or which functions
+are running. The syntax is simple
+
+     retall
+
+The retall is a convenient way to stop debugging. In the
+process of debugging a complex program or set of functions,
+you may find yourself 5 function calls down into the program
+only to discover the problem. After fixing it, issueing a
+retall effectively forces FreeMat to exit your program and
+return to the interactive prompt.
+
+
+ Example
+
+Here we demonstrate an extreme example of retall. We are
+debugging a recursive function self to calculate the sum of
+the first N integers. When the function is called, a
+keyboard session is initiated after the function has called
+itself N times. At this keyboard prompt, we issue another
+call to self and get another keyboard prompt, this time with
+a depth of 2. A retall statement returns us to the top level
+without executing the remainder of either the first or
+second call to self:
+
+       self.m
+
+
+  function y = self(n)
+    if (n>1)
+      y = n + self(n-1);
+      printf('y is %d\n',y);
+    else
+      y = 1;
+      printf('y is initialized to one\n');
+      keyboard
+    end
+
+
+  --> self(4)
+  y is initialized to one
+  [self,8]--> self(6)
+  y is initialized to one
+  [self,8]--> retall
+
+
+* FreeMat_Documentation
+* Flow_Control
+* Generated on Thu Jul 25 2013 17:17:14 for FreeMat by
+  doxygen_ 1.8.1.1
+

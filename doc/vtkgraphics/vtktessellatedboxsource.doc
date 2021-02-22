@@ -1,0 +1,91 @@
+/*!
+\page vtkgraphics_vtktessellatedboxsource vtkTessellatedBoxSource
+
+<p>
+Section: \ref sec_vtkgraphics "Visualization Toolkit Graphics Classes"
+\section Usage
+ vtkTessellatedBoxSource creates a axis-aligned box defined by its bounds
+ and a level of subdivision. Connectivity is strong: points of the vertices
+ and inside the edges are shared between faces. In other words, faces are
+ connected. Each face looks like a grid of quads, each quad is composed of
+ 2 triangles.
+ Given a level of subdivision `l', each edge has `l'+2 points, `l' of them
+ are internal edge points, the 2 other ones are the vertices.
+ Each face has a total of (`l'+2)*(`l'+2) points, 4 of them are vertices,
+ 4*`l' are internal edge points, it remains `l'^2 internal face points.
+
+ This source only generate geometry, no DataArrays like normals or texture
+ coordinates.
+
+To create an instance of class vtkTessellatedBoxSource, simply
+invoke its constructor as follows
+\verbatim
+  obj = vtkTessellatedBoxSource
+\endverbatim
+\section Methods
+The class vtkTessellatedBoxSource has several methods that can be used.
+  They are listed below.
+Note that the documentation is translated automatically from the VTK sources,
+and may not be completely intelligible.  When in doubt, consult the VTK website.
+In the methods listed below, <tt>obj</tt> is an instance of the vtkTessellatedBoxSource class.
+<UL>
+<LI>  <tt>string = obj.GetClassName ()</tt>
+ </LI>
+<LI>  <tt>int = obj.IsA (string name)</tt>
+ </LI>
+<LI>  <tt>vtkTessellatedBoxSource = obj.NewInstance ()</tt>
+ </LI>
+<LI>  <tt>vtkTessellatedBoxSource = obj.SafeDownCast (vtkObject o)</tt>
+ </LI>
+<LI>  <tt>obj.SetBounds (double , double , double , double , double , double )</tt> -  Set the bounds of the box. See GetBounds() for a detail description.
+ \pre xmin<=xmax && ymin<=ymax && zmin<zmax
+ </LI>
+<LI>  <tt>obj.SetBounds (double  a[6])</tt> -  Set the bounds of the box. See GetBounds() for a detail description.
+ \pre xmin<=xmax && ymin<=ymax && zmin<zmax
+ </LI>
+<LI>  <tt>double = obj. GetBounds ()</tt> -  Bounds of the box in world coordinates. This a 6-uple of xmin,xmax,ymin,
+ ymax,zmin and zmax. Initial value is (-0.5,0.5,-0.5,0.5,-0.5,0.5), bounds
+ of a cube of length 1 centered at (0,0,0). Bounds are defined such that
+ xmin<=xmax, ymin<=ymax and zmin<zmax.
+ \post xmin<=xmax && ymin<=ymax && zmin<zmax
+ </LI>
+<LI>  <tt>obj.SetLevel (int )</tt> -  Set the level of subdivision of the faces.
+ \pre positive_level: level>=0
+ </LI>
+<LI>  <tt>int = obj.GetLevel ()</tt> -  Level of subdivision of the faces. Initial value is 0.
+ \post positive_level: level>=0
+ </LI>
+<LI>  <tt>obj.SetDuplicateSharedPoints (int )</tt> -  Flag to tell the source to duplicate points shared between faces
+ (vertices of the box and internal edge points). Initial value is false.
+ Implementation note: duplicating points is an easier method to implement
+ than a minimal number of points.
+ </LI>
+<LI>  <tt>int = obj.GetDuplicateSharedPoints ()</tt> -  Flag to tell the source to duplicate points shared between faces
+ (vertices of the box and internal edge points). Initial value is false.
+ Implementation note: duplicating points is an easier method to implement
+ than a minimal number of points.
+ </LI>
+<LI>  <tt>obj.DuplicateSharedPointsOn ()</tt> -  Flag to tell the source to duplicate points shared between faces
+ (vertices of the box and internal edge points). Initial value is false.
+ Implementation note: duplicating points is an easier method to implement
+ than a minimal number of points.
+ </LI>
+<LI>  <tt>obj.DuplicateSharedPointsOff ()</tt> -  Flag to tell the source to duplicate points shared between faces
+ (vertices of the box and internal edge points). Initial value is false.
+ Implementation note: duplicating points is an easier method to implement
+ than a minimal number of points.
+ </LI>
+<LI>  <tt>obj.SetQuads (int )</tt> -  Flag to tell the source to generate either a quad or two triangle for a
+ set of four points. Initial value is false (generate triangles).
+ </LI>
+<LI>  <tt>int = obj.GetQuads ()</tt> -  Flag to tell the source to generate either a quad or two triangle for a
+ set of four points. Initial value is false (generate triangles).
+ </LI>
+<LI>  <tt>obj.QuadsOn ()</tt> -  Flag to tell the source to generate either a quad or two triangle for a
+ set of four points. Initial value is false (generate triangles).
+ </LI>
+<LI>  <tt>obj.QuadsOff ()</tt> -  Flag to tell the source to generate either a quad or two triangle for a
+ set of four points. Initial value is false (generate triangles).
+ </LI>
+</UL>
+*/
