@@ -1,3 +1,5 @@
+Freemat is an interpreted, matrix-oriented development environment for engineering and scientific applications, similar to the commercial package MATLAB. Freemat provides visualization, image manipulation, and plotting as well as parallel programming.(src:https://sourceforge.net/projects/freemat/)
+
 Here are some general instructions on building FreeMat from scratch on
 various platforms. 
 
